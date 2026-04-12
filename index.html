@@ -580,6 +580,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
     "detail": "Extends Part I with three new dimensions: depth (3000-year arc from cultural chauvinism to biological race), breadth (synchronous 1933 spike across French/English/German/Spanish/Italian corpora), and agency (Boas, Hirschfeld, Montagu, Arendt, Adorno, Lemkin, Heschel and their documented roles in building the anti-racism framework). Includes Black-Jewish civil rights alliance data and the 1968 fracture."
   },
   {
+    "file": "2026-04-12-powerbi-reports-master.html",
+    "title": "Power BI Reports -- Design + SEO Master Brief",
+    "date": "2026-04-12",
+    "summary": "Multi-session coordination doc for perfecting 940 report pages in GitHub before one push to proxuma.io. Tracks design + SEO work across 14 sessions in 5 phases.",
+    "tags": ["Power BI", "SEO", "Design", "Coordination"],
+    "type": "guide",
+    "detail": "Single source of truth for successive Claude sessions. Combines golden standard template spec, SEO requirements (OG tags, hreflang, FAQ schema, trailing slashes), NL translation quality, visual audit, and WordPress deploy rules. Each session reads the CLAUDE-DATA block, picks up where the last left off, and updates progress. 5 phases: global template fixes, internal link audit, NL translation, visual polish, final validation + push."
+  },
+  {
     "file": "2026-04-12-msp-powerbi-seo-landscape.html",
     "title": "MSP Power BI SEO Landscape Analysis",
     "date": "2026-04-12",
@@ -707,10 +716,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
     overview: 'Overview', product: 'Product'
   };
 
-  const data = rawData.map(entry => ({
+  const data = rawData.map((entry, i) => ({
     ...entry,
     type: deriveType(entry),
     tags: deriveTags(entry),
+    _index: i,
   }));
 
   // ─── Build Fuse.js index ───
@@ -854,8 +864,8 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
           const sb = matchMap.get(b.file)?.score ?? 1;
           return sa - sb;
         }
-        case 'date-desc': return b.date.localeCompare(a.date) || a.title.localeCompare(b.title);
-        case 'date-asc':  return a.date.localeCompare(b.date) || a.title.localeCompare(b.title);
+        case 'date-desc': return b.date.localeCompare(a.date) || a._index - b._index;
+        case 'date-asc':  return a.date.localeCompare(b.date) || b._index - a._index;
         case 'title-asc': return a.title.localeCompare(b.title);
         case 'title-desc': return b.title.localeCompare(a.title);
         default: return 0;

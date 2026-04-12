@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power BI Reports -- Master Coordination: Design + SEO</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-done { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-wip { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-todo { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-block { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.phase-box {
+  border: 2px solid #1a2744; border-radius: 6px; padding: 20px 24px; margin: 20px 0;
+}
+.phase-box h3 { margin-top: 0; }
+.session-box {
+  background: #f5f7fa; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 16px 20px; margin: 10px 0;
+}
+.session-box h4 {
+  font: 700 13px/1 -apple-system, sans-serif; color: #1a2744; margin-bottom: 8px;
+}
+.session-box ul { margin: 0 0 0 16px; font-size: 13px; }
+.session-box li { margin-bottom: 4px; }
+.progress-bar { height: 8px; background: #eef0f2; border-radius: 4px; margin: 8px 0; }
+.progress-fill { height: 100%; background: #1a2744; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="date">April 12, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-powerbi-reports-master.html">View on GitHub</a></span>
+</div>
+
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Multi-Session Coordination</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 12, 2026<br>Master Brief<br>Power BI Reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">COORDINATION DOCUMENT</div>
+  <h1>Power BI Reports: Design + SEO Master Brief</h1>
+  <p class="subtitle">Single source of truth for perfecting 940 report pages in GitHub before one push to proxuma.io. Each Claude session reads this page, picks up where the last left off, and updates progress here before closing.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">940</div>
+      <div class="stat-label">Total Pages (449 EN + 423 NL + 68 root)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">Data Sources</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0%</div>
+      <div class="stat-label">Completion</div>
+    </div>
+  </div>
+
+  <!-- SECTION 0: HOW TO USE THIS DOCUMENT -->
+  <div class="positioning">
+    <h2>How Claude Sessions Use This Document</h2>
+    <p>Every session working on the Power BI reports should:</p>
+    <ul>
+      <li>1. Fetch this page's CLAUDE-DATA block to understand current state</li>
+      <li>2. Check the progress section to see what's done and what's next</li>
+      <li>3. Work on the next incomplete task in order</li>
+      <li>4. Preview changes at <code style="color:#5eead4">http://localhost:8940/</code> (run <code style="color:#5eead4">cd ~/ClaudeCode/powerbi-reports && python3 -m http.server 8940</code>)</li>
+      <li>5. Update the CLAUDE-DATA progress fields + this HTML before closing</li>
+      <li>6. Commit and push changes to GitHub (never push to WordPress until all phases complete)</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1: THE GOAL -->
+  <h2>1. The Goal</h2>
+
+  <p>Get all 940 report pages to a state where they can be bulk-pushed to proxuma.io and immediately rank for their target keywords. This means two things need to be perfect:</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Design / Visual Quality</h3>
+      <ul>
+        <li>Every page matches the GOLDEN-STANDARD template</li>
+        <li>All CSS consistent (prx-report namespace)</li>
+        <li>Morph bar, search hero, pipeline, report overview, teal frame, printed document, CTA, JSON-LD</li>
+        <li>Responsive on mobile</li>
+        <li>No broken SVGs, missing fonts, or layout glitches</li>
+        <li>NL pages have Dutch UI chrome (not just translated content)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>SEO Quality</h3>
+      <ul>
+        <li>Title tags optimized with primary keyword first</li>
+        <li>Meta descriptions unique, 150-160 chars, with data points</li>
+        <li>Hreflang EN/NL pairing on every page</li>
+        <li>Canonical URLs correct</li>
+        <li>FAQPage JSON-LD with real Q&A (not CTA text)</li>
+        <li>BreadcrumbList JSON-LD with correct hierarchy</li>
+        <li>Open Graph + Twitter Card tags</li>
+        <li>Related reports (6 per page, category-based)</li>
+        <li>No internal 404s, no missing trailing slashes</li>
+        <li>NL content fully translated (no English fragments)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 2: CURRENT STATE -->
+  <h2>2. Current State (Baseline)</h2>
+
+  <h3>Structural consistency (good news)</h3>
+  <p>All 449 EN files use the same template. CSS namespace <code>prx-report</code> is 100% consistent. Every file has: morph bar, search hero, doc-faq, related-reports sections. File sizes range 79-167 KB (no thin pages). The NL files mirror the same structure.</p>
+
+  <h3>Known issues to fix in GitHub</h3>
+  <table class="matrix">
+    <tr><th>#</th><th>Issue</th><th>Scope</th><th>Where to Fix</th></tr>
+    <tr><td>1</td><td><strong>FAQ schema corrupted</strong> -- CTA text instead of real Q&A</td><td>292 pages</td><td>In HTML files, replace FAQPage JSON-LD</td></tr>
+    <tr><td>2</td><td><strong>NL body links point to EN URLs</strong></td><td>~120 NL pages</td><td>In NL HTML files, replace /powerbi/insights/ hrefs</td></tr>
+    <tr><td>3</td><td><strong>Trailing slashes missing</strong> on internal links</td><td>~282 pages</td><td>In HTML files, add / to all report hrefs</td></tr>
+    <tr><td>4</td><td><strong>NL translations incomplete</strong> -- English narrative fragments</td><td>~100 NL pages</td><td>In NL HTML files, translate doc-body paragraphs</td></tr>
+    <tr><td>5</td><td><strong>Open Graph tags missing</strong></td><td>All 940 pages</td><td>Add og:title, og:description, og:image to &lt;head&gt;</td></tr>
+    <tr><td>6</td><td><strong>Twitter Card tags missing</strong></td><td>All 940 pages</td><td>Add twitter:card, twitter:site to &lt;head&gt;</td></tr>
+    <tr><td>7</td><td><strong>Internal 404 links</strong></td><td>Unknown count</td><td>Crawl all hrefs, fix or remove broken links</td></tr>
+    <tr><td>8</td><td><strong>Hreflang present in repo but lost in WP deploy</strong></td><td>Deploy script issue</td><td>Fix deploy script to preserve hreflang tags</td></tr>
+    <tr><td>9</td><td><strong>NL slug mapping</strong> -- some NL hreflang point to EN slugs</td><td>NL files</td><td>Verify NL slugs exist for all hreflang pairs</td></tr>
+    <tr><td>10</td><td><strong>Gallery page shows 22 of 940</strong></td><td>1 page</td><td>Regenerate gallery with all published reports</td></tr>
+  </table>
+
+  <!-- SECTION 3: FILE STRUCTURE -->
+  <h2>3. File Structure &amp; Key References</h2>
+
+  <table class="matrix">
+    <tr><th>Location</th><th>Contents</th><th>Count</th></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/en/</code></td><td>English report HTML files</td><td>449</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/nl/</code></td><td>Dutch report HTML files</td><td>423</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/deploy-*.html</code></td><td>WordPress-format deploy files (older generation)</td><td>22</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html</code></td><td>Visual template reference (CSAT Score per Client)</td><td>1</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/REPORT-INDEX.md</code></td><td>Full report index by category with data sources</td><td>940 entries</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/SEO-AUDIT-HANDOFF.md</code></td><td>Bart's Mar 12 audit findings</td><td>6 critical items</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/add-related-reports.py</code></td><td>Internal linking injection script</td><td>--</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/batch_generate.py</code></td><td>Report generation + deployment pipeline</td><td>--</td></tr>
+    <tr><td><code>~/ClaudeCode/content-planner-data.md</code></td><td>281 keyword-mapped content ideas</td><td>281</td></tr>
+  </table>
+
+  <h3>File naming convention</h3>
+  <pre>en/proxuma-io-{slug}-post.html     -- English report
+nl/proxuma-io-{slug}-post.html     -- Dutch report
+deploy-{slug}.html                 -- WordPress deploy format (legacy)</pre>
+
+  <h3>Local preview</h3>
+  <pre>cd ~/ClaudeCode/powerbi-reports && python3 -m http.server 8940
+# Then open http://localhost:8940/en/proxuma-io-sla-performance-by-priority-post.html</pre>
+
+  <!-- SECTION 4: GOLDEN STANDARD SPEC -->
+  <h2>4. Golden Standard Template Spec</h2>
+
+  <p>Reference file: <code>GOLDEN-STANDARD.html</code> (CSAT Score per Client report). Every page must match this structure:</p>
+
+  <h3>HTML Head Requirements</h3>
+  <table class="matrix">
+    <tr><th>Element</th><th>Pattern</th></tr>
+    <tr><td><code>&lt;title&gt;</code></td><td>[Report Title]: [Keyword Phrase] | Proxuma Power BI</td></tr>
+    <tr><td><code>&lt;meta description&gt;</code></td><td>Unique, 150-160 chars, cites specific data or outcome</td></tr>
+    <tr><td><code>&lt;link canonical&gt;</code></td><td>https://proxuma.io/powerbi/insights/{slug}/</td></tr>
+    <tr><td><code>&lt;link hreflang en&gt;</code></td><td>https://proxuma.io/powerbi/insights/{slug}/</td></tr>
+    <tr><td><code>&lt;link hreflang nl&gt;</code></td><td>https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/{nl-slug}/</td></tr>
+    <tr><td><code>&lt;meta og:title&gt;</code></td><td>Same as title tag (without "| Proxuma Power BI" suffix)</td></tr>
+    <tr><td><code>&lt;meta og:description&gt;</code></td><td>Same as meta description</td></tr>
+    <tr><td><code>&lt;meta og:image&gt;</code></td><td>https://proxuma.io/wp-content/uploads/powerbi-report-og.png (TBD)</td></tr>
+    <tr><td><code>&lt;meta og:url&gt;</code></td><td>Same as canonical</td></tr>
+    <tr><td><code>&lt;meta og:type&gt;</code></td><td>article</td></tr>
+    <tr><td><code>&lt;meta twitter:card&gt;</code></td><td>summary_large_image</td></tr>
+    <tr><td><code>&lt;meta twitter:site&gt;</code></td><td>@proxuma_io (or correct handle)</td></tr>
+    <tr><td>Google Fonts</td><td>DM Serif Display, JetBrains Mono, Open Sans</td></tr>
+  </table>
+
+  <h3>Body Structure (top to bottom)</h3>
+  <ol>
+    <li><strong>Morph bar</strong> -- fixed top bar, teal #115e58, z-index 10000, shows on scroll</li>
+    <li><strong>Series nav</strong> -- breadcrumb: Power BI > AI-Powered Reports > [Category]</li>
+    <li><strong>Search hero</strong> -- blue dotted bg, search bar with typed question, H1, subtitle, source badges</li>
+    <li><strong>Pipeline section</strong> -- 4-step pipeline (Ask Question > Connect > AI Report > Insights)</li>
+    <li><strong>Report overview</strong> -- 2-col: narrative left, meta card right (source, records, date, refresh)</li>
+    <li><strong>Teal frame</strong> -- green gradient frame containing the "printed document"</li>
+    <li><strong>Printed document</strong> -- white doc with header, title, sections, KPIs, tables, DAX toggles, findings</li>
+    <li><strong>FAQ section</strong> -- accordion Q&A (doc-faq class)</li>
+    <li><strong>Related reports</strong> -- 6 cards in 3x2 grid (rr-card class), category badges</li>
+    <li><strong>CTA section</strong> -- demo booking or contact</li>
+    <li><strong>JSON-LD</strong> -- BreadcrumbList + FAQPage (only if real FAQs exist)</li>
+  </ol>
+
+  <h3>CSS tokens (do not deviate)</h3>
+  <table class="matrix">
+    <tr><th>Token</th><th>Value</th></tr>
+    <tr><td>Body font</td><td>Open Sans, weights 400-800</td></tr>
+    <tr><td>Text color</td><td>#2c3e50</td></tr>
+    <tr><td>Pipeline/teal</td><td>#0f766e / #115e58</td></tr>
+    <tr><td>Doc title font</td><td>DM Serif Display</td></tr>
+    <tr><td>Code font</td><td>JetBrains Mono</td></tr>
+    <tr><td>Morph bar z-index</td><td>10000</td></tr>
+    <tr><td>Scroll trigger</td><td>rect.top &lt;= hh</td></tr>
+    <tr><td>CSS namespace</td><td>.prx-report, .prx-morph-*</td></tr>
+  </table>
+
+  <!-- SECTION 5: SEO SPEC -->
+  <h2>5. SEO Specification</h2>
+
+  <h3>Keyword clusters to optimize for</h3>
+  <table class="matrix">
+    <tr><th>Cluster</th><th>Example Keywords</th><th>Volume</th><th>Reports Mapped</th></tr>
+    <tr><td>PSA + Power BI</td><td>autotask power bi, connectwise power bi</td><td>~950/mo</td><td>689 Autotask pages</td></tr>
+    <tr><td>MSP KPIs</td><td>MSP KPIs, MSP reporting tools, MSP dashboard</td><td>~2,100/mo</td><td>All categories</td></tr>
+    <tr><td>Tool-specific</td><td>datto RMM reporting, smileback CSAT</td><td>~310/mo</td><td>61 Datto, 44 SmileBack, etc.</td></tr>
+    <tr><td>Operational questions</td><td>how to track SLA compliance, MSP profitability</td><td>~550/mo</td><td>SLA, Revenue, Workforce</td></tr>
+    <tr><td>Competitor alternatives</td><td>BrightGauge alternative, MSPbots vs Power BI</td><td>~530/mo</td><td>Comparison pages (to create)</td></tr>
+  </table>
+
+  <h3>JSON-LD requirements per page</h3>
+  <pre>{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Power BI", "item": "https://proxuma.io/powerbi/"},
+    {"@type": "ListItem", "position": 2, "name": "AI-Powered Reports", "item": "https://proxuma.io/powerbi/insights/"},
+    {"@type": "ListItem", "position": 3, "name": "[Category]", "item": "https://proxuma.io/powerbi/insights/"},
+    {"@type": "ListItem", "position": 4, "name": "[Report Title]"}
+  ]
+}
+
+// ONLY if page has real FAQ content in .doc-faq:
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "[Actual question from FAQ accordion]",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "[Actual answer text]"
+      }
+    }
+  ]
+}</pre>
+
+  <h3>Related reports specification</h3>
+  <p>6 related reports per page, selected by category affinity (managed by <code>add-related-reports.py</code>):</p>
+  <table class="matrix">
+    <tr><th>Category</th><th>Cross-links to</th><th>Badge Color</th></tr>
+    <tr><td>Ticketing</td><td>Client Reports, Resources, Costs</td><td>Blue</td></tr>
+    <tr><td>Costs</td><td>Ticketing, Projects, Resources</td><td>Green</td></tr>
+    <tr><td>Resources</td><td>Ticketing, Costs, Projects</td><td>Purple</td></tr>
+    <tr><td>Projects</td><td>Costs, Resources, Client Reports</td><td>Orange</td></tr>
+    <tr><td>Client Reports</td><td>All categories (hub)</td><td>Navy</td></tr>
+    <tr><td>SLA</td><td>Ticketing, Resources, Client Reports</td><td>Red</td></tr>
+    <tr><td>Security</td><td>RMM, M365, Client Reports</td><td>Gray</td></tr>
+  </table>
+
+  <!-- SECTION 6: SESSION PLAN -->
+  <h2>6. Session Plan</h2>
+
+  <p>Work is divided into phases, each doable in 1-3 Claude sessions. Sessions must be done in order because later phases depend on earlier ones.</p>
+
+  <div class="phase-box">
+    <h3>Phase 1: Global Template Fixes (batch scripts)</h3>
+    <p>Fixes that apply to all pages via scripted find-and-replace. No manual per-page work needed.</p>
+
+    <div class="session-box">
+      <h4>Session 1A: Add OG + Twitter tags to all pages</h4>
+      <ul>
+        <li>Write a Python script that reads each HTML file in en/ and nl/</li>
+        <li>Inserts og:title, og:description, og:image, og:url, og:type + twitter:card, twitter:site after the existing meta tags</li>
+        <li>Extracts title and description from existing &lt;title&gt; and &lt;meta description&gt;</li>
+        <li>Verify on 5 sample pages at localhost:8940</li>
+        <li>Commit to GitHub</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+
+    <div class="session-box">
+      <h4>Session 1B: Fix trailing slashes on all internal links</h4>
+      <ul>
+        <li>Python script: regex find hrefs to /powerbi/insights/[slug]" (no trailing slash), add /</li>
+        <li>Same for /nl-powerbi/ai-gegenereerde-rapporten/[slug]"</li>
+        <li>Run across all en/, nl/, and deploy-*.html files</li>
+        <li>Verify no double-slashes introduced</li>
+        <li>Commit to GitHub</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+
+    <div class="session-box">
+      <h4>Session 1C: Fix NL body links pointing to EN URLs</h4>
+      <ul>
+        <li>Build slug mapping: for each NL file, find its EN counterpart</li>
+        <li>In NL files: replace all hrefs matching /powerbi/insights/* with /nl-powerbi/ai-gegenereerde-rapporten/*</li>
+        <li>Preserve the related-reports section (already fixed per Bart)</li>
+        <li>Verify on 5 sample NL pages</li>
+        <li>Commit to GitHub</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+
+    <div class="session-box">
+      <h4>Session 1D: Fix FAQ schema (strip corrupted, re-inject real)</h4>
+      <ul>
+        <li>Step 1: Remove ALL FAQPage JSON-LD from every page</li>
+        <li>Step 2: For each page, check if it has a real .doc-faq section</li>
+        <li>Step 3: If yes, extract the Q&A pairs and build proper FAQPage JSON-LD</li>
+        <li>Step 4: Inject at the bottom of the page</li>
+        <li>Verify valid JSON-LD on 5 sample pages</li>
+        <li>Commit to GitHub</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+  </div>
+
+  <div class="phase-box">
+    <h3>Phase 2: Internal Link Audit (crawl + fix)</h3>
+
+    <div class="session-box">
+      <h4>Session 2A: Crawl all internal links, find 404s</h4>
+      <ul>
+        <li>Python script: extract all hrefs from en/ and nl/ files</li>
+        <li>Map each href to a local file (does the target exist in the repo?)</li>
+        <li>Generate a report of broken links with source file + target URL</li>
+        <li>Fix broken links: update href to correct slug or remove the link</li>
+        <li>Commit to GitHub</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+
+    <div class="session-box">
+      <h4>Session 2B: Verify hreflang pairing</h4>
+      <ul>
+        <li>For each EN file: check that the hreflang nl URL points to an existing NL file</li>
+        <li>For each NL file: check that the hreflang en URL points to an existing EN file</li>
+        <li>Fix mismatches (wrong NL slug, missing NL counterpart)</li>
+        <li>Commit to GitHub</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+  </div>
+
+  <div class="phase-box">
+    <h3>Phase 3: NL Translation Quality (multi-session)</h3>
+
+    <div class="session-box">
+      <h4>Session 3A-3E: Translate English fragments in NL pages</h4>
+      <ul>
+        <li>~100 NL pages need narrative paragraph translation</li>
+        <li>Use Dutch MSP voice skill for natural Netherlands Dutch</li>
+        <li>ONLY translate text in .doc-body paragraphs, .doc-finding text, .doc-section narrative</li>
+        <li>NEVER touch: CSS, DAX code, HTML structure, chart SVGs, class names, table data</li>
+        <li>Do ~20 pages per session (5 sessions total)</li>
+        <li>Verify each batch at localhost:8940</li>
+        <li>Commit after each batch</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+  </div>
+
+  <div class="phase-box">
+    <h3>Phase 4: Visual Polish (spot-check + fix)</h3>
+
+    <div class="session-box">
+      <h4>Session 4A: Visual audit of 20 sample pages</h4>
+      <ul>
+        <li>Open 10 EN and 10 NL pages at localhost:8940 across all categories</li>
+        <li>Check: morph bar animation, search hero layout, pipeline rendering, teal frame, document sections, FAQ accordion, related reports grid, CTA, mobile responsiveness</li>
+        <li>Document any visual issues found</li>
+        <li>Fix issues in the template or per-page</li>
+        <li>Commit to GitHub</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+  </div>
+
+  <div class="phase-box">
+    <h3>Phase 5: Final Validation + Push Prep</h3>
+
+    <div class="session-box">
+      <h4>Session 5A: Full validation pass</h4>
+      <ul>
+        <li>Run automated checks: every file has title, description, canonical, hreflang, OG tags</li>
+        <li>Verify FAQ schema only on pages with .doc-faq</li>
+        <li>Verify no internal hrefs return 404</li>
+        <li>Verify NL pages have no English narrative fragments</li>
+        <li>Generate final report with pass/fail per page</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+
+    <div class="session-box">
+      <h4>Session 5B: WordPress push preparation</h4>
+      <ul>
+        <li>Update deploy scripts to handle OG tags, hreflang preservation</li>
+        <li>Test deploy of 3 pages to WordPress staging</li>
+        <li>Verify live page matches GitHub repo version</li>
+        <li>Prepare bulk deploy script for all 940 pages</li>
+        <li>Document the push procedure for Max to execute</li>
+      </ul>
+      <div class="tags"><span class="tag tag-todo">TODO</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: PROGRESS LOG -->
+  <h2>7. Progress Log</h2>
+
+  <p>Sessions update this section as they complete work. Each entry: date, session ID, what was done, what's next.</p>
+
+  <div class="callout">
+    <span class="callout-label">April 12, 2026 -- Initial Setup</span>
+    Created this master coordination document. SEO research completed (see consolidated brief). Structural audit confirmed all 449 EN pages use identical template. No work started on fixes yet. <strong>Next session should start with Session 1A (OG + Twitter tags).</strong>
+  </div>
+
+  <!-- SECTION 8: WORDPRESS DEPLOY RULES -->
+  <h2>8. WordPress Deploy Rules</h2>
+
+  <p>These rules apply when the final push happens. Do not push until all phases above are complete.</p>
+
+  <ul>
+    <li><strong>Never use <code>wp_update_post()</code></strong> -- it strips &lt;style&gt; and &lt;script&gt; tags. Always use <code>$wpdb->update()</code></li>
+    <li><strong>Protected pages:</strong> 3401, 5655 (AI Privacy EN/NL), 3389, 4887 (MCP Server EN/NL). Never touch these.</li>
+    <li><strong>EN parent page:</strong> 3299 (/powerbi/insights/)</li>
+    <li><strong>NL parent page:</strong> 3495 (/nl-powerbi/ai-gegenereerde-rapporten/)</li>
+    <li><strong>SSH:</strong> <code>ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu</code></li>
+    <li><strong>Cache clear:</strong> <code>wp cache flush && wp sg purge</code></li>
+    <li><strong>SG CDN flush:</strong> Use SiteTools socket <code>/chroot/tmp/site-tools.sock</code> with <code>domain-all</code> API + <code>flush_cache</code></li>
+    <li><strong>Large pages:</strong> SG optimizer blanks pages >~5MB. Verify after publish.</li>
+    <li><strong>Verify after push:</strong> curl grep + Microlink screenshot (<code>api.microlink.io/?url=URL&screenshot=true&meta=false</code>)</li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Power BI Reports Master Brief -- proxuma.io</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Power BI Reports: Design + SEO Master Brief",
+  "date": "2026-04-12",
+  "summary": "Multi-session coordination document for perfecting 940 Power BI report pages in GitHub before one push to proxuma.io. Tracks design + SEO work across successive Claude sessions.",
+  "completion": "0%",
+  "current_phase": "Phase 1 (not started)",
+  "next_session": "Session 1A: Add OG + Twitter Card tags to all 940 pages",
+  "repo": "~/ClaudeCode/powerbi-reports/",
+  "preview": "http://localhost:8940/ (cd ~/ClaudeCode/powerbi-reports && python3 -m http.server 8940)",
+  "golden_standard": "~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html",
+  "report_index": "~/ClaudeCode/powerbi-reports/REPORT-INDEX.md",
+  "seo_research": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-powerbi-seo-research-consolidated.html",
+  "file_counts": {
+    "en": 449,
+    "nl": 423,
+    "root": 68,
+    "deploy": 22,
+    "total": 940
+  },
+  "phases": [
+    {
+      "id": "phase1",
+      "name": "Global Template Fixes",
+      "status": "todo",
+      "sessions": [
+        {"id": "1A", "task": "Add OG + Twitter Card tags to all pages", "status": "todo", "scope": "all 940 pages"},
+        {"id": "1B", "task": "Fix trailing slashes on all internal links", "status": "todo", "scope": "all pages with report hrefs"},
+        {"id": "1C", "task": "Fix NL body links pointing to EN URLs", "status": "todo", "scope": "~120 NL pages"},
+        {"id": "1D", "task": "Fix FAQ schema (strip corrupted, re-inject real)", "status": "todo", "scope": "292 pages to strip, subset to re-inject"}
+      ]
+    },
+    {
+      "id": "phase2",
+      "name": "Internal Link Audit",
+      "status": "todo",
+      "sessions": [
+        {"id": "2A", "task": "Crawl all internal links, find and fix 404s", "status": "todo", "scope": "all en/ + nl/ files"},
+        {"id": "2B", "task": "Verify hreflang EN/NL pairing correctness", "status": "todo", "scope": "all pages with hreflang tags"}
+      ]
+    },
+    {
+      "id": "phase3",
+      "name": "NL Translation Quality",
+      "status": "todo",
+      "sessions": [
+        {"id": "3A", "task": "Translate English fragments batch 1 (~20 pages)", "status": "todo", "scope": "NL pages 1-20"},
+        {"id": "3B", "task": "Translate English fragments batch 2 (~20 pages)", "status": "todo", "scope": "NL pages 21-40"},
+        {"id": "3C", "task": "Translate English fragments batch 3 (~20 pages)", "status": "todo", "scope": "NL pages 41-60"},
+        {"id": "3D", "task": "Translate English fragments batch 4 (~20 pages)", "status": "todo", "scope": "NL pages 61-80"},
+        {"id": "3E", "task": "Translate English fragments batch 5 (~20 pages)", "status": "todo", "scope": "NL pages 81-100"}
+      ]
+    },
+    {
+      "id": "phase4",
+      "name": "Visual Polish",
+      "status": "todo",
+      "sessions": [
+        {"id": "4A", "task": "Visual audit of 20 sample pages across categories", "status": "todo", "scope": "10 EN + 10 NL representative pages"}
+      ]
+    },
+    {
+      "id": "phase5",
+      "name": "Final Validation + Push Prep",
+      "status": "todo",
+      "sessions": [
+        {"id": "5A", "task": "Automated validation pass on all pages", "status": "todo", "scope": "all 940 pages"},
+        {"id": "5B", "task": "WordPress push preparation and test deploy", "status": "todo", "scope": "deploy scripts + 3 test pages"}
+      ]
+    }
+  ],
+  "progress_log": [
+    {"date": "2026-04-12", "session": "initial", "work": "Created master brief. SEO research completed. Structural audit confirmed template consistency.", "next": "Session 1A"}
+  ],
+  "design_spec": {
+    "fonts": "Open Sans (body 400-800), DM Serif Display (doc titles), JetBrains Mono (code)",
+    "colors": {"text": "#2c3e50", "pipeline": "#0f766e / #115e58", "morph_bar_bg": "#115e58"},
+    "css_namespace": ".prx-report, .prx-morph-*",
+    "morph_bar_z": 10000,
+    "layout_order": ["morph-bar", "series-nav", "search-hero", "pipeline", "report-overview", "teal-frame", "printed-document", "faq", "related-reports", "cta", "json-ld"]
+  },
+  "seo_spec": {
+    "title_pattern": "[Report Title]: [Keyword Phrase] | Proxuma Power BI",
+    "meta_desc": "Unique, 150-160 chars, cite specific data or outcome",
+    "canonical_en": "https://proxuma.io/powerbi/insights/{slug}/",
+    "canonical_nl": "https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/{slug}/",
+    "required_schemas": ["BreadcrumbList"],
+    "conditional_schemas": ["FAQPage (only if .doc-faq exists with real Q&A)"],
+    "required_meta": ["og:title", "og:description", "og:image", "og:url", "og:type", "twitter:card", "twitter:site"],
+    "internal_links_per_page": 6,
+    "trailing_slashes": "required on all report hrefs"
+  },
+  "wordpress": {
+    "update_method": "$wpdb->update() (NEVER wp_update_post)",
+    "en_parent": 3299,
+    "nl_parent": 3495,
+    "protected_pages": [3401, 5655, 3389, 4887],
+    "ssh": "ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu",
+    "cache_clear": "wp cache flush && wp sg purge"
+  },
+  "next_steps": "Next Claude session: read this CLAUDE-DATA block, start Session 1A (add OG + Twitter tags). Write a Python script to batch-insert meta tags into all en/ and nl/ HTML files. Preview at localhost:8940. Commit to GitHub. Update this document's progress_log and session status."
+}
+</script>
+
+</body>
+</html>
