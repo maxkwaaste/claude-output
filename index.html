@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Research - Output Archive</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23b8943e'/><text x='50' y='66' font-size='38' font-family='Georgia,serif' font-weight='700' fill='white' text-anchor='middle' letter-spacing='-2'>CC</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<!-- Fuse.js - lightweight fuzzy search (MIT, ~6KB gzipped) -->
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold-50: #fefce8;
+  --gold-100: #fef9c3;
+  --gold-200: #fef08a;
+  --gold-300: #fde047;
+  --gold-400: #c8a84e;
+  --gold-500: #b8943e;
+  --gold-600: #a07d2e;
+  --gold-700: #7c5e1e;
+  --gold-800: #5c4316;
+  --gold-dark: #3d2b0a;
+  --ink: #1c1a15;
+  --ink-light: #4a4639;
+  --ink-muted: #7a7567;
+  --cream: #faf8f3;
+  --cream-dark: #f0ece3;
+  --parchment: #f5f2eb;
+  --border: #e0dbd0;
+  --border-light: #ebe7de;
+  --olive: #5c6b3c;
+  --olive-light: #7a8c52;
+  --olive-dark: #3d4a24;
+  --tag-strategy: #7c5e1e;
+  --tag-evaluation: #2563eb;
+  --tag-guide: #0f766e;
+  --tag-overview: #6d28d9;
+  --tag-product: #b45309;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink); background: var(--cream);
+  line-height: 1.6; -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Decorative top bar */
+.top-bar {
+  height: 4px;
+  background: linear-gradient(90deg,
+    var(--olive-dark) 0%, var(--gold-500) 30%,
+    var(--gold-400) 50%, var(--gold-500) 70%, var(--olive-dark) 100%);
+}
+
+.leaf-border {
+  display: flex; justify-content: center; align-items: center;
+  padding: 6px 0; gap: 8px; opacity: 0.45;
+}
+.leaf-border svg { width: 18px; height: 18px; fill: var(--olive); }
+.leaf-border .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold-500); }
+
+.page-wrap { max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* Header */
+.header { text-align: center; padding: 48px 0 0; }
+.crest {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(145deg, var(--gold-400), var(--gold-600));
+  box-shadow: 0 2px 12px rgba(168, 132, 62, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  margin-bottom: 20px;
+}
+.crest svg { width: 36px; height: 36px; fill: #fff; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15)); }
+.brand-name {
+  font-family: "Cormorant Garamond", "Georgia", serif;
+  font-size: 32px; font-weight: 700; color: var(--ink); letter-spacing: 0.04em;
+}
+.brand-tagline {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--gold-600); margin-top: 4px;
+}
+.ornament {
+  display: flex; align-items: center; gap: 12px;
+  margin: 24px auto 36px; max-width: 320px;
+}
+.ornament::before, .ornament::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-500), transparent);
+}
+.ornament-diamond {
+  width: 8px; height: 8px; background: var(--gold-500);
+  transform: rotate(45deg); flex-shrink: 0;
+}
+
+/* Stats bar */
+.stats-bar { display: flex; justify-content: center; gap: 32px; padding: 16px 0; margin-bottom: 20px; }
+.stat { text-align: center; }
+.stat-value { font-family: "Cormorant Garamond", serif; font-size: 28px; font-weight: 700; color: var(--gold-700); }
+.stat-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-muted); margin-top: 2px; }
+
+/* ─── Search ─── */
+.search-wrap { position: relative; margin-bottom: 14px; }
+.search-wrap input {
+  width: 100%; padding: 13px 44px 13px 42px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: #fff; font: 400 14px/1 "Inter", sans-serif;
+  color: var(--ink); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.search-wrap input:focus {
+  border-color: var(--gold-500);
+  box-shadow: 0 0 0 3px rgba(200, 168, 78, 0.12);
+}
+.search-wrap input::placeholder { color: var(--ink-muted); }
+.search-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px; color: var(--ink-muted); pointer-events: none;
+}
+.search-clear {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; border: none; background: var(--cream-dark);
+  border-radius: 50%; cursor: pointer; display: none; align-items: center;
+  justify-content: center; color: var(--ink-muted); font-size: 13px; line-height: 1;
+  padding: 0;
+}
+.search-clear.visible { display: flex; }
+.search-hint {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  font: 500 11px/1 "Inter", sans-serif; color: var(--ink-muted);
+  background: var(--cream-dark); padding: 3px 7px; border-radius: 4px;
+  opacity: 0.7; pointer-events: none;
+}
+.search-wrap input:focus ~ .search-hint,
+.search-wrap input:not(:placeholder-shown) ~ .search-hint { display: none; }
+.search-results-info {
+  font-size: 12px; color: var(--ink-muted); margin-bottom: 6px;
+  min-height: 18px; display: flex; align-items: center; gap: 6px;
+}
+.search-results-info .fuzzy-note {
+  font-size: 10px; background: var(--cream-dark); padding: 2px 6px;
+  border-radius: 3px; color: var(--ink-muted);
+}
+
+/* ─── Filter bar ─── */
+.filter-bar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  margin-bottom: 16px;
+}
+.filter-section {
+  display: flex; align-items: center; gap: 6px;
+}
+.filter-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink-muted); white-space: nowrap;
+}
+.filter-divider {
+  width: 1px; height: 20px; background: var(--border); margin: 0 4px;
+}
+
+/* Tag chips */
+.tag-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag-chip {
+  padding: 4px 10px; border-radius: 14px; cursor: pointer;
+  font: 500 11px/1 "Inter", sans-serif; border: 1px solid var(--border);
+  background: #fff; color: var(--ink-light); transition: all .15s;
+  white-space: nowrap; user-select: none;
+}
+.tag-chip:hover { border-color: var(--gold-400); color: var(--ink); }
+.tag-chip.active {
+  background: var(--gold-500); border-color: var(--gold-500);
+  color: #fff;
+}
+.tag-chip .tag-count {
+  font-size: 9px; opacity: 0.7; margin-left: 3px;
+}
+.tag-chip.active .tag-count { opacity: 0.85; }
+
+/* Type chips with color coding */
+.type-chip { padding: 4px 10px; border-radius: 14px; cursor: pointer;
+  font: 500 11px/1 "Inter", sans-serif; border: 1px solid; transition: all .15s;
+  white-space: nowrap; user-select: none; }
+.type-chip[data-type="strategy"] { border-color: #d4a574; color: var(--tag-strategy); background: #fef3e2; }
+.type-chip[data-type="evaluation"] { border-color: #93b4f0; color: var(--tag-evaluation); background: #eff4ff; }
+.type-chip[data-type="guide"] { border-color: #86d4c8; color: var(--tag-guide); background: #ecfdf5; }
+.type-chip[data-type="overview"] { border-color: #c4a5f0; color: var(--tag-overview); background: #f5f0ff; }
+.type-chip[data-type="product"] { border-color: #e0b870; color: var(--tag-product); background: #fffbeb; }
+.type-chip:hover { filter: brightness(0.95); }
+.type-chip.active { filter: brightness(0.88); font-weight: 600; }
+
+/* Controls row */
+.controls-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; margin-bottom: 8px;
+}
+.controls-left { display: flex; align-items: center; gap: 8px; }
+.controls-right { display: flex; align-items: center; gap: 8px; }
+
+/* Sort dropdown */
+.sort-select {
+  padding: 6px 28px 6px 10px; background: #fff; border: 1px solid var(--border);
+  border-radius: 6px; font: 500 12px/1 "Inter", sans-serif; color: var(--ink-light);
+  cursor: pointer; outline: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a7567' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  transition: border-color .15s;
+}
+.sort-select:hover, .sort-select:focus { border-color: var(--gold-500); }
+
+/* Group toggle */
+.group-select {
+  padding: 6px 28px 6px 10px; background: #fff; border: 1px solid var(--border);
+  border-radius: 6px; font: 500 12px/1 "Inter", sans-serif; color: var(--ink-light);
+  cursor: pointer; outline: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a7567' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  transition: border-color .15s;
+}
+.group-select:hover, .group-select:focus { border-color: var(--gold-500); }
+
+/* View toggle */
+.view-toggle { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.view-btn {
+  padding: 6px 10px; background: #fff; border: none; cursor: pointer;
+  color: var(--ink-muted); transition: all .15s;
+}
+.view-btn:not(:last-child) { border-right: 1px solid var(--border); }
+.view-btn.active { background: var(--gold-500); color: #fff; }
+.view-btn svg { width: 14px; height: 14px; display: block; }
+
+/* Active filters summary */
+.active-filters {
+  display: none; align-items: center; gap: 6px; margin-bottom: 12px;
+  font-size: 12px; color: var(--ink-muted);
+}
+.active-filters.visible { display: flex; flex-wrap: wrap; }
+.active-filters .clear-all {
+  font: 500 11px/1 "Inter", sans-serif; color: var(--gold-600);
+  cursor: pointer; text-decoration: underline; margin-left: 4px;
+  background: none; border: none; padding: 0;
+}
+
+/* ─── Date group headers ─── */
+.date-group {
+  display: flex; align-items: center; gap: 12px;
+  margin: 28px 0 12px;
+}
+.date-group:first-child { margin-top: 12px; }
+.date-group-label {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px; font-weight: 600; color: var(--ink); white-space: nowrap;
+}
+.date-group-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+.date-group-count {
+  font-size: 11px; font-weight: 500; color: var(--ink-muted);
+  background: var(--cream-dark); padding: 2px 8px; border-radius: 10px;
+}
+
+/* ─── Entry cards ─── */
+.entries-grid { display: flex; flex-direction: column; gap: 8px; }
+.entries-grid.grid-view { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.entry {
+  display: block; padding: 18px 22px; background: #fff;
+  border: 1px solid var(--border-light); border-radius: 8px;
+  text-decoration: none; position: relative; overflow: hidden;
+  transition: all .2s ease;
+}
+.entry::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: linear-gradient(180deg, var(--gold-400), var(--gold-600));
+  opacity: 0; transition: opacity .2s;
+}
+.entry:hover {
+  border-color: var(--gold-400);
+  box-shadow: 0 2px 12px rgba(168, 132, 62, 0.1);
+  transform: translateY(-1px);
+}
+.entry:hover::before { opacity: 1; }
+
+.entry-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.entry-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px; font-weight: 700; color: var(--ink); line-height: 1.35;
+}
+.entry-meta {
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding-top: 3px;
+}
+.entry-date { font-size: 11px; font-weight: 500; color: var(--gold-600); white-space: nowrap; }
+.entry-type-badge {
+  font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 3px;
+}
+.entry-type-badge[data-type="strategy"] { background: #fef3e2; color: var(--tag-strategy); }
+.entry-type-badge[data-type="evaluation"] { background: #eff4ff; color: var(--tag-evaluation); }
+.entry-type-badge[data-type="guide"] { background: #ecfdf5; color: var(--tag-guide); }
+.entry-type-badge[data-type="overview"] { background: #f5f0ff; color: var(--tag-overview); }
+.entry-type-badge[data-type="product"] { background: #fffbeb; color: var(--tag-product); }
+
+.entry-summary { font-size: 13px; color: var(--ink-light); margin-top: 6px; line-height: 1.55; }
+
+.entry-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 10px; gap: 8px;
+}
+.entry-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.entry-tag {
+  font: 500 10px/1 "Inter", sans-serif; color: var(--ink-muted);
+  background: var(--cream-dark); padding: 2px 7px; border-radius: 3px;
+}
+.entry-file {
+  font: 400 10px/1 "JetBrains Mono", "SF Mono", monospace;
+  color: var(--ink-muted); opacity: 0.6; flex-shrink: 0;
+}
+.entry-score {
+  font: 500 10px/1 "Inter", sans-serif; color: var(--gold-600);
+  background: var(--gold-50); padding: 2px 6px; border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Highlight for fuzzy matches */
+mark.fuse-hl {
+  background: rgba(200, 168, 78, 0.3); padding: 0 1px; border-radius: 2px;
+  color: inherit;
+}
+
+/* Empty state */
+.empty-state { text-align: center; padding: 48px 24px; color: var(--ink-muted); }
+.empty-state svg { width: 40px; height: 40px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: 14px; }
+.empty-state .suggestion { font-size: 12px; margin-top: 8px; opacity: 0.7; }
+
+/* Footer */
+.page-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+}
+.footer-brand { display: flex; align-items: center; gap: 8px; }
+.footer-crest {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: linear-gradient(145deg, var(--gold-400), var(--gold-600));
+  display: flex; align-items: center; justify-content: center;
+}
+.footer-crest svg { width: 12px; height: 12px; fill: #fff; }
+.footer-text { font-size: 12px; font-weight: 500; color: var(--ink-muted); }
+.footer-updated { font-size: 11px; color: var(--ink-muted); }
+
+/* Keyboard hint */
+.kbd-hint {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: var(--cream); padding: 10px 18px;
+  border-radius: 10px; font-size: 12px; opacity: 0;
+  transition: opacity .3s; pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25); z-index: 200;
+  white-space: nowrap;
+}
+.kbd-hint.show { opacity: 1; }
+.kbd-hint kbd {
+  display: inline-block; background: rgba(255,255,255,0.15);
+  padding: 2px 6px; border-radius: 3px; font-family: "Inter", sans-serif;
+  font-size: 11px; margin: 0 1px;
+}
+
+/* Scroll to top */
+.scroll-top {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(145deg, var(--gold-400), var(--gold-600));
+  border: none; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  box-shadow: 0 2px 10px rgba(168, 132, 62, 0.3);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .3s, transform .3s; z-index: 100;
+}
+.scroll-top.visible { opacity: 1; transform: translateY(0); }
+.scroll-top:hover { box-shadow: 0 4px 16px rgba(168, 132, 62, 0.4); }
+.scroll-top svg { width: 18px; height: 18px; fill: #fff; }
+
+@media (max-width: 640px) {
+  .page-wrap { padding: 0 16px 60px; }
+  .header { padding: 32px 0 0; }
+  .brand-name { font-size: 26px; }
+  .stats-bar { gap: 20px; }
+  .filter-bar { gap: 6px; }
+  .filter-divider { display: none; }
+  .controls-row { flex-wrap: wrap; }
+  .entries-grid.grid-view { grid-template-columns: 1fr; }
+  .entry { padding: 14px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<div class="leaf-border">
+  <svg viewBox="0 0 24 24"><path d="M17.8 2.2C16 3.7 14 6 12.6 9c-.5-.2-1-.3-1.6-.3C7.7 8.7 5 11.4 5 14.7 5 18 7.7 20.7 11 20.7s6-2.7 6-6c0-1.5-.6-2.9-1.5-4 1.3-2.4 2.7-4.2 3.8-5.2.3-.3.4-.7.2-1.1-.2-.3-.6-.5-1-.4-.2 0-.5.1-.7.2z"/></svg>
+  <div class="dot"></div>
+  <svg viewBox="0 0 24 24"><path d="M17.8 2.2C16 3.7 14 6 12.6 9c-.5-.2-1-.3-1.6-.3C7.7 8.7 5 11.4 5 14.7 5 18 7.7 20.7 11 20.7s6-2.7 6-6c0-1.5-.6-2.9-1.5-4 1.3-2.4 2.7-4.2 3.8-5.2.3-.3.4-.7.2-1.1-.2-.3-.6-.5-1-.4-.2 0-.5.1-.7.2z"/></svg>
+  <div class="dot"></div>
+  <svg viewBox="0 0 24 24" style="transform:scaleX(-1)"><path d="M17.8 2.2C16 3.7 14 6 12.6 9c-.5-.2-1-.3-1.6-.3C7.7 8.7 5 11.4 5 14.7 5 18 7.7 20.7 11 20.7s6-2.7 6-6c0-1.5-.6-2.9-1.5-4 1.3-2.4 2.7-4.2 3.8-5.2.3-.3.4-.7.2-1.1-.2-.3-.6-.5-1-.4-.2 0-.5.1-.7.2z"/></svg>
+  <div class="dot"></div>
+  <svg viewBox="0 0 24 24" style="transform:scaleX(-1)"><path d="M17.8 2.2C16 3.7 14 6 12.6 9c-.5-.2-1-.3-1.6-.3C7.7 8.7 5 11.4 5 14.7 5 18 7.7 20.7 11 20.7s6-2.7 6-6c0-1.5-.6-2.9-1.5-4 1.3-2.4 2.7-4.2 3.8-5.2.3-.3.4-.7.2-1.1-.2-.3-.6-.5-1-.4-.2 0-.5.1-.7.2z"/></svg>
+</div>
+
+<div class="page-wrap">
+
+<header class="header">
+  <div class="crest">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-1v-1c-1.1-.3-2-.9-2.5-1.8l1.1-.5c.4.7 1.1 1.2 2 1.2.9 0 1.6-.4 1.6-1.1 0-.7-.7-1-1.8-1.4-1.3-.4-2.7-.9-2.7-2.4 0-1.1.9-2 2.3-2.3V8h1v1c.9.2 1.6.7 2 1.4l-1 .6c-.3-.5-.9-.9-1.6-.9-.8 0-1.4.4-1.4 1 0 .7.7 1 1.8 1.3 1.3.4 2.7 1 2.7 2.5 0 1.2-.9 2.1-2.5 2.4V17z"/></svg>
+  </div>
+  <div class="brand-name">Proxuma Research</div>
+  <div class="brand-tagline">Output Archive</div>
+</header>
+
+<div class="ornament"><div class="ornament-diamond"></div></div>
+
+<div class="stats-bar" id="stats-bar"></div>
+
+<!-- Search -->
+<div class="search-wrap">
+  <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <input type="text" id="search" placeholder="Search by title, content, project, or topic..." autocomplete="off" spellcheck="false">
+  <button class="search-clear" id="search-clear">&times;</button>
+  <span class="search-hint">/</span>
+</div>
+<div class="search-results-info" id="search-info"></div>
+
+<!-- Filter chips -->
+<div class="filter-bar" id="filter-bar"></div>
+
+<!-- Active filters + clear all -->
+<div class="active-filters" id="active-filters">
+  <span>Filtered:</span>
+  <span id="active-filters-list"></span>
+  <button class="clear-all" id="clear-all">Clear all</button>
+</div>
+
+<!-- Controls row -->
+<div class="controls-row">
+  <div class="controls-left">
+    <select class="sort-select" id="sort-select">
+      <option value="date-desc">Newest first</option>
+      <option value="date-asc">Oldest first</option>
+      <option value="title-asc">Title A-Z</option>
+      <option value="title-desc">Title Z-A</option>
+      <option value="relevance" id="sort-relevance" disabled>Best match</option>
+    </select>
+    <select class="group-select" id="group-select">
+      <option value="month">Group by month</option>
+      <option value="type">Group by type</option>
+      <option value="project">Group by project</option>
+      <option value="none">No grouping</option>
+    </select>
+  </div>
+  <div class="controls-right">
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="list" title="List view (L)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="view-btn" data-view="grid" title="Grid view (G)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="entries"></div>
+
+<div class="page-footer">
+  <div class="footer-brand">
+    <div class="footer-crest">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+    </div>
+    <span class="footer-text">Proxuma Research</span>
+  </div>
+  <span class="footer-updated" id="updated"></span>
+</div>
+</div>
+
+<button class="scroll-top" id="scroll-top" title="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
+</button>
+
+<div class="kbd-hint" id="kbd-hint">
+  <kbd>/</kbd> search &nbsp; <kbd>Esc</kbd> clear &nbsp; <kbd>G</kbd> grid &nbsp; <kbd>L</kbd> list &nbsp; <kbd>?</kbd> this help
+</div>
+
+<!--
+  INDEX-DATA: machine-readable manifest of all output files.
+  Claude reads ONLY this block to understand what's in the archive.
+  Format: array of {file, title, date, summary, tags?, type?}.
+  tags: optional array of project/topic strings (auto-derived if missing).
+  type: optional string — strategy|evaluation|guide|overview|product (auto-derived if missing).
+  Rebuild this block when adding/removing files.
+-->
+<script type="application/json" id="index-data">
+[
+  {
+    "file": "2026-04-12-audiobook-culture-of-critique.html",
+    "title": "Culture of Critique - Full Audiobook Generation",
+    "date": "2026-04-12",
+    "summary": "Kokoro TTS audiobook prompt for the full book. 16 chapters, bm_george voice, M4B per chapter for BookPlayer. Copy prompt to kick off.",
+    "tags": ["Audiobook", "Kokoro", "TTS"],
+    "type": "guide"
+  },
+  {
+    "file": "2026-04-12-vibecoder-gtm-product-surface.html",
+    "title": "VibeCoder GTM & Product Surface: The Polar Playbook for MSPs",
+    "date": "2026-04-12",
+    "summary": "Complete product surface and GTM strategy for VibeCoder. Three tiers: Starter $200/mo, Professional $350/mo, Enterprise $500/mo. Benchmarking seeded with data from Different.",
+    "tags": ["VibeCoder", "GTM", "Pricing"],
+    "type": "strategy"
+  },
+  {
+    "file": "2026-04-12-tts-evaluation.html",
+    "title": "Claude Code TTS Evaluation - 8 Methods Tested",
+    "date": "2026-04-12",
+    "summary": "8 TTS solutions tested on M4 Air. kokoro-tts-mcp recommended (free, offline, 7/10). voice-mcp best for bidirectional. 2 broken.",
+    "tags": ["Claude Code", "TTS", "Tooling"],
+    "type": "evaluation"
+  },
+  {
+    "file": "2026-04-12-managed-agents-guide.html",
+    "title": "Claude Managed Agents - What You Can Build",
+    "date": "2026-04-12",
+    "summary": "Overview of Claude Managed Agents: hosted agent runtime with server-side tool execution, MCP integration, GitHub repo mounting, file I/O.",
+    "tags": ["Claude", "Agents", "MCP"],
+    "type": "guide"
+  },
+  {
+    "file": "2026-04-12-vibecoder-product-surface.html",
+    "title": "VibeCoder Product Surface",
+    "date": "2026-04-12",
+    "summary": "Maps 9 product opportunities using the Polar Analytics playbook, organized in 3 tiers by build distance.",
+    "tags": ["VibeCoder", "Product"],
+    "type": "product"
+  }
+]
+</script>
+
+<script>
+(function() {
+  // ─── Data & derived fields ───
+  const rawData = JSON.parse(document.getElementById('index-data').textContent);
+
+  // Auto-derive type from title/summary if not set
+  const TYPE_RULES = [
+    { type: 'evaluation', patterns: [/evaluat/i, /tested/i, /benchmark/i, /comparison/i, /review(?:ed)?/i] },
+    { type: 'strategy',   patterns: [/strateg/i, /gtm/i, /playbook/i, /pricing/i, /go.to.market/i] },
+    { type: 'guide',      patterns: [/guide/i, /how.to/i, /tutorial/i, /what you can/i, /getting started/i] },
+    { type: 'product',    patterns: [/product surface/i, /product opportunit/i, /feature map/i] },
+    { type: 'overview',   patterns: [/overview/i, /summary/i, /landscape/i, /analysis/i] },
+  ];
+
+  function deriveType(entry) {
+    if (entry.type) return entry.type;
+    const text = entry.title + ' ' + entry.summary;
+    for (const rule of TYPE_RULES) {
+      if (rule.patterns.some(p => p.test(text))) return rule.type;
+    }
+    return 'overview';
+  }
+
+  // Auto-derive tags from title if not set
+  function deriveTags(entry) {
+    if (entry.tags && entry.tags.length) return entry.tags;
+    const words = entry.title.split(/[\s\-:,]+/).filter(w => w.length > 2 && !/^(the|and|for|with|from|that|this|what|how|can)$/i.test(w));
+    return words.slice(0, 3);
+  }
+
+  const TYPE_LABELS = {
+    strategy: 'Strategy', evaluation: 'Evaluation', guide: 'Guide',
+    overview: 'Overview', product: 'Product'
+  };
+
+  const data = rawData.map(entry => ({
+    ...entry,
+    type: deriveType(entry),
+    tags: deriveTags(entry),
+  }));
+
+  // ─── Build Fuse.js index ───
+  const fuse = new Fuse(data, {
+    keys: [
+      { name: 'title', weight: 0.45 },
+      { name: 'summary', weight: 0.25 },
+      { name: 'tags', weight: 0.2 },
+      { name: 'type', weight: 0.05 },
+      { name: 'file', weight: 0.05 },
+    ],
+    threshold: 0.35,       // fairly forgiving fuzzy matching
+    distance: 200,
+    ignoreLocation: true,  // match anywhere in string
+    includeScore: true,
+    includeMatches: true,
+    minMatchCharLength: 2,
+    useExtendedSearch: true,
+  });
+
+  // ─── State ───
+  let searchQuery = '';
+  let sortMode = 'date-desc';
+  let groupMode = 'month';
+  let currentView = 'list';
+  let activeType = null;
+  let activeTags = new Set();
+  let fuseResults = null;
+
+  // ─── Collect all unique tags and types ───
+  const allTags = {};
+  const allTypes = {};
+  data.forEach(d => {
+    d.tags.forEach(t => { allTags[t] = (allTags[t] || 0) + 1; });
+    allTypes[d.type] = (allTypes[d.type] || 0) + 1;
+  });
+  // Sort tags by count desc
+  const tagsSorted = Object.entries(allTags).sort((a, b) => b[1] - a[1]);
+
+  // ─── Render stats ───
+  const uniqueMonths = [...new Set(data.map(d => d.date.slice(0, 7)))];
+  const uniqueDates = [...new Set(data.map(d => d.date))];
+  document.getElementById('stats-bar').innerHTML =
+    '<div class="stat"><div class="stat-value">' + data.length + '</div><div class="stat-label">Documents</div></div>' +
+    '<div class="stat"><div class="stat-value">' + uniqueMonths.length + '</div><div class="stat-label">Months</div></div>' +
+    '<div class="stat"><div class="stat-value">' + Object.keys(allTypes).length + '</div><div class="stat-label">Types</div></div>' +
+    '<div class="stat"><div class="stat-value">' + tagsSorted.length + '</div><div class="stat-label">Topics</div></div>';
+
+  // ─── Build filter bar ───
+  const filterBar = document.getElementById('filter-bar');
+  let filterHtml = '<div class="filter-section"><span class="filter-label">Type</span><div class="tag-chips" id="type-chips">';
+  Object.entries(allTypes).forEach(([type, count]) => {
+    filterHtml += '<button class="type-chip" data-type="' + type + '">' +
+      (TYPE_LABELS[type] || type) + '<span class="tag-count">' + count + '</span></button>';
+  });
+  filterHtml += '</div></div>';
+  filterHtml += '<div class="filter-divider"></div>';
+  filterHtml += '<div class="filter-section"><span class="filter-label">Topic</span><div class="tag-chips" id="tag-chips">';
+  tagsSorted.forEach(([tag, count]) => {
+    filterHtml += '<button class="tag-chip" data-tag="' + tag + '">' +
+      tag + '<span class="tag-count">' + count + '</span></button>';
+  });
+  filterHtml += '</div></div>';
+  filterBar.innerHTML = filterHtml;
+
+  // ─── Fuse highlight helper ───
+  function highlightFuseMatches(text, matches, key) {
+    if (!matches) return esc(text);
+    const fieldMatches = matches.filter(m => m.key === key);
+    if (!fieldMatches.length) return esc(text);
+
+    // Collect all index ranges
+    const ranges = [];
+    fieldMatches.forEach(m => {
+      m.indices.forEach(([start, end]) => {
+        if (end - start >= 1) ranges.push([start, end]);
+      });
+    });
+    if (!ranges.length) return esc(text);
+
+    // Merge overlapping
+    ranges.sort((a, b) => a[0] - b[0]);
+    const merged = [ranges[0]];
+    for (let i = 1; i < ranges.length; i++) {
+      const prev = merged[merged.length - 1];
+      if (ranges[i][0] <= prev[1] + 1) {
+        prev[1] = Math.max(prev[1], ranges[i][1]);
+      } else {
+        merged.push(ranges[i]);
+      }
+    }
+
+    let result = '';
+    let last = 0;
+    merged.forEach(([s, e]) => {
+      result += esc(text.slice(last, s));
+      result += '<mark class="fuse-hl">' + esc(text.slice(s, e + 1)) + '</mark>';
+      last = e + 1;
+    });
+    result += esc(text.slice(last));
+    return result;
+  }
+
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // ─── Core render ───
+  function getFiltered() {
+    let items;
+    let matchMap = new Map(); // file -> fuse matches
+
+    if (searchQuery) {
+      const results = fuse.search(searchQuery);
+      fuseResults = results;
+      items = results.map(r => {
+        matchMap.set(r.item.file, { score: r.score, matches: r.matches });
+        return r.item;
+      });
+    } else {
+      fuseResults = null;
+      items = [...data];
+    }
+
+    // Filter by type
+    if (activeType) {
+      items = items.filter(d => d.type === activeType);
+    }
+
+    // Filter by tags
+    if (activeTags.size) {
+      items = items.filter(d => d.tags.some(t => activeTags.has(t)));
+    }
+
+    return { items, matchMap };
+  }
+
+  function sortItems(items, matchMap) {
+    const s = searchQuery && sortMode === 'relevance' ? 'relevance' : sortMode;
+    return [...items].sort((a, b) => {
+      switch (s) {
+        case 'relevance': {
+          const sa = matchMap.get(a.file)?.score ?? 1;
+          const sb = matchMap.get(b.file)?.score ?? 1;
+          return sa - sb; // lower score = better match in Fuse
+        }
+        case 'date-desc': return b.date.localeCompare(a.date);
+        case 'date-asc':  return a.date.localeCompare(b.date);
+        case 'title-asc': return a.title.localeCompare(b.title);
+        case 'title-desc': return b.title.localeCompare(a.title);
+        default: return 0;
+      }
+    });
+  }
+
+  function groupItems(sorted) {
+    const groups = {};
+    const order = [];
+    sorted.forEach(d => {
+      let key;
+      switch (groupMode) {
+        case 'month': key = d.date.slice(0, 7); break;
+        case 'type':  key = 'type:' + d.type; break;
+        case 'project': key = 'tag:' + (d.tags[0] || 'Other'); break;
+        case 'none':  key = '__all__'; break;
+      }
+      if (!groups[key]) { groups[key] = []; order.push(key); }
+      groups[key].push(d);
+    });
+    return { groups, order };
+  }
+
+  function groupLabel(key) {
+    if (key === '__all__') return 'All Documents';
+    if (key.startsWith('type:')) return TYPE_LABELS[key.slice(5)] || key.slice(5);
+    if (key.startsWith('tag:')) return key.slice(4);
+    // month key like 2026-04
+    const [y, m] = key.split('-');
+    return new Date(y, m - 1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+
+  const fmtDay = d => {
+    const [y, m, day] = d.split('-');
+    return new Date(y, m - 1, day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  function render() {
+    const { items, matchMap } = getFiltered();
+    const sorted = sortItems(items, matchMap);
+    const { groups, order } = groupItems(sorted);
+    const container = document.getElementById('entries');
+
+    // Search info
+    const searchInfo = document.getElementById('search-info');
+    if (searchQuery) {
+      const countText = sorted.length + ' result' + (sorted.length !== 1 ? 's' : '');
+      searchInfo.innerHTML = countText + ' for "<strong>' + esc(searchQuery) + '</strong>"' +
+        (fuseResults ? ' <span class="fuzzy-note">fuzzy match</span>' : '');
+    } else {
+      searchInfo.textContent = sorted.length + ' document' + (sorted.length !== 1 ? 's' : '');
+    }
+
+    // Active filters
+    const af = document.getElementById('active-filters');
+    const afl = document.getElementById('active-filters-list');
+    if (activeType || activeTags.size) {
+      af.classList.add('visible');
+      let parts = [];
+      if (activeType) parts.push(TYPE_LABELS[activeType] || activeType);
+      activeTags.forEach(t => parts.push(t));
+      afl.textContent = parts.join(', ');
+    } else {
+      af.classList.remove('visible');
+    }
+
+    // Sort option: enable/disable relevance
+    const relOpt = document.getElementById('sort-relevance');
+    if (searchQuery) {
+      relOpt.disabled = false;
+      if (sortMode === 'date-desc') {
+        document.getElementById('sort-select').value = 'relevance';
+        sortMode = 'relevance';
+      }
+    } else {
+      relOpt.disabled = true;
+      if (sortMode === 'relevance') {
+        sortMode = 'date-desc';
+        document.getElementById('sort-select').value = 'date-desc';
+      }
+    }
+
+    container.innerHTML = '';
+
+    if (sorted.length === 0) {
+      container.innerHTML =
+        '<div class="empty-state">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+        '<p>No documents match your filters.</p>' +
+        '<p class="suggestion">Try a different spelling or remove some filters.</p></div>';
+      return;
+    }
+
+    order.forEach(key => {
+      const items = groups[key];
+      if (!items) return;
+
+      if (groupMode !== 'none' || order.length > 1) {
+        const g = document.createElement('div');
+        g.className = 'date-group';
+        g.innerHTML =
+          '<span class="date-group-label">' + groupLabel(key) + '</span>' +
+          '<span class="date-group-line"></span>' +
+          '<span class="date-group-count">' + items.length + '</span>';
+        container.appendChild(g);
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'entries-grid' + (currentView === 'grid' ? ' grid-view' : '');
+
+      items.forEach(entry => {
+        const a = document.createElement('a');
+        a.className = 'entry';
+        a.href = entry.file;
+
+        const match = matchMap.get(entry.file);
+        const titleHtml = match ? highlightFuseMatches(entry.title, match.matches, 'title') : esc(entry.title);
+        const summaryHtml = match ? highlightFuseMatches(entry.summary, match.matches, 'summary') : esc(entry.summary);
+
+        let scoreHtml = '';
+        if (searchQuery && match) {
+          const pct = Math.round((1 - match.score) * 100);
+          scoreHtml = '<span class="entry-score">' + pct + '% match</span>';
+        }
+
+        let tagsHtml = '';
+        if (entry.tags.length) {
+          tagsHtml = '<div class="entry-tags">' +
+            entry.tags.map(t => '<span class="entry-tag">' + esc(t) + '</span>').join('') +
+            '</div>';
+        }
+
+        a.innerHTML =
+          '<div class="entry-header">' +
+            '<div class="entry-title">' + titleHtml + '</div>' +
+            '<div class="entry-meta">' +
+              '<span class="entry-type-badge" data-type="' + entry.type + '">' + (TYPE_LABELS[entry.type] || entry.type) + '</span>' +
+              '<span class="entry-date">' + fmtDay(entry.date) + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="entry-summary">' + summaryHtml + '</div>' +
+          '<div class="entry-footer">' +
+            tagsHtml +
+            '<div style="display:flex;align-items:center;gap:6px">' + scoreHtml +
+              '<span class="entry-file">' + entry.file + '</span>' +
+            '</div>' +
+          '</div>';
+        grid.appendChild(a);
+      });
+
+      container.appendChild(grid);
+    });
+  }
+
+  // ─── Event listeners ───
+  const searchInput = document.getElementById('search');
+  const clearBtn = document.getElementById('search-clear');
+  let debounceTimer;
+
+  searchInput.addEventListener('input', function() {
+    clearBtn.classList.toggle('visible', this.value.length > 0);
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      searchQuery = this.value.trim();
+      render();
+    }, 120);
+  });
+
+  clearBtn.addEventListener('click', function() {
+    searchInput.value = '';
+    searchQuery = '';
+    clearBtn.classList.remove('visible');
+    searchInput.focus();
+    render();
+  });
+
+  document.getElementById('sort-select').addEventListener('change', function() {
+    sortMode = this.value;
+    render();
+  });
+
+  document.getElementById('group-select').addEventListener('change', function() {
+    groupMode = this.value;
+    render();
+  });
+
+  // Type chips
+  document.getElementById('type-chips').addEventListener('click', function(e) {
+    const chip = e.target.closest('.type-chip');
+    if (!chip) return;
+    const type = chip.dataset.type;
+    if (activeType === type) {
+      activeType = null;
+      chip.classList.remove('active');
+    } else {
+      document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
+      activeType = type;
+      chip.classList.add('active');
+    }
+    render();
+  });
+
+  // Tag chips
+  document.getElementById('tag-chips').addEventListener('click', function(e) {
+    const chip = e.target.closest('.tag-chip');
+    if (!chip) return;
+    const tag = chip.dataset.tag;
+    if (activeTags.has(tag)) {
+      activeTags.delete(tag);
+      chip.classList.remove('active');
+    } else {
+      activeTags.add(tag);
+      chip.classList.add('active');
+    }
+    render();
+  });
+
+  // Clear all filters
+  document.getElementById('clear-all').addEventListener('click', function() {
+    activeType = null;
+    activeTags.clear();
+    document.querySelectorAll('.type-chip, .tag-chip').forEach(c => c.classList.remove('active'));
+    render();
+  });
+
+  // View toggle
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentView = this.dataset.view;
+      render();
+    });
+  });
+
+  // Keyboard shortcuts
+  const kbdHint = document.getElementById('kbd-hint');
+  let hintTimeout;
+  document.addEventListener('keydown', function(e) {
+    if (e.target === searchInput) {
+      if (e.key === 'Escape') {
+        searchInput.blur(); searchInput.value = '';
+        searchQuery = ''; clearBtn.classList.remove('visible');
+        render();
+      }
+      return;
+    }
+    if (e.key === '/') { e.preventDefault(); searchInput.focus(); }
+    else if (e.key === 'g' || e.key === 'G') { document.querySelector('[data-view="grid"]').click(); }
+    else if (e.key === 'l' || e.key === 'L') { document.querySelector('[data-view="list"]').click(); }
+    else if (e.key === '?') {
+      kbdHint.classList.add('show');
+      clearTimeout(hintTimeout);
+      hintTimeout = setTimeout(() => kbdHint.classList.remove('show'), 3500);
+    }
+  });
+
+  // Scroll to top
+  const scrollBtn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => scrollBtn.classList.toggle('visible', window.scrollY > 300));
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Persist state to URL hash
+  function saveState() {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('q', searchQuery);
+    if (activeType) params.set('type', activeType);
+    if (activeTags.size) params.set('tags', [...activeTags].join(','));
+    if (sortMode !== 'date-desc') params.set('sort', sortMode);
+    if (groupMode !== 'month') params.set('group', groupMode);
+    if (currentView !== 'list') params.set('view', currentView);
+    const hash = params.toString();
+    history.replaceState(null, '', hash ? '#' + hash : location.pathname);
+  }
+
+  function loadState() {
+    const hash = location.hash.slice(1);
+    if (!hash) return;
+    const params = new URLSearchParams(hash);
+    if (params.has('q')) { searchQuery = params.get('q'); searchInput.value = searchQuery; clearBtn.classList.add('visible'); }
+    if (params.has('type')) { activeType = params.get('type'); const c = document.querySelector('.type-chip[data-type="' + activeType + '"]'); if (c) c.classList.add('active'); }
+    if (params.has('tags')) { params.get('tags').split(',').forEach(t => { activeTags.add(t); const c = document.querySelector('.tag-chip[data-tag="' + t + '"]'); if (c) c.classList.add('active'); }); }
+    if (params.has('sort')) { sortMode = params.get('sort'); document.getElementById('sort-select').value = sortMode; }
+    if (params.has('group')) { groupMode = params.get('group'); document.getElementById('group-select').value = groupMode; }
+    if (params.has('view')) { currentView = params.get('view'); document.querySelectorAll('.view-btn').forEach(b => { b.classList.toggle('active', b.dataset.view === currentView); }); }
+  }
+
+  // Wrap render to also save state
+  const _render = render;
+  render = function() { _render(); saveState(); };
+
+  // Updated timestamp
+  document.getElementById('updated').textContent = 'Updated ' +
+    new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  // Flash hint
+  setTimeout(() => { kbdHint.classList.add('show'); setTimeout(() => kbdHint.classList.remove('show'), 4000); }, 1500);
+
+  // Boot
+  loadState();
+  render();
+})();
+</script>
+</body>
+</html>

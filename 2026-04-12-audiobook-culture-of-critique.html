@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audiobook Generation - Culture of Critique</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.3;
+}
+h3 {
+  font-family: -apple-system, sans-serif;
+  font-size: 13px; font-weight: 600; color: #6b7280;
+  text-transform: uppercase; letter-spacing: .08em;
+  margin: 24px 0 8px;
+}
+p { margin: 10px 0; font-size: 15px; }
+.subtitle { font-size: 16px; color: #4b5563; font-style: italic; margin-bottom: 24px; }
+
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+th { text-align: left; font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; padding: 8px 12px; border-bottom: 2px solid #e2e4e8; }
+td { padding: 8px 12px; border-bottom: 1px solid #f0f0f2; font-family: -apple-system, sans-serif; font-size: 13px; }
+tr:hover td { background: #fafbfc; }
+.track-num { color: #9ca3af; font-variant-numeric: tabular-nums; }
+
+.prompt-box {
+  position: relative; background: #f7f8fa; border: 1px solid #e2e4e8;
+  border-radius: 4px; padding: 20px; margin: 20px 0;
+  font-family: "SF Mono", "JetBrains Mono", "Consolas", monospace;
+  font-size: 12.5px; line-height: 1.7; white-space: pre-wrap;
+  color: #1f2937; max-height: 600px; overflow-y: auto;
+}
+.copy-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: #1a2744; color: #fff; border: none;
+  padding: 8px 16px; border-radius: 4px; cursor: pointer;
+  font: 600 12px/1 -apple-system, sans-serif;
+  transition: background .15s;
+}
+.copy-btn:hover { background: #2d3f5e; }
+.copy-btn.copied { background: #059669; }
+
+.config-box {
+  background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px;
+  padding: 16px 20px; margin: 16px 0;
+}
+.config-box p { margin: 4px 0; font-size: 13px; font-family: -apple-system, sans-serif; }
+.config-box strong { color: #92400e; }
+
+.note {
+  background: #f0f9ff; border-left: 3px solid #3b82f6;
+  padding: 12px 16px; margin: 16px 0; font-size: 13px;
+  font-family: -apple-system, sans-serif; color: #1e40af;
+}
+
+.footer-line {
+  margin-top: 40px; padding-top: 16px; border-top: 1px solid #e2e4e8;
+  font: 400 11px/1.5 -apple-system, sans-serif; color: #9ca3af;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="date">12 April 2026</div>
+  <div class="gh-link"><a href="index.html">Back to index</a></div>
+</div>
+
+<div class="page">
+  <div class="brand">
+    <div class="brand-name">Claude Code Output</div>
+    <div class="brand-tagline">Audiobook Generation</div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <h1>Culture of Critique - Full Audiobook</h1>
+  <p class="subtitle">Kevin MacDonald. Kokoro TTS, voice: bm_george (British male). BookPlayer-ready M4B output.</p>
+
+  <h2>Book Structure</h2>
+  <p>16 chapters + bibliography, structured as individual M4B tracks for BookPlayer.</p>
+
+  <table>
+    <thead><tr><th>#</th><th>Track</th><th>Anchor ID</th></tr></thead>
+    <tbody>
+      <tr><td class="track-num">01</td><td>Preface to the Kindle Edition (2013)</td><td>PKE</td></tr>
+      <tr><td class="track-num">02</td><td>Preface to the Paperback Edition (2002)</td><td>PrefacePB</td></tr>
+      <tr><td class="track-num">03</td><td>Preface to the Praeger Edition (1998)</td><td>PrefacePraeger</td></tr>
+      <tr><td class="track-num">04</td><td>Ch 1: Jews and the Radical Critique of Gentile Culture</td><td>Chapter1</td></tr>
+      <tr><td class="track-num">05</td><td>Ch 2: The Boasian School of Anthropology</td><td>Chapter2</td></tr>
+      <tr><td class="track-num">06</td><td>Appendix to Chapter 2: Gould and Boas</td><td>AppendixCh2</td></tr>
+      <tr><td class="track-num">07</td><td>Ch 3: Jews and the Left</td><td>Chapter3</td></tr>
+      <tr><td class="track-num">08</td><td>Appendix to Chapter 3</td><td>Appendix</td></tr>
+      <tr><td class="track-num">09</td><td>Ch 4: Jewish Involvement in the Psychoanalytic Movement</td><td>Chapter4</td></tr>
+      <tr><td class="track-num">10</td><td>Ch 5: The Frankfurt School of Social Research</td><td>Chapter5</td></tr>
+      <tr><td class="track-num">11</td><td>Appendix to Ch 5: Neoconservatism as a Jewish Movement</td><td>AppendixCh5</td></tr>
+      <tr><td class="track-num">12</td><td>Ch 6: The Jewish Criticism of Gentile Culture: A Reprise</td><td>Chapter6</td></tr>
+      <tr><td class="track-num">13</td><td>Appendix to Ch 6: Review of Kaufmann</td><td>AppendixCh6</td></tr>
+      <tr><td class="track-num">14</td><td>Ch 7: Jewish Involvement in Shaping U.S. Immigration Policy</td><td>Chapter7</td></tr>
+      <tr><td class="track-num">15</td><td>Appendix to Ch 7: Jewish Pro-Immigration Efforts</td><td>AppendixCh7</td></tr>
+      <tr><td class="track-num">16</td><td>Ch 8: Conclusion: Whither Judaism and the West?</td><td>Chapter8</td></tr>
+    </tbody>
+  </table>
+
+  <div class="config-box">
+    <p><strong>Voice:</strong> bm_george (British male)</p>
+    <p><strong>Speed:</strong> 1.0x</p>
+    <p><strong>Model:</strong> Kokoro 82M (hexgrad/Kokoro-82M)</p>
+    <p><strong>Output:</strong> ~/ClaudeCode/kokoro-output/Culture_of_Critique/</p>
+    <p><strong>Format:</strong> Individual M4B per chapter, numbered for BookPlayer sort order</p>
+    <p><strong>Estimated time:</strong> ~7 min per chapter, ~2 hours total</p>
+  </div>
+
+  <div class="note">
+    Chapter 1 already generated with am_michael (65 min audio in 7 min). This prompt regenerates everything with bm_george and proper BookPlayer structure.
+  </div>
+
+  <h2>Generation Prompt</h2>
+  <p>Copy this prompt to kick off the full audiobook generation in a new Claude Code session.</p>
+
+  <div class="prompt-box" id="prompt-text">Generate a full audiobook of the book at:
+/Users/maxdekwaasteniet/Downloads/Kevin\ MacDonald\ -\ The\ Culture\ of\ Critique_\ An\ Evolutionary\ Analysis\ of\ Jewish\ Involvement\ in\ Twentieth-Century\ Intellectual\ and\ Political\ Movemen\ \(2002\,\ 1st\ Books\ Library\)\ -\ libgen.li.epub
+
+Use the existing Kokoro TTS setup:
+- Venv: ~/ClaudeCode/kokoro-venv/ (Python 3.12, kokoro already installed)
+- Voice: bm_george (British male)
+- Speed: 1.0
+- lang_code: 'b' (British English)
+- Model: hexgrad/Kokoro-82M
+
+The EPUB is a single HTML file (OEBPS/text00000.html) with these chapter anchors:
+PKE, PrefacePB, PrefacePraeger, Chapter1, Chapter2, AppendixCh2, Chapter3, Appendix, Chapter4, Chapter5, AppendixCh5, Chapter6, AppendixCh6, Chapter7, AppendixCh7, Chapter8, Bibliography
+
+IMPORTANT - BookPlayer folder structure:
+Output to: ~/ClaudeCode/kokoro-output/Culture of Critique/
+Each chapter as a separate M4B file, numbered sequentially:
+  01 - Preface (Kindle Edition 2013).m4b
+  02 - Preface (Paperback Edition 2002).m4b
+  03 - Preface (Praeger Edition 1998).m4b
+  04 - Chapter 1 - Jews and the Radical Critique of Gentile Culture.m4b
+  05 - Chapter 2 - The Boasian School of Anthropology.m4b
+  06 - Appendix to Chapter 2 - Gould and Boas.m4b
+  07 - Chapter 3 - Jews and the Left.m4b
+  08 - Appendix to Chapter 3.m4b
+  09 - Chapter 4 - Jewish Involvement in the Psychoanalytic Movement.m4b
+  10 - Chapter 5 - The Frankfurt School of Social Research.m4b
+  11 - Appendix to Chapter 5 - Neoconservatism as a Jewish Movement.m4b
+  12 - Chapter 6 - The Jewish Criticism of Gentile Culture.m4b
+  13 - Appendix to Chapter 6 - Review of Kaufmann.m4b
+  14 - Chapter 7 - Jewish Involvement in Shaping U.S. Immigration Policy.m4b
+  15 - Appendix to Chapter 7 - Jewish Pro-Immigration Efforts.m4b
+  16 - Chapter 8 - Conclusion Whither Judaism and the West.m4b
+
+Skip the Bibliography (not useful as audio).
+
+M4B metadata for each file:
+- title: the chapter title
+- artist: Kevin MacDonald
+- album: The Culture of Critique
+- track: XX/16 (track number)
+- genre: Audiobook
+
+Generation approach (proven to work on Ch1):
+1. Extract chapter text between consecutive anchors using zipfile
+2. Strip HTML tags, unescape entities, clean whitespace
+3. Split into ~400 char chunks at sentence boundaries
+4. Initialize KPipeline(lang_code='b') once, reuse across chapters
+5. Write audio incrementally to WAV using sf.SoundFile (don't accumulate in memory)
+6. Log progress to ~/ClaudeCode/kokoro-output/progress.log (overwrite each chunk)
+7. Convert WAV to M4B with ffmpeg: ffmpeg -y -i file.wav -c:a aac -b:a 64k -metadata title="..." -metadata artist="Kevin MacDonald" -metadata album="The Culture of Critique" -metadata track="XX/16" -metadata genre="Audiobook" file.m4b
+8. Delete WAV after successful M4B conversion
+
+Process chapters sequentially. After all done, report total duration and open the folder in Finder.
+
+This is a long-running task. Use nohup or run in background. Log all output to ~/ClaudeCode/kokoro-output/generation.log. Check progress via progress.log which should show: current_chapter/total_chapters current_chunk/total_chunks percentage ETA.<button class="copy-btn" onclick="copyPrompt()">Copy prompt</button></div>
+
+  <div class="footer-line">
+    Generated by Claude Code on 12 April 2026. Source EPUB from libgen.
+  </div>
+</div>
+
+<script type="application/json" id="CLAUDE-DATA">
+{
+  "type": "audiobook-generation",
+  "title": "Culture of Critique - Full Audiobook Generation",
+  "date": "2026-04-12",
+  "book": "The Culture of Critique by Kevin MacDonald",
+  "voice": "bm_george",
+  "model": "Kokoro-82M",
+  "chapters": 16,
+  "output_dir": "~/ClaudeCode/kokoro-output/Culture of Critique/",
+  "venv": "~/ClaudeCode/kokoro-venv/",
+  "epub": "/Users/maxdekwaasteniet/Downloads/Kevin MacDonald - The Culture of Critique.epub",
+  "format": "M4B per chapter, numbered for BookPlayer"
+}
+</script>
+
+<script>
+function copyPrompt() {
+  const text = document.getElementById('prompt-text').textContent.replace('Copy prompt', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
