@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VibeCoder GTM &amp; Product Surface -- The Polar Playbook for MSPs</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-pay { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-dist { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-lock { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 160px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-fill.green { background: #1a6b3a; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.pos-steps { display: flex; gap: 10px; margin: 20px 0; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-step.active { border-color: #1a2744; border-width: 2px; }
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.disclosure {
+  margin-top: 32px; padding-top: 16px; border-top: 1px solid #d0d3d8;
+}
+.disclosure h3 { margin-top: 0; }
+.disclosure p { font-size: 11px; color: #8a8f96; line-height: 1.5; }
+.flow-diagram { display: flex; align-items: center; gap: 0; margin: 24px 0; }
+.flow-box {
+  flex: 1; border: 2px solid #e2e4e8; border-radius: 6px; padding: 16px 14px;
+  text-align: center; background: #fff; position: relative;
+}
+.flow-box.primary { border-color: #1a2744; background: #f5f7fa; }
+.flow-box .flow-title {
+  font: 700 13px/1 -apple-system, sans-serif; color: #1a2744; margin-bottom: 4px;
+}
+.flow-box .flow-price {
+  font-family: "Georgia", serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 6px 0;
+}
+.flow-box .flow-desc { font-size: 11px; color: #6b7280; line-height: 1.4; }
+.flow-arrow {
+  width: 32px; text-align: center; color: #1a2744; font-size: 18px; flex-shrink: 0;
+  font-weight: 700;
+}
+.module-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.module-card {
+  border: 1px solid #e2e4e8; border-radius: 4px; padding: 14px 16px;
+  position: relative;
+}
+.module-card.built { border-left: 3px solid #1a6b3a; }
+.module-card.planned { border-left: 3px solid #c8a040; }
+.module-card.future { border-left: 3px solid #8a8f96; }
+.module-card .module-name {
+  font: 700 13px/1.3 -apple-system, sans-serif; color: #1a2744; margin-bottom: 4px;
+}
+.module-card .module-detail { font-size: 12px; color: #6b7280; line-height: 1.4; }
+.module-card .module-status {
+  font: 600 9px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; margin-top: 8px; display: inline-block; padding: 2px 6px;
+  border-radius: 2px;
+}
+.module-card .module-status.s-built { background: #e6f4ea; color: #1a6b3a; }
+.module-card .module-status.s-planned { background: #fef3e2; color: #8a6a2a; }
+.module-card .module-status.s-future { background: #eef0f2; color: #6b7280; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="date">12 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-vibecoder-gtm-product-surface.html">View on GitHub</a></span>
+</div>
+
+<div class="page">
+
+<div class="page-meta">
+  <div>
+    <div class="brand">
+      <div class="brand-name">Proxuma Research</div>
+      <div class="brand-tagline">Product Strategy &amp; Go-to-Market</div>
+    </div>
+  </div>
+  <div class="page-meta-right">
+    April 12, 2026<br>Strategy Note<br>VibeCoder / MSP Analytics
+  </div>
+</div>
+<div class="brand-rule"></div>
+
+<div class="overline">Go-to-Market &amp; Product Surface</div>
+<h1>VibeCoder: The Polar Playbook for MSPs</h1>
+<p class="subtitle">How to package a semantic layer across 12 MSP data sources, an AI report/dashboard engine, and a trust layer into a product that undercuts BrightGauge while building toward a $168M TAM.</p>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value">12</div>
+    <div class="stat-label">Connected Sources</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">400+</div>
+    <div class="stat-label">Pre-Built Dashboards</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">$200</div>
+    <div class="stat-label">Entry Price /mo</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">7,319</div>
+    <div class="stat-label">Identified TAM</div>
+  </div>
+</div>
+
+<div class="confidential">Confidential -- For Internal Use Only</div>
+
+<!-- SECTION 1: STRATEGIC FRAMEWORK -->
+
+<h2>The Polar Model, Decoded</h2>
+
+<p>Polar Analytics built a $28M-funded, 3,700-customer ecommerce analytics business using a three-layer product strategy. The analytics get customers in the door. Specialized AI agents expand revenue per account. Data activation (pushing insights back into Klaviyo and ad platforms) creates switching costs so high that leaving means losing revenue. The same structure maps directly to the MSP vertical.</p>
+
+<div class="pos-steps">
+  <div class="pos-step active">
+    <div class="pos-num">1</div>
+    <div class="pos-label">Land</div>
+    <div class="pos-desc">Dashboards + AI reports.<br>Cheaper AND better than BrightGauge.</div>
+  </div>
+  <div class="pos-step">
+    <div class="pos-num">2</div>
+    <div class="pos-label">Expand</div>
+    <div class="pos-desc">Specialized AI agents.<br>QBRs, profitability, capacity, NL query.</div>
+  </div>
+  <div class="pos-step">
+    <div class="pos-num">3</div>
+    <div class="pos-label">Lock In</div>
+    <div class="pos-desc">Data activation + benchmarks.<br>Write-back to PSA. Network effect.</div>
+  </div>
+</div>
+
+<table class="matrix">
+  <tr><th>Layer</th><th>Polar (Ecommerce)</th><th>VibeCoder (MSP)</th><th>Revenue Role</th></tr>
+  <tr><td><strong>Analytics</strong></td><td>BI dashboards, $510/mo</td><td>400+ dashboards + AI reports, $200/mo</td><td>Acquisition wedge</td></tr>
+  <tr><td><strong>AI Agents</strong></td><td>5 agents, $1,500/mo+ each</td><td>QBR, profitability, capacity, Ask</td><td>ARPA expansion</td></tr>
+  <tr><td><strong>Activation</strong></td><td>Klaviyo Audiences, Ad Signals</td><td>PSA write-back, auto-tag, auto-task</td><td>Switching cost / lock-in</td></tr>
+  <tr><td><strong>Benchmarks</strong></td><td>2,700 merchants, weekly</td><td>Cross-tenant MSP comparison</td><td>Network-effect moat</td></tr>
+  <tr><td><strong>Open Access</strong></td><td>MCP connector, Snowflake SQL</td><td>MCP / BYOAI (future)</td><td>Enterprise / developer tier</td></tr>
+</table>
+
+<!-- SECTION 2: THE WEDGE -->
+
+<h2>Layer 1: The Wedge Product</h2>
+
+<p>The landing product needs to do one thing: make BrightGauge look like yesterday's technology at a lower price point. BrightGauge charges $325-635/mo for static dashboards that MSPs configure by hand. VibeCoder ships 400+ pre-built dashboards across all 12 sources, plus AI generation from a single prompt, at $200/mo. That's not a value comparison. It's a category shift.</p>
+
+<div class="callout">
+  <span class="callout-label">Core Proposition</span>
+  400+ pre-built dashboards. AI generation from a single prompt. All 12 MSP data sources connected. Starting at $200/mo. No per-seat fees.
+</div>
+
+<h3>What the Customer Gets at $200/mo</h3>
+
+<div class="module-grid">
+  <div class="module-card built">
+    <div class="module-name">Pre-Built Dashboard Library</div>
+    <div class="module-detail">400+ dashboards spanning tickets, SLA, time entries, CSAT, contracts, assets, backup, security. Ready to use on day one.</div>
+    <span class="module-status s-built">Built</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">AI Dashboard Generation</div>
+    <div class="module-detail">"Create a dashboard showing ticket volume by client with SLA compliance trends." One prompt, one dashboard. Unlimited.</div>
+    <span class="module-status s-built">Built</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">AI Narrative Reports</div>
+    <div class="module-detail">Written reports with analysis, findings, and recommendations. Not charts to interpret. Documents to act on. Hallucination-protected via verifiable queries.</div>
+    <span class="module-status s-built">Built</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">12-Source Connector Suite</div>
+    <div class="module-detail">Autotask, Datto RMM, M365, IT Glue, SmileBack, backup, and 6 more. Normalized semantic layer across all sources.</div>
+    <span class="module-status s-built">Built</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">Trust Layer</div>
+    <div class="module-detail">Anonymization pipeline: Claude never sees real client names. Deanonymization in output. Verifiable outputs: AI produces queries that can be confirmed against source data.</div>
+    <span class="module-status s-built">Built</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">Tenant Isolation</div>
+    <div class="module-detail">Dedicated database per MSP. Encrypted credentials. Complete data separation between tenants.</div>
+    <span class="module-status s-built">Built</span>
+  </div>
+</div>
+
+<h3>Price Positioning vs. Competitors</h3>
+
+<div class="bar-chart">
+  <div class="bar-row">
+    <span class="bar-label">BrightGauge Ent+</span>
+    <div class="bar"><div class="bar-fill" style="width:85%">$635/mo</div></div>
+    <span class="bar-amount">$7,620/yr</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">BrightGauge Enterprise</span>
+    <div class="bar"><div class="bar-fill" style="width:60%">$449/mo</div></div>
+    <span class="bar-amount">$5,388/yr</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">MSPbots (est. mid)</span>
+    <div class="bar"><div class="bar-fill accent" style="width:47%">$350/mo</div></div>
+    <span class="bar-amount">$4,200/yr</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">BrightGauge Standard</span>
+    <div class="bar"><div class="bar-fill accent" style="width:44%">$325/mo</div></div>
+    <span class="bar-amount">$3,900/yr</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label"><strong>VibeCoder</strong></span>
+    <div class="bar"><div class="bar-fill green" style="width:27%">$200/mo</div></div>
+    <span class="bar-amount">$2,400/yr</span>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">SquaredUp Pro (5)</span>
+    <div class="bar"><div class="bar-fill muted" style="width:23%">$175/mo</div></div>
+    <span class="bar-amount">$2,100/yr</span>
+  </div>
+</div>
+
+<p>VibeCoder enters below every competitor except SquaredUp's freemium tier, while offering something none of them have: AI-generated dashboards and narrative reports. The value gap between price and capability is the largest in the market. That gap is the acquisition engine.</p>
+
+
+<!-- SECTION 3: EXPANSION PRODUCTS -->
+
+<h2>Layer 2: Expansion Products (AI Agents)</h2>
+
+<p>Once an MSP connects their 12 sources and sees the value of the base product, the expansion conversation becomes natural: "You're already connected. Here's what else the AI can do with your data." Each agent solves a distinct business problem and targets a specific buyer within the MSP.</p>
+
+<p>Polar charges $1,500/mo per specialized agent on top of the base subscription. The MSP market won't support that price point, but $100-250/mo per agent add-on is well within range. An MSP running the base product plus two agents is paying $400-700/mo, which is competitive with BrightGauge Enterprise while delivering vastly more value.</p>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t1">Agent 1</span><span class="tier-title">QBR Generator</span></div>
+  <div class="card">
+    <div class="card-buyer">Buyer: Owner / Account Manager</div>
+    <div class="card-desc">Automated Quarterly Business Reviews from live data. Client-facing language, trend comparisons quarter over quarter, SLA performance, and actionable recommendations. The MSP walks into a QBR with a polished document instead of spending hours pulling screenshots into PowerPoint. The AI writes the narrative. The trust layer verifies the numbers.</div>
+    <div class="tags"><span class="tag tag-pay">WTP: Very High</span><span class="tag tag-dist">Build: Short</span><span class="tag tag-high">Status: Template exists</span></div>
+  </div>
+</div>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t1">Agent 2</span><span class="tier-title">Profitability Analyst</span></div>
+  <div class="card">
+    <div class="card-buyer">Buyer: Owner / CFO</div>
+    <div class="card-desc">"Is Client X profitable?" The answer lives across contract value (Autotask), time entries (Autotask), tool costs (RMM/M365), and asset counts (IT Glue). The semantic layer already joins these. This agent computes per-client, per-contract, and per-technician profitability, flags underwater accounts, and spots trends (profitability declining over 3 months). No MSP tool does this today.</div>
+    <div class="tags"><span class="tag tag-pay">WTP: Very High</span><span class="tag tag-dist">Build: Medium</span></div>
+  </div>
+</div>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t2">Agent 3</span><span class="tier-title">Ask VibeCoder (Natural Language Query)</span></div>
+  <div class="card">
+    <div class="card-buyer">Buyer: Everyone</div>
+    <div class="card-desc">"Which technician closed the most tickets last month?" "Show me clients with declining CSAT scores." "What's our average resolution time for priority 1 tickets?" The MSP owner, the ops manager, and the sales person all have questions. None of them write SQL. The query_engine.py skeleton exists. The real version is semantic, powered by the same Claude integration and trust layer.</div>
+    <div class="tags"><span class="tag tag-pay">WTP: Medium-High</span><span class="tag tag-dist">Build: Medium</span></div>
+  </div>
+</div>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t2">Agent 4</span><span class="tier-title">Scheduled Reports &amp; Client Delivery</span></div>
+  <div class="card">
+    <div class="card-buyer">Buyer: Ops Manager / Account Manager</div>
+    <div class="card-desc">"Every Monday at 8am, send my top 10 clients a branded PDF summary of last week." Automated report generation on a schedule, delivered to client inboxes. White-labeled with the MSP's branding. This turns VibeCoder from "a tool the MSP uses internally" to "a tool the MSP's clients see." Proof-of-value on autopilot. Massive retention effect.</div>
+    <div class="tags"><span class="tag tag-pay">WTP: Medium</span><span class="tag tag-dist">Build: Short</span></div>
+  </div>
+</div>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t2">Agent 5</span><span class="tier-title">Alert Engine (Anomaly Detection)</span></div>
+  <div class="card">
+    <div class="card-buyer">Buyer: Ops Manager</div>
+    <div class="card-desc">"Client X ticket volume spiked 280% this week." "Contract Z expires in 14 days." "Technician Y's resolution time has doubled since last month." Proactive notifications to email, Teams, or Slack. Turns VibeCoder from something you look at into something that talks to you. The AI identifies the anomaly AND drafts the recommended action.</div>
+    <div class="tags"><span class="tag tag-pay">WTP: High</span><span class="tag tag-dist">Build: Medium</span></div>
+  </div>
+</div>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t3">Agent 6</span><span class="tier-title">Sales Intelligence</span></div>
+  <div class="card">
+    <div class="card-buyer">Buyer: Sales / Owner</div>
+    <div class="card-desc">"Client X has 120 endpoints but a 50-endpoint contract." "Client Y hasn't bought security stack, but 80% of similar-size clients have." "Client Z's contract renews in 45 days and their satisfaction score has been climbing." Expansion revenue signals that the AI surfaces from cross-source analysis. This crosses from operations tool into revenue tool and changes the buyer from ops manager to owner.</div>
+    <div class="tags"><span class="tag tag-pay">WTP: Very High</span><span class="tag tag-dist">Build: Long</span></div>
+  </div>
+</div>
+
+
+<!-- SECTION 4: LOCK-IN LAYER -->
+
+<h2>Layer 3: The Lock-In</h2>
+
+<p>Polar's real switching cost isn't data (they let you export everything). It's that Klaviyo Audiences and Advertising Signals are actively generating revenue for the merchant. Turning off Polar means losing recovered audiences and degraded ad targeting. The analytics are the hook. The activation is why they can't leave.</p>
+
+<p>The MSP equivalent is write-back to the PSA and cross-tenant benchmarking. Both create dependencies that grow over time.</p>
+
+<div class="two-col">
+  <div>
+    <h3>Data Activation (Write-Back)</h3>
+    <p>Push insights back into Autotask. Auto-tag clients as "at-risk" when satisfaction drops. Auto-create a task when an SLA is about to breach. Auto-flag contract renewals with profitability context attached. Auto-escalate tickets that match anomaly patterns.</p>
+    <p>Once an MSP's operational workflows depend on VibeCoder writing back into their PSA, disconnecting it means losing automation that their team has stopped doing manually. That's the strongest switching cost in SaaS: <strong>the customer forgets how to do the thing without you.</strong></p>
+  </div>
+  <div>
+    <h3>Benchmarking (Network Effect)</h3>
+    <p>"Your MTTR is 4.2 hours. MSPs your size average 2.8 hours." Cross-tenant comparison using the anonymization layer that already exists. Gets better with every customer that joins.</p>
+    <p>MSPs are obsessed with peer comparison. This feature alone could drive word-of-mouth: "My analytics tool tells me how I compare to other MSPs." The benchmark data also powers the Sales Intelligence agent: "80% of similar-size MSPs have a security stack" only works if you have the data from 80% of similar-size MSPs.</p>
+    <p>This is the moat that compounds. Competitors can copy the AI. They can't copy the benchmark dataset.</p>
+  </div>
+</div>
+
+
+<!-- SECTION 5: PRICING ARCHITECTURE -->
+
+<h2>Pricing Architecture</h2>
+
+<p>The market analysis validates three price points: $200 (entry), $350 (mid-market), and $500 (premium). Rather than feature-gating at each tier, the base product includes everything in Layer 1 (dashboards + AI reports + all 12 sources). Expansion products are add-ons. This keeps the entry proposition clean and makes the upsell conversation specific: "Want to add QBR generation? That's $150/mo."</p>
+
+<div class="scenario-row">
+  <div class="scenario-card highlighted">
+    <div class="scenario-label">Base Platform</div>
+    <div class="scenario-value">$200</div>
+    <div class="scenario-detail">400+ dashboards, AI generation,<br>AI narrative reports, 12 sources,<br>trust layer. Unlimited users.</div>
+  </div>
+  <div class="scenario-card">
+    <div class="scenario-label">With 1 Agent Add-On</div>
+    <div class="scenario-value">$350</div>
+    <div class="scenario-detail">Base + QBR Generator<br>or Profitability Analyst<br>or Ask VibeCoder.</div>
+  </div>
+  <div class="scenario-card">
+    <div class="scenario-label">With 2-3 Agent Add-Ons</div>
+    <div class="scenario-value">$500+</div>
+    <div class="scenario-detail">Base + multiple agents.<br>Alert engine, scheduled delivery,<br>sales intelligence.</div>
+  </div>
+</div>
+
+<h3>Why Add-Ons Instead of Tiers</h3>
+
+<p>Tier-based pricing (Starter/Pro/Enterprise) forces MSPs to pay for agents they don't want to get the one they do. Add-on pricing lets the profitability-obsessed owner buy the Profitability Analyst without paying for the Alert Engine the ops manager hasn't asked for yet. It also makes the expansion revenue conversation natural: each agent is a distinct value proposition with a distinct buyer inside the MSP.</p>
+
+<p>The math works. At Proxuma's identified TAM of 7,319 companies:</p>
+
+<table class="matrix">
+  <tr><th>Scenario</th><th>Customers</th><th>Avg ARPA</th><th>MRR</th><th>ARR</th></tr>
+  <tr><td>5% penetration, base only</td><td>366</td><td>$200</td><td>$73K</td><td>$878K</td></tr>
+  <tr><td>5% penetration, 60% add 1 agent</td><td>366</td><td>$290</td><td>$106K</td><td>$1.27M</td></tr>
+  <tr><td>15% penetration, 60% add 1 agent</td><td>1,098</td><td>$290</td><td>$318K</td><td>$3.82M</td></tr>
+  <tr><td>15% penetration, avg 1.5 agents</td><td>1,098</td><td>$375</td><td>$412K</td><td><strong>$4.94M</strong></td></tr>
+</table>
+
+
+<!-- SECTION 6: PRODUCT SURFACE MAP -->
+
+<h2>What the Customer Actually Sees</h2>
+
+<p>The product needs to feel like a platform from day one, even when the MSP is only using dashboards. Visible scaffolding for upcoming features creates anticipation and justifies the "this is where we're going" conversation. Below is the complete surface: what's live at launch, what's visible but locked, and what's hidden until built.</p>
+
+<h3>Launch (Live)</h3>
+<div class="module-grid">
+  <div class="module-card built">
+    <div class="module-name">Dashboard Library</div>
+    <div class="module-detail">Browse 400+ pre-built dashboards by category, source, or use case. One-click activate.</div>
+    <span class="module-status s-built">Live at launch</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">AI Dashboard Builder</div>
+    <div class="module-detail">Prompt field: describe what you want, AI generates it. Edit, save, share.</div>
+    <span class="module-status s-built">Live at launch</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">AI Report Generator</div>
+    <div class="module-detail">Select a report type, pick the client/date range, get a written document with verified numbers.</div>
+    <span class="module-status s-built">Live at launch</span>
+  </div>
+  <div class="module-card built">
+    <div class="module-name">Source Connections</div>
+    <div class="module-detail">Connect screen for all 12 sources. Status indicators. Sync progress. Entity count.</div>
+    <span class="module-status s-built">Live at launch</span>
+  </div>
+</div>
+
+<h3>Visible, Locked (Platform Scaffolding)</h3>
+<div class="module-grid">
+  <div class="module-card planned">
+    <div class="module-name">Ask VibeCoder</div>
+    <div class="module-detail">Natural language query bar visible in nav. Shows "Coming Soon" or "Add-on" badge. Teaser showing example queries.</div>
+    <span class="module-status s-planned">Visible, locked</span>
+  </div>
+  <div class="module-card planned">
+    <div class="module-name">QBR Generator</div>
+    <div class="module-detail">Menu item visible. Click shows preview of a sample QBR with "Unlock this agent" CTA.</div>
+    <span class="module-status s-planned">Visible, locked</span>
+  </div>
+  <div class="module-card planned">
+    <div class="module-name">Profitability</div>
+    <div class="module-detail">Menu item visible. Shows blurred sample profitability view with "Unlock" CTA.</div>
+    <span class="module-status s-planned">Visible, locked</span>
+  </div>
+  <div class="module-card planned">
+    <div class="module-name">Benchmarks</div>
+    <div class="module-detail">Menu item visible. Shows "Join X MSPs comparing performance" with opt-in prompt.</div>
+    <span class="module-status s-planned">Visible, locked</span>
+  </div>
+  <div class="module-card planned">
+    <div class="module-name">Alerts</div>
+    <div class="module-detail">Bell icon in nav. Shows "Set up anomaly detection" teaser.</div>
+    <span class="module-status s-planned">Visible, locked</span>
+  </div>
+  <div class="module-card planned">
+    <div class="module-name">Scheduled Delivery</div>
+    <div class="module-detail">Calendar icon on reports. Shows "Automate this report" with schedule options grayed out.</div>
+    <span class="module-status s-planned">Visible, locked</span>
+  </div>
+</div>
+
+<h3>Hidden Until Built</h3>
+<div class="module-grid">
+  <div class="module-card future">
+    <div class="module-name">Sales Intelligence</div>
+    <div class="module-detail">Expansion revenue signals. Requires significant cross-source correlation logic.</div>
+    <span class="module-status s-future">Future</span>
+  </div>
+  <div class="module-card future">
+    <div class="module-name">Write-Back / Activate</div>
+    <div class="module-detail">Push insights back into PSA. Auto-tag, auto-task, auto-escalate.</div>
+    <span class="module-status s-future">Future</span>
+  </div>
+  <div class="module-card future">
+    <div class="module-name">Client Portal</div>
+    <div class="module-detail">White-labeled read-only portal for MSP's end-clients.</div>
+    <span class="module-status s-future">Future</span>
+  </div>
+  <div class="module-card future">
+    <div class="module-name">MCP / BYOAI Access</div>
+    <div class="module-detail">Expose semantic layer to external LLMs. Enterprise/developer tier.</div>
+    <span class="module-status s-future">Future</span>
+  </div>
+</div>
+
+
+<!-- SECTION 7: TRUST LAYER -->
+
+<h2>The Trust Layer as a Differentiator</h2>
+
+<p>Every competitor in this space shows data. None of them prove it. VibeCoder's trust layer is two mechanisms that, combined, solve the fundamental problem of AI in business-critical analytics:</p>
+
+<div class="two-col">
+  <div>
+    <h3>Anonymization Pipeline</h3>
+    <p>Claude never sees real client names, technician names, contact details, or contract values. The anonymizer maps real entities to tokens before the AI processes the data. The deanonymizer maps them back in the output. The MSP's client data never touches the LLM in identifiable form.</p>
+    <p>This isn't just a privacy feature. It's a sales argument: "Your client data stays private, even from the AI."</p>
+  </div>
+  <div>
+    <h3>Verifiable Outputs</h3>
+    <p>When the AI generates a report, it doesn't just produce text. It outputs the queries that produced the numbers. Those queries can be run against the source data to confirm every figure. The AI can't hallucinate a 98% SLA compliance rate if the actual query returns 87%.</p>
+    <p>No competitor has this. BrightGauge shows charts you build yourself. MSPbots has sentiment analysis. Neither can prove their AI's output is factually correct.</p>
+  </div>
+</div>
+
+<div class="callout">
+  <span class="callout-label">Positioning</span>
+  "The only MSP analytics platform where the AI proves its numbers." This single line separates VibeCoder from every dashboard tool and every AI wrapper in the market. It's verifiable, defensible, and directly addresses the #1 objection to AI in analytics: "How do I know it's right?"
+</div>
+
+
+<!-- SECTION 8: ONBOARDING -->
+
+<h2>Onboarding: Time to First Value</h2>
+
+<p>Polar gets merchants to first value in minutes: install from Shopify App Store, OAuth connect, 24-hour data sync, 1 year of history preloaded. VibeCoder's onboarding is more complex because MSP data sources require API credentials. The goal is still speed: from signup to "seeing my data in a dashboard" in under an hour.</p>
+
+<table class="matrix">
+  <tr><th>Step</th><th>Action</th><th>Time</th></tr>
+  <tr><td>1</td><td>Sign up, choose plan ($200/mo, no commitment)</td><td>2 min</td></tr>
+  <tr><td>2</td><td>Connect Autotask (API credentials, guided setup)</td><td>5 min</td></tr>
+  <tr><td>3</td><td>Initial sync: Tier 0 entities (companies, tickets, resources, contracts)</td><td>10-15 min</td></tr>
+  <tr><td>4</td><td>First dashboards populate with real data. Pre-built library activates.</td><td>Immediate after sync</td></tr>
+  <tr><td>5</td><td>Connect additional sources (Datto, M365, IT Glue...) at own pace</td><td>5 min each</td></tr>
+  <tr><td>6</td><td>Full sync: all 45 Autotask entities + other sources</td><td>1-2 hours (background)</td></tr>
+  <tr><td>7</td><td>AI report generation available. "Generate your first report" prompt.</td><td>Available after step 4</td></tr>
+</table>
+
+<p>The critical moment is step 4: the MSP sees their own data in a pre-built dashboard for the first time. Everything after that is expansion. The prompt "Generate a custom dashboard" should appear as a CTA within 30 seconds of the first dashboard loading.</p>
+
+
+<!-- SECTION 9: GTM MOTION -->
+
+<h2>Go-to-Market Motion</h2>
+
+<div class="two-col">
+  <div>
+    <h3>Acquisition (Proven)</h3>
+    <ul>
+      <li><strong>Reddit ads</strong> targeting r/msp and r/autotask. Already generating ~2 demos/week at low cost.</li>
+      <li><strong>Sample dashboards &amp; reports</strong> on proxuma.io. "See what your data could look like."</li>
+      <li><strong>Report gallery</strong> as content marketing. 130+ report types published, dual language.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Expansion (To Build)</h3>
+    <ul>
+      <li><strong>In-app upsell.</strong> Locked modules with sample previews. "Add QBR Generator" CTAs.</li>
+      <li><strong>Usage-triggered prompts.</strong> "You've generated 10 reports this month. Want to automate delivery?"</li>
+      <li><strong>Benchmark page</strong> as public lead gen (Polar's playbook: free benchmark data attracts MSPs).</li>
+      <li><strong>Peer group events.</strong> IT Nation, DattoCon presence. Channel credibility matters in MSP.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- SECTION 10: BUILD SEQUENCE -->
+
+<h2>Build Sequence</h2>
+
+<p>What to ship and when, ordered by a combination of revenue impact, build difficulty, and strategic importance.</p>
+
+<table class="matrix">
+  <tr><th>#</th><th>Product</th><th>Build</th><th>Revenue Role</th><th>Why This Order</th></tr>
+  <tr><td>1</td><td><strong>Base platform</strong> (dashboards + AI reports + 12 sources)</td><td>Ready</td><td>$200/mo wedge</td><td>Ship immediately. The competitive proposition.</td></tr>
+  <tr><td>2</td><td><strong>QBR Generator</strong></td><td>Short</td><td>$150/mo add-on</td><td>Highest WTP, closest to existing reports. First upsell.</td></tr>
+  <tr><td>3</td><td><strong>Scheduled Delivery</strong></td><td>Short</td><td>$100/mo add-on</td><td>Simple to build, creates weekly touchpoints, retention.</td></tr>
+  <tr><td>4</td><td><strong>Ask VibeCoder</strong></td><td>Medium</td><td>$150/mo add-on</td><td>Broadens buyer from "ops manager" to "everyone." High usage.</td></tr>
+  <tr><td>5</td><td><strong>Profitability Analyst</strong></td><td>Medium</td><td>$200/mo add-on</td><td>Very high WTP, targets the owner/CFO buyer directly.</td></tr>
+  <tr><td>6</td><td><strong>Alert Engine</strong></td><td>Medium</td><td>$150/mo add-on</td><td>Shifts product from pull to push. Retention driver.</td></tr>
+  <tr><td>7</td><td><strong>Benchmarking</strong></td><td>Med-Long</td><td>Included or $100/mo</td><td>Requires customer scale. Network effect moat. Start collecting data early, launch feature when N > 50.</td></tr>
+  <tr><td>8</td><td><strong>Sales Intelligence</strong></td><td>Long</td><td>$200/mo add-on</td><td>Very high WTP but complex cross-source logic. Changes buyer to owner/sales.</td></tr>
+  <tr><td>9</td><td><strong>Write-Back / Activate</strong></td><td>Long</td><td>$200/mo add-on</td><td>The lock-in layer. Ship when you have enough customers that retention matters more than acquisition.</td></tr>
+  <tr><td>10</td><td><strong>MCP / BYOAI</strong></td><td>Medium</td><td>Enterprise tier</td><td>When enterprise MSPs ask for it. Not before.</td></tr>
+</table>
+
+
+<!-- BOTTOM LINE -->
+
+<div class="positioning">
+  <h2>Bottom Line</h2>
+  <p>The product surface is three layers: a wedge that undercuts BrightGauge while delivering AI capabilities no competitor has (400+ dashboards + AI generation + narrative reports at $200/mo); expansion agents that grow ARPA from $200 to $400-700+ per account as each MSP discovers new use cases; and a lock-in layer (PSA write-back + benchmarking) that creates switching costs competitors can't replicate. The Polar playbook works. The question is no longer what to build. It's how fast you can ship the wedge and start landing customers before ConnectWise bolts AI onto BrightGauge.</p>
+</div>
+
+<div class="page-footer">
+  <span>Proxuma Research &bull; Product Strategy</span>
+  <span>April 12, 2026</span>
+</div>
+
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "VibeCoder GTM & Product Surface: The Polar Playbook for MSPs",
+  "date": "2026-04-12",
+  "summary": "Complete product surface and GTM strategy for VibeCoder, mapping the Polar Analytics three-layer model (Land / Expand / Lock-in) to the MSP analytics market. Defines the wedge product (400+ dashboards + AI reports at $200/mo), 6 expansion agents with add-on pricing, and the lock-in layer (PSA write-back + cross-tenant benchmarking).",
+  "context": {
+    "core_ip": "Semantic layer mapping 12 MSP data source APIs, normalized for AI reasoning. Trust layer: anonymization pipeline (Claude never sees real names) + verifiable outputs (AI produces confirmable queries).",
+    "market": "$35-50M current market ARR, 7,319 identified TAM companies, $168M full penetration ceiling.",
+    "competitors": "BrightGauge $325-635/mo (acquired by ConnectWise), MSPbots $200-500/mo (independent), SquaredUp $0-78/mo (freemium). None offer AI-generated dashboards or narrative reports.",
+    "polar_reference": "Polar Analytics: 63 connectors, $720/mo start, 3,700 customers, $28M raised. Three layers: BI analytics (hook), AI agents at $1,500/mo each (expand), data activation via Klaviyo/ad platforms (lock-in)."
+  },
+  "strategy": {
+    "model": "Land and expand with three layers",
+    "layer_1_land": {
+      "product": "400+ pre-built dashboards + AI dashboard generation + AI narrative reports across 12 MSP sources",
+      "price": "$200/mo, no per-seat fees, unlimited users",
+      "positioning": "Cheaper than BrightGauge ($325) AND better (AI-generated, not manually configured). Category shift, not price competition.",
+      "trust_layer": "Anonymization (Claude never sees real names) + verifiable outputs (AI proves its numbers with confirmable queries)"
+    },
+    "layer_2_expand": {
+      "model": "Add-on agents at $100-200/mo each, not tier-based",
+      "agents": [
+        {"name": "QBR Generator", "price": "$150/mo", "buyer": "Owner/Account Manager", "build": "Short"},
+        {"name": "Scheduled Delivery", "price": "$100/mo", "buyer": "Ops Manager", "build": "Short"},
+        {"name": "Ask VibeCoder", "price": "$150/mo", "buyer": "Everyone", "build": "Medium"},
+        {"name": "Profitability Analyst", "price": "$200/mo", "buyer": "Owner/CFO", "build": "Medium"},
+        {"name": "Alert Engine", "price": "$150/mo", "buyer": "Ops Manager", "build": "Medium"},
+        {"name": "Sales Intelligence", "price": "$200/mo", "buyer": "Sales/Owner", "build": "Long"}
+      ],
+      "arpa_expansion": "Base $200 → $400-700+ with 1-3 agents"
+    },
+    "layer_3_lockin": {
+      "write_back": "Push insights into Autotask: auto-tag at-risk clients, auto-create tasks on SLA breach, auto-flag renewals. Creates operational dependency.",
+      "benchmarking": "Cross-tenant anonymous comparison. Network effect moat. Requires scale (launch at 50+ customers). Compounds over time.",
+      "byoai": "MCP/BYOAI access as enterprise tier. Ship when demanded, not before."
+    }
+  },
+  "pricing": {
+    "base": "$200/mo (all dashboards, AI generation, AI reports, 12 sources, trust layer, unlimited users)",
+    "with_1_agent": "~$350/mo",
+    "with_2_3_agents": "$500+/mo",
+    "model": "Add-on per agent, not tier-gated"
+  },
+  "revenue_scenarios": {
+    "conservative": "366 customers at $200 avg = $878K ARR",
+    "base": "366 customers at $290 avg (60% add 1 agent) = $1.27M ARR",
+    "target": "1,098 customers at $375 avg = $4.94M ARR"
+  },
+  "build_sequence": [
+    "1. Base platform (ready to ship)",
+    "2. QBR Generator (short build, highest WTP)",
+    "3. Scheduled Delivery (short build, retention)",
+    "4. Ask VibeCoder (medium build, broadens buyer)",
+    "5. Profitability Analyst (medium build, owner buyer)",
+    "6. Alert Engine (medium build, push not pull)",
+    "7. Benchmarking (needs scale, start collecting early)",
+    "8. Sales Intelligence (long build, very high WTP)",
+    "9. Write-Back / Activate (the lock-in layer)",
+    "10. MCP / BYOAI (when enterprise demands it)"
+  ],
+  "key_risks": [
+    "ConnectWise bolts AI onto BrightGauge before VibeCoder gains traction",
+    "SquaredUp freemium compresses willingness to pay for dashboards",
+    "Incumbent platforms restrict API access to third-party analytics",
+    "MSP channel requires peer credibility (IT Nation, DattoCon presence)"
+  ],
+  "next_steps": "Review product surface design. Decide on launch scope. Build sequence items 2-3 (QBR Generator + Scheduled Delivery) are quick wins that demonstrate the add-on model. Start collecting benchmark data from day one even if the feature isn't live yet."
+}
+</script>
+</body>
+</html>
