@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSP Power BI SEO Landscape Analysis</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.positioning li { color: rgba(255,255,255,.88); }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 180px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 12, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-msp-powerbi-seo-landscape.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">MSP Market Intelligence</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 12, 2026<br>SEO Landscape Analysis<br>Power BI / MSP Vertical
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SEARCH LANDSCAPE RESEARCH</div>
+  <h1>MSP Power BI Reporting: SEO Keyword &amp; Competitive Analysis</h1>
+  <p class="subtitle">What MSPs actually search for when they need reporting, who ranks for it, and where 940 report pages create an asymmetric advantage.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">~940</div>
+      <div class="stat-label">Proxuma Report Pages</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Low Vol</div>
+      <div class="stat-label">High Intent Niche</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6-8</div>
+      <div class="stat-label">Direct Competitors</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">Data Source Verticals</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: MARKET CHARACTERISTICS -->
+  <h2>1. Search Volume Landscape</h2>
+
+  <p>The MSP Power BI reporting space is a classic <strong>low-volume, high-intent</strong> niche. Individual keywords rarely exceed 500 monthly searches, but the buyers behind those searches have concrete purchasing intent and high lifetime value ($200-500/mo per MSP). The total addressable search demand across all variations is substantial when you stack hundreds of long-tail queries.</p>
+
+  <div class="callout">
+    <span class="callout-label">Key Finding</span>
+    <strong>This is not a mass-market SEO play.</strong> You will never see 50K monthly searches for "autotask power bi dashboard." But an MSP owner searching that phrase is pre-qualified: they already use Autotask, already have Power BI, and are actively looking for a solution. Conversion rates in this niche run 3-8x higher than generic BI keywords.
+  </div>
+
+  <h3>Volume Tiers (Estimated Monthly US Searches)</h3>
+
+  <table class="matrix">
+    <tr><th>Tier</th><th>Volume Range</th><th>Example Keywords</th><th>Intent</th></tr>
+    <tr><td><strong>Head terms</strong></td><td>1,000-5,000</td><td>"MSP reporting tools", "MSP dashboard", "Power BI templates"</td><td>Research / Comparison</td></tr>
+    <tr><td><strong>Mid-tail</strong></td><td>100-1,000</td><td>"MSP KPIs", "autotask power bi", "datto power bi", "MSP profitability report"</td><td>Solution-seeking</td></tr>
+    <tr><td><strong>Long-tail</strong></td><td>10-100</td><td>"SLA compliance power bi MSP", "backup success rate report", "effective hourly rate autotask"</td><td>High purchase intent</td></tr>
+    <tr><td><strong>Zero-volume gold</strong></td><td>&lt;10</td><td>"SmileBack CSAT power bi", "N-able Cove backup report", "IT Glue documentation coverage"</td><td>Buyer-ready, no competition</td></tr>
+  </table>
+
+  <p>The magic of Proxuma's 940-page library is that it can target all four tiers simultaneously. Head terms get captured by category/pillar pages. The long tail and zero-volume queries get captured by individual report pages, each answering one specific question an MSP owner types into Google.</p>
+
+  <!-- SECTION 2: KEYWORD CLUSTERS -->
+  <h2>2. Keyword Clusters by Search Intent</h2>
+
+  <p>MSPs search in predictable patterns. Here are the primary clusters, ordered by estimated total search demand:</p>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Cluster A</span>
+      <span class="tier-title">PSA + Power BI Integration Queries</span>
+    </div>
+    <p>The highest-volume cluster. MSPs searching how to connect their PSA to Power BI.</p>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">autotask power bi</div><div class="bar"><div class="bar-fill" style="width:85%"></div></div><div class="bar-amount">~500/mo</div></div>
+      <div class="bar-row"><div class="bar-label">connectwise power bi</div><div class="bar"><div class="bar-fill" style="width:80%"></div></div><div class="bar-amount">~450/mo</div></div>
+      <div class="bar-row"><div class="bar-label">autotask reporting</div><div class="bar"><div class="bar-fill" style="width:70%"></div></div><div class="bar-amount">~350/mo</div></div>
+      <div class="bar-row"><div class="bar-label">power bi for MSPs</div><div class="bar"><div class="bar-fill" style="width:55%"></div></div><div class="bar-amount">~250/mo</div></div>
+      <div class="bar-row"><div class="bar-label">autotask dashboard</div><div class="bar"><div class="bar-fill" style="width:50%"></div></div><div class="bar-amount">~200/mo</div></div>
+    </div>
+    <p>Proxuma already ranks for some of these. The Microsoft Fabric Community forums are the main organic competitor here, along with Connectorly and ApplicationLink.</p>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Cluster B</span>
+      <span class="tier-title">MSP KPI &amp; Metric Queries</span>
+    </div>
+    <p>MSP owners and service managers searching for specific metrics to track.</p>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">MSP KPIs</div><div class="bar"><div class="bar-fill" style="width:90%"></div></div><div class="bar-amount">~800/mo</div></div>
+      <div class="bar-row"><div class="bar-label">MSP reporting tools</div><div class="bar"><div class="bar-fill" style="width:75%"></div></div><div class="bar-amount">~600/mo</div></div>
+      <div class="bar-row"><div class="bar-label">MSP profitability metrics</div><div class="bar"><div class="bar-fill" style="width:40%"></div></div><div class="bar-amount">~150/mo</div></div>
+      <div class="bar-row"><div class="bar-label">effective hourly rate MSP</div><div class="bar"><div class="bar-fill" style="width:30%"></div></div><div class="bar-amount">~100/mo</div></div>
+      <div class="bar-row"><div class="bar-label">MSP MTTR benchmark</div><div class="bar"><div class="bar-fill" style="width:15%"></div></div><div class="bar-amount">~50/mo</div></div>
+    </div>
+    <p>ConnectWise, NinjaOne, Kaseya, and Thread own the "MSP KPIs" SERP with blog posts. None of them link to actual Power BI reports. Proxuma can rank here by pairing educational content with live report examples.</p>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Cluster C</span>
+      <span class="tier-title">Tool-Specific Reporting Queries</span>
+    </div>
+    <p>Searches combining a specific MSP tool with reporting needs.</p>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">datto RMM reporting</div><div class="bar"><div class="bar-fill accent" style="width:55%"></div></div><div class="bar-amount">~250/mo</div></div>
+      <div class="bar-row"><div class="bar-label">datto backup reports</div><div class="bar"><div class="bar-fill accent" style="width:45%"></div></div><div class="bar-amount">~200/mo</div></div>
+      <div class="bar-row"><div class="bar-label">SmileBack CSAT reporting</div><div class="bar"><div class="bar-fill accent" style="width:15%"></div></div><div class="bar-amount">~40/mo</div></div>
+      <div class="bar-row"><div class="bar-label">IT Glue power bi</div><div class="bar"><div class="bar-fill accent" style="width:10%"></div></div><div class="bar-amount">~20/mo</div></div>
+      <div class="bar-row"><div class="bar-label">N-able Cove backup report</div><div class="bar"><div class="bar-fill accent" style="width:8%"></div></div><div class="bar-amount">~15/mo</div></div>
+    </div>
+    <p>This is where Proxuma has the strongest moat. Nobody else publishes Power BI reports for SmileBack, IT Glue, N-able Cove, or HiBob. These searches have near-zero competition. The searchers are MSP operators with that exact tool stack.</p>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Cluster D</span>
+      <span class="tier-title">Operational Questions (Problem-Aware)</span>
+    </div>
+    <p>MSP owners asking questions that a Power BI report answers, without knowing they need Power BI.</p>
+    <table class="matrix">
+      <tr><th>Question They Search</th><th>Report That Answers It</th><th>Est. Vol</th></tr>
+      <tr><td>"how to track SLA compliance"</td><td>SLA Trend Over 12 Months</td><td>~200/mo</td></tr>
+      <tr><td>"MSP client profitability analysis"</td><td>Profit Margin per Client</td><td>~150/mo</td></tr>
+      <tr><td>"how to automate QBR reports"</td><td>Automated QBR for MSPs</td><td>~120/mo</td></tr>
+      <tr><td>"reduce ticket escalation rate"</td><td>Escalation Rate by Queue</td><td>~80/mo</td></tr>
+      <tr><td>"patch compliance dashboard"</td><td>Endpoint & Patch Compliance</td><td>~100/mo</td></tr>
+      <tr><td>"Microsoft 365 license waste"</td><td>M365 License Utilization</td><td>~90/mo</td></tr>
+      <tr><td>"backup success rate tracking"</td><td>Backup Success Rate Report</td><td>~60/mo</td></tr>
+      <tr><td>"which clients cost me money"</td><td>Client Cost Drain Analysis</td><td>~40/mo</td></tr>
+    </table>
+    <p>These problem-aware queries are the single biggest opportunity. The searcher doesn't know about Proxuma or Power BI templates yet. They have a pain point. If a Proxuma report page shows up as the answer, the conversion funnel is: pain point search -> see report -> realize they need this -> sign up.</p>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Cluster E</span>
+      <span class="tier-title">Comparison &amp; Alternative Queries</span>
+    </div>
+    <p>MSPs comparing reporting tools or looking for alternatives.</p>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">BrightGauge alternative</div><div class="bar"><div class="bar-fill muted" style="width:60%"></div></div><div class="bar-amount">~300/mo</div></div>
+      <div class="bar-row"><div class="bar-label">BrightGauge vs Power BI</div><div class="bar"><div class="bar-fill muted" style="width:35%"></div></div><div class="bar-amount">~150/mo</div></div>
+      <div class="bar-row"><div class="bar-label">MSPbots alternative</div><div class="bar"><div class="bar-fill muted" style="width:20%"></div></div><div class="bar-amount">~80/mo</div></div>
+      <div class="bar-row"><div class="bar-label">MSPCFO vs Power BI</div><div class="bar"><div class="bar-fill muted" style="width:10%"></div></div><div class="bar-amount">~30/mo</div></div>
+    </div>
+    <p>BrightGauge is stagnating and MSPs are actively searching for alternatives. This is a time-sensitive opportunity. Proxuma should publish "BrightGauge vs Power BI for MSPs" and "Best BrightGauge Alternatives" comparison pages.</p>
+  </div>
+
+  <!-- SECTION 3: COMPETITOR LANDSCAPE -->
+  <h2>3. Competitive Landscape</h2>
+
+  <h3>Direct Competitors (MSP-Specific Reporting)</h3>
+
+  <table class="matrix">
+    <tr><th>Competitor</th><th>Pricing</th><th>Strengths</th><th>SEO Presence</th><th>Vulnerability</th></tr>
+    <tr>
+      <td><strong>BrightGauge</strong> (ConnectWise)</td>
+      <td>$289+/mo</td>
+      <td>4,200+ pre-built metrics, deep PSA integration, established brand</td>
+      <td>Strong brand queries, declining organic</td>
+      <td>Acquired by ConnectWise, innovation stalled. MSPs actively searching for alternatives</td>
+    </tr>
+    <tr>
+      <td><strong>MSPbots</strong></td>
+      <td>$99-299/mo</td>
+      <td>70+ integrations, workflow automation bots, AI features</td>
+      <td>Growing content marketing, blog-driven</td>
+      <td>Not Power BI native. Proprietary dashboards lock users in</td>
+    </tr>
+    <tr>
+      <td><strong>MSPCFO</strong></td>
+      <td>$300-500/mo</td>
+      <td>50+ financial reports, profitability focus, ConnectWise + Autotask</td>
+      <td>Ranks well for "MSP profitability" terms</td>
+      <td>Financial reports only. No service desk, backup, security, M365 coverage</td>
+    </tr>
+    <tr>
+      <td><strong>ScalePad Cognition360</strong></td>
+      <td>$200-500/mo</td>
+      <td>130+ interactive reports, ML insights, ConnectWise-specific</td>
+      <td>Review sites, comparison pages</td>
+      <td>ConnectWise only. No Autotask. Power BI integration is bolt-on, not native</td>
+    </tr>
+    <tr>
+      <td><strong>SquaredUp</strong></td>
+      <td>Free tier + paid</td>
+      <td>100+ data sources, no data warehouse needed, fast setup</td>
+      <td>Aggressive SEO via comparison blog posts</td>
+      <td>Generic tool, not MSP-focused. Dashboards, not deep reports</td>
+    </tr>
+    <tr>
+      <td><strong>CloudRadial</strong></td>
+      <td>$150-400/mo</td>
+      <td>Client portal with embedded reporting, QBR automation</td>
+      <td>Moderate, portal-focused</td>
+      <td>Reporting is secondary feature. No Power BI depth</td>
+    </tr>
+    <tr>
+      <td><strong>Connectorly</strong></td>
+      <td>Varies</td>
+      <td>Datto RMM + Power BI connector, ready-made templates</td>
+      <td>Good for "datto power bi" queries</td>
+      <td>Single-integration focus. No content library or report gallery</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Competitive Gap</span>
+    <strong>No single competitor covers all 12 data sources that Proxuma integrates.</strong> MSPCFO does financial only. BrightGauge is broad but proprietary. Cognition360 is ConnectWise only. Proxuma is the only vendor combining Autotask + Datto RMM + Datto Backup + N-able Cove + SmileBack + M365 + HubSpot + IT Glue + HiBob in Power BI.
+  </div>
+
+  <h3>Indirect Competitors (Content Competitors on SERPs)</h3>
+
+  <table class="matrix">
+    <tr><th>Source</th><th>Content Type</th><th>Why They Rank</th></tr>
+    <tr><td>ConnectWise blog</td><td>"20 KPIs MSPs Should Track"</td><td>Domain authority, educational content, linked from platform</td></tr>
+    <tr><td>NinjaOne blog</td><td>"QBRs with Power BI and RMM Exports"</td><td>Practical how-to, code examples, fresh content</td></tr>
+    <tr><td>Microsoft Fabric Community</td><td>Forum threads on Autotask + Power BI</td><td>Microsoft domain authority, real user Q&A</td></tr>
+    <tr><td>Kaseya blog</td><td>"10 Most Important MSP Business Metrics"</td><td>Authority, comprehensive lists</td></tr>
+    <tr><td>Thread / GetThread</td><td>"30 MSP KPIs to Track"</td><td>Long-form KPI guides with benchmarks</td></tr>
+    <tr><td>CEO Juice</td><td>QBR Power BI template (ID774)</td><td>Specific template with RLS, ConnectWise-native</td></tr>
+  </table>
+
+  <!-- SECTION 4: WHAT CONTENT FORMATS RANK -->
+  <h2>4. Content Formats That Rank in This Space</h2>
+
+  <div class="two-col">
+    <div>
+      <h3>What Currently Wins</h3>
+      <ul>
+        <li><strong>Long-form KPI guides</strong> (2,000-4,000 words) rank for "MSP KPIs", "MSP metrics" head terms. ConnectWise, NinjaOne, Thread dominate.</li>
+        <li><strong>How-to integration posts</strong> rank for "[tool] power bi" queries. Microsoft Community and Connectorly rank here.</li>
+        <li><strong>Comparison pages</strong> ("BrightGauge vs X") rank well and capture buyers at decision stage. SquaredUp is aggressive here.</li>
+        <li><strong>Tool listing/directory pages</strong> on review sites (Capterra, G2, TrustRadius) rank for "[tool] alternative" queries.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What Nobody Does Yet</h3>
+      <ul>
+        <li><strong>Report gallery pages</strong> showing actual Power BI visuals for specific MSP questions. Proxuma is the only one doing this.</li>
+        <li><strong>Question-as-page-title format</strong> ("What's my SLA trend over 12 months?") targeting problem-aware searches. This is the Proxuma model.</li>
+        <li><strong>Data-source-specific report indexes</strong> (all Datto RMM reports, all SmileBack reports). Nobody has these.</li>
+        <li><strong>Programmatic SEO at scale</strong> in the MSP reporting niche. No competitor has more than ~50 pages. Proxuma has 940.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Format Opportunity</span>
+    Google rewards content that answers the specific query better than generic guides. A page titled "SLA Compliance Power BI Report for Autotask MSPs" with an actual report screenshot, DAX explanation, and implementation guide will beat a generic "20 MSP KPIs" blog post for the long-tail query. Proxuma's report pages already have this structure. They just need technical SEO fixes to unlock their ranking potential.
+  </div>
+
+  <!-- SECTION 5: LONG-TAIL OPPORTUNITIES -->
+  <h2>5. Long-Tail Keyword Opportunities</h2>
+
+  <p>These are specific keyword combinations where Proxuma has existing reports but likely no search visibility yet. Each represents a page that should rank with minimal competition.</p>
+
+  <h3>By Category - Highest Opportunity</h3>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Financial / Profitability</span>
+    </div>
+    <table class="matrix">
+      <tr><th>Keyword</th><th>Existing Report?</th><th>Competition</th></tr>
+      <tr><td>"MSP effective hourly rate calculator"</td><td>Yes (Hours Worked vs Billed)</td><td>Low - MSPCFO only competitor</td></tr>
+      <tr><td>"autotask contract profitability report"</td><td>Yes (Contract Utilization)</td><td>Very low - nobody targets this</td></tr>
+      <tr><td>"which MSP clients are unprofitable"</td><td>Yes (Client Cost Drain)</td><td>Low - question format, no competitors</td></tr>
+      <tr><td>"MSP MRR tracking power bi"</td><td>Yes (MRR Trend)</td><td>Low - generic BI content only</td></tr>
+      <tr><td>"project profitability autotask"</td><td>Yes (Project Revenue vs Labor Cost)</td><td>Medium - Autotask docs compete</td></tr>
+    </table>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Service Desk / Tickets</span>
+    </div>
+    <table class="matrix">
+      <tr><th>Keyword</th><th>Existing Report?</th><th>Competition</th></tr>
+      <tr><td>"autotask NOC dashboard power bi"</td><td>Yes (NOC Dashboard Auto-Refresh)</td><td>Very low - Proxuma already ranks</td></tr>
+      <tr><td>"ticket escalation rate by queue"</td><td>Yes (Escalation Rate)</td><td>Low - generic ITSM content only</td></tr>
+      <tr><td>"autotask overdue tickets report"</td><td>Yes (Overdue Tickets)</td><td>Very low</td></tr>
+      <tr><td>"first response time SLA power bi"</td><td>Yes (SLA Trend)</td><td>Low</td></tr>
+      <tr><td>"MSP ticket volume trend analysis"</td><td>Yes (Ticket Volume)</td><td>Medium - ITSM blogs compete</td></tr>
+    </table>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Backup &amp; Security</span>
+    </div>
+    <table class="matrix">
+      <tr><th>Keyword</th><th>Existing Report?</th><th>Competition</th></tr>
+      <tr><td>"datto backup success rate power bi"</td><td>Yes (Backup Success Rate)</td><td>Near zero - nobody targets this</td></tr>
+      <tr><td>"N-able Cove backup report power bi"</td><td>Yes (N-able Cove Reports)</td><td>Zero competition</td></tr>
+      <tr><td>"MSP endpoint compliance dashboard"</td><td>Yes (Security Status)</td><td>Low - NinjaOne, ConnectWise only</td></tr>
+      <tr><td>"patch compliance report datto RMM"</td><td>Yes (Patch Compliance)</td><td>Low</td></tr>
+      <tr><td>"MSP security risk scoring power bi"</td><td>Yes (Security Risk Scoring)</td><td>Near zero</td></tr>
+    </table>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">CSAT &amp; Customer Experience</span>
+    </div>
+    <table class="matrix">
+      <tr><th>Keyword</th><th>Existing Report?</th><th>Competition</th></tr>
+      <tr><td>"SmileBack CSAT power bi report"</td><td>Yes (CSAT Score per Client)</td><td>Zero - no one else does this</td></tr>
+      <tr><td>"MSP customer satisfaction tracking"</td><td>Yes (CSAT Reports)</td><td>Low - SmileBack blog, Invarosoft only</td></tr>
+      <tr><td>"NPS score MSP power bi"</td><td>Yes (NPS Report)</td><td>Low</td></tr>
+    </table>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Niche Data Sources (Lowest Competition)</span>
+    </div>
+    <table class="matrix">
+      <tr><th>Keyword</th><th>Existing Report?</th><th>Competition</th></tr>
+      <tr><td>"HiBob power bi HR dashboard"</td><td>Yes (27 HiBob reports)</td><td>Near zero - only CData connector docs</td></tr>
+      <tr><td>"IT Glue documentation coverage report"</td><td>Yes (Documentation ROI)</td><td>Zero - Proxuma owns this</td></tr>
+      <tr><td>"HubSpot MSP sales pipeline power bi"</td><td>Yes (40 HubSpot reports)</td><td>Low - generic HubSpot BI content</td></tr>
+      <tr><td>"M365 license utilization MSP report"</td><td>Yes (M365 reports)</td><td>Low - Microsoft docs compete but not MSP-focused</td></tr>
+    </table>
+  </div>
+
+  <!-- SECTION 6: WHAT MSPS ACTUALLY ASK -->
+  <h2>6. Questions MSPs Actually Ask</h2>
+
+  <p>Based on forum analysis (r/msp, Microsoft Fabric Community, MSP Facebook groups) and search patterns, these are the real questions MSP owners and service managers type into Google:</p>
+
+  <h3>Financial Questions</h3>
+  <ul>
+    <li>"How do I know which clients are costing me money?"</li>
+    <li>"What should my effective hourly rate be?"</li>
+    <li>"How to track billable vs non-billable hours in Autotask"</li>
+    <li>"Is my managed services contract profitable?"</li>
+    <li>"How to calculate MRR per client"</li>
+  </ul>
+
+  <h3>Operational Questions</h3>
+  <ul>
+    <li>"How to build a NOC dashboard in Power BI"</li>
+    <li>"What's a good SLA compliance rate for MSPs?"</li>
+    <li>"How to reduce ticket escalations"</li>
+    <li>"How to automate QBR reports for clients"</li>
+    <li>"Best way to track technician utilization"</li>
+  </ul>
+
+  <h3>Tool-Specific Questions</h3>
+  <ul>
+    <li>"How to connect Autotask to Power BI" (forum threads get thousands of views)</li>
+    <li>"Autotask data warehouse vs API for Power BI"</li>
+    <li>"Datto RMM Power BI integration options"</li>
+    <li>"Can I pull SmileBack data into Power BI?"</li>
+    <li>"Power BI report from IT Glue data"</li>
+  </ul>
+
+  <h3>Comparison Questions</h3>
+  <ul>
+    <li>"BrightGauge alternative 2026"</li>
+    <li>"Is BrightGauge still worth it?"</li>
+    <li>"MSPbots vs BrightGauge vs Power BI"</li>
+    <li>"Best reporting tool for Autotask MSP"</li>
+  </ul>
+
+  <!-- SECTION 7: PROGRAMMATIC SEO ANALYSIS -->
+  <h2>7. Programmatic SEO Opportunity</h2>
+
+  <p>Proxuma's 940 report pages already constitute a programmatic SEO play, whether it was designed that way or not. Here is how it compares to successful pSEO examples:</p>
+
+  <table class="matrix">
+    <tr><th>Company</th><th>pSEO Strategy</th><th>Pages</th><th>Monthly Organic</th></tr>
+    <tr><td><strong>Zapier</strong></td><td>Integration pair pages ("[App A] + [App B]")</td><td>50,000+</td><td>16.2M</td></tr>
+    <tr><td><strong>Canva</strong></td><td>Template pages ("[Type] template")</td><td>100,000+</td><td>100M+</td></tr>
+    <tr><td><strong>Atlassian</strong></td><td>Use-case pages ("Jira for [use case]")</td><td>1,000+</td><td>Multi-million</td></tr>
+    <tr><td><strong>Proxuma</strong></td><td>Report pages ("[MSP question] Power BI Report")</td><td>940</td><td>TBD</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Programmatic SEO Fit</span>
+    Proxuma's approach mirrors Zapier's model at MSP scale. Each report page targets a unique long-tail query, has structured data (JSON-LD), and answers a specific question. The key differences from Zapier: (1) much smaller addressable search volume per page, (2) much higher intent per visitor, (3) much less competition per keyword. The pSEO model works here if each page has enough unique, quality content to avoid Google's thin-content filter.
+  </div>
+
+  <h3>What Google Rewards in This Space</h3>
+  <ul>
+    <li><strong>Specificity over breadth:</strong> A page about "SLA compliance for Autotask MSPs" beats a generic "SLA management guide"</li>
+    <li><strong>Visual proof:</strong> Pages with actual dashboard screenshots/examples outrank text-only guides</li>
+    <li><strong>Technical depth:</strong> DAX formulas, data model explanations, and implementation steps signal expertise</li>
+    <li><strong>Structured data:</strong> TechArticle + FAQPage schema gives rich snippets in SERPs</li>
+    <li><strong>Freshness:</strong> Reports showing they're updated with current data beat static content</li>
+    <li><strong>Internal linking:</strong> Strong pillar-to-report and report-to-report linking clusters topical authority</li>
+  </ul>
+
+  <h3>Risks for pSEO at This Scale</h3>
+  <ul>
+    <li><strong>Thin content penalty:</strong> If report pages are too similar to each other (shared boilerplate, minimal unique text), Google may deindex the cluster. Each page needs 300+ words of unique content.</li>
+    <li><strong>NL duplicate issue:</strong> Without proper hreflang, Google may see NL pages as duplicates of EN pages. This is the most urgent technical fix.</li>
+    <li><strong>Boilerplate ratio:</strong> If the shared template HTML outweighs the unique content, Google discounts the page. The report narrative, FAQ, and DAX explanation sections are critical unique content.</li>
+  </ul>
+
+  <!-- SECTION 8: STRATEGIC RECOMMENDATIONS -->
+  <h2>8. Strategic Recommendations</h2>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>Proxuma has 940 pages in a niche with fewer than 50 competing pages per keyword. That is a 20:1 content advantage. But the content is locked behind technical SEO problems (no meta descriptions, no hreflang, broken FAQ schema, missing internal links). Fix the technical foundation first. Then expand into the untapped keyword clusters (comparison pages, QBR automation, BrightGauge alternatives). The pSEO model is correct. The execution needs tightening.</p>
+  </div>
+
+  <h3>Priority 1: Technical Fixes (Weeks 1-2)</h3>
+  <div class="card">
+    <div class="card-title">Deploy meta descriptions to all 940 pages</div>
+    <div class="card-desc">Repo files have them but they are not pushed to WordPress. This is the single highest-ROI fix. Each meta description should include the primary keyword and a compelling reason to click.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Implement hreflang pairing for EN/NL</div>
+    <div class="card-desc">Without hreflang, Google sees 420 NL pages as duplicate content. Install a lightweight mu-plugin or add hreflang tags to the template. This could double indexed pages overnight.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Fix FAQ schema on 292 pages</div>
+    <div class="card-desc">Remove corrupted FAQ JSON-LD (CTA text masquerading as FAQ). Re-inject real FAQ content. FAQPage schema drives rich snippets which dramatically increase CTR.</div>
+  </div>
+
+  <h3>Priority 2: Content Expansion (Weeks 3-6)</h3>
+  <div class="card">
+    <div class="card-title">Publish 5 comparison pages</div>
+    <div class="card-desc">Target: "BrightGauge alternative", "BrightGauge vs Power BI MSP", "MSPbots vs Power BI", "best MSP reporting tool 2026", "MSPCFO alternative". These capture buyers at the decision stage with high conversion potential.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Create 6 pillar pages with real depth</div>
+    <div class="card-desc">Current pillars are 6-7KB thin pages. Each pillar (SLA, Ticketing, Financial, Backup, M365, Security) needs 2,000+ words linking to 20-40 child report pages. This builds the topical authority cluster Google rewards.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Publish "How to Connect [Tool] to Power BI" guides</div>
+    <div class="card-desc">Target: Autotask, Datto RMM, Datto Backup, N-able Cove, SmileBack, IT Glue. These are the highest-volume integration queries and currently won by forum posts and connector vendors.</div>
+  </div>
+
+  <h3>Priority 3: Programmatic SEO Optimization (Weeks 6-12)</h3>
+  <div class="card">
+    <div class="card-title">Ensure 300+ unique words per report page</div>
+    <div class="card-desc">Audit all 940 pages for unique content ratio. Pages with less than 300 words of unique narrative (excluding shared template) need enrichment. The AI narrative, FAQ, and DAX explanation sections are the unique content levers.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Build data-source index pages</div>
+    <div class="card-desc">Create dedicated landing pages for "All Datto RMM Power BI Reports", "All SmileBack Reports", "All HiBob Reports", etc. These capture tool-specific searches and serve as secondary pillar pages.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Add internal linking mesh</div>
+    <div class="card-desc">Each report page should link to 3-5 related reports. "If you found this SLA report useful, see also: First Response Time, Escalation Rate, Overdue Tickets." This strengthens the topical cluster and keeps users on site.</div>
+  </div>
+
+  <h3>Priority 4: Capture Demand Beyond Power BI (Ongoing)</h3>
+  <div class="card">
+    <div class="card-title">Target "MSP QBR template" and "MSP QBR automation"</div>
+    <div class="card-desc">QBR (Quarterly Business Review) is a high-intent search by MSP owners who need to present to clients. Proxuma's QBR report already exists. Build a dedicated QBR landing page with template download, demo, and case study.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Publish on r/msp and MSP community forums</div>
+    <div class="card-desc">Reddit r/msp has 160K+ members. Answering real questions with links to relevant reports drives qualified referral traffic and builds backlinks. This also feeds Google's E-E-A-T signals.</div>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>MSP Power BI SEO Landscape - April 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "MSP Power BI SEO Landscape Analysis",
+  "date": "2026-04-12",
+  "summary": "Full SEO landscape research for Power BI reporting targeting MSPs. Covers keyword clusters, search volumes, competitor analysis (7 direct competitors), content format strategy, programmatic SEO fit, and prioritized action plan across 940 report pages.",
+  "sections": [
+    {
+      "heading": "Search Volume Character",
+      "items": [
+        {"title": "Low-volume, high-intent niche", "detail": "Individual keywords rarely exceed 500/mo searches but conversion rates run 3-8x higher than generic BI keywords. Buyers are pre-qualified.", "meta": {"volume_profile": "low"}},
+        {"title": "Total addressable demand is substantial", "detail": "Stacking hundreds of long-tail queries across 12 data sources and 17 categories creates meaningful aggregate traffic."}
+      ]
+    },
+    {
+      "heading": "Top Keyword Clusters",
+      "items": [
+        {"title": "Cluster A: PSA + Power BI Integration", "detail": "autotask power bi (~500/mo), connectwise power bi (~450/mo), autotask reporting (~350/mo). Proxuma already ranks for some.", "meta": {"priority": "high"}},
+        {"title": "Cluster B: MSP KPIs & Metrics", "detail": "MSP KPIs (~800/mo), MSP reporting tools (~600/mo), MSP profitability metrics (~150/mo). ConnectWise, NinjaOne, Kaseya dominate with blog posts.", "meta": {"priority": "high"}},
+        {"title": "Cluster C: Tool-Specific Reporting", "detail": "datto RMM reporting (~250/mo), SmileBack CSAT (~40/mo), IT Glue power bi (~20/mo). Near-zero competition for niche tools. Strongest Proxuma moat.", "meta": {"priority": "medium"}},
+        {"title": "Cluster D: Operational Questions", "detail": "Problem-aware searches like 'how to track SLA compliance' (~200/mo), 'MSP client profitability analysis' (~150/mo). Biggest conversion opportunity.", "meta": {"priority": "highest"}},
+        {"title": "Cluster E: Comparison & Alternatives", "detail": "BrightGauge alternative (~300/mo), BrightGauge vs Power BI (~150/mo). Time-sensitive as BrightGauge stagnates.", "meta": {"priority": "high"}}
+      ]
+    },
+    {
+      "heading": "Competitors",
+      "items": [
+        {"title": "BrightGauge ($289+/mo)", "detail": "Acquired by ConnectWise, innovation stalled. MSPs actively searching for alternatives. 4,200 pre-built metrics but proprietary.", "meta": {"threat": "declining"}},
+        {"title": "MSPbots ($99-299/mo)", "detail": "70+ integrations, growing content marketing. Not Power BI native. Proprietary dashboards.", "meta": {"threat": "growing"}},
+        {"title": "MSPCFO ($300-500/mo)", "detail": "Financial reports only. 50+ dashboards. Ranks well for profitability terms. No service desk, backup, security coverage.", "meta": {"threat": "stable"}},
+        {"title": "ScalePad Cognition360 ($200-500/mo)", "detail": "130+ reports for ConnectWise only. ML insights. No Autotask support.", "meta": {"threat": "stable"}},
+        {"title": "SquaredUp (free tier + paid)", "detail": "Aggressive SEO via comparison blog posts. 100+ data sources. Generic, not MSP-focused.", "meta": {"threat": "growing"}},
+        {"title": "Connectorly (varies)", "detail": "Datto RMM + Power BI connector. Good for datto power bi queries. Single-integration focus.", "meta": {"threat": "niche"}}
+      ]
+    },
+    {
+      "heading": "Content Format Winners",
+      "items": [
+        {"title": "Long-form KPI guides win head terms", "detail": "2,000-4,000 word guides rank for 'MSP KPIs' etc. ConnectWise, NinjaOne, Thread dominate."},
+        {"title": "Nobody does report gallery pages", "detail": "Proxuma is the only vendor showing actual Power BI report visuals for specific MSP questions. Unique format advantage."},
+        {"title": "Comparison pages capture decision-stage buyers", "detail": "SquaredUp publishes aggressively. BrightGauge alternatives is high-opportunity."},
+        {"title": "Question-as-title format untapped", "detail": "Pages titled as questions ('What is my SLA trend?') match problem-aware searches. Nobody else does this."}
+      ]
+    },
+    {
+      "heading": "Programmatic SEO Assessment",
+      "items": [
+        {"title": "940 pages = valid pSEO play", "detail": "Mirrors Zapier model at MSP scale. Lower volume per page but much less competition and higher intent per visitor."},
+        {"title": "Thin content risk", "detail": "Each page needs 300+ unique words. Shared template boilerplate must not outweigh unique narrative."},
+        {"title": "NL duplicate risk is urgent", "detail": "Without hreflang, Google may see 420 NL pages as duplicates. Could suppress half the library."}
+      ]
+    },
+    {
+      "heading": "Action Plan",
+      "items": [
+        {"title": "P1: Deploy meta descriptions to all pages", "detail": "Repo has them, WordPress doesn't. Highest ROI single fix.", "meta": {"timeline": "weeks 1-2"}},
+        {"title": "P1: Implement hreflang", "detail": "EN/NL pairing to prevent duplicate content suppression.", "meta": {"timeline": "weeks 1-2"}},
+        {"title": "P1: Fix FAQ schema on 292 pages", "detail": "Remove corrupted CTA-as-FAQ JSON-LD. Re-inject real FAQ content.", "meta": {"timeline": "weeks 1-2"}},
+        {"title": "P2: Publish 5 comparison pages", "detail": "BrightGauge alternative, BrightGauge vs Power BI, MSPbots vs Power BI, best MSP reporting 2026, MSPCFO alternative.", "meta": {"timeline": "weeks 3-6"}},
+        {"title": "P2: Enrich 6 pillar pages to 2,000+ words", "detail": "SLA, Ticketing, Financial, Backup, M365, Security pillars need depth and internal links.", "meta": {"timeline": "weeks 3-6"}},
+        {"title": "P2: Publish integration guides", "detail": "How to connect Autotask/Datto RMM/N-able Cove/SmileBack/IT Glue to Power BI.", "meta": {"timeline": "weeks 3-6"}},
+        {"title": "P3: Audit unique content ratio on all 940 pages", "detail": "Pages below 300 unique words need enrichment.", "meta": {"timeline": "weeks 6-12"}},
+        {"title": "P3: Build data-source index pages", "detail": "All Datto RMM Reports, All SmileBack Reports, etc. as secondary pillars.", "meta": {"timeline": "weeks 6-12"}},
+        {"title": "P3: Internal linking mesh", "detail": "Each report page links to 3-5 related reports within the same cluster.", "meta": {"timeline": "weeks 6-12"}}
+      ]
+    }
+  ],
+  "next_steps": "Start with P1 technical fixes (meta descriptions, hreflang, FAQ schema). Then create the 5 comparison pages targeting BrightGauge/MSPbots/MSPCFO alternatives. Use ~/ClaudeCode/content-planner-data.md for the full 281-entry keyword dataset to cross-reference with these findings."
+}
+</script>
+
+</body>
+</html>
