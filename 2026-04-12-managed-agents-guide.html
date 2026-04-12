@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Managed Agents — What You Can Build</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1a1a1a; background: #f5f3f0; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 740px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, sans-serif;
+}
+.page-header .date { color: #a09888; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #a09888; text-decoration: none; border-bottom: 1px solid #dbd7d0; }
+.page-header .gh-link a:hover { color: #33302c; border-color: #33302c; }
+.page { max-width: 740px; margin: 12px auto 60px; background: #fff; border: 1px solid #dbd7d0; border-radius: 4px; padding: 48px 44px; }
+h1 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #33302c; margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: #8a847a; margin-bottom: 36px; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border: 1px solid #c8c2b8;
+  color: #6a645a; border-radius: 3px;
+}
+.tier-badge.t1 { background: #f0ece5; border-color: #b8a888; color: #7a6a4a; }
+.tier-badge.t2 { background: #eae8e5; border-color: #b0aaa0; color: #5a5850; }
+.tier-badge.t3 { background: #ede8e5; border-color: #baa898; color: #7a5a4a; }
+.tier-title { font-size: 16px; font-weight: 700; color: #33302c; }
+.card {
+  background: #faf9f7; border: 1px solid #e5e0d8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #c8a87a; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #33302c; margin-bottom: 1px; }
+.card-buyer { font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #a09888; margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: #5a564e; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; }
+.tag-pay { background: #f0ece5; color: #7a6a4a; border: 1px solid #d8ccb8; }
+.tag-dist { background: #f0edea; color: #8a847a; border: 1px solid #dbd7d0; }
+.tag-high { background: #edf3ea; color: #4a6b3e; border: 1px solid #b8ccae; }
+.tag-low { background: #f3eaea; color: #8a4a4a; border: 1px solid #ccb8b8; }
+.section-title {
+  font: 700 15px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6a645a; margin: 32px 0 14px;
+}
+.section-title::after { content: ''; display: block; width: 40px; height: 2px; background: #c8a87a; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+.matrix th {
+  text-align: left; padding: 9px 12px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .05em; color: #8a847a;
+  border-bottom: 1px solid #dbd7d0;
+}
+.matrix td { padding: 9px 12px; color: #5a564e; border-bottom: 1px solid #f0edea; }
+.bar { height: 5px; min-width: 80px; background: #ece8e2; border-radius: 2px; }
+.bar-fill { height: 100%; border-radius: 2px; }
+.bar-high .bar-fill { background: #c8a87a; }
+.bar-med .bar-fill { background: #bab4aa; }
+.positioning { background: #f0edea; border: 1px solid #dbd7d0; border-radius: 4px; padding: 24px; margin-top: 32px; }
+.positioning h2 { font-size: 17px; font-weight: 700; color: #33302c; margin-bottom: 8px; }
+.positioning > p { font-size: 14px; color: #5a564e; margin-bottom: 14px; }
+.callout {
+  background: #faf9f7; border-left: 2px solid #c8a87a; padding: 14px 18px;
+  margin: 16px 0; font-size: 14px; color: #5a564e;
+}
+.pos-steps { display: flex; gap: 10px; }
+.pos-step { flex: 1; background: #fff; border: 1px solid #dbd7d0; border-radius: 4px; padding: 14px; text-align: center; }
+.pos-num { font-size: 22px; font-weight: 800; color: #c8a87a; }
+.pos-label { font-size: 13px; font-weight: 700; color: #33302c; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #8a847a; }
+p { margin-bottom: 14px; font-size: 14px; color: #5a564e; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #5a564e; }
+li { margin-bottom: 6px; }
+li::marker { color: #c8a87a; }
+code { font-family: "SF Mono", "Menlo", monospace; font-size: 13px; background: #f0edea; padding: 2px 5px; border-radius: 3px; }
+pre { background: #f0edea; border-radius: 4px; padding: 16px 20px; margin: 14px 0; overflow-x: auto; font-family: "SF Mono", "Menlo", monospace; font-size: 13px; line-height: 1.7; color: #5a564e; }
+.prompt-block { background: #33302c; color: #e8e4de; border-radius: 4px; padding: 20px 24px; margin: 14px 0; overflow-x: auto; font-family: "SF Mono", "Menlo", monospace; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+.copy-btn { display: inline-block; background: #c8a87a; color: #fff; border: none; padding: 8px 16px; border-radius: 3px; font: 600 12px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; margin-top: 8px; }
+.copy-btn:hover { background: #b8986a; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">12 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-managed-agents-guide.html">View on GitHub</a></span>
+</div>
+<div class="page">
+
+<h1>Claude Managed Agents</h1>
+<p class="subtitle">What you can build, how it works, and a ready-to-paste setup prompt</p>
+
+<!-- ===== WHAT IT IS ===== -->
+<div class="section-title">What It Actually Is</div>
+<p>Managed Agents is Anthropic's hosted agent runtime. You define an agent config (model, tools, system prompt), point it at an environment (sandbox settings), and Anthropic runs the full agent loop for you. Each run is a "session" with its own container where bash, file ops, and code execution happen server-side. You just stream events and send messages.</p>
+
+<div class="callout">
+  <strong>The mental model:</strong> Agent (config, create once) + Environment (sandbox, create once) = Session (a run, create per task). You never manage infra. Anthropic handles the loop, the container, prompt caching, context compaction, and extended thinking.
+</div>
+
+<!-- ===== HOW IT FLOWS ===== -->
+<div class="section-title">The Flow</div>
+<div class="pos-steps">
+  <div class="pos-step">
+    <div class="pos-num">1</div>
+    <div class="pos-label">Create Agent</div>
+    <div class="pos-desc">Model + tools + system prompt. Versioned. Do this once.</div>
+  </div>
+  <div class="pos-step">
+    <div class="pos-num">2</div>
+    <div class="pos-label">Create Environment</div>
+    <div class="pos-desc">Sandbox config: networking, packages. Also once.</div>
+  </div>
+  <div class="pos-step">
+    <div class="pos-num">3</div>
+    <div class="pos-label">Start Session</div>
+    <div class="pos-desc">Mount repos/files, attach vaults, send messages, stream events.</div>
+  </div>
+</div>
+
+<!-- ===== WHAT YOU CAN BUILD ===== -->
+<div class="section-title">What You Can Build</div>
+
+<div class="tier">
+  <div class="tier-header">
+    <span class="tier-badge t1">Code Agents</span>
+    <span class="tier-title">Coding, PR Review, Refactoring</span>
+  </div>
+  <div class="card">
+    <div class="card-title">Autonomous Coding Agent</div>
+    <div class="card-buyer">Long-running, multi-file</div>
+    <div class="card-desc">Mount a GitHub repo, give a task ("implement feature X", "fix bug Y"), and the agent reads files, writes code, runs tests via bash, and pushes a branch. It has the full toolset: bash, read, write, edit, grep, glob.</div>
+    <div class="tags"><span class="tag tag-high">High Value</span><span class="tag tag-pay">GitHub Mount</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">PR Review Bot</div>
+    <div class="card-buyer">Event-triggered</div>
+    <div class="card-desc">On PR push (via webhook or cron), spin up a session with the repo mounted. Agent reads the diff, runs linters, checks for security issues, posts review comments via GitHub MCP server.</div>
+    <div class="tags"><span class="tag tag-pay">MCP: GitHub</span><span class="tag tag-dist">Vault Auth</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Migration Agent</div>
+    <div class="card-buyer">One-shot, high-complexity</div>
+    <div class="card-desc">Give it a codebase and say "migrate from Express to Hono" or "upgrade all dependencies to latest". It reads, plans, edits across files, and runs the test suite to verify.</div>
+    <div class="tags"><span class="tag tag-high">Complex Tasks</span></div>
+  </div>
+</div>
+
+<div class="tier">
+  <div class="tier-header">
+    <span class="tier-badge t2">Research Agents</span>
+    <span class="tier-title">Web Research, Analysis, Reports</span>
+  </div>
+  <div class="card">
+    <div class="card-title">Deep Research Agent</div>
+    <div class="card-buyer">Web search + web fetch + code execution</div>
+    <div class="card-desc">Give it a research question. It searches the web, fetches pages, extracts data, runs analysis in Python, and produces a structured report. All server-side, no local compute needed.</div>
+    <div class="tags"><span class="tag tag-pay">Web Search</span><span class="tag tag-dist">Code Execution</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Competitive Intelligence</div>
+    <div class="card-buyer">Scheduled / daily</div>
+    <div class="card-desc">Cron-triggered session that checks competitor sites, pricing pages, changelog posts. Compiles a daily brief and sends it via a custom tool (Slack webhook, email API, etc.).</div>
+    <div class="tags"><span class="tag tag-pay">Web Fetch</span><span class="tag tag-dist">Custom Tools</span></div>
+  </div>
+</div>
+
+<div class="tier">
+  <div class="tier-header">
+    <span class="tier-badge t3">Integration Agents</span>
+    <span class="tier-title">MCP-Powered Workflows</span>
+  </div>
+  <div class="card">
+    <div class="card-title">Project Management Agent</div>
+    <div class="card-buyer">MCP: Linear, Asana, Jira</div>
+    <div class="card-desc">Connect to your project management tool via MCP. Agent can triage issues, update statuses, create tickets from Slack messages, generate sprint reports. Credentials stored in vaults with auto-refresh.</div>
+    <div class="tags"><span class="tag tag-pay">MCP Toolset</span><span class="tag tag-dist">Vault Auth</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Data Pipeline Agent</div>
+    <div class="card-buyer">File upload + code execution + custom tools</div>
+    <div class="card-desc">Upload CSVs or connect to databases via custom tools. Agent cleans data, runs pandas/scikit-learn analysis, generates matplotlib visualizations, and writes output files you can download.</div>
+    <div class="tags"><span class="tag tag-high">File I/O</span><span class="tag tag-pay">Python Sandbox</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Multi-Service Orchestrator</div>
+    <div class="card-buyer">MCP: GitHub + Notion + Slack</div>
+    <div class="card-desc">Connect multiple MCP servers. Agent reads a Notion doc, creates GitHub issues from it, posts updates to Slack. Each service gets its own vault credential with OAuth auto-refresh.</div>
+    <div class="tags"><span class="tag tag-pay">Multi-MCP</span><span class="tag tag-dist">Multi-Vault</span></div>
+  </div>
+</div>
+
+<!-- ===== TOOLS REFERENCE ===== -->
+<div class="section-title">Built-In Tools</div>
+<table class="matrix">
+  <tr><th>Tool</th><th>What It Does</th><th>Runs On</th></tr>
+  <tr><td><code>bash</code></td><td>Execute shell commands</td><td>Container</td></tr>
+  <tr><td><code>read</code></td><td>Read files (text, images, PDFs, notebooks)</td><td>Container</td></tr>
+  <tr><td><code>write</code></td><td>Write files to the filesystem</td><td>Container</td></tr>
+  <tr><td><code>edit</code></td><td>String replacement in files</td><td>Container</td></tr>
+  <tr><td><code>glob</code></td><td>Fast file pattern matching</td><td>Container</td></tr>
+  <tr><td><code>grep</code></td><td>Regex text search across files</td><td>Container</td></tr>
+  <tr><td><code>web_search</code></td><td>Search the web</td><td>Anthropic</td></tr>
+  <tr><td><code>web_fetch</code></td><td>Fetch and parse a URL</td><td>Anthropic</td></tr>
+</table>
+
+<p style="margin-top: 14px;">All enabled with a single line: <code>{"type": "agent_toolset_20260401"}</code></p>
+
+<!-- ===== CAPABILITIES ===== -->
+<div class="section-title">Key Capabilities</div>
+
+<div class="card">
+  <div class="card-title">Custom Tools (Client-Side)</div>
+  <div class="card-desc">Define tools the agent can call, but YOUR app handles the execution. Agent fires <code>agent.custom_tool_use</code>, you respond with <code>user.custom_tool_result</code>. Good for keeping API keys on your side, calling internal services, or running actions that need human approval.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">MCP Server Integration</div>
+  <div class="card-desc">Connect to any MCP-compatible service (GitHub, Linear, Notion, Asana, Slack, etc.). Declare the server on the agent, store OAuth credentials in a vault, attach the vault to the session. Anthropic handles token refresh.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">GitHub Repository Mounting</div>
+  <div class="card-desc">Clone repos into the session container at startup. Agent can read, edit, commit, and push. For PR creation, also connect the GitHub MCP server. Multiple repos per session supported.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">File Upload and Download</div>
+  <div class="card-desc">Upload files via the Files API, mount them as session resources. Agent writes outputs to <code>/mnt/session/outputs/</code> which you can list and download after the session. Max 999 file resources per session.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Skills</div>
+  <div class="card-desc">Attach domain-specific expertise: pre-built (xlsx, docx, pptx, pdf) or custom skills you upload via the Skills API. Max 64 per agent. The agent loads them on-demand when relevant.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Permission Policies</div>
+  <div class="card-desc">Control tool execution: <code>always_allow</code> (auto-run) or <code>always_ask</code> (pause and wait for your approval before running). Applied per-tool for fine-grained control.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Agent Versioning</div>
+  <div class="card-desc">Every update to an agent config creates a new immutable version. Pin sessions to a specific version for reproducibility. Roll back if a prompt change regresses. A/B test versions side-by-side.</div>
+</div>
+
+<!-- ===== SDK SUPPORT ===== -->
+<div class="section-title">SDK Support</div>
+<table class="matrix">
+  <tr><th>Language</th><th>SDK</th><th>Tool Runner</th><th>Managed Agents</th></tr>
+  <tr><td>Python</td><td><code>pip install anthropic</code></td><td>Yes (beta)</td><td>Yes (beta)</td></tr>
+  <tr><td>TypeScript</td><td><code>npm install @anthropic-ai/sdk</code></td><td>Yes (beta)</td><td>Yes (beta)</td></tr>
+  <tr><td>Go</td><td><code>go get github.com/anthropics/anthropic-sdk-go</code></td><td>Yes (beta)</td><td>Yes (beta)</td></tr>
+  <tr><td>Java</td><td>Maven/Gradle</td><td>Yes (beta)</td><td>Yes (beta)</td></tr>
+  <tr><td>Ruby</td><td><code>gem install anthropic</code></td><td>Yes (beta)</td><td>Yes (beta)</td></tr>
+  <tr><td>PHP</td><td><code>composer require anthropic-ai/sdk</code></td><td>Yes (beta)</td><td>Yes (beta)</td></tr>
+  <tr><td>cURL</td><td>Raw HTTP</td><td>N/A</td><td>Yes (beta)</td></tr>
+</table>
+
+<!-- ===== PRICING ===== -->
+<div class="section-title">Pricing</div>
+<table class="matrix">
+  <tr><th>Model</th><th>Input $/1M</th><th>Output $/1M</th><th>Context</th></tr>
+  <tr><td>Claude Opus 4.6</td><td>$5.00</td><td>$25.00</td><td>200K (1M beta)</td></tr>
+  <tr><td>Claude Sonnet 4.6</td><td>$3.00</td><td>$15.00</td><td>200K (1M beta)</td></tr>
+  <tr><td>Claude Haiku 4.5</td><td>$1.00</td><td>$5.00</td><td>200K</td></tr>
+</table>
+<p style="margin-top: 10px;">Sessions include automatic prompt caching (reduces repeat token costs by up to 90%) and context compaction (handles long conversations automatically).</p>
+
+<!-- ===== IMPORTANT NOTES ===== -->
+<div class="section-title">Things to Know</div>
+<ul>
+  <li><strong>First-party only.</strong> Not available on Bedrock, Vertex, or Foundry. Direct Anthropic API only.</li>
+  <li><strong>Agent first, always.</strong> You must create an agent before creating a session. No inline agent config on the session.</li>
+  <li><strong>Create once, run many.</strong> Never call <code>agents.create()</code> per-request. Store the ID, reuse it.</li>
+  <li><strong>Stream first, send second.</strong> Open the SSE stream before sending messages, or you might miss early events.</li>
+  <li><strong>MCP auth goes through vaults.</strong> Credentials are stored separately, never inline on the agent config.</li>
+  <li><strong>Custom tool results are required.</strong> If the agent calls a custom tool, it blocks until you respond.</li>
+  <li><strong>Session outputs.</strong> Agent writes to <code>/mnt/session/outputs/</code>. Brief indexing lag (~1-3s) after idle before files appear in list.</li>
+</ul>
+
+<!-- ===== SETUP PROMPT ===== -->
+<div class="section-title">Setup Prompt for Next Claude Session</div>
+<p>Copy the prompt below and paste it into a new Claude Code session. It will walk you through creating your first Managed Agent end-to-end.</p>
+
+<div class="prompt-block" id="setup-prompt">I want to set up Claude Managed Agents. Here's what I need you to do:
+
+## Prerequisites
+1. Check if `anthropic` Python SDK is installed (`pip show anthropic`). If not, install it: `pip install anthropic`
+2. Verify my ANTHROPIC_API_KEY is set in the environment. If not, ask me for it.
+
+## What to Build
+Create a Python script at `~/ClaudeCode/managed-agents/setup.py` that does the ONE-TIME SETUP:
+- Creates an environment (unrestricted networking, named "proxuma-dev")
+- Creates an agent with:
+  - Name: "Proxuma Agent"
+  - Model: "claude-opus-4-6"
+  - Full agent toolset enabled (agent_toolset_20260401)
+  - System prompt: "You are a senior developer. Write clean, tested code. Explain your reasoning."
+- Prints the ENV_ID and AGENT_ID and saves them to `~/ClaudeCode/managed-agents/.env`
+
+Then create a separate runtime script at `~/ClaudeCode/managed-agents/run.py` that:
+- Loads ENV_ID and AGENT_ID from the .env file
+- Takes a task description as a CLI argument
+- Creates a session
+- Opens the SSE stream FIRST, then sends the user message
+- Streams agent output to stdout in real-time
+- Handles the idle/terminated break correctly (don't break on bare idle if stop_reason is requires_action)
+- Exits cleanly when done
+
+## Important API Details
+- Beta header: managed-agents-2026-04-01 (SDK handles this automatically via client.beta.*)
+- Agent config (model/system/tools) goes on agents.create(), NOT on sessions.create()
+- Session only takes agent ID + environment ID + optional resources/vault_ids
+- Stream events: agent.message (text output), session.status_idle (done or waiting), session.status_terminated (finished)
+- Use client.beta.agents.create(), client.beta.environments.create(), client.beta.sessions.create()
+- Use client.beta.sessions.stream() for SSE and client.beta.sessions.events.send() for messages
+
+## Also
+- Add a README.md explaining how to use both scripts
+- Make sure the scripts have proper error handling
+- Use `/claude-api` skill if available for accurate SDK patterns
+
+Run setup.py after creating it so I have my IDs ready to go.</div>
+
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('setup-prompt').textContent).then(()=>this.textContent='Copied!').catch(()=>this.textContent='Failed')">Copy Prompt</button>
+
+<!-- ===== QUICK REFERENCE ===== -->
+<div class="positioning">
+  <h2>Quick API Reference</h2>
+  <p>The four endpoints you'll use most:</p>
+  <table class="matrix" style="margin-bottom: 0;">
+    <tr><th>Action</th><th>SDK Call</th></tr>
+    <tr><td>Create agent</td><td><code>client.beta.agents.create(name, model, tools, system)</code></td></tr>
+    <tr><td>Create environment</td><td><code>client.beta.environments.create(name, config)</code></td></tr>
+    <tr><td>Start session</td><td><code>client.beta.sessions.create(agent, environment_id)</code></td></tr>
+    <tr><td>Send message</td><td><code>client.beta.sessions.events.send(session_id, events)</code></td></tr>
+    <tr><td>Stream events</td><td><code>client.beta.sessions.stream(session_id)</code></td></tr>
+    <tr><td>Get session files</td><td><code>client.beta.files.list(session_id=...)</code></td></tr>
+  </table>
+</div>
+
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Claude Managed Agents — What You Can Build",
+  "date": "2026-04-12",
+  "summary": "Overview of Claude Managed Agents: Anthropic's hosted agent runtime with server-side tool execution, MCP integration, GitHub repo mounting, and file I/O. Includes setup prompt for next session.",
+  "sections": [
+    {
+      "heading": "What It Is",
+      "items": [
+        {"title": "Hosted agent runtime", "detail": "Anthropic runs the agent loop and a sandboxed container per session. You define config, stream events.", "meta": {"status": "beta"}}
+      ]
+    },
+    {
+      "heading": "The Flow",
+      "items": [
+        {"title": "Agent (once)", "detail": "Model + tools + system prompt. Versioned, persisted.", "meta": {"step": 1}},
+        {"title": "Environment (once)", "detail": "Sandbox config: networking, packages.", "meta": {"step": 2}},
+        {"title": "Session (per run)", "detail": "Mount repos/files, attach vaults, send messages, stream events.", "meta": {"step": 3}}
+      ]
+    },
+    {
+      "heading": "Use Cases",
+      "items": [
+        {"title": "Autonomous Coding Agent", "detail": "Mount GitHub repo, give task, agent codes/tests/pushes.", "meta": {"category": "code"}},
+        {"title": "PR Review Bot", "detail": "Event-triggered review with GitHub MCP for posting comments.", "meta": {"category": "code"}},
+        {"title": "Deep Research Agent", "detail": "Web search + fetch + Python analysis, produces structured reports.", "meta": {"category": "research"}},
+        {"title": "Project Management Agent", "detail": "MCP integration with Linear/Asana/Jira for issue triage and reporting.", "meta": {"category": "integration"}},
+        {"title": "Data Pipeline Agent", "detail": "Upload CSVs, run pandas/sklearn analysis, download visualizations.", "meta": {"category": "data"}},
+        {"title": "Multi-Service Orchestrator", "detail": "Multiple MCP servers (GitHub + Notion + Slack) with vault-managed OAuth.", "meta": {"category": "integration"}}
+      ]
+    },
+    {
+      "heading": "Built-In Tools",
+      "items": [
+        {"title": "agent_toolset_20260401", "detail": "bash, read, write, edit, glob, grep, web_search, web_fetch. One line to enable all.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Key Capabilities",
+      "items": [
+        {"title": "Custom Tools", "detail": "Your app handles execution. Agent calls, you respond with results. Keeps API keys host-side.", "meta": {}},
+        {"title": "MCP Servers", "detail": "GitHub, Linear, Notion, Asana etc. OAuth credentials in vaults with auto-refresh.", "meta": {}},
+        {"title": "GitHub Mounting", "detail": "Clone repos into container. Read, edit, commit, push. PR creation via MCP.", "meta": {}},
+        {"title": "File I/O", "detail": "Upload via Files API, download from /mnt/session/outputs/. Max 999 files.", "meta": {}},
+        {"title": "Skills", "detail": "Domain expertise: xlsx, docx, pptx, pdf built-in. Custom skills via Skills API. Max 64.", "meta": {}},
+        {"title": "Permission Policies", "detail": "always_allow or always_ask per tool.", "meta": {}},
+        {"title": "Versioning", "detail": "Every agent update creates immutable version. Pin sessions, rollback, A/B test.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "SDK Support",
+      "items": [
+        {"title": "All major languages", "detail": "Python, TypeScript, Go, Java, Ruby, PHP, cURL. All have Managed Agents beta support.", "meta": {}}
+      ]
+    }
+  ],
+  "setup_prompt": "Included in the HTML. Contains full instructions for a next Claude session to create setup.py (one-time agent/env creation) and run.py (runtime session/stream) in ~/ClaudeCode/managed-agents/.",
+  "next_steps": "Copy the setup prompt from this doc, paste it into a new Claude Code session to get a working Managed Agent with Proxuma's config."
+}
+</script>
+</body>
+</html>
