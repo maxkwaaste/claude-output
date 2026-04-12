@@ -66,17 +66,15 @@ body.dark {
     var(--gold-400) 50%, var(--gold-500) 70%, var(--olive-dark) 100%);
 }
 
-/* ─── Roman olive branches ─── */
+/* ─── Roman olive wreath ─── */
 .olive-branches {
-  display: flex; justify-content: center; align-items: flex-start;
-  padding: 10px 0 0; gap: 6px; opacity: 0.4;
+  display: flex; justify-content: center; padding: 10px 0 0;
 }
-.olive-branches svg { width: 80px; height: 32px; }
-.olive-branches svg path { fill: var(--olive); }
-.olive-branches .dot {
-  width: 5px; height: 5px; border-radius: 50%; background: var(--gold-500);
-  margin-top: 12px; flex-shrink: 0;
+.olive-branches svg {
+  width: 400px; opacity: 0.25;
+  transform: scaleY(-1);
 }
+.olive-branches svg g { fill: var(--olive); }
 
 .page-wrap { max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
 
@@ -602,6 +600,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 -->
 <script type="application/json" id="index-data">
 [
+  {
+    "file": "2026-04-12-racism-deep-history.html",
+    "title": "The Invention of Racism -- A Deep History from Antiquity to the Cold War",
+    "date": "2026-04-12",
+    "summary": "Part II: cross-language Ngram data (5 languages), deep pre-history from Greek barbarians through limpieza de sangre to eugenics, etymology of 'racism' (French origin, 1894), and the role of Jewish intellectuals in constructing anti-racism post-Holocaust.",
+    "tags": ["Research", "Cultural History", "Corpus Linguistics", "Etymology"],
+    "type": "strategy",
+    "detail": "Extends Part I with three new dimensions: depth (3000-year arc from cultural chauvinism to biological race), breadth (synchronous 1933 spike across French/English/German/Spanish/Italian corpora), and agency (Boas, Hirschfeld, Montagu, Arendt, Adorno, Lemkin, Heschel and their documented roles in building the anti-racism framework). Includes Black-Jewish civil rights alliance data and the 1968 fracture."
+  },
   {
     "file": "2026-04-12-msp-powerbi-seo-landscape.html",
     "title": "MSP Power BI SEO Landscape Analysis",
