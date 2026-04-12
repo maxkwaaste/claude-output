@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VibeCoder Product Surface — Polar Model for MSPs</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1a1a1a; background: #f5f3f0; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 740px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, sans-serif;
+}
+.page-header .date { color: #a09888; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #a09888; text-decoration: none; border-bottom: 1px solid #dbd7d0; }
+.page-header .gh-link a:hover { color: #33302c; border-color: #33302c; }
+.page { max-width: 740px; margin: 12px auto 60px; background: #fff; border: 1px solid #dbd7d0; border-radius: 4px; padding: 48px 44px; }
+h1 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #33302c; margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: #8a847a; margin-bottom: 36px; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border: 1px solid #c8c2b8;
+  color: #6a645a; border-radius: 3px;
+}
+.tier-badge.t1 { background: #f0ece5; border-color: #b8a888; color: #7a6a4a; }
+.tier-badge.t2 { background: #eae8e5; border-color: #b0aaa0; color: #5a5850; }
+.tier-badge.t3 { background: #ede8e5; border-color: #baa898; color: #7a5a4a; }
+.tier-title { font-size: 16px; font-weight: 700; color: #33302c; }
+.card {
+  background: #faf9f7; border: 1px solid #e5e0d8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #c8a87a; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #33302c; margin-bottom: 1px; }
+.card-buyer { font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #a09888; margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: #5a564e; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; }
+.tag-pay { background: #f0ece5; color: #7a6a4a; border: 1px solid #d8ccb8; }
+.tag-dist { background: #f0edea; color: #8a847a; border: 1px solid #dbd7d0; }
+.section-title {
+  font: 700 15px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6a645a; margin: 32px 0 14px;
+}
+.section-title::after { content: ''; display: block; width: 40px; height: 2px; background: #c8a87a; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+.matrix th {
+  text-align: left; padding: 9px 12px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .05em; color: #8a847a;
+  border-bottom: 1px solid #dbd7d0;
+}
+.matrix td { padding: 9px 12px; color: #5a564e; border-bottom: 1px solid #f0edea; }
+.bar { height: 5px; min-width: 80px; background: #ece8e2; border-radius: 2px; }
+.bar-fill { height: 100%; border-radius: 2px; }
+.bar-high .bar-fill { background: #c8a87a; }
+.bar-med .bar-fill { background: #bab4aa; }
+.positioning { background: #f0edea; border: 1px solid #dbd7d0; border-radius: 4px; padding: 24px; margin-top: 32px; }
+.positioning h2 { font-size: 17px; font-weight: 700; color: #33302c; margin-bottom: 8px; }
+.positioning > p { font-size: 14px; color: #5a564e; margin-bottom: 14px; }
+.pos-steps { display: flex; gap: 10px; }
+.pos-step { flex: 1; background: #fff; border: 1px solid #dbd7d0; border-radius: 4px; padding: 14px; text-align: center; }
+.pos-num { font-size: 22px; font-weight: 800; color: #c8a87a; }
+.pos-label { font-size: 13px; font-weight: 700; color: #33302c; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #8a847a; }
+p { margin-bottom: 14px; font-size: 14px; color: #5a564e; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="date">12 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-vibecoder-product-surface.html">View on GitHub</a></span>
+</div>
+
+<div class="page">
+
+<h1>VibeCoder Product Surface</h1>
+<p class="subtitle">Replicating the Polar Analytics model for MSPs -- what to build beyond reports and dashboards</p>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t1">Tier 1</span><span class="tier-title">Near-Term -- you're almost there</span></div>
+  <div class="card"><div class="card-title">QBR Generator</div><div class="card-buyer">Buyer: Owner / Account Manager</div><div class="card-desc">Every MSP dreads Quarterly Business Reviews. Hours pulling screenshots, copying into PowerPoint. You already generate prompt-based reports from live data. A QBR is a specific template with client-facing language, trend comparisons, and recommendations. MSPs would pay for this alone.</div><div class="tags"><span class="tag tag-pay">WTP: Very High</span><span class="tag tag-dist">Build: Short</span></div></div>
+  <div class="card"><div class="card-title">Client Portal (white-labeled)</div><div class="card-buyer">Buyer: Owner (resells to their clients)</div><div class="card-desc">MSPs serve clients who want to see their own data. A read-only branded portal where the end-client sees ticket stats, SLA compliance, asset inventory. The MSP resells it as "our client portal" with their logo. You already have the data, anonymization, and Flask API. The portal is a frontend skin on what exists.</div><div class="tags"><span class="tag tag-pay">WTP: High</span><span class="tag tag-dist">Build: Medium</span></div></div>
+  <div class="card"><div class="card-title">Scheduled Reports (email delivery)</div><div class="card-buyer">Buyer: Ops Manager</div><div class="card-desc">"Every Monday at 8am, send my top 10 clients a PDF summary of last week." A weekly PDF landing in the client's inbox is proof-of-value on autopilot. Simple to build, massive retention effect.</div><div class="tags"><span class="tag tag-pay">WTP: Medium</span><span class="tag tag-dist">Build: Short</span></div></div>
+</div>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t2">Tier 2</span><span class="tier-title">Medium-Term -- new logic, same data</span></div>
+  <div class="card"><div class="card-title">Profitability Engine</div><div class="card-buyer">Buyer: Owner / CFO</div><div class="card-desc">Most MSPs can't answer "is Client X profitable?" because the answer lives across contract value, time entries, and tool costs. Your semantic layer already joins these. A profitability view per client, per contract, per technician -- that's a product line, not a feature.</div><div class="tags"><span class="tag tag-pay">WTP: Very High</span><span class="tag tag-dist">Build: Medium</span></div></div>
+  <div class="card"><div class="card-title">Benchmarking (anonymous, cross-tenant)</div><div class="card-buyer">Buyer: Owner</div><div class="card-desc">"Your MTTR is 4.2 hours. MSPs your size average 2.8." Network-effect product -- gets better with every customer. MSPs are obsessed with peer comparison. The anonymization layer is already built. This becomes the moat that's impossible to replicate without scale.</div><div class="tags"><span class="tag tag-pay">WTP: High</span><span class="tag tag-dist">Build: Medium-Long</span></div></div>
+  <div class="card"><div class="card-title">Ask VibeCoder (natural language query)</div><div class="card-buyer">Buyer: Everyone</div><div class="card-desc">MSP owner types "which technician closed the most tickets last month" and gets an instant answer with a visual. The owner, the sales guy, the ops manager -- none of them write SQL. Your query_engine.py is the skeleton. The real version is semantic, not keyword-based.</div><div class="tags"><span class="tag tag-pay">WTP: Medium</span><span class="tag tag-dist">Build: Medium</span></div></div>
+</div>
+
+<div class="tier"><div class="tier-header"><span class="tier-badge t3">Tier 3</span><span class="tier-title">Longer-Term -- new capabilities</span></div>
+  <div class="card"><div class="card-title">Alert Engine (anomaly detection)</div><div class="card-buyer">Buyer: Ops Manager</div><div class="card-desc">"Client X ticket volume spiked 280% this week." "Contract Z expires in 14 days." Proactive notifications to email, Teams, or Slack. Turns VibeCoder from something you look at into something that talks to you.</div><div class="tags"><span class="tag tag-pay">WTP: High</span><span class="tag tag-dist">Build: Medium</span></div></div>
+  <div class="card"><div class="card-title">Sales Intelligence / Expansion Revenue</div><div class="card-buyer">Buyer: Sales / Owner</div><div class="card-desc">"Client X has 120 endpoints but a 50-endpoint contract." Or: "Client Y hasn't bought security stack -- 80% of similar clients have it." Crosses from operations tool into revenue tool. Changes the buyer from ops manager to owner.</div><div class="tags"><span class="tag tag-pay">WTP: Very High</span><span class="tag tag-dist">Build: Long</span></div></div>
+  <div class="card"><div class="card-title">Write-Back / Activate</div><div class="card-buyer">Buyer: Ops Manager</div><div class="card-desc">Push insights back INTO the PSA. Auto-tag at-risk clients. Auto-create a task when an SLA is about to breach. Auto-flag renewals. Turns VibeCoder from read-only analytics into an operational layer. This is what Polar calls "Activate."</div><div class="tags"><span class="tag tag-pay">WTP: High</span><span class="tag tag-dist">Build: Long</span></div></div>
+</div>
+
+<h2 class="section-title">Summary Matrix</h2>
+<table class="matrix">
+  <tr><th>Product</th><th>Buyer</th><th>WTP</th><th>Build</th></tr>
+  <tr><td>QBR Generator</td><td>Owner / Account Mgr</td><td><div class="bar bar-high"><div class="bar-fill" style="width:95%"></div></div></td><td>Short</td></tr>
+  <tr><td>Client Portal</td><td>Owner</td><td><div class="bar bar-high"><div class="bar-fill" style="width:80%"></div></div></td><td>Medium</td></tr>
+  <tr><td>Scheduled Reports</td><td>Ops Manager</td><td><div class="bar bar-med"><div class="bar-fill" style="width:55%"></div></div></td><td>Short</td></tr>
+  <tr><td>Profitability Engine</td><td>Owner / CFO</td><td><div class="bar bar-high"><div class="bar-fill" style="width:90%"></div></div></td><td>Medium</td></tr>
+  <tr><td>Benchmarking</td><td>Owner</td><td><div class="bar bar-high"><div class="bar-fill" style="width:75%"></div></div></td><td>Med-Long</td></tr>
+  <tr><td>Ask VibeCoder</td><td>Everyone</td><td><div class="bar bar-med"><div class="bar-fill" style="width:55%"></div></div></td><td>Medium</td></tr>
+  <tr><td>Alert Engine</td><td>Ops Manager</td><td><div class="bar bar-med"><div class="bar-fill" style="width:70%"></div></div></td><td>Medium</td></tr>
+  <tr><td>Sales Intelligence</td><td>Sales / Owner</td><td><div class="bar bar-high"><div class="bar-fill" style="width:90%"></div></div></td><td>Long</td></tr>
+  <tr><td>Write-Back</td><td>Ops Manager</td><td><div class="bar bar-med"><div class="bar-fill" style="width:70%"></div></div></td><td>Long</td></tr>
+</table>
+
+<div class="positioning">
+  <h2>Positioning: The Analytics OS for MSPs</h2>
+  <p>Not "better reports." A platform. Same playbook as Polar, different vertical.</p>
+  <div class="pos-steps">
+    <div class="pos-step"><div class="pos-num">1</div><div class="pos-label">Connect</div><div class="pos-desc">Connectors + semantic layer (building now)</div></div>
+    <div class="pos-step"><div class="pos-num">2</div><div class="pos-label">Understand</div><div class="pos-desc">Reports, dashboards, QBRs, NL query (partially built)</div></div>
+    <div class="pos-step"><div class="pos-num">3</div><div class="pos-label">Act</div><div class="pos-desc">Alerts, sales intel, write-back (future)</div></div>
+  </div>
+</div>
+
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "VibeCoder Product Surface",
+  "date": "2026-04-12",
+  "summary": "Maps 9 product opportunities for VibeCoder using the Polar Analytics playbook, organized in 3 tiers by build distance from current capabilities.",
+  "sections": [
+    {
+      "heading": "Tier 1 — Near-Term",
+      "items": [
+        { "title": "QBR Generator", "detail": "Auto-generate Quarterly Business Reviews from live Power BI data. Template with client-facing language, trends, recommendations.", "meta": { "buyer": "Owner / Account Manager", "wtp": "Very High", "build": "Short" } },
+        { "title": "Client Portal (white-labeled)", "detail": "Read-only branded portal for MSP end-clients. Ticket stats, SLA, assets. Frontend skin on existing data + anonymization + Flask API.", "meta": { "buyer": "Owner", "wtp": "High", "build": "Medium" } },
+        { "title": "Scheduled Reports", "detail": "Weekly PDF email delivery to top clients. Proof-of-value on autopilot, massive retention effect.", "meta": { "buyer": "Ops Manager", "wtp": "Medium", "build": "Short" } }
+      ]
+    },
+    {
+      "heading": "Tier 2 — Medium-Term",
+      "items": [
+        { "title": "Profitability Engine", "detail": "Per-client, per-contract, per-technician profitability. Joins contract value, time entries, tool costs via semantic layer.", "meta": { "buyer": "Owner / CFO", "wtp": "Very High", "build": "Medium" } },
+        { "title": "Benchmarking", "detail": "Anonymous cross-tenant comparison. Network-effect moat. Anonymization layer already built.", "meta": { "buyer": "Owner", "wtp": "High", "build": "Medium-Long" } },
+        { "title": "Ask VibeCoder", "detail": "Natural language query interface. Skeleton exists in query_engine.py. Needs semantic upgrade.", "meta": { "buyer": "Everyone", "wtp": "Medium", "build": "Medium" } }
+      ]
+    },
+    {
+      "heading": "Tier 3 — Longer-Term",
+      "items": [
+        { "title": "Alert Engine", "detail": "Anomaly detection with proactive notifications to email/Teams/Slack. Turns VibeCoder from pull to push.", "meta": { "buyer": "Ops Manager", "wtp": "High", "build": "Medium" } },
+        { "title": "Sales Intelligence", "detail": "Expansion revenue signals: endpoint mismatches, missing security stacks. Crosses from ops tool to revenue tool.", "meta": { "buyer": "Sales / Owner", "wtp": "Very High", "build": "Long" } },
+        { "title": "Write-Back / Activate", "detail": "Push insights back into PSA. Auto-tag at-risk clients, auto-create tasks on SLA breach. Operational layer.", "meta": { "buyer": "Ops Manager", "wtp": "High", "build": "Long" } }
+      ]
+    }
+  ],
+  "positioning": "Analytics OS for MSPs. Not better reports — a platform. Connect (semantic layer) → Understand (reports, QBRs, NL query) → Act (alerts, sales intel, write-back).",
+  "next_steps": "Pick a Tier 1 product to build first. QBR Generator has highest WTP and shortest build distance. Client Portal requires frontend work but has strong resale potential."
+}
+</script>
+</body>
+</html>
