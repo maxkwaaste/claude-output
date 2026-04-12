@@ -575,6 +575,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-12-m1-pro-chrome-dns-deep-research.html",
+    "title": "M1 Pro Chrome DNS -- Root Cause & Fix Plan",
+    "date": "2026-04-12T22:30",
+    "summary": "Chrome, curl and Python all time out on DNS while Safari works. Root cause: Tailscale's IPNExtension has been a zombie for 12 days -- tunnel forwards, localapi dead, 100.100.100.100 no longer answers but still holds resolver #1.",
+    "tags": ["Infrastructure", "Tailscale", "DNS", "M1 Pro"],
+    "type": "guide",
+    "detail": "Live SSH forensics confirm: Tailscale daemon refuses localapi on port 59695 while WireGuard on utun4 still forwards traffic. macOS resolver order 111600 sends every getaddrinfo call to the dead forwarder. Safari survives because Network.framework queries resolvers in parallel; Chrome/curl/Python serialize via getaddrinfo and block on timeout. Five fix options ranked by safety, top pick: disable 'Override local DNS' from Tailscale admin console without touching the M1 Pro."
+  },
+  {
     "file": "2026-04-12-dax-truthifier-design.html",
     "title": "DAX Truthifier -- Pipeline Design for 872 Power BI Reports",
     "date": "2026-04-12T21:00",

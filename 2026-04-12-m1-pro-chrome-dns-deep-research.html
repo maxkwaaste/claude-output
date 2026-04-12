@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M1 Pro Chrome DNS -- Root Cause &amp; Fix Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.92); margin-bottom: 0; font-size: 14px; }
+.positioning .callout-label { color: #c8a87a; }
+.tier { margin-bottom: 20px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e6f4ea; border: 1px solid #8ac8a0; color: #1a6b3a; }
+.tier-badge.t2 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-badge.t3 { background: #fde8e8; border: 1px solid #d8a0a0; color: #8a2a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 4px; }
+.card-desc { font-size: 13.5px; color: #4a5568; line-height: 1.55; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 12.5px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 14px 18px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 12.5px; line-height: 1.65;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">2026-04-12</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-m1-pro-chrome-dns-deep-research.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Infrastructure Forensics</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 12, 2026<br>Incident Report<br>M1 Pro / Tailscale
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Deep Research &mdash; DNS Resolution Failure</div>
+  <h1>M1 Pro Chrome is broken because Tailscale's daemon is a zombie</h1>
+  <p class="subtitle">The WireGuard tunnel is alive (SSH works), but the Tailscale local daemon API has been dead for long enough that its DNS forwarder at 100.100.100.100 no longer answers. macOS still lists it as resolver #1, so every hostname lookup hits it first and times out.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">67091</div>
+      <div class="stat-label">IPNExtension PID (zombie)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">111600</div>
+      <div class="stat-label">Tailscale resolver priority</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12 days</div>
+      <div class="stat-label">Since daemon last restarted</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">47ms</div>
+      <div class="stat-label">curl works when DNS bypassed</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <span class="callout-label">Bottom line</span>
+    <h2>The problem is not Chrome. It is not Surfshark. It is not Glide.</h2>
+    <p>Tailscale's IPNExtension has been running for 12 days in a state where the WireGuard data plane still forwards packets (so the tunnel, and therefore SSH from the M4 Air, keeps working) but the control-plane localapi socket at <code style="background:rgba(255,255,255,.12);color:#fff">127.0.0.1:59695</code> refuses connections. That same daemon advertised itself to macOS as resolver #1 with order 111600 before it died. Every process that goes through <code style="background:rgba(255,255,255,.12);color:#fff">getaddrinfo()</code> (Chrome, curl, Python) blocks on the dead forwarder. Safari bypasses it using Network.framework's parallel resolver, which is why only Safari works. Fix Tailscale and everything else fixes itself.</p>
+  </div>
+
+  <h2>Evidence captured live from the M1 Pro</h2>
+
+  <h3>The daemon is half-dead</h3>
+  <pre>$ tailscale status
+failed to connect to local tailscaled (which appears to be
+running as IPNExtension, pid 67091). Got error: Failed to
+connect to local Tailscale daemon for /localapi/v0/status;
+not running? Error: dial tcp 127.0.0.1:59695:
+connect: connection refused</pre>
+  <p>The GUI process (pid 67084) and the extension (pid 67091) are both running, both started 2026-03-31, both burning ~140MB each. The tunnel interface <code>utun4</code> is still <code>UP</code> with IP <code>100.85.64.20</code>. But the localapi listener is gone, so nothing (not even <code>tailscale set --accept-dns=false</code>) can talk to it.</p>
+
+  <h3>Resolver ordering confirms the trap</h3>
+  <pre>resolver #1  -> 100.100.100.100 (Tailscale)    order 111600  TIMES OUT
+resolver #2  -> 130.43.187.40   (Glide ISP)    order 200000  &lt;1ms
+resolver #3  -> 100.100.100.100 (Tailscale)    order 111601  TIMES OUT
+WiFi configured: 1.1.1.1 / 1.0.0.1 (invisible, suppressed by Tailscale)</pre>
+  <p>Lower order = higher priority. Resolver #1 is marked <code>Supplemental</code> with no search-domain restriction, so macOS sends every query to it first. The WiFi-configured Cloudflare DNS never appears in the active resolver list because Tailscale's accept-dns has replaced it.</p>
+
+  <h3>DNS works when you pick the server, fails when you don't</h3>
+  <table class="matrix">
+    <thead><tr><th>Test</th><th>Method</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>dig @100.100.100.100 google.com</code></td><td>Direct to Tailscale</td><td><strong>timeout</strong></td></tr>
+      <tr><td><code>dig @130.43.187.40 google.com</code></td><td>Direct to Glide</td><td>resolves instantly</td></tr>
+      <tr><td><code>dig @1.1.1.1 google.com</code></td><td>Direct to Cloudflare</td><td>resolves instantly</td></tr>
+      <tr><td><code>dig google.com</code> (system)</td><td>Via resolv.conf</td><td><strong>timeout</strong></td></tr>
+      <tr><td><code>python3 socket.getaddrinfo</code></td><td>Via mDNSResponder</td><td><strong>timeout (5s)</strong></td></tr>
+      <tr><td><code>curl https://142.250.140.101</code></td><td>DNS bypassed (raw IP)</td><td><strong>HTTP 301 in 58ms</strong></td></tr>
+      <tr><td><code>curl --resolve google.com:443:142...</code></td><td>DNS bypassed (resolve flag)</td><td><strong>HTTP 301 in 47ms</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Conclusion</span>
+    Network connectivity is perfect. TCP to port 443 on arbitrary public IPs completes in under 60ms. The ONLY thing broken is hostname-to-IP translation, and only for processes that use the standard system resolver chain. This fully explains why Chrome, curl, and Python all fail identically while Safari is fine.
+  </div>
+
+  <h2>Why the earlier fixes had no effect</h2>
+
+  <div class="card">
+    <div class="card-title">Killing OrbStack freed RAM but did not touch DNS</div>
+    <div class="card-desc">OrbStack was a memory-pressure red herring. The DNS daemon had already died hours earlier. Memory is still tight (2.8GB swap used) but that is a separate problem.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Flushing mDNSResponder only invalidates the cache</div>
+    <div class="card-desc"><code>dscacheutil -flushcache</code> plus <code>killall -HUP mDNSResponder</code> drops cached entries. It does not change the resolver priority list, so the next query still goes to the dead Tailscale forwarder.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Passing the captive portal fixed Safari's trust, not the resolver</div>
+    <div class="card-desc">The Glide captive portal gate only had to be unlocked once for the network to allow egress. That is why Safari started working. Chrome's problem is upstream of egress.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Disabling Chrome's built-in DNS made things slightly worse</div>
+    <div class="card-desc"><code>BuiltInDnsClientEnabled = false</code> forces Chrome to use the C library resolver (<code>getaddrinfo</code>), which strictly honours resolver priority. Chrome's own resolver might have timed out faster and tried a fallback. Turning it off guarantees Chrome walks into the same trap as curl and Python.</div>
+  </div>
+
+  <h2>Why Safari is the only survivor</h2>
+  <p>Safari does not go through <code>getaddrinfo</code>. It uses Apple's Network.framework (<code>nw_resolver_*</code>), which runs parallel queries to every configured resolver and returns whichever answers first. Tailscale's dead forwarder never answers, so Safari simply uses Glide's answer a few milliseconds later without waiting. Chrome, curl, and <code>python3 socket.getaddrinfo</code> all funnel through <code>mDNSResponder</code> via the legacy resolver API, which serializes queries and waits for each timeout.</p>
+
+  <h2>Fix options, ranked by safety and completeness</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Safest</span>
+      <span class="tier-title">Option 1 &mdash; Disable MagicDNS from the Tailscale admin console</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">Open <a href="https://login.tailscale.com/admin/dns">login.tailscale.com/admin/dns</a> on the M4 Air. Toggle off &ldquo;Override local DNS&rdquo; (and/or MagicDNS). The config propagates to the M1 Pro through the still-working data plane without needing the local daemon API to respond. SSH stays up because we touch nothing on the M1 Pro. After it takes effect, run <code>dscacheutil -flushcache &amp;&amp; sudo killall -HUP mDNSResponder</code> over SSH. This is the cleanest fix short of a full restart.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Clean</span>
+      <span class="tier-title">Option 2 &mdash; Restart the Tailscale app via a background trigger</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">SSH will drop for ~10-20 seconds while the WireGuard tunnel renegotiates. Use a detached command so the restart does not depend on the SSH session staying alive: <code>nohup sh -c 'osascript -e &quot;tell application \&quot;Tailscale\&quot; to quit&quot;; sleep 6; open -a Tailscale' &gt;/tmp/ts-restart.log 2&gt;&amp;1 &amp;</code>. After ~20 seconds the M1 Pro should be reachable again on <code>100.85.64.20</code> and the daemon will have a working localapi and a working forwarder.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Workaround</span>
+      <span class="tier-title">Option 3 &mdash; Chrome DNS-over-HTTPS</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">In Chrome on the M1 Pro: <code>chrome://settings/security</code> &rarr; &ldquo;Use secure DNS&rdquo; &rarr; &ldquo;With: Cloudflare (1.1.1.1)&rdquo;. DoH resolves hostnames over HTTPS to an IP (1.1.1.1) that needs no DNS itself, so Chrome stops caring about the broken system resolver. Fixes Chrome only; curl and Python stay broken. Good as a same-minute unblock while you plan one of the real fixes.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Workaround</span>
+      <span class="tier-title">Option 4 &mdash; Network Preferences DNS override</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">System Settings &rarr; Network &rarr; Wi-Fi &rarr; Details &rarr; DNS, set <code>1.1.1.1, 1.0.0.1, 130.43.187.40</code>. This <em>may</em> not help on its own because Tailscale's supplemental resolver sits at order 111600 and still gets queried first. Worth trying because it takes 10 seconds, but do not count on it.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Risky</span>
+      <span class="tier-title">Option 5 &mdash; Kill the IPNExtension process directly</span>
+    </div>
+    <div class="card">
+      <div class="card-desc"><code>kill 67091</code>. The WireGuard tunnel collapses instantly, SSH disconnects mid-command, and you have to hope Tailscale auto-relaunches cleanly. If you are not physically at the M1 Pro (you are not, you are on the M4 Air), do not choose this. Only useful if Option 2 also fails.</div>
+    </div>
+  </div>
+
+  <h2>Recommended sequence</h2>
+  <ol>
+    <li>Flip &ldquo;Override local DNS&rdquo; off on the Tailscale admin console (Option 1).</li>
+    <li>Wait 30 seconds, then over SSH: <code>sudo dscacheutil -flushcache &amp;&amp; sudo killall -HUP mDNSResponder</code>.</li>
+    <li>Test: <code>curl -s -o /dev/null -w 'HTTP %{http_code} %{time_total}s\n' --connect-timeout 5 https://google.com</code>. If it returns 301 in under a second, DNS is healed.</li>
+    <li>If it still fails, fall back to Option 2 (background restart of Tailscale). Wait 20 seconds before retrying SSH.</li>
+    <li>Once Chrome works again, consider re-enabling accept-dns later only if you actually rely on MagicDNS short names. You don't, as far as I can see from your workflow.</li>
+    <li>Separately: schedule a weekly restart of Tailscale.app via <code>launchd</code> to prevent the daemon from zombifying again. 12 days is long enough that this is likely recurring.</li>
+  </ol>
+
+  <h2>Memory footnote</h2>
+  <p>Swap is at 2.8GB of 4GB, 98K free pages (~1.5GB free). Better than the 660MB free starting point but still bad. Both Tailscale processes together hold ~250MB; Surfshark holds ~140MB in userspace plus a system extension. A Tailscale restart will transiently free its committed pages. After the DNS fix, consider quitting Surfshark too unless you actively need it, and consider a reboot if swap stays stuck above 2GB.</p>
+
+  <div class="callout">
+    <span class="callout-label">Open question for follow-up</span>
+    Whether Tailscale 1.x on macOS has a known bug where the localapi socket can die while the Packet Tunnel Provider keeps forwarding. If it does, a weekly launchd restart is the right mitigation; if not, file a bug report with the output of <code>log show --predicate 'subsystem == &quot;io.tailscale.ipn.macsys&quot;'</code> for 2026-04-01 through today.
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code &mdash; Infrastructure Forensics</span>
+    <span>Page 1 of 1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "M1 Pro Chrome DNS -- Root Cause & Fix Plan",
+  "date": "2026-04-12",
+  "summary": "Root cause identified: Tailscale's IPNExtension has been running 12 days in a zombie state. WireGuard data plane forwards packets (SSH works) but localapi socket (127.0.0.1:59695) refuses connections and the MagicDNS forwarder at 100.100.100.100 no longer answers. macOS still lists Tailscale as resolver #1 order 111600, so every getaddrinfo call blocks on it. Safari works only because it uses Network.framework's parallel resolver that routes around the dead forwarder. Curl, Chrome, Python all fail identically.",
+  "evidence": {
+    "tailscale_daemon": "CLI cannot reach local daemon (connection refused on port 59695), extension PID 67091 still running since 2026-03-31",
+    "tunnel_status": "utun4 UP with IP 100.85.64.20, WireGuard forwarding functional",
+    "resolver_order": "resolver #1 Tailscale 100.100.100.100 order 111600 TIMES OUT; resolver #2 Glide 130.43.187.40 order 200000 works",
+    "dns_tests": "dig @100.100.100.100 timeout; dig @130.43.187.40 instant; dig @1.1.1.1 instant; system dig timeout; python getaddrinfo timeout at 5s",
+    "connectivity": "curl to raw IP 142.250.140.101 returns HTTP 301 in 58ms -- TCP/egress perfect, only DNS broken",
+    "chrome_prefs": "BuiltInDnsClientEnabled=0 (actually makes it worse, forces getaddrinfo path)",
+    "wifi_dns": "Configured 1.1.1.1/1.0.0.1 suppressed by Tailscale accept-dns",
+    "memory": "swap 2.8GB/4GB used, 98K pages free (~1.5GB)"
+  },
+  "why_safari_works": "Safari uses Apple's Network.framework (nw_resolver_*) which queries all configured resolvers in parallel and returns the first response. Dead Tailscale resolver never answers, Glide answers in <1ms. Chrome/curl/Python go through getaddrinfo which serializes queries and waits for timeouts.",
+  "fix_options_ranked": [
+    {"rank": 1, "name": "Disable MagicDNS from Tailscale admin console", "risk": "safest", "notes": "Toggle 'Override local DNS' off at login.tailscale.com/admin/dns from the M4 Air. Propagates via still-working data plane. No SSH disruption. Then flush mDNSResponder."},
+    {"rank": 2, "name": "Restart Tailscale.app via detached nohup", "risk": "clean but 20s SSH drop", "command": "nohup sh -c 'osascript -e \"tell application \\\"Tailscale\\\" to quit\"; sleep 6; open -a Tailscale' >/tmp/ts-restart.log 2>&1 &"},
+    {"rank": 3, "name": "Chrome DoH (chrome://settings/security)", "risk": "fixes Chrome only", "notes": "Set secure DNS to Cloudflare 1.1.1.1 -- doesn't fix curl/Python but same-minute Chrome unblock"},
+    {"rank": 4, "name": "System Wi-Fi DNS override", "risk": "may not help", "notes": "Tailscale supplemental still has higher priority"},
+    {"rank": 5, "name": "kill 67091", "risk": "dangerous remotely", "notes": "Drops SSH instantly, only if Option 2 fails"}
+  ],
+  "recommended_sequence": [
+    "1. Disable 'Override local DNS' at login.tailscale.com/admin/dns",
+    "2. Over SSH: sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder",
+    "3. Test: curl --connect-timeout 5 https://google.com -- expect HTTP 301 in <1s",
+    "4. Fallback: nohup Tailscale restart (Option 2), wait 20s, reconnect SSH",
+    "5. Long-term: schedule weekly Tailscale.app restart via launchd to prevent zombie daemon"
+  ],
+  "machine": "M1 Pro Maxs-Laptop.local 100.85.64.20",
+  "input_doc": "~/ClaudeCode/claude-output/m1-pro-chrome-dns-debug.md",
+  "next_steps": "Execute Option 1 first. If admin console access is unavailable or toggle has no effect, execute Option 2. Capture log show --predicate 'subsystem == \"io.tailscale.ipn.macsys\"' for 2026-04-01 through today if zombie recurs."
+}
+</script>
+</body>
+</html>
