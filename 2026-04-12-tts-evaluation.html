@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code TTS Evaluation - 8 Methods Tested</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1a1a1a; background: #f5f3f0; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 740px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, sans-serif;
+}
+.page-header .date { color: #a09888; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #a09888; text-decoration: none; border-bottom: 1px solid #dbd7d0; }
+.page-header .gh-link a:hover { color: #33302c; border-color: #33302c; }
+.page { max-width: 740px; margin: 12px auto 60px; background: #fff; border: 1px solid #dbd7d0; border-radius: 4px; padding: 48px 44px; }
+h1 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #33302c; margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: #8a847a; margin-bottom: 36px; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border: 1px solid #c8c2b8;
+  color: #6a645a; border-radius: 3px;
+}
+.tier-badge.t1 { background: #f0ece5; border-color: #b8a888; color: #7a6a4a; }
+.tier-badge.t2 { background: #eae8e5; border-color: #b0aaa0; color: #5a5850; }
+.tier-badge.t3 { background: #ede8e5; border-color: #baa898; color: #7a5a4a; }
+.tier-title { font-size: 16px; font-weight: 700; color: #33302c; }
+.card {
+  background: #faf9f7; border: 1px solid #e5e0d8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #c8a87a; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #33302c; margin-bottom: 1px; }
+.card-buyer { font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #a09888; margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: #5a564e; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; }
+.tag-pay { background: #f0ece5; color: #7a6a4a; border: 1px solid #d8ccb8; }
+.tag-dist { background: #f0edea; color: #8a847a; border: 1px solid #dbd7d0; }
+.tag-high { background: #edf3ea; color: #4a6b3e; border: 1px solid #b8ccae; }
+.tag-low { background: #f3eaea; color: #8a4a4a; border: 1px solid #ccb8b8; }
+.section-title {
+  font: 700 15px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6a645a; margin: 32px 0 14px;
+}
+.section-title::after { content: ''; display: block; width: 40px; height: 2px; background: #c8a87a; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; }
+.matrix th {
+  text-align: left; padding: 9px 12px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .05em; color: #8a847a;
+  border-bottom: 1px solid #dbd7d0;
+}
+.matrix td { padding: 9px 12px; color: #5a564e; border-bottom: 1px solid #f0edea; }
+.bar { height: 5px; min-width: 80px; background: #ece8e2; border-radius: 2px; }
+.bar-fill { height: 100%; border-radius: 2px; }
+.bar-high .bar-fill { background: #c8a87a; }
+.bar-med .bar-fill { background: #bab4aa; }
+.positioning { background: #f0edea; border: 1px solid #dbd7d0; border-radius: 4px; padding: 24px; margin-top: 32px; }
+.positioning h2 { font-size: 17px; font-weight: 700; color: #33302c; margin-bottom: 8px; }
+.positioning > p { font-size: 14px; color: #5a564e; margin-bottom: 14px; }
+.callout {
+  background: #faf9f7; border-left: 2px solid #c8a87a; padding: 14px 18px;
+  margin: 16px 0; font-size: 14px; color: #5a564e;
+}
+.pos-steps { display: flex; gap: 10px; }
+.pos-step { flex: 1; background: #fff; border: 1px solid #dbd7d0; border-radius: 4px; padding: 14px; text-align: center; }
+.pos-num { font-size: 22px; font-weight: 800; color: #c8a87a; }
+.pos-label { font-size: 13px; font-weight: 700; color: #33302c; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #8a847a; }
+p { margin-bottom: 14px; font-size: 14px; color: #5a564e; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #5a564e; }
+li { margin-bottom: 6px; }
+li::marker { color: #c8a87a; }
+code { font-family: "SF Mono", "Menlo", monospace; font-size: 13px; background: #f0edea; padding: 2px 5px; border-radius: 3px; }
+pre { background: #f0edea; border-radius: 4px; padding: 16px 20px; margin: 14px 0; overflow-x: auto; font-family: "SF Mono", "Menlo", monospace; font-size: 13px; line-height: 1.7; }
+.winner { background: #f7f5f0; border: 2px solid #c8a87a; }
+.verdict { font-size: 15px; font-weight: 600; color: #33302c; margin-bottom: 6px; }
+td.score { font-weight: 700; font-size: 14px; }
+td.score-high { color: #4a6b3e; }
+td.score-mid { color: #7a6a4a; }
+td.score-low { color: #8a4a4a; }
+.rec-badge { display: inline-block; background: #c8a87a; color: #fff; font: 700 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .06em; padding: 4px 10px; border-radius: 3px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">12 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-tts-evaluation.html">View on GitHub</a></span>
+</div>
+<div class="page">
+
+<h1>Claude Code TTS Evaluation</h1>
+<p class="subtitle">8 text-to-speech solutions tested on M4 MacBook Air. Measured install friction, audio quality, latency, RAM, and daily-driver viability.</p>
+
+<div class="section-title">Comparison Matrix</div>
+
+<table class="matrix">
+<thead>
+<tr>
+  <th>Method</th>
+  <th>Type</th>
+  <th>Quality</th>
+  <th>Latency</th>
+  <th>Cost</th>
+  <th>Disk</th>
+  <th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>1. kokoro-tts-mcp</strong></td>
+  <td>MCP / Local</td>
+  <td class="score score-high">7/10</td>
+  <td>8.5s</td>
+  <td>Free</td>
+  <td>864 MB</td>
+  <td><span class="tag tag-high">works</span></td>
+</tr>
+<tr style="background:#faf8f4">
+  <td><strong>2. voice-mcp</strong></td>
+  <td>MCP / Local</td>
+  <td class="score score-high">7/10</td>
+  <td>5.3s</td>
+  <td>Free</td>
+  <td>777 MB</td>
+  <td><span class="tag tag-high">works</span></td>
+</tr>
+<tr>
+  <td><strong>3. kokoro-mcp-server</strong></td>
+  <td>MCP / Local</td>
+  <td class="score score-low">N/A</td>
+  <td>N/A</td>
+  <td>Free</td>
+  <td>~1 GB</td>
+  <td><span class="tag tag-low">broken</span></td>
+</tr>
+<tr>
+  <td><strong>4. claude-code-tts</strong></td>
+  <td>Hook / Cloud</td>
+  <td class="score score-high">9/10*</td>
+  <td>~1-2s*</td>
+  <td>$15/M chars</td>
+  <td>28 MB</td>
+  <td><span class="tag tag-pay">needs key</span></td>
+</tr>
+<tr>
+  <td><strong>5. mcp-tts</strong></td>
+  <td>MCP / Multi</td>
+  <td class="score score-mid">4-9/10</td>
+  <td>1-3s</td>
+  <td>Free-Paid</td>
+  <td>28 MB</td>
+  <td><span class="tag tag-high">works</span></td>
+</tr>
+<tr>
+  <td><strong>6. cc-hooks</strong></td>
+  <td>Hook / Cloud</td>
+  <td class="score score-mid">6/10</td>
+  <td>3.4s</td>
+  <td>Free</td>
+  <td>~200 MB</td>
+  <td><span class="tag tag-high">works</span></td>
+</tr>
+<tr>
+  <td><strong>7. Soundboard Plugin</strong></td>
+  <td>MCP / Local</td>
+  <td class="score score-low">N/A</td>
+  <td>N/A</td>
+  <td>Free</td>
+  <td>N/A</td>
+  <td><span class="tag tag-low">404 / gone</span></td>
+</tr>
+<tr>
+  <td><strong>8. VoiceMode MCP</strong></td>
+  <td>MCP / Local</td>
+  <td class="score score-high">7/10</td>
+  <td>6.2s</td>
+  <td>Free</td>
+  <td>1.8 GB</td>
+  <td><span class="tag tag-pay">heavy install</span></td>
+</tr>
+</tbody>
+</table>
+<p style="font-size:12px;color:#a09888;margin-top:6px;">* Estimated based on provider specs, not directly tested (missing API key or still installing)</p>
+
+<div class="section-title">Detailed Results</div>
+
+<div class="tier">
+  <div class="tier-header">
+    <span class="tier-badge t1">Recommended</span>
+    <span class="tier-title">kokoro-tts-mcp (mitchthestonky/claude-tts-mcp)</span>
+  </div>
+  <div class="card winner">
+    <span class="rec-badge">Daily Driver Pick</span>
+    <div class="card-buyer">Local / Free / Node.js + Python / 54 voices, 8 languages</div>
+    <div class="card-desc">
+      <p>Cleanest install of all options. Run <code>npx claude-tts-mcp init</code>, then <code>claude mcp add tts -- npx claude-tts-mcp</code>. That's it. Downloads ~200MB model on first run.</p>
+      <p><strong>Audio quality:</strong> Natural-sounding with good prosody. Slight synthetic edge on longer passages but very listenable. Multiple voice options (American, British, Spanish, French, Japanese, Mandarin, etc.).</p>
+      <p><strong>Latency:</strong> First run takes ~2:45 (model download + spaCy model). Warm start: 8.5s for a 75-word paragraph (29s of audio). That's 3.4x faster than real-time generation.</p>
+      <p><strong>RAM:</strong> ~960MB during generation, drops after completion.</p>
+      <p><strong>Why this one:</strong> Zero API keys, works offline, good quality, simple MCP integration. The auto-speak mode means Claude reads every response aloud without prompting. Speed control (0.5x-2.0x) is useful for audiobook-style listening.</p>
+    </div>
+    <div class="tags">
+      <span class="tag tag-high">free</span>
+      <span class="tag tag-high">offline</span>
+      <span class="tag tag-dist">54 voices</span>
+      <span class="tag tag-dist">auto-speak</span>
+    </div>
+  </div>
+</div>
+
+<div class="tier">
+  <div class="tier-header">
+    <span class="tier-badge t1">Strong Alternative</span>
+    <span class="tier-title">voice-mcp (shreyaskarnik/voice-mcp)</span>
+  </div>
+  <div class="card">
+    <div class="card-buyer">Local / Free / Python + MLX / Bidirectional (listen + speak)</div>
+    <div class="card-desc">
+      <p><strong>The bidirectional option.</strong> Uses Apple's MLX framework for both Kokoro TTS and Voxtral Realtime STT. You can talk to Claude and Claude talks back. The listen() tool records from your mic with voice-activity detection and auto-stop.</p>
+      <p><strong>Audio quality:</strong> Same Kokoro engine as #1, but the MLX variant. Identical quality (7/10). The real advantage is the full voice loop.</p>
+      <p><strong>Latency:</strong> 5.3s for the same 75-word paragraph. Faster than #1 because MLX is optimized for Apple Silicon, while #1 uses PyTorch.</p>
+      <p><strong>Gotcha:</strong> Requires Python 3.11-3.13 (3.14 breaks spaCy). First run downloads ~2.5GB of models (Voxtral STT + Kokoro TTS). Requires Apple Silicon (M1+).</p>
+    </div>
+    <div class="tags">
+      <span class="tag tag-high">free</span>
+      <span class="tag tag-high">bidirectional</span>
+      <span class="tag tag-pay">mlx native</span>
+      <span class="tag tag-dist">2.5gb models</span>
+    </div>
+  </div>
+</div>
+
+<div class="tier">
+  <div class="tier-header">
+    <span class="tier-badge t2">Viable Options</span>
+    <span class="tier-title">Cloud-backed tools</span>
+  </div>
+  <div class="card">
+    <div class="card-title">mcp-tts (blacktop/mcp-tts)</div>
+    <div class="card-buyer">Go binary / Multi-provider / 28MB install</div>
+    <div class="card-desc">
+      <p>Tiny Go binary with 4 providers: macOS <code>say</code> (free, instant, robotic), ElevenLabs, Google Gemini, OpenAI. The <code>say</code> fallback gives you zero-config TTS right now. Add API keys later for better quality. Good architecture: concurrent playback, speed control, output directory for saving files.</p>
+    </div>
+    <div class="tags">
+      <span class="tag tag-high">tiny binary</span>
+      <span class="tag tag-dist">multi-provider</span>
+      <span class="tag tag-pay">api keys optional</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">cc-hooks (husniadil/cc-hooks)</div>
+    <div class="card-buyer">Python / Hook-based / Sound effects + TTS</div>
+    <div class="card-desc">
+      <p>More than just TTS. Adds sound effects to tool execution, session lifecycle events, and completions. The free tier uses Google TTS (3.4s latency, Google Translate voice quality). Upgrade path to ElevenLabs for premium voices. Good for ambient coding feedback, not for reading long passages.</p>
+    </div>
+    <div class="tags">
+      <span class="tag tag-dist">sound effects</span>
+      <span class="tag tag-dist">google tts free</span>
+      <span class="tag tag-pay">elevenlabs upgrade</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">claude-code-tts (ybouhjira/claude-code-tts)</div>
+    <div class="card-buyer">Go / Hook-based / OpenAI TTS / Auto-speak</div>
+    <div class="card-desc">
+      <p>Best voice quality of all options (OpenAI's TTS voices are top-tier). Hook-based auto-speak on every response. Worker pool architecture prevents audio overlap. The catch: requires an OpenAI API key and costs ~$15 per million characters. If you have the key, this produces the most natural-sounding output.</p>
+    </div>
+    <div class="tags">
+      <span class="tag tag-pay">$15/m chars</span>
+      <span class="tag tag-high">best quality</span>
+      <span class="tag tag-dist">auto-speak</span>
+    </div>
+  </div>
+</div>
+
+<div class="tier">
+  <div class="tier-header">
+    <span class="tier-badge t3">Not Recommended</span>
+    <span class="tier-title">Broken or unavailable</span>
+  </div>
+  <div class="card">
+    <div class="card-title">kokoro-mcp-server (aparsoft)</div>
+    <div class="card-buyer">Broken imports / Missing engine_flux module</div>
+    <div class="card-desc">
+      <p>Ambitious project with librosa audio enhancement, Streamlit UI, voice cloning, and multi-engine support. But the code is broken: <code>ModuleNotFoundError: No module named 'aparsoft_tts.core.engine_flux'</code>. The <code>engine_flux</code> module is referenced in <code>__init__.py</code> but doesn't exist in the repo. Dead on arrival.</p>
+    </div>
+    <div class="tags"><span class="tag tag-low">broken</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Soundboard Plugin (mcp-tool-shop-org)</div>
+    <div class="card-buyer">GitHub 404 / NPM package missing</div>
+    <div class="card-desc">
+      <p>The GitHub repo returns 404 and the npm package <code>@mcptoolshop/voice-soundboard-mcp</code> doesn't exist. May have been taken down or was never publicly released. The concept (emotion-aware speech, SSML markup, multi-speaker dialogue) was interesting on paper but it's vaporware.</p>
+    </div>
+    <div class="tags"><span class="tag tag-low">gone</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">VoiceMode MCP (getvoicemode.com)</div>
+    <div class="card-buyer">Heavy install / 1.8GB / Kokoro-FastAPI backend</div>
+    <div class="card-desc">
+      <p>The most complete package (Whisper STT + Kokoro TTS + voice activity detection), but the install is brutal. Downloads ~1.8GB of dependencies including a full Kokoro-FastAPI server, PyTorch, spaCy, sudachi, and more. After 10+ minutes the service was still starting. Runs a persistent FastAPI server on port 8880. Overkill for TTS-only use. Consider it only if you need the full STT+TTS voice loop and are willing to keep a daemon running.</p>
+    </div>
+    <div class="tags">
+      <span class="tag tag-low">1.8gb</span>
+      <span class="tag tag-dist">full voice loop</span>
+      <span class="tag tag-pay">daemon required</span>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">Latency Benchmark (75-word paragraph)</div>
+
+<table class="matrix">
+<thead>
+<tr><th>Method</th><th>Generation Time</th><th>Audio Duration</th><th>Realtime Factor</th><th style="min-width:120px">Speed Bar</th></tr>
+</thead>
+<tbody>
+<tr><td>macOS say (baseline)</td><td>1.0s</td><td>~28s</td><td>28x</td><td><div class="bar bar-high"><div class="bar-fill" style="width:100%"></div></div></td></tr>
+<tr><td>cc-hooks (gTTS)</td><td>3.4s</td><td>~30s</td><td>8.8x</td><td><div class="bar bar-high"><div class="bar-fill" style="width:70%"></div></div></td></tr>
+<tr><td>voice-mcp (MLX)</td><td>5.3s</td><td>29.4s</td><td>5.5x</td><td><div class="bar bar-high"><div class="bar-fill" style="width:55%"></div></div></td></tr>
+<tr><td>VoiceMode (Kokoro-FastAPI)</td><td>6.2s</td><td>~29s</td><td>4.7x</td><td><div class="bar bar-high"><div class="bar-fill" style="width:48%"></div></div></td></tr>
+<tr><td>kokoro-tts-mcp (PyTorch)</td><td>8.5s</td><td>29.4s</td><td>3.5x</td><td><div class="bar bar-med"><div class="bar-fill" style="width:35%"></div></div></td></tr>
+</tbody>
+</table>
+<p style="font-size:12px;color:#a09888;">All tests on M4 MacBook Air, warm start (model already loaded). Test text: excerpt from page ~90 of Culture of Critique.</p>
+
+<div class="section-title">Setup Commands</div>
+
+<div class="callout">
+<strong>Recommended setup (kokoro-tts-mcp):</strong>
+<pre>npx claude-tts-mcp init
+claude mcp add tts -- npx claude-tts-mcp</pre>
+Then ask Claude to "read that back" or "say that aloud" and it will speak.
+</div>
+
+<div class="callout">
+<strong>For bidirectional voice (voice-mcp):</strong>
+<pre>git clone https://github.com/shreyaskarnik/voice-mcp.git
+cd voice-mcp && uv sync --python 3.12
+# Add to your project's .mcp.json or global config:
+claude mcp add voice -- uv --directory /path/to/voice-mcp run server.py</pre>
+Tell Claude "listen to me" to activate mic input.
+</div>
+
+<div class="callout">
+<strong>For instant fallback (mcp-tts with macOS say):</strong>
+<pre>go install github.com/blacktop/mcp-tts@latest
+claude mcp add say -- mcp-tts</pre>
+Uses macOS built-in say command. Add API keys later for better quality.
+</div>
+
+<div class="positioning">
+  <h2>Recommendation</h2>
+  <p>For daily use, install <strong>kokoro-tts-mcp</strong> as your primary TTS. It's the best balance of quality, simplicity, and zero cost. If you want to talk back to Claude (not just listen), add <strong>voice-mcp</strong> alongside it. If you ever get an OpenAI API key, <strong>claude-code-tts</strong> would be the quality upgrade path.</p>
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">kokoro-tts-mcp</div>
+      <div class="pos-desc">Daily driver. Free, offline, good quality.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">voice-mcp</div>
+      <div class="pos-desc">Add if you want voice input too.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">claude-code-tts</div>
+      <div class="pos-desc">Quality upgrade with OpenAI key.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Claude Code TTS Evaluation - 8 Methods Tested",
+  "date": "2026-04-12",
+  "summary": "Tested 8 text-to-speech solutions for Claude Code on M4 MacBook Air. kokoro-tts-mcp is the recommended daily driver (free, offline, 7/10 quality, ~5-8s latency). voice-mcp is best for bidirectional voice. 2 tools were broken/unavailable.",
+  "sections": [
+    {
+      "heading": "Recommended: kokoro-tts-mcp",
+      "items": [
+        {
+          "title": "kokoro-tts-mcp",
+          "detail": "Best overall: free, offline, 54 voices, 8.5s latency for 75 words, 960MB RAM. Install: npx claude-tts-mcp init + claude mcp add tts -- npx claude-tts-mcp",
+          "meta": { "quality": "7/10", "latency": "8.5s", "cost": "free", "disk": "864MB", "status": "works" }
+        }
+      ]
+    },
+    {
+      "heading": "Strong Alternative: voice-mcp",
+      "items": [
+        {
+          "title": "voice-mcp",
+          "detail": "Bidirectional voice (listen + speak) via MLX. Faster than #1 (5.3s). Requires Python 3.12, downloads 2.5GB models. Apple Silicon only.",
+          "meta": { "quality": "7/10", "latency": "5.3s", "cost": "free", "disk": "777MB", "status": "works" }
+        }
+      ]
+    },
+    {
+      "heading": "Viable Cloud Options",
+      "items": [
+        { "title": "mcp-tts", "detail": "28MB Go binary, 4 providers (macOS say free, ElevenLabs/Google/OpenAI paid). Best for multi-provider flexibility.", "meta": { "status": "works" } },
+        { "title": "cc-hooks", "detail": "Hook-based sound effects + gTTS (free, 3.4s, 6/10 quality). Good for ambient coding feedback.", "meta": { "status": "works" } },
+        { "title": "claude-code-tts", "detail": "Best quality (9/10, OpenAI voices) but needs API key ($15/M chars). Hook-based auto-speak.", "meta": { "status": "needs key" } }
+      ]
+    },
+    {
+      "heading": "Not Recommended",
+      "items": [
+        { "title": "kokoro-mcp-server", "detail": "Broken: missing engine_flux module. Dead on arrival.", "meta": { "status": "broken" } },
+        { "title": "Soundboard Plugin", "detail": "GitHub 404, npm package missing. Vaporware.", "meta": { "status": "gone" } },
+        { "title": "VoiceMode MCP", "detail": "1.8GB install, 10+ min setup, daemon required. Overkill for TTS-only use.", "meta": { "status": "heavy" } }
+      ]
+    }
+  ],
+  "next_steps": "Install kokoro-tts-mcp as daily driver. Optionally add voice-mcp for bidirectional voice. Audio test files saved in /tmp/tts-method*.wav for comparison."
+}
+</script>
+</body>
+</html>
