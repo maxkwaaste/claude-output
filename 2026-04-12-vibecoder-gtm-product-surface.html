@@ -510,38 +510,61 @@ li::marker { color: #1a2744; }
 
 <h2>Pricing Architecture</h2>
 
-<p>The market analysis validates three price points: $200 (entry), $350 (mid-market), and $500 (premium). Rather than feature-gating at each tier, the base product includes everything in Layer 1 (dashboards + AI reports + all 12 sources). Expansion products are add-ons. This keeps the entry proposition clean and makes the upsell conversation specific: "Want to add QBR generation? That's $150/mo."</p>
+<p>The market analysis validates three price points: $200 (entry), $350 (mid-market), and $500 (premium). Three tiers, each a strict superset of the one below. Every tier includes AI generation and narrative reports because that's the whole point of the product. The tiers gate the specialized agents and advanced capabilities that justify higher pricing.</p>
 
 <div class="scenario-row">
   <div class="scenario-card highlighted">
-    <div class="scenario-label">Base Platform</div>
-    <div class="scenario-value">$200</div>
+    <div class="scenario-label">Starter</div>
+    <div class="scenario-value">$200/mo</div>
     <div class="scenario-detail">400+ dashboards, AI generation,<br>AI narrative reports, 12 sources,<br>trust layer. Unlimited users.</div>
   </div>
   <div class="scenario-card">
-    <div class="scenario-label">With 1 Agent Add-On</div>
-    <div class="scenario-value">$350</div>
-    <div class="scenario-detail">Base + QBR Generator<br>or Profitability Analyst<br>or Ask VibeCoder.</div>
+    <div class="scenario-label">Professional</div>
+    <div class="scenario-value">$350/mo</div>
+    <div class="scenario-detail">Everything in Starter +<br>QBR Generator, Ask VibeCoder,<br>Scheduled Delivery, Benchmarks.</div>
   </div>
   <div class="scenario-card">
-    <div class="scenario-label">With 2-3 Agent Add-Ons</div>
-    <div class="scenario-value">$500+</div>
-    <div class="scenario-detail">Base + multiple agents.<br>Alert engine, scheduled delivery,<br>sales intelligence.</div>
+    <div class="scenario-label">Enterprise</div>
+    <div class="scenario-value">$500/mo</div>
+    <div class="scenario-detail">Everything in Professional +<br>Profitability Analyst, Alert Engine,<br>Sales Intelligence, Write-Back.</div>
   </div>
 </div>
 
-<h3>Why Add-Ons Instead of Tiers</h3>
-
-<p>Tier-based pricing (Starter/Pro/Enterprise) forces MSPs to pay for agents they don't want to get the one they do. Add-on pricing lets the profitability-obsessed owner buy the Profitability Analyst without paying for the Alert Engine the ops manager hasn't asked for yet. It also makes the expansion revenue conversation natural: each agent is a distinct value proposition with a distinct buyer inside the MSP.</p>
-
-<p>The math works. At Proxuma's identified TAM of 7,319 companies:</p>
+<h3>What Each Tier Unlocks</h3>
 
 <table class="matrix">
-  <tr><th>Scenario</th><th>Customers</th><th>Avg ARPA</th><th>MRR</th><th>ARR</th></tr>
-  <tr><td>5% penetration, base only</td><td>366</td><td>$200</td><td>$73K</td><td>$878K</td></tr>
-  <tr><td>5% penetration, 60% add 1 agent</td><td>366</td><td>$290</td><td>$106K</td><td>$1.27M</td></tr>
-  <tr><td>15% penetration, 60% add 1 agent</td><td>1,098</td><td>$290</td><td>$318K</td><td>$3.82M</td></tr>
-  <tr><td>15% penetration, avg 1.5 agents</td><td>1,098</td><td>$375</td><td>$412K</td><td><strong>$4.94M</strong></td></tr>
+  <tr><th>Feature</th><th>Starter $200</th><th>Professional $350</th><th>Enterprise $500</th></tr>
+  <tr><td>400+ pre-built dashboards</td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>AI dashboard generation (unlimited)</td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>AI narrative reports</td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>12 source connectors</td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Trust layer (anonymization + verification)</td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Unlimited users</td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>QBR Generator</td><td></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Ask VibeCoder (NL query)</td><td></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Scheduled Delivery (PDF to email)</td><td></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Benchmarking (cross-tenant comparison)</td><td></td><td><strong>&#10003;</strong></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Profitability Analyst</td><td></td><td></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Alert Engine (anomaly detection)</td><td></td><td></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Sales Intelligence</td><td></td><td></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>Write-Back / PSA Activation</td><td></td><td></td><td><strong>&#10003;</strong></td></tr>
+  <tr><td>MCP / BYOAI Access</td><td></td><td></td><td><strong>&#10003;</strong></td></tr>
+</table>
+
+<h3>Why Tiers Work Here</h3>
+
+<p>The three tiers map to three distinct MSP profiles. Starter is the SMB MSP that wants dashboards and reports, period. Professional is the mid-market MSP whose account managers need QBR automation and whose ops team wants natural language querying. Enterprise is the mature MSP running 50+ clients where profitability analysis, anomaly alerts, and PSA write-back become operational necessities. The upgrade triggers are natural business growth events, not feature discovery.</p>
+
+<p>Benchmarking lands in Professional, not Enterprise, because it works as an upgrade trigger: the Starter customer sees "compare your performance to other MSPs" and has a concrete reason to move up. Proxuma has existing benchmark data through consulting firm Different, so this feature can ship with real data from day one rather than waiting to accumulate customers.</p>
+
+<p>Revenue math at Proxuma's identified TAM of 7,319 companies:</p>
+
+<table class="matrix">
+  <tr><th>Scenario</th><th>Customers</th><th>Tier Mix</th><th>Avg ARPA</th><th>ARR</th></tr>
+  <tr><td>5% penetration, mostly Starter</td><td>366</td><td>70/20/10</td><td>$260</td><td>$1.14M</td></tr>
+  <tr><td>10% penetration, balanced</td><td>732</td><td>50/35/15</td><td>$310</td><td>$2.72M</td></tr>
+  <tr><td>15% penetration, Pro-heavy</td><td>1,098</td><td>40/40/20</td><td>$340</td><td>$4.48M</td></tr>
+  <tr><td>15% penetration, mature</td><td>1,098</td><td>30/40/30</td><td>$380</td><td><strong>$5.01M</strong></td></tr>
 </table>
 
 
@@ -579,17 +602,17 @@ li::marker { color: #1a2744; }
 <div class="module-grid">
   <div class="module-card planned">
     <div class="module-name">Ask VibeCoder</div>
-    <div class="module-detail">Natural language query bar visible in nav. Shows "Coming Soon" or "Add-on" badge. Teaser showing example queries.</div>
+    <div class="module-detail">Natural language query bar visible in nav. Shows "Professional" badge. Teaser showing example queries.</div>
     <span class="module-status s-planned">Visible, locked</span>
   </div>
   <div class="module-card planned">
     <div class="module-name">QBR Generator</div>
-    <div class="module-detail">Menu item visible. Click shows preview of a sample QBR with "Unlock this agent" CTA.</div>
+    <div class="module-detail">Menu item visible. Click shows preview of a sample QBR with "Upgrade to Professional" CTA.</div>
     <span class="module-status s-planned">Visible, locked</span>
   </div>
   <div class="module-card planned">
     <div class="module-name">Profitability</div>
-    <div class="module-detail">Menu item visible. Shows blurred sample profitability view with "Unlock" CTA.</div>
+    <div class="module-detail">Menu item visible. Shows blurred sample profitability view with "Upgrade to Enterprise" CTA.</div>
     <span class="module-status s-planned">Visible, locked</span>
   </div>
   <div class="module-card planned">
@@ -604,7 +627,7 @@ li::marker { color: #1a2744; }
   </div>
   <div class="module-card planned">
     <div class="module-name">Scheduled Delivery</div>
-    <div class="module-detail">Calendar icon on reports. Shows "Automate this report" with schedule options grayed out.</div>
+    <div class="module-detail">Calendar icon on reports. Shows "Automate this report - Professional" with schedule options grayed out.</div>
     <span class="module-status s-planned">Visible, locked</span>
   </div>
 </div>
@@ -713,15 +736,15 @@ li::marker { color: #1a2744; }
 <table class="matrix">
   <tr><th>#</th><th>Product</th><th>Build</th><th>Revenue Role</th><th>Why This Order</th></tr>
   <tr><td>1</td><td><strong>Base platform</strong> (dashboards + AI reports + 12 sources)</td><td>Ready</td><td>$200/mo wedge</td><td>Ship immediately. The competitive proposition.</td></tr>
-  <tr><td>2</td><td><strong>QBR Generator</strong></td><td>Short</td><td>$150/mo add-on</td><td>Highest WTP, closest to existing reports. First upsell.</td></tr>
-  <tr><td>3</td><td><strong>Scheduled Delivery</strong></td><td>Short</td><td>$100/mo add-on</td><td>Simple to build, creates weekly touchpoints, retention.</td></tr>
-  <tr><td>4</td><td><strong>Ask VibeCoder</strong></td><td>Medium</td><td>$150/mo add-on</td><td>Broadens buyer from "ops manager" to "everyone." High usage.</td></tr>
-  <tr><td>5</td><td><strong>Profitability Analyst</strong></td><td>Medium</td><td>$200/mo add-on</td><td>Very high WTP, targets the owner/CFO buyer directly.</td></tr>
-  <tr><td>6</td><td><strong>Alert Engine</strong></td><td>Medium</td><td>$150/mo add-on</td><td>Shifts product from pull to push. Retention driver.</td></tr>
-  <tr><td>7</td><td><strong>Benchmarking</strong></td><td>Med-Long</td><td>Included or $100/mo</td><td>Requires customer scale. Network effect moat. Start collecting data early, launch feature when N > 50.</td></tr>
-  <tr><td>8</td><td><strong>Sales Intelligence</strong></td><td>Long</td><td>$200/mo add-on</td><td>Very high WTP but complex cross-source logic. Changes buyer to owner/sales.</td></tr>
-  <tr><td>9</td><td><strong>Write-Back / Activate</strong></td><td>Long</td><td>$200/mo add-on</td><td>The lock-in layer. Ship when you have enough customers that retention matters more than acquisition.</td></tr>
-  <tr><td>10</td><td><strong>MCP / BYOAI</strong></td><td>Medium</td><td>Enterprise tier</td><td>When enterprise MSPs ask for it. Not before.</td></tr>
+  <tr><td>2</td><td><strong>QBR Generator</strong></td><td>Short</td><td>Pro tier unlock</td><td>Highest WTP, closest to existing reports. Key Starter-to-Pro trigger.</td></tr>
+  <tr><td>3</td><td><strong>Scheduled Delivery</strong></td><td>Short</td><td>Pro tier unlock</td><td>Simple to build, creates weekly touchpoints, retention.</td></tr>
+  <tr><td>4</td><td><strong>Benchmarking</strong></td><td>Medium</td><td>Pro tier unlock</td><td>Existing data through Different means this can ship with real benchmarks from day one. Strong Starter-to-Pro upgrade trigger. Network effect moat starts compounding immediately.</td></tr>
+  <tr><td>5</td><td><strong>Ask VibeCoder</strong></td><td>Medium</td><td>Pro tier unlock</td><td>Broadens buyer from "ops manager" to "everyone." High usage.</td></tr>
+  <tr><td>6</td><td><strong>Profitability Analyst</strong></td><td>Medium</td><td>Enterprise unlock</td><td>Very high WTP, targets the owner/CFO buyer directly.</td></tr>
+  <tr><td>7</td><td><strong>Alert Engine</strong></td><td>Medium</td><td>Enterprise unlock</td><td>Shifts product from pull to push. Retention driver.</td></tr>
+  <tr><td>8</td><td><strong>Sales Intelligence</strong></td><td>Long</td><td>Enterprise unlock</td><td>Very high WTP but complex cross-source logic. Changes buyer to owner/sales.</td></tr>
+  <tr><td>9</td><td><strong>Write-Back / Activate</strong></td><td>Long</td><td>Enterprise unlock</td><td>The lock-in layer. Ship when you have enough customers that retention matters more than acquisition.</td></tr>
+  <tr><td>10</td><td><strong>MCP / BYOAI</strong></td><td>Medium</td><td>Enterprise unlock</td><td>When enterprise MSPs ask for it. Not before.</td></tr>
 </table>
 
 
@@ -729,7 +752,7 @@ li::marker { color: #1a2744; }
 
 <div class="positioning">
   <h2>Bottom Line</h2>
-  <p>The product surface is three layers: a wedge that undercuts BrightGauge while delivering AI capabilities no competitor has (400+ dashboards + AI generation + narrative reports at $200/mo); expansion agents that grow ARPA from $200 to $400-700+ per account as each MSP discovers new use cases; and a lock-in layer (PSA write-back + benchmarking) that creates switching costs competitors can't replicate. The Polar playbook works. The question is no longer what to build. It's how fast you can ship the wedge and start landing customers before ConnectWise bolts AI onto BrightGauge.</p>
+  <p>Three tiers, three MSP profiles. Starter ($200/mo) undercuts BrightGauge while delivering AI capabilities no competitor has. Professional ($350/mo) adds QBR automation, natural language querying, scheduled delivery, and benchmarking powered by existing data from Different. Enterprise ($500/mo) unlocks profitability analysis, anomaly alerts, sales intelligence, and PSA write-back that creates switching costs competitors can't replicate. The Polar playbook works. ConnectWise is slow. The window is open.</p>
 </div>
 
 <div class="page-footer">
@@ -743,7 +766,7 @@ li::marker { color: #1a2744; }
 {
   "title": "VibeCoder GTM & Product Surface: The Polar Playbook for MSPs",
   "date": "2026-04-12",
-  "summary": "Complete product surface and GTM strategy for VibeCoder, mapping the Polar Analytics three-layer model (Land / Expand / Lock-in) to the MSP analytics market. Defines the wedge product (400+ dashboards + AI reports at $200/mo), 6 expansion agents with add-on pricing, and the lock-in layer (PSA write-back + cross-tenant benchmarking).",
+  "summary": "Complete product surface and GTM strategy for VibeCoder, mapping the Polar Analytics three-layer model (Land / Expand / Lock-in) to the MSP analytics market. Three tiers: Starter $200/mo (dashboards + AI), Professional $350/mo (QBRs + Ask + Benchmarks + Delivery), Enterprise $500/mo (profitability + alerts + sales intel + write-back). Benchmarking seeded with existing data from consulting firm Different.",
   "context": {
     "core_ip": "Semantic layer mapping 12 MSP data source APIs, normalized for AI reasoning. Trust layer: anonymization pipeline (Claude never sees real names) + verifiable outputs (AI produces confirmable queries).",
     "market": "$35-50M current market ARR, 7,319 identified TAM companies, $168M full penetration ceiling.",
@@ -759,45 +782,39 @@ li::marker { color: #1a2744; }
       "trust_layer": "Anonymization (Claude never sees real names) + verifiable outputs (AI proves its numbers with confirmable queries)"
     },
     "layer_2_expand": {
-      "model": "Add-on agents at $100-200/mo each, not tier-based",
-      "agents": [
-        {"name": "QBR Generator", "price": "$150/mo", "buyer": "Owner/Account Manager", "build": "Short"},
-        {"name": "Scheduled Delivery", "price": "$100/mo", "buyer": "Ops Manager", "build": "Short"},
-        {"name": "Ask VibeCoder", "price": "$150/mo", "buyer": "Everyone", "build": "Medium"},
-        {"name": "Profitability Analyst", "price": "$200/mo", "buyer": "Owner/CFO", "build": "Medium"},
-        {"name": "Alert Engine", "price": "$150/mo", "buyer": "Ops Manager", "build": "Medium"},
-        {"name": "Sales Intelligence", "price": "$200/mo", "buyer": "Sales/Owner", "build": "Long"}
-      ],
-      "arpa_expansion": "Base $200 → $400-700+ with 1-3 agents"
+      "model": "Tier-based: Professional at $350/mo unlocks QBR Generator, Ask VibeCoder, Scheduled Delivery, Benchmarking",
+      "pro_features": ["QBR Generator", "Ask VibeCoder (NL query)", "Scheduled Delivery (PDF to email)", "Benchmarking (cross-tenant, seeded with Different data)"],
+      "enterprise_features": ["Profitability Analyst", "Alert Engine", "Sales Intelligence", "Write-Back / PSA Activation", "MCP / BYOAI Access"]
     },
     "layer_3_lockin": {
       "write_back": "Push insights into Autotask: auto-tag at-risk clients, auto-create tasks on SLA breach, auto-flag renewals. Creates operational dependency.",
-      "benchmarking": "Cross-tenant anonymous comparison. Network effect moat. Requires scale (launch at 50+ customers). Compounds over time.",
-      "byoai": "MCP/BYOAI access as enterprise tier. Ship when demanded, not before."
+      "benchmarking": "Cross-tenant anonymous comparison. Seeded with existing data from consulting firm Different. Network effect moat that compounds over time.",
+      "byoai": "MCP/BYOAI access as Enterprise tier feature."
     }
   },
   "pricing": {
-    "base": "$200/mo (all dashboards, AI generation, AI reports, 12 sources, trust layer, unlimited users)",
-    "with_1_agent": "~$350/mo",
-    "with_2_3_agents": "$500+/mo",
-    "model": "Add-on per agent, not tier-gated"
+    "starter": "$200/mo (dashboards, AI generation, AI reports, 12 sources, trust layer, unlimited users)",
+    "professional": "$350/mo (Starter + QBR Generator, Ask VibeCoder, Scheduled Delivery, Benchmarks)",
+    "enterprise": "$500/mo (Professional + Profitability Analyst, Alert Engine, Sales Intel, Write-Back, BYOAI)",
+    "model": "Tier-based, strict supersets, no per-seat fees"
   },
   "revenue_scenarios": {
-    "conservative": "366 customers at $200 avg = $878K ARR",
-    "base": "366 customers at $290 avg (60% add 1 agent) = $1.27M ARR",
-    "target": "1,098 customers at $375 avg = $4.94M ARR"
+    "early": "366 customers, 70/20/10 split = $1.14M ARR",
+    "growing": "732 customers, 50/35/15 split = $2.72M ARR",
+    "target": "1,098 customers, 40/40/20 split = $4.48M ARR",
+    "mature": "1,098 customers, 30/40/30 split = $5.01M ARR"
   },
   "build_sequence": [
-    "1. Base platform (ready to ship)",
-    "2. QBR Generator (short build, highest WTP)",
-    "3. Scheduled Delivery (short build, retention)",
-    "4. Ask VibeCoder (medium build, broadens buyer)",
-    "5. Profitability Analyst (medium build, owner buyer)",
-    "6. Alert Engine (medium build, push not pull)",
-    "7. Benchmarking (needs scale, start collecting early)",
-    "8. Sales Intelligence (long build, very high WTP)",
-    "9. Write-Back / Activate (the lock-in layer)",
-    "10. MCP / BYOAI (when enterprise demands it)"
+    "1. Base platform - Starter tier (ready to ship)",
+    "2. QBR Generator - Pro tier (short build, highest WTP)",
+    "3. Scheduled Delivery - Pro tier (short build, retention)",
+    "4. Benchmarking - Pro tier (medium build, seeded with Different data, strong upgrade trigger)",
+    "5. Ask VibeCoder - Pro tier (medium build, broadens buyer)",
+    "6. Profitability Analyst - Enterprise tier (medium build, owner buyer)",
+    "7. Alert Engine - Enterprise tier (medium build, push not pull)",
+    "8. Sales Intelligence - Enterprise tier (long build, very high WTP)",
+    "9. Write-Back / Activate - Enterprise tier (the lock-in layer)",
+    "10. MCP / BYOAI - Enterprise tier (when enterprise demands it)"
   ],
   "key_risks": [
     "ConnectWise bolts AI onto BrightGauge before VibeCoder gains traction",
