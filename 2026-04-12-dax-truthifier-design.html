@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAX Truthifier -- Pipeline Design for 872 Power BI Reports</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.pos-steps { display: flex; gap: 10px; margin: 16px 0; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 12, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-dax-truthifier-design.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Engineering Design Document</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 12, 2026<br>System Design<br>Power BI Reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">DAX Truthifier Pipeline</div>
+  <h1>Replacing 2,500 Fabricated DAX Queries with Real Ones</h1>
+  <p class="subtitle">Design for validating, rewriting, and injecting real DAX queries into 872 Power BI report pages, then updating report content with actual data from the Proxuma Demo dataset.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Report Files (449 EN + 423 NL)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~3,500</div>
+      <div class="stat-label">Fabricated DAX Queries</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~450</div>
+      <div class="stat-label">Unique Report Topics</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0%</div>
+      <div class="stat-label">Current Pass Rate</div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <h2>The Problem</h2>
+  <p>Every DAX query embedded in the 872 report pages was generated by AI without consulting the actual Power BI schema. Table names often coincidentally match real tables, but column names, measure references, and query logic are invented. None of the ~3,500 queries execute successfully.</p>
+  <p>The reports also display specific numbers (KPIs, tables, narratives) that were generated alongside the fake DAX. Once we have real queries producing real results, the displayed data needs to reflect those results.</p>
+
+  <div class="callout">
+    <span class="callout-label">Constraint</span>
+    <strong>Visual design is frozen.</strong> The page layout, CSS, morph bar, search hero, pipeline section, teal report frame, section numbering, FAQ accordion, CTA block, and JSON-LD schema must not change. Only the DAX code blocks and data-driven content (KPI values, table rows, narrative paragraphs) get updated.
+  </div>
+
+  <!-- APPROACH -->
+  <h2>Approach: Query Library First, Then Inject</h2>
+  <p>Rather than processing 872 files independently, we build a validated DAX query library organized by report topic, then inject results into both the EN and NL versions of each report. This deduplicates across language pairs and creates a reusable asset for future report generation.</p>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Schema</div>
+      <div class="pos-desc">Snapshot full Power BI schema</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">Extract</div>
+      <div class="pos-desc">Pull DAX + intent from all 872 files</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Pair</div>
+      <div class="pos-desc">Match EN/NL files by topic</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">Author</div>
+      <div class="pos-desc">Write real DAX per topic</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">5</div>
+      <div class="pos-label">Inject</div>
+      <div class="pos-desc">Update HTML with real data</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">6</div>
+      <div class="pos-label">QA</div>
+      <div class="pos-desc">Screenshot + visual regression</div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <h2>Phase 1: Schema Snapshot</h2>
+  <p>Pull the complete schema from the Proxuma Demo dataset and cache it locally as the single source of truth for DAX authoring. This prevents hallucination at the root: if a table or column isn't in the snapshot, it doesn't exist.</p>
+
+  <table class="matrix">
+    <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Workspace</strong></td><td><code>1d365f6a-1dbb-4466-88e1-487f6836b452</code></td></tr>
+      <tr><td><strong>Dataset</strong></td><td><code>fd823eb4-da85-449d-a175-d24bff86229f</code></td></tr>
+      <tr><td><strong>Output</strong></td><td><code>~/ClaudeCode/powerbi-reports/schema-snapshot.json</code></td></tr>
+      <tr><td><strong>Contents</strong></td><td>All tables, all columns with data types, all measures with DAX expressions, all relationships</td></tr>
+      <tr><td><strong>Tool</strong></td><td><code>mcp__powerbi__get_schema</code> + <code>mcp__powerbi__list_measures</code></td></tr>
+    </tbody>
+  </table>
+  <p>This snapshot is taken once and pinned for the entire pipeline run. If the schema changes mid-run, the snapshot is stale and the run must restart.</p>
+
+  <!-- PHASE 2 -->
+  <h2>Phase 2: Extract and Pair</h2>
+
+  <h3>2a. Re-extract DAX from all files</h3>
+  <p>The existing <code>dax-extracted-queries.json</code> only covers 347 files (from the April 3 audit). We need fresh extraction from all 872 files in <code>en/</code> and <code>nl/</code> directories.</p>
+  <p>For each file, extract:</p>
+  <ul>
+    <li>Filename and language (en/nl)</li>
+    <li>Each DAX query (from <code>&lt;pre&gt;&lt;code&gt;</code> inside <code>.dax-toggle</code>)</li>
+    <li>The section title each DAX belongs to (from the parent <code>.doc-section-title</code>)</li>
+    <li>KPI labels and current values</li>
+    <li>Table column headers</li>
+    <li>Report title and subtitle (the "question" the report answers)</li>
+  </ul>
+  <p>Output: <code>dax-extraction-full.json</code> with one entry per file, each containing an array of query objects with their surrounding context.</p>
+
+  <h3>2b. Build EN/NL topic pairs</h3>
+  <p>The existing <code>question-file-mapping.json</code> covers only 124 topics (99 EN, 90 NL). There are 449 EN and 423 NL files. The remaining ~350 pairs need to be matched.</p>
+  <p>Pairing strategy:</p>
+  <ol>
+    <li>Start with the 124 known pairs from the mapping file</li>
+    <li>For unmatched files: compare report titles semantically (the EN title "SLA Performance by Priority" maps to the NL title "SLA Prestaties per Prioriteit")</li>
+    <li>Where DAX queries are identical between an EN and NL file, that's a confirmed pair</li>
+    <li>Remaining orphans (EN without NL or vice versa) get flagged for manual review</li>
+  </ol>
+  <p>Output: <code>topic-pairs.json</code> with ~450 entries, each containing the EN filename, NL filename (if exists), report topic, category, and the number of DAX sections.</p>
+
+  <!-- PHASE 3 -->
+  <h2>Phase 3: DAX Authoring (Opus-Supervised)</h2>
+  <p>This is the core of the pipeline. For each of the ~450 unique report topics, an agent writes valid DAX queries, executes them, and stores the results.</p>
+
+  <h3>Architecture</h3>
+  <table class="matrix">
+    <thead><tr><th>Role</th><th>Model</th><th>Responsibility</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Supervisor</strong></td><td>Opus</td><td>Reviews every batch of 20 query sets. Checks for hallucinated columns/tables, nonsensical results, and queries that "pass" but return empty or meaningless data. Veto power over the batch.</td></tr>
+      <tr><td><strong>Worker</strong></td><td>Sonnet</td><td>Reads the schema snapshot + report context (section titles, KPI labels). Writes DAX queries. Executes via <code>mcp__powerbi__execute_dax</code>. Retries up to 3 times per query on failure.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Anti-hallucination rules (enforced in worker system prompt)</h3>
+  <ol>
+    <li><strong>Schema-only columns:</strong> Every table and column reference in DAX must exist in <code>schema-snapshot.json</code>. No exceptions.</li>
+    <li><strong>Measure verification:</strong> Every measure reference (e.g. <code>[CSAT - Average Rating]</code>) must match a measure name from the snapshot exactly.</li>
+    <li><strong>Execute-or-reject:</strong> A query that doesn't execute successfully against the real dataset is rejected. No "should work" assumptions.</li>
+    <li><strong>Non-empty results:</strong> A query that returns zero rows or all nulls is flagged for review (it might be valid but needs a different approach).</li>
+    <li><strong>No invented relationships:</strong> If a query needs to join tables, the relationship must exist in the schema or the query must use explicit <code>TREATAS</code>/<code>CROSSFILTER</code>.</li>
+    <li><strong>Schema provided as literal context:</strong> The worker receives the relevant table schemas inline, not just the snapshot path. No room for "I think this column exists."</li>
+  </ol>
+
+  <h3>Worker flow per topic</h3>
+  <pre>
+1. Read report context (title, section titles, KPI labels, table headers)
+2. Identify which tables/columns are relevant from schema snapshot
+3. For each section that needs a DAX query:
+   a. Write EVALUATE query using only verified schema elements
+   b. Execute via mcp__powerbi__execute_dax
+   c. If fails: read error, fix query, retry (max 3)
+   d. If passes: store query + result set
+   e. If 3 failures: flag topic for Opus review
+4. Package: { topic, queries[], results[], status }
+  </pre>
+
+  <h3>Estimated volume</h3>
+  <table class="matrix">
+    <thead><tr><th>Metric</th><th>Estimate</th></tr></thead>
+    <tbody>
+      <tr><td>Unique topics</td><td>~450</td></tr>
+      <tr><td>Queries per topic</td><td>~4 (avg)</td></tr>
+      <tr><td>Total unique queries</td><td>~1,800</td></tr>
+      <tr><td>With retries (worst case)</td><td>~5,400 DAX executions</td></tr>
+      <tr><td>Opus review batches</td><td>~23 (batches of 20)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- PHASE 4 -->
+  <h2>Phase 4: Content Injection</h2>
+  <p>For each of the 872 files, a worker replaces the fabricated content with real data while preserving the HTML structure exactly.</p>
+
+  <h3>What changes</h3>
+  <table class="matrix">
+    <thead><tr><th>Element</th><th>How it changes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>DAX code blocks</strong></td><td>Replace content inside <code>&lt;pre&gt;&lt;code&gt;</code> within <code>.dax-toggle</code></td></tr>
+      <tr><td><strong>DAX toggle label</strong></td><td>Update the <code>&lt;span&gt;</code> text in <code>.dax-trigger</code> if needed</td></tr>
+      <tr><td><strong>KPI stat values</strong></td><td>Replace numeric values inside KPI elements</td></tr>
+      <tr><td><strong>Data tables</strong></td><td>Replace <code>&lt;tbody&gt;</code> content (keep <code>&lt;thead&gt;</code> structure, adjust rows to match real data)</td></tr>
+      <tr><td><strong>Narrative paragraphs</strong></td><td>Rewrite paragraphs that reference specific numbers to match real results. Preserve tone and structure.</td></tr>
+      <tr><td><strong>Action items</strong></td><td>Update if they reference specific thresholds/numbers from the data</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What does NOT change</h3>
+  <table class="matrix">
+    <thead><tr><th>Element</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr><td>CSS (all of it)</td><td>Visual design is frozen</td></tr>
+      <tr><td>Marketing shell (morph bar, hero, pipeline, CTA)</td><td>Not data-dependent</td></tr>
+      <tr><td>Section numbering and structure</td><td>Layout stays identical</td></tr>
+      <tr><td>FAQ accordion</td><td>Generic content, not data-dependent</td></tr>
+      <tr><td>JSON-LD schema</td><td>SEO metadata, not report data</td></tr>
+      <tr><td>Source badges</td><td>Separate issue (hallucinated sources), out of scope</td></tr>
+      <tr><td>Related reports section</td><td>Navigation, not data</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Language handling</h3>
+  <p>EN and NL files for the same topic share the same DAX queries and the same result data. The difference is:</p>
+  <ul>
+    <li><strong>DAX code blocks:</strong> Identical in both (DAX is DAX, no translation)</li>
+    <li><strong>KPI values:</strong> Identical (numbers are numbers)</li>
+    <li><strong>Table data:</strong> Identical</li>
+    <li><strong>Narrative text:</strong> Written in the target language, referencing the same numbers</li>
+    <li><strong>Section titles:</strong> Already in the correct language, not changed</li>
+  </ul>
+
+  <!-- PHASE 5 -->
+  <h2>Phase 5: Visual QA on M1 Pro</h2>
+  <p>Runs on the M1 Pro server over Ethernet. Every 10th report gets a full screenshot comparison.</p>
+
+  <h3>QA pipeline</h3>
+  <ol>
+    <li><strong>Pre-screenshot:</strong> Before injection, render each report in a headless browser and save a baseline screenshot</li>
+    <li><strong>Post-screenshot:</strong> After injection, render again and save comparison screenshot</li>
+    <li><strong>Diff check:</strong> Compare screenshots. Flag if structural layout changed (element positions, missing sections, broken rendering). Ignore expected changes (different numbers, different text content).</li>
+    <li><strong>HTML validation:</strong> Check that every file has valid HTML (no unclosed divs, no broken DAX toggles)</li>
+    <li><strong>DAX toggle test:</strong> Verify that every <code>.dax-toggle</code> still opens/closes correctly</li>
+  </ol>
+
+  <div class="callout">
+    <span class="callout-label">Frequency</span>
+    Full screenshot comparison on every 10th file. HTML validation and DAX toggle check on every file. If a screenshot diff flags a problem, pause and investigate before continuing.
+  </div>
+
+  <!-- EXECUTION -->
+  <h2>Execution Plan</h2>
+
+  <h3>Where it runs</h3>
+  <table class="matrix">
+    <thead><tr><th>Component</th><th>Machine</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Pipeline orchestration</td><td>M1 Pro (<code>100.85.64.20</code>)</td><td>Automation machine, Ethernet, long-running</td></tr>
+      <tr><td>Power BI API calls</td><td>M1 Pro</td><td>Rate-limited, needs stable connection</td></tr>
+      <tr><td>Screenshot rendering</td><td>M1 Pro</td><td>Headless browser needs to render 872 pages</td></tr>
+      <tr><td>Opus supervision</td><td>M1 Pro</td><td>Reviews batches as they complete</td></tr>
+      <tr><td>Monitoring / kick-off</td><td>M4 Air</td><td>Max triggers and monitors from here</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Rate limiting</h3>
+  <p>Power BI API has rate limits. The pipeline should:</p>
+  <ul>
+    <li>Space DAX executions at least 1 second apart</li>
+    <li>Back off on 429 responses with exponential delay</li>
+    <li>Log every execution with timestamp, query, result status</li>
+    <li>Resume from where it left off if interrupted (checkpoint after each topic)</li>
+  </ul>
+
+  <h3>Estimated timeline</h3>
+  <table class="matrix">
+    <thead><tr><th>Phase</th><th>Duration</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>1. Schema snapshot</td><td>5 min</td><td>Single API call</td></tr>
+      <tr><td>2. Extract + pair</td><td>15-30 min</td><td>Local file parsing, no API</td></tr>
+      <tr><td>3. DAX authoring</td><td>4-8 hours</td><td>~1,800 queries x execute + retries, rate limited</td></tr>
+      <tr><td>4. Content injection</td><td>2-4 hours</td><td>872 files, narrative rewriting takes time</td></tr>
+      <tr><td>5. Visual QA</td><td>1-2 hours</td><td>~87 screenshot comparisons + all-file HTML checks</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>8-15 hours</strong></td><td>Runs unattended on M1 Pro</td></tr>
+    </tbody>
+  </table>
+
+  <!-- FAILURE MODES -->
+  <h2>Failure Modes and Mitigations</h2>
+
+  <table class="matrix">
+    <thead><tr><th>Failure</th><th>Impact</th><th>Mitigation</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Query can't be written</strong> (report topic has no matching real data)</td><td>Report has no valid DAX</td><td>Flag for manual review. Could mean the report topic doesn't apply to this dataset and should be removed or reframed.</td></tr>
+      <tr><td><strong>Query returns empty</strong> (valid DAX, no matching rows)</td><td>Report shows "no data"</td><td>Opus reviews. Some reports may legitimately have zero rows for certain sections. Worker tries alternative filters before flagging.</td></tr>
+      <tr><td><strong>Visual regression</strong> (injection breaks layout)</td><td>Broken report page</td><td>Screenshot catches it. Pipeline pauses. The file is reverted and the injection logic is fixed before continuing.</td></tr>
+      <tr><td><strong>Rate limit hit</strong></td><td>Pipeline stalls</td><td>Exponential backoff. Checkpoint system means no work is lost.</td></tr>
+      <tr><td><strong>Fabricated tables</strong> (Datto_Backup_Jobs, etc.)</td><td>Reports reference data that doesn't exist</td><td>These reports need either: (a) rewriting to use different tables that answer a similar question, or (b) marking as "dataset not available" with a note.</td></tr>
+      <tr><td><strong>NL orphans</strong> (NL file with no EN pair)</td><td>Can't deduplicate</td><td>Treat as independent topic. Same pipeline, just no EN pair to share with.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- OUTPUT -->
+  <h2>Output Artifacts</h2>
+  <ul>
+    <li><code>schema-snapshot.json</code> &mdash; full Power BI schema, frozen for the run</li>
+    <li><code>dax-extraction-full.json</code> &mdash; all queries + context from all 872 files</li>
+    <li><code>topic-pairs.json</code> &mdash; EN/NL pairing with ~450 topics</li>
+    <li><code>dax-library.json</code> &mdash; validated query library: topic &rarr; queries &rarr; results</li>
+    <li><code>injection-log.json</code> &mdash; per-file log: what changed, before/after hashes</li>
+    <li><code>qa-screenshots/</code> &mdash; before/after screenshots for every 10th file</li>
+    <li><code>qa-failures.json</code> &mdash; flagged files needing manual review</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>872 reports, ~3,500 fake DAX queries, zero of them work. The fix is a 5-phase pipeline: snapshot the real schema, extract and deduplicate across EN/NL pairs, write valid DAX under Opus supervision with strict anti-hallucination rules, inject real results into the existing HTML shell, and QA with screenshot diffs. Runs unattended on M1 Pro, takes 8-15 hours. The 30 "other" files are never touched.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>DAX Truthifier Design &middot; Page 1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "DAX Truthifier Pipeline Design",
+  "date": "2026-04-12",
+  "summary": "Design for replacing ~3,500 fabricated DAX queries across 872 Power BI report pages with real, executable queries. Five-phase pipeline: schema snapshot, extract+pair, Opus-supervised DAX authoring, content injection, and visual QA with screenshot diffs.",
+  "sections": [
+    {
+      "heading": "Problem",
+      "items": [
+        { "title": "All DAX is fabricated", "detail": "~3,500 queries across 872 files (449 EN + 423 NL). Zero execute. Table names often match, column names are invented.", "meta": { "files": 872, "queries": 3500, "pass_rate": "0%" } }
+      ]
+    },
+    {
+      "heading": "Approach: Query Library First",
+      "items": [
+        { "title": "Deduplicate across EN/NL pairs", "detail": "~450 unique report topics instead of 872 files. Build validated DAX library, then inject into both language versions.", "meta": { "unique_topics": 450 } },
+        { "title": "Visual design frozen", "detail": "Only DAX code blocks, KPI values, table data, and narrative paragraphs change. All CSS, layout, marketing shell untouched.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Five Phases",
+      "items": [
+        { "title": "Phase 1: Schema Snapshot", "detail": "Pull full schema from Proxuma Demo dataset. Cache as single source of truth. 5 min.", "meta": { "duration": "5min" } },
+        { "title": "Phase 2: Extract + Pair", "detail": "Re-extract DAX from all 872 files. Build EN/NL topic pairs extending the 124 known mappings. 15-30 min.", "meta": { "duration": "15-30min" } },
+        { "title": "Phase 3: DAX Authoring", "detail": "Sonnet workers write DAX against real schema. Opus reviews batches of 20. Six anti-hallucination rules enforced. 4-8 hours.", "meta": { "duration": "4-8h", "opus_batches": 23 } },
+        { "title": "Phase 4: Content Injection", "detail": "Replace DAX blocks + update KPIs, tables, narrative with real results. Preserve all HTML structure. 2-4 hours.", "meta": { "duration": "2-4h" } },
+        { "title": "Phase 5: Visual QA", "detail": "Screenshot every 10th file before/after. HTML validation on all files. Pause on regressions. 1-2 hours.", "meta": { "duration": "1-2h" } }
+      ]
+    },
+    {
+      "heading": "Execution",
+      "items": [
+        { "title": "Runs on M1 Pro", "detail": "Automation machine with Ethernet. Rate-limited Power BI API calls with checkpointing. 8-15 hours total unattended.", "meta": { "machine": "M1 Pro", "ip": "100.85.64.20" } },
+        { "title": "Anti-hallucination rules", "detail": "Schema-only columns, measure verification, execute-or-reject, non-empty results check, no invented relationships, schema provided inline to workers.", "meta": { "rules": 6 } }
+      ]
+    },
+    {
+      "heading": "Key Artifacts",
+      "items": [
+        { "title": "schema-snapshot.json", "detail": "Frozen Power BI schema for the run", "meta": {} },
+        { "title": "dax-library.json", "detail": "Validated query library: topic to queries to results", "meta": {} },
+        { "title": "topic-pairs.json", "detail": "EN/NL file pairing for ~450 topics", "meta": {} },
+        { "title": "injection-log.json", "detail": "Per-file changelog with before/after hashes", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "User reviews design. If approved, invoke writing-plans skill to create step-by-step implementation plan. Then execute on M1 Pro."
+}
+</script>
+</body>
+</html>
