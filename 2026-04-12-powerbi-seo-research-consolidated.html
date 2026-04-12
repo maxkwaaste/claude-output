@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power BI Reports SEO Research -- Consolidated Brief</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-done { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-open { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-critical { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-p1 { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-p2 { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-p3 { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-medium { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7; white-space: pre-wrap;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.kw-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+.kw-table th {
+  text-align: left; padding: 8px 10px; font-weight: 600; font-size: 9px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, sans-serif;
+}
+.kw-table td {
+  padding: 7px 10px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, sans-serif; font-size: 12px;
+}
+.kw-table tr:nth-child(even) td { background: #f8f9fb; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="date">April 12, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-12-powerbi-seo-research-consolidated.html">View on GitHub</a></span>
+</div>
+
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">SEO Research Consolidation</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 12, 2026<br>Working Brief<br>Power BI Reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SEO &amp; Content Strategy</div>
+  <h1>Power BI Report Pages: Consolidated SEO Research</h1>
+  <p class="subtitle">Everything needed to perfect the 872 report pages in <code>github.com/Proxuma/powerbi-reports</code>. Combines keyword research, technical SEO audit findings, Bart's consultant feedback, competitive positioning, and the full 281-entry content planner into one actionable reference.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Report Pages Live</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">449+423</div>
+      <div class="stat-label">EN + NL Pages</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">281</div>
+      <div class="stat-label">Keyword-Mapped Ideas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~290</div>
+      <div class="stat-label">Pages Missing FAQ</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 1: REPO STATE ===== -->
+  <h2>1. Current State of the Repo</h2>
+
+  <p>The GitHub repo <code>Proxuma/powerbi-reports</code> holds 872 HTML report files: 449 in <code>en/</code> and 423 in <code>nl/</code>. Each file follows the naming pattern <code>proxuma-io-SLUG-post.html</code>. As of commit <code>329d666</code> (April 6, 2026), all files have been wrapped with a full SEO/marketing shell.</p>
+
+  <h3>What Each Report File Contains</h3>
+  <ul>
+    <li>Morph bar (sticky nav)</li>
+    <li>Breadcrumb navigation (Home > Power BI > Category > Report)</li>
+    <li>Search hero section</li>
+    <li>Pipeline section</li>
+    <li>Report overview card</li>
+    <li>6 related report links per page</li>
+    <li>CTA section</li>
+    <li>TechArticle + BreadcrumbList JSON-LD structured data</li>
+    <li>Meta descriptions, canonical URLs, hreflang EN/NL pairs</li>
+    <li>17-category auto-classification with badge colors</li>
+    <li>NL pages have Dutch UI strings and NL URL paths</li>
+  </ul>
+
+  <h3>What's Still Missing or Broken</h3>
+  <ul>
+    <li><strong>~290 pages have no FAQPage JSON-LD or visible FAQ accordion</strong> (172 EN + 118 NL). The other 582 have FAQ schema preserved from raw files.</li>
+    <li><strong>Breadcrumb category links</strong> point to <code>?cat=catId</code> instead of real pillar page URLs</li>
+    <li><strong>NL body content</strong> in ~80% of NL pages still has English narrative fragments</li>
+    <li><strong>Internal links in body text</strong> on NL pages still point to EN URLs</li>
+  </ul>
+
+  <!-- ===== SECTION 2: WORDPRESS DEPLOYMENT ===== -->
+  <h2>2. WordPress Deployment Details</h2>
+
+  <p>Reports are deployed to <code>proxuma.io</code> via WordPress. The repo files are the source of truth; deployment pushes content to WP using <code>$wpdb->update()</code> (never <code>wp_update_post()</code>, which strips styles/scripts).</p>
+
+  <table class="matrix">
+    <tr><th>Item</th><th>Detail</th></tr>
+    <tr><td><strong>SSH</strong></td><td><code>ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu</code></td></tr>
+    <tr><td><strong>WP-CLI</strong></td><td><code>cd ~/www/proxuma.io/public_html && wp ...</code></td></tr>
+    <tr><td><strong>EN parent page</strong></td><td>Page 3299 (163 published EN pages)</td></tr>
+    <tr><td><strong>NL parent page</strong></td><td>Page 3495 (133 published NL pages)</td></tr>
+    <tr><td><strong>EN base URL</strong></td><td><code>/powerbi/insights/[slug]/</code></td></tr>
+    <tr><td><strong>NL base URL</strong></td><td><code>/nl-powerbi/ai-gegenereerde-rapporten/[slug]/</code></td></tr>
+    <tr><td><strong>Protected pages</strong></td><td>3401, 5655, 3389, 4887 (editorial, never touch)</td></tr>
+    <tr><td><strong>Cache flush</strong></td><td><code>wp cache flush && wp sg purge</code></td></tr>
+    <tr><td><strong>Gallery pages</strong></td><td>3299 (EN) and 3495 (NL) use ACF, not post_content</td></tr>
+    <tr><td><strong>Content update method</strong></td><td>Always <code>$wpdb->update()</code> via PHP eval-file</td></tr>
+    <tr><td><strong>Large page warning</strong></td><td>SG optimizer blanks pages >~5MB inline base64</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Important</span>
+    The repo has 872 files but WordPress only has ~296 published pages (163 EN + 133 NL). The remaining repo files either haven't been pushed to WP yet or correspond to pages with different slugs. This gap needs reconciliation.
+  </div>
+
+  <!-- ===== SECTION 3: TECHNICAL SEO AUDIT ===== -->
+  <h2>3. Technical SEO Audit Findings</h2>
+
+  <p>Based on the Feb/Mar 2026 audit of live WordPress pages.</p>
+
+  <h3>What's Working</h3>
+  <ul>
+    <li>robots.txt allows all crawlers, links to sitemap_index.xml</li>
+    <li>Yoast generates canonical URLs correctly per page</li>
+    <li>JSON-LD: WebPage + Organization + BreadcrumbList on all pages</li>
+    <li>FAQPage schema on pages that have FAQ sections (9 Q&As each)</li>
+    <li>Internal links: ~1,048 new internal links via Related Reports blocks (was: 0)</li>
+    <li>Related Reports block: 6 links per page, language-isolated (EN links EN, NL links NL)</li>
+  </ul>
+
+  <h3>Critical Issues (from Feb 2026 audit)</h3>
+  <table class="matrix">
+    <tr><th>Issue</th><th>Severity</th><th>Detail</th></tr>
+    <tr><td><strong>No meta descriptions</strong></td><td><span class="tag tag-critical">Critical</span></td><td>Zero of 284 live pages had Yoast meta descriptions. Google auto-generates snippets from nav text and breadcrumbs, producing unusable SERP entries.</td></tr>
+    <tr><td><strong>No hreflang tags</strong></td><td><span class="tag tag-critical">Critical</span></td><td>EN and NL pages not linked via hreflang. No WPML/Polylang/TranslatePress. Google may treat NL pages as duplicate content.</td></tr>
+    <tr><td><strong>Pillar pages are thin</strong></td><td><span class="tag tag-open">Medium</span></td><td>6 pillar pages exist (/ticketing/, /costs/, /projects/, /client-reports/, /upsell/, /security/) but are 6-7KB with minimal content. Risk of thin-content classification.</td></tr>
+    <tr><td><strong>No homepage link to reports</strong></td><td><span class="tag tag-open">Medium</span></td><td>The report section has no link from the homepage or site navigation. Limits crawl priority.</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Status as of April 6</span>
+    The April 6 batch wrap (commit 329d666) added meta descriptions, hreflang tags, and canonical URLs to all 872 repo files. But these changes need to be pushed to WordPress for the live pages to reflect them.
+  </div>
+
+  <!-- ===== SECTION 4: BART'S SEO CONSULTANT FEEDBACK ===== -->
+  <h2>4. Bart's Feedback (SEO Consultant, March 12)</h2>
+
+  <p>Bart's assessment: <em>"Het is een behoorlijke puinhoop geworden die moet worden opgelost."</em> (It's become quite a mess that needs fixing.) Jasper is CC'd. Priority items reordered based on Bart's input.</p>
+
+  <h3>Bart's 6 Critical Items</h3>
+
+  <div class="card">
+    <div class="card-title">1. NL body content links still point to EN URLs</div>
+    <div class="card-buyer">Status: Related reports sections fixed. Body narrative still broken.</div>
+    <div class="card-desc">NL pages have hrefs matching <code>/powerbi/insights/*</code> in the narrative text. Should be <code>/nl-powerbi/ai-gegenereerde-rapporten/*</code>. Scope: ~120 NL pages. Need slug mapping derived from local files by matching report topic.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. Trailing slashes on internal links (~400 unnecessary 301s)</div>
+    <div class="card-buyer">Status: Not started</div>
+    <div class="card-desc">Links like <code>href="/powerbi/insights/[slug]"</code> (no trailing slash) cause 301 redirects. Need to add trailing slashes to all internal report links across ~282 pages, both EN and NL. Check both body text and Related Reports blocks.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Fix 404 internal links</div>
+    <div class="card-buyer">Status: Not started</div>
+    <div class="card-desc">Some internal hrefs point to slugs that don't exist. Known 404s include <code>/powerbi/insights/worst-clients</code> and some NL slugs. Need crawl of all report pages to extract internal hrefs and verify each returns 200.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. NL language settings broken</div>
+    <div class="card-buyer">Status: mu-plugin exists but still broken per Bart</div>
+    <div class="card-desc">Need <code>og:locale=nl_NL</code>, <code>&lt;html lang="nl-NL"&gt;</code>, and Yoast <code>inLanguage=nl-NL</code> in schema for all NL pages under parent 3495. The mu-plugin <code>nl-locale-override.php</code> may need extending.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5. NL translations (~80% have English fragments)</div>
+    <div class="card-buyer">Status: Not started. Biggest job.</div>
+    <div class="card-desc">For each NL page, extract narrative text from doc-body, identify English sentences, translate to Dutch. Preserve all HTML structure, CSS, DAX queries, chart SVGs. Only translate human-readable paragraphs. Use <code>$wpdb->update()</code> to push. Scope: ~100 NL pages across multiple sessions.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">6. Redo FAQ structured data</div>
+    <div class="card-buyer">Status: Bad FAQ schema from Mar 12 still live on 292 pages</div>
+    <div class="card-desc">The March 12 FAQ injection extracted CTA text instead of real FAQ content. Step 1: Remove all existing FAQPage JSON-LD from report pages. Step 2: Only re-inject on pages that have actual <code>&lt;div class="doc-faq"&gt;</code> sections. Follow Google's FAQ structured data spec. ~290 pages also need FAQ Q&As generated and a visible accordion added.</div>
+  </div>
+
+  <h3>Bart's Medium Priority Items</h3>
+  <ul>
+    <li>Expand related reports from 4 to 6 per page (done in April wrap)</li>
+    <li>Featured images with descriptive filenames + alt tags per report topic</li>
+    <li>Gallery coverage: ensure all 163 EN + 133 NL pages appear in galleries</li>
+    <li>301 redirects for 6 root-level report URLs to <code>/powerbi/insights/</code></li>
+  </ul>
+
+  <!-- ===== SECTION 5: SEO AUDIT TRACKER OPEN ITEMS ===== -->
+  <h2>5. Open Items from SEO Audit Tracker</h2>
+
+  <table class="matrix">
+    <tr><th>Item</th><th>Status</th><th>Notes</th></tr>
+    <tr><td>301 redirects for stray root-level report URLs</td><td><span class="tag tag-open">WP</span></td><td>~6 URLs, use Redirection plugin on WordPress</td></tr>
+    <tr><td>Improve EN gallery title tag</td><td><span class="tag tag-open">WP</span></td><td>Add "Power BI" and "MSP" keywords to page 3299</td></tr>
+    <tr><td>Improve NL gallery title tag</td><td><span class="tag tag-open">WP</span></td><td>Add "Power BI" and "MSP" keywords to page 3495</td></tr>
+    <tr><td>Run PageSpeed Insights</td><td><span class="tag tag-open">Check</span></td><td>Gallery + 3 sample reports via Google PSI API</td></tr>
+    <tr><td>Check GSC coverage report</td><td><span class="tag tag-open">Check</span></td><td>Search Console indexing status</td></tr>
+    <tr><td>Pillar pages not linked from reports</td><td><span class="tag tag-open">Repo</span></td><td>Breadcrumb step 3 should link to real pillar page URL, not <code>?cat=catId</code></td></tr>
+  </table>
+
+  <h3>6 Pillar Pages (live on proxuma.io)</h3>
+  <table class="matrix">
+    <tr><th>Pillar</th><th>EN URL</th></tr>
+    <tr><td>Ticketing</td><td><code>/powerbi/insights/ticketing/</code></td></tr>
+    <tr><td>Costs</td><td><code>/powerbi/insights/costs/</code></td></tr>
+    <tr><td>Projects</td><td><code>/powerbi/insights/projects/</code></td></tr>
+    <tr><td>Client Reports</td><td><code>/powerbi/insights/client-reports/</code></td></tr>
+    <tr><td>Upsell</td><td><code>/powerbi/insights/upsell/</code></td></tr>
+    <tr><td>Security</td><td><code>/powerbi/insights/security/</code></td></tr>
+  </table>
+
+  <p>Hub pages: <code>/powerbi/</code>, <code>/powerbi/dashboards/</code>, <code>/powerbi/integrations/</code>, <code>/powerbi/insights/</code>, <code>/nl-powerbi/integrations/</code>, <code>/nl-powerbi/ai-gegenereerde-rapporten/</code></p>
+
+  <!-- ===== SECTION 6: COMPETITIVE LANDSCAPE ===== -->
+  <h2>6. Competitive Landscape</h2>
+
+  <p>Proxuma is the only vendor combining Autotask planning/scheduling with Power BI analytics and AI-generated reporting, channel-only for MSPs. But none of this matters for SEO if pages are not discoverable.</p>
+
+  <h3>Keyword Rankings (Feb 2026)</h3>
+  <table class="matrix">
+    <tr><th>Keyword</th><th>Volume</th><th>Ranking</th><th>Top Competitors</th></tr>
+    <tr><td>Power BI for MSPs</td><td>Medium</td><td><strong>Page 1, ~#5</strong></td><td>TopNotch-Tech, ClipTraining, SMB Nation</td></tr>
+    <tr><td>Power BI dashboard MSP</td><td>Low-Med</td><td><strong>Page 1, ~#4</strong></td><td>Microsoft Learn, ZoomCharts, The Reporting Hub</td></tr>
+    <tr><td>MSP reporting tool</td><td>High</td><td>Not in top 10</td><td>DeskDay, BrightGauge, ConnectWise, NinjaOne</td></tr>
+    <tr><td>MSP QBR automation</td><td>Medium</td><td>Not in top 10</td><td>Strategy Overview, CloudRadial, vCIOToolbox</td></tr>
+    <tr><td>MSP business intelligence</td><td>Medium</td><td>Not in top 10</td><td>MSPBots, MSPCFO, BrightGauge, ManageEngine</td></tr>
+    <tr><td>white label Power BI reports</td><td>Medium</td><td>Not in top 10</td><td>The Reporting Hub, DataTako, Domo</td></tr>
+    <tr><td>automated QBR reports MSP</td><td>Low-Med</td><td>Not in top 10</td><td>Humanize IT, CloudRadial, IT Glue</td></tr>
+    <tr><td>Proxuma (branded)</td><td>Low</td><td><strong>#1</strong></td><td>Datto Integrations, LinkedIn, KB</td></tr>
+  </table>
+
+  <h3>Key Competitors</h3>
+  <table class="matrix">
+    <tr><th>Competitor</th><th>Price</th><th>Strength</th><th>Weakness vs Proxuma</th></tr>
+    <tr><td><strong>MSPCFO</strong></td><td>$300-500/mo</td><td>50+ financial reports, Pax8 partnership</td><td>Proprietary dashboards, no AI reports</td></tr>
+    <tr><td><strong>BrightGauge</strong></td><td>$199-499/mo</td><td>ConnectWise integration, established brand</td><td>ConnectWise lock-in, 210-day data limit</td></tr>
+    <tr><td><strong>MSPBots</strong></td><td>$99-299/mo</td><td>70+ integrations, aggressive content</td><td>Complex setup, not MSP-exclusive</td></tr>
+    <tr><td><strong>CloudRadial</strong></td><td>$150-400/mo</td><td>Client portal + QBR</td><td>No Power BI, no AI reports</td></tr>
+    <tr><td><strong>ScalePad</strong></td><td>$200-500/mo</td><td>Asset lifecycle + QBR</td><td>Hardware-focused, limited analytics</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">SEO Score: 3/10</span>
+    Proxuma ranks well for niche "Power BI for MSPs" and "Power BI dashboard MSP" but is invisible for high-volume MSP keywords. The 872 report pages are the biggest untapped SEO asset. Each one can target a specific long-tail keyword.
+  </div>
+
+  <!-- ===== SECTION 7: CATEGORY SYSTEM ===== -->
+  <h2>7. Report Category System (17 Categories)</h2>
+
+  <p>The <code>seo-generator.js</code> script auto-classifies reports into 17 categories based on slug keywords. Each category has EN and NL keyword lists for matching.</p>
+
+  <table class="kw-table">
+    <tr><th>Category</th><th>ID</th><th>EN Keywords (slug matching)</th></tr>
+    <tr><td>Backup &amp; Data Protection</td><td>backup</td><td>backup, cove, data-protection, unprotected</td></tr>
+    <tr><td>SLA &amp; Service Performance</td><td>sla</td><td>sla, first-response, resolution, mttr, same-day, service-quality</td></tr>
+    <tr><td>Ticketing &amp; Helpdesk</td><td>ticketing</td><td>ticket, helpdesk, queue, open-ticket, backlog, stuck, zombie, overdue</td></tr>
+    <tr><td>CSAT &amp; Customer Satisfaction</td><td>csat</td><td>csat, satisfaction, survey, nps, sentiment</td></tr>
+    <tr><td>Financial &amp; Revenue</td><td>financial</td><td>revenue, mrr, cost, profit, margin, billing, charge, price, labor</td></tr>
+    <tr><td>Client Management</td><td>client</td><td>client, customer, churn, onboarding, health-score</td></tr>
+    <tr><td>Contract Management</td><td>contract</td><td>contract, renewal, expir</td></tr>
+    <tr><td>RMM &amp; Alert Management</td><td>rmm</td><td>alert, rmm, monitor, noisy, stale, auto-resolve, noc</td></tr>
+    <tr><td>Device &amp; Endpoint</td><td>device</td><td>device, endpoint, fleet, ghost, storage, uptime, reboot, ci-category</td></tr>
+    <tr><td>Microsoft 365 &amp; Licensing</td><td>m365</td><td>m365, microsoft, license, tenant, adoption, lighthouse</td></tr>
+    <tr><td>Sales &amp; Pipeline</td><td>sales</td><td>deal, pipeline, opportunity, sales, hubspot, win-loss, conversion</td></tr>
+    <tr><td>Resource &amp; Capacity</td><td>resource</td><td>resource, capacity, utilization, technician, engineer, billable, hours</td></tr>
+    <tr><td>Project Management</td><td>project</td><td>project, milestone, phase, gantt, task, budget-variance</td></tr>
+    <tr><td>HR &amp; Workforce</td><td>hr</td><td>headcount, hire, employee, manager, span-of-control, fte</td></tr>
+    <tr><td>Security &amp; Compliance</td><td>security</td><td>security, audit, compliance, gdap, directory-role, guest-user</td></tr>
+    <tr><td>QBR &amp; Executive</td><td>qbr</td><td>qbr, quarterly, vcto, executive, it-health, msp-operations</td></tr>
+  </table>
+
+  <!-- ===== SECTION 8: CONTENT PLANNER SUMMARY ===== -->
+  <h2>8. Content Planner: 281 Keyword-Mapped Report Ideas</h2>
+
+  <p>The full content planner lives at <code>~/ClaudeCode/content-planner-data.md</code> (machine-readable) and <code>~/ClaudeCode/autotask-content-planner.html</code> (interactive visual). Below is the structural summary with priority distribution.</p>
+
+  <h3>Priority Distribution</h3>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">75</div>
+      <div class="stat-label">P1 (High Demand)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">143</div>
+      <div class="stat-label">P2 (Good Potential)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">60</div>
+      <div class="stat-label">P3 (Niche)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">P4 (Nice to Have)</div>
+    </div>
+  </div>
+
+  <h3>Data Sources (11 total)</h3>
+  <table class="matrix">
+    <tr><th>Data Source</th><th>Categories</th><th>ID Range</th><th>Count</th></tr>
+    <tr><td><strong>Autotask PSA</strong></td><td>Client Profitability, Resource Utilization, SLA Performance, Ticket Analytics, Time Entry, Financial/Revenue, Project Management, CRM/Sales, CSAT, Ops Efficiency, Config Items, Contract Analytics</td><td>1-124</td><td>124</td></tr>
+    <tr><td>Microsoft Partner Center</td><td>Microsoft 365</td><td>125-136</td><td>12</td></tr>
+    <tr><td>M365 Lighthouse</td><td>M365 Lighthouse</td><td>137-145</td><td>9</td></tr>
+    <tr><td>Datto RMM</td><td>Datto RMM</td><td>146-157</td><td>12</td></tr>
+    <tr><td>Datto Backup</td><td>Datto Backup</td><td>158-165</td><td>8</td></tr>
+    <tr><td>N-able RMM</td><td>N-able RMM</td><td>166-175</td><td>10</td></tr>
+    <tr><td>N-able Cove</td><td>N-able Cove</td><td>176-183</td><td>8</td></tr>
+    <tr><td>HubSpot CRM</td><td>HubSpot CRM</td><td>184-193</td><td>10</td></tr>
+    <tr><td>SmileBack CSAT</td><td>SmileBack CSAT</td><td>194-202</td><td>9</td></tr>
+    <tr><td>HiBob HR</td><td>HiBob HR</td><td>203-211</td><td>9</td></tr>
+    <tr><td>Cross-Source</td><td>Multi-tool combinations</td><td>212-281</td><td>70</td></tr>
+  </table>
+
+  <h3>Content Planner Entry Format</h3>
+  <p>Each of the 281 entries contains:</p>
+  <ul>
+    <li><strong>Business question</strong> (the report title / search intent)</li>
+    <li><strong>Priority</strong> (P1-P4) based on search volume + MSP demand</li>
+    <li><strong>Target audience</strong> (MSP Owner, Service Manager, CFO, vCIO, Project Manager)</li>
+    <li><strong>Google keywords</strong> (2-3 phrases per entry)</li>
+    <li><strong>Suggested blog title</strong> (click-optimized headline)</li>
+    <li><strong>Search volume</strong> (high/medium/low)</li>
+    <li><strong>Competitor</strong> and price point (where applicable)</li>
+    <li><strong>Reddit/forum source URL</strong> (21 entries have real user demand evidence)</li>
+    <li><strong>Power BI measures</strong> needed (DAX measure names from the semantic model)</li>
+    <li><strong>[BUILT] flag</strong> on 18 entries that already have reports</li>
+  </ul>
+
+  <h3>Top P1 Keywords by Category (sample)</h3>
+  <table class="kw-table">
+    <tr><th>ID</th><th>Category</th><th>Question</th><th>Keywords</th><th>Vol</th><th>Competitor</th></tr>
+    <tr><td>1</td><td>Client Profit</td><td>Which clients are actually profitable?</td><td>autotask client profitability, MSP client profit report</td><td>High</td><td>MSPCFO $300/mo</td></tr>
+    <tr><td>7</td><td>Client Profit</td><td>Which contracts are unprofitable?</td><td>autotask contract profitability, unprofitable MSP contracts</td><td>High</td><td>MSPbots $150/mo</td></tr>
+    <tr><td>16</td><td>Resource</td><td>What is each tech's billable percentage?</td><td>autotask billable percentage per technician, MSP tech utilization</td><td>High</td><td>BrightGauge $300/mo</td></tr>
+    <tr><td>22</td><td>Resource</td><td>How many unwritten hours does each resource have?</td><td>autotask missing time entries, MSP unwritten hours report</td><td>High</td><td>MSPbots $150/mo</td></tr>
+    <tr><td>31</td><td>SLA</td><td>What percentage of tickets meet first response SLA?</td><td>autotask first response SLA, MSP SLA compliance report</td><td>High</td><td>BrightGauge $300/mo</td></tr>
+    <tr><td>43</td><td>Ticketing</td><td>How many tickets are currently open and by what status?</td><td>autotask open tickets report, MSP ticket backlog</td><td>High</td><td>BrightGauge $300/mo</td></tr>
+    <tr><td>44</td><td>Ticketing</td><td>Which tickets have been stuck for more than 14 days?</td><td>autotask zombie tickets, MSP stale ticket report</td><td>High</td><td>MSPbots $150/mo</td></tr>
+    <tr><td>72</td><td>Financial</td><td>What's our monthly recurring revenue (MRR)?</td><td>autotask MRR report, MSP recurring revenue tracking</td><td>High</td><td>MSPCFO $300/mo</td></tr>
+    <tr><td>81</td><td>Project</td><td>What's the profitability of each project?</td><td>autotask project profitability, MSP project profit report</td><td>High</td><td>-</td></tr>
+    <tr><td>125</td><td>M365</td><td>What is our overall license utilization rate?</td><td>MSP license utilization rate, M365 license usage report</td><td>High</td><td>Augmentt $4/user</td></tr>
+    <tr><td>146</td><td>Datto RMM</td><td>What is the alert volume trend?</td><td>Datto RMM alert volume trend, MSP alert noise report</td><td>High</td><td>-</td></tr>
+    <tr><td>158</td><td>Datto Backup</td><td>What does our backup success rate look like?</td><td>Datto backup success rate, MSP backup reliability report</td><td>High</td><td>-</td></tr>
+  </table>
+
+  <p><strong>Full dataset:</strong> Read <code>~/ClaudeCode/content-planner-data.md</code> for all 281 entries with complete keywords, measures, blog titles, and source links.</p>
+
+  <!-- ===== SECTION 9: STRUCTURED DATA SPEC ===== -->
+  <h2>9. Structured Data Requirements</h2>
+
+  <h3>Currently Implemented (on repo files)</h3>
+  <ul>
+    <li><strong>TechArticle</strong> JSON-LD on all 872 pages</li>
+    <li><strong>BreadcrumbList</strong> JSON-LD on all 872 pages</li>
+    <li><strong>FAQPage</strong> JSON-LD on 582 pages (those with existing FAQ sections)</li>
+  </ul>
+
+  <h3>What Yoast Auto-Generates on WordPress</h3>
+  <ul>
+    <li>Canonical URL (correct)</li>
+    <li>WebPage + Organization + BreadcrumbList JSON-LD</li>
+    <li>og:title + og:url (correct)</li>
+    <li>og:description: falls back to nothing (empty)</li>
+    <li>hreflang: not generated (no multilingual plugin)</li>
+  </ul>
+
+  <h3>What Needs Fixing</h3>
+  <ul>
+    <li>Set <code>_yoast_wpseo_metadesc</code> for all pages (generated meta descriptions exist in repo files)</li>
+    <li>Set <code>_yoast_wpseo_opengraph-description</code> from the same meta descriptions</li>
+    <li>Inject hreflang tags via PHP filter or mu-plugin (repo files have them, WP doesn't)</li>
+    <li>Fix FAQPage schema on 292 pages (currently has CTA text instead of real FAQ content)</li>
+    <li>Generate FAQ Q&As for ~290 pages that have none</li>
+    <li>Update BreadcrumbList URLs to point to real pillar pages instead of <code>?cat=catId</code></li>
+  </ul>
+
+  <!-- ===== SECTION 10: META GENERATION SPEC ===== -->
+  <h2>10. Meta Title &amp; Description Spec</h2>
+
+  <p>Used by <code>seo-generator.js</code>:</p>
+
+  <pre>Meta title format:
+  [Report Title] | Power BI for MSPs | Proxuma
+  Max 60 chars total (truncate title + "..." if needed)
+
+Meta description format:
+  "Explore the [Report Title] report for MSPs. Built with
+   Power BI, this [Category] report helps managed service
+   providers track KPIs and improve operations."
+  Max 155 chars (truncate + "..." if needed)</pre>
+
+  <p>For NL pages, translate the template to Dutch. Keep "Power BI" and "Proxuma" untranslated.</p>
+
+  <!-- ===== SECTION 11: ACTION PLAN ===== -->
+  <h2>11. Prioritized Action Plan for the Next Claude Session</h2>
+
+  <div class="positioning">
+    <h2>The Goal</h2>
+    <p>Perfect the 872 report files in the <code>Proxuma/powerbi-reports</code> GitHub repo so that when pushed to WordPress, every page has correct structured data, meta descriptions, hreflang, internal links, real FAQ content, proper NL translations, and pillar page connections. The repo is the source of truth.</p>
+  </div>
+
+  <h3>Phase 1: Fix What's Broken (High Impact)</h3>
+  <ol>
+    <li><strong>Generate FAQ Q&As for ~290 pages without them.</strong> For each, create 3-5 real Q&As based on the report title, KPIs, and section content. Add both visible FAQ accordion and FAQPage JSON-LD.</li>
+    <li><strong>Fix the bad FAQ schema on 292 pages</strong> (those from Mar 12 that extracted CTA text). Remove bad schema, re-extract real Q&As from the <code>.doc-faq</code> sections.</li>
+    <li><strong>Fix breadcrumb links</strong> to point to real pillar page URLs (<code>/powerbi/insights/ticketing/</code> etc.) instead of <code>?cat=catId</code>.</li>
+    <li><strong>Fix NL body content links</strong> that still point to EN URLs. Replace <code>/powerbi/insights/*</code> with <code>/nl-powerbi/ai-gegenereerde-rapporten/*</code> in narrative text.</li>
+    <li><strong>Add trailing slashes</strong> to all internal report links.</li>
+  </ol>
+
+  <h3>Phase 2: Content Quality (Medium Impact)</h3>
+  <ol start="6">
+    <li><strong>Translate English fragments in NL pages.</strong> Extract narrative text from doc-body, identify English sentences, translate to Dutch. Preserve all HTML/CSS/DAX/SVG.</li>
+    <li><strong>Verify and fix 404 internal links.</strong> Crawl all report files, extract internal hrefs, check each slug exists in the repo.</li>
+    <li><strong>Cross-reference with content planner.</strong> Map existing 872 report files to the 281 content planner entries. Identify coverage gaps (P1/P2 keywords with no matching report) and content opportunities.</li>
+  </ol>
+
+  <h3>Phase 3: Optimization (Refinements)</h3>
+  <ol start="9">
+    <li><strong>Verify meta descriptions</strong> match the content planner keywords for the corresponding report.</li>
+    <li><strong>Enrich thin pages</strong> with better keyword-aligned content from the content planner (blog titles, keywords, competitor context).</li>
+    <li><strong>Check hreflang pairing</strong> between EN and NL files. Every EN file should reference its NL counterpart and vice versa.</li>
+  </ol>
+
+  <!-- ===== SECTION 12: KEY FILES ===== -->
+  <h2>12. Key Files Reference</h2>
+
+  <table class="matrix">
+    <tr><th>File</th><th>Purpose</th></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/en/</code></td><td>449 EN report HTML files</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/nl/</code></td><td>423 NL report HTML files</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html</code></td><td>Golden standard template for report layout</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/scripts/seo-generator.js</code></td><td>SEO audit generator with 17-category mapping</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/add-related-reports.py</code></td><td>Related reports injection logic</td></tr>
+    <tr><td><code>~/ClaudeCode/content-planner-data.md</code></td><td>281 keyword-mapped report ideas (machine-readable)</td></tr>
+    <tr><td><code>~/ClaudeCode/autotask-content-planner.html</code></td><td>Interactive content planner (visual version)</td></tr>
+    <tr><td><code>~/ClaudeCode/powerbi-reports/SEO-AUDIT-HANDOFF.md</code></td><td>Bart's feedback + handoff notes</td></tr>
+    <tr><td><code>~/ClaudeCode/seo-audit-tracker.html</code></td><td>Interactive tracker (also WP page 5725)</td></tr>
+    <tr><td><code>~/ClaudeCode/seo-audit-prompt.md</code></td><td>Reusable weekly SEO audit prompt (Google ranking checks)</td></tr>
+    <tr><td><code>~/ClaudeCode/proxuma-marketing-audit.md</code></td><td>Full marketing audit (Feb 2026)</td></tr>
+  </table>
+
+  <h3>CSS Classes in Report Files</h3>
+  <p>Key selectors for finding/modifying content in the report HTML files:</p>
+  <table class="kw-table">
+    <tr><th>Selector</th><th>What It Contains</th></tr>
+    <tr><td><code>.search-hero</code></td><td>Search hero section</td></tr>
+    <tr><td><code>.report-frame-outer</code></td><td>Outer frame wrapping the report</td></tr>
+    <tr><td><code>.doc</code></td><td>The printed document container</td></tr>
+    <tr><td><code>.doc-section</code></td><td>Individual section within the document</td></tr>
+    <tr><td><code>.doc-body</code></td><td>Narrative text body (where translations needed)</td></tr>
+    <tr><td><code>.doc-faq</code></td><td>FAQ accordion section (if present)</td></tr>
+    <tr><td><code>.doc-title</code></td><td>Report title (used for Dutch detection)</td></tr>
+    <tr><td><code>.doc-subtitle</code></td><td>Report subtitle / description</td></tr>
+    <tr><td><code>.dax-toggle</code></td><td>DAX query toggle sections</td></tr>
+  </table>
+
+  <h3>Report Golden Standard Spec</h3>
+  <ul>
+    <li>Font: <strong>Open Sans</strong> (NOT Inter/Montserrat), weight 800</li>
+    <li>Text color: <strong>#2c3e50</strong> (NOT #1B365D)</li>
+    <li>Pipeline color: <strong>#0f766e / #115e58</strong> (teal)</li>
+    <li>Doc title font: <strong>DM Serif Display</strong></li>
+    <li>Code font: <strong>JetBrains Mono</strong></li>
+    <li>Morph bar z-index: <strong>10000</strong></li>
+    <li>Scroll trigger: <code>rect.top <= hh</code></li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Power BI Reports SEO Research / Consolidated Brief / April 12, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Power BI Reports SEO Research -- Consolidated Brief",
+  "date": "2026-04-12",
+  "summary": "Complete SEO research consolidation for 872 Power BI report pages in Proxuma/powerbi-reports repo. Combines keyword research (281 entries), technical SEO audit, Bart's consultant feedback, competitive analysis, and prioritized action plan.",
+  "sections": [
+    {
+      "heading": "Repo State",
+      "items": [
+        {"title": "872 report files", "detail": "449 EN + 423 NL in Proxuma/powerbi-reports. All wrapped with SEO shell as of commit 329d666 (Apr 6). TechArticle + BreadcrumbList JSON-LD on all."},
+        {"title": "~290 missing FAQ", "detail": "172 EN + 118 NL pages have no FAQPage schema or visible FAQ accordion."},
+        {"title": "Bad FAQ schema on 292 pages", "detail": "Mar 12 injection extracted CTA text instead of real FAQ content. Needs removal and re-injection."},
+        {"title": "NL content issues", "detail": "~80% of NL pages have English narrative fragments. NL body links still point to EN URLs."}
+      ]
+    },
+    {
+      "heading": "WordPress Deployment",
+      "items": [
+        {"title": "SSH", "detail": "ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu"},
+        {"title": "Pages", "detail": "EN parent 3299 (163 pages), NL parent 3495 (133 pages). Protected: 3401, 5655, 3389, 4887."},
+        {"title": "Content method", "detail": "Always $wpdb->update() via PHP eval-file. Never wp_update_post (strips styles)."},
+        {"title": "Repo vs WP gap", "detail": "872 repo files but only ~296 published WP pages. Needs reconciliation."}
+      ]
+    },
+    {
+      "heading": "Technical SEO Issues",
+      "items": [
+        {"title": "No meta descriptions on WP", "detail": "Zero live pages have Yoast meta descriptions. Repo files have them but not pushed."},
+        {"title": "No hreflang on WP", "detail": "No multilingual plugin. EN/NL pages not linked. Google may treat NL as duplicate."},
+        {"title": "Thin pillar pages", "detail": "6 pillars at 6-7KB with minimal content. Risk thin-content classification."},
+        {"title": "No homepage link", "detail": "Report section has no link from homepage or site nav."}
+      ]
+    },
+    {
+      "heading": "Bart's Feedback (Mar 12)",
+      "items": [
+        {"title": "NL body links to EN URLs", "detail": "~120 NL pages. Replace /powerbi/insights/* with /nl-powerbi/ai-gegenereerde-rapporten/*."},
+        {"title": "Trailing slashes missing", "detail": "~400 unnecessary 301 redirects. Add trailing slashes to all internal report links."},
+        {"title": "404 internal links", "detail": "Known: /powerbi/insights/worst-clients and some NL slugs. Need full crawl."},
+        {"title": "NL language settings broken", "detail": "mu-plugin nl-locale-override.php exists but not working. Need og:locale, html lang, Yoast inLanguage."},
+        {"title": "NL translations incomplete", "detail": "~80% of NL pages have English fragments. Biggest job. ~100 pages across multiple sessions."},
+        {"title": "FAQ schema corrupted", "detail": "292 pages have CTA text as FAQ content. Remove all, re-inject only where real .doc-faq exists."}
+      ]
+    },
+    {
+      "heading": "Competitive Position",
+      "items": [
+        {"title": "SEO Score 3/10", "detail": "Ranks for 'Power BI for MSPs' (#5) and 'Power BI dashboard MSP' (#4). Invisible for high-volume: MSP reporting tool, MSP QBR automation, MSP business intelligence."},
+        {"title": "Main competitors", "detail": "MSPCFO ($300-500/mo), BrightGauge ($199-499/mo), MSPBots ($99-299/mo), CloudRadial ($150-400/mo), ScalePad ($200-500/mo)."},
+        {"title": "Unique advantage", "detail": "Only vendor combining Autotask planning + Power BI + AI reports. 872 pages = largest MSP report library."}
+      ]
+    },
+    {
+      "heading": "Content Planner",
+      "items": [
+        {"title": "281 keyword-mapped ideas", "detail": "75 P1, 143 P2, 60 P3, 3 P4. 11 data sources, 22 categories. 18 already built. 21 with Reddit source links."},
+        {"title": "Full data", "detail": "Read ~/ClaudeCode/content-planner-data.md for all entries with keywords, measures, blog titles, source URLs."}
+      ]
+    },
+    {
+      "heading": "Category System",
+      "items": [
+        {"title": "17 auto-categories", "detail": "Backup, SLA, Ticketing, CSAT, Financial, Client, Contract, RMM, Device, M365, Sales, Resource, Project, HR, Security, QBR. Matched by slug keywords."}
+      ]
+    },
+    {
+      "heading": "Key Files",
+      "items": [
+        {"title": "Report files", "detail": "~/ClaudeCode/powerbi-reports/en/ (449) and nl/ (423)"},
+        {"title": "Content planner", "detail": "~/ClaudeCode/content-planner-data.md (281 entries, machine-readable)"},
+        {"title": "SEO generator", "detail": "~/ClaudeCode/powerbi-reports/scripts/seo-generator.js (category mapping)"},
+        {"title": "Golden standard", "detail": "~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html"},
+        {"title": "SEO audit prompt", "detail": "~/ClaudeCode/seo-audit-prompt.md (reusable weekly audit)"},
+        {"title": "Marketing audit", "detail": "~/ClaudeCode/proxuma-marketing-audit.md (full Feb 2026 audit)"}
+      ]
+    },
+    {
+      "heading": "Action Plan",
+      "items": [
+        {"title": "Phase 1: Fix broken", "detail": "Generate FAQ for ~290 pages. Fix bad FAQ schema on 292 pages. Fix breadcrumb pillar links. Fix NL body links. Add trailing slashes."},
+        {"title": "Phase 2: Content quality", "detail": "Translate English fragments in NL pages. Verify/fix 404 links. Cross-reference with content planner."},
+        {"title": "Phase 3: Optimize", "detail": "Align meta descriptions with content planner keywords. Enrich thin pages. Verify hreflang pairing."}
+      ]
+    }
+  ],
+  "next_steps": "Use this document as the complete brief for the next Claude session working on Proxuma/powerbi-reports. Start with Phase 1 (FAQ generation and broken fixes). Read ~/ClaudeCode/content-planner-data.md for the full 281-entry keyword dataset. The repo is the source of truth -- fix files there, then push to WordPress."
+}
+</script>
+
+</body>
+</html>

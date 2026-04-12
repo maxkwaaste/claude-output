@@ -603,6 +603,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-12-powerbi-seo-research-consolidated.html",
+    "title": "Power BI Reports SEO Research -- Consolidated Brief",
+    "date": "2026-04-12",
+    "summary": "Complete SEO research consolidation for 872 Power BI report pages. Combines keyword research (281 entries), technical audit, Bart's feedback, competitive analysis, and action plan.",
+    "tags": ["Power BI", "SEO", "Reports"],
+    "type": "guide",
+    "detail": "Everything needed to perfect the Proxuma/powerbi-reports GitHub repo. 872 pages (449 EN + 423 NL), 281 keyword-mapped content ideas, 17-category system, Bart's 6 critical items, competitive positioning vs MSPCFO/BrightGauge/MSPBots, and a phased action plan (FAQ generation, NL translation, link fixes, content planner alignment)."
+  },
+  {
     "file": "2026-04-12-audiobook-culture-of-critique.html",
     "title": "Culture of Critique - Full Audiobook Generation",
     "date": "2026-04-12",
@@ -841,8 +850,8 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
           const sb = matchMap.get(b.file)?.score ?? 1;
           return sa - sb;
         }
-        case 'date-desc': return b.date.localeCompare(a.date);
-        case 'date-asc':  return a.date.localeCompare(b.date);
+        case 'date-desc': return b.date.localeCompare(a.date) || a.title.localeCompare(b.title);
+        case 'date-asc':  return a.date.localeCompare(b.date) || a.title.localeCompare(b.title);
         case 'title-asc': return a.title.localeCompare(b.title);
         case 'title-desc': return b.title.localeCompare(a.title);
         default: return 0;
@@ -913,10 +922,6 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
     const relOpt = document.getElementById('sort-relevance');
     if (searchQuery) {
       relOpt.disabled = false;
-      if (sortMode === 'date-desc') {
-        document.getElementById('sort-select').value = 'relevance';
-        sortMode = 'relevance';
-      }
     } else {
       relOpt.disabled = true;
       if (sortMode === 'relevance') {
@@ -1077,6 +1082,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   document.getElementById('clear-all').addEventListener('click', function() {
     activeType = null;
     activeTags.clear();
+    searchQuery = '';
+    searchInput.value = '';
+    clearBtn.classList.remove('visible');
+    sortMode = 'date-desc';
+    document.getElementById('sort-select').value = 'date-desc';
     document.querySelectorAll('.type-chip, .tag-chip').forEach(c => c.classList.remove('active'));
     render();
   });
