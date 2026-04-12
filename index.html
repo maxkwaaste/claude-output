@@ -333,6 +333,9 @@ body.dark .type-chip[data-type="product"] { background: #2a1c0c; border-color: #
 }
 .entry-date { font-size: 11px; font-weight: 500; color: var(--gold-600); white-space: nowrap; }
 body.dark .entry-date { color: var(--gold-400); }
+.entry-updated { font-size: 10px; color: var(--ink-muted); white-space: nowrap; opacity: 0.75; }
+.entry-updated::before { content: '(updated '; }
+.entry-updated::after { content: ')'; }
 .entry-type-badge {
   font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
   padding: 2px 6px; border-radius: 3px;
@@ -513,6 +516,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       <option value="date-asc">Oldest first</option>
       <option value="title-asc">Title A-Z</option>
       <option value="title-desc">Title Z-A</option>
+      <option value="updated-desc">Last updated</option>
       <option value="relevance" id="sort-relevance" disabled>Best match</option>
     </select>
     <select class="group-select" id="group-select">
@@ -573,7 +577,8 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-racism-deep-history.html",
     "title": "The Invention of Racism -- A Deep History from Antiquity to the Cold War",
-    "date": "2026-04-12",
+    "date": "2026-04-12T18:28",
+    "updated": "2026-04-12T18:38",
     "summary": "Part II: cross-language Ngram data (5 languages), deep pre-history from Greek barbarians through limpieza de sangre to eugenics, etymology of 'racism' (French origin, 1894), and the role of Jewish intellectuals in constructing anti-racism post-Holocaust.",
     "tags": ["Research", "Cultural History", "Corpus Linguistics", "Etymology"],
     "type": "strategy",
@@ -582,7 +587,8 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-powerbi-reports-master.html",
     "title": "Power BI Reports -- Design + SEO Master Brief",
-    "date": "2026-04-12",
+    "date": "2026-04-12T18:35",
+    "updated": "2026-04-12T18:40",
     "summary": "Multi-session coordination doc for perfecting 940 report pages in GitHub before one push to proxuma.io. Tracks design + SEO work across 14 sessions in 5 phases.",
     "tags": ["Power BI", "SEO", "Design", "Coordination"],
     "type": "guide",
@@ -591,7 +597,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-msp-powerbi-seo-landscape.html",
     "title": "MSP Power BI SEO Landscape Analysis",
-    "date": "2026-04-12",
+    "date": "2026-04-12T18:16",
     "summary": "Full SEO landscape research for Power BI reporting targeting MSPs. Keyword clusters, competitor analysis, search volume estimates, and strategic recommendations for 940 report pages.",
     "tags": ["Power BI", "SEO", "MSP", "Marketing"],
     "type": "strategy",
@@ -600,7 +606,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-ngram-racism-research.html",
     "title": "When Did Racism Become a Vice? -- A Google Ngram Analysis",
-    "date": "2026-04-12",
+    "date": "2026-04-12T18:08",
     "summary": "Google Ngram frequency analysis of 20 terms across 220 years, tracking when English-language discourse reclassified racial hierarchy from common sense to moral vice.",
     "tags": ["Research", "Cultural History", "Corpus Linguistics"],
     "type": "strategy",
@@ -609,7 +615,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "https://github.com/maxkwaaste/power-monitor",
     "title": "Power Monitor - Live Process Power Dashboard",
-    "date": "2026-04-12",
+    "date": "2026-04-12T17:34",
     "summary": "Interactive macOS power monitor with live doughnut chart, per-process CPU/memory bars, kill buttons, and small-slice grouping. Python server + Chart.js frontend.",
     "tags": ["Tooling", "macOS", "Dashboard"],
     "type": "product",
@@ -618,7 +624,8 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-powerbi-seo-research-consolidated.html",
     "title": "Power BI Reports SEO Research -- Consolidated Brief v2",
-    "date": "2026-04-12",
+    "date": "2026-04-12T17:56",
+    "updated": "2026-04-12T18:25",
     "summary": "Deep SEO audit of 940 Power BI report pages with live verification, keyword clusters, competitive mapping, and phased action plan. Critical finding: 640 pages not in WordPress sitemap.",
     "tags": ["Power BI", "SEO", "Reports", "Competitive Intel"],
     "type": "guide",
@@ -627,7 +634,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-audiobook-culture-of-critique.html",
     "title": "Culture of Critique - Full Audiobook Generation",
-    "date": "2026-04-12",
+    "date": "2026-04-12T17:07",
     "summary": "Kokoro TTS audiobook prompt for the full book. 16 chapters, bm_george voice, M4B per chapter for BookPlayer. Copy prompt to kick off.",
     "tags": ["Audiobook", "Kokoro", "TTS"],
     "type": "guide",
@@ -636,7 +643,8 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-vibecoder-gtm-product-surface.html",
     "title": "VibeCoder GTM & Product Surface: The Polar Playbook for MSPs",
-    "date": "2026-04-12",
+    "date": "2026-04-12T14:59",
+    "updated": "2026-04-12T15:05",
     "summary": "Complete product surface and GTM strategy for VibeCoder. Three tiers: Starter $200/mo, Professional $350/mo, Enterprise $500/mo. Benchmarking seeded with data from Different.",
     "tags": ["VibeCoder", "GTM", "Pricing"],
     "type": "strategy",
@@ -645,7 +653,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-tts-evaluation.html",
     "title": "Claude Code TTS Evaluation - 8 Methods Tested",
-    "date": "2026-04-12",
+    "date": "2026-04-12T14:36",
     "summary": "8 TTS solutions tested on M4 Air. kokoro-tts-mcp recommended (free, offline, 7/10). voice-mcp best for bidirectional. 2 broken.",
     "tags": ["Claude Code", "TTS", "Tooling"],
     "type": "evaluation",
@@ -654,7 +662,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-managed-agents-guide.html",
     "title": "Claude Managed Agents - What You Can Build",
-    "date": "2026-04-12",
+    "date": "2026-04-12T14:10",
     "summary": "Overview of Claude Managed Agents: hosted agent runtime with server-side tool execution, MCP integration, GitHub repo mounting, file I/O.",
     "tags": ["Claude", "Agents", "MCP"],
     "type": "guide",
@@ -663,7 +671,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "2026-04-12-vibecoder-product-surface.html",
     "title": "VibeCoder Product Surface",
-    "date": "2026-04-12",
+    "date": "2026-04-12T13:50",
     "summary": "Maps 9 product opportunities using the Polar Analytics playbook, organized in 3 tiers by build distance.",
     "tags": ["VibeCoder", "Product"],
     "type": "product",
@@ -672,7 +680,8 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   {
     "file": "powerbi-report-index.html",
     "title": "Power BI Report Index - 940 Reports",
-    "date": "2026-04-12",
+    "date": "2026-04-12T17:10",
+    "updated": "2026-04-12T17:19",
     "summary": "Browsable index of all 940 Power BI reports across 17 categories and 12 data sources. Search, filter by source (Autotask, Datto, M365, etc.) and language (EN/NL).",
     "tags": ["Power BI", "Reports", "Index"],
     "type": "overview",
@@ -868,6 +877,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
         case 'date-asc':  return a.date.localeCompare(b.date) || b._index - a._index;
         case 'title-asc': return a.title.localeCompare(b.title);
         case 'title-desc': return b.title.localeCompare(a.title);
+        case 'updated-desc': {
+          const ua = a.updated || a.date;
+          const ub = b.updated || b.date;
+          return ub.localeCompare(ua) || b.date.localeCompare(a.date);
+        }
         default: return 0;
       }
     });
@@ -899,8 +913,10 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   }
 
   const fmtDay = d => {
-    const [y, m, day] = d.split('-');
-    return new Date(y, m - 1, day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const dt = new Date(d);
+    const datePart = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const timePart = dt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    return datePart + ', ' + timePart;
   };
 
   function render() {
@@ -1011,6 +1027,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
             '<div class="entry-title">' + titleHtml + '</div>' +
             '<div class="entry-meta">' +
               '<span class="entry-type-badge" data-type="' + entry.type + '">' + (TYPE_LABELS[entry.type] || entry.type) + '</span>' +
+              (entry.updated ? '<span class="entry-updated">' + fmtDay(entry.updated) + '</span>' : '') +
               '<span class="entry-date">' + fmtDay(entry.date) + '</span>' +
             '</div>' +
           '</div>' +
