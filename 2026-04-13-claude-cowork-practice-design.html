@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Cowork Practice &mdash; NL SMB Business Model</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.tier { margin-bottom: 22px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.tier-price { margin-left: auto; font: 600 13px/1 -apple-system, sans-serif; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.pos-steps { display: flex; gap: 10px; margin: 14px 0; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 13, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-claude-cowork-practice-design.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Business Model &amp; Go-to-Market Design</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 13, 2026<br>Business Design<br>Side Bet / Services
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Business model design</div>
+  <h1>Claude Cowork Practice for Dutch SMBs</h1>
+  <p class="subtitle">Solo-operated Claude specialist consultancy. Land-and-expand offer ladder: audit, 30-day rollout, monthly retainer. Dutch-first, founder-led, side bet alongside Proxuma and Dxfferent.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">&euro;80K</div>
+      <div class="stat-label">Year-1 run-rate target</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10h/wk</div>
+      <div class="stat-label">Max's time cap</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">SMB</div>
+      <div class="stat-label">10&ndash;200 employees NL</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <span class="callout-label">Bottom line</span>
+    <h2>The Dutch Claude specialist</h2>
+    <p>Not AI transformation. Not tool-agnostic. Claude only, because it's the best tool for knowledge work and nobody in the Dutch SMB market is speaking that language yet. Credibility comes from running Proxuma and Dxfferent on Claude every day. The audit is the wedge, the rollout is the payday, the retainer is the compounding revenue.</p>
+  </div>
+
+  <h2>1. Brand and positioning</h2>
+  <p><strong>Positioning.</strong> Claude-only specialist. Dutch-first marketing and delivery, English available for internationally-oriented SMBs. Credibility angle: Max runs his SaaS and consulting practice on Claude. Every workshop and LinkedIn post draws from real production work, not theory.</p>
+
+  <h3>Brand name candidates (pick one)</h3>
+  <ul>
+    <li><strong>Claude NL</strong> &mdash; clean, direct, check trademark risk with Anthropic</li>
+    <li><strong>Klauw</strong> (Dutch for "claw") &mdash; short, memorable, Dutch-coded, playful</li>
+    <li><strong>Helder AI</strong> (NL for "clear") &mdash; evokes Claude's voice, softer play</li>
+    <li><strong>Max de Kwaasteniet &mdash; Claude voor Bedrijven</strong> &mdash; personal brand route</li>
+  </ul>
+
+  <h2>2. Offer ladder</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Tier 1 &middot; Audit</span>
+      <span class="tier-title">Claude Readiness Scan</span>
+      <span class="tier-price">&euro;1,500 fixed</span>
+    </div>
+    <div class="card">
+      <div class="card-title">1 day on-site + 1 week async + 1h readout</div>
+      <div class="card-buyer">Wedge product &middot; target 30% convert to rollout in 60 days</div>
+      <div class="card-desc">
+        10&ndash;15 page Dutch report with: 5&ndash;10 ranked use cases, tool-stack friction map, rollout scope recommendation, 90-day adoption roadmap, and a clear next-step quote. Stands on its own value even if no rollout follows, which keeps the audit guilt-free for the buyer.
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Tier 2 &middot; Rollout</span>
+      <span class="tier-title">Claude in 30 dagen</span>
+      <span class="tier-price">&euro;8,500 fixed (band &euro;7.5&ndash;10K)</span>
+    </div>
+    <div class="card">
+      <div class="card-title">4 weeks, ~2 days/week of Max's time</div>
+      <div class="card-buyer">Payday product &middot; where the real work happens</div>
+      <div class="card-desc">
+        Kickoff workshop all-hands (90 min). Champions program training 2&ndash;4 internal power users. Role-based prompt library tailored to customer use cases (10&ndash;30 prompts). Three deep-dive workshops by department. Claude for Work license setup support. Adoption readout with baseline metrics. Optional MCP integration add-on at +&euro;2&ndash;5K.
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Tier 3 &middot; Retainer</span>
+      <span class="tier-title">Claude Compagnon</span>
+      <span class="tier-price">&euro;2,000/mo (band &euro;1.5&ndash;2.5K)</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Minimum 3 months, then month-to-month</div>
+      <div class="card-buyer">Compounding revenue &middot; expansion path to agent builds</div>
+      <div class="card-desc">
+        One company-wide workshop per month. Two hours of async office hours via Slack or Teams. Prompt library expansion (new role or use case monthly). Quarterly executive review with adoption metrics. Qualifying retainers upgrade to custom agent-build engagements later, which is the natural expansion arc.
+      </div>
+    </div>
+  </div>
+
+  <h2>3. Signature methodology (the IP)</h2>
+  <p>The thing that makes this a repeatable practice rather than freelancing. Same template every time, different content per customer.</p>
+
+  <div class="card">
+    <div class="card-title">The Readiness Scan framework</div>
+    <div class="card-desc">Five-dimension scoring model run during the audit. Use-case density, data hygiene, workflow ownership, change readiness, tech environment. Scored 1&ndash;5, produces a radar chart, drives the rollout roadmap. Branded deliverable format, Proxuma-style report.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">The Champions program</div>
+    <div class="card-desc">Two to four internal power users trained intensively during rollout. They carry adoption after Max leaves. Proven playbook from Dxfferent's MSP onboarding work.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">The Prompt Library template</div>
+    <div class="card-desc">Role-indexed markdown library, same structure every engagement (sales, ops, finance, admin, leadership), customized during rollout. Shipped as a private GitHub repo or Notion workspace per customer.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">The Weekly Use-Case Drop</div>
+    <div class="card-desc">Every Monday, a short Dutch briefing of one new Claude use case relevant to SMBs. Drives retainer stickiness and doubles as LinkedIn content. One asset, two purposes.</div>
+  </div>
+
+  <h2>4. Go-to-market by phase</h2>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Month 0&ndash;1</div>
+      <div class="pos-desc">Free pilot training. Case study. Video testimonial. 3 warm intros.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">Month 1&ndash;3</div>
+      <div class="pos-desc">3 LinkedIn posts/wk. Biweekly NL newsletter. Warm-network asks.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Month 3&ndash;6</div>
+      <div class="pos-desc">2&ndash;3 paid audits booked. 1 rollout signed. Case studies published.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">Month 6+</div>
+      <div class="pos-desc">Customer referrals. Accountant-partner program. Retainer renewals.</div>
+    </div>
+  </div>
+
+  <h2>5. Unit economics &amp; capacity</h2>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Product</th><th>Hours</th><th>Effective &euro;/h</th><th>Quarterly capacity</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Audit</strong></td><td>~6 total</td><td>&euro;250</td><td>3 in flight</td></tr>
+      <tr><td><strong>Rollout</strong></td><td>~60 over 4 wks</td><td>&euro;140</td><td>1 in delivery</td></tr>
+      <tr><td><strong>Retainer</strong></td><td>~8/mo</td><td>&euro;250</td><td>3 recurring</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Year-1 target, month-12 run rate</span>
+    6 audits &times; &euro;1,500 = &euro;9K. 3 rollouts &times; &euro;8,500 = &euro;25.5K. 4 retainers &times; &euro;2K &times; 6-month avg = &euro;48K. Total approx <strong>&euro;80K</strong> at side-bet scale. Overflow beyond that triggers hand-off to backup consultant.
+  </div>
+
+  <h2>6. Delivery stack</h2>
+  <ul>
+    <li><strong>CRM:</strong> whatever is already in use (HubSpot / Twenty)</li>
+    <li><strong>Content:</strong> LinkedIn + Substack or Ghost for the NL newsletter</li>
+    <li><strong>Workshop delivery:</strong> Claude Projects per customer, Google Meet or Teams screenshare</li>
+    <li><strong>Prompt library:</strong> private GitHub repo per customer (or Notion)</li>
+    <li><strong>Readiness Scan report:</strong> Proxuma-style branded template, auto-generated structure</li>
+    <li><strong>Scheduling:</strong> Cal.com with a booking page for audit calls</li>
+  </ul>
+
+  <h2>7. Risks &amp; mitigations</h2>
+  <table class="matrix">
+    <thead>
+      <tr><th>Risk</th><th>Mitigation</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Anthropic launches an official Dutch partner network, commoditizing the niche</td><td>Apply to become the NL partner. Stay independent-within-Claude.</td></tr>
+      <tr><td>ChatGPT / Copilot-first prospects won't pay for a Claude specialist</td><td>Qualify out early. Audit can still cover comparative analysis.</td></tr>
+      <tr><td>Time gets pulled back into Proxuma</td><td>Strict 10h/wk cap. Hand off to backup person beyond that.</td></tr>
+      <tr><td>Dutch corporates prefer English-Dutch mix</td><td>Dual-language deliverable templates from day 1.</td></tr>
+      <tr><td>Weak differentiation vs generic "AI consultants"</td><td>Lean hard on founder-led credibility and Claude-only stance.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. First 30 days execution</h2>
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">W1</div>
+      <div class="pos-label">Foundation</div>
+      <div class="pos-desc">Pick brand. Lock domain + LinkedIn. Draft audit template. Content calendar.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">W2</div>
+      <div class="pos-label">Free pilot</div>
+      <div class="pos-desc">Deliver training. Record testimonial. Draft case study. First 3 LinkedIn posts.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">W3</div>
+      <div class="pos-label">Launch</div>
+      <div class="pos-desc">Publish case study. Warm-network note. Audit landing page. Newsletter #1.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">W4</div>
+      <div class="pos-label">First bookings</div>
+      <div class="pos-desc">First paid audit call booked. Refine template. Cal.com booking flow live.</div>
+    </div>
+  </div>
+
+  <h2>9. Decisions still open</h2>
+  <ol>
+    <li><strong>Brand name</strong> &mdash; pick from shortlist or propose your own</li>
+    <li><strong>Legal entity</strong> &mdash; ride under Dxfferent BV or create new eenmanszaak / BV?</li>
+    <li><strong>Pricing</strong> &mdash; accept &euro;1,500 / &euro;8,500 / &euro;2,000 or adjust?</li>
+    <li><strong>Accountant-partner shortlist</strong> &mdash; 2&ndash;3 names to approach in phase 4</li>
+    <li><strong>Newsletter platform</strong> &mdash; Substack, Ghost, or ConvertKit?</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code &middot; output-page</span>
+    <span>2026-04-13 &middot; Business Design</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Claude Cowork Practice for Dutch SMBs",
+  "date": "2026-04-13",
+  "summary": "Solo-operated Claude-specialist consultancy for Dutch SMBs (10-200 employees). Side bet alongside Proxuma and Dxfferent. Land-and-expand offer ladder: audit, 30-day rollout, monthly retainer. Dutch-first, founder-led.",
+  "positioning": {
+    "statement": "The Dutch Claude specialist. Claude-only, not tool-agnostic. Credibility from running Proxuma and Dxfferent on Claude daily.",
+    "market_observation": "Nobody in Max's Dutch SMB network uses Claude yet. Green field."
+  },
+  "sections": [
+    {
+      "heading": "Offer ladder",
+      "items": [
+        {"title": "Audit: Claude Readiness Scan", "detail": "1,500 EUR fixed. 1 day on-site + async. 10-15pg report with ranked use cases, friction map, rollout scope. Target 30% convert to rollout.", "meta": {"price_eur": 1500, "duration_days": 5, "conversion_target": 0.30}},
+        {"title": "Rollout: Claude in 30 dagen", "detail": "8,500 EUR fixed. 4 weeks. Kickoff all-hands, champions program (2-4 users), role-based prompt library, 3 deep-dives, license setup, adoption readout.", "meta": {"price_eur": 8500, "band_low": 7500, "band_high": 10000, "duration_weeks": 4}},
+        {"title": "Retainer: Claude Compagnon", "detail": "2,000 EUR/mo. Min 3 months. Monthly workshop, 2h async office hours, prompt library expansion, quarterly exec review. Expansion path to agent builds.", "meta": {"price_eur_mo": 2000, "band_low": 1500, "band_high": 2500, "min_months": 3}}
+      ]
+    },
+    {
+      "heading": "Methodology (IP)",
+      "items": [
+        {"title": "Readiness Scan framework", "detail": "5-dim scoring: use-case density, data hygiene, workflow ownership, change readiness, tech environment."},
+        {"title": "Champions program", "detail": "2-4 internal power users trained intensively. Carries adoption after Max leaves."},
+        {"title": "Prompt library template", "detail": "Role-indexed markdown, same structure per engagement, different content per customer."},
+        {"title": "Weekly use-case drop", "detail": "Monday Dutch briefing, doubles as LinkedIn content. One asset, two purposes."}
+      ]
+    },
+    {
+      "heading": "GTM phases",
+      "items": [
+        {"title": "Phase 1 (M0-1)", "detail": "Free pilot already booked. Case study, testimonial, 3 warm intros."},
+        {"title": "Phase 2 (M1-3)", "detail": "3 LinkedIn posts/wk, biweekly NL newsletter, warm-network asks."},
+        {"title": "Phase 3 (M3-6)", "detail": "2-3 paid audits booked, 1 rollout signed, case studies published."},
+        {"title": "Phase 4 (M6+)", "detail": "Customer referrals, accountant-partner program, retainer renewals."}
+      ]
+    },
+    {
+      "heading": "Year-1 economics",
+      "items": [
+        {"title": "Time cap", "detail": "10h/wk, side bet, non-negotiable. Overflow goes to backup consultant.", "meta": {"hours_per_week": 10}},
+        {"title": "Revenue target", "detail": "Month-12 run rate ~80K EUR: 6 audits + 3 rollouts + 4 retainers.", "meta": {"year1_target_eur": 80000}}
+      ]
+    },
+    {
+      "heading": "Risks",
+      "items": [
+        {"title": "Anthropic NL partner network", "detail": "Mitigation: apply to be the NL partner. Stay independent-within-Claude."},
+        {"title": "ChatGPT-first prospects", "detail": "Qualify out early. Audit covers comparative analysis."},
+        {"title": "Proxuma pulling time", "detail": "Strict 10h/wk cap. Hand off to backup."},
+        {"title": "Dutch corporate language mix", "detail": "Dual-language deliverable templates from day 1."},
+        {"title": "Generic AI-consultant noise", "detail": "Lean on founder-led credibility + Claude-only stance."}
+      ]
+    }
+  ],
+  "open_decisions": [
+    "Brand name (Claude NL / Klauw / Helder AI / personal brand)",
+    "Legal entity (under Dxfferent BV or new eenmanszaak/BV)",
+    "Pricing confirm (1500 / 8500 / 2000)",
+    "Accountant-partner shortlist (2-3 names)",
+    "Newsletter platform (Substack / Ghost / ConvertKit)"
+  ],
+  "next_steps": "User reviews spec. If approved, transition to writing-plans skill to create 30-day implementation plan covering brand pick, audit template build, free-pilot delivery, content calendar launch, and booking funnel setup."
+}
+</script>
+</body>
+</html>
