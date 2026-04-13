@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Coding Workflow: Notes Tab + Handoff Schema Upgrade</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Georgia", "Times New Roman", serif; color: #2c2c2c; background: #f8f9fa; line-height: 1.65; -webkit-font-smoothing: antialiased; padding: 0; }
+.page-header { max-width: 780px; margin: 0 auto; padding: 16px 24px 0; display: flex; justify-content: space-between; align-items: center; font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page { max-width: 780px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+.brand { margin-bottom: 6px; }
+.brand-name { font-family: "Georgia", "Times New Roman", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+h1 { font-family: "Georgia", "Times New Roman", serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: "Georgia", "Times New Roman", serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: "Georgia", "Times New Roman", serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.section-title { font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 32px 0 14px; }
+.section-title::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: "Georgia", "Times New Roman", serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.card { background: #fff; border: 1px solid #e2e4e8; border-radius: 4px; padding: 18px 22px; margin-bottom: 8px; position: relative; }
+.card::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: #1a2744; border-radius: 1px; }
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout strong { color: #1a2744; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+code { font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px; background: #f0f2f5; padding: 2px 5px; border-radius: 3px; }
+pre { background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0; overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px; line-height: 1.7; }
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 13, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-notes-tab-handoff-schema.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Workflow &amp; Tooling</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 13, 2026<br>Session Log<br>Developer Workflow
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">WORKFLOW IMPROVEMENT</div>
+  <h1>Claude Coding Workflow: Notes Tab + Handoff Schema Upgrade</h1>
+  <p class="subtitle">Built two improvements to Max's workflow: a notes-tab helper for iTerm tab titles and clipboard handoff prompts, and an extended CLAUDE-DATA schema so successor Claude sessions can resume work from the HTML alone.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Files Touched</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">New Schema Fields</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Gate Questions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Machines Synced</div>
+    </div>
+  </div>
+
+  <h2>Problem</h2>
+  <p>Cleared Claude sessions lose context even with MEMORY.md and pushed output-page HTMLs. The CLAUDE-DATA block lacked structure for machine state, artifacts, external changes, and decisions. Tab titles in iTerm stayed generic, giving Max no visual cue about what each session was doing. And there was no clipboard-ready handoff prompt for the next session.</p>
+
+  <h2>Notes-tab system</h2>
+  <p>A helper script at <code>~/.claude/helpers/tab-status.sh</code> takes two arguments: a caveman-style tab title and a handoff prompt. It sets the iTerm tab title via OSC 1 escape codes and pipes the handoff prompt to <code>pbcopy</code>. A rule in global <code>~/.claude/CLAUDE.md</code> under "Notes Tab (ALWAYS ACTIVE)" tells every Claude session to call the helper once the task is clear and again before <code>/clear</code>.</p>
+  <div class="callout">
+    <span class="callout-label">Key detail</span>
+    The helper is POSIX bash, 50 lines, chmod +x, and swallows <code>/dev/tty</code> errors so it works inside agent sub-shells too.
+  </div>
+
+  <h2>Schema extension</h2>
+  <p>Five new required top-level fields were added to the CLAUDE-DATA JSON block:</p>
+  <table class="matrix">
+    <tr><th>Field</th><th>Purpose</th></tr>
+    <tr><td><strong>session_state</strong></td><td>Phase, status, progress, work done, blockers, uncommitted changes, next action type</td></tr>
+    <tr><td><strong>artifact_pointers</strong></td><td>Memory files (with verified_live), git branch, repo path, temp files, github links, WP IDs, commit SHA</td></tr>
+    <tr><td><strong>external_state</strong></td><td>WP cache, drafts pending (with execution_method), screenshots, other out-of-repo changes</td></tr>
+    <tr><td><strong>project_context</strong></td><td>Protected resources, conventions applied (memory files consolidated into artifact_pointers only)</td></tr>
+    <tr><td><strong>decision_log</strong></td><td>Non-obvious choices with rationale, rejected alternatives, trade-offs, contingencies (one level only)</td></tr>
+  </table>
+
+  <h2>Pre-push gate</h2>
+  <p>The 5-question handoff test was updated to reference the new fields explicitly. Each question now names the specific sub-fields it gates on, including <code>next_action_required</code>, <code>verified_live</code> on memory files, <code>execution_method</code> on drafts, and the one-level contingency cap.</p>
+
+  <h2>Five stress-tested tweaks</h2>
+  <ol>
+    <li><strong>next_action_required enum</strong> on session_state: <code>none</code> | <code>user-exec</code> | <code>user-decision</code> | <code>tool-waiting</code> | <code>claude-continue</code>. Names what type of action unblocks the next step.</li>
+    <li><strong>artifact_pointers subfields all optional</strong> with "fill what applies" rule. Not every category applies to every file type.</li>
+    <li><strong>execution_method enum</strong> on drafts_pending: <code>slack</code> | <code>email</code> | <code>github-issue</code> | <code>conversation</code> | <code>wp-admin</code> | <code>other</code>.</li>
+    <li><strong>Structured memory_files objects</strong> with <code>name</code>, <code>version_date</code>, <code>verified_live</code>. Single source of truth in artifact_pointers (removed from project_context).</li>
+    <li><strong>Optional contingencies on decision_log</strong> capped at one level. No nested contingencies; if a branch needs its own decisions, create a new top-level decision_log entry.</li>
+  </ol>
+
+  <h2>Three follow-up patches (this session)</h2>
+  <ol>
+    <li><strong>Pre-push gate wording:</strong> replaced generic questions with field-specific references (session_state sub-fields, verified_live, execution_method, contingencies cap).</li>
+    <li><strong>Memory-files dedup:</strong> removed <code>memory_references</code> from project_context schema and example. Added note that memory files live only in <code>artifact_pointers.memory_files[]</code>.</li>
+    <li><strong>Contingencies cap:</strong> added explicit one-level rule to the decision_log schema description.</li>
+  </ol>
+
+  <h2>Files touched</h2>
+  <ul>
+    <li><code>/Users/maxdekwaasteniet/.claude/skills/output-page/SKILL.md</code> (schema, example, gate, dedup, contingency cap)</li>
+    <li><code>/Users/maxdekwaasteniet/.claude/helpers/tab-status.sh</code> (new, built in prior session)</li>
+    <li><code>/Users/maxdekwaasteniet/.claude/CLAUDE.md</code> (Notes Tab rule, added in prior session)</li>
+  </ul>
+
+  <h2>Cross-machine sync</h2>
+  <p>All three files were synced to M1 Pro (<code>100.85.64.20</code>) via Tailscale <code>scp</code>. The project-scoped CLAUDE.md was not synced (per standing rule: that file is machine-specific).</p>
+
+  <div class="positioning">
+    <span class="callout-label">What comes next</span>
+    <h2>Use the new system going forward</h2>
+    <p>Every session, the helper gets called after the task is clear and again before /clear. Every output-page HTML now includes the five handoff fields. Successor Claudes should fetch the CLAUDE-DATA block from any linked file and resume work from it directly.</p>
+  </div>
+
+  <div class="page-footer">
+    <div>Claude Code</div>
+    <div>Session log &middot; April 13, 2026</div>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Claude Coding Workflow: Notes Tab + Handoff Schema Upgrade",
+  "date": "2026-04-13",
+  "summary": "Built two improvements to Max's workflow. (1) A notes-tab helper that sets the iTerm tab title in caveman speak and pushes a handoff prompt to pbcopy, triggered by a global CLAUDE.md rule. (2) Extended the output-page CLAUDE-DATA schema with five new required fields, a pre-push handoff gate, and five stress-tested tweaks, so a cleared successor Claude can actually resume work from the HTML alone.",
+  "sections": [
+    {
+      "heading": "Problem",
+      "items": [
+        {"title": "Context loss on clear", "detail": "Cleared Claude sessions lose context even with MEMORY.md and pushed output-page HTMLs.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Notes-tab system",
+      "items": [
+        {"title": "tab-status.sh helper", "detail": "POSIX bash script, 50 lines, sets iTerm tab title via OSC 1, pipes handoff prompt to pbcopy.", "meta": {"path": "~/.claude/helpers/tab-status.sh"}},
+        {"title": "CLAUDE.md rule", "detail": "Notes Tab (ALWAYS ACTIVE) rule added to global CLAUDE.md. Calls helper after task is clear and before /clear.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Schema extension",
+      "items": [
+        {"title": "session_state", "detail": "Phase, status, progress, work done, blockers, uncommitted changes, next_action_required enum.", "meta": {}},
+        {"title": "artifact_pointers", "detail": "Memory files (structured with verified_live), git branch, repo path, temp files, github links, WP IDs, commit SHA.", "meta": {}},
+        {"title": "external_state", "detail": "WP cache, drafts pending with execution_method, screenshots, other.", "meta": {}},
+        {"title": "project_context", "detail": "Protected resources, conventions. Memory files consolidated into artifact_pointers only.", "meta": {}},
+        {"title": "decision_log", "detail": "Decisions with rationale, rejected alternatives, trade-offs, optional contingencies (one level only).", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Pre-push gate",
+      "items": [
+        {"title": "5-question handoff test", "detail": "Updated to reference new fields: session_state sub-fields, verified_live, execution_method, contingency cap.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Stress-tested tweaks",
+      "items": [
+        {"title": "next_action_required enum", "detail": "none | user-exec | user-decision | tool-waiting | claude-continue.", "meta": {}},
+        {"title": "Optional subfields on artifact_pointers", "detail": "Fill what applies, null the rest.", "meta": {}},
+        {"title": "execution_method enum on drafts", "detail": "slack | email | github-issue | conversation | wp-admin | other.", "meta": {}},
+        {"title": "Structured memory_files", "detail": "Objects with name, version_date, verified_live. Single source of truth.", "meta": {}},
+        {"title": "One-level contingencies", "detail": "Contingency items cannot nest. Branching decisions get their own decision_log entry.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Follow-up patches (this session)",
+      "items": [
+        {"title": "Gate wording refresh", "detail": "Replaced generic questions with field-specific references.", "meta": {}},
+        {"title": "Memory-files dedup", "detail": "Removed memory_references from project_context. Added note pointing to artifact_pointers.", "meta": {}},
+        {"title": "Contingencies cap", "detail": "Added one-level-only rule to decision_log schema.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Files touched",
+      "items": [
+        {"title": "SKILL.md", "detail": "Schema, example, gate, dedup, contingency cap.", "meta": {"path": "/Users/maxdekwaasteniet/.claude/skills/output-page/SKILL.md"}},
+        {"title": "tab-status.sh", "detail": "New helper, built in prior session.", "meta": {"path": "/Users/maxdekwaasteniet/.claude/helpers/tab-status.sh"}},
+        {"title": "CLAUDE.md", "detail": "Notes Tab rule added in prior session.", "meta": {"path": "/Users/maxdekwaasteniet/.claude/CLAUDE.md"}}
+      ]
+    },
+    {
+      "heading": "Cross-machine sync",
+      "items": [
+        {"title": "Synced to M1 Pro", "detail": "All three files synced via Tailscale scp. Project-scoped CLAUDE.md excluded per standing rule.", "meta": {"target": "100.85.64.20"}}
+      ]
+    }
+  ],
+  "next_steps": "Use the new system going forward. Every session, helper gets called after task is clear and again before /clear. Every output-page HTML now includes the five handoff fields. Successor Claudes should fetch the CLAUDE-DATA block from any linked file and resume work from it directly.",
+  "session_state": {
+    "phase": "schema-plus-notes-tab",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "built tab-status.sh helper (50 lines, POSIX bash, chmod +x, /dev/tty-safe)",
+      "added Notes Tab rule to global CLAUDE.md",
+      "extended CLAUDE-DATA schema with 5 new required fields",
+      "added 5-question pre-push handoff gate",
+      "applied 5 stress-tested tweaks from real-file validation",
+      "patched 3 follow-ups (gate wording, memory-files dedup, contingencies cap)",
+      "synced all changes to M1 Pro",
+      "live-tested helper via pbpaste round trip"
+    ],
+    "blockers_hit": null,
+    "next_action_required": "claude-continue",
+    "uncommitted_changes": null
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      {"name": "MEMORY.md", "version_date": "2026-04-13", "verified_live": true}
+    ],
+    "git_branch": null,
+    "local_repo_path": "/Users/maxdekwaasteniet/.claude/",
+    "temp_files": [],
+    "github_links": [],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Three files synced to M1 Pro (100.85.64.20) via Tailscale scp: SKILL.md, tab-status.sh, CLAUDE.md."
+  },
+  "project_context": {
+    "protected_resources": ["/Users/maxdekwaasteniet/.claude/projects/-Users-maxdekwaasteniet/CLAUDE.md (never sync across machines, per global CLAUDE.md rule)"],
+    "conventions_applied": ["humanizer anti-slop checklist", "cross-machine sync via Tailscale scp", "no em dashes"]
+  },
+  "decision_log": [
+    {
+      "decision": "Rule in global CLAUDE.md, not project-scoped",
+      "rejected_alternatives": ["project-scoped for M4 Air only (machine-specific)"],
+      "rationale": "harmless on M1 Pro, single source of truth, Max may want tab titles there too",
+      "trade_offs": "assumes both terminals honor OSC 1/2 escape codes",
+      "contingencies": [
+        {"if_X_then_Y": "if M1 Pro terminal ignores OSC codes, add a fallback echo-only mode to the helper", "probability": "low"}
+      ]
+    },
+    {
+      "decision": "No SessionStart hook for tab helper",
+      "rejected_alternatives": ["Hook runs helper on session start"],
+      "rationale": "hook cannot understand task context; caveman title needs Claude to know session purpose after 1-2 turns",
+      "trade_offs": "compliance depends on Claude reading CLAUDE.md every session"
+    },
+    {
+      "decision": "Do not retrofit old HTML files to v2 schema",
+      "rejected_alternatives": ["Backfill 50+ existing output-page HTMLs with inferred new fields"],
+      "rationale": "inference is error-prone, creates inconsistency, legacy v1 data is still scannable via summary/sections",
+      "trade_offs": "older files remain under-informative for successor Claudes; exception if a live project needs a one-time regen"
+    }
+  ]
+}
+</script>
+</body>
+</html>

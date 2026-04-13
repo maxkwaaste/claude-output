@@ -575,6 +575,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-13-notes-tab-handoff-schema.html",
+    "title": "Claude Coding Workflow: Notes Tab + Handoff Schema Upgrade",
+    "date": "2026-04-13T17:00",
+    "summary": "Built a notes-tab helper and extended the CLAUDE-DATA schema with five handoff fields so successor sessions can resume work from the HTML alone.",
+    "tags": ["Workflow", "Schema", "Tooling", "Handoff"],
+    "type": "guide",
+    "detail": "Two improvements: (1) tab-status.sh helper sets iTerm tab titles in caveman speak and copies a handoff prompt to clipboard, triggered by a global CLAUDE.md rule. (2) CLAUDE-DATA schema extended with session_state, artifact_pointers, external_state, project_context, and decision_log. Pre-push gate updated. Three follow-up patches applied: gate wording, memory-files dedup, contingencies cap."
+  },
+  {
     "file": "2026-04-13-kb-onboarding-guide-consolidation.html",
     "title": "KB Onboarding Guide -- Consolidation Options",
     "date": "2026-04-13T15:00",
