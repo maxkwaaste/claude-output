@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autotask Demo Filler -- Implementation Complete</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.pos-steps { display: flex; gap: 10px; margin: 16px 0; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.flow-diagram {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  margin: 20px 0; font: 500 13px/1 -apple-system, sans-serif;
+}
+.flow-box {
+  background: #e8edf4; border: 1px solid #b0bdd0; border-radius: 4px;
+  padding: 8px 14px; color: #1a2744; font-weight: 600; text-align: center;
+}
+.flow-box.highlight { background: #1a2744; color: #fff; border-color: #1a2744; }
+.flow-arrow { color: #b0bdd0; font-size: 18px; }
+.safety-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0;
+}
+.safety-card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 16px 18px; position: relative;
+}
+.safety-card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 3px; border-radius: 1px;
+}
+.safety-card.gate::before { background: #0f766e; }
+.safety-card.switch::before { background: #dc2626; }
+.safety-num {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #6b7280; margin-bottom: 4px;
+}
+.safety-title { font-size: 14px; font-weight: 700; color: #1a2744; margin-bottom: 4px; }
+.safety-desc { font-size: 13px; color: #4a5568; line-height: 1.45; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 13, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-autotask-demo-filler.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Engineering Implementation Report</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 13, 2026<br>Build Report<br>Autotask Integration
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Autotask Demo Environment</div>
+  <h1>Demo Filler: Realistic MSP Data Seeder</h1>
+  <p class="subtitle">One-shot seeder that fills the Proxuma Autotask demo environment with realistic projects, tickets, service calls, and time entries. Four independent safety gates prevent touching developer data. Built in a single session using subagent-driven development.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">53</div>
+      <div class="stat-label">Tests Passing</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">Clean Commits</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">11</div>
+      <div class="stat-label">Python Modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~4,600</div>
+      <div class="stat-label">Target API Writes</div>
+    </div>
+  </div>
+
+  <h2>How It Works</h2>
+
+  <p>The system splits into two phases: plan generation (Claude creates a JSON plan describing every record to seed) and execution (Python applies the plan via the Autotask REST API on M1 Pro). The plan is human-reviewed before any writes happen.</p>
+
+  <div class="flow-diagram">
+    <div class="flow-box">Claude generates<br><code>seed_plan.json</code></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Max reviews plan</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box highlight"><code>--dry-run</code></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box highlight"><code>--confirm</code></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Demo env filled</div>
+  </div>
+
+  <p>Every record gets tagged with a UDF <code>demo_filler_run_id</code> so the wipe executor can cleanly remove everything without touching hand-created data. The manifest tracks every created Autotask ID for crash-safe resume and clean deletion.</p>
+
+  <h2>Target Volume</h2>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Entity</th><th>Count</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Projects</strong></td><td>~30</td><td>M365 migrations, endpoint rollouts, security audits, network refreshes</td></tr>
+      <tr><td><strong>Phases + Subphases</strong></td><td>~270</td><td>Discovery, Planning, Execution, Handover (mimics master template)</td></tr>
+      <tr><td><strong>Tasks</strong></td><td>~600</td><td>Kickoff meetings, scans, implementations, sign-offs</td></tr>
+      <tr><td><strong>Tickets</strong></td><td>~200</td><td>Email issues, VPN, printers, onboarding (with SLA breach patterns)</td></tr>
+      <tr><td><strong>Service Calls</strong></td><td>~400</td><td>70% single-task, 20% single-ticket, 10% multi-item</td></tr>
+      <tr><td><strong>Time Entries</strong></td><td>~2,000</td><td>-6 months to +2 months, weekday clustering, capacity pressure</td></tr>
+      <tr class="row-total"><td><strong>Total API writes</strong></td><td><strong>~4,600</strong></td><td>Under half the 10k/hr Autotask budget</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Safety Architecture</h2>
+
+  <p>Four independent gates plus a kill switch. Each one stops the run if triggered. They compose in the HTTP client so every write passes through all of them.</p>
+
+  <div class="safety-grid">
+    <div class="safety-card gate">
+      <div class="safety-num">Gate 1</div>
+      <div class="safety-title">Credential Isolation</div>
+      <div class="safety-desc">Dedicated API user + tracking ID. Own 10k/hr rate-limit bucket. Credentials at <code>~/.autotask/demo.env</code>, never in repo.</div>
+    </div>
+    <div class="safety-card gate">
+      <div class="safety-num">Gate 2</div>
+      <div class="safety-title">Resource + Account Guard</div>
+      <div class="safety-desc">Every write payload is inspected before leaving the process. Resource and account IDs must be in the allowed set or the call is blocked.</div>
+    </div>
+    <div class="safety-card gate">
+      <div class="safety-num">Gate 3</div>
+      <div class="safety-title">UDF Tag on Every Record</div>
+      <div class="safety-desc"><code>demo_filler_run_id = &lt;uuid&gt;</code> injected automatically. Developers can spot demo-filler records at a glance in the Autotask UI.</div>
+    </div>
+    <div class="safety-card gate">
+      <div class="safety-num">Gate 4</div>
+      <div class="safety-title">Manifest-Gated Wipe</div>
+      <div class="safety-desc">Wipe only deletes IDs from its own manifest. Never queries "all records with UDF X". Survives edited or hand-created records.</div>
+    </div>
+    <div class="safety-card switch">
+      <div class="safety-num">Kill Switch</div>
+      <div class="safety-title">PAUSE File</div>
+      <div class="safety-desc"><code>touch ~/.autotask/PAUSE</code> from any terminal stops all writes instantly. Circuit breaker also halts after 5 consecutive failures per endpoint.</div>
+    </div>
+    <div class="safety-card gate">
+      <div class="safety-num">Rate Limit</div>
+      <div class="safety-title">Token Bucket</div>
+      <div class="safety-desc">120 writes/min (30% safety margin on Autotask's 10k/hr budget). 2 concurrent threads per endpoint. Adaptive backoff on 429/5xx.</div>
+    </div>
+  </div>
+
+  <h2>Component Map</h2>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Module</th><th>File</th><th>Responsibility</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Config</strong></td><td><code>core/config.py</code></td><td>Load credentials from <code>~/.autotask/demo.env</code></td></tr>
+      <tr><td><strong>Rate Limiter</strong></td><td><code>core/rate_limiter.py</code></td><td>Thread-safe token bucket, blocking acquire</td></tr>
+      <tr><td><strong>Kill Switch</strong></td><td><code>core/kill_switch.py</code></td><td>PAUSE file check + per-endpoint circuit breaker</td></tr>
+      <tr><td><strong>Guards</strong></td><td><code>core/guards.py</code></td><td>Resource + account scope enforcement on payloads</td></tr>
+      <tr><td><strong>Zone Resolver</strong></td><td><code>core/zone_resolver.py</code></td><td>Zone detection with <code>/v1.0/</code> suffix fix, cache</td></tr>
+      <tr><td><strong>HTTP Client</strong></td><td><code>core/autotask_client.py</code></td><td>Composes all safety primitives, retry, UDF injection</td></tr>
+      <tr><td><strong>Validator</strong></td><td><code>core/plan_validator.py</code></td><td>Schema, ref integrity, scope checks on plan JSON</td></tr>
+      <tr><td><strong>Template Reader</strong></td><td><code>core/template_reader.py</code></td><td>Reads master project structure, caches to JSON</td></tr>
+      <tr><td><strong>Manifest</strong></td><td><code>core/manifest.py</code></td><td>Per-record manifest + progress tracker for resume</td></tr>
+      <tr><td><strong>Seed Executor</strong></td><td><code>executor/seed.py</code></td><td><code>--dry-run</code> / <code>--confirm</code> / <code>--resume</code></td></tr>
+      <tr><td><strong>Wipe Executor</strong></td><td><code>executor/wipe.py</code></td><td>Manifest-gated reverse-order deletion</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Test Coverage</h2>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Layer</th><th>Tests</th><th>What It Covers</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Unit</strong></td><td>52</td><td>Config, rate limiter, kill switch, circuit breaker, guards, zone resolver, HTTP client, plan validator, manifest, template reader</td></tr>
+      <tr><td><strong>Integration</strong></td><td>1</td><td>Full seed-wipe cycle with mocked HTTP (2 projects, phases, tasks, tickets, service calls, time entries). Verifies UDF injection, dependency order, reverse deletion.</td></tr>
+      <tr><td><strong>Smoke (live)</strong></td><td>1</td><td>Against real Autotask: seed 1 project, verify UDF, wipe, verify gone. Requires real credentials and IDs.</td></tr>
+      <tr class="row-total"><td><strong>Total</strong></td><td><strong>53 + 1 live</strong></td><td>All passing in 0.34s (unit + integration)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Known Bug Avoided</span>
+    <strong>Autotask zone detection returns URLs without <code>/v1.0/</code>.</strong> The VibeCoder integration hit this in March 2026, causing 404 HTML responses on every API call. The zone resolver appends the suffix automatically.
+  </div>
+
+  <h2>Execution Flow</h2>
+
+  <p>Records are created in dependency order. The manifest is written per-record (not batched), so a crash mid-run loses zero progress. Resume picks up exactly where it stopped.</p>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Projects</div>
+      <div class="pos-desc">Sequential, one per account</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">Phases &amp; Tasks</div>
+      <div class="pos-desc">Top-level, then subphases</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Tickets</div>
+      <div class="pos-desc">Parallel (2 threads)</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">Service Calls</div>
+      <div class="pos-desc">Sequential, multi-item joins</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">5</div>
+      <div class="pos-label">Time Entries</div>
+      <div class="pos-desc">Parallel (2 threads)</div>
+    </div>
+  </div>
+
+  <h2>What Happens Next</h2>
+
+  <div class="positioning">
+    <h2>Before the First Live Run</h2>
+    <ul>
+      <li>Create dedicated API user + tracking ID in Autotask demo environment</li>
+      <li>Create UDF <code>demo_filler_run_id</code> (string, 36 chars) on Projects, Tickets, ServiceCalls, Tasks, TimeEntries</li>
+      <li>Write credentials to <code>~/.autotask/demo.env</code> on M1 Pro</li>
+      <li>Run template reader with master template project ID</li>
+      <li>Update <code>tests/smoke_plan.json</code> with real resource + account IDs</li>
+      <li>Run smoke test: seed, verify, wipe, verify</li>
+      <li>Run demo-vision interview, then generate real <code>seed_plan.json</code></li>
+    </ul>
+  </div>
+
+  <h2>Commands Reference</h2>
+
+  <h3>Run tests</h3>
+  <pre>PYTHONPATH=. .venv/bin/python -m pytest tests/ -v</pre>
+
+  <h3>Dry run</h3>
+  <pre>PYTHONPATH=. .venv/bin/python -m executor.seed plan/seed_plan.json --dry-run</pre>
+
+  <h3>Live seed</h3>
+  <pre>PYTHONPATH=. .venv/bin/python -m executor.seed plan/seed_plan.json --confirm</pre>
+
+  <h3>Resume halted run</h3>
+  <pre>PYTHONPATH=. .venv/bin/python -m executor.seed --resume &lt;run_id&gt;</pre>
+
+  <h3>Wipe a run</h3>
+  <pre>PYTHONPATH=. .venv/bin/python -m executor.wipe --run-id &lt;run_id&gt;</pre>
+
+  <h3>Kill switch</h3>
+  <pre>touch ~/.autotask/PAUSE     # stop all writes
+rm ~/.autotask/PAUSE        # resume</pre>
+
+  <h3>Smoke test (live)</h3>
+  <pre>PYTHONPATH=. .venv/bin/python -m tests.smoke_test tests/smoke_plan.json</pre>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Autotask Demo Filler &middot; April 13, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Autotask Demo Filler -- Implementation Complete",
+  "date": "2026-04-13",
+  "summary": "One-shot seeder for the Proxuma Autotask demo environment. 11 Python modules, 53 tests, 4 safety gates. Generates a JSON plan, executes via the Autotask REST API, tags every record for clean removal.",
+  "sections": [
+    {
+      "heading": "Architecture",
+      "items": [
+        { "title": "Two-phase design", "detail": "Claude generates seed_plan.json, Python executor applies it on M1 Pro. Plan is reviewed before execution.", "meta": {} },
+        { "title": "Safety gates", "detail": "Credential isolation, resource+account guard, UDF tagging, manifest-gated wipe. Plus PAUSE kill switch and circuit breaker.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Components",
+      "items": [
+        { "title": "core/config.py", "detail": "Credential loader from ~/.autotask/demo.env", "meta": {} },
+        { "title": "core/rate_limiter.py", "detail": "Token bucket at 120 writes/min, thread-safe", "meta": {} },
+        { "title": "core/kill_switch.py", "detail": "PAUSE file + per-endpoint circuit breaker (threshold: 5)", "meta": {} },
+        { "title": "core/guards.py", "detail": "Resource + account scope enforcement on every write payload", "meta": {} },
+        { "title": "core/zone_resolver.py", "detail": "Zone detection with /v1.0/ suffix fix (critical bug from VibeCoder)", "meta": {} },
+        { "title": "core/autotask_client.py", "detail": "HTTP wrapper composing all safety primitives, retry, UDF injection", "meta": {} },
+        { "title": "core/plan_validator.py", "detail": "Schema, ref integrity, scope checks on seed_plan.json", "meta": {} },
+        { "title": "core/template_reader.py", "detail": "Reads master project template, caches structure to JSON", "meta": {} },
+        { "title": "core/manifest.py", "detail": "Per-record manifest + progress tracker for crash-safe resume", "meta": {} },
+        { "title": "executor/seed.py", "detail": "--dry-run / --confirm / --resume, dependency-ordered creation", "meta": {} },
+        { "title": "executor/wipe.py", "detail": "Manifest-gated reverse-order deletion", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Target Volume",
+      "items": [
+        { "title": "~4,600 API writes", "detail": "30 projects, 270 phases, 600 tasks, 200 tickets, 400 service calls, 2000 time entries. Under half the 10k/hr budget.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Tests",
+      "items": [
+        { "title": "52 unit + 1 integration", "detail": "Full seed-wipe cycle mocked with respx. All passing in 0.34s.", "meta": {} },
+        { "title": "Live smoke test", "detail": "1-project cycle against real Autotask. Needs real IDs before running.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "One-off setup: create API user + tracking ID in Autotask, create UDF on 5 entities, write credentials to M1 Pro. Then run smoke test with real IDs. After that, run demo-vision interview and generate real seed_plan.json.",
+  "session_state": {
+    "phase": "implementation complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Brainstormed and wrote design spec",
+      "Created implementation plan (10 tasks)",
+      "Built all 11 Python modules via subagent-driven development",
+      "53 tests passing (52 unit + 1 integration)",
+      "Spec review caught missing circuit breaker on delete(), fixed",
+      "Created smoke test runner and demo-vision interview template"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/autotask-demo-filler/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-autotask-demo-filler.html", "relevance": "this doc" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": "d0c8310"
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Open Brain thought captured with action items for one-off setup steps"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "all automation on M1 Pro"]
+  },
+  "decision_log": [
+    {
+      "decision": "Decomposed autotask_client.py into focused modules (rate_limiter, kill_switch, guards, zone_resolver) for testability",
+      "rejected_alternatives": ["Single monolithic autotask_client.py as spec described"],
+      "rationale": "Each safety primitive needs independent unit tests. A single file would be 300+ lines with tangled concerns.",
+      "trade_offs": "More files to navigate, but each under 50 lines and independently testable",
+      "contingencies": []
+    },
+    {
+      "decision": "Used sync httpx with ThreadPoolExecutor instead of async httpx",
+      "rejected_alternatives": ["Full async with asyncio"],
+      "rationale": "Simpler code, easier to reason about. Only 2 concurrent threads per endpoint, not hundreds. Token bucket and manifest are thread-safe via GIL + locks.",
+      "trade_offs": "Slightly less efficient on I/O-bound waits, but with only 2 threads the difference is negligible",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>

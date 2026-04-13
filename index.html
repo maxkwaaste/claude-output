@@ -575,6 +575,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-13-autotask-demo-filler.html",
+    "title": "Autotask Demo Filler -- Realistic MSP Data Seeder",
+    "date": "2026-04-13T18:00",
+    "summary": "One-shot seeder for Proxuma's Autotask demo env. 11 Python modules, 53 tests, 4 safety gates. Generates JSON plan, executes via REST API, tags every record for clean removal.",
+    "tags": ["Autotask", "Python", "Proxuma", "Demo", "Integration"],
+    "type": "overview",
+    "detail": "Built in a single session using subagent-driven development (10 tasks, 12 commits). Architecture: Claude generates seed_plan.json, Python executor applies it on M1 Pro. Safety: credential isolation, resource+account guard, UDF tagging, manifest-gated wipe, PAUSE kill switch, circuit breaker. Target volume: ~30 projects, ~200 tickets, ~2000 time entries spanning -6 to +2 months. Next: one-off Autotask admin setup, then demo-vision interview and first real seed run."
+  },
+  {
     "file": "2026-04-13-notes-tab-handoff-schema.html",
     "title": "Claude Coding Workflow: Notes Tab + Handoff Schema Upgrade",
     "date": "2026-04-13T17:00",
