@@ -204,6 +204,49 @@ li::marker { color: #1a2744; }
   padding-top: 12px; border-top: 1px solid #d0d3d8;
   font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
 }
+/* Comment system */
+.comment-block {
+  margin: 18px 0 8px; position: relative;
+}
+.comment-label {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #6b7280; margin-bottom: 6px; display: flex;
+  align-items: center; gap: 6px;
+}
+.comment-label .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #d0d3d8;
+  display: inline-block; flex-shrink: 0;
+}
+.comment-label .dot.has-text { background: #1a6b3a; }
+.comment-area {
+  width: 100%; min-height: 56px; max-height: 200px; padding: 10px 14px;
+  font: 400 13px/1.55 -apple-system, sans-serif; color: #2c2c2c;
+  background: #f8f9fb; border: 1px solid #e2e4e8; border-radius: 4px;
+  resize: vertical; outline: none;
+}
+.comment-area:focus { border-color: #1a2744; background: #fff; }
+.comment-area::placeholder { color: #b0b5be; }
+/* Sticky copy button */
+.copy-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+  background: #1a2744; padding: 10px 24px; display: flex;
+  justify-content: center; align-items: center; gap: 14px;
+}
+.copy-bar .copy-btn {
+  font: 600 12px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #fff; background: none; border: 1px solid rgba(255,255,255,.3);
+  border-radius: 4px; padding: 8px 18px; cursor: pointer;
+}
+.copy-bar .copy-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); }
+.copy-bar .copy-btn.copied { background: #1a6b3a; border-color: #1a6b3a; }
+.copy-bar .count {
+  font: 400 11px/1 -apple-system, sans-serif; color: rgba(255,255,255,.6);
+}
+.copy-bar .clear-btn {
+  font: 400 11px/1 -apple-system, sans-serif; color: rgba(255,255,255,.4);
+  background: none; border: none; cursor: pointer; text-decoration: underline;
+}
+.copy-bar .clear-btn:hover { color: rgba(255,255,255,.7); }
 </style>
 </head>
 <body>
@@ -293,6 +336,11 @@ li::marker { color: #1a2744; }
 
   <p>De "backup-consultant" die je noemt op de Over-pagina is een kritiek stuk dat niet uitgewerkt is. Wie is dat? Wanneer gaat die aan? Wat is de kwaliteitsgarantie? Zolang dat niet bestaat, is groei boven &euro;10K/maand een probleem.</p>
 
+  <div class="comment-block">
+    <div class="comment-label"><span class="dot" id="dot-geld"></span> Jouw reactie op "Geld op tafel"</div>
+    <textarea class="comment-area" id="c-geld" data-section="geld" placeholder="Eens? Oneens? Welke ideeën pak je op?"></textarea>
+  </div>
+
   <!-- SECTION 2: KWETSBAARHEID -->
   <h2>2. Waar je kwetsbaar bent</h2>
 
@@ -347,6 +395,11 @@ li::marker { color: #1a2744; }
     </div>
   </div>
 
+  <div class="comment-block">
+    <div class="comment-label"><span class="dot" id="dot-kwetsbaar"></span> Jouw reactie op "Kwetsbaarheid"</div>
+    <textarea class="comment-area" id="c-kwetsbaar" data-section="kwetsbaar" placeholder="Hoe reëel zijn deze risico's? Mis ik er een?"></textarea>
+  </div>
+
   <!-- SECTION 3: PRICING -->
   <h2>3. Is je pricing scherp genoeg</h2>
 
@@ -399,6 +452,11 @@ li::marker { color: #1a2744; }
 
   <p>De "Fractional Chief AI Officer" framing die internationale spelers gebruiken (Momentum AI, AI-First Mindset) is interessant voor je retainer. Je doet in feite hetzelfde: doorlopend AI-leiderschap zonder een FTE. Als je de retainer "Fractional Claude Officer" of vergelijkbaar noemt, rechtvaardigt dat een hogere prijs en communiceert het strategische waarde in plaats van "maandelijks bijpraten".</p>
 
+  <div class="comment-block">
+    <div class="comment-label"><span class="dot" id="dot-pricing"></span> Jouw reactie op "Pricing"</div>
+    <textarea class="comment-area" id="c-pricing" data-section="pricing" placeholder="Te agressief? Te voorzichtig? Wat voelt goed?"></textarea>
+  </div>
+
   <!-- SECTION 4: CLAUDE PARTNER NETWORK -->
   <h2>4. Claude Partner Network</h2>
 
@@ -412,6 +470,11 @@ li::marker { color: #1a2744; }
       <li>Een badge op je site die DIDEV niet heeft</li>
     </ul>
     <p style="margin-top: 14px;">ClaudeImplementation.com en LowCode Agency zijn al lid. Jij nog niet. Dat is geld en status dat op de grond ligt.</p>
+  </div>
+
+  <div class="comment-block">
+    <div class="comment-label"><span class="dot" id="dot-partner"></span> Jouw reactie op "Partner Network"</div>
+    <textarea class="comment-area" id="c-partner" data-section="partner" placeholder="Ga je dit doen? Bezwaren?"></textarea>
   </div>
 
   <!-- SECTION 5: MESSAGING VAN CONCURRENTEN -->
@@ -452,6 +515,11 @@ li::marker { color: #1a2744; }
   <div class="callout">
     <span class="callout-label">Wat jij beter doet dan iedereen</span>
     De "geen ontslagen" messaging. Niemand anders doet het. En de vaste-prijs transparantie. Die twee dingen zijn sterk. Maar ze worden ondermijnd door gebrek aan sociaal bewijs.
+  </div>
+
+  <div class="comment-block">
+    <div class="comment-label"><span class="dot" id="dot-messaging"></span> Jouw reactie op "Messaging"</div>
+    <textarea class="comment-area" id="c-messaging" data-section="messaging" placeholder="Welke concurrent-messaging spreekt je aan? Wat wil je overnemen?"></textarea>
   </div>
 
   <!-- SECTION 6: SITE-ZWAKTES -->
@@ -495,6 +563,11 @@ li::marker { color: #1a2744; }
       <td>Zet startprijzen bij de drie dienst-kaarten op de homepage.</td>
     </tr>
   </table>
+
+  <div class="comment-block">
+    <div class="comment-label"><span class="dot" id="dot-site"></span> Jouw reactie op "Site-zwaktes"</div>
+    <textarea class="comment-area" id="c-site" data-section="site" placeholder="Welke fixes zijn urgent? Wat klopt niet?"></textarea>
+  </div>
 
   <!-- SECTION 7: WAT NU -->
   <h2>7. Aanbevelingen in volgorde van urgentie</h2>
@@ -568,11 +641,104 @@ li::marker { color: #1a2744; }
     <p style="margin-top: 12px;">De Claude Partner Network-aanmelding is de meest impactvolle actie met de minste moeite. Doe dat eerst. Daarna: scan-prijs omhoog, social proof op de site, Weekly Drop zichtbaar maken. In die volgorde.</p>
   </div>
 
+  <div class="comment-block">
+    <div class="comment-label"><span class="dot" id="dot-acties"></span> Jouw reactie op "Aanbevelingen"</div>
+    <textarea class="comment-area" id="c-acties" data-section="acties" placeholder="Welke pak je op? Volgorde anders? Iets mist?"></textarea>
+  </div>
+
   <div class="page-footer">
     <span>Claude Code</span>
     <span>ClaudeZakelijk Strategische Brainstorm &middot; 13 april 2026</span>
   </div>
 </div>
+
+<div class="copy-bar">
+  <span class="count" id="comment-count">0/8 secties</span>
+  <button class="copy-btn" id="copy-btn" onclick="copyComments()">Copy comments</button>
+  <button class="clear-btn" onclick="clearAll()">Wis alles</button>
+</div>
+
+<script>
+const STORAGE_KEY = 'cz-strategie-comments';
+const SECTIONS = [
+  { id: 'geld', label: 'Geld op tafel' },
+  { id: 'kwetsbaar', label: 'Kwetsbaarheid' },
+  { id: 'pricing', label: 'Pricing' },
+  { id: 'partner', label: 'Partner Network' },
+  { id: 'messaging', label: 'Messaging' },
+  { id: 'site', label: 'Site-zwaktes' },
+  { id: 'acties', label: 'Aanbevelingen' }
+];
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+
+function save(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function updateDot(id, hasText) {
+  const dot = document.getElementById('dot-' + id);
+  if (dot) dot.classList.toggle('has-text', hasText);
+}
+
+function updateCount() {
+  const data = load();
+  const filled = SECTIONS.filter(s => (data[s.id] || '').trim()).length;
+  document.getElementById('comment-count').textContent = filled + '/' + SECTIONS.length + ' secties';
+}
+
+// Init textareas from localStorage
+const stored = load();
+SECTIONS.forEach(s => {
+  const el = document.getElementById('c-' + s.id);
+  if (!el) return;
+  if (stored[s.id]) {
+    el.value = stored[s.id];
+    updateDot(s.id, true);
+  }
+  el.addEventListener('input', () => {
+    const data = load();
+    data[s.id] = el.value;
+    save(data);
+    updateDot(s.id, el.value.trim().length > 0);
+    updateCount();
+  });
+});
+updateCount();
+
+function copyComments() {
+  const data = load();
+  const filled = SECTIONS.filter(s => (data[s.id] || '').trim());
+  if (!filled.length) return;
+
+  // Token-efficient format: section label + comment, one per line, no fluff
+  const lines = ['[comments on claudezakelijk-strategie-brainstorm 2026-04-13]'];
+  filled.forEach(s => {
+    lines.push(s.label + ': ' + data[s.id].trim().replace(/\n+/g, ' '));
+  });
+  const text = lines.join('\n');
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy comments'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function clearAll() {
+  if (!confirm('Alle comments wissen?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  SECTIONS.forEach(s => {
+    const el = document.getElementById('c-' + s.id);
+    if (el) el.value = '';
+    updateDot(s.id, false);
+  });
+  updateCount();
+}
+</script>
 
 <script type="application/json" id="claude-data">
 {
