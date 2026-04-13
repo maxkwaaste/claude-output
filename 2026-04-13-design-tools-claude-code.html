@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Design Tools for Claude Code -- Research Landscape (April 2026)</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+a { color: #1a2744; text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: #3a5080; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; color: #6b7280;
+  text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.flow-diagram {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  margin: 20px 0; font: 500 13px/1 -apple-system, sans-serif;
+}
+.flow-box {
+  background: #e8edf4; border: 1px solid #b0bdd0; border-radius: 4px;
+  padding: 8px 14px; color: #1a2744; font-weight: 600; text-align: center;
+}
+.flow-box.highlight { background: #1a2744; color: #fff; border-color: #1a2744; }
+.flow-arrow { color: #b0bdd0; font-size: 18px; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 3px 8px; border-radius: 3px;
+}
+.tag-free { background: #d1fae5; border: 1px solid #6ee7b7; color: #065f46; }
+.tag-limited { background: #fef3c7; border: 1px solid #fcd34d; color: #92400e; }
+.tag-oss { background: #dbeafe; border: 1px solid #93c5fd; color: #1e40af; }
+.tag-official { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.two-col { display: flex; gap: 16px; margin: 16px 0; }
+.two-col > * { flex: 1; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 13, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-design-tools-claude-code.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Design Tooling Research</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 13, 2026<br>Research Note<br>Design &amp; Visual Tools
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Design Workflow Research</div>
+  <h1>Free Design Tools for Claude Code</h1>
+  <p class="subtitle">A structured survey of every free design tool, MCP server, skill, and technique available for the visual/design side of web projects in Claude Code. Covers the landscape as of April 2026.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Tool Categories</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">60K+</div>
+      <div class="stat-label">Published Skills</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">277K</div>
+      <div class="stat-label">Frontend-Design Installs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$0</div>
+      <div class="stat-label">Google Stitch (Current)</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: GOOGLE STITCH -->
+  <h2>1. Google Stitch 2.0</h2>
+  <div class="tags">
+    <span class="tag tag-free">100% Free</span>
+    <span class="tag tag-official">MCP Server</span>
+  </div>
+
+  <p>Google Stitch is an AI-native design tool from Google Labs, powered by Gemini 2.5 Pro. It generates full UI designs from text prompts or hand-drawn sketches. As of March 2026 it is an infinite canvas with Vibe Design, Voice Canvas, and multi-screen generation. The entire platform is free while it remains in Google Labs -- no paid plans exist yet (expected Q4 2026).</p>
+
+  <h3>Free Tier</h3>
+  <p>350 generations per month. All features included: multi-screen generation, voice-driven design, design system imports, React code export. No paid plans until Stitch exits Labs.</p>
+
+  <h3>MCP Connection to Claude Code</h3>
+  <p>The community MCP server by David East (<a href="https://github.com/davideast/stitch-mcp">davideast/stitch-mcp</a>) bridges Stitch directly into Claude Code. Install with <code>npx @_davideast/stitch-mcp init</code>.</p>
+
+  <p>Three tools exposed to Claude Code:</p>
+  <ul>
+    <li><strong>build_site</strong> -- maps design screens to routes, returns HTML for each page</li>
+    <li><strong>get_screen_code</strong> -- retrieves a screen's HTML content</li>
+    <li><strong>get_screen_image</strong> -- downloads a screen's screenshot as base64</li>
+  </ul>
+
+  <h3>Workflow: Stitch Canvas to Claude Code</h3>
+  <div class="flow-diagram">
+    <div class="flow-box">Describe UI in Stitch</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Stitch generates design</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box highlight">MCP pulls HTML + screenshot</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Claude Code builds production code</div>
+  </div>
+
+  <pre>{
+  "mcpServers": {
+    "stitch": {
+      "command": "npx",
+      "args": ["@_davideast/stitch-mcp", "proxy"]
+    }
+  }
+}</pre>
+
+  <div class="callout">
+    <span class="callout-label">Key Finding</span>
+    Stitch is the strongest free design tool for Claude Code right now. 350 free generations per month, a working MCP server, and the ability to go from text prompt to production HTML through Claude Code in a single session. The MCP server also supports Cursor and Gemini CLI.
+  </div>
+
+  <!-- SECTION 2: FIGMA MCP -->
+  <h2>2. Figma MCP Server</h2>
+  <div class="tags">
+    <span class="tag tag-limited">Free Tier Limited</span>
+    <span class="tag tag-official">Official from Figma</span>
+  </div>
+
+  <p>Figma's official MCP server (<a href="https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server">docs</a>) connects Claude Code directly to Figma files. This is the only design tool with a bidirectional MCP: Claude can both read designs and write back to the canvas.</p>
+
+  <h3>What It Can Do</h3>
+  <table class="matrix">
+    <tr><th>Capability</th><th>Free Tier</th><th>Paid</th></tr>
+    <tr><td><strong>Read designs</strong> -- pull variables, components, layout data</td><td>6 calls/month</td><td>Unlimited</td></tr>
+    <tr><td><strong>Generate code</strong> -- from selected frames</td><td>6 calls/month</td><td>Unlimited</td></tr>
+    <tr><td><strong>Write to canvas</strong> -- create frames, components, auto layout</td><td>Free (beta)</td><td>Usage-based (later)</td></tr>
+    <tr><td><strong>Code-to-canvas</strong> -- turn live UI into editable Figma layers</td><td>Free (beta)</td><td>Usage-based (later)</td></tr>
+  </table>
+
+  <h3>Free Tier Verdict</h3>
+  <p>The Starter plan and View/Collab seats on paid plans are limited to 6 tool calls per month. That is barely enough for a single design session. The write-to-canvas features are currently free during beta, which is the real value -- Claude can push code back into Figma as editable layers.</p>
+
+  <div class="callout">
+    <span class="callout-label">Practical Limit</span>
+    6 MCP calls per month makes Figma's free tier too restrictive for regular design-to-code work. The beta write features are genuinely useful but will become paid. Best suited as a secondary tool when you already have a Figma file from a client, not as your primary design workflow.
+  </div>
+
+  <!-- SECTION 3: PENPOT MCP -->
+  <h2>3. Penpot (Open Source)</h2>
+  <div class="tags">
+    <span class="tag tag-oss">Open Source</span>
+    <span class="tag tag-free">Fully Free</span>
+    <span class="tag tag-official">Official MCP</span>
+  </div>
+
+  <p>Penpot is the open-source alternative to Figma. It has an official MCP server (<a href="https://github.com/penpot/penpot-mcp">penpot/penpot-mcp</a>), now integrated directly into the main Penpot repository. No usage limits. MPL-2.0 license.</p>
+
+  <h3>MCP Capabilities</h3>
+  <ul>
+    <li><strong>Read design data</strong> from Penpot files -- shapes, components, tokens</li>
+    <li><strong>Create and modify</strong> design elements programmatically</li>
+    <li><strong>Execute arbitrary code</strong> within the Penpot Plugin environment via Plugin API</li>
+    <li>Connects via WebSocket through a dedicated Penpot plugin</li>
+  </ul>
+
+  <h3>Setup</h3>
+  <p>Requires Node.js v22+. Run <code>npm install && npm run bootstrap</code> to launch both the MCP server and plugin server. Load the plugin in Penpot using <code>http://localhost:4400/manifest.json</code>, then connect Claude Code. Penpot's "design expressed as code" approach means AI agents can read design files and tokens natively.</p>
+
+  <div class="callout">
+    <span class="callout-label">Key Finding</span>
+    Penpot is the only fully free, unlimited, open-source design tool with an MCP server. No call limits, no paid tier gatekeeping. The trade-off: Penpot's ecosystem is smaller than Figma's, and the MCP server is newer (less battle-tested). Good for teams that want full control without vendor lock-in.
+  </div>
+
+  <!-- SECTION 4: SCREENSHOT ITERATION -->
+  <h2>4. Screenshot-Driven Design Iteration</h2>
+
+  <p>The fastest-growing design workflow in Claude Code: generate HTML/CSS, take a screenshot, have Claude analyze it visually, then iterate. This creates a closed feedback loop where Claude can self-verify its own visual output.</p>
+
+  <h3>Browser Automation MCPs</h3>
+
+  <div class="card">
+    <div class="card-title">Playwright MCP (Microsoft Official)</div>
+    <div class="card-buyer">Free -- Open Source</div>
+    <div class="card-desc">Microsoft's official MCP server. 25+ tools for browser control. Uses the accessibility tree (2-5KB structured data) instead of screenshots for most interactions -- 10-100x faster. Can navigate, click, fill forms, take screenshots, generate PDFs. Works with Claude Code, Cursor, Codex CLI. The recommended choice for cross-browser automation.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Glance -- Real Browser for Claude Code</div>
+    <div class="card-buyer">Free -- Open Source</div>
+    <div class="card-desc">Open-source MCP server that gives Claude Code a real Chromium browser with 30 tools. Navigate pages, take screenshots Claude can see, click buttons, fill forms, run E2E test scenarios, visual regression testing, session recording. Featured on Product Hunt. Designed specifically for the design iteration loop.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Puppeteer MCP</div>
+    <div class="card-buyer">Free -- Open Source</div>
+    <div class="card-desc">Lighter-weight, Chrome/Chromium-only option. Faster startup than Playwright. Good enough if you only need Chrome and do not need cross-browser testing. Simpler setup for quick screenshot loops.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">dev-browser (SawyerHood)</div>
+    <div class="card-buyer">Free -- Claude Code Skill</div>
+    <div class="card-desc">A Claude Code skill that gives the agent the ability to use a web browser. Designed for design iteration: Claude writes code, opens it in the browser, checks the result, and fixes issues in a loop.</div>
+  </div>
+
+  <h3>The Visual Feedback Loop</h3>
+  <div class="flow-diagram">
+    <div class="flow-box highlight">Claude writes HTML/CSS</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Browser MCP takes screenshot</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Claude analyzes visually</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box highlight">Claude fixes &amp; iterates</div>
+  </div>
+
+  <p>Claude Code Desktop has auto-verify built in -- when enabled, Claude automatically takes screenshots after edits, checks for errors, and confirms changes work before completing its response. This tight loop catches layout drift, overlapping elements, and visual regressions that text-only analysis misses.</p>
+
+  <!-- SECTION 5: OTHER FREE TOOLS -->
+  <h2>5. Other Free Design Tools with MCP</h2>
+
+  <div class="card">
+    <div class="card-title">Excalidraw MCP</div>
+    <div class="card-buyer">Free -- Open Source -- <a href="https://github.com/yctimlin/mcp_excalidraw">GitHub</a></div>
+    <div class="card-desc">Runs a live Excalidraw canvas controllable from AI agents via MCP. Full canvas toolkit: create, edit, export diagrams. AI agents can see what they drew. Good for wireframing and quick layout sketches before moving to code. Includes a Claude Code skill alongside the MCP server.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Canva MCP</div>
+    <div class="card-buyer">Limited -- Prompt-Only Editing</div>
+    <div class="card-desc">Canva has an MCP server, but it only supports editing images by prompts -- no detailed design manipulation. Not useful for the design-to-code workflow. Canva's free tier also limits export quality. Skip this one.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">v0.dev (Vercel)</div>
+    <div class="card-buyer">Free Tier Available</div>
+    <div class="card-desc">Not an MCP integration, but a parallel design-to-code tool. Generate React/Tailwind components from text prompts. Can be used alongside Claude Code: design in v0, copy the component code into your project, let Claude Code integrate it. Free tier gives limited generations per day.</div>
+  </div>
+
+  <!-- SECTION 6: SKILLS -->
+  <h2>6. Claude Code Design Skills</h2>
+
+  <p>The Claude Code skills ecosystem has over 60,000 published skills as of March 2026. Design-focused skills are the fastest-growing category.</p>
+
+  <h3>Top Design Skills</h3>
+
+  <table class="matrix">
+    <tr><th>Skill</th><th>Installs</th><th>What It Does</th></tr>
+    <tr><td><strong>frontend-design</strong> (Official Anthropic)</td><td>277K+</td><td>Gives Claude a design system and philosophy before it writes any code. Outputs bold aesthetic choices, distinctive typography, purposeful color palettes, intentional animations.</td></tr>
+    <tr><td><strong>web-design-guidelines</strong> (Vercel)</td><td>--</td><td>Reviews UI code against the Web Interface Guidelines: 100+ rules covering accessibility, performance, UX best practices.</td></tr>
+    <tr><td><strong>Designer Skills Collection</strong> (Owl-Listener)</td><td>--</td><td>63 skills + 27 commands organized into 8 plugins: research, systems, strategy, UI, interaction, prototyping, design ops, toolkit. Includes /discover, /strategize, /handoff, /evaluate. <a href="https://marieclairedean.substack.com/p/i-built-63-design-skills-for-claude">Details</a></td></tr>
+    <tr><td><strong>Google Stitch Expert</strong></td><td>--</td><td>Skill specifically for the Stitch MCP workflow. <a href="https://mcpmarket.com/tools/skills/google-stitch-expert">mcpmarket.com</a></td></tr>
+    <tr><td><strong>canvas-design</strong> (Anthropic)</td><td>--</td><td>Create visual art in PNG/PDF using design philosophy manifesto approach. Museum-quality output.</td></tr>
+  </table>
+
+  <h3>Skills You Already Have Installed</h3>
+  <p>Your local Claude Code has: <code>banner-design</code>, <code>design</code>, <code>design-system</code>, <code>interface-design</code>, <code>ui-styling</code>, <code>ui-ux-pro-max</code>, <code>visual-verify</code>, <code>canvas-design</code>, <code>brand</code>. These cover most of what the ecosystem offers -- the main gap is the 63-skill Designer Collection from Owl-Listener.</p>
+
+  <!-- SECTION 7: PROMPTING TECHNIQUES -->
+  <h2>7. Design Prompting Techniques</h2>
+
+  <p>Even without external design tools, Claude Code can produce strong visual output when prompted correctly. The community has converged on several patterns:</p>
+
+  <h3>Reference-Driven Design</h3>
+  <p>Upload screenshots of designs you admire. Mention spacing, mood, typography, page flow. Claude works dramatically better with visual references than with text-only descriptions. The multi-modal input is the single biggest quality lever.</p>
+
+  <h3>Design System First</h3>
+  <p>Generate design tokens (colors, spacing, typography scale, component patterns) as a SKILL.md or design system file before writing any components. This prevents the "AI slop" aesthetic -- generic-looking output that comes from Claude guessing at visual decisions. Build the system once, then Claude carries those standards into every component.</p>
+
+  <h3>Vibe Design Workflow</h3>
+  <div class="flow-diagram">
+    <div class="flow-box">Brief Claude like a designer</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box highlight">Skill loads design system</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Claude generates components</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-box">Screenshot verify &amp; iterate</div>
+  </div>
+
+  <h3>Anti-Patterns to Avoid</h3>
+  <ul>
+    <li>Do not say "make it look nice" -- specify mood, reference sites, typography choices</li>
+    <li>Avoid generic fonts (Inter, Roboto, Arial) -- pick distinctive typefaces</li>
+    <li>Do not skip the design system step -- without it, Claude defaults to safe/boring</li>
+    <li>Do not rely on text-only iteration -- use screenshot feedback loops</li>
+  </ul>
+
+  <!-- COMPARISON TABLE -->
+  <h2>Comparison Matrix</h2>
+
+  <table class="matrix">
+    <tr><th>Tool</th><th>Free?</th><th>MCP?</th><th>Bidirectional?</th><th>Best For</th></tr>
+    <tr><td><strong>Google Stitch</strong></td><td>Yes (350/mo)</td><td>Community</td><td>Read only</td><td>AI-native design generation</td></tr>
+    <tr><td><strong>Figma</strong></td><td>6 calls/mo</td><td>Official</td><td>Read + Write</td><td>Existing Figma files</td></tr>
+    <tr><td><strong>Penpot</strong></td><td>Fully free</td><td>Official</td><td>Read + Write</td><td>Open-source, no limits</td></tr>
+    <tr><td><strong>Excalidraw</strong></td><td>Fully free</td><td>Community</td><td>Read + Write</td><td>Quick wireframes</td></tr>
+    <tr><td><strong>Playwright MCP</strong></td><td>Fully free</td><td>Official (MS)</td><td>N/A</td><td>Screenshot iteration</td></tr>
+    <tr><td><strong>Glance</strong></td><td>Fully free</td><td>Community</td><td>N/A</td><td>Visual design feedback loop</td></tr>
+    <tr><td><strong>Design Skills</strong></td><td>Fully free</td><td>N/A</td><td>N/A</td><td>Design system + prompting</td></tr>
+  </table>
+
+  <!-- BOTTOM LINE -->
+  <div class="positioning">
+    <h2>Bottom Line: Recommended Stack</h2>
+    <p>For a zero-cost design workflow with Claude Code, combine three layers:</p>
+    <ul>
+      <li><strong>Design generation:</strong> Google Stitch 2.0 (350 free gens/month) with the davideast/stitch-mcp server. Use Stitch for initial design exploration, then pull the HTML into Claude Code via MCP.</li>
+      <li><strong>Visual iteration:</strong> Playwright MCP or Glance for the screenshot feedback loop. Claude writes code, takes a screenshot, analyzes the result, and iterates until the design matches intent.</li>
+      <li><strong>Design system guardrails:</strong> The official frontend-design skill (277K installs) plus a custom design system SKILL.md with your brand tokens. This prevents Claude from defaulting to generic output.</li>
+      <li><strong>Optional: Penpot</strong> for teams that want a full Figma-like canvas with unlimited MCP access. More setup than Stitch, but fully open source and bidirectional.</li>
+    </ul>
+  </div>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://github.com/davideast/stitch-mcp">davideast/stitch-mcp</a> -- Stitch MCP server for Claude Code</li>
+    <li><a href="https://www.sotaaz.com/post/stitch-mcp-integration-en">SOTAAZ: Stitch MCP + Claude Code</a></li>
+    <li><a href="https://www.nxcode.io/resources/news/google-stitch-pricing-plans-complete-guide-2026">NxCode: Google Stitch Pricing 2026</a></li>
+    <li><a href="https://www.the-ai-corner.com/p/google-stitch-ai-design-tool-guide-2026">AI Corner: Google Stitch Guide</a></li>
+    <li><a href="https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server">Figma: MCP Server Guide</a></li>
+    <li><a href="https://www.builder.io/blog/claude-code-figma-mcp-server">Builder.io: Claude Code + Figma MCP</a></li>
+    <li><a href="https://github.com/penpot/penpot-mcp">penpot/penpot-mcp</a> -- Official Penpot MCP server</li>
+    <li><a href="https://www.smashingmagazine.com/2026/01/penpot-experimenting-mcp-servers-ai-powered-design-workflows/">Smashing Magazine: Penpot MCP</a></li>
+    <li><a href="https://github.com/yctimlin/mcp_excalidraw">mcp_excalidraw</a> -- Excalidraw MCP + Claude Skill</li>
+    <li><a href="https://marieclairedean.substack.com/p/i-built-63-design-skills-for-claude">MC Dean: 63 Design Skills for Claude</a></li>
+    <li><a href="https://medium.com/design-bootcamp/a-designers-guide-to-organizing-ai-skills-and-tools-in-claude-code-f87477c35b82">Designer's Guide to Claude Code Skills</a></li>
+    <li><a href="https://www.builder.io/blog/claude-code-for-designers">Builder.io: Claude Code for Designers</a></li>
+    <li><a href="https://www.producthunt.com/products/glance-give-claude-code-a-real-browser">Glance: Real Browser for Claude Code</a></li>
+    <li><a href="https://github.com/SawyerHood/dev-browser">dev-browser skill</a></li>
+    <li><a href="https://mcpmarket.com/tools/skills/google-stitch-expert">Google Stitch Expert Skill</a></li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Design Tooling Research -- April 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Free Design Tools for Claude Code -- Research Landscape (April 2026)",
+  "date": "2026-04-13",
+  "summary": "Comprehensive survey of free design tools, MCP servers, skills, and techniques for visual/design work in Claude Code. Covers Google Stitch 2.0, Figma MCP, Penpot, Excalidraw, browser automation MCPs, 60K+ design skills ecosystem, and prompting techniques.",
+  "sections": [
+    {
+      "heading": "Google Stitch 2.0",
+      "items": [
+        { "title": "Free AI design tool from Google Labs", "detail": "350 gens/month, fully free until Q4 2026. MCP server via davideast/stitch-mcp exposes build_site, get_screen_code, get_screen_image tools.", "meta": { "cost": "free", "mcp": "community", "status": "recommended" } }
+      ]
+    },
+    {
+      "heading": "Figma MCP",
+      "items": [
+        { "title": "Official Figma MCP with bidirectional access", "detail": "Free tier limited to 6 tool calls/month. Write-to-canvas is free during beta. Too restrictive for regular use without paid plan.", "meta": { "cost": "6 calls/month free", "mcp": "official", "status": "limited" } }
+      ]
+    },
+    {
+      "heading": "Penpot MCP",
+      "items": [
+        { "title": "Fully free open-source Figma alternative with MCP", "detail": "Official MCP server, MPL-2.0, no usage limits. Read/write/execute capabilities. Newer ecosystem than Figma.", "meta": { "cost": "free", "mcp": "official", "status": "viable" } }
+      ]
+    },
+    {
+      "heading": "Screenshot Iteration",
+      "items": [
+        { "title": "Playwright MCP, Glance, Puppeteer, dev-browser", "detail": "Browser automation MCPs create a visual feedback loop: Claude writes code, takes screenshot, analyzes, iterates. Playwright MCP uses accessibility tree (10-100x faster than screenshots).", "meta": { "cost": "all free", "status": "essential" } }
+      ]
+    },
+    {
+      "heading": "Other Tools",
+      "items": [
+        { "title": "Excalidraw MCP for wireframes, Canva MCP (limited), v0.dev", "detail": "Excalidraw MCP is a full canvas toolkit. Canva MCP is prompt-only editing (skip it). v0.dev is a parallel tool, not MCP-integrated.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Design Skills Ecosystem",
+      "items": [
+        { "title": "60K+ skills, frontend-design at 277K installs", "detail": "Official Anthropic frontend-design skill, Vercel web-design-guidelines, Owl-Listener 63-skill designer collection. Design system skills are the biggest quality lever.", "meta": { "gap": "Owl-Listener 63-skill collection not yet installed" } }
+      ]
+    },
+    {
+      "heading": "Prompting Techniques",
+      "items": [
+        { "title": "Reference images, design system first, vibe design", "detail": "Upload screenshots as references. Generate design tokens before components. Use skills to load design systems. Avoid generic fonts and text-only iteration.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Evaluate which tools to install and test. Priority: (1) Set up Google Stitch MCP via davideast/stitch-mcp. (2) Install Playwright MCP for screenshot iteration loop. (3) Consider installing the Owl-Listener 63-skill designer collection. (4) Try Penpot MCP if an open-source canvas is needed.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Researched Google Stitch 2.0 free tier and MCP server",
+      "Evaluated Figma MCP free tier limitations (6 calls/month)",
+      "Found Penpot official MCP (open source, no limits)",
+      "Cataloged browser automation MCPs (Playwright, Glance, Puppeteer, dev-browser)",
+      "Found Excalidraw MCP and assessed Canva MCP (limited)",
+      "Mapped design skills ecosystem (60K+ skills, 277K installs on frontend-design)",
+      "Documented design prompting techniques and anti-patterns"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new file 2026-04-13-design-tools-claude-code.html",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-design-tools-claude-code.html", "relevance": "this research document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial content"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended Google Stitch as primary free design tool over Figma",
+      "rejected_alternatives": ["Figma free tier (6 calls/month too restrictive)", "Canva MCP (prompt-only editing)"],
+      "rationale": "Stitch is fully free with 350 gens/month and has a working MCP server. Figma's free tier is unusable for regular design work.",
+      "trade_offs": "Stitch is Google Labs experimental -- could change pricing or features. Figma has a larger ecosystem and is more battle-tested.",
+      "contingencies": [
+        { "if_X_then_Y": "If Stitch exits Labs and adds paid tiers, evaluate Penpot as primary alternative", "probability": 0.6 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
