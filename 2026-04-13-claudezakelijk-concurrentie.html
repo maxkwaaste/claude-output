@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClaudeZakelijk Concurrentie-analyse</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.positioning li { color: rgba(255,255,255,.88); }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 180px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">13 april 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-claudezakelijk-concurrentie.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Competitive Intelligence</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      13 april 2026<br>Marktanalyse<br>AI Consulting &middot; NL MKB
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Concurrentie-analyse</div>
+  <h1>ClaudeZakelijk: wie zit er in dezelfde hoek?</h1>
+  <p class="subtitle">20 bedrijven in 4 categorieen die overlappen met het ClaudeZakelijk model: Claude-specifiek, NL MKB AI-advies, internationaal SMB AI-advies, en single-tool praktijken.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">20</div>
+      <div class="stat-label">Bedrijven gevonden</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Exacte kopie</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">NL MKB spelers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Claude-specifiek</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Kernvinding</span>
+    Niemand combineert Claude-specifiek + Nederlands MKB + vaste prijs + "geen ontslagen" positionering. De dichtstbijzijnde concurrenten zijn ofwel Claude-specifiek maar enterprise (ClaudeImplementation.com), ofwel NL MKB maar multi-tool (DIDEV, Jouw Copiloot), ofwel single-tool maar voor Copilot (iCorps, BACS).
+  </div>
+
+  <!-- CATEGORIE 1 -->
+  <h2>1. Claude-specifieke consultancies</h2>
+  <p>Bedrijven die specifiek rond Anthropic's Claude bouwen. Allemaal enterprise-gericht, geen MKB.</p>
+
+  <table class="matrix">
+    <tr>
+      <th>Bedrijf</th>
+      <th>Doelgroep</th>
+      <th>Aanpak</th>
+      <th>Relevant?</th>
+    </tr>
+    <tr>
+      <td><strong>ClaudeImplementation.com</strong></td>
+      <td>Enterprise, gereguleerde sectoren</td>
+      <td>POC-to-production in 90 dagen. Anthropic Partner Network lid. CCA-gecertificeerd.</td>
+      <td>Valideert Claude-specialist model, maar geen MKB overlap</td>
+    </tr>
+    <tr>
+      <td><strong>ClaudeCertified.com</strong></td>
+      <td>Enterprise</td>
+      <td>Consulting + CCA exam prep ($11-$49). Safety-first positionering.</td>
+      <td>Niche certificeringsspeler, geen concurrent</td>
+    </tr>
+    <tr>
+      <td><strong>LowCode Agency</strong></td>
+      <td>Startups tot enterprise</td>
+      <td>Bouwt "custom AI employees". 350+ producten. Claude Partner Network lid sinds 2026.</td>
+      <td>Development agency, niet consulting/adoptie</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Partner Network</strong></td>
+      <td>Enterprise partners</td>
+      <td>Anthropic's $100M partnerprogramma (maart 2026). Accenture, Deloitte, PwC, KPMG erbij. Gratis om lid te worden.</td>
+      <td>Kans: eerste MKB-gerichte NL partner worden</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Kans</span>
+    Het Claude Partner Network is gratis, heeft $100M backing, en telt nul MKB-gerichte partners. ClaudeZakelijk kan de eerste zijn.
+  </div>
+
+  <!-- CATEGORIE 2 -->
+  <h2>2. NL MKB AI-consultancies</h2>
+  <p>Nederlandse bedrijven die MKB helpen met AI. Dit zijn de directe concurrenten op doelgroep, maar geen van hen focust op een enkele tool.</p>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Dichtst bij</span>
+      <span class="tier-title">Top 3 om in de gaten te houden</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">DIDEV</div>
+      <div class="card-buyer">didev.nl &middot; 50+ implementaties</div>
+      <div class="card-desc">
+        AI-implementatie en training voor NL MKB. Gepubliceerde prijzen: AI Strategy Session vanaf &euro;2.000, e-learning &euro;50/pp, chatbots &euro;500-&euro;5.000, maatwerk &euro;10.000-&euro;50.000+. Claimt 200-400% ROI en 90% adoptie binnen 30 dagen. AVG-compliant, dedicated consultant per project.
+      </div>
+      <div class="tags">
+        <span class="tag tag-independent">Multi-tool</span>
+        <span class="tag tag-acquired">Gepubliceerde prijzen</span>
+        <span class="tag tag-bundled">NL MKB</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Jouw Copiloot</div>
+      <div class="card-buyer">jouwcopiloot.nl &middot; Noord-Brabant</div>
+      <div class="card-desc">
+        AI-consultancy voor MKB. Training op ChatGPT en Microsoft Copilot. Uurtarief, geen vaste prijs. Positioneert zich als "De AI Partner voor het MKB". Regionaal, multi-tool, wil klanten uiteindelijk zelfstandig maken.
+      </div>
+      <div class="tags">
+        <span class="tag tag-independent">Multi-tool</span>
+        <span class="tag tag-diy">Uurtarief</span>
+        <span class="tag tag-bundled">Regionaal</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">WerkenmetAI</div>
+      <div class="card-buyer">werkenmetai.nl &middot; 250+ professionals getraind</div>
+      <div class="card-desc">
+        AI-training en implementatie. Noemt Claude specifiek als een van hun tools naast ChatGPT en Copilot. Run door Matthijs Huttinga (Chef Data). Teams van 5-25. Werkt met echte documenten van klanten, niet met neppe voorbeelden. Claimt 40% tijdsbesparing.
+      </div>
+      <div class="tags">
+        <span class="tag tag-independent">Noemt Claude</span>
+        <span class="tag tag-diy">Training-focus</span>
+        <span class="tag tag-bundled">NL MKB</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Aangrenzend</span>
+      <span class="tier-title">Andere NL spelers</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">AI Advies Bureau</div>
+      <div class="card-buyer">ai-advies-bureau.nl &middot; 50+ organisaties, 93% slagingspercentage</div>
+      <div class="card-desc">
+        Implementation sprints van 4 weken. Vendor-onafhankelijk. Werkt met ChatGPT, Claude en n8n. Security/governance focus.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">AI Personeelstraining</div>
+      <div class="card-buyer">aipersoneelstraining.nl &middot; 4.8/5 over 51+ reviews</div>
+      <div class="card-desc">
+        AI-training en EU AI Act compliance. Grote steden. Claimt 20% productiviteitsverbetering binnen een maand. Actief in EU Commissie AI-beleid.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">EasyData</div>
+      <div class="card-buyer">easydata.nl &middot; 25+ jaar, ISO 27001</div>
+      <div class="card-desc">
+        Document processing en OCR. Alle data in NL, geen US cloud. Niche (documentverwerking), maar sterk op het datasoevereiniteit-verhaal.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">AI-agents.nl</div>
+      <div class="card-buyer">ai-agents.nl</div>
+      <div class="card-desc">
+        Custom AI-agents voor MKB. HR-automatisering, klantenservice, planning. Meer technisch/developer-gericht dan training.
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIE 3 -->
+  <h2>3. Internationaal: SMB AI-consultancies</h2>
+  <p>Vergelijkbare modellen buiten Nederland. Nuttig als referentie voor pricing en positionering.</p>
+
+  <table class="matrix">
+    <tr>
+      <th>Bedrijf</th>
+      <th>Land</th>
+      <th>Model</th>
+      <th>Pricing</th>
+    </tr>
+    <tr>
+      <td><strong>The AI Consulting Network</strong></td>
+      <td>VS</td>
+      <td>Phased approach: assessment, strategy, pilot, rollout, fractional CAIO</td>
+      <td>Assessment $2K-$8K, pilot $15K-$50K, full $50K-$150K+, CAIO $2-8K/mo</td>
+    </tr>
+    <tr>
+      <td><strong>Jam AI (JamOut.ai)</strong></td>
+      <td>VS</td>
+      <td>Community + consulting. "JAM Method". Membership + workshops</td>
+      <td>Club $47/mo, Gym $37/mo, consulting vanaf $3.000, corporate $10.000+</td>
+    </tr>
+    <tr>
+      <td><strong>SMB Consultants AI</strong></td>
+      <td>VS</td>
+      <td>1:1 AI coaching. Multi-tool. Solo practitioner</td>
+      <td>Uurtarief, niet gepubliceerd</td>
+    </tr>
+    <tr>
+      <td><strong>Solway AI</strong></td>
+      <td>Canada</td>
+      <td>Training + implementatie. Co-developed met Microsoft Calgary. CAPG-subsidie</td>
+      <td>50% overheidssubsidie via CAPG</td>
+    </tr>
+    <tr>
+      <td><strong>AI-First Mindset</strong></td>
+      <td>Internationaal</td>
+      <td>Fractional Chief AI Officer. 500+ workshop-uren</td>
+      <td>Niet gepubliceerd</td>
+    </tr>
+    <tr>
+      <td><strong>Momentum AI</strong></td>
+      <td>VS</td>
+      <td>Fractional CAIO. "70-90% minder dan een vaste hire"</td>
+      <td>Benchmark: $2.500+/mo</td>
+    </tr>
+  </table>
+
+  <!-- CATEGORIE 4 -->
+  <h2>4. Single-tool praktijken</h2>
+  <p>Bedrijven die zich op een specifieke AI-tool richten. De Copilot-rollout specialisten bewijzen dat het single-tool model werkt.</p>
+
+  <div class="card">
+    <div class="card-title">Microsoft Copilot Rollout Specialisten</div>
+    <div class="card-buyer">iCorps, BACS Consulting, Centric, SPR</div>
+    <div class="card-desc">
+      Meerdere bedrijven hebben praktijken gebouwd specifiek rond M365 Copilot deployment voor SMB's. Technology assessments, roadmaps, training. Dit is het dichtste structurele model bij wat ClaudeZakelijk doet, maar dan voor Copilot. Copilot heeft een bestaand Microsoft-partnerkanaal. Claude heeft dat (nog) niet, wat zowel een uitdaging als een kans is.
+    </div>
+    <div class="tags">
+      <span class="tag tag-bundled">Single-tool bewijs</span>
+      <span class="tag tag-independent">Microsoft ecosysteem</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Clearsquare</div>
+    <div class="card-buyer">clearsquare.co &middot; Orem, Utah</div>
+    <div class="card-desc">
+      ChatGPT-implementatie als specialty naast data/BI. 18+ industrieen. Niet een echte single-tool praktijk, meer een afdeling.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Pragmatico</div>
+    <div class="card-buyer">Hiring via Ashby</div>
+    <div class="card-desc">
+      AI-transformatie consulting. Werft actief een "AI Tools Specialist" specifiek voor Claude en ChatGPT. Enterprise-gericht. Interessant signaal: er is genoeg vraag om Claude-specialisten aan te nemen.
+    </div>
+  </div>
+
+  <!-- POSITIONERINGSMATRIX -->
+  <h2>Positioneringsmatrix</h2>
+  <p>Waar ClaudeZakelijk staat ten opzichte van de belangrijkste concurrenten op twee assen: tool-focus (single vs multi) en implementatiediepte (advies vs hands-on).</p>
+
+  <table class="matrix">
+    <tr>
+      <th>Bedrijf</th>
+      <th>Tool-focus</th>
+      <th>Implementatie</th>
+      <th>Prijsmodel</th>
+      <th>Doelgroep</th>
+    </tr>
+    <tr>
+      <td><strong>ClaudeZakelijk</strong></td>
+      <td>Single (Claude)</td>
+      <td>Hands-on installatie</td>
+      <td>Vast</td>
+      <td>NL MKB</td>
+    </tr>
+    <tr>
+      <td>DIDEV</td>
+      <td>Multi</td>
+      <td>Hands-on</td>
+      <td>Vast (gepubliceerd)</td>
+      <td>NL MKB</td>
+    </tr>
+    <tr>
+      <td>Jouw Copiloot</td>
+      <td>Multi</td>
+      <td>Training/advies</td>
+      <td>Uurtarief</td>
+      <td>NL MKB (regionaal)</td>
+    </tr>
+    <tr>
+      <td>WerkenmetAI</td>
+      <td>Multi (noemt Claude)</td>
+      <td>Training</td>
+      <td>Niet gepubliceerd</td>
+      <td>NL MKB</td>
+    </tr>
+    <tr>
+      <td>AI Advies Bureau</td>
+      <td>Multi</td>
+      <td>Sprints (4 weken)</td>
+      <td>Niet gepubliceerd</td>
+      <td>NL MKB</td>
+    </tr>
+    <tr>
+      <td>ClaudeImplementation</td>
+      <td>Single (Claude)</td>
+      <td>Full deployment</td>
+      <td>Enterprise custom</td>
+      <td>Enterprise</td>
+    </tr>
+    <tr>
+      <td>Copilot specialists</td>
+      <td>Single (Copilot)</td>
+      <td>Rollout</td>
+      <td>Project-based</td>
+      <td>SMB-enterprise</td>
+    </tr>
+  </table>
+
+  <!-- STRATEGIC GAPS -->
+  <h2>Strategische openingen</h2>
+
+  <div class="callout">
+    <span class="callout-label">Opening 1: Claude Partner Network</span>
+    Gratis lid worden. $100M backing van Anthropic. Alle huidige partners zijn enterprise. Eerste MKB-gerichte NL partner worden geeft geloofwaardigheid en mogelijk co-marketing.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Opening 2: Vaste prijs is zeldzaam</span>
+    Bijna iedereen werkt op uurtarief of custom quotes. DIDEV is het meest transparant met gepubliceerde startprijzen. Vaste prijs is een echte differentiator in deze markt.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Opening 3: "Geen ontslagen" messaging</span>
+    Geen enkele concurrent adresseert expliciet de angst voor banenverlies. Dit is sterke positionering, zeker voor MKB-eigenaren die hun mensen persoonlijk kennen.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Opening 4: 84% wil meer AI, 6% heeft het</span>
+    84% van NL MKB wil meer investeren in AI. Maar slechts 6% heeft het in dagelijkse operaties geintegreerd. Het gat tussen intentie en uitvoering is precies waar ClaudeZakelijk zit.
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="positioning">
+    <h2>De bottom line</h2>
+    <p>ClaudeZakelijk opereert in een open veld. De NL MKB AI-markt groeit snel, maar alle spelers zijn multi-tool generalisten. Niemand zet alles op Claude. Dat is het risico en de kans tegelijk: als Claude de beste tool blijkt voor MKB-productiviteit, is ClaudeZakelijk de enige specialist. Als de markt naar Copilot of ChatGPT gaat, sta je met lege handen.</p>
+    <p style="margin-top: 14px;">Drie dingen om nu te doen:</p>
+    <ul style="margin-top: 8px;">
+      <li>Lid worden van het Claude Partner Network (gratis, geen nadeel)</li>
+      <li>DIDEV als pricing-benchmark gebruiken: hun gepubliceerde prijzen zijn het referentiepunt voor NL MKB</li>
+      <li>De "geen ontslagen" hoek harder claimen. Geen concurrent doet het. Het is jouw eigendom.</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>ClaudeZakelijk Concurrentie-analyse &middot; 13 april 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "ClaudeZakelijk Concurrentie-analyse",
+  "date": "2026-04-13",
+  "summary": "20 concurrenten in 4 categorieen geanalyseerd. Kernvinding: niemand combineert Claude-specifiek + NL MKB + vaste prijs. Drie directe NL concurrenten (DIDEV, Jouw Copiloot, WerkenmetAI) zijn multi-tool. Claude Partner Network is een open kans.",
+  "sections": [
+    {
+      "heading": "Claude-specifieke consultancies",
+      "items": [
+        { "title": "ClaudeImplementation.com", "detail": "Enterprise Claude specialist. Anthropic Partner Network. CCA-certified. Geen MKB.", "meta": { "url": "claudeimplementation.com", "target": "enterprise" } },
+        { "title": "ClaudeCertified.com", "detail": "Consulting + CCA exam prep. Enterprise.", "meta": { "url": "claudecertified.com" } },
+        { "title": "LowCode Agency", "detail": "Dev agency, 350+ products. Claude Partner Network lid.", "meta": { "url": "lowcode.agency" } },
+        { "title": "Claude Partner Network", "detail": "Anthropic's $100M programma. Gratis. Nul MKB partners.", "meta": { "opportunity": true } }
+      ]
+    },
+    {
+      "heading": "NL MKB AI-consultancies",
+      "items": [
+        { "title": "DIDEV", "detail": "Dichtste concurrent. 50+ implementaties. Gepubliceerde prijzen (vanaf EUR 2K). Multi-tool. 90% adoptie in 30 dagen.", "meta": { "url": "didev.nl", "threat_level": "high" } },
+        { "title": "Jouw Copiloot", "detail": "Noord-Brabant. ChatGPT + Copilot. Uurtarief. Regionaal.", "meta": { "url": "jouwcopiloot.nl", "threat_level": "medium" } },
+        { "title": "WerkenmetAI", "detail": "250+ getraind. Noemt Claude. Training-focus. 40% tijdsbesparing.", "meta": { "url": "werkenmetai.nl", "threat_level": "medium" } },
+        { "title": "AI Advies Bureau", "detail": "4-week sprints. Vendor-onafhankelijk. 93% slagingspercentage.", "meta": { "url": "ai-advies-bureau.nl" } },
+        { "title": "AI Personeelstraining", "detail": "EU AI Act expertise. 4.8/5 rating.", "meta": { "url": "aipersoneelstraining.nl" } },
+        { "title": "EasyData", "detail": "Document processing niche. NL-only data. ISO 27001.", "meta": { "url": "easydata.nl" } },
+        { "title": "AI-agents.nl", "detail": "Custom agents bouwen. Technisch-gericht.", "meta": { "url": "ai-agents.nl" } }
+      ]
+    },
+    {
+      "heading": "Internationaal SMB AI",
+      "items": [
+        { "title": "The AI Consulting Network", "detail": "VS. Phased approach. Assessment $2-8K, full $50-150K+.", "meta": {} },
+        { "title": "Jam AI", "detail": "VS. Community model. Club $47/mo, consulting $3K+.", "meta": {} },
+        { "title": "Solway AI", "detail": "Canada. 50% overheidssubsidie via CAPG.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Strategic gaps",
+      "items": [
+        { "title": "Claude Partner Network", "detail": "Gratis, $100M, nul MKB partners. Open doel.", "meta": {} },
+        { "title": "Vaste prijs", "detail": "Bijna niemand doet het. DIDEV is de benchmark.", "meta": {} },
+        { "title": "Geen ontslagen messaging", "detail": "Geen concurrent claimt dit. Eigen terrein.", "meta": {} },
+        { "title": "84% vs 6% gap", "detail": "84% wil meer AI, 6% heeft het geintegreerd.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Drie acties: (1) lid worden Claude Partner Network, (2) DIDEV prijzen als benchmark voor eigen pricing, (3) 'geen ontslagen' positionering harder doorvoeren in alle copy.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Identified 20 competitors across 4 categories",
+      "Analyzed positioning matrix",
+      "Found 4 strategic openings",
+      "Generated output-page report"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new HTML file to commit",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "proxuma-business-model.md", "version_date": "2026-02-20", "verified_live": true }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-claudezakelijk-concurrentie.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "ClaudeZakelijk dev server running on localhost:4321 (Astro project at ~/ClaudeCode/claude-cowork-practice/)"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop"]
+  },
+  "decision_log": [
+    {
+      "decision": "Categorized competitors in 4 groups: Claude-specific, NL MKB, international SMB, single-tool",
+      "rejected_alternatives": ["By pricing tier", "By company size"],
+      "rationale": "Maps directly to the strategic questions: who else does Claude? who else does NL MKB? does single-tool work?",
+      "trade_offs": "Some companies span categories (WerkenmetAI mentions Claude but is multi-tool)",
+      "contingencies": [
+        { "if_X_then_Y": "If Anthropic launches NL partner program, apply immediately as first MKB partner", "probability": 0.3 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
