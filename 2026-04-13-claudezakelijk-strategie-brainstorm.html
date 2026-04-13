@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClaudeZakelijk Strategische Brainstorm</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.positioning li { color: rgba(255,255,255,.88); }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 180px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-fill.warning { background: #c8402a; }
+.bar-fill.success { background: #1a6b3a; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">13 april 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-claudezakelijk-strategie-brainstorm.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Strategy &amp; Competitive Intelligence</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      13 april 2026<br>Strategische Brainstorm<br>ClaudeZakelijk
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Strategie vs. concurrentie</div>
+  <h1>Waar laat je geld liggen, waar ben je kwetsbaar</h1>
+  <p class="subtitle">Eerlijke analyse van de ClaudeZakelijk-positionering op basis van het concurrentierapport (20 spelers, 4 categorieen), de volledige site (6 pagina's, 8 content-bestanden) en de strategie zoals Max die formuleert: Claude-only, NL MKB, 10x je team, veilig en compliant.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Kritieke punten</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Pricing-gaten</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">No-brainer actie</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Site-zwaktes</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: GELD OP TAFEL -->
+  <h2>1. Waar laat je geld op tafel liggen</h2>
+
+  <h3>De Readiness Scan is te goedkoop</h3>
+  <p>DIDEV vraagt &euro;2.000 voor een "AI Strategy Session". Dat is minder werk dan wat jij levert: een volledige dag op locatie, een week async uitdiepen, een rapport van 10-15 pagina's, en een uur readout. Jij vraagt &euro;1.500. Je geeft 40% meer werk voor 25% minder geld.</p>
+
+  <div class="callout">
+    <span class="callout-label">Pricing-voorstel</span>
+    Verhoog de Readiness Scan naar <strong>&euro;2.500</strong>. Dat is nog steeds goedkoper per uur werk dan DIDEV, maar het communiceert serieuze waarde. Een klant die &euro;2.500 niet kan opbrengen voor een scan van zijn organisatie is waarschijnlijk ook geen rollout-klant.
+  </div>
+
+  <h3>Geen digitale producten</h3>
+  <p>DIDEV heeft e-learning voor &euro;50 per persoon. Jam AI (VS) heeft een community voor $47/maand. Jij hebt niks tussen "gratis website lezen" en "&euro;1.500 scan boeken". Die lege ruimte is een gemiste kans.</p>
+  <p>Drie opties die passen bij 10 uur per week:</p>
+  <ul>
+    <li><strong>Betaalde promptbibliotheek.</strong> Je bouwt ze toch per klant. Een generieke versie (10 prompts, NL, MKB-gericht) voor &euro;149-249 eenmalig. Geen support, puur product.</li>
+    <li><strong>Self-assessment tool.</strong> Een light-versie van de Readiness Scan als online formulier. Gratis of &euro;49. Levert leads op en filtert serieuze prospects.</li>
+    <li><strong>Weekly Drop als betaalde nieuwsbrief.</strong> Gratis tier (2 per maand) + betaalde tier (&euro;19/maand, alle drops + archief). Lage moeite, terugkerende inkomsten.</li>
+  </ul>
+
+  <h3>MCP-servers niet geproductiseerd</h3>
+  <p>Je noemt custom MCP-servers als optionele uitbreiding (&euro;2.000-5.000). Maar dit is een product dat los kan bestaan. Nederlandse MKB's die al Claude gebruiken willen hun Exact Online, AFAS, of Autotask koppelen. Eenmalige bouw + maandelijks onderhoud = recurring revenue.</p>
+
+  <h3>Revenue-plafond door 10 uur per week</h3>
+
+  <div class="scenario-row">
+    <div class="scenario-card">
+      <div class="scenario-label">Huidige max (10 uur/week)</div>
+      <div class="scenario-value">&euro;18.5K</div>
+      <div class="scenario-detail">3 scans + 1 rollout + 4 retainers per maand. Theoretisch max, praktisch niet haalbaar.</div>
+    </div>
+    <div class="scenario-card highlighted">
+      <div class="scenario-label">Realistisch (10 uur/week)</div>
+      <div class="scenario-value">&euro;10K</div>
+      <div class="scenario-detail">1 scan + 0.5 rollout + 3 retainers. Na overhead en piekweken.</div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label">Met digitale producten erbij</div>
+      <div class="scenario-value">&euro;13K</div>
+      <div class="scenario-detail">Zelfde consulting + &euro;3K passief uit promptbibliotheek, nieuwsbrief, self-assessment.</div>
+    </div>
+  </div>
+
+  <p>De "backup-consultant" die je noemt op de Over-pagina is een kritiek stuk dat niet uitgewerkt is. Wie is dat? Wanneer gaat die aan? Wat is de kwaliteitsgarantie? Zolang dat niet bestaat, is groei boven &euro;10K/maand een probleem.</p>
+
+  <!-- SECTION 2: KWETSBAARHEID -->
+  <h2>2. Waar je kwetsbaar bent</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Hoog risico</span>
+      <span class="tier-title">DIDEV lanceert morgen een Claude-track</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        <p>Dit is je grootste bedreiging en het is niet hypothetisch. DIDEV heeft 50+ implementaties, gepubliceerde prijzen, claimt 90% adoptie in 30 dagen, en werkt al multi-tool. Ze hoeven alleen "we doen nu ook Claude-specifiek" te zeggen en ze hebben direct meer geloofwaardigheid, meer pipeline, en meer bewijs dan jij.</p>
+        <p>Wat je hiertegen hebt: je dagelijkse ervaring met Claude bij twee eigen bedrijven. Dat is echt en waardevol. Maar het staat nergens op je site als bewijs. Geen case studies, geen screenshots, geen metrics behalve een "5x meer responses" en "10 offertes per week" waarvan de derde metric letterlijk een vraagteken is.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Hoog risico</span>
+      <span class="tier-title">Single-tool afhankelijkheid</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        <p>Je strategie is dat steeds meer bedrijven specifiek Claude-hulp zoeken. Dat is een gok die kan uitbetalen, maar het is een gok. Als Anthropic een slechte kwartaalrelease doet, als GPT-5 Claude overvleugelt, als Microsoft Copilot in NL MKB dominant wordt door Office-bundeling, dan sta je met een merk dat aan een enkel product vasthangt.</p>
+        <p>De Copilot-rollout specialisten (iCorps, BACS, Centric) bewijzen dat single-tool werkt. Maar die zitten in het Microsoft-ecosysteem met een ingebouwd distributiekanaal. Claude heeft dat niet. Jij moet de vraag zelf creeren.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Middel risico</span>
+      <span class="tier-title">Geen sociaal bewijs</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        <p>Nul testimonials. Nul case studies. Nul logo's. De "Waar dit vandaan komt" sectie op de homepage is het enige bewijs, en die heeft een TODO erin staan. DIDEV claimt 50+ implementaties en 200-400% ROI. AI Advies Bureau claimt 93% slagingspercentage. WerkenmetAI claimt 250+ getrainde professionals. Jij claimt... dat je het zelf gebruikt.</p>
+        <p>Je hoeft niet te liegen of te overdrijven. Maar je Proxuma- en Dxfferent-ervaring moet concreter op de site staan. Hoeveel rapporten heb je gebouwd met Claude? (265, dat weet ik uit je systeem.) Hoeveel klanten bedien je met Claude in de stack? Hoeveel uur per week bespaart het je? Dat zijn echte cijfers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Middel risico</span>
+      <span class="tier-title">WerkenmetAI noemt Claude al</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        <p>WerkenmetAI (werkenmetai.nl) noemt Claude specifiek als een van hun tools. Ze trainen teams van 5-25 met echte documenten. Als zij besluiten Claude als specialisatie uit te lichten in plaats van als "een van de tools", heb je ineens een directe concurrent met 250+ getrainde professionals als track record.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: PRICING -->
+  <h2>3. Is je pricing scherp genoeg</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>Dienst</th>
+      <th>ClaudeZakelijk</th>
+      <th>DIDEV (benchmark)</th>
+      <th>Internationaal</th>
+      <th>Oordeel</th>
+    </tr>
+    <tr>
+      <td><strong>Assessment/Scan</strong></td>
+      <td>&euro;1.500</td>
+      <td>&euro;2.000 (minder werk)</td>
+      <td>$2K-$8K</td>
+      <td><strong style="color:#c8402a;">Te laag</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Rollout/Pilot</strong></td>
+      <td>&euro;7.500-10.000</td>
+      <td>&euro;10.000-50.000 (maatwerk)</td>
+      <td>$15K-$50K</td>
+      <td><strong style="color:#8a6a2a;">Onderkant</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Retainer</strong></td>
+      <td>&euro;1.500-2.500/mo</td>
+      <td>Geen retainer-model</td>
+      <td>$2K-$8K/mo (CAIO)</td>
+      <td><strong style="color:#1a6b3a;">Fair</strong></td>
+    </tr>
+    <tr>
+      <td><strong>MCP/Custom</strong></td>
+      <td>&euro;2.000-5.000 (optioneel)</td>
+      <td>&euro;500-5.000 (chatbots)</td>
+      <td>Varies</td>
+      <td><strong style="color:#1a6b3a;">Fair</strong></td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Drie pricing-veranderingen</span>
+    <ol>
+      <li><strong>Scan naar &euro;2.500.</strong> Meer werk dan DIDEV's &euro;2K sessie. De prijs moet dat reflecteren.</li>
+      <li><strong>Rollout naar &euro;9.500 (band &euro;8.500-12.000).</strong> De onderkant omhoog, de bovenkant omhoog voor grotere teams. "Op basis van teamgrootte" dekt dit al.</li>
+      <li><strong>Retainer-tiers.</strong> Basis &euro;1.500/mo (huidige scope), Pro &euro;3.000/mo (2 workshops, 4 uur kantooruren, MCP-onderhoud). Geeft upsell-pad na 3 maanden.</li>
+    </ol>
+  </div>
+
+  <p>De "Fractional Chief AI Officer" framing die internationale spelers gebruiken (Momentum AI, AI-First Mindset) is interessant voor je retainer. Je doet in feite hetzelfde: doorlopend AI-leiderschap zonder een FTE. Als je de retainer "Fractional Claude Officer" of vergelijkbaar noemt, rechtvaardigt dat een hogere prijs en communiceert het strategische waarde in plaats van "maandelijks bijpraten".</p>
+
+  <!-- SECTION 4: CLAUDE PARTNER NETWORK -->
+  <h2>4. Claude Partner Network</h2>
+
+  <div class="positioning">
+    <h2>Dit is een no-brainer</h2>
+    <p>Gratis lid worden. $100M backing van Anthropic. Alle huidige partners zijn enterprise (Accenture, Deloitte, PwC, KPMG). Nul MKB-gerichte partners. Nul Nederlandse partners. Eerste zijn geeft:</p>
+    <ul style="margin-top: 12px;">
+      <li>Geloofwaardigheid die je nu mist (Anthropic-endorsed)</li>
+      <li>Mogelijke co-marketing en leads vanuit Anthropic</li>
+      <li>Toegang tot vroege features en beta's</li>
+      <li>Een badge op je site die DIDEV niet heeft</li>
+    </ul>
+    <p style="margin-top: 14px;">ClaudeImplementation.com en LowCode Agency zijn al lid. Jij nog niet. Dat is geld en status dat op de grond ligt.</p>
+  </div>
+
+  <!-- SECTION 5: MESSAGING VAN CONCURRENTEN -->
+  <h2>5. Welke messaging van concurrenten is beter dan die van jou</h2>
+
+  <div class="card">
+    <div class="card-title">DIDEV: concrete resultaatclaims</div>
+    <div class="card-buyer">Wat zij doen</div>
+    <div class="card-desc">
+      "200-400% ROI", "90% adoptie binnen 30 dagen", "50+ implementaties". Dit zijn specifieke, meetbare claims. Jouw site zegt "10x zo productief" maar onderbouwt het nergens met data van echte klanten. De 5x prospect-responses en 10 offertes/week zijn van je eigen bedrijven, en de derde metric is een vraagteken.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">WerkenmetAI: "werkt met echte documenten"</div>
+    <div class="card-buyer">Wat zij doen</div>
+    <div class="card-desc">
+      Ze benadrukken dat ze niet met neppe voorbeelden werken maar met de echte documenten van de klant. Dat is precies wat jij ook doet (de promptbibliotheek is rol-geindexeerd op de klant), maar zij zeggen het en jij niet.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">AI Advies Bureau: slagingspercentage</div>
+    <div class="card-buyer">Wat zij doen</div>
+    <div class="card-desc">
+      "93% slagingspercentage over 50+ organisaties." Een enkel getal dat vertrouwen wekt. Jij hebt geen enkel vergelijkbaar getal op je site.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Internationale spelers: "Fractional CAIO"</div>
+    <div class="card-buyer">Wat zij doen</div>
+    <div class="card-desc">
+      Momentum AI en AI-First Mindset positioneren hun retainer als "Fractional Chief AI Officer". Dat is strategisch leiderschap, niet "maandelijks een workshop". Het rechtvaardigt $2.500+/maand en trekt andere beslissers aan (C-level in plaats van IT-manager).
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Wat jij beter doet dan iedereen</span>
+    De "geen ontslagen" messaging. Niemand anders doet het. En de vaste-prijs transparantie. Die twee dingen zijn sterk. Maar ze worden ondermijnd door gebrek aan sociaal bewijs.
+  </div>
+
+  <!-- SECTION 6: SITE-ZWAKTES -->
+  <h2>6. Waar de site zwakker is dan hij moet zijn</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>Probleem</th>
+      <th>Waar</th>
+      <th>Impact</th>
+      <th>Fix</th>
+    </tr>
+    <tr>
+      <td><strong>Derde metric is "?"</strong></td>
+      <td>Homepage, "Waar dit vandaan komt"</td>
+      <td>Ondermijnt de twee metrics erboven. Een TODO op de live site is een vertrouwensbreker.</td>
+      <td>Invullen of verwijderen. 265 klantrapporten/maand gebouwd met Claude is een sterk getal.</td>
+    </tr>
+    <tr>
+      <td><strong>"Side bet" taal op /over</strong></td>
+      <td>Over-pagina, "Werktijd" sectie</td>
+      <td>"Deze praktijk is een side bet naast Proxuma" vertelt de klant dat hij niet je prioriteit is. "Tien uur per week, niet meer" klinkt als een limiet op jouw commitment, niet als een kwaliteitsgarantie.</td>
+      <td>Herformuleer. "Ik houd de caseload bewust klein: maximaal drie klanten tegelijk. Daardoor krijg je persoonlijke aandacht, geen doorgeschoven junior." Zelfde feit, andere framing.</td>
+    </tr>
+    <tr>
+      <td><strong>Geen testimonials of logo's</strong></td>
+      <td>Hele site</td>
+      <td>Elke concurrent heeft social proof. Jij hebt nul.</td>
+      <td>Start met Proxuma en Dxfferent als "interne case studies" met echte cijfers. Voeg toe zodra externe klanten binnenkomen.</td>
+    </tr>
+    <tr>
+      <td><strong>Weekly Drop is onzichtbaar</strong></td>
+      <td>Nergens op de site, alleen in methodologie-markdown</td>
+      <td>Je content-engine bestaat niet voor bezoekers. Geen archief, geen inschrijfformulier, geen LinkedIn-link.</td>
+      <td>Voeg een /weekly-drop pagina toe met archief en e-mail signup. Dit is je laagdrempeligste touchpoint.</td>
+    </tr>
+    <tr>
+      <td><strong>Geen pricing op homepage</strong></td>
+      <td>Homepage</td>
+      <td>Klant moet doorklikken naar drie aparte pagina's. DIDEV toont prijzen direct. Transparantie is je claim, maar de homepage toont geen enkel bedrag.</td>
+      <td>Zet startprijzen bij de drie dienst-kaarten op de homepage.</td>
+    </tr>
+  </table>
+
+  <!-- SECTION 7: WAT NU -->
+  <h2>7. Aanbevelingen in volgorde van urgentie</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Deze week</span>
+      <span class="tier-title">Vier dingen die nul ontwikkeltijd kosten</span>
+    </div>
+    <div class="card">
+      <div class="card-title">1. Claude Partner Network aanvragen</div>
+      <div class="card-desc">Gratis, kost 15 minuten, levert een badge en geloofwaardigheid op. Doe het vandaag.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">2. Derde metric invullen of verwijderen</div>
+      <div class="card-desc">265 klantrapporten per maand, of welk getal je wilt. Geen vraagteken op een live site.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">3. "Side bet" herschrijven</div>
+      <div class="card-desc">"Bewust kleine caseload" in plaats van "side bet". Zelfde waarheid, geen vertrouwensrisico.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">4. Prijzen op homepage-kaarten zetten</div>
+      <div class="card-desc">De drie DienstKaart-componenten hebben een prijs-prop. Gebruik die op de homepage.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Komende twee weken</span>
+      <span class="tier-title">Pricing en sociaal bewijs</span>
+    </div>
+    <div class="card">
+      <div class="card-title">5. Scan-prijs naar &euro;2.500</div>
+      <div class="card-desc">Je levert meer dan DIDEV voor minder geld. Dat is geen positionering, dat is onderwaardering.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">6. Interne case studies schrijven</div>
+      <div class="card-desc">Proxuma: 265 rapporten/maand, X uur bespaard, gebouwd met Claude + promptbibliotheek. Dxfferent: 10 offertes/week, 5x prospect-response. Met echte screenshots.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">7. Weekly Drop zichtbaar maken</div>
+      <div class="card-desc">/weekly-drop pagina met archief en signup. Cross-post naar LinkedIn. Dit is je content-flywheel.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Komende maand</span>
+      <span class="tier-title">Strategische uitbreidingen</span>
+    </div>
+    <div class="card">
+      <div class="card-title">8. Self-assessment tool bouwen</div>
+      <div class="card-desc">Light-versie van de Readiness Scan als webformulier. Lead-generatie + filtering. Gratis of &euro;49.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">9. Retainer-tiers invoeren</div>
+      <div class="card-desc">Basis &euro;1.500 + Pro &euro;3.000. Upsell-pad en hogere LTV.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">10. Backup-consultant regelen</div>
+      <div class="card-desc">Zonder dit is er geen schaalbaarheid. Definieer wie, wanneer, en met welke kwaliteitsgarantie.</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="positioning">
+    <h2>De eerlijke samenvatting</h2>
+    <p>De positionering is sterk. Claude-only, NL MKB, vaste prijs, geen ontslagen. Dat is een unieke combinatie die niemand anders claimt. Het concurrentierapport bevestigt dat.</p>
+    <p style="margin-top: 12px;">Maar de executie lekt waarde. Je bent te goedkoop op de scan, je hebt nul sociaal bewijs, je site heeft een TODO op de homepage, en je noemt het zelf een "side bet". De concurrentie hoeft je niet te verslaan op positionering. Ze hoeven alleen professioneler over te komen. En dat doen ze nu al, simpelweg door cijfers op hun site te zetten.</p>
+    <p style="margin-top: 12px;">De Claude Partner Network-aanmelding is de meest impactvolle actie met de minste moeite. Doe dat eerst. Daarna: scan-prijs omhoog, social proof op de site, Weekly Drop zichtbaar maken. In die volgorde.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>ClaudeZakelijk Strategische Brainstorm &middot; 13 april 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "ClaudeZakelijk Strategische Brainstorm",
+  "date": "2026-04-13",
+  "summary": "Eerlijke analyse van ClaudeZakelijk positionering: pricing te laag (scan moet van 1.5K naar 2.5K), nul sociaal bewijs op site, Claude Partner Network niet aangevraagd. Positionering is sterk (unieke combo), executie lekt waarde.",
+  "sections": [
+    {
+      "heading": "Geld op tafel",
+      "items": [
+        { "title": "Scan te goedkoop", "detail": "EUR 1.500 voor meer werk dan DIDEV's EUR 2.000 sessie. Moet naar EUR 2.500.", "meta": { "severity": "high" } },
+        { "title": "Geen digitale producten", "detail": "Niets tussen gratis site en EUR 1.500 scan. Promptbibliotheek, self-assessment, betaalde nieuwsbrief zijn low-effort opties.", "meta": {} },
+        { "title": "MCP-servers niet geproductiseerd", "detail": "Custom MCP als optioneel add-on mist recurring revenue kans.", "meta": {} },
+        { "title": "Revenue-plafond", "detail": "10 uur/week cap = realistisch max EUR 10K/mo. Met digitale producten EUR 13K.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Kwetsbaarheid",
+      "items": [
+        { "title": "DIDEV Claude-track", "detail": "50+ implementaties, gepubliceerde prijzen, pipeline. Hoeft alleen 'we doen nu ook Claude' te zeggen.", "meta": { "risk": "high" } },
+        { "title": "Single-tool afhankelijkheid", "detail": "Als Claude achterop raakt bij GPT-5 of Copilot, hangt het merk aan een verliezend product.", "meta": { "risk": "high" } },
+        { "title": "Nul sociaal bewijs", "detail": "Geen testimonials, case studies, of logo's. Concurrenten claimen 50+ implementaties, 93% slagingspercentage.", "meta": { "risk": "medium" } },
+        { "title": "WerkenmetAI noemt Claude", "detail": "Al multi-tool met Claude erin. Als zij focussen, directe concurrent met 250+ track record.", "meta": { "risk": "medium" } }
+      ]
+    },
+    {
+      "heading": "Pricing-analyse",
+      "items": [
+        { "title": "Scan: te laag", "detail": "EUR 1.500 vs DIDEV EUR 2.000 voor minder werk. Voorstel: EUR 2.500.", "meta": {} },
+        { "title": "Rollout: onderkant", "detail": "EUR 7.5-10K vs DIDEV EUR 10-50K. Voorstel: EUR 8.5-12K.", "meta": {} },
+        { "title": "Retainer: fair", "detail": "EUR 1.5-2.5K/mo is redelijk. Overweeg Pro-tier op EUR 3K.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Claude Partner Network",
+      "items": [
+        { "title": "No-brainer", "detail": "Gratis, $100M backing, nul MKB/NL partners. Geeft badge, geloofwaardigheid, mogelijke co-marketing.", "meta": { "urgency": "immediate" } }
+      ]
+    },
+    {
+      "heading": "Betere concurrent-messaging",
+      "items": [
+        { "title": "DIDEV: concrete claims", "detail": "200-400% ROI, 90% adoptie in 30 dagen. Specifiek en meetbaar.", "meta": {} },
+        { "title": "WerkenmetAI: echte documenten", "detail": "Benadrukken dat ze niet met neppe voorbeelden werken.", "meta": {} },
+        { "title": "AI Advies Bureau: slagingspercentage", "detail": "93% over 50+ organisaties. Een enkel vertrouwenwekkend getal.", "meta": {} },
+        { "title": "Internationaal: Fractional CAIO", "detail": "Retainer als strategisch leiderschap framen, niet als bijpraten.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Site-zwaktes",
+      "items": [
+        { "title": "TODO op homepage", "detail": "Derde metric is vraagteken. Invullen met 265 rapporten of verwijderen.", "meta": {} },
+        { "title": "Side bet taal", "detail": "Over-pagina vertelt klant dat hij niet je prioriteit is. Herformuleer als bewust kleine caseload.", "meta": {} },
+        { "title": "Geen social proof", "detail": "Nul testimonials, nul logo's. Start met interne case studies (Proxuma, Dxfferent).", "meta": {} },
+        { "title": "Weekly Drop onzichtbaar", "detail": "Content-engine bestaat niet voor bezoekers. Voeg /weekly-drop pagina toe.", "meta": {} },
+        { "title": "Geen pricing op homepage", "detail": "Transparantie is je claim maar homepage toont geen bedrag.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Prioriteiten",
+      "items": [
+        { "title": "Deze week", "detail": "Partner Network aanvragen, TODO fixen, side-bet herschrijven, prijzen op homepage.", "meta": { "effort": "minimal" } },
+        { "title": "Twee weken", "detail": "Scan naar EUR 2.500, interne case studies, Weekly Drop pagina.", "meta": { "effort": "medium" } },
+        { "title": "Maand", "detail": "Self-assessment tool, retainer-tiers, backup-consultant.", "meta": { "effort": "significant" } }
+      ]
+    }
+  ],
+  "next_steps": "Max beslist welke acties hij oppakt. Claude Partner Network en homepage-fixes zijn no-brainers. Pricing-verhoging en case studies zijn de volgende stap. Strategische uitbreidingen (digitale producten, retainer-tiers) zijn maand-scope.",
+  "session_state": {
+    "phase": "brainstorm complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read full competition report (20 competitors, 4 categories)",
+      "Read all 6 site pages and 8 content markdown files",
+      "Analyzed pricing vs DIDEV and international benchmarks",
+      "Identified 6 revenue gaps, 4 vulnerabilities, 5 site weaknesses",
+      "Produced prioritized action list (this week / 2 weeks / month)"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new HTML file to commit",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-claudezakelijk-strategie-brainstorm.html", "relevance": "this report" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-claudezakelijk-concurrentie.html", "relevance": "competition report this builds on" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "ClaudeZakelijk dev server may be running on localhost:4321 (Astro project at ~/ClaudeCode/claude-cowork-practice/)"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended scan price increase from EUR 1500 to EUR 2500",
+      "rejected_alternatives": ["Keep at EUR 1500", "Match DIDEV exactly at EUR 2000"],
+      "rationale": "ClaudeZakelijk delivers more work (full day on-site + week async + 15-page report + 1hr readout) than DIDEV's EUR 2K strategy session. Price should reflect value delivered.",
+      "trade_offs": "Higher price may reduce conversion from price-sensitive SMBs, but those are unlikely to convert to EUR 8.5K rollout anyway",
+      "contingencies": [
+        { "if_X_then_Y": "If first 3 prospects balk at EUR 2500, test EUR 2000 as stepping stone", "probability": 0.2 }
+      ]
+    },
+    {
+      "decision": "Recommended joining Claude Partner Network immediately",
+      "rejected_alternatives": ["Wait until first external client", "Skip it"],
+      "rationale": "Free, no downside, zero MKB/NL partners currently. First-mover advantage in a $100M program.",
+      "trade_offs": "None. Zero cost, zero lock-in.",
+      "contingencies": []
+    },
+    {
+      "decision": "Identified DIDEV as primary competitive threat, not WerkenmetAI",
+      "rejected_alternatives": ["WerkenmetAI as primary threat (they mention Claude)", "International players as primary threat"],
+      "rationale": "DIDEV has published prices, 50+ implementations, and NL MKB focus. They could add a Claude track overnight. WerkenmetAI mentions Claude but is training-focused, not implementation.",
+      "trade_offs": "Underestimates WerkenmetAI if they pivot to Claude-specialist positioning",
+      "contingencies": [
+        { "if_X_then_Y": "If WerkenmetAI launches Claude-specific service, reassess as co-primary threat", "probability": 0.15 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
