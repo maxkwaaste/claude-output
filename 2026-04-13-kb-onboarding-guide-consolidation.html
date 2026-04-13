@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KB Onboarding Guide &mdash; Consolidation Options</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Georgia", "Times New Roman", serif; color: #2c2c2c; background: #f8f9fa; line-height: 1.65; -webkit-font-smoothing: antialiased; padding: 0; }
+.page-header { max-width: 780px; margin: 0 auto; padding: 16px 24px 0; display: flex; justify-content: space-between; align-items: center; font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page { max-width: 780px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+.brand { margin-bottom: 6px; }
+.brand-name { font-family: "Georgia", "Times New Roman", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+h1 { font-family: "Georgia", "Times New Roman", serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: "Georgia", "Times New Roman", serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: "Georgia", "Times New Roman", serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.section-title { font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 32px 0 14px; }
+.section-title::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: "Georgia", "Times New Roman", serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; vertical-align: top; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .07em; padding: 3px 10px; border-radius: 3px; }
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-badge.rec { background: #e6f4ea; border: 1px solid #8ac8a0; color: #1a6b3a; }
+.tier-title { font-family: "Georgia", "Times New Roman", serif; font-size: 16px; font-weight: 700; color: #1a2744; }
+.card { background: #fff; border: 1px solid #e2e4e8; border-radius: 4px; padding: 18px 22px; margin-bottom: 8px; position: relative; }
+.card::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: #1a2744; border-radius: 1px; }
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer { font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #6b7280; margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout strong { color: #1a2744; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+code { font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px; background: #f0f2f5; padding: 2px 5px; border-radius: 3px; }
+.tag { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; display: inline-block; margin-right: 4px; }
+.tag-pro { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-con { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">13 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-13-kb-onboarding-guide-consolidation.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Proxuma Knowledge Base &middot; Editorial Decision</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      13 April 2026<br>Decision Memo<br>kb.proxuma.com
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Editorial structure &middot; decision needed</div>
+  <h1>Onboarding Guide: One Long Article, or Roadmap + Detail?</h1>
+  <p class="subtitle">The Proxuma Onboarding Guide v0.5 (1258 lines, 18 chapters) currently lives as one short stub plus 12 separate detail articles on kb.proxuma.com. Max wants this reconsolidated. Three options below, each with tradeoffs. Pick one so we can push.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">v0.5</div>
+      <div class="stat-label">Latest source (Mar 17)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">18</div>
+      <div class="stat-label">Chapters across 4 parts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">45</div>
+      <div class="stat-label">Cross-links to detail KB</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">Detail articles already live</div>
+    </div>
+  </div>
+
+  <div class="section-title">Current state on kb.proxuma.com</div>
+
+  <p>Our <code>push-to-kb.py</code> run on 31 March pushed 13 articles under the Proxuma page. One of those, <code>getting-started/proxuma-onboarding-guide</code>, holds only the intro and the "Reading Paths by Role" table (roughly 129 words). The other twelve are full detail articles derived from the <code>KB-*.md</code> source files in the playbook extract.</p>
+
+  <p>The v0.5 source document is designed as a roadmap. Its own preamble says: <em>"For detailed procedures, screenshots, and technical specifications, follow the KB links throughout."</em> There are 45 <code>&rarr; [KB: ...]</code> pointers across the 18 chapters, each intended to link out to one of the detail articles.</p>
+
+  <div class="callout">
+    <span class="callout-label">The tension</span>
+    "One long article" can mean two very different things. Either (a) the roadmap itself becomes long because it absorbs the detail chapters inline, or (b) the roadmap stays a roadmap and only its own body grows to cover all 18 chapters. The answer changes what happens to the 12 siblings.
+  </div>
+
+  <h2>Option A &middot; Roadmap + Detail (recommended)</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge rec">Recommended</span>
+      <span class="tier-title">Replace the stub with the full v0.5 body, keep all 12 detail articles</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What we do</div>
+      <div class="card-buyer">Action</div>
+      <div class="card-desc">Overwrite the body of <code>getting-started/proxuma-onboarding-guide</code> with the full 1258-line v0.5 rendered as HTML. Resolve the 45 <code>&rarr; [KB: ...]</code> markers to real <code>/kb/proxuma/&lt;topic&gt;/&lt;slug&gt;</code> URLs that already exist on the site. Leave the 12 detail articles untouched.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What a reader sees</div>
+      <div class="card-buyer">Reader experience</div>
+      <div class="card-desc">One entry-point article that covers the whole onboarding journey in order. Click any chapter's KB pointer and land on a focused detail article with screenshots and step-by-step procedures. Matches the author's original design intent.</div>
+    </div>
+
+    <p><span class="tag tag-pro">Pro</span> Honours the v0.5 design. No content is lost or duplicated. Cross-links work. Detail articles keep their screenshots where they belong.</p>
+    <p><span class="tag tag-pro">Pro</span> Cheapest to execute. We only touch one article body and the link markers.</p>
+    <p><span class="tag tag-con">Con</span> Reader still clicks away for deep detail. Not truly "one article" in the strictest sense.</p>
+  </div>
+
+  <h2>Option B &middot; True Monolith</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Maximalist</span>
+      <span class="tier-title">Inline all detail content, delete the 12 siblings</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What we do</div>
+      <div class="card-buyer">Action</div>
+      <div class="card-desc">For each chapter that links to a detail article, splice the detail article's content into the chapter body. Pull screenshots across from the 12 detail articles and embed them inline. Delete (or unpublish) the 12 siblings. Replace the 45 <code>&rarr; [KB: ...]</code> markers with in-page anchors.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What a reader sees</div>
+      <div class="card-buyer">Reader experience</div>
+      <div class="card-desc">A single very long article. Ctrl-F works across everything. No clicking between articles. Probably 15 to 25 thousand words and 30 plus screenshots in one page load.</div>
+    </div>
+
+    <p><span class="tag tag-pro">Pro</span> Literally matches "one long article". Readable start-to-finish. Good for printing or PDF export.</p>
+    <p><span class="tag tag-con">Con</span> Content overlap. The 12 KB-*.md sources already overlap with the v0.5 chapters, so stitching needs editorial judgement to avoid repeating the same paragraph twice.</p>
+    <p><span class="tag tag-con">Con</span> Other existing KB articles (Menu Bar, Filters, Service Calls, etc., about 50 total) still need to link somewhere. Killing the 12 onboarding siblings breaks any inbound links from the wider KB.</p>
+    <p><span class="tag tag-con">Con</span> Page weight climbs fast. Every screenshot we embed loads on every visit.</p>
+  </div>
+
+  <h2>Option C &middot; Merge Body, Keep Siblings Linked</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Hybrid</span>
+      <span class="tier-title">Inline detail content but keep detail articles as duplicates</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What we do</div>
+      <div class="card-buyer">Action</div>
+      <div class="card-desc">Option B's body, but we leave the 12 detail articles on the site as-is. The onboarding article becomes a self-contained long-read; the detail articles continue to serve direct search hits and inbound links from outside the onboarding flow.</div>
+    </div>
+
+    <p><span class="tag tag-pro">Pro</span> Reader gets a monolith. External linkability preserved.</p>
+    <p><span class="tag tag-con">Con</span> Two canonical copies of the same content. SEO cannibalisation risk. Future edits have to happen in both places, or one gets stale.</p>
+  </div>
+
+  <div class="section-title">Side-by-side</div>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>A &middot; Roadmap + Detail</th>
+        <th>B &middot; Monolith</th>
+        <th>C &middot; Hybrid</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Matches author intent</strong></td>
+        <td>Yes</td>
+        <td>No (rewrites design)</td>
+        <td>Partial</td>
+      </tr>
+      <tr>
+        <td><strong>One article strictly</strong></td>
+        <td>No (linked)</td>
+        <td>Yes</td>
+        <td>Yes for the reader</td>
+      </tr>
+      <tr>
+        <td><strong>Detail articles survive</strong></td>
+        <td>Yes, untouched</td>
+        <td>Deleted</td>
+        <td>Yes, duplicated</td>
+      </tr>
+      <tr>
+        <td><strong>Inbound link stability</strong></td>
+        <td>Stable</td>
+        <td>Breaks 12 URLs</td>
+        <td>Stable</td>
+      </tr>
+      <tr>
+        <td><strong>Content duplication</strong></td>
+        <td>None</td>
+        <td>None</td>
+        <td>High (SEO risk)</td>
+      </tr>
+      <tr>
+        <td><strong>Page weight</strong></td>
+        <td>Moderate</td>
+        <td>Heavy</td>
+        <td>Heavy</td>
+      </tr>
+      <tr>
+        <td><strong>Implementation effort</strong></td>
+        <td>Low</td>
+        <td>High</td>
+        <td>High</td>
+      </tr>
+      <tr>
+        <td><strong>Future edit cost</strong></td>
+        <td>Edit once in roadmap or detail</td>
+        <td>Edit once, one big file</td>
+        <td>Edit twice</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">Open questions either way</div>
+
+  <ol>
+    <li><strong>v0.4 or v0.5 as source?</strong> v0.5 is newer by about two weeks but we have not confirmed it is the final edit.</li>
+    <li><strong>Images.</strong> v0.5 only references three images itself. The screenshots currently live on the 12 detail articles. For Option B or C we would need to carry those over.</li>
+    <li><strong>Slug.</strong> Overwrite the existing <code>proxuma-onboarding-guide</code> slug under Getting Started, or publish under a new slug and redirect?</li>
+    <li><strong>Cross-link markers.</strong> The 45 <code>&rarr; [KB: ...]</code> strings need to be resolved to real URLs regardless of option. Some of them may point at articles that were never pushed (need a short audit pass).</li>
+  </ol>
+
+  <div class="positioning">
+    <span class="callout-label">Recommendation</span>
+    <h2>Option A</h2>
+    <p>It matches how v0.5 was written, it is the cheapest to execute, and it keeps the 12 detail articles doing the work they were built for. Option B becomes a fair choice only if the intention is a printable, downloadable single-document onboarding manual. Option C carries real SEO and maintenance cost for a small reader gain.</p>
+  </div>
+
+  <div class="page-footer">
+    <div>Claude Code &middot; Decision memo for Jasper</div>
+    <div>Source: <code>~/Downloads/PROXUMA-ONBOARDING-GUIDE-v0.5.md</code></div>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "KB Onboarding Guide -- Consolidation Options",
+  "date": "2026-04-13",
+  "summary": "The Proxuma Onboarding Guide v0.5 was pushed to kb.proxuma.com as one short stub plus 12 separate detail articles. Three options to reconsolidate it into one long article. Recommending Option A: roadmap + detail.",
+  "sections": [
+    {
+      "heading": "Current state",
+      "items": [
+        {"title": "13 articles pushed on 31 March", "detail": "One short stub at getting-started/proxuma-onboarding-guide (129 words, 1 image) plus 12 detail siblings derived from the KB-*.md sources: admin-setup-checklist, autotask-setup-for-planning, bulk-edit-guide, capacity-configuration, capacity-planning-best-practices, interface-navigation-guide, item-details-and-pop-up-modal, project-template-best-practices, proxuma-and-autotask-how-they-work-together, proxuma-glossary, toolbar-and-actions-reference, proxuma-troubleshooting-guide."},
+        {"title": "Source document", "detail": "~/Downloads/PROXUMA-ONBOARDING-GUIDE-v0.5.md, 1258 lines, 18 chapters across 4 parts, 45 cross-link markers pointing at detail articles, only 3 inline image refs."}
+      ]
+    },
+    {
+      "heading": "Option A: Roadmap + Detail (recommended)",
+      "items": [
+        {"title": "Action", "detail": "Overwrite the proxuma-onboarding-guide stub body with the full v0.5 rendered as HTML. Resolve the 45 KB cross-link markers to real /kb/proxuma/<topic>/<slug> URLs. Leave the 12 detail siblings untouched."},
+        {"title": "Tradeoff", "detail": "Matches author intent. No duplication. Cheapest to execute. Reader still clicks for deep detail."}
+      ]
+    },
+    {
+      "heading": "Option B: True Monolith",
+      "items": [
+        {"title": "Action", "detail": "Splice detail content into each chapter, carry screenshots across, delete or unpublish the 12 siblings, replace cross-link markers with in-page anchors."},
+        {"title": "Tradeoff", "detail": "Literally one article. Heavy page weight. Breaks 12 existing URLs. Editorial stitching needed where detail-article prose overlaps with v0.5 prose."}
+      ]
+    },
+    {
+      "heading": "Option C: Hybrid",
+      "items": [
+        {"title": "Action", "detail": "Option B's body, but keep the 12 detail articles on the site as duplicates for direct search hits and inbound links."},
+        {"title": "Tradeoff", "detail": "Two canonical copies. SEO cannibalisation risk. Future edits must happen in both places."}
+      ]
+    },
+    {
+      "heading": "Open questions regardless of option",
+      "items": [
+        {"title": "v0.4 or v0.5", "detail": "v0.5 is newer by about two weeks but not confirmed final."},
+        {"title": "Images", "detail": "Screenshots currently live on the 12 detail articles; Options B and C need them carried over."},
+        {"title": "Slug", "detail": "Overwrite existing proxuma-onboarding-guide slug under Getting Started, or publish new slug and redirect?"},
+        {"title": "Cross-link audit", "detail": "The 45 KB markers need mapping to real URLs; some may point at articles never pushed."}
+      ]
+    }
+  ],
+  "next_steps": "Jasper (or Max) picks A, B, or C. Then Claude resolves open questions, renders MD to HTML via existing kb-editor pipeline, and runs push-to-kb.py against the chosen slug."
+}
+</script>
+</body>
+</html>
