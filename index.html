@@ -113,6 +113,27 @@ body.dark {
   transform: rotate(45deg); flex-shrink: 0;
 }
 
+/* Temp projects bar */
+.temp-projects {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 10px 0 6px; margin: -4px 0 0;
+}
+.temp-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--gold-600);
+}
+.temp-link {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px; font-weight: 500; color: var(--gold-700);
+  text-decoration: none; padding: 4px 12px;
+  border: 1.5px solid var(--gold-400); border-radius: 5px;
+  background: var(--gold-50);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.temp-link:hover { background: var(--gold-500); color: #fff; border-color: var(--gold-500); }
+body.dark .temp-link { color: var(--gold-400); border-color: var(--gold-700); background: rgba(184,148,62,0.08); }
+body.dark .temp-link:hover { background: var(--gold-600); color: #fff; }
+
 /* Stats bar */
 .stats-bar { display: flex; justify-content: center; gap: 32px; padding: 16px 0; margin-bottom: 20px; }
 .stat { text-align: center; }
@@ -486,6 +507,12 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 </header>
 
 <div class="ornament"><div class="ornament-diamond"></div></div>
+
+<div class="temp-projects">
+  <span class="temp-label">dev</span>
+  <a class="temp-link" href="http://localhost:4321/" target="_blank">:4321 cowork</a>
+  <a class="temp-link" href="http://localhost:8765/" target="_blank">:8765 dax preview</a>
+</div>
 
 <div class="stats-bar" id="stats-bar"></div>
 
@@ -1064,6 +1091,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
         const a = document.createElement('a');
         a.className = 'entry';
         a.href = entry.file;
+        a.target = '_blank';
 
         const match = matchMap.get(entry.file);
         const titleHtml = match ? highlightFuseMatches(entry.title, match.matches, 'title') : esc(entry.title);
