@@ -300,9 +300,12 @@ pre {
   <h3>Free Tier Verdict</h3>
   <p>The Starter plan and View/Collab seats on paid plans are limited to 6 tool calls per month. That is barely enough for a single design session. The write-to-canvas features are currently free during beta, which is the real value -- Claude can push code back into Figma as editable layers.</p>
 
+  <h3>Workaround: claude-talk-to-figma-mcp</h3>
+  <p>Community-built alternative by arinspunk (<a href="https://github.com/arinspunk/claude-talk-to-figma-mcp">GitHub</a>). Uses a Figma plugin + WebSocket bridge instead of the official MCP API, so it <strong>bypasses Figma's rate limits entirely</strong>. Works with any Figma account including free. Capabilities: read/analyze designs, create elements, modify styles, export assets, audit components. Supports Claude Code, Cursor, and Antigravity.</p>
+
   <div class="callout">
     <span class="callout-label">Practical Limit</span>
-    6 MCP calls per month makes Figma's free tier too restrictive for regular design-to-code work. The beta write features are genuinely useful but will become paid. Best suited as a secondary tool when you already have a Figma file from a client, not as your primary design workflow.
+    The official Figma MCP at 6 calls/month is unusable for regular work. But <code>claude-talk-to-figma-mcp</code> (community) bypasses rate limits via WebSocket -- making Figma's free tier viable after all. The beta write features on the official MCP are genuinely useful but will become paid.
   </div>
 
   <!-- SECTION 3: PENPOT MCP -->
@@ -391,6 +394,18 @@ pre {
   </div>
 
   <div class="card">
+    <div class="card-title">draw.io Official MCP</div>
+    <div class="card-buyer">Free -- Official -- <code>@drawio/mcp</code> v1.2.5 (April 2026)</div>
+    <div class="card-desc">Official MCP server from JGraph. Claude Code can open and edit diagrams in the draw.io editor. Best for flowcharts, system diagrams, and technical architecture. Free, runs locally or in browser.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">dembrandt -- Design Token Extractor</div>
+    <div class="card-buyer">Free -- <code>dembrandt</code> v0.11.0 (April 2026)</div>
+    <div class="card-desc">MCP server that extracts design tokens and CSS information from any website. Point it at a URL, get back colors, spacing, typography, and layout tokens. Useful for reverse-engineering existing site styles into tokens Claude Code can use as a design system foundation.</div>
+  </div>
+
+  <div class="card">
     <div class="card-title">v0.dev (Vercel)</div>
     <div class="card-buyer">Free Tier Available</div>
     <div class="card-desc">Not an MCP integration, but a parallel design-to-code tool. Generate React/Tailwind components from text prompts. Can be used alongside Claude Code: design in v0, copy the component code into your project, let Claude Code integrate it. Free tier gives limited generations per day.</div>
@@ -410,21 +425,29 @@ pre {
     <tr><td><strong>Designer Skills Collection</strong> (Owl-Listener)</td><td>--</td><td>63 skills + 27 commands organized into 8 plugins: research, systems, strategy, UI, interaction, prototyping, design ops, toolkit. Includes /discover, /strategize, /handoff, /evaluate. <a href="https://marieclairedean.substack.com/p/i-built-63-design-skills-for-claude">Details</a></td></tr>
     <tr><td><strong>Google Stitch Expert</strong></td><td>--</td><td>Skill specifically for the Stitch MCP workflow. <a href="https://mcpmarket.com/tools/skills/google-stitch-expert">mcpmarket.com</a></td></tr>
     <tr><td><strong>canvas-design</strong> (Anthropic)</td><td>--</td><td>Create visual art in PNG/PDF using design philosophy manifesto approach. Museum-quality output.</td></tr>
+    <tr><td><strong>create-design-system</strong> (CodyPlofker)</td><td>--</td><td>Interviews you about your brand, then generates a full SKILL.md with design tokens. Includes a self-grading loop where Claude rates output against your tokens. MIT license. <a href="https://github.com/CodyPlofker/claude-code-design-system">GitHub</a></td></tr>
+    <tr><td><strong>Design Review Workflow</strong> (OneRedOak)</td><td>--</td><td>Automated UI/UX review using Playwright MCP. Subagent-based, covers visual hierarchy, WCAG AA+, responsive design. Stripe/Airbnb/Linear standards. <a href="https://github.com/OneRedOak/claude-code-workflows/tree/main/design-review">GitHub</a></td></tr>
+    <tr><td><strong>web-artifacts-builder</strong> (Anthropic)</td><td>--</td><td>React 18 + TypeScript + Vite + Tailwind + shadcn/ui pipeline for building multi-component HTML artifacts.</td></tr>
+    <tr><td><strong>shadcn/ui skill</strong> (shadcn team)</td><td>--</td><td>Official skill giving Claude Code context on shadcn components plus pattern enforcement. <a href="https://ui.shadcn.com/docs/skills">Docs</a></td></tr>
+    <tr><td><strong>design-loop</strong> (jezweb)</td><td>--</td><td>Automates full design iteration cycle: build page, start server, screenshot, compare to reference, fix, screenshot again. <a href="https://github.com/jezweb/claude-skills">GitHub</a></td></tr>
   </table>
 
   <h3>Skills You Already Have Installed</h3>
-  <p>Your local Claude Code has: <code>banner-design</code>, <code>design</code>, <code>design-system</code>, <code>interface-design</code>, <code>ui-styling</code>, <code>ui-ux-pro-max</code>, <code>visual-verify</code>, <code>canvas-design</code>, <code>brand</code>. These cover most of what the ecosystem offers -- the main gap is the 63-skill Designer Collection from Owl-Listener.</p>
+  <p>Your local Claude Code has: <code>banner-design</code>, <code>design</code>, <code>design-system</code>, <code>interface-design</code>, <code>ui-styling</code>, <code>ui-ux-pro-max</code>, <code>visual-verify</code>, <code>canvas-design</code>, <code>brand</code>. Gaps worth filling: the Owl-Listener 63-skill Designer Collection, <code>create-design-system</code> (CodyPlofker), and the Design Review Workflow (OneRedOak).</p>
 
   <!-- SECTION 7: PROMPTING TECHNIQUES -->
   <h2>7. Design Prompting Techniques</h2>
 
   <p>Even without external design tools, Claude Code can produce strong visual output when prompted correctly. The community has converged on several patterns:</p>
 
+  <h3>The Aesthetics System Prompt (Official Anthropic Cookbook)</h3>
+  <p>Anthropic published an official cookbook entry (<a href="https://platform.claude.com/cookbook/coding-prompting-for-frontend-aesthetics">link</a>) for fighting generic output. The key move: append a <code>&lt;frontend_aesthetics&gt;</code> block to your CLAUDE.md that explicitly bans defaults (Inter, Roboto, Arial, purple-on-white) and demands distinctive choices across four dimensions: typography, color/theme, motion, and backgrounds. The typography sub-prompt lists font pairings by mood (editorial, startup, technical) and demands extreme weight contrasts (100 vs 900, not 400 vs 600).</p>
+
   <h3>Reference-Driven Design</h3>
-  <p>Upload screenshots of designs you admire. Mention spacing, mood, typography, page flow. Claude works dramatically better with visual references than with text-only descriptions. The multi-modal input is the single biggest quality lever.</p>
+  <p>Upload screenshots of designs you admire. Mention spacing, mood, typography, page flow. Claude works dramatically better with visual references than with text-only descriptions. The multi-modal input is the single biggest quality lever. Shortcut: Cmd+Ctrl+Shift+4 copies a screenshot to clipboard, then Ctrl+V pastes directly into Claude Code.</p>
 
   <h3>Design System First</h3>
-  <p>Generate design tokens (colors, spacing, typography scale, component patterns) as a SKILL.md or design system file before writing any components. This prevents the "AI slop" aesthetic -- generic-looking output that comes from Claude guessing at visual decisions. Build the system once, then Claude carries those standards into every component.</p>
+  <p>Generate design tokens (colors, spacing, typography scale, component patterns) as a SKILL.md or design system file before writing any components. This prevents the "AI slop" aesthetic. Use <code>create-design-system</code> (CodyPlofker) to interview yourself about your brand and auto-generate the SKILL.md, or use <code>dembrandt</code> MCP to extract tokens from an existing site you admire.</p>
 
   <h3>Vibe Design Workflow</h3>
   <div class="flow-diagram">
@@ -451,11 +474,14 @@ pre {
   <table class="matrix">
     <tr><th>Tool</th><th>Free?</th><th>MCP?</th><th>Bidirectional?</th><th>Best For</th></tr>
     <tr><td><strong>Google Stitch</strong></td><td>Yes (350/mo)</td><td>Community</td><td>Read only</td><td>AI-native design generation</td></tr>
-    <tr><td><strong>Figma</strong></td><td>6 calls/mo</td><td>Official</td><td>Read + Write</td><td>Existing Figma files</td></tr>
+    <tr><td><strong>Figma (official)</strong></td><td>6 calls/mo</td><td>Official</td><td>Read + Write</td><td>Existing Figma files</td></tr>
+    <tr><td><strong>Figma (community)</strong></td><td>Fully free</td><td>Community</td><td>Read + Write</td><td>Bypasses rate limits</td></tr>
     <tr><td><strong>Penpot</strong></td><td>Fully free</td><td>Official</td><td>Read + Write</td><td>Open-source, no limits</td></tr>
     <tr><td><strong>Excalidraw</strong></td><td>Fully free</td><td>Community</td><td>Read + Write</td><td>Quick wireframes</td></tr>
     <tr><td><strong>Playwright MCP</strong></td><td>Fully free</td><td>Official (MS)</td><td>N/A</td><td>Screenshot iteration</td></tr>
     <tr><td><strong>Glance</strong></td><td>Fully free</td><td>Community</td><td>N/A</td><td>Visual design feedback loop</td></tr>
+    <tr><td><strong>draw.io</strong></td><td>Fully free</td><td>Official</td><td>Read + Write</td><td>Flowcharts, diagrams</td></tr>
+    <tr><td><strong>dembrandt</strong></td><td>Fully free</td><td>Community</td><td>Read only</td><td>Token extraction from sites</td></tr>
     <tr><td><strong>Design Skills</strong></td><td>Fully free</td><td>N/A</td><td>N/A</td><td>Design system + prompting</td></tr>
   </table>
 
@@ -488,6 +514,11 @@ pre {
     <li><a href="https://www.producthunt.com/products/glance-give-claude-code-a-real-browser">Glance: Real Browser for Claude Code</a></li>
     <li><a href="https://github.com/SawyerHood/dev-browser">dev-browser skill</a></li>
     <li><a href="https://mcpmarket.com/tools/skills/google-stitch-expert">Google Stitch Expert Skill</a></li>
+    <li><a href="https://github.com/arinspunk/claude-talk-to-figma-mcp">claude-talk-to-figma-mcp</a> -- Bypasses Figma rate limits</li>
+    <li><a href="https://github.com/CodyPlofker/claude-code-design-system">create-design-system</a> -- Auto-generate brand SKILL.md</li>
+    <li><a href="https://github.com/OneRedOak/claude-code-workflows/tree/main/design-review">Design Review Workflow</a> -- Automated UI/UX review</li>
+    <li><a href="https://platform.claude.com/cookbook/coding-prompting-for-frontend-aesthetics">Anthropic Cookbook: Frontend Aesthetics</a></li>
+    <li><a href="https://medium.com/@rotbart/giving-claude-code-eyes-round-trip-screenshot-testing-ce52f7dcc563">Round-Trip Screenshot Testing</a></li>
   </ul>
 
   <div class="page-footer">
