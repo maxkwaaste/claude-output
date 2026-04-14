@@ -528,7 +528,19 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   <span class="temp-label">dev</span>
   <a class="temp-link" href="http://localhost:4321/" target="_blank">:4321 cowork</a>
   <a class="temp-link" href="http://localhost:8765/" target="_blank">:8765 dax preview</a>
+  <span class="temp-label" style="margin-left:12px">draw</span>
+  <a class="temp-link" href="http://localhost:3000/" target="_blank" style="background:#0f766e;color:#fff;border-color:#0f766e">Excalidraw canvas</a>
+  <button class="temp-link" id="copy-excalidraw-prompt" style="cursor:pointer;background:var(--cream-dark);border-color:var(--border)" title="Copy prompt for Claude to read your drawing">Copy draw prompt</button>
 </div>
+<script>
+document.getElementById('copy-excalidraw-prompt').addEventListener('click', function() {
+  var prompt = 'I drew something on my Excalidraw canvas. Read it with: curl -s http://localhost:3000/api/elements | python3 -c "import json,sys;data=json.load(sys.stdin);elements=data.get(\'elements\',[]);[print(f\'  {el.get(\\\"type\\\")}: pos=({round(el.get(\\\"x\\\",0))},{round(el.get(\\\"y\\\",0))}) size={round(el.get(\\\"width\\\",0))}x{round(el.get(\\\"height\\\",0))} text=\\\"{el.get(\\\"text\\\",\\\"\\\")}\\\"\') for el in elements if not el.get(\'isDeleted\')]"\n\nThen convert my drawing into a fully rendered, self-contained HTML page. Use the excalidraw-to-html skill for the full workflow. Map shapes to semantic HTML elements based on their type, position, and relationships.';
+  navigator.clipboard.writeText(prompt);
+  this.textContent = 'Copied!';
+  var btn = this;
+  setTimeout(function() { btn.textContent = 'Copy draw prompt'; }, 1500);
+});
+</script>
 
 <div class="stats-bar" id="stats-bar"></div>
 
@@ -617,6 +629,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 -->
 <script type="application/json" id="index-data">
 [
+  {
+    "file": "2026-04-14-excalidraw-to-html.html",
+    "title": "Excalidraw to HTML — Draw It, Claude Builds It",
+    "date": "2026-04-14T15:00",
+    "summary": "Public project: draw wireframes in Excalidraw, Claude reads structured JSON and generates HTML. Repo, skill, and visual explainer.",
+    "tags": ["Excalidraw", "MCP", "Claude Code", "Open Source"],
+    "type": "product",
+    "detail": "Public repo at github.com/maxkwaaste/excalidraw-to-html. Uses yctimlin/mcp_excalidraw (community) for bidirectional canvas access — Claude reads exact element types, positions, dimensions, text, and arrow bindings instead of interpreting screenshots. Includes CLAUDE.md (setup instructions any Claude can follow), portable skill file, and GitHub Pages landing page. Canvas at localhost:3000, REST API fallback at /api/elements. Landing page: maxkwaaste.github.io/excalidraw-to-html"
+  },
   {
     "file": "2026-04-13-claudezakelijk-strategie-brainstorm.html",
     "title": "ClaudeZakelijk Strategische Brainstorm",
@@ -1170,9 +1191,9 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
           '<div class="entry-footer">' +
             tagsHtml +
             '<div style="display:flex;align-items:center;gap:6px">' + scoreHtml +
-              '<button class="entry-finder-btn" data-file="' + esc(entry.file) + '" title="Copy file path" onclick="event.preventDefault();event.stopPropagation();var fp=\'/Users/maxdekwaasteniet/ClaudeCode/claude-output/\'+this.dataset.file;navigator.clipboard.writeText(fp);var tt=this.querySelector(\'.finder-tooltip\');tt.textContent=\'Copied!\';tt.classList.add(\'show\');setTimeout(function(){tt.classList.remove(\'show\');tt.textContent=\'Copy path\'},1200)">' +
+              '<button class="entry-finder-btn" data-file="' + esc(entry.file) + '" title="Reveal in Finder" onclick="event.preventDefault();event.stopPropagation();var fp=\'/Users/maxdekwaasteniet/ClaudeCode/claude-output/\'+this.dataset.file;navigator.clipboard.writeText(fp);var tt=this.querySelector(\'.finder-tooltip\');tt.textContent=\'Copied — paste in \\u21E7\\u2318G\';tt.classList.add(\'show\');setTimeout(function(){tt.classList.remove(\'show\');tt.textContent=\'Reveal in Finder\'},2500)">' +
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>' +
-                '<span class="finder-tooltip">Copy path</span>' +
+                '<span class="finder-tooltip">Reveal in Finder</span>' +
               '</button>' +
               '<span class="entry-file">' + entry.file + '</span>' +
             '</div>' +
