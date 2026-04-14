@@ -406,6 +406,22 @@ body.dark .entry-tag { background: var(--cream-dark); }
   font: 400 10px/1 "JetBrains Mono", "SF Mono", monospace;
   color: var(--ink-muted); opacity: 0.6; flex-shrink: 0;
 }
+.entry-finder-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 5px; border: 1px solid var(--border);
+  background: var(--parchment); cursor: pointer; flex-shrink: 0;
+  transition: all .15s; position: relative;
+}
+.entry-finder-btn:hover { border-color: var(--gold-400); background: var(--gold-50); }
+.entry-finder-btn svg { width: 13px; height: 13px; color: var(--ink-muted); }
+.entry-finder-btn:hover svg { color: var(--gold-600); }
+.entry-finder-btn .finder-tooltip {
+  position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  font: 500 10px/1 "Inter", sans-serif; color: #fff; background: var(--ink);
+  padding: 4px 8px; border-radius: 4px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.entry-finder-btn .finder-tooltip.show { opacity: 1; }
 .entry-score {
   font: 500 10px/1 "Inter", sans-serif; color: var(--gold-600);
   background: var(--gold-50); padding: 2px 6px; border-radius: 3px;
@@ -1154,6 +1170,10 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
           '<div class="entry-footer">' +
             tagsHtml +
             '<div style="display:flex;align-items:center;gap:6px">' + scoreHtml +
+              '<button class="entry-finder-btn" data-file="' + esc(entry.file) + '" title="Copy file path" onclick="event.preventDefault();event.stopPropagation();var fp=\'/Users/maxdekwaasteniet/ClaudeCode/claude-output/\'+this.dataset.file;navigator.clipboard.writeText(fp);var tt=this.querySelector(\'.finder-tooltip\');tt.textContent=\'Copied!\';tt.classList.add(\'show\');setTimeout(function(){tt.classList.remove(\'show\');tt.textContent=\'Copy path\'},1200)">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>' +
+                '<span class="finder-tooltip">Copy path</span>' +
+              '</button>' +
               '<span class="entry-file">' + entry.file + '</span>' +
             '</div>' +
           '</div>';
