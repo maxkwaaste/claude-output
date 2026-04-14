@@ -131,6 +131,58 @@ code {
   font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
 }
 .sources li { font-family: -apple-system, sans-serif; font-size: 13px; line-height: 1.5; margin-bottom: 8px; }
+
+/* Embedded email card */
+.email-card {
+  border: 1px solid #d0d3d8; border-radius: 6px; margin: 24px 0 32px;
+  background: #fff; box-shadow: 0 1px 3px rgba(26,39,68,.06);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+.email-header {
+  background: #f5f7fa; border-bottom: 1px solid #e2e4e8;
+  padding: 14px 20px; font-size: 12px; color: #4a5568;
+}
+.email-header .email-tag {
+  display: inline-block; background: #c8402a; color: #fff;
+  font: 700 9px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .08em; padding: 4px 8px; border-radius: 3px;
+  margin-bottom: 8px;
+}
+.email-header .email-subject {
+  font-size: 15px; font-weight: 700; color: #1a2744; margin: 4px 0 6px;
+  font-family: "Georgia", serif;
+}
+.email-header .email-meta { display: grid; grid-template-columns: 70px 1fr; gap: 2px 12px; font-size: 12px; }
+.email-header .email-meta .label { color: #8a8f96; font-weight: 600; }
+.email-header .email-meta .val { color: #2c2c2c; }
+.email-body { padding: 22px 26px; font-size: 13.5px; line-height: 1.6; color: #2c2c2c; }
+.email-body .gov-banner {
+  font: 700 16px/1 "Georgia", serif; color: #1a2744; padding-bottom: 10px;
+  border-bottom: 2px solid #1a2744; margin-bottom: 16px;
+}
+.email-body p { font-size: 13.5px; margin-bottom: 12px; }
+.email-body ul { font-size: 13.5px; margin: 8px 0 14px 22px; }
+.email-body h4 {
+  font: 700 12px/1.2 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin: 18px 0 6px;
+}
+.email-body .ignore-line {
+  background: #fff8d4; border-left: 4px solid #c8a040;
+  padding: 12px 16px; margin: 0 0 16px;
+  font-size: 14px; font-weight: 600; color: #5a4410;
+  position: relative;
+}
+.email-body .ignore-line::after {
+  content: 'CLAUDE HIGHLIGHT'; position: absolute; right: 10px; top: 8px;
+  font: 700 8px/1 -apple-system, sans-serif; color: #8a6a2a;
+  letter-spacing: .08em;
+}
+.email-footer {
+  background: #f8f9fb; border-top: 1px solid #e2e4e8;
+  padding: 10px 20px; font-size: 11px; color: #8a8f96;
+  font-style: italic;
+}
 </style>
 </head>
 <body>
@@ -155,6 +207,45 @@ code {
   <div class="overline">UKVI Reminder Verification</div>
   <h1>The biometrics reminder is almost certainly stale</h1>
   <p class="subtitle">UKVI sent a "book your biometrics" reminder on 8 Apr 2026, but Gmail evidence shows biometrics were captured on 9 Feb 2026 and the application is at the UK Decision Making Centre. Forum reports confirm this is a known automation glitch. Below: the email timeline, forum findings, draft verification messages, and all sources for you to verify.</p>
+
+  <h3 style="margin-top:0;">The email in question</h3>
+  <div class="email-card">
+    <div class="email-header">
+      <div class="email-tag">Reminder Email &middot; 8 Apr 2026</div>
+      <div class="email-subject">Reminder to book appointment to provide biometrics</div>
+      <div class="email-meta">
+        <span class="label">From:</span><span class="val">noreply@visas-immigration.service.gov.uk</span>
+        <span class="label">To:</span><span class="val">maxkwaaste@gmail.com</span>
+        <span class="label">Date:</span><span class="val">Wed, 8 Apr 2026 at 07:31 BST</span>
+      </div>
+    </div>
+    <div class="email-body">
+      <div class="gov-banner">UK Visas &amp; Immigration</div>
+
+      <p class="ignore-line">If you have already booked or attended an appointment, please ignore this reminder.</p>
+
+      <p>You submitted an online application to the Home Office on <strong>07 February 2026</strong>.</p>
+
+      <p>As part of your application you need to book an appointment at a visa application centre (VAC) to provide your biometrics. If you have not yet done so, you should return to your online application to book your appointment.</p>
+
+      <p>You can change your appointment date as often as you wish, provided you:</p>
+      <ul>
+        <li>do it more than 24 hours in advance of your appointment</li>
+        <li>attend your appointment within 240 days of paying for your visa application</li>
+      </ul>
+
+      <p>Once we receive your biometrics, we will start to process your application. If you do not provide your biometrics within 240 days of paying for your online application, you will need to reapply.</p>
+
+      <h4>Cancelling your application</h4>
+      <p>If you no longer want to apply for a visa, you can cancel your application. Follow the GOV.UK guidance on <a href="https://www.gov.uk/cancel-visa">cancelling a visa, immigration or citizenship application</a>.</p>
+
+      <h4>Contact us</h4>
+      <p>If you need help, or if you are unable to attend any appointment <a href="https://www.gov.uk/contact-ukvi-inside-outside-uk">contact UKVI</a> for further information.</p>
+    </div>
+    <div class="email-footer">
+      PLEASE DO NOT REPLY TO THIS EMAIL &middot; Sent to maxkwaaste@gmail.com as a user of the UKVI visa application service.
+    </div>
+  </div>
 
   <div class="stats-row">
     <div class="stat-card">
