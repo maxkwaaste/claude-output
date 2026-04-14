@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop Landing Page — 10 Improvements</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-high { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-medium { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-low { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-ux { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-code { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 14, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-14-workshop-landing-review.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Landing Page Review</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 14, 2026<br>Design Review<br>Dxfferent Workshop
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">LANDING PAGE AUDIT</div>
+  <h1>AI Transformation Workshop &mdash; 10 Improvements</h1>
+  <p class="subtitle">Review of workshop-landing-page (3).html. Sorted by expected impact on conversion and trust. Each item includes the problem, the fix, and where to look in the code.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">14</div>
+      <div class="stat-label">Sections</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Pricing Tiers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">JS Bug (Critical)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Social Proof</div>
+    </div>
+  </div>
+
+  <!-- IMPROVEMENT 1 -->
+  <h2>1. JavaScript bug breaks the interest form</h2>
+  <div class="card">
+    <div class="card-buyer">Critical &middot; Line 682</div>
+    <p class="card-desc">The <code>workshop_id</code> value on line 682 is a bare UUID without quotes: <code>workshop_id: 019d57ee-a544-7223-afcb-c6422d3f7fb3</code>. JavaScript interprets the hyphens as subtraction operators, producing <code>NaN</code>. The POST body sends garbage, so no interest submission actually works.</p>
+    <div class="tags"><span class="tag tag-high">High Impact</span><span class="tag tag-code">Code Fix</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Wrap the UUID in quotes: <code>workshop_id: '019d57ee-a544-7223-afcb-c6422d3f7fb3'</code>. Test the form after deploying &mdash; every submission since launch has been broken.
+  </div>
+
+  <!-- IMPROVEMENT 2 -->
+  <h2>2. No social proof anywhere on the page</h2>
+  <div class="card">
+    <div class="card-buyer">High Impact &middot; Trust</div>
+    <p class="card-desc">The page asks MSPs to spend EUR 9,999&ndash;15,500 but offers zero evidence that the team has delivered results. No client logos, no testimonials, no case study numbers, no "X MSPs served" counter. The Showcases section lists what Dxfferent built, but there is no third-party validation. At this price point, buyers need proof.</p>
+    <div class="tags"><span class="tag tag-high">High Impact</span><span class="tag tag-ux">UX</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Add a section between Showcases and the mid-page CTA with 2&ndash;3 short testimonials from MSP owners. Even one quote with a name, role, and company adds credibility. If testimonials are not available yet (Cohort 1), add logos of MSPs the team has worked with, or a stat like "Built AI systems for 12 MSPs in 2025."
+  </div>
+
+  <!-- IMPROVEMENT 3 -->
+  <h2>3. Hero headline does not name the buyer's outcome</h2>
+  <div class="card">
+    <div class="card-buyer">High Impact &middot; Copy</div>
+    <p class="card-desc">"Bouw een compliant AI systeem voor jouw MSP. In 3 dagen." tells people what they will do, not what they will get. The subtext above the headline carries the real value prop (more value without growing headcount), but it is styled as muted pre-text that most visitors will skip.</p>
+    <div class="tags"><span class="tag tag-high">High Impact</span><span class="tag tag-ux">UX</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Flip the hierarchy. Lead with the outcome in the H1: something like "Lever 3x meer waarde met hetzelfde team. Zonder eigen developers." Push the "3 dagen / compliant AI systeem" detail to the subtitle. The pre-text sentence above the H1 can stay, but the H1 itself should sell the result, not the activity.
+  </div>
+
+  <!-- IMPROVEMENT 4 -->
+  <h2>4. No urgency or scarcity mechanism</h2>
+  <div class="card">
+    <div class="card-buyer">Medium Impact &middot; Conversion</div>
+    <p class="card-desc">The booster section says "Nog 6 plekken beschikbaar" as static text. There is no countdown timer, no dynamic seat counter, and no early-bird deadline. The date (May 18) is about 5 weeks away. Static scarcity text that never changes trains buyers to wait.</p>
+    <div class="tags"><span class="tag tag-medium">Medium Impact</span><span class="tag tag-ux">UX</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Add a countdown timer in the hero or above the pricing section showing days until the workshop. If possible, pull the real seat count from the registration API. If not, at least add an early-bird deadline: "Schrijf in voor 1 mei en ontvang X" to create a reason to act now.
+  </div>
+
+  <!-- IMPROVEMENT 5 -->
+  <h2>5. Pricing cards lack feature differentiation</h2>
+  <div class="card">
+    <div class="card-buyer">Medium Impact &middot; UX</div>
+    <p class="card-desc">The three tiers (Workshop / Begeleiding / Transformatie) describe what is included in paragraph form. There is no checklist, no visual comparison, and no clear "this tier adds X over the previous one" structure. At a glance, a visitor cannot tell why Transformatie costs EUR 5,500 more than Workshop.</p>
+    <div class="tags"><span class="tag tag-medium">Medium Impact</span><span class="tag tag-ux">UX</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Replace the paragraph descriptions with a bulleted feature list per card, or add a comparison table below the cards. Use checkmarks and dashes so the delta between tiers is visible at a glance. Bold the features that are unique to higher tiers.
+  </div>
+
+  <!-- IMPROVEMENT 6 -->
+  <h2>6. Missing meta tags and OG data</h2>
+  <div class="card">
+    <div class="card-buyer">Medium Impact &middot; SEO / Sharing</div>
+    <p class="card-desc">The <code>&lt;head&gt;</code> contains only a <code>&lt;title&gt;</code> and font imports. There is no <code>meta description</code>, no Open Graph tags, no Twitter card tags, and no favicon. When someone shares this link on LinkedIn or Slack, it will show a blank preview &mdash; a missed opportunity for a page designed to attract MSP decision-makers.</p>
+    <div class="tags"><span class="tag tag-medium">Medium Impact</span><span class="tag tag-code">Code Fix</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Add <code>meta description</code>, <code>og:title</code>, <code>og:description</code>, <code>og:image</code>, and <code>og:url</code> tags. Create a 1200x630 social share image with the workshop title and date. Add a favicon. This takes 10 minutes and makes every share link look professional.
+  </div>
+
+  <!-- IMPROVEMENT 7 -->
+  <h2>7. Mobile breakpoint ordering is wrong</h2>
+  <div class="card">
+    <div class="card-buyer">Medium Impact &middot; Responsive</div>
+    <p class="card-desc">The 768px breakpoint stacks all grids to single column, which is correct. But the 1024px breakpoint (line 182) is declared <em>after</em> the 768px one. Since 768px rules still match at 769&ndash;1024px, the 1024px rules override them, putting outcomes and showcases back into 2 columns on tablets. The cascade is backwards &mdash; mobile-first media queries should go from small to large.</p>
+    <div class="tags"><span class="tag tag-medium">Medium Impact</span><span class="tag tag-code">Code Fix</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Swap the media query order: <code>@media(max-width:1024px)</code> first, then <code>@media(max-width:768px)</code>. Or switch to <code>min-width</code> mobile-first breakpoints. Test on iPad (1024px) and phone (375px) to confirm grids stack correctly.
+  </div>
+
+  <!-- IMPROVEMENT 8 -->
+  <h2>8. No sticky navigation or back-to-top</h2>
+  <div class="card">
+    <div class="card-buyer">Low Impact &middot; UX</div>
+    <p class="card-desc">The page has 14 sections and runs long. There is no navigation bar, no anchor menu, and no back-to-top button. A visitor who scrolls past the pricing section has no way to jump back to the hero CTA without manual scrolling. The "Meer informatie ontvangen" link in the hero points to <code>#interest-form</code>, but there is no way to get back up.</p>
+    <div class="tags"><span class="tag tag-low">Low Impact</span><span class="tag tag-ux">UX</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Add a minimal sticky bar at the top with the Dxfferent logo, a one-line value prop, and a "Reserveer" button. This keeps the CTA visible at all scroll depths. A floating back-to-top button (bottom right, appears after scrolling 600px) is a low-effort alternative.
+  </div>
+
+  <!-- IMPROVEMENT 9 -->
+  <h2>9. Interest form has no feedback on input validation</h2>
+  <div class="card">
+    <div class="card-buyer">Low Impact &middot; UX</div>
+    <p class="card-desc">The email field uses native <code>required</code> and <code>type="email"</code> validation, but the only error handling in the JS is a generic red box. If the API returns a validation error for the email field, it replaces the error div's <code>textContent</code> &mdash; but the original error HTML with the mailto fallback link is lost permanently. Also, there is no loading spinner, just the text "Versturen..." on a disabled button.</p>
+    <div class="tags"><span class="tag tag-low">Low Impact</span><span class="tag tag-code">Code Fix</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Use <code>innerHTML</code> instead of <code>textContent</code> on line 699 so the email fallback link is preserved. Or better: keep the generic error div as-is, and add a separate inline error span below the email input for field-specific errors. Add a simple CSS spinner or pulse animation to the button during submission.
+  </div>
+
+  <!-- IMPROVEMENT 10 -->
+  <h2>10. Accessibility gaps</h2>
+  <div class="card">
+    <div class="card-buyer">Low Impact &middot; Code Quality</div>
+    <p class="card-desc">Several issues: the hero section has no <code>&lt;header&gt;</code> landmark, <code>&lt;section&gt;</code> elements lack <code>aria-label</code> or headings for screen readers, the pain-quote class uses a styled div instead of a <code>&lt;blockquote&gt;</code>, zone color indicators rely solely on color (no text label for colorblind users), and the FAQ details/summary pattern hides the marker but does not add an <code>aria-expanded</code> attribute.</p>
+    <div class="tags"><span class="tag tag-low">Low Impact</span><span class="tag tag-code">Code Fix</span></div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">Fix</span>
+    Wrap the hero in <code>&lt;header role="banner"&gt;</code>. Add <code>aria-label</code> to each <code>&lt;section&gt;</code>. Use <code>&lt;blockquote&gt;</code> for pain quotes. Add a text label ("Vrij" / "Pseudonimiseer" / "Lokaal") next to each zone color indicator (already done in <code>&lt;h3&gt;</code>, so the indicator dot is decorative and should get <code>aria-hidden="true"</code>). The FAQ is fine functionally since <code>&lt;details&gt;</code> handles its own aria state natively.
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <h2>Summary</h2>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Issue</th>
+        <th>Impact</th>
+        <th>Effort</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>1</strong></td><td>JS bug &mdash; form sends NaN</td><td><strong>Critical</strong></td><td>2 min</td></tr>
+      <tr><td><strong>2</strong></td><td>No social proof</td><td>High</td><td>1&ndash;2 hrs</td></tr>
+      <tr><td><strong>3</strong></td><td>Hero headline sells activity, not outcome</td><td>High</td><td>30 min</td></tr>
+      <tr><td><strong>4</strong></td><td>No urgency / scarcity mechanism</td><td>Medium</td><td>1&ndash;2 hrs</td></tr>
+      <tr><td><strong>5</strong></td><td>Pricing tiers lack visual comparison</td><td>Medium</td><td>1 hr</td></tr>
+      <tr><td><strong>6</strong></td><td>Missing meta/OG tags</td><td>Medium</td><td>15 min</td></tr>
+      <tr><td><strong>7</strong></td><td>CSS breakpoint order wrong</td><td>Medium</td><td>10 min</td></tr>
+      <tr><td><strong>8</strong></td><td>No sticky nav or back-to-top</td><td>Low</td><td>1 hr</td></tr>
+      <tr><td><strong>9</strong></td><td>Form error handling overwrites fallback</td><td>Low</td><td>15 min</td></tr>
+      <tr><td><strong>10</strong></td><td>Accessibility gaps</td><td>Low</td><td>30 min</td></tr>
+    </tbody>
+  </table>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>Fix #1 first &mdash; the interest form is broken right now and losing every lead. Then tackle #2 and #3 (social proof + headline) for the biggest conversion lift. The rest are polish that compounds over time. The page structure and visual design are solid; the issues are mostly in the copy strategy and a few code oversights.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Workshop Landing Page Review &mdash; Dxfferent Cohort 1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Workshop Landing Page — 10 Improvements",
+  "date": "2026-04-14",
+  "summary": "10 prioritized improvements for the Dxfferent AI Transformation Workshop landing page, from a critical JS bug in the interest form to missing social proof and accessibility gaps.",
+  "sections": [
+    {
+      "heading": "Critical",
+      "items": [
+        { "title": "JS bug breaks interest form", "detail": "workshop_id UUID is unquoted on line 682, JS interprets hyphens as subtraction, POST sends NaN. Every submission since launch is broken.", "meta": { "line": 682, "effort": "2 min" } }
+      ]
+    },
+    {
+      "heading": "High Impact",
+      "items": [
+        { "title": "No social proof", "detail": "EUR 10-15k ask with zero testimonials, logos, or case study numbers.", "meta": {} },
+        { "title": "Hero sells activity not outcome", "detail": "H1 says 'build a system' instead of naming the result (3x productivity, no developers needed).", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Medium Impact",
+      "items": [
+        { "title": "No urgency mechanism", "detail": "Static scarcity text, no countdown, no early-bird deadline.", "meta": {} },
+        { "title": "Pricing lacks visual comparison", "detail": "Paragraph descriptions instead of checklists; tier delta unclear.", "meta": {} },
+        { "title": "Missing meta/OG tags", "detail": "No description, no social share image, no favicon.", "meta": {} },
+        { "title": "CSS breakpoint order wrong", "detail": "768px before 1024px causes cascade issues on tablets.", "meta": { "line": "172-184" } }
+      ]
+    },
+    {
+      "heading": "Low Impact",
+      "items": [
+        { "title": "No sticky nav", "detail": "14-section page with no way to jump back to CTA.", "meta": {} },
+        { "title": "Form error handling", "detail": "textContent overwrites mailto fallback link permanently.", "meta": { "line": 699 } },
+        { "title": "Accessibility gaps", "detail": "Missing landmarks, aria labels, semantic elements for quotes.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Fix the JS bug immediately (quote the UUID). Then work on social proof and headline rewrite for conversion lift. Share with Dxfferent team for their input on testimonials and countdown feasibility.",
+  "session_state": {
+    "phase": "review delivered",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read and analyzed full workshop landing page HTML",
+      "Identified 10 improvements sorted by impact",
+      "Published output-page review"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-14-workshop-landing-review.html", "relevance": "this review" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "output-page for substantial output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Sorted improvements by conversion impact rather than code severity",
+      "rejected_alternatives": ["Sort by effort", "Sort by section order in HTML"],
+      "rationale": "The JS bug is both high-impact and low-effort, so it leads naturally. Social proof and headline are the biggest conversion levers after that.",
+      "trade_offs": "Low-effort code fixes like meta tags rank lower than they would in a developer-priority list",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
