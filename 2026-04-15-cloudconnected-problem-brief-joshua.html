@@ -193,6 +193,53 @@
     letter-spacing: .08em;
   }
   ol.options li .verdict.warn { color: var(--accent); }
+  .clip {
+    border: 1px solid var(--rule);
+    margin: 28px 0;
+    background: var(--card);
+  }
+  .clip-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--soft);
+    border-bottom: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+  .clip-num {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+  }
+  .clip-title { font-size: 15px; font-weight: 600; flex: 1 1 auto; }
+  .clip-time {
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-family: -apple-system, "SF Mono", Menlo, monospace;
+  }
+  .clip video {
+    display: block;
+    width: 100%;
+    background: #000;
+  }
+  .clip-context {
+    padding: 18px 22px;
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.55;
+  }
+  .clip-context em { color: var(--accent); font-style: italic; }
+  .subnote {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: -6px;
+  }
   .takeaway {
     margin-top: 56px;
     padding: 32px;
@@ -291,11 +338,39 @@
   </div>
 
   <div class="quote">
-    "This is our core question. Can we somehow not pay for Autotask licenses for our externals?"
+    "This is our core question. How can we not have another five or six Autotask licenses for our externals?"
     <cite>— Anastasiya, end of the call</cite>
   </div>
 
-  <h2><span class="num">02</span>Why the obvious workarounds don't fit</h2>
+  <h2><span class="num">02</span>Watch the moments yourself</h2>
+
+  <p>Two short cuts from the recording. Together they're the whole picture: the framing of the problem early on, and the closing return to it once Anastasiya had seen the product.</p>
+
+  <div class="clip">
+    <div class="clip-header">
+      <span class="clip-num">Clip 1</span>
+      <span class="clip-title">"We have freelancers that do not use Autotask at all."</span>
+      <span class="clip-time">14:00 – 16:35 · 2:35</span>
+    </div>
+    <video controls preload="metadata" playsinline>
+      <source src="2026-04-15-clip1-freelancer-framing.mp4" type="video/mp4">
+    </video>
+    <p class="clip-context">Anastasiya frames the problem the first time. She walks through who has Autotask access today (core NL team + help-desk engineers, including the outsourced ones) and then drops the question: <em>"if we involve external engineers and they will start using Proxuma, do they need an Autotask license?"</em> She explains the freelancers do two projects a year — one or two months of work — and paying twelve months of license is dead weight. Ends with the concrete example: an engineer who works fifteen hours per quarter on vulnerability reports.</p>
+  </div>
+
+  <div class="clip">
+    <div class="clip-header">
+      <span class="clip-num">Clip 2</span>
+      <span class="clip-title">"This is our core question." + Jarka's subcontractor portal idea.</span>
+      <span class="clip-time">41:10 – 46:35 · 5:25</span>
+    </div>
+    <video controls preload="metadata" playsinline>
+      <source src="2026-04-15-clip2-core-question.mp4" type="video/mp4">
+    </video>
+    <p class="clip-context">Late in the call, after Anastasiya had seen the product. Jarka asks "how would we do it without an Autotask license?" — Anastasiya jumps in with <em>"a game changer, yeah, that's a game changer."</em> Max admits he doesn't have an answer and floats the workaround some customers use (one shared Autotask license called "external"). Anastasiya kills it: different freelancers, different bill rates. Jarka backs her up — different rates require different resource records. Max promises to bring the question to consulting. Then Jarka shares her screen and walks through the old Autotask <strong>subcontractor portal</strong> — an external login where freelancers worked on assigned tasks without consuming a full license. She used it years ago, says it "wasn't very good," but it existed for exactly this purpose.</p>
+  </div>
+
+  <h2><span class="num">03</span>Why the obvious workarounds don't fit</h2>
 
   <ol class="options">
     <li>
@@ -320,10 +395,6 @@
     </li>
   </ol>
 
-  <h2><span class="num">03</span>What Jarka surfaced — old Autotask subcontractor portal</h2>
-
-  <p>At the end of the call Jarka brought up an old Autotask feature: a subcontractor portal where externals accessed their assigned work through a portal instead of a full license. She said it "wasn't very good" but it existed for exactly this purpose. Worth knowing whether it's still alive in Autotask, deprecated, or replaced — your answer to her will land harder if you can speak to that history.</p>
-
   <h2><span class="num">04</span>Specifically what I need from you</h2>
 
   <div class="ask-box">
@@ -334,6 +405,8 @@
   <p>Bonus, if you can: a one-line read on the old Autotask subcontractor portal so I can answer Jarka cleanly.</p>
 
   <h2><span class="num">05</span>Stakes</h2>
+
+  <p class="subnote">(The subcontractor-portal context Jarka raised is captured in Clip 2 above — if you can confirm whether that portal is still alive, deprecated, or replaced, it lands cleanly with her.)</p>
 
   <p>Anastasiya called this "the core question" and said solving it would be a "game changer." Translation: this is the deal-shaping question, not a feature wish. If we can answer yes, we shorten the eval. If we say no, the freelancer cost calculation gets added to their TCO model and we lose room.</p>
 
@@ -411,7 +484,9 @@
       {"path": "/tmp/transcript_named.txt", "description": "speaker-tagged extract of demo VTT", "cleanup_after": "session end"}
     ],
     "github_links": [
-      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-15-cloudconnected-problem-brief-joshua.html", "relevance": "this brief"}
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-15-cloudconnected-problem-brief-joshua.html", "relevance": "this brief"},
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-15-clip1-freelancer-framing.mp4", "relevance": "Clip 1 — initial framing (14:00-16:35)"},
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-15-clip2-core-question.mp4", "relevance": "Clip 2 — core question + subcontractor portal (41:10-46:35)"}
     ],
     "wordpress_ids": [],
     "commit_sha": null
