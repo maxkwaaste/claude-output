@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telegram → Claude Code Bridge (M1 Pro) — Design</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Georgia", "Times New Roman", serif; color: #2c2c2c; background: #f8f9fa; line-height: 1.65; -webkit-font-smoothing: antialiased; padding: 0; }
+.page-header { max-width: 780px; margin: 0 auto; padding: 16px 24px 0; display: flex; justify-content: space-between; align-items: center; font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page { max-width: 780px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+.brand { margin-bottom: 6px; }
+.brand-name { font-family: "Georgia", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+h1 { font-family: "Georgia", serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: "Georgia", serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: "Georgia", serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: "Georgia", serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system, sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system, sans-serif; font-size: 13px; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card { background: #fff; border: 1px solid #e2e4e8; border-radius: 4px; padding: 18px 22px; margin-bottom: 8px; position: relative; }
+.card::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: #1a2744; border-radius: 1px; }
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer { font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #6b7280; margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout strong { color: #1a2744; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 10px; }
+.positioning .callout-label { color: #c8a87a; }
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+code { font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px; background: #f0f2f5; padding: 2px 5px; border-radius: 3px; }
+pre { background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0; overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 12.5px; line-height: 1.7; white-space: pre; }
+.tag { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">2026-04-16</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-16-telegram-claude-bridge-design.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Technical Design — Internal</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 16, 2026<br>Design Spec<br>Claude Native / M1 Pro
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Infrastructure Design</div>
+  <h1>Telegram → Claude Code Bridge (M1 Pro)</h1>
+  <p class="subtitle">Make Telegram the primary mobile interface to a Claude Code session running on M1 Pro. Type <code>/clear</code> in chat to wipe context and start fresh. Files come back via Telegram attachment or GitHub URL.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-value">4</div><div class="stat-label">New / Edited Assets</div></div>
+    <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">Plugin Patches</div></div>
+    <div class="stat-card"><div class="stat-value">~30s</div><div class="stat-label">Clear Respawn Time</div></div>
+    <div class="stat-card"><div class="stat-value">M1 Pro</div><div class="stat-label">Host Machine</div></div>
+  </div>
+
+  <div class="positioning">
+    <span class="callout-label">Bottom Line</span>
+    <h2>Works with Telegram alone. No phone apps, no iOS shortcuts.</h2>
+    <p>Max types in Telegram. Claude on M1 Pro responds. <code>/clear</code> wipes context. Files return as Telegram attachments or GitHub URLs. Nothing touches the plugin cache, so plugin auto-updates cannot break the bridge.</p>
+  </div>
+
+  <h2>Status</h2>
+  <p><strong>Approved for implementation planning.</strong> All five design sections validated with Max in the 2026-04-16 brainstorming session. Source spec committed to <code>~/ClaudeCode/claude-native/docs/superpowers/specs/2026-04-16-telegram-claude-bridge-design.md</code>.</p>
+
+  <h2>Background</h2>
+  <p>The Claude Native setup on M1 Pro already runs an always-on Claude session via the <code>com.proxuma.claude-telegram</code> LaunchAgent. A previous session fixed permission prompts by adding <code>--dangerously-skip-permissions</code>, <code>--permission-mode bypassPermissions</code>, and <code>--model claude-opus-4-6</code> to the launch command. See <code>~/ClaudeCode/claude-native/TELEGRAM-BOT-FIX-FINDINGS.md</code>.</p>
+  <p>Three things still need building:</p>
+  <ol>
+    <li>A <code>/clear</code> mechanism that works from the Telegram chat</li>
+    <li>File delivery from M1 Pro back to Max's phone</li>
+    <li>A confirmation protocol so Max sees the session was actually cleared</li>
+  </ol>
+  <p>The Telegram plugin only registers <code>/start</code>, <code>/help</code>, <code>/status</code>. Rather than patch the plugin cache (overwritten on plugin updates, three versions shipped in 8 days), the design keeps all new code outside the plugin.</p>
+
+  <h2>Architecture</h2>
+<pre>Telegram chat  ↔  Bot API  ↔  telegram plugin  ↔  Claude (always-on, channels)
+                                                        │
+                                                        ├─ helper scripts (new)
+                                                        │   ├─ telegram-clear.sh
+                                                        │   └─ telegram-send.sh
+                                                        │
+                                                        └─ SessionStart hook ── curl "ready" ──▶ Telegram
+
+LaunchAgents (unchanged):
+  com.proxuma.claude-telegram  (runs start-telegram.sh)
+  com.proxuma.claude-watchdog  (respawns on crash, 60s check)</pre>
+
+  <p>Two shell helpers, two rules added to the M1 Pro project-scoped <code>CLAUDE.md</code>, one <code>SessionStart</code> hook entry in M1 Pro <code>~/.claude/settings.json</code>. Nothing inside the plugin cache, so plugin updates do not break the bridge.</p>
+
+  <h2>Components</h2>
+  <div class="card">
+    <div class="card-title">1. ~/.claude/helpers/telegram-send.sh (new, ~25 lines)</div>
+    <div class="card-buyer">Generic bot API helper</div>
+    <div class="card-desc">Usage: <code>telegram-send.sh "text"</code> or <code>telegram-send.sh --doc /path/to/file</code>. Reads token from <code>~/.claude/channels/telegram/.env</code>, chat ID hard-coded <code>8764211796</code>. Calls <code>sendMessage</code> or <code>sendDocument</code> via curl. Exits non-zero on failure.
+    <br><br><strong>Machine guard at top:</strong> checks <code>~/.claude/projects/-Users-maxdekwaasteniet/CLAUDE.md</code> for <code>"This Machine: M1 Pro"</code>. If absent, exits 0 silently. Required because <code>~/.claude/</code> is scp-synced across M1 Pro and M4 Air.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">2. ~/.claude/helpers/telegram-clear.sh (new, ~10 lines)</div>
+    <div class="card-buyer">Clear orchestrator</div>
+    <div class="card-desc">Calls <code>telegram-send.sh "Session clearing, fresh Claude booting..."</code> then <code>launchctl kickstart -k gui/$(id -u)/com.proxuma.claude-telegram</code>. launchd respawns the agent within 5-30s.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">3. M1 Pro project-scoped CLAUDE.md (edit)</div>
+    <div class="card-buyer">Bot behavior rules</div>
+    <div class="card-desc">Adds two rules under a new "Telegram Bridge" heading: (a) on <code>/clear</code>, run the helper and do not reply further; (b) file delivery: substantial outputs via <code>output-page</code> skill, everything else via <code>telegram-send.sh --doc</code>.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">4. SessionStart hook in ~/.claude/settings.json (M1 Pro)</div>
+    <div class="card-buyer">Post-boot "ready" signal</div>
+    <div class="card-desc">Runs <code>telegram-send.sh 'Fresh session ready.'</code> once per Claude boot. Machine guard in the helper prevents it firing on M4 Air.</div>
+  </div>
+
+  <h2>Data flow</h2>
+  <h3>Flow A — Normal message (unchanged)</h3>
+  <ol>
+    <li>Max types a request</li>
+    <li>Plugin forwards to Claude via channels transport</li>
+    <li>Claude replies via <code>ctx.reply</code></li>
+  </ol>
+  <h3>Flow B — /clear</h3>
+  <ol>
+    <li>Max types <code>/clear</code></li>
+    <li>Plugin forwards as plain text (no <code>bot.command('clear')</code> handler)</li>
+    <li>Claude matches the CLAUDE.md rule, runs <code>Bash: ~/.claude/helpers/telegram-clear.sh</code></li>
+    <li>Script sends "Session clearing, fresh Claude booting..."</li>
+    <li>Script kickstarts the LaunchAgent, old Claude dies</li>
+    <li>launchd respawns within 5-30s</li>
+    <li>New Claude boots, SessionStart hook sends "Fresh session ready."</li>
+    <li>Max's next message hits the fresh session</li>
+  </ol>
+  <h3>Flow C — File / artifact delivery</h3>
+  <ol>
+    <li>Claude creates e.g. <code>/tmp/report.md</code></li>
+    <li>If substantial (report, plan, spec, &gt; ~15 lines formatted) → <code>output-page</code> skill → GitHub URL → reply with URL</li>
+    <li>Otherwise → <code>telegram-send.sh --doc /tmp/report.md</code> → Telegram attachment</li>
+    <li>Max taps on his phone</li>
+  </ol>
+
+  <h2>Error handling</h2>
+  <table class="matrix">
+    <thead>
+      <tr><th style="width: 32%">Failure mode</th><th>Mitigation</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Respawn gap</strong> (5-30s, up to 60s)</td><td>Bot API buffers updates. Messages typed during the gap reach the new session. Pre-kill message tells Max to wait.</td></tr>
+      <tr><td><strong>SessionStart hook silent</strong></td><td>Check <code>~/ClaudeCode/claude-native/logs/telegram.log</code>. Fallback: move the "ready" curl into a <code>trap</code>-based wrapper in <code>start-telegram.sh</code>.</td></tr>
+      <tr><td><strong>Claude ignores /clear rule</strong></td><td>Low risk given <code>--dangerously-skip-permissions</code> and the existing Draft Approval Protocol precedent. Manual fallback: SSH to M1 Pro and kickstart directly.</td></tr>
+      <tr><td><strong>telegram-send.sh fails</strong></td><td>Non-zero exit. Claude surfaces the Bash failure in chat. No silent swallowing.</td></tr>
+      <tr><td><strong>Plugin auto-update</strong></td><td>No impact. Nothing touched inside <code>~/.claude/plugins/cache/</code>.</td></tr>
+      <tr><td><strong>/clear mid-task</strong></td><td>In-flight tool call finishes first, then the clear runs. Acceptable.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Testing</h2>
+  <div class="callout">
+    <span class="callout-label">Validation sequence</span>
+    Four manual checks after deployment, in order. If all four pass, the bridge works.
+  </div>
+  <ol>
+    <li><strong>Baseline ping.</strong> Send <code>hi</code>. Expect a reply, no permission prompts.</li>
+    <li><strong>File delivery.</strong> Ask for a 1-line text file at <code>/tmp/test.txt</code> sent as a document. Expect a Telegram attachment, tappable, with content "hello".</li>
+    <li><strong>Big-output delivery.</strong> Ask for a 400-word project summary via the <code>output-page</code> skill. Expect a <code>github.com/maxkwaaste/claude-output/...</code> URL.</li>
+    <li><strong>/clear round-trip.</strong> Tell Claude "my favorite color is teal." Wait for ack. Send <code>/clear</code>. Expect "Session clearing..." within ~1s and "Fresh session ready." within ~30s. Ask "what is my favorite color?" → Claude should say it does not know.</li>
+  </ol>
+
+  <h2>Out of scope</h2>
+  <ul>
+    <li>Patching the Telegram plugin</li>
+    <li>Changing the cron-based task runner (<code>run-task.sh</code>, still paused)</li>
+    <li>Re-authenticating MS365 (separate, on-demand)</li>
+    <li>Telegram voice calls (Bot API does not support bot voice)</li>
+    <li>iOS Shortcut fallback (rejected in favor of <code>/clear</code> in chat)</li>
+    <li>Multi-user / multi-chat support</li>
+  </ul>
+
+  <h2>Decisions log</h2>
+  <table class="matrix">
+    <thead>
+      <tr><th style="width: 38%">Decision</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>CLAUDE.md rule over plugin patch</td><td>Survives plugin auto-updates (three versions in 8 days).</td></tr>
+      <tr><td>Two confirmation messages (pre-kill + post-boot)</td><td>Unambiguous evidence the respawn completed. Silence is ambiguous.</td></tr>
+      <tr><td>Script-level machine guard instead of settings.local.json fork</td><td><code>~/.claude/</code> is scp-synced identically. Without the guard, SessionStart fires on M4 Air and spams Telegram whenever Max runs <code>cc</code>.</td></tr>
+      <tr><td>No iOS Shortcut</td><td>Max wants to type <code>/clear</code> in chat, not tap a shortcut icon.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>Claude Code — Design Spec</span>
+    <span>2026-04-16 · Page 1/1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Telegram → Claude Code Bridge (M1 Pro) — Design",
+  "date": "2026-04-16",
+  "summary": "Design spec for a Telegram chat interface to an always-on Claude Code session on M1 Pro. Adds /clear via CLAUDE.md rule + helper script, file delivery via Telegram attachment or output-page skill, and two-message respawn confirmation. No plugin patching.",
+  "sections": [
+    {
+      "heading": "Goal",
+      "items": [
+        { "title": "Primary mobile interface", "detail": "Telegram chat as the entry point to Claude Code on M1 Pro. No cron, no loops, single conversational session cleared on command." }
+      ]
+    },
+    {
+      "heading": "Components",
+      "items": [
+        { "title": "~/.claude/helpers/telegram-send.sh", "detail": "Generic sendMessage/sendDocument wrapper with machine guard at top (exits 0 on M4 Air).", "meta": { "status": "new", "lines": 25 } },
+        { "title": "~/.claude/helpers/telegram-clear.sh", "detail": "Pre-kill confirmation + launchctl kickstart of com.proxuma.claude-telegram.", "meta": { "status": "new", "lines": 10 } },
+        { "title": "M1 Pro project-scoped CLAUDE.md", "detail": "Two rules: /clear triggers helper; file delivery via output-page skill or telegram-send.sh --doc.", "meta": { "status": "edit" } },
+        { "title": "SessionStart hook in M1 Pro ~/.claude/settings.json", "detail": "Curls 'Fresh session ready.' on every Claude boot.", "meta": { "status": "edit" } }
+      ]
+    },
+    {
+      "heading": "Data flow",
+      "items": [
+        { "title": "Flow A — Normal message", "detail": "Unchanged: plugin forwards user text to Claude via channels, Claude replies via ctx.reply." },
+        { "title": "Flow B — /clear", "detail": "Claude runs telegram-clear.sh → pre-kill curl → kickstart → launchd respawn → SessionStart hook posts 'ready'." },
+        { "title": "Flow C — File / artifact delivery", "detail": "Substantial outputs via output-page skill (GitHub URL). Everything else via telegram-send.sh --doc (Telegram attachment)." }
+      ]
+    },
+    {
+      "heading": "Error handling",
+      "items": [
+        { "title": "Respawn gap", "detail": "5-30s typical, up to 60s. Bot API buffers; messages reach new session." },
+        { "title": "SessionStart hook silent", "detail": "Check telegram.log. Fallback: trap-based wrapper in start-telegram.sh." },
+        { "title": "Claude ignores /clear rule", "detail": "Low risk given Draft Approval Protocol precedent. Manual SSH kickstart as fallback." },
+        { "title": "Plugin auto-update", "detail": "No impact. Nothing touched inside plugin cache." }
+      ]
+    },
+    {
+      "heading": "Testing",
+      "items": [
+        { "title": "1. Baseline ping", "detail": "Send 'hi', expect reply, no permission prompts." },
+        { "title": "2. File delivery", "detail": "Ask for /tmp/test.txt with 'hello' sent as document. Expect Telegram attachment." },
+        { "title": "3. Big-output delivery", "detail": "400-word summary via output-page skill. Expect github.com/maxkwaaste/claude-output URL." },
+        { "title": "4. /clear round-trip", "detail": "Seed 'favorite color is teal', /clear, expect 2 confirmation messages, ask color → Claude does not know." }
+      ]
+    }
+  ],
+  "next_steps": "Max reviews spec file at ~/ClaudeCode/claude-native/docs/superpowers/specs/2026-04-16-telegram-claude-bridge-design.md and this HTML mirror. On approval, brainstorming skill hands off to writing-plans skill to produce the implementation plan (which edits happen on M1 Pro in what order, how to deploy via scp, how to validate after each step).",
+  "session_state": {
+    "phase": "design complete, awaiting user review of spec",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read previous fix findings and current bot architecture from Open Brain",
+      "Confirmed plugin 0.0.4/0.0.5/0.0.6 have no /clear handler",
+      "Ran three clarifying-question rounds: /clear mechanism, output delivery, confirmation style",
+      "Presented 5-section design in terminal with per-section approval",
+      "Wrote spec to ~/ClaudeCode/claude-native/docs/superpowers/specs/2026-04-16-telegram-claude-bridge-design.md",
+      "Self-review caught missing machine guard (sync across M1/M4 would have spammed Telegram); added to spec",
+      "Mirrored spec as Stone-themed HTML for phone review"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has uncommitted changes: this HTML and index.html entry. claude-native/ is not a git repo so the source spec is not version-controlled there.",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [
+      { "path": "~/ClaudeCode/claude-native/docs/superpowers/specs/2026-04-16-telegram-claude-bridge-design.md", "description": "canonical spec, not in git", "cleanup_after": "implementation complete or migrated into a real repo" }
+    ],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-16-telegram-claude-bridge-design.html", "relevance": "this doc (HTML mirror)" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Previous session already edited start-telegram.sh on M1 Pro with permission-bypass flags and reloaded the LaunchAgent. Backup at start-telegram.sh.bak-*. No changes to M1 Pro made this session yet."
+  },
+  "project_context": {
+    "protected_resources": ["~/.claude/plugins/cache/claude-plugins-official/telegram/ (do not patch)", "cron entries marked # PAUSED-CRM-MIGRATION (keep commented)"],
+    "conventions_applied": ["humanizer anti-slop", "brainstorming output routing (substantial designs to output-page)", "multi-mac sync rule (~/.claude/ identical except project-scoped CLAUDE.md)", "Draft Approval Protocol precedent for Telegram-triggered CLAUDE.md rules"]
+  },
+  "decision_log": [
+    {
+      "decision": "CLAUDE.md rule + helper script for /clear (not plugin patch, not iOS Shortcut)",
+      "rejected_alternatives": ["patch telegram plugin server.ts to add bot.command('clear')", "iOS Shortcut that SSHes and kickstarts", "supervisor wrapper around claude"],
+      "rationale": "Plugin cache gets overwritten on plugin auto-updates (three versions in 8 days). Shortcut bypasses Telegram chat, which conflicts with Max's stated preference. CLAUDE.md rule approach survives plugin updates and keeps the /clear experience in-chat.",
+      "trade_offs": "Depends on Claude reliably following CLAUDE.md rules. Mitigated by existing Draft Approval Protocol precedent (same machine, same session style, already proven reliable).",
+      "contingencies": [
+        { "if_X_then_Y": "if Claude starts ignoring the /clear rule, add the helper call to a bot.command('clear') handler in a version-pinned fork of the plugin", "probability": 0.1 }
+      ]
+    },
+    {
+      "decision": "Two confirmation messages (pre-kill 'clearing' + post-boot 'ready')",
+      "rejected_alternatives": ["single pre-kill only", "single post-boot only"],
+      "rationale": "Silence between /clear and respawn is ambiguous. Two messages give unambiguous evidence that the full cycle worked.",
+      "trade_offs": "Slightly more chat noise. Acceptable cost for clarity.",
+      "contingencies": []
+    },
+    {
+      "decision": "Machine guard inside helper scripts, not in settings.local.json",
+      "rejected_alternatives": ["fork settings.json per machine", "hostname check at the hook level"],
+      "rationale": "~/.claude/ is scp-synced identically across M1 Pro and M4 Air. Without a guard, the SessionStart hook would fire on M4 Air every time Max starts cc and spam Telegram. Script-level guard is cleaner than maintaining per-machine settings variants.",
+      "trade_offs": "If Max ever wants to send Telegram messages from M4 Air too, the guard has to be relaxed or removed. Acceptable — he can call the bot API directly if needed.",
+      "contingencies": [
+        { "if_X_then_Y": "if Max wants cross-machine Telegram sends, add --force flag to telegram-send.sh to bypass the guard", "probability": 0.2 }
+      ]
+    },
+    {
+      "decision": "Output delivery: Telegram document (small) + output-page skill (substantial)",
+      "rejected_alternatives": ["only Telegram documents", "only output-page skill", "push to ClaudeZakelijk for everything", "SSH/Tailscale Drive only"],
+      "rationale": "Telegram attachment is instant and works for any file type. output-page skill is the existing Proxuma convention for >15-line formatted outputs and produces readable HTML on phone. ClaudeZakelijk is only for actual live website content.",
+      "trade_offs": "Claude has to decide per-artifact which channel to use. CLAUDE.md rule makes the heuristic explicit (~15 lines, report/plan/spec).",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>

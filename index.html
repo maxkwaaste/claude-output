@@ -630,6 +630,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-16-telegram-claude-bridge-design.html",
+    "title": "Telegram → Claude Code Bridge (M1 Pro) — Design",
+    "date": "2026-04-16T18:00",
+    "summary": "Design spec for a Telegram chat interface to an always-on Claude Code session on M1 Pro. /clear via CLAUDE.md rule + helper, two-message respawn confirmation, file delivery via Telegram attachment or output-page skill. No plugin patching.",
+    "tags": ["Claude Native", "Telegram", "M1 Pro", "Infrastructure"],
+    "type": "strategy",
+    "detail": "Five-section design: architecture (extension of existing Claude Native LaunchAgent, two shell helpers, one SessionStart hook, no plugin cache edits); components (telegram-send.sh with machine guard, telegram-clear.sh, CLAUDE.md rules, settings.json hook); data flow (normal / /clear / file delivery); error handling (respawn gap, hook silent, rule ignored, plugin update, mid-task clear); testing (4-step manual validation). Next: writing-plans skill produces the implementation plan."
+  },
+  {
     "file": "2026-04-15-cloudconnected-problem-brief-joshua.html",
     "title": "CloudConnected — Freelancer License Question for Joshua",
     "date": "2026-04-15T11:30",
