@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Power BI Report Project — State of Play</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Georgia", "Times New Roman", serif; color: #2c2c2c; background: #f8f9fa; line-height: 1.65; -webkit-font-smoothing: antialiased; padding: 0; }
+.page-header { max-width: 780px; margin: 0 auto; padding: 16px 24px 0; display: flex; justify-content: space-between; align-items: center; font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page { max-width: 780px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+.brand { margin-bottom: 6px; }
+.brand-name { font-family: "Georgia", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+h1 { font-family: "Georgia", serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: "Georgia", serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: "Georgia", serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: "Georgia", serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system, sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system, sans-serif; font-size: 13px; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout strong { color: #1a2744; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 10px; }
+.positioning .callout-label { color: #c8a87a; }
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+code { font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px; background: #f0f2f5; padding: 2px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">2026-04-16</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-16-powerbi-report-project-state.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Project Status — Internal</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 16, 2026<br>Status Memo<br>Proxuma / Power BI
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Proxuma Content &amp; Data Program</div>
+  <h1>Power BI Report Project — State of Play</h1>
+  <p class="subtitle">Where the Power BI report program stands in mid-April 2026 across three tracks: the public report library, the live dashboards, and the validation layer that keeps everything defensible.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Live Reports (449 EN + 423 NL)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">173</div>
+      <div class="stat-label">Interactive Dashboards</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">76 / 486</div>
+      <div class="stat-label">DAX Topics Validated</div>
+    </div>
+  </div>
+
+  <h2>The report library</h2>
+  <p>Eight hundred seventy-two Power BI insight reports are live at <code>proxuma.io/powerbi/insights/</code>, split 449 English and 423 Dutch. All are on the V5 "Printed Document" format — teal gradient frame, numbered sections, collapsible DAX per section, FAQ accordion — wrapped in the full marketing shell (morph bar, search hero, series nav, pipeline overview, related reports, CTA). Repo is <code>Proxuma/powerbi-reports</code>, last big commit 329d666 on April 6. Six pillar pages anchor the breadcrumbs: ticketing, costs, projects, client-reports, upsell, security. The editorial pipeline in <code>autotask-content-planner.html</code> now holds 281 planned reports, including 55 recent cross-source additions that combine two or three data sources.</p>
+
+  <h2>The live dashboards</h2>
+  <p>One hundred seventy-three self-contained interactive HTML dashboards sit at <code>/powerbi/dashboards/</code> under WordPress parent 4503. Chart.js 4.4.7, DAX-sourced data embedded as JSON, no backend. A LaunchAgent on M1 Pro refreshes them daily at 07:00 via <code>refresh.py</code>. Coverage spans SLA, CSAT, ticket ops, financial, billable/hours, security, client health, projects, and executive views, with every EN insight article banner-linked to its dashboard and every NL article to "Interactief Dashboard".</p>
+
+  <h2>The validation layer (Truthifier)</h2>
+  <p>Two parallel trust tracks are running. <strong>DAX Truthifier</strong> (data correctness) hit 76 of 486 topics by April 13; Opus self-review on topics 56–76 passed clean — zero hallucinated tables, columns, or measures. Portfolio invariants have reconciled: €17.61M revenue, 118 resources, 67,521 tickets, 279 projects. <strong>Visual Truthifier</strong> inspected 105 of 872 reports on April 14 and caught a systemic <code>GIANT_ARROW_CTA</code> layout bug in the bottom viewport.</p>
+
+  <h2>Open issues</h2>
+  <ul>
+    <li><strong>Hallucinated source badges</strong> — pure-Autotask reports list SmileBack, IT Glue, M365 as sources. Bulk fix needed across 872.</li>
+    <li><strong>WP deploy of FAQ JSON-LD</strong> — 257 files injected on GitHub April 9 but not yet pushed through <code>$wpdb-&gt;update()</code>; 29 skipped files need editorial fixes first.</li>
+    <li><strong>SEO plans 2–5</strong> still pending: pillar breadcrumb linking, gallery title tags (pages 3299/3495), six stray 301 redirects, PageSpeed + GSC audit.</li>
+  </ul>
+
+  <div class="positioning">
+    <span class="callout-label">Bottom line</span>
+    <h2>Volume is shipped; trust is the next unlock.</h2>
+    <p>The library and dashboards give Proxuma more public Power BI surface than any Dutch MSP competitor. The Truthifier work is what makes it defensible — every number traceable to DAX, every layout visually verified. Finishing that sweep is what separates a content farm from an analyst asset.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code — Output Archive</span>
+    <span>Proxuma Power BI · April 16, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Power BI Report Project — State of Play",
+  "date": "2026-04-16",
+  "summary": "Mid-April 2026 status memo on the Proxuma Power BI report program: 872 live reports, 173 dashboards, DAX+Visual Truthifier validation layer, and four open issues gating full defensibility.",
+  "sections": [
+    {
+      "heading": "Report library",
+      "items": [
+        { "title": "Volume", "detail": "872 live reports (449 EN + 423 NL) on V5 Printed Document format at proxuma.io/powerbi/insights/.", "meta": { "en": 449, "nl": 423, "format": "V5" } },
+        { "title": "Repo + commit", "detail": "Proxuma/powerbi-reports GitHub repo, last big marketing-shell wrap commit 329d666 on 2026-04-06.", "meta": { "repo": "Proxuma/powerbi-reports", "commit": "329d666" } },
+        { "title": "Pillar pages", "detail": "Six pillar pages: ticketing, costs, projects, client-reports, upsell, security.", "meta": {} },
+        { "title": "Planner", "detail": "autotask-content-planner.html now at 281 reports including 55 cross-source additions (IDs 227–281).", "meta": { "total": 281, "cross_source": 55 } }
+      ]
+    },
+    {
+      "heading": "Live dashboards",
+      "items": [
+        { "title": "Scope", "detail": "173 Chart.js dashboards at /powerbi/dashboards/ under WP parent 4503, page-fullhtml.php template.", "meta": { "count": 173, "wp_parent": 4503 } },
+        { "title": "Refresh", "detail": "Daily 07:00 LaunchAgent on M1 Pro via refresh.py — DAX → JSON → HTML → $wpdb push.", "meta": { "schedule": "07:00 daily" } },
+        { "title": "Categories", "detail": "SLA(13), CSAT(8), Ticket Ops(22), Financial(33), Sales(9), Billable/Hours(33), Security(17), Client Health(6), Projects(10), Executive(6).", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Validation layer",
+      "items": [
+        { "title": "DAX Truthifier", "detail": "76/486 topics validated as of 2026-04-13. Opus self-review on 56–76 passed: 0 hallucinated refs.", "meta": { "library": 76, "pending": 410, "date": "2026-04-13" } },
+        { "title": "Portfolio invariants", "detail": "€17.61M revenue, 118 resources, 67,521 tickets, 279 projects — reconciled across all processed topics.", "meta": {} },
+        { "title": "Visual Truthifier", "detail": "105/872 reports inspected on 2026-04-14. Known bug: GIANT_ARROW_CTA in bottom viewport.", "meta": { "inspected": 105, "date": "2026-04-14" } }
+      ]
+    },
+    {
+      "heading": "Open issues",
+      "items": [
+        { "title": "Hallucinated sources", "detail": "Reports list data sources they don't query (e.g. RPT-048 claims M365+SmileBack+IT Glue but is pure Autotask PSA). Bulk fix across 872.", "meta": { "severity": "critical" } },
+        { "title": "WP deploy of FAQ JSON-LD", "detail": "257 files injected on GitHub (commit e1ce4ae) but not yet pushed through $wpdb->update(); 29 skipped for editorial fixes.", "meta": { "pending_files": 257 } },
+        { "title": "SEO plans 2–5", "detail": "Pillar breadcrumb linking, gallery title tags (pages 3299/3495), ~6 stray 301 redirects, PageSpeed + GSC audit.", "meta": {} },
+        { "title": "RPT-047 visual break", "detail": "Tickets-by-Company report has giant icons across the page. Needs manual visual fix.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Decide sequencing: (a) finish DAX Truthifier cruise (410 topics pending); (b) run the source-attribution bulk fix across 872 reports; (c) deploy the 257 FAQ JSON-LD files to WordPress via $wpdb + wp sg purge; (d) resume Visual Truthifier capture from idx 105 to 872. Max likely wants to see the hallucinated-sources fix and the WP deploy done before Truthifier cruise resumes, since they unblock live SEO benefit.",
+  "session_state": {
+    "phase": "status memo",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Pulled project state from Open Brain (Power BI reports + dashboards + Truthifier + SEO audit)",
+      "Wrote ~400-word summary via output-page skill",
+      "Delivered via Telegram reply with GitHub link"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo — new file 2026-04-16-powerbi-report-project-state.html + index.html entry added and committed",
+    "next_action_required": "none"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-16-powerbi-report-project-state.html", "relevance": "this memo" },
+      { "url": "https://proxuma.io/internal/seo-audit-2026/", "relevance": "live SEO tracker for the Power BI report corpus" }
+    ],
+    "wordpress_ids": [4503, 3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "257 FAQ JSON-LD files staged in Proxuma/powerbi-reports GitHub repo (commit e1ce4ae) but not yet deployed to WordPress via $wpdb->update()."
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887", "WP page 3299", "WP page 3495", "WP page 3956 (golden standard)", "pillar pages 5023–5036", "test pages 5680–5684"],
+    "conventions_applied": ["humanizer anti-slop", "output-page for substantial outputs", "Open Brain as source of project truth"]
+  },
+  "decision_log": [
+    {
+      "decision": "Frame the project as three tracks (library / dashboards / Truthifier) rather than by timeline",
+      "rejected_alternatives": ["chronological changelog", "status-by-SEO-plan"],
+      "rationale": "Max asked for state of the project, not progress. Three-track framing mirrors how the work is organized in the repos and how decisions about next steps get made.",
+      "trade_offs": "Loses the sense of what shipped this week; gains structural clarity.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
