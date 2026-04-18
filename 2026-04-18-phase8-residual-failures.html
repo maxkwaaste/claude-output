@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 8 Residual Failures -- Strategy Brief</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 160px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 18, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-18-phase8-residual-failures.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Power BI Report Pipeline &mdash; Engineering</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 18, 2026<br>Strategy Brief<br>Phase 8 Visual Healer
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">VISUAL HEALER PIPELINE</div>
+  <h1>42 Residual Failures: Taxonomy and Fix Strategy</h1>
+  <p class="subtitle">Phase 8 healed 252 of 294 flagged reports. 42 remain broken. This document clusters the failures, explains why patches failed or were never generated, and proposes three strategies with tradeoffs.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">868</div>
+      <div class="stat-label">Total Reports</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">294</div>
+      <div class="stat-label">Flagged FAIL</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">252</div>
+      <div class="stat-label">Healed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">42</div>
+      <div class="stat-label">Still Broken</div>
+    </div>
+  </div>
+
+  <h2>Failure Mode Taxonomy</h2>
+
+  <p>The 42 residual failures cluster into four distinct families. Most reports carry multiple bug codes, so totals exceed 42.</p>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="bar-label">BROKEN_GRID</span>
+      <div class="bar"><div class="bar-fill" style="width:45%">19</div></div>
+      <span class="bar-amount">19</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">EXPLODED_SVG</span>
+      <div class="bar"><div class="bar-fill accent" style="width:31%">13</div></div>
+      <span class="bar-amount">13</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">MISSING_KPI</span>
+      <div class="bar"><div class="bar-fill muted" style="width:14%">6</div></div>
+      <span class="bar-amount">6</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">OTHER + OVERFLOW</span>
+      <div class="bar"><div class="bar-fill muted" style="width:21%">9</div></div>
+      <span class="bar-amount">9</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">GIANT_COLOR_BLOCK</span>
+      <div class="bar"><div class="bar-fill muted" style="width:10%">4</div></div>
+      <span class="bar-amount">4</span>
+    </div>
+  </div>
+
+  <h3>Family 1: BROKEN_GRID (19 reports)</h3>
+  <p>HTML references CSS classes that do not exist in the report's stylesheet. Common pattern: the report generator created custom classes like <code>.doc-kpi-grid</code>, <code>.quadrant-grid</code>, <code>.garcia-card</code>, <code>.risk-grid</code>, <code>.heatmap-grid</code>, <code>.status-grid</code>, or <code>.cost-row</code> in the HTML, but the corresponding CSS rules were never written. Content stacks vertically as unstyled text instead of forming grids, cards, or side-by-side layouts.</p>
+  <p>A sub-cluster of 4 NL project reports (budgetafwijking, gantt, winstgevendheid, taak-voltooiing) share a data bug: every hbar-fill shows the same value (50,751) so all bars hit 100% width. This is a content/data issue, not CSS -- the chart HTML itself contains wrong or placeholder data.</p>
+
+  <div class="callout">
+    <span class="callout-label">Why patches failed here</span>
+    Of the 19 BROKEN_GRID reports, <strong>11 never received a patch</strong> because the original Opus vision scan returned <code>patch_css: ""</code>. The problem was too structural for a CSS-only patch: when the HTML uses 15+ custom classes with no definitions, injecting CSS for all of them requires understanding the intended layout, which the vision model could not reliably infer from a screenshot alone. For the 8 that did get patches, the CSS addressed only part of the class mismatch -- patching <code>.hbar-wrap</code> but missing <code>.hbar-item</code>, for instance.
+  </div>
+
+  <h3>Family 2: EXPLODED_SVG (13 reports)</h3>
+  <p>Inline SVG elements (chevrons, donut charts, code icons, checkmarks) render at viewport size because they lack explicit <code>width</code>/<code>height</code> attributes or CSS sizing. The SVG fills the entire teal frame or viewport as a giant black shape -- triangles (chevrons), circles (donuts), or brackets (code icons).</p>
+
+  <div class="callout">
+    <span class="callout-label">Why patches failed here</span>
+    All 13 received CSS patches targeting selectors like <code>.dax-toggle-chevron svg</code> or <code>.faq-q svg</code>. But many SVGs sit inside custom wrapper classes that vary per report -- <code>.inline-dax .dax-trigger svg</code>, <code>.finding-icon svg</code>, <code>.pipeline-step-icon svg</code>. The patches targeted the wrong selector, or the specificity was too low to override inline styles. The SVG sizing problem is simple (<code>width: 16px; height: 16px;</code>) but the selector targeting is report-specific.
+  </div>
+
+  <h3>Family 3: MISSING_KPI (6 reports)</h3>
+  <p>Donut chart center text and KPI values are invisible. Root cause: SVG <code>&lt;text&gt;</code> elements use <code>transform: rotate(90deg)</code> but rotate around the SVG origin (0,0) instead of the element center, pushing the text off-canvas. This is a DOM attribute bug, not a CSS issue -- the <code>transform-origin</code> needs to be set per-element based on the text's position.</p>
+
+  <h3>Family 4: OTHER (9 reports)</h3>
+  <p>A mix of content bugs (wrong KPI labels showing company names instead of numbers), morph bar overlap issues, and reports where custom classes like <code>.heatmap-cell</code> or <code>.cost-row</code> are completely unstylled. One report (en__which-clients-are-actually-profitable) has a genuine content bug -- text labels where numeric KPIs should be.</p>
+
+  <h2>Patch Pipeline Diagnostics</h2>
+
+  <table class="matrix">
+    <tr><th>Stage</th><th>Count</th><th>Notes</th></tr>
+    <tr><td>Original FAILs</td><td><strong>294</strong></td><td>Vision QA flagged these from screenshots</td></tr>
+    <tr><td>Opus generated patch_css</td><td><strong>264</strong></td><td>30 returned empty patch (too structural for CSS)</td></tr>
+    <tr><td>Patch files written to disk</td><td><strong>244</strong></td><td>20 patch_css strings were whitespace-only</td></tr>
+    <tr><td>Re-verified PASS</td><td><strong>230</strong></td><td>85.6% heal rate on patched reports</td></tr>
+    <tr><td>Re-verified FAIL (patched)</td><td><strong>21</strong></td><td>Patch applied but didn't resolve the issue</td></tr>
+    <tr><td>Never patched, still FAIL</td><td><strong>15</strong></td><td>No patch_css generated at all</td></tr>
+    <tr><td>Bare FAIL (no detail)</td><td><strong>6</strong></td><td>Re-verification returned FAIL with no bug_codes</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Key finding</span>
+    The dispatch log shows the first run crashed at slug ~200 with 665 API errors (likely rate limiting). Runs 2-4 picked up the remaining slugs. The 6 bare FAIL verdicts with no bug_codes are probably re-verification artifacts from the error recovery -- the model returned a verdict but no structured analysis.
+  </div>
+
+  <h2>Candidate Strategies</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Recommended</span>
+      <span class="tier-title">Strategy A: Template-Driven DOM Rebuild</span>
+    </div>
+    <div class="card">
+      <div class="card-buyer">Effort: 2-3 sessions | Coverage: 35-38 of 42</div>
+      <div class="card-desc">
+        <p>Instead of patching CSS onto broken HTML, regenerate the broken sections from golden-standard templates. The report generator created custom classes per report, but the underlying visual patterns repeat: KPI grids, hbar charts, donut charts, data tables, FAQ accordions. Build 6-8 section templates (kpi-grid, hbar-chart, donut-chart, data-table, faq-accordion, quadrant-grid, status-cards, finding-cards) with known-good CSS. Then for each broken report, identify which sections are broken, extract the data values from the existing HTML, and regenerate those sections using the template.</p>
+        <p><strong>For EXPLODED_SVG:</strong> Replace all inline SVGs with a standard set of sized SVG sprites. One pass with a regex replacer handles all 13.</p>
+        <p><strong>For MISSING_KPI:</strong> Fix the SVG text transform-origin with a targeted DOM edit (not CSS). 6 reports, same pattern.</p>
+        <p><strong>For the 4 data-bug reports:</strong> Accept as unfixable by automation -- the underlying data is wrong (50,751 everywhere). Flag for manual review or exclude from gallery.</p>
+        <p><strong>For the 1 content bug:</strong> (en__which-clients-are-actually-profitable) -- accept or manually fix. Label/value mismatch is not a rendering issue.</p>
+      </div>
+      <div class="tags">
+        <span class="tag tag-high">High coverage</span>
+        <span class="tag tag-bundled">Reusable templates</span>
+      </div>
+    </div>
+    <p><strong>Tradeoffs:</strong> Requires building and testing section templates, which is real work. But these templates also prevent future reports from having the same class-mismatch problem. The BROKEN_GRID family exists because the report generator creates novel class names per report -- templates eliminate that failure mode permanently.</p>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Alternative</span>
+      <span class="tier-title">Strategy B: Targeted Manual Patches</span>
+    </div>
+    <div class="card">
+      <div class="card-buyer">Effort: 1-2 sessions | Coverage: 30-35 of 42</div>
+      <div class="card-desc">
+        <p>Write hand-crafted CSS for each of the 42 reports individually. Open each report in a browser, identify the broken elements, write the CSS, verify. This is what Phase 8 already tried to do automatically -- doing it manually with human judgment on selectors and layout intent.</p>
+        <p>The EXPLODED_SVG family (13 reports) is fast: the fix is always the same pattern, just different selectors. The BROKEN_GRID family (19 reports) is slow: each report uses different custom classes and the intended layout must be guessed from surrounding context.</p>
+      </div>
+      <div class="tags">
+        <span class="tag tag-diy">Manual labor</span>
+        <span class="tag tag-acquired">No reuse</span>
+      </div>
+    </div>
+    <p><strong>Tradeoffs:</strong> Fast to start, no infrastructure needed. But each fix is bespoke with no reuse. If the report generator creates new reports with the same class-mismatch pattern, they will break again the same way. Also, the 19 BROKEN_GRID reports require real layout judgment that is tedious to do 19 times.</p>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Conservative</span>
+      <span class="tier-title">Strategy C: Accept and Exclude</span>
+    </div>
+    <div class="card">
+      <div class="card-buyer">Effort: 30 min | Coverage: 0 (managed decline)</div>
+      <div class="card-desc">
+        <p>Mark all 42 reports as excluded from the gallery rotation. They remain on WordPress as individual pages but are not surfaced in the hero carousel or gallery grid. The 826 working reports (95.2% of corpus) are the public face. Revisit the 42 only if a client specifically requests one of those reports.</p>
+        <p>Optionally, add a "beta" or "preview" badge to these 42 pages so anyone who lands on them directly knows the rendering is imperfect.</p>
+      </div>
+      <div class="tags">
+        <span class="tag tag-diy">Zero effort</span>
+        <span class="tag tag-low">No fix</span>
+      </div>
+    </div>
+    <p><strong>Tradeoffs:</strong> 95.2% is a strong coverage number. But the 42 include some prominent report topics (QBR, MRR, SLA Performance, Unprofitable Clients) that prospects might search for. Excluding them from gallery is fine, but they should still render correctly on their own pages.</p>
+  </div>
+
+  <h2>Full Report Inventory</h2>
+
+  <table class="matrix">
+    <tr><th>Slug</th><th>Bug Codes</th><th>Patched?</th><th>Root Cause</th></tr>
+    <tr><td>en/client-affordability</td><td>MISSING_KPI</td><td>Yes</td><td>SVG text rotate origin</td></tr>
+    <tr><td>en/contract-coverage-per-client</td><td>MISSING_KPI, BROKEN_GRID</td><td>No</td><td>Missing .doc-kpi-grid CSS</td></tr>
+    <tr><td>en/hours-vs-revenue-mismatch</td><td>BROKEN_GRID</td><td>No</td><td>Missing .quadrant-grid CSS</td></tr>
+    <tr><td>en/how-are-tickets-distributed</td><td>EXPLODED_SVG, BROKEN_GRID</td><td>No</td><td>SVG + missing .status-grid</td></tr>
+    <tr><td>en/time-entries-by-resource</td><td>EXPLODED_SVG</td><td>Yes</td><td>Wrong SVG selector in patch</td></tr>
+    <tr><td>en/how-long-to-close-deal</td><td>EXPLODED_SVG, TRIANGLE_AXIS</td><td>Yes</td><td>Wrong SVG selector</td></tr>
+    <tr><td>en/tickets-open-by-status</td><td>BROKEN_GRID, MISSING_KPI</td><td>No</td><td>5+ missing class families</td></tr>
+    <tr><td>en/it-spend-vs-budget</td><td>BROKEN_GRID, MISSING_KPI</td><td>No</td><td>Missing grid + bar classes</td></tr>
+    <tr><td>en/license-compliance-status</td><td>OVERFLOW, GIANT_COLOR_BLOCK</td><td>Yes</td><td>Bar widths sum > 100%</td></tr>
+    <tr><td>en/monthly-active-user-trend</td><td>BROKEN_GRID</td><td>Yes</td><td>Partial patch, missing .hbar-item</td></tr>
+    <tr><td>en/monthly-recurring-revenue</td><td>BROKEN_GRID</td><td>No</td><td>Missing .doc-kpi-grid, .two-col</td></tr>
+    <tr><td>en/qbr-quarterly-business-review</td><td>EXPLODED_SVG</td><td>Yes</td><td>Wrong SVG selector</td></tr>
+    <tr><td>en/sla-performance-rmm-alerts</td><td>BROKEN_GRID</td><td>Yes</td><td>Partial patch, many missing</td></tr>
+    <tr><td>en/unique-clients-per-technician</td><td>BROKEN_GRID</td><td>No</td><td>Table column mismatch (6 vs 4)</td></tr>
+    <tr><td>en/unprofitable-clients</td><td>BROKEN_GRID</td><td>No</td><td>Missing .garcia-* classes</td></tr>
+    <tr><td>en/noc-dashboard</td><td>EXPLODED_SVG, OVERFLOW</td><td>Yes</td><td>Giant checkmark SVG</td></tr>
+    <tr><td>en/avg-hours-per-ticket</td><td>EXPLODED_SVG</td><td>Yes</td><td>Donut SVG missing size</td></tr>
+    <tr><td>en/profitable-vs-losing-money</td><td>OTHER</td><td>No</td><td>Content bug: wrong KPI labels</td></tr>
+    <tr><td>en/most-tickets-by-company</td><td>EXPLODED_SVG</td><td>Yes</td><td>Donut SVG missing size</td></tr>
+    <tr><td>nl/apparaat-risico-drieluik</td><td>BROKEN_GRID, OTHER</td><td>No</td><td>Missing .risk-grid CSS</td></tr>
+    <tr><td>nl/arbeidsomzet-vs-materiaal</td><td>GIANT_COLOR_BLOCK, EXPLODED_SVG</td><td>Yes</td><td>Finding-icon SVG exploded</td></tr>
+    <tr><td>nl/fte-equivalent-team</td><td>EXPLODED_SVG</td><td>Yes</td><td>FAQ chevron SVG</td></tr>
+    <tr><td>nl/gemiddelde-uren-per-ticket</td><td>GIANT_COLOR_BLOCK, EXPLODED_SVG</td><td>Yes</td><td>Donut SVG + color block</td></tr>
+    <tr><td>nl/prestatie-technicus-tijd</td><td>EXPLODED_SVG</td><td>Yes</td><td>DAX trigger chevron</td></tr>
+    <tr><td>nl/kosten-servicelevering</td><td>EXPLODED_SVG, GIANT_COLOR_BLOCK</td><td>Yes</td><td>FAQ chevron SVG</td></tr>
+    <tr><td>nl/licentie-verspilling-m365</td><td>BROKEN_GRID, OTHER</td><td>No</td><td>Missing .heatmap-grid CSS</td></tr>
+    <tr><td>nl/licentiegroei-vs-deals</td><td>BROKEN_GRID, OTHER</td><td>Yes</td><td>Partial hbar patch</td></tr>
+    <tr><td>nl/licentieverbruik-tarief</td><td>BROKEN_GRID, OTHER</td><td>No</td><td>Missing .doc-kpi-grid + custom</td></tr>
+    <tr><td>nl/omzet-per-contact</td><td>EXPLODED_SVG</td><td>No</td><td>Code-bracket SVG exploded</td></tr>
+    <tr><td>nl/omzetverlies-vertrokken</td><td>OVERFLOW</td><td>Yes</td><td>Morph bar z-index overlap</td></tr>
+    <tr><td>nl/project-budgetafwijking</td><td>BROKEN_GRID</td><td>No</td><td>Data bug: all bars 50,751</td></tr>
+    <tr><td>nl/project-gantt-grafiek</td><td>BROKEN_GRID</td><td>Yes</td><td>Data bug: all bars 50,751</td></tr>
+    <tr><td>nl/project-winstgevendheid</td><td>BROKEN_GRID</td><td>No</td><td>Data bug: all bars 50,751</td></tr>
+    <tr><td>nl/sla-per-prioriteit</td><td>MISSING_KPI</td><td>Yes</td><td>SVG text rotate origin</td></tr>
+    <tr><td>nl/sla-prestaties-rmm-alerts</td><td>BROKEN_GRID, MISSING_KPI</td><td>Yes</td><td>Partial KPI + grid patch</td></tr>
+    <tr><td>nl/taak-voltooiing-per-project</td><td>BROKEN_GRID, OTHER</td><td>Yes</td><td>Data bug: all bars 50,751</td></tr>
+  </table>
+
+  <div class="positioning">
+    <h2>Recommended Path</h2>
+    <p>Go with Strategy A (Template-Driven DOM Rebuild) for the 35-38 fixable reports, combined with Strategy C (Accept/Exclude) for the 4-5 data/content bugs. The template approach fixes the current 42 and prevents the same failure mode from recurring in future reports. Start with the EXPLODED_SVG family (13 reports, one regex pass) since it is the fastest win, then MISSING_KPI (6 reports, targeted DOM edit), then BROKEN_GRID (19 reports, template rebuild). Leave the 4 data-bug reports and 1 content-bug report for manual review.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Phase 8 Visual Healer &mdash; Residual Failure Analysis</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Phase 8 Residual Failures -- Taxonomy and Fix Strategy",
+  "date": "2026-04-18",
+  "summary": "42 of 294 flagged reports remain broken after Phase 8 Visual Healer. Four failure families: BROKEN_GRID (19, missing CSS classes), EXPLODED_SVG (13, unsized inline SVGs), MISSING_KPI (6, SVG text transform-origin), OTHER/data bugs (9). Recommends template-driven DOM rebuild for 35-38 fixable reports plus accept/exclude for 4-5 data/content bugs.",
+  "sections": [
+    {
+      "heading": "Failure Mode Taxonomy",
+      "items": [
+        { "title": "BROKEN_GRID (19)", "detail": "HTML references CSS classes that do not exist. Report generator created novel class names without matching CSS rules.", "meta": { "patched": 8, "unpatched": 11 } },
+        { "title": "EXPLODED_SVG (13)", "detail": "Inline SVGs lack width/height, fill viewport as giant shapes. Patches targeted wrong selectors.", "meta": { "patched": 13, "unpatched": 0 } },
+        { "title": "MISSING_KPI (6)", "detail": "SVG text rotate(90deg) around origin (0,0) pushes center text off-canvas. DOM fix needed, not CSS.", "meta": {} },
+        { "title": "OTHER (9)", "detail": "Mix of data bugs (50,751 hbar values), content bugs (wrong labels), overflow/z-index issues.", "meta": { "data_bugs": 4, "content_bugs": 1 } }
+      ]
+    },
+    {
+      "heading": "Candidate Strategies",
+      "items": [
+        { "title": "A: Template-Driven DOM Rebuild (recommended)", "detail": "Build 6-8 section templates, regenerate broken sections with correct CSS. Fixes 35-38, prevents recurrence.", "meta": { "effort": "2-3 sessions", "coverage": "35-38 of 42" } },
+        { "title": "B: Targeted Manual Patches", "detail": "Hand-craft CSS per report. Fast for SVG, slow for BROKEN_GRID. No reuse, no prevention.", "meta": { "effort": "1-2 sessions", "coverage": "30-35 of 42" } },
+        { "title": "C: Accept and Exclude", "detail": "Mark 42 as excluded from gallery. 95.2% corpus works. Risk: prominent topics (QBR, MRR, SLA) missing.", "meta": { "effort": "30 min", "coverage": 0 } }
+      ]
+    }
+  ],
+  "next_steps": "Max reviews the three strategies and picks one (or a hybrid). If Strategy A, next session builds the section templates starting with EXPLODED_SVG regex pass, then MISSING_KPI DOM fix, then BROKEN_GRID template rebuild.",
+  "session_state": {
+    "phase": "brainstorming",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Analyzed all 42 residual FAIL verdicts from Phase 8",
+      "Clustered failures into 4 families by bug_code",
+      "Diagnosed why 15 reports never received patches (too structural for CSS-only fix)",
+      "Diagnosed why 21 patches did not resolve (wrong selectors, partial coverage)",
+      "Identified 4 data-bug reports (50,751 hbar values) and 1 content-bug report",
+      "Proposed 3 candidate strategies with tradeoffs"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "truthifier/fix-chart-explosion branch has all Phase 8 changes committed (ce3419c)",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "report-redesign.md", "version_date": "2026-03-28", "verified_live": false }
+    ],
+    "git_branch": "truthifier/fix-chart-explosion",
+    "local_repo_path": "~/ClaudeCode/powerbi-reports/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-18-phase8-residual-failures.html", "relevance": "this strategy doc" }
+    ],
+    "wordpress_ids": [3299, 3495],
+    "commit_sha": "ce3419c"
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Python server on M1 localhost:8766 serves report corpus. Phase 8 screenshots at ~/ClaudeCode/powerbi-reports/truthifier-data/phase8/shots-after/"
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial outputs"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommend Strategy A (Template-Driven DOM Rebuild) over manual patches or exclusion",
+      "rejected_alternatives": ["Strategy B: manual patches (no reuse)", "Strategy C: accept and exclude (loses prominent reports)"],
+      "rationale": "Templates fix the root cause (novel CSS classes without definitions) and prevent recurrence. Manual patches are throwaway work. Exclusion loses QBR, MRR, SLA reports.",
+      "trade_offs": "More upfront effort (2-3 sessions vs 1-2) but creates reusable infrastructure",
+      "contingencies": [
+        { "if_X_then_Y": "If template approach proves too complex for BROKEN_GRID, fall back to manual patches for those 19 and keep templates for SVG/KPI fixes only", "probability": 0.2 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
