@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teamwork.com — What It Means for Proxuma</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 10px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 4px; }
+.card-desc { font-size: 13.5px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 10px; }
+.positioning .callout-label { color: #c8a87a; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.palette-row { display: flex; gap: 8px; margin: 12px 0 18px; flex-wrap: wrap; }
+.swatch { width: 74px; text-align: center; }
+.swatch-color { height: 56px; border-radius: 3px; border: 1px solid #e2e4e8; }
+.swatch-hex { font: 600 10px/1 -apple-system, monospace; color: #4a5568; margin-top: 6px; }
+.swatch-name { font: 500 10px/1 -apple-system, sans-serif; color: #8a8f96; margin-top: 3px; text-transform: uppercase; letter-spacing: .04em; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 20, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-teamwork-com-analysis-for-proxuma.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Design Research &amp; Brand Strategy</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 20, 2026<br>Brainstorm Exploration<br>Proxuma Website Redesign
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Exploration Report</div>
+  <h1>What "As Good As Teamwork.com" Actually Means</h1>
+  <p class="subtitle">A teardown of teamwork.com's marketing site, mapped against Proxuma's current frontend stack and brand, with a recommendation for where leverage lives.</p>
+
+  <div class="callout">
+    <span class="callout-label">Framing</span>
+    Teamwork.com is not visually loud. It feels expensive because of seven restrained, high-discipline choices — typography, one accent color, section rhythm, self-hosted motion, animated numbers, megamenus that convert, and microcopy written by a human. Each of those is portable to Proxuma without copying the site.
+  </div>
+
+  <h2>What I found in your codebase</h2>
+  <p>Proxuma's frontend is Nuxt 3 + Vue with Tailwind, Pinia, and an in-house UI kit (<code>pages/ui-kit</code>). It has the machinery to build something this polished — no need to start a new stack. The brand tokens in <code>tailwind.config.js</code> point at a dated palette for a marketing site though: lots of status-state colors (new, complete, waiting, progress, escalate, approved, denied) that make sense for the app UI but aren't a marketing story.</p>
+
+  <div class="palette-row">
+    <div class="swatch"><div class="swatch-color" style="background:#181833"></div><div class="swatch-hex">#181833</div><div class="swatch-name">Primary</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#164387"></div><div class="swatch-hex">#164387</div><div class="swatch-name">Brand</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#00B7FF"></div><div class="swatch-hex">#00B7FF</div><div class="swatch-name">Accent</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#49C481"></div><div class="swatch-hex">#49C481</div><div class="swatch-name">Success</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#F8F8F8; border:1px solid #d0d3d8"></div><div class="swatch-hex">#F8F8F8</div><div class="swatch-name">Bg</div></div>
+  </div>
+
+  <p>Memory also shows a second palette used on Power BI reports (Navy <code>#1B365D</code>, Teal <code>#0f766e</code>, CTA <code>#00D9A5</code>) and Montserrat/Inter as fonts. There's drift between the app, the reports, and whatever proxuma.io is doing. That drift is a gift — we can pick one system and unify.</p>
+
+  <h2>What teamwork.com actually does</h2>
+
+  <div class="card">
+    <div class="card-title">1. A distinct display typeface</div>
+    <div class="card-desc">Headings are Americane Condensed — a narrow, editorial sans. Body is Work Sans. Self-hosted, not Google Fonts. Every competitor uses Inter. Teamwork reads as "brand" before you read a word.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">2. One saturated accent, used with restraint</div>
+    <div class="card-desc">Hot magenta <code>#ff61c7</code> appears only on inline keyword emphasis in headlines and CTA accents. Everything else is navy and off-white. Discipline, not variety, is why it reads polished.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">3. Alternating dark/light section bands</div>
+    <div class="card-desc">Every major section flips tone. Dark sections act as display cases for glowing product UI. Gives the page implicit chapter structure.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">4. Animated numbers via <code>&lt;number-flow&gt;</code></div>
+    <div class="card-desc">Count-up stats and price toggles animate. ~2KB web component. Reads as "this product moves" instead of "this is a brochure."</div>
+  </div>
+  <div class="card">
+    <div class="card-title">5. Self-hosted silent mp4 loops, not screenshots or YouTube</div>
+    <div class="card-desc">Each feature gets a small silent clip on Storyblok CDN. No YouTube chrome, loads fast, makes every feature feel alive.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">6. Megamenus that double as landing pages</div>
+    <div class="card-desc">Every dropdown has a capabilities column, a featured resource card (masterclass / webinar), twin <em>Book demo / Start trial</em> CTAs pinned inside, and competitor comparison links (<em>vs Monday, vs Asana, vs ClickUp</em>).</div>
+  </div>
+  <div class="card">
+    <div class="card-title">7. Microcopy written by a human</div>
+    <div class="card-desc">"30 day trial. No credit card required" not "Free trial." "Save 29%" not "Save up to 30%." Stat captions ("fewer mystery gaps") have personality. Plan descriptions name a <em>persona</em>, not a feature count.</div>
+  </div>
+
+  <h3>Bonus move: Ask-an-LLM buttons</h3>
+  <p>At the top of the product page: <em>Ask ChatGPT / Ask Claude / Ask Perplexity / Ask Grok / Ask Google AI</em>. They pre-bake the handoff because they know buyers paste landing pages into LLMs. For MSPs — who are exactly that persona — this would land hard on proxuma.io.</p>
+
+  <h2>Scroll narrative (homepage)</h2>
+  <ol>
+    <li>Hero: split headline with one colored accent phrase, twin CTAs, reassurance line, floating UI chip collage (not a static screenshot).</li>
+    <li>Animated numeric proof strip with personality captions.</li>
+    <li>Customer logo row.</li>
+    <li>Horizontal tabbed feature tour — sticky tab bar, product UI swaps per tab.</li>
+    <li>Dynamic cards that animate on scroll reveal.</li>
+    <li>Autoplay testimonial tab carousel, named people with roles.</li>
+    <li>Integrations teaser.</li>
+    <li>Final dual-CTA block.</li>
+    <li>Massive multi-column footer with language switcher.</li>
+  </ol>
+
+  <h2>Page inventory</h2>
+  <table class="matrix">
+    <thead><tr><th>Page</th><th>Purpose</th><th>Key ingredient</th></tr></thead>
+    <tbody>
+      <tr><td>Homepage</td><td>Convert trial signups</td><td>Floating product collage, proof strip, tabbed tour</td></tr>
+      <tr><td>Product</td><td>Deep feature hub</td><td>Jump-nav chips, 30+ sub-feature deep links, tabs within tabs</td></tr>
+      <tr><td>Pricing</td><td>Remove price objection</td><td>5 tiers, animated prices, annual/monthly toggle, "included in every plan" band</td></tr>
+      <tr><td>Customers</td><td>Prove it works</td><td>Filterable case-study grid (industry, use case)</td></tr>
+      <tr><td>Resources</td><td>SEO + buyer enablement</td><td>Masterclass / webinars / reports surfaced inside every megamenu</td></tr>
+      <tr><td>vs Competitors</td><td>Direct SEO capture</td><td>Dedicated comparison pages, promoted in nav</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What this means for Proxuma specifically</h2>
+
+  <p>You don't need to clone teamwork.com. You need a Dutch-MSP version of the same <em>discipline</em>, not the same visual. Here's how that translates.</p>
+
+  <h3>Typography</h3>
+  <p>Retire Inter on the marketing site. Pair a distinct display face with a neutral body. Candidates worth exploring: <strong>Söhne</strong>, <strong>Neue Haas Grotesk Display</strong>, or a condensed serif for editorial feel (e.g., <strong>Söhne Schmal</strong>, <strong>Canela Condensed</strong>). Body stays utilitarian (Inter is fine there, or IBM Plex Sans). Montserrat from the current system should probably retire — it's everywhere now and reads generic.</p>
+
+  <h3>Color</h3>
+  <p>Pick one saturated accent. Teal <code>#0f766e</code> is already alive in the Power BI reports and aligns with your stated preference. Use it <em>only</em> for inline headline emphasis and CTAs. Everything else: Navy <code>#1B365D</code> + off-white <code>#FAFAF9</code>. Retire <code>#00B7FF</code> and <code>#49C481</code> from the marketing surface (keep them in-app).</p>
+
+  <h3>Motion</h3>
+  <p>Record silent mp4 loops of your actual Power BI reports — the AI forecaster panel updating, DAX chips animating in, the report overview scrolling. You already have the world's nicest Power BI reports (page 3956 golden standard). <em>That</em> is the hero imagery, not stock product shots.</p>
+
+  <h3>Megamenu</h3>
+  <p>Four dropdowns: <em>Product</em>, <em>Solutions</em> (MSP / IT Services / Support Desk), <em>Why Proxuma</em> (vs N-able, vs ConnectWise BrightGauge, vs Auvik — these are real MSP buyer comparisons), <em>Resources</em> (KB articles, report gallery, masterclass). Every dropdown ends with <em>Book demo / Start trial</em>.</p>
+
+  <h3>Microcopy</h3>
+  <p>Humanizer rules already apply to your output. Extend them to the site: no "powerful", no "seamless", no "up to". Every reassurance line, stat caption, and plan description gets rewritten as a concrete sentence.</p>
+
+  <h3>The Ask-an-LLM move</h3>
+  <p>This is cheap to ship, distinctive, and MSPs will absolutely paste Proxuma into Claude to decide whether to trial. Put the buttons at the top of the product page and the homepage.</p>
+
+  <div class="positioning">
+    <span class="callout-label">Bottom line</span>
+    <h2>The leverage is in discipline, not features</h2>
+    <p>Teamwork.com has 16,000+ customers and a brand team. You don't need either to land 80% of the perceived quality. Buy one display typeface, commit to one accent color, alternate section tones, film your real Power BI reports, and rewrite the microcopy by hand. That's most of the gap closed — with your existing Nuxt stack, no new infrastructure, and a budget measured in hours of craft, not contractor invoices.</p>
+    <p>The remaining 20% — the custom web components (number-flow, tabbed tours), the megamenu-as-landing-page, the competitor comparison pages — is buildable in your current Nuxt 3 setup without new dependencies. The Claude design tool gives you a visual scratchpad to iterate mockups fast; the production code goes into proxuma-frontend directly.</p>
+  </div>
+
+  <h2>Open questions before we scope this</h2>
+  <ol>
+    <li>Is this a <strong>proxuma.io marketing-site rebuild</strong>, or does it also cover the in-app dashboard? (They're different scopes.)</li>
+    <li>Is proxuma.io currently served from <strong>WordPress/SiteGround</strong>, or is there already a Nuxt marketing site I haven't seen? (The <code>proxuma-frontend</code> repo looks like the app, not the marketing site.)</li>
+    <li>Budget for <strong>a paid display typeface license</strong> (~€400–2,000), or stick to free-but-distinctive (e.g., Fraunces, DM Serif)?</li>
+    <li>Dutch/English bilingual from day one, or English first then NL?</li>
+    <li>Are the <strong>Ask-an-LLM buttons</strong> in or out? (I think yes, but flagging.)</li>
+  </ol>
+
+  <p class="subtitle" style="margin-top:20px;margin-bottom:0;">Next step: pick one of those to answer, and I'll start the clarifying questions one at a time before we design anything.</p>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma brainstorm · page 1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Teamwork.com Analysis for Proxuma Website Redesign",
+  "date": "2026-04-20",
+  "summary": "Teardown of teamwork.com's marketing site identifying 7 high-leverage design disciplines (typography, single accent, section rhythm, silent mp4 motion, animated numbers, megamenu-as-landing-page, hand-written microcopy). Mapped against Proxuma's existing Nuxt 3 frontend stack with specific recommendations: retire Inter/Montserrat for a distinct display face, commit to Navy #1B365D + Teal #0f766e + off-white, record silent loops of existing Power BI reports as hero imagery, add Ask-an-LLM buttons. Brainstorm is at exploration stage — 5 open questions logged for the user.",
+  "sections": [
+    {
+      "heading": "Seven secret-sauce moves",
+      "items": [
+        { "title": "Distinct display typeface", "detail": "Americane Condensed (heads) + Work Sans (body), self-hosted, not Google Fonts" },
+        { "title": "Single saturated accent with discipline", "detail": "Magenta #ff61c7 only on keyword emphasis + CTA accents; rest navy + off-white" },
+        { "title": "Alternating dark/light section bands", "detail": "Dark sections used as display cases for glowing product UI" },
+        { "title": "Animated numbers via <number-flow> web component", "detail": "~2KB, applied to stats and price toggles" },
+        { "title": "Self-hosted silent mp4 loops", "detail": "Per-feature clips on Storyblok CDN, not YouTube or static screenshots" },
+        { "title": "Megamenu as landing page", "detail": "Capabilities col + featured resource card + twin CTAs + competitor comparison links" },
+        { "title": "Human-written microcopy", "detail": "Specific reassurance ('30 day trial. No credit card required'), persona-based plan descriptions" }
+      ]
+    },
+    {
+      "heading": "Proxuma-specific translation",
+      "items": [
+        { "title": "Typography", "detail": "Retire Inter/Montserrat on marketing site; pair distinct display (Söhne, Neue Haas, Canela Condensed) with neutral body" },
+        { "title": "Color", "detail": "Navy #1B365D + Teal #0f766e (already live in Power BI reports) + off-white; retire #00B7FF, #49C481 from marketing" },
+        { "title": "Motion hero", "detail": "Silent mp4 loops of Proxuma's Power BI reports (page 3956 golden standard) as hero imagery" },
+        { "title": "Megamenu", "detail": "Product / Solutions / Why Proxuma (vs N-able, ConnectWise BrightGauge, Auvik) / Resources" },
+        { "title": "Ask-an-LLM buttons", "detail": "Cheap, distinctive, MSPs will do this anyway — own the handoff" }
+      ]
+    },
+    {
+      "heading": "Codebase facts verified",
+      "items": [
+        { "title": "Stack", "detail": "Nuxt 3 + Vue + Tailwind + Pinia; in-house UI kit at pages/ui-kit" },
+        { "title": "Current tailwind tokens", "detail": "Primary #181833, Brand #164387, Accent #00B7FF, Success #49C481, Bg #F8F8F8; Inter as sans" },
+        { "title": "Brand drift across systems", "detail": "Tailwind palette != Power BI reports palette (Navy #1B365D, Teal #0f766e, CTA #00D9A5, Montserrat/Inter); opportunity to unify" },
+        { "title": "Path", "detail": "~/ClaudeCode/proxuma-saas/proxuma-frontend/" }
+      ]
+    },
+    {
+      "heading": "Open clarifying questions",
+      "items": [
+        { "title": "Scope", "detail": "Marketing site only or app too?" },
+        { "title": "Current tech", "detail": "Is proxuma.io on WordPress/SiteGround or already Nuxt?" },
+        { "title": "Type budget", "detail": "Paid display typeface (€400-2000) or free-but-distinctive?" },
+        { "title": "Bilingual", "detail": "NL+EN from day one or EN first?" },
+        { "title": "Ask-an-LLM buttons", "detail": "In or out?" }
+      ]
+    }
+  ],
+  "next_steps": "Wait for Max to answer the 5 open clarifying questions (scope, current stack of proxuma.io, typography budget, bilingual timing, LLM buttons). Then ask remaining clarifying questions one at a time per brainstorming skill. Then propose 2-3 approaches, present design sections, write spec to docs/superpowers/specs/YYYY-MM-DD-proxuma-website-redesign-design.md, get spec review, then invoke writing-plans skill.",
+  "session_state": {
+    "phase": "brainstorming — exploration + analysis report",
+    "phase_status": "in_progress",
+    "progress_pct": 15,
+    "work_done_this_session": [
+      "Fetched and analyzed teamwork.com homepage, product, pricing, customers pages",
+      "Inspected ~/ClaudeCode/proxuma-saas/proxuma-frontend/ (Nuxt 3 + Vue + Tailwind)",
+      "Read tailwind.config.js brand tokens",
+      "Searched Open Brain for Proxuma brand/design memory",
+      "Produced teamwork.com teardown with 7 secret-sauce moves and Proxuma translation",
+      "Logged 5 open clarifying questions"
+    ],
+    "blockers_hit": "Need answers to 5 clarifying questions (scope, current stack, type budget, bilingual timing, LLM buttons) before moving to design proposals",
+    "uncommitted_changes": "claude-output repo about to be committed with this HTML + index update",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "proxuma-website-redesign.md", "version_date": "unknown", "verified_live": false },
+      { "name": "report-redesign.md", "version_date": "2026-03-28", "verified_live": false }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [
+      { "path": "/tmp/tw_home.html", "description": "teamwork.com homepage raw HTML (fetched by analysis subagent)", "cleanup_after": "spec accepted" },
+      { "path": "/tmp/tw_product.html", "description": "teamwork.com product page raw HTML", "cleanup_after": "spec accepted" },
+      { "path": "/tmp/tw_pricing.html", "description": "teamwork.com pricing page raw HTML", "cleanup_after": "spec accepted" },
+      { "path": "/tmp/tw_customers.html", "description": "teamwork.com customers page raw HTML (JS-hydrated, minimal)", "cleanup_after": "spec accepted" }
+    ],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-teamwork-com-analysis-for-proxuma.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [3299, 3495, 3956],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Subagent a535a522e748d2009 still available via SendMessage for follow-up teamwork.com queries"
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887", "proxuma-frontend app codebase (not marketing)"],
+    "conventions_applied": ["humanizer anti-slop", "brainstorming skill (no code without approved design)", "output-page routing for >15 lines formatted content"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended Teal #0f766e as Proxuma's single marketing accent instead of current #00B7FF",
+      "rejected_alternatives": ["keep #00B7FF (current tailwind accent)", "introduce a new color"],
+      "rationale": "Teal already live on Power BI reports (user's strongest design artifact), matches Max's stated color preference, unifies brand drift across site/app/reports",
+      "trade_offs": "Requires retiring #00B7FF from marketing-surface use; in-app status colors unchanged",
+      "contingencies": [
+        { "if_X_then_Y": "if user prefers a different accent, swap the one token — framework unaffected", "probability": 0.25 }
+      ]
+    },
+    {
+      "decision": "Framed the project as 'discipline over features' rather than clone teamwork.com",
+      "rejected_alternatives": ["propose pixel-level replication", "propose bespoke design-tool-led rebuild"],
+      "rationale": "Closes 80% of perceived quality gap with existing Nuxt stack and no new infra; leaves room for Claude design tool as scratchpad",
+      "trade_offs": "Requires hands-on craft time (microcopy, motion capture) rather than pure code velocity",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
