@@ -1,0 +1,12 @@
+{
+  "project-budget-variance": {"post_id": 3976, "parent": 3299, "lang": "en", "file": "en/proxuma-io-project-budget-variance-post.html"},
+  "project-budgetafwijking-rapport": {"post_id": 4063, "parent": 3495, "lang": "nl", "file": "nl/proxuma-io-project-budgetafwijking-rapport-post.html"},
+  "kosten-van-servicelevering-per-klant": {"post_id": 5937, "parent": 3495, "lang": "nl", "file": "nl/proxuma-io-kosten-van-servicelevering-per-klant-post.html"},
+  "average-task-cycle-time": {"post_id": 4162, "parent": 3299, "lang": "en", "file": "en/proxuma-io-average-task-cycle-time-post.html"},
+  "psa-vs-quickbooks-comparison": {"post_id": 3978, "parent": 3299, "lang": "en", "file": "en/proxuma-io-psa-vs-quickbooks-comparison-post.html"},
+  "welke-sla-overtredingen-hadden-voorkomen-kunnen-worden": {"post_id": 5815, "parent": 3495, "lang": "nl", "file": "nl/proxuma-io-welke-sla-overtredingen-hadden-voorkomen-kunnen-worden-post.html"},
+  "service-calls-planned-work-weekly": {"post_id": 3989, "parent": 3299, "lang": "en", "file": "en/proxuma-io-service-calls-planned-work-weekly-post.html"},
+  "omzet-per-medewerker-2": {"post_id": 5972, "parent": 3495, "lang": "nl", "file": "nl/proxuma-io-omzet-per-medewerker-2-post.html"},
+  "hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar": {"post_id": 5893, "parent": 3495, "lang": "nl", "file": "nl/proxuma-io-hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar-post.html"},
+  "projectomzet-versus-arbeidskosten": {"post_id": 5974, "parent": 3495, "lang": "nl", "file": "nl/proxuma-io-projectomzet-versus-arbeidskosten-post.html"}
+}

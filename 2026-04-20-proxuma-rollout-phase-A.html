@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase A Canary Rollout - Proxuma Reports - 2026-04-20</title>
+<style>
+:root{--stone-50:#fafaf9;--stone-100:#f5f5f4;--stone-200:#e7e5e4;--stone-300:#d6d3d1;--stone-500:#78716c;--stone-700:#44403c;--stone-800:#292524;--stone-900:#1c1917;--teal:#0f766e;--teal-dark:#115e58}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Open Sans',-apple-system,sans-serif;background:var(--stone-50);color:var(--stone-800);line-height:1.6;padding:2rem}
+.container{max-width:1100px;margin:0 auto}
+h1{font-family:'DM Serif Display',Georgia,serif;font-size:2rem;color:var(--stone-900);margin-bottom:0.5rem}
+.subtitle{color:var(--stone-500);font-size:0.9rem;margin-bottom:2rem}
+.summary-bar{display:flex;gap:1.5rem;background:var(--teal-dark);color:white;padding:1rem 1.5rem;border-radius:8px;margin-bottom:2rem;font-size:0.85rem}
+.summary-bar .num{font-size:1.4rem;font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:2rem}
+th{background:var(--stone-200);text-align:left;padding:8px 10px;font-weight:700;color:var(--stone-700)}
+td{padding:8px 10px;border-bottom:1px solid var(--stone-200)}
+tr:hover{background:var(--stone-100)}
+.ok{color:var(--teal);font-weight:700}
+.note{color:var(--stone-500);font-style:italic;font-size:0.78rem}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+.screenshots{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1rem}
+.shot{border:1px solid var(--stone-200);border-radius:6px;overflow:hidden}
+.shot img{width:100%;display:block}
+.shot-label{padding:6px 10px;font-size:0.78rem;background:var(--stone-100);font-weight:600}
+.anomalies{background:#fef3c7;border:1px solid #f59e0b;border-radius:6px;padding:1rem 1.5rem;margin-bottom:2rem;font-size:0.85rem}
+.anomalies h3{color:#92400e;margin-bottom:0.4rem}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Phase A Canary Rollout</h1>
+<p class="subtitle">Proxuma Power BI Reports to proxuma.io WordPress - 2026-04-20</p>
+
+<div class="summary-bar">
+<div><span class="num">10</span> reports pushed</div>
+<div><span class="num">10</span> verified OK</div>
+<div><span class="num">0</span> blanked</div>
+<div><span class="num">4</span> EN / <span class="num">6</span> NL</div>
+</div>
+
+<div class="anomalies">
+<h3>Anomalies Found (1)</h3>
+<p><strong>kosten-van-servicelevering-per-klant</strong> (post 5937): Missing <code>_wp_page_template</code> meta. Was rendering through default WP theme instead of <code>page-fullhtml.php</code>. Fixed during rollout. Potential issue for other newly-created pages in the corpus that were added post-Phase 8.</p>
+<p><strong>welke-sla-overtredingen-hadden-voorkomen-kunnen-worden</strong> (post 5815): Initial morph-bar check returned 0 due to SG cache lag. Re-check 30s later showed 42 hits. Not a real issue, just timing.</p>
+</div>
+
+<table>
+<thead><tr><th>#</th><th>Slug</th><th>Lang</th><th>Post ID</th><th>Bytes</th><th>HTTP</th><th>Morph</th><th>Status</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><a href="https://proxuma.io/powerbi/insights/project-budget-variance/">project-budget-variance</a></td><td>EN</td><td>3976</td><td>96,008</td><td>200</td><td>32</td><td class="ok">PASS</td><td>USERELATIONSHIP fix</td></tr>
+<tr><td>2</td><td><a href="https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/project-budgetafwijking-rapport/">project-budgetafwijking-rapport</a></td><td>NL</td><td>4063</td><td>102,924</td><td>200</td><td>32</td><td class="ok">PASS</td><td>USERELATIONSHIP fix, NL</td></tr>
+<tr><td>3</td><td><a href="https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/kosten-van-servicelevering-per-klant/">kosten-van-servicelevering-per-klant</a></td><td>NL</td><td>5937</td><td>98,897</td><td>200</td><td>33</td><td class="ok">PASS</td><td class="note">template fix applied</td></tr>
+<tr><td>4</td><td><a href="https://proxuma.io/powerbi/insights/average-task-cycle-time/">average-task-cycle-time</a></td><td>EN</td><td>4162</td><td>81,991</td><td>200</td><td>32</td><td class="ok">PASS</td><td></td></tr>
+<tr><td>5</td><td><a href="https://proxuma.io/powerbi/insights/psa-vs-quickbooks-comparison/">psa-vs-quickbooks-comparison</a></td><td>EN</td><td>3978</td><td>82,012</td><td>200</td><td>32</td><td class="ok">PASS</td><td></td></tr>
+<tr><td>6</td><td><a href="https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/welke-sla-overtredingen-hadden-voorkomen-kunnen-worden/">welke-sla-overtredingen-hadden-voorkomen-kunnen-worden</a></td><td>NL</td><td>5815</td><td>128,312</td><td>200</td><td>42</td><td class="ok">PASS</td><td class="note">cache lag on first check</td></tr>
+<tr><td>7</td><td><a href="https://proxuma.io/powerbi/insights/service-calls-planned-work-weekly/">service-calls-planned-work-weekly</a></td><td>EN</td><td>3989</td><td>89,586</td><td>200</td><td>32</td><td class="ok">PASS</td><td></td></tr>
+<tr><td>8</td><td><a href="https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/omzet-per-medewerker-2/">omzet-per-medewerker-2</a></td><td>NL</td><td>5972</td><td>90,444</td><td>200</td><td>33</td><td class="ok">PASS</td><td></td></tr>
+<tr><td>9</td><td><a href="https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar/">hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar</a></td><td>NL</td><td>5893</td><td>88,646</td><td>200</td><td>33</td><td class="ok">PASS</td><td></td></tr>
+<tr><td>10</td><td><a href="https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/projectomzet-versus-arbeidskosten/">projectomzet-versus-arbeidskosten</a></td><td>NL</td><td>5974</td><td>83,961</td><td>200</td><td>34</td><td class="ok">PASS</td><td></td></tr>
+</tbody>
+</table>
+
+<h2 style="font-family:'DM Serif Display',Georgia,serif;font-size:1.4rem;margin-bottom:1rem">Microlink Screenshots</h2>
+<p class="subtitle">Captured immediately after push and cache purge. Click slug links above to view live pages.</p>
+
+<div class="screenshots">
+<div class="shot"><div class="shot-label">1. project-budget-variance (EN)</div><img src="rollout-canary/project-budget-variance.png" alt="project-budget-variance screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">2. project-budgetafwijking-rapport (NL)</div><img src="rollout-canary/project-budgetafwijking-rapport.png" alt="project-budgetafwijking-rapport screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">3. kosten-van-servicelevering-per-klant (NL)</div><img src="rollout-canary/kosten-van-servicelevering-per-klant.png" alt="kosten-van-servicelevering-per-klant screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">4. average-task-cycle-time (EN)</div><img src="rollout-canary/average-task-cycle-time.png" alt="average-task-cycle-time screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">5. psa-vs-quickbooks-comparison (EN)</div><img src="rollout-canary/psa-vs-quickbooks-comparison.png" alt="psa-vs-quickbooks-comparison screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">6. welke-sla-overtredingen (NL)</div><img src="rollout-canary/welke-sla-overtredingen-hadden-voorkomen-kunnen-worden.png" alt="welke-sla-overtredingen screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">7. service-calls-planned-work-weekly (EN)</div><img src="rollout-canary/service-calls-planned-work-weekly.png" alt="service-calls-planned-work-weekly screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">8. omzet-per-medewerker-2 (NL)</div><img src="rollout-canary/omzet-per-medewerker-2.png" alt="omzet-per-medewerker-2 screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">9. hoeveel-omzet-gewonnen (NL)</div><img src="rollout-canary/hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar.png" alt="hoeveel-omzet-gewonnen screenshot" loading="lazy"></div>
+<div class="shot"><div class="shot-label">10. projectomzet-versus-arbeidskosten (NL)</div><img src="rollout-canary/projectomzet-versus-arbeidskosten.png" alt="projectomzet-versus-arbeidskosten screenshot" loading="lazy"></div>
+</div>
+
+<h2 style="font-family:'DM Serif Display',Georgia,serif;font-size:1.4rem;margin:2rem 0 1rem">Phase B Prep Note</h2>
+<p style="font-size:0.85rem;color:var(--stone-700)">Before Phase B (next 50), check all remaining pages for missing <code>_wp_page_template</code> meta. The <code>kosten-van-servicelevering-per-klant</code> anomaly suggests recently-created pages may lack this. A bulk query on SG can identify all affected pages in one pass.</p>
+<p style="font-size:0.85rem;color:var(--stone-700);margin-top:0.5rem">Also note: the SSH key is <code>~/.ssh/siteground_proxuma</code>, not <code>~/.ssh/id_ed25519</code>.</p>
+
+</div>
+
+<!-- CLAUDE-DATA
+{
+  "type": "rollout-phase-a",
+  "date": "2026-04-20",
+  "project": "proxuma-powerbi-reports",
+  "total_pushed": 10,
+  "total_pass": 10,
+  "total_blanked": 0,
+  "anomalies": [
+    "kosten-van-servicelevering-per-klant: missing page template, fixed",
+    "welke-sla-overtredingen: cache lag on first morph check"
+  ],
+  "ssh_key": "~/.ssh/siteground_proxuma",
+  "slug_postid_map": "~/ClaudeCode/claude-output/slug-postid-map.json",
+  "reports": [
+    {
+      "ts": "2026-04-20T11:20:16",
+      "phase": "A",
+      "slug": "project-budget-variance",
+      "post_id": 3976,
+      "url": "https://proxuma.io/powerbi/insights/project-budget-variance/",
+      "bytes": 96008,
+      "http": 200,
+      "morph_bar_hits": 32,
+      "screenshot": "rollout-canary/project-budget-variance.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:20:40",
+      "phase": "A",
+      "slug": "project-budgetafwijking-rapport",
+      "post_id": 4063,
+      "url": "https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/project-budgetafwijking-rapport/",
+      "bytes": 102924,
+      "http": 200,
+      "morph_bar_hits": 32,
+      "screenshot": "rollout-canary/project-budgetafwijking-rapport.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:22:11",
+      "phase": "A",
+      "slug": "kosten-van-servicelevering-per-klant",
+      "post_id": 5937,
+      "url": "https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/kosten-van-servicelevering-per-klant/",
+      "bytes": 98897,
+      "http": 200,
+      "morph_bar_hits": 33,
+      "screenshot": "rollout-canary/kosten-van-servicelevering-per-klant.png",
+      "ok": true,
+      "note": "template fix applied: page-fullhtml.php"
+    },
+    {
+      "ts": "2026-04-20T11:22:57",
+      "phase": "A",
+      "slug": "average-task-cycle-time",
+      "post_id": 4162,
+      "url": "https://proxuma.io/powerbi/insights/average-task-cycle-time/",
+      "bytes": 81991,
+      "http": 200,
+      "morph_bar_hits": 32,
+      "screenshot": "rollout-canary/average-task-cycle-time.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:23:20",
+      "phase": "A",
+      "slug": "psa-vs-quickbooks-comparison",
+      "post_id": 3978,
+      "url": "https://proxuma.io/powerbi/insights/psa-vs-quickbooks-comparison/",
+      "bytes": 82012,
+      "http": 200,
+      "morph_bar_hits": 32,
+      "screenshot": "rollout-canary/psa-vs-quickbooks-comparison.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:23:46",
+      "phase": "A",
+      "slug": "service-calls-planned-work-weekly",
+      "post_id": 3989,
+      "url": "https://proxuma.io/powerbi/insights/service-calls-planned-work-weekly/",
+      "bytes": 89586,
+      "http": 200,
+      "morph_bar_hits": 32,
+      "screenshot": "rollout-canary/service-calls-planned-work-weekly.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:24:01",
+      "phase": "A",
+      "slug": "omzet-per-medewerker-2",
+      "post_id": 5972,
+      "url": "https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/omzet-per-medewerker-2/",
+      "bytes": 90444,
+      "http": 200,
+      "morph_bar_hits": 33,
+      "screenshot": "rollout-canary/omzet-per-medewerker-2.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:24:17",
+      "phase": "A",
+      "slug": "hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar",
+      "post_id": 5893,
+      "url": "https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar/",
+      "bytes": 88646,
+      "http": 200,
+      "morph_bar_hits": 33,
+      "screenshot": "rollout-canary/hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:24:35",
+      "phase": "A",
+      "slug": "projectomzet-versus-arbeidskosten",
+      "post_id": 5974,
+      "url": "https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/projectomzet-versus-arbeidskosten/",
+      "bytes": 83961,
+      "http": 200,
+      "morph_bar_hits": 34,
+      "screenshot": "rollout-canary/projectomzet-versus-arbeidskosten.png",
+      "ok": true
+    },
+    {
+      "ts": "2026-04-20T11:25:09",
+      "phase": "A",
+      "slug": "welke-sla-overtredingen-hadden-voorkomen-kunnen-worden",
+      "post_id": 5815,
+      "url": "https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/welke-sla-overtredingen-hadden-voorkomen-kunnen-worden/",
+      "bytes": 128312,
+      "http": 200,
+      "morph_bar_hits": 42,
+      "screenshot": "rollout-canary/welke-sla-overtredingen-hadden-voorkomen-kunnen-worden.png",
+      "ok": true,
+      "note": "initial check returned 0 morph due to cache lag, re-check passed"
+    }
+  ],
+  "next_phase": "B - batch 50, pending Max approval"
+}
+
+-->
+</body>
+</html>
