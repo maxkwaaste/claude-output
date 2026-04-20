@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Blue Pairs — Visual Comparison</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 980px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 980px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand-name {
+  font-family: "Georgia", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+h1 { font-family: Georgia, serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+.subtitle { font-family: Georgia, serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+h2 { font-family: Georgia, serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 40px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; } li::marker { color: #1a2744; }
+
+/* Compare grid */
+.compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 24px 0 40px; }
+.swatch-card {
+  border: 1px solid #e2e4e8; border-radius: 6px; overflow: hidden; background: #fff;
+  display: flex; flex-direction: column;
+}
+.swatch-card.recommended { border-color: #1a2744; border-width: 2px; box-shadow: 0 2px 12px rgba(26,39,68,.08); }
+.swatch-header { padding: 14px 18px 12px; border-bottom: 1px solid #eef0f2; }
+.swatch-option { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .08em; color: #6b7280; margin-bottom: 4px; }
+.swatch-name { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: #1a2744; }
+.swatch-rec { display: inline-block; margin-left: 6px; font: 700 9px/1 -apple-system, sans-serif; letter-spacing: .08em; padding: 3px 6px; background: #1a2744; color: #fff; border-radius: 2px; vertical-align: middle; text-transform: uppercase; }
+.swatch-row { display: flex; height: 110px; }
+.swatch-anchor, .swatch-accent { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px 12px; color: #fff; font: 600 11px/1.3 -apple-system, sans-serif; }
+.swatch-hex { font-family: "JetBrains Mono", "SF Mono", monospace; font-size: 12px; opacity: .9; letter-spacing: .02em; }
+.swatch-role { text-transform: uppercase; letter-spacing: .08em; font-size: 10px; opacity: .75; margin-bottom: 2px; }
+
+/* Mock UI preview */
+.preview { padding: 16px 18px 18px; border-top: 1px solid #eef0f2; }
+.preview-label { font: 600 9px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #8a8f96; margin-bottom: 10px; }
+.mock {
+  background: #f8f9fa; border-radius: 4px; padding: 14px; font-family: -apple-system, sans-serif;
+}
+.mock-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.mock-logo { font-size: 13px; font-weight: 800; }
+.mock-cta { font-size: 10px; color: #fff; padding: 5px 10px; border-radius: 3px; font-weight: 600; }
+.mock-h { font-family: Georgia, serif; font-size: 16px; font-weight: 800; line-height: 1.2; margin-bottom: 6px; }
+.mock-h .mock-accent { }
+.mock-sub { font-size: 11px; color: #4a5568; margin-bottom: 10px; }
+.mock-chip { display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.mock-glow { margin-top: 12px; height: 44px; border-radius: 4px; position: relative; overflow: hidden; background: linear-gradient(180deg, #fff 0%, #f0f2f5 100%); border: 1px solid #e2e4e8; }
+.mock-glow::before { content: ''; position: absolute; inset: -20px -10px; border-radius: 50%; filter: blur(22px); opacity: .5; }
+
+/* Dark mode preview */
+.dark-preview { padding: 16px 18px 18px; border-top: 1px solid #eef0f2; background: #0f1419; color: #e8eaed; }
+.dark-preview .preview-label { color: #6b7280; }
+.dark-preview .mock { background: #161b22; }
+.dark-preview .mock-h, .dark-preview .mock-logo { color: #e8eaed; }
+.dark-preview .mock-sub { color: #8a8f96; }
+
+/* Tradeoffs table */
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0 28px; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system, sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system, sans-serif; font-size: 13px; vertical-align: top; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { color: #1a2744; }
+
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 20, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-proxuma-blue-pairs.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand-name">Claude Code</div>
+      <div class="brand-tagline">Brand Color Systems</div>
+    </div>
+    <div class="page-meta-right">April 20, 2026<br>Brainstorm<br>Website Rebuild</div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Question 3 — Color System</div>
+  <h1>Proxuma Blue Pairs</h1>
+  <p class="subtitle">Three candidate color systems for the Nuxt marketing rebuild. Each pair has one dark anchor (CTAs, headline emphasis) and one bright accent (glow, highlights). The goal is a Teamwork-equivalent two-hue tension in blue instead of pink/purple.</p>
+
+  <h2>Side-by-side</h2>
+
+  <div class="compare">
+
+    <!-- Option A -->
+    <div class="swatch-card">
+      <div class="swatch-header">
+        <div class="swatch-option">Option A</div>
+        <div class="swatch-name">Navy + Electric Blue</div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-anchor" style="background:#1a2744;">
+          <div class="swatch-role">Anchor</div>
+          <div class="swatch-hex">#1a2744</div>
+        </div>
+        <div class="swatch-accent" style="background:#2563eb;">
+          <div class="swatch-role">Accent</div>
+          <div class="swatch-hex">#2563eb</div>
+        </div>
+      </div>
+      <div class="preview">
+        <div class="preview-label">Light UI preview</div>
+        <div class="mock">
+          <div class="mock-nav">
+            <div class="mock-logo" style="color:#1a2744;">Proxuma</div>
+            <div class="mock-cta" style="background:#1a2744;">Book demo</div>
+          </div>
+          <div class="mock-h" style="color:#1a2744;">One source of truth for <span style="color:#2563eb;">Autotask data</span>.</div>
+          <div class="mock-sub">Reports, dashboards, and an AI copilot. Purpose-built for Dutch MSPs.</div>
+          <span class="mock-chip" style="background:#e8edf4;color:#2563eb;border:1px solid #2563eb;">New · AI module</span>
+          <div class="mock-glow"><div style="position:absolute;inset:-20px -10px;border-radius:50%;filter:blur(22px);opacity:.55;background:radial-gradient(circle, #2563eb 0%, transparent 70%);"></div></div>
+        </div>
+      </div>
+      <div class="dark-preview">
+        <div class="preview-label">Dark UI preview</div>
+        <div class="mock">
+          <div class="mock-nav">
+            <div class="mock-logo">Proxuma</div>
+            <div class="mock-cta" style="background:#2563eb;">Book demo</div>
+          </div>
+          <div class="mock-h">Autotask <span style="color:#2563eb;">intelligence</span>.</div>
+          <div class="mock-sub">Reports, dashboards, AI copilot.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option B RECOMMENDED -->
+    <div class="swatch-card recommended">
+      <div class="swatch-header">
+        <div class="swatch-option">Option B <span class="swatch-rec">Claude's pick</span></div>
+        <div class="swatch-name">Cobalt + Cyan</div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-anchor" style="background:#1e40af;">
+          <div class="swatch-role">Anchor</div>
+          <div class="swatch-hex">#1e40af</div>
+        </div>
+        <div class="swatch-accent" style="background:#06b6d4;">
+          <div class="swatch-role">Accent</div>
+          <div class="swatch-hex">#06b6d4</div>
+        </div>
+      </div>
+      <div class="preview">
+        <div class="preview-label">Light UI preview</div>
+        <div class="mock">
+          <div class="mock-nav">
+            <div class="mock-logo" style="color:#1e40af;">Proxuma</div>
+            <div class="mock-cta" style="background:#1e40af;">Book demo</div>
+          </div>
+          <div class="mock-h" style="color:#1e40af;">One source of truth for <span style="color:#06b6d4;">Autotask data</span>.</div>
+          <div class="mock-sub">Reports, dashboards, and an AI copilot. Purpose-built for Dutch MSPs.</div>
+          <span class="mock-chip" style="background:#e6fbff;color:#0891a8;border:1px solid #06b6d4;">New · AI module</span>
+          <div class="mock-glow"><div style="position:absolute;inset:-20px -10px;border-radius:50%;filter:blur(22px);opacity:.75;background:radial-gradient(circle, #06b6d4 0%, transparent 70%);"></div></div>
+        </div>
+      </div>
+      <div class="dark-preview">
+        <div class="preview-label">Dark UI preview</div>
+        <div class="mock">
+          <div class="mock-nav">
+            <div class="mock-logo">Proxuma</div>
+            <div class="mock-cta" style="background:#06b6d4;color:#0a1a2a;">Book demo</div>
+          </div>
+          <div class="mock-h">Autotask <span style="color:#06b6d4;">intelligence</span>.</div>
+          <div class="mock-sub">Reports, dashboards, AI copilot.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option C -->
+    <div class="swatch-card">
+      <div class="swatch-header">
+        <div class="swatch-option">Option C</div>
+        <div class="swatch-name">Indigo + Proxuma Sky</div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch-anchor" style="background:#4f46e5;">
+          <div class="swatch-role">Anchor</div>
+          <div class="swatch-hex">#4f46e5</div>
+        </div>
+        <div class="swatch-accent" style="background:#7FA8D8;">
+          <div class="swatch-role">Accent</div>
+          <div class="swatch-hex">#7FA8D8</div>
+        </div>
+      </div>
+      <div class="preview">
+        <div class="preview-label">Light UI preview</div>
+        <div class="mock">
+          <div class="mock-nav">
+            <div class="mock-logo" style="color:#4f46e5;">Proxuma</div>
+            <div class="mock-cta" style="background:#4f46e5;">Book demo</div>
+          </div>
+          <div class="mock-h" style="color:#4f46e5;">One source of truth for <span style="color:#7FA8D8;">Autotask data</span>.</div>
+          <div class="mock-sub">Reports, dashboards, and an AI copilot. Purpose-built for Dutch MSPs.</div>
+          <span class="mock-chip" style="background:#eef0ff;color:#4f46e5;border:1px solid #4f46e5;">New · AI module</span>
+          <div class="mock-glow"><div style="position:absolute;inset:-20px -10px;border-radius:50%;filter:blur(22px);opacity:.5;background:radial-gradient(circle, #7FA8D8 0%, transparent 70%);"></div></div>
+        </div>
+      </div>
+      <div class="dark-preview">
+        <div class="preview-label">Dark UI preview</div>
+        <div class="mock">
+          <div class="mock-nav">
+            <div class="mock-logo">Proxuma</div>
+            <div class="mock-cta" style="background:#4f46e5;">Book demo</div>
+          </div>
+          <div class="mock-h">Autotask <span style="color:#7FA8D8;">intelligence</span>.</div>
+          <div class="mock-sub">Reports, dashboards, AI copilot.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>Tradeoffs at a glance</h2>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th style="width:18%;">Dimension</th>
+        <th style="width:27%;">A. Navy + Electric</th>
+        <th style="width:27%;">B. Cobalt + Cyan</th>
+        <th style="width:28%;">C. Indigo + Sky</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Personality</strong></td>
+        <td>Corporate, serious, safe. Reads as "enterprise SaaS default."</td>
+        <td>Tech-forward, energetic, optimistic. Signals modern infra + AI.</td>
+        <td>Modern SaaS standard. Matches Linear, Vercel, Stripe territory.</td>
+      </tr>
+      <tr>
+        <td><strong>Glow capability</strong></td>
+        <td>Weak. Electric blue doesn't bloom well, reads flat on white.</td>
+        <td><strong>Strong.</strong> Cyan is the only hue here that genuinely glows (aurora + screenshot halos).</td>
+        <td>Medium. Sky blue is soft; blooms gently but lacks energy.</td>
+      </tr>
+      <tr>
+        <td><strong>Dark mode payoff</strong></td>
+        <td>Electric blue holds up but feels generic on dark.</td>
+        <td><strong>Excellent.</strong> Cyan on dark navy is peak "intelligent product" aesthetic (Anthropic, OpenAI territory).</td>
+        <td>Indigo washes out slightly against dark bg. Sky fades.</td>
+      </tr>
+      <tr>
+        <td><strong>Logo continuity</strong></td>
+        <td>Breaks from current Proxuma sky blue entirely.</td>
+        <td>Breaks from logo too, but cobalt is close enough to read as "same family."</td>
+        <td><strong>Highest.</strong> Keeps Proxuma sky blue as accent — logo stays on-brand.</td>
+      </tr>
+      <tr>
+        <td><strong>Differentiation</strong></td>
+        <td>Low. Thousands of B2B SaaS sites use this.</td>
+        <td><strong>High.</strong> Few MSP/Autotask tools use cobalt+cyan. Teamwork equivalent in blue space.</td>
+        <td>Low. Indigo is over-used in 2025-2026 SaaS design.</td>
+      </tr>
+      <tr>
+        <td><strong>Contrast / accessibility</strong></td>
+        <td>Strong. Both colors pass WCAG AA on white easily.</td>
+        <td>Strong on anchor, cyan needs care on white (use for accents/icons, not body text).</td>
+        <td>Indigo passes AA. Sky blue fails contrast on white — accent only, never text.</td>
+      </tr>
+      <tr>
+        <td><strong>AI module framing</strong></td>
+        <td>Generic. Looks like any AI feature.</td>
+        <td><strong>Strongest.</strong> Cyan reads as "intelligent / data / signal" — matches AI narrative.</td>
+        <td>Indigo reads as "creative / design." Less aligned with data/AI.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Why B wins for Proxuma specifically</h2>
+  <p>Three things about your context push this toward <strong>Cobalt + Cyan</strong>:</p>
+  <ul>
+    <li><strong>You're building an AI module.</strong> Cyan is the signal color of intelligence across the category (Anthropic's branding, OpenAI's gradients, Vercel's Obsidian theme). It pre-sells the AI story visually before the copy does.</li>
+    <li><strong>You want dark mode to come live.</strong> Cobalt+cyan is the pairing that looks best when the lights go off. Indigo+sky loses energy in dark; navy+electric looks corporate.</li>
+    <li><strong>You want a Teamwork-equivalent in blue.</strong> Teamwork's pink+purple works because purple genuinely <em>glows</em>. Cyan is the only option here with equivalent luminosity for aurora/bloom treatments around product screenshots.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="callout-label">Logo compatibility check</span>
+    Your current Proxuma sky blue (~#7FA8D8) can live on as a <em>tertiary</em> in Option B — use it for section dividers, subtle backgrounds, and tags. The cobalt anchor replaces it for CTAs and emphasis. You don't have to abandon the logo; you're graduating it to a fuller palette.
+  </div>
+
+  <div class="positioning">
+    <span class="callout-label">Bottom line</span>
+    <h2>Cobalt anchor, cyan accent, Proxuma sky as tertiary</h2>
+    <p>Use #1e40af for CTAs and headline emphasis, #06b6d4 for accents, inline highlights, icons, and glow effects. Keep #7FA8D8 as a tertiary for soft backgrounds and brand continuity with the existing logo. This gives you a three-tone blue system that is distinctive in the MSP/Autotask space, glows in dark mode, and frames the AI module without needing new copy to explain it.</p>
+  </div>
+
+  <h2>If you want to explore further</h2>
+  <ul>
+    <li>Tighten cobalt to <strong>#1d4ed8</strong> if you want a touch more saturation on CTAs.</li>
+    <li>Replace cyan with <strong>#22d3ee</strong> (lighter) for a more "playful AI" read, or <strong>#0891b2</strong> (deeper) for more gravitas.</li>
+    <li>Add a warm neutral (sand #f5efe4 or cream #faf6ee) as a fourth tone to break up all-blue fatigue on long marketing pages.</li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma rebuild brainstorm · Q3 of N</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Blue Pairs — Visual Comparison",
+  "date": "2026-04-20",
+  "summary": "Three candidate color systems for the Proxuma website rebuild in Nuxt. Compares Navy+Electric, Cobalt+Cyan, and Indigo+Sky across personality, glow, dark mode, logo continuity, differentiation, accessibility, and AI module framing. Recommends Cobalt+Cyan (#1e40af + #06b6d4) with Proxuma's existing sky blue as tertiary.",
+  "sections": [
+    {
+      "heading": "Option A — Navy + Electric Blue",
+      "items": [
+        { "title": "Anchor #1a2744, Accent #2563eb", "detail": "Corporate default. Low glow, low differentiation. Safe but generic.", "meta": { "anchor": "#1a2744", "accent": "#2563eb", "verdict": "rejected" } }
+      ]
+    },
+    {
+      "heading": "Option B — Cobalt + Cyan (recommended)",
+      "items": [
+        { "title": "Anchor #1e40af, Accent #06b6d4", "detail": "Cyan provides real glow for aurora/bloom. Excellent in dark mode. Signals AI intelligence. Differentiates in MSP/Autotask space.", "meta": { "anchor": "#1e40af", "accent": "#06b6d4", "verdict": "recommended" } }
+      ]
+    },
+    {
+      "heading": "Option C — Indigo + Proxuma Sky",
+      "items": [
+        { "title": "Anchor #4f46e5, Accent #7FA8D8", "detail": "Highest logo continuity but indigo is overexposed in SaaS. Sky blue fails contrast on white (accent only).", "meta": { "anchor": "#4f46e5", "accent": "#7FA8D8", "verdict": "rejected" } }
+      ]
+    },
+    {
+      "heading": "Proposed final system",
+      "items": [
+        { "title": "Three-tone blue", "detail": "Primary cobalt #1e40af (CTAs, emphasis), accent cyan #06b6d4 (glow, highlights, AI), tertiary Proxuma sky #7FA8D8 (soft backgrounds, logo continuity).", "meta": {} },
+        { "title": "Optional warm neutral", "detail": "Add sand #f5efe4 or cream #faf6ee as a fourth tone to prevent all-blue fatigue on long marketing pages.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Max reviews the three mock previews in the browser and picks a direction. If B is confirmed, the next brainstorming questions cover typography, page structure, and AI module visual treatment. If B needs tuning, explore the deeper-cyan (#0891b2) or lighter-cyan (#22d3ee) alternatives listed in the doc.",
+  "session_state": {
+    "phase": "brainstorm Q3 — color system",
+    "phase_status": "in_progress",
+    "progress_pct": 30,
+    "work_done_this_session": [
+      "Explained hybrid architecture choice (Q1)",
+      "Explained rebuild scope (Q2) and confirmed 33 blog posts on proxuma.io via WP REST",
+      "Built visual comparison of three blue pairs for Q3 with light + dark mock UIs"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo: this file + index.html entry",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "proxuma-website-redesign.md", "version_date": "unknown", "verified_live": false },
+      { "name": "wordpress-architecture.md", "version_date": "unknown", "verified_live": false }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-proxuma-blue-pairs.html", "relevance": "this doc" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-teamwork-com-analysis-for-proxuma.html", "relevance": "source brainstorm Claude is working from" }
+    ],
+    "wordpress_ids": [3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Confirmed via WP REST API that proxuma.io has ~33 blog posts, mostly Autotask/MSP educational content. Relevant to Q2 scope decision."
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887", "report pipeline pages 3299/3495 and 265 children"],
+    "conventions_applied": ["humanizer anti-slop", "output-page skill for substantial outputs", "pbcopy for clipboard"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommend Cobalt+Cyan (#1e40af + #06b6d4) over Navy+Electric or Indigo+Sky",
+      "rejected_alternatives": ["Navy #1a2744 + Electric #2563eb", "Indigo #4f46e5 + Proxuma Sky #7FA8D8"],
+      "rationale": "Cyan is the only candidate accent with genuine glow/bloom for aurora effects, matches AI product semantics, differentiates in MSP category, and works in dark mode. Navy+electric is generic; indigo is overexposed and sky blue fails white-bg contrast.",
+      "trade_offs": "Loses direct logo color match (current sky blue moves from primary to tertiary). Cobalt is slightly less conservative than navy for CTAs.",
+      "contingencies": [
+        { "if_X_then_Y": "if Max wants more gravitas, swap cyan to deeper #0891b2", "probability": 0.3 },
+        { "if_X_then_Y": "if Max wants playful AI read, swap cyan to lighter #22d3ee", "probability": 0.2 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
