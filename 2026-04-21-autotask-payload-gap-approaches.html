@@ -441,9 +441,43 @@ pre {
     Approve Approach A, pick a different one, or push back on the evidence. Once approved, next steps are the design doc at <code>docs/superpowers/specs/2026-04-21-executor-payload-completion-design.md</code>, then the implementation plan via the writing-plans skill. Neither will touch executor code this session.
   </div>
 
+  <h2>Postscript — decision override (2026-04-21)</h2>
+
+  <p class="subtitle" style="margin-top:6px;">Max rejected the recommendation (Approach A) and chose a narrowed form of Approach B. Framed as a safety override. Original trade-offs above are preserved for audit — they still reflect the tooling cost math, which did not drive the decision.</p>
+
+  <h3>Decisive argument</h3>
+  <div class="callout">
+    <span class="callout-label">Safety against unintended Autotask state</span>
+    Approach A's schema-driven defaults quietly pick <em>the first active picklist value</em> when a required enum is missing. For <code>status</code> that value can be any member of an 8-member or 17-member list on any given tenant — including "Complete". Seeding a demo whose projects and tickets are all marked complete on arrival is a customer-visible failure mode we cannot detect from our side. The safety model for this tool is <strong>no surprise writes</strong>. Silent enum defaults violate it. Cost-of-tooling trade-offs were not the tiebreaker.
+  </div>
+
+  <h3>Chosen shape — narrowed Approach B</h3>
+  <p>The safety contract is <strong>no inference, at any layer</strong>. Values come from explicit sources or the run halts:</p>
+  <ol>
+    <li><strong>Checked-in schema fixtures</strong> at <code>core/schemas/&lt;Entity&gt;.json</code>, built from the <code>/tmp/autotask-metadata/</code> probe. Each fixture records required field names, types, and the picklist value set captured at probe time. Pure data, no defaults.</li>
+    <li><strong>Plan file extension</strong> — optional per-entity <code>defaults</code> block. Defaults are explicit literals written by a human, never inferred from schema.</li>
+    <li><strong>Runtime UDF existence probe</strong> — one read-only GET per dry-run per entity targeted with UDF injection, against <code>/&lt;Entity&gt;/entityInformation/userDefinedFields</code>. If <code>demo_filler_run_id</code> is missing on the tenant, dry-run HALTS with a clear message. No silent skip — Max decides whether to create the UDF or adjust the plan.</li>
+    <li><strong>Executor value resolution — strict, no fallthrough:</strong> plan record value → plan entity-level default → HALT. No schema-driven default layer exists.</li>
+    <li><strong>Validator enforces the same order at dry-run</strong>, so seed never encounters a plan that would halt mid-write.</li>
+  </ol>
+
+  <h3>What was kept from A, what was rejected</h3>
+  <table class="matrix">
+    <tr><th>From Approach A</th><th>Fate</th><th>Why</th></tr>
+    <tr><td>Runtime UDF existence check</td><td><strong>Kept</strong>, narrowed</td><td>UDF variation is already confirmed per-tenant. One dry-run probe per entity is cheap and the only way to detect the gap observed on <code>dxfferentSB05122022.nl</code>.</td></tr>
+    <tr><td>Inferred defaults (first picklist, today, today+estimated_hours)</td><td><strong>Rejected</strong></td><td>Semantically uncontrolled. Picklist ordering is tenant-configurable. "first active" for <code>status</code> is not safe.</td></tr>
+    <tr><td>24h schema cache with TTL refresh</td><td><strong>Rejected</strong></td><td>No runtime metadata dependency in the hot path means no cache to invalidate. Refresh is now a human-triggered event (see open question below).</td></tr>
+  </table>
+
+  <h3>Open questions surfaced by the override</h3>
+  <ul>
+    <li>Fixture refresh trigger — picklist values may drift on any tenant at any time. Do we version the fixture and require a manual re-probe on some cadence, fail loudly when Autotask accepts an integer status our fixture does not know about, or both?</li>
+    <li>Per-tenant fixture separation — the current fixtures are captured from one sandbox. If a second tenant is onboarded with a different picklist set, do we keep one fixture and union the value sets, or fork per tenant?</li>
+  </ul>
+
   <div class="page-footer">
     <span>Claude Code — Output Archive</span>
-    <span>Design brief · 2026-04-21</span>
+    <span>Design brief · 2026-04-21 · override postscript</span>
   </div>
 </div>
 
@@ -668,6 +702,22 @@ pre {
           "probability": 0.15
         }
       ]
+    },
+    {
+      "decision": "Override: Max chose narrowed Approach B. Safety-framed.",
+      "rejected_alternatives": [
+        "Approach A recommendation (runtime probe + schema-driven defaults)",
+        "Approach C OpenAPI codegen"
+      ],
+      "rationale": "Schema-driven defaults silently pick first-active picklist values. Picklist ordering is tenant-configurable, so first-active for `status` can legitimately be `Complete` on a future tenant. Seeding demo records as already-finished is a customer-visible failure mode with no detection on our side. Tool cost math was not the tiebreaker; safety contract is no inference.",
+      "trade_offs": "Plan files get heavier (explicit defaults per entity). Schema drift becomes a human problem. Mitigated by strict no-fallthrough resolution plus loud validator halts.",
+      "contingencies": [
+        {
+          "if_X_then_Y": "if fixture picklist set drifts versus tenant, validator halts at dry-run rather than letting a silent mismatch through",
+          "probability": 0.4
+        }
+      ],
+      "kept_from_a": "Runtime UDF existence probe, narrowly scoped to dry-run time only"
     }
   ]
 }
