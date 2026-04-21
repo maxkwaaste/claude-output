@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autotask Payload Gap — Design Approaches</title>
+<style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+
+/* Brand header */
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+
+/* Page meta (date, section label) */
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+.section-label {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280;
+}
+
+/* Typography */
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+
+/* Section title (uppercase with navy underline) */
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+
+/* KPI / stat cards row */
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+
+/* Scenario cards (side by side boxes) */
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+
+/* Tables */
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+
+/* Cards */
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+
+/* Tags / badges */
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+/* Legacy compat */
+.tag-pay { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-dist { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+
+/* Callout box (key finding style) */
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+
+/* Bottom line / highlight box (dark navy bg) */
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+
+/* Confidential bar */
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+
+/* Horizontal bar chart */
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 140px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+
+/* Two-column layout */
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+
+/* Steps row */
+.pos-steps { display: flex; gap: 10px; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+
+/* Footer */
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+
+/* Code */
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+
+/* Disclosure / small print */
+.disclosure {
+  margin-top: 32px; padding-top: 16px; border-top: 1px solid #d0d3d8;
+}
+.disclosure h3 { margin-top: 0; }
+.disclosure p { font-size: 11px; color: #8a8f96; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">2026-04-21</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-21-autotask-payload-gap-approaches.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Autotask Demo Filler — Design Brief</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 21, 2026<br>Design brainstorm<br>feat/mcp-server
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Executor payload gap</div>
+  <h1>Completing Autotask write payloads</h1>
+  <p class="subtitle">Three approaches for populating required fields per entity and handling per-tenant UDF variation. Evidence from the sandbox, trade-offs, a recommendation, and scope impact.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Write entities</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">20</div>
+      <div class="stat-label">Required fields total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">UDF missing on sandbox</div>
+    </div>
+  </div>
+
+  <h2>Evidence</h2>
+
+  <h3>Metadata probe results</h3>
+  <table class="matrix">
+    <tr><th>Entity</th><th>Status</th><th># Required</th><th>Required writable fields</th></tr>
+    <tr><td><strong>Projects</strong></td><td>200</td><td>5</td><td>endDateTime, projectName, projectType, startDateTime, status</td></tr>
+    <tr><td><strong>Phases</strong></td><td>200</td><td>1</td><td>title</td></tr>
+    <tr><td><strong>Tasks</strong></td><td>200</td><td>4</td><td>projectID, status, taskType, title</td></tr>
+    <tr><td><strong>Tickets</strong></td><td>200</td><td>4</td><td>companyID, priority, status, title</td></tr>
+    <tr><td><strong>ServiceCalls</strong></td><td>200</td><td>3</td><td>companyID, endDateTime, startDateTime</td></tr>
+    <tr><td><strong>ServiceCallTasks</strong></td><td>200</td><td>2</td><td>serviceCallID, taskID</td></tr>
+    <tr><td><strong>TimeEntries</strong></td><td>200</td><td>1</td><td>resourceID</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">POST probe — one attempt, nothing created</span>
+    Sent <code>POST /Projects</code> with all 5 metadata-required fields plus the executor's standard UDF injection. Autotask returned:
+    <pre>500 {"errors":["Error updating User Defined Field: Invalid User Defined Field: demo_filler_run_id."]}</pre>
+    Two findings. The 5 metadata-required fields were accepted (schema gate passed). But <strong>the UDF <code>demo_filler_run_id</code> does not exist in this sandbox</strong>, and the executor's <code>_inject_udf</code> adds it unconditionally. Every write would fail until the UDF is pre-created per tenant.
+  </div>
+
+  <h2>Open questions</h2>
+  <ul>
+    <li><strong>Source of truth</strong> — runtime metadata probe, checked-in schema, or generated stubs?</li>
+    <li><strong>Freshness</strong> — how do we detect and absorb Autotask schema changes?</li>
+    <li><strong>Defaults</strong> — where do required-field values come from (plan, global config, inferred)?</li>
+    <li><strong>Tenant variation</strong> — UDFs confirmed to vary. Required-fields variation unknown (probably minimal, not verified).</li>
+  </ul>
+
+  <h2>Approaches</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Approach A — recommended</span>
+      <span class="tier-title">Runtime probe + schema-driven defaults</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Shape</div>
+      <div class="card-desc">On first seed call, GET <code>/&lt;Entity&gt;/entityInformation/fields</code> for all 7 write entities; cache to <code>state/schema_cache/&lt;entity&gt;.json</code> with a 24-hour TTL. Probe UDF existence the same way. Executor merges plan-provided values &gt; global defaults &gt; schema-driven defaults (first active picklist for enums, today for dates, today plus estimated hours for end dates). UDF injection becomes gated on probe result — if the UDF is missing, log a warning and skip.</div>
+      <div class="tags">
+        <span class="tag tag-high">Drift: HIGH</span>
+        <span class="tag tag-high">Tenant flex: HIGH</span>
+        <span class="tag tag-bundled">Impl: M</span>
+        <span class="tag tag-bundled">Tests: M</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Pros</div>
+      <div class="card-desc">Auto-adapts per tenant, zero schema drift in our code, handles UDF variation naturally, no human maintenance of a schema file.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cons</div>
+      <div class="card-desc">~1-2s cold-cache latency on first seed. Seven extra reads per cache refresh (well inside the 120/min rate limit). Moderate test surface — need to mock the metadata endpoint and the cache invalidation path.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Approach B</span>
+      <span class="tier-title">Checked-in schema + plan-level defaults</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Shape</div>
+      <div class="card-desc">Commit <code>core/schemas/&lt;entity&gt;.json</code>, hand-curated from a one-time probe. Plan file gains an optional <code>defaults</code> block per entity. UDF list declared in the plan; validated via a single read-only metadata call at dry-run time.</div>
+      <div class="tags">
+        <span class="tag tag-low">Drift: LOW</span>
+        <span class="tag tag-bundled">Tenant flex: M</span>
+        <span class="tag tag-independent">Impl: S</span>
+        <span class="tag tag-independent">Tests: S</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Pros</div>
+      <div class="card-desc">Deterministic, fastest runtime, smallest test surface (JSON fixtures), no runtime API coupling for the main write path.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cons</div>
+      <div class="card-desc">Schema drift is a human problem — someone has to notice and update. Per-tenant UDF still needs a runtime probe (partial overlap with Approach A). Plan files grow heavier with every required-field recipe.</div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Approach C</span>
+      <span class="tier-title">Generated stubs from OpenAPI</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Shape</div>
+      <div class="card-desc">Pull or build an Autotask OpenAPI spec, codegen Python dataclasses per entity with required-field validation, regenerate on a schedule.</div>
+      <div class="tags">
+        <span class="tag tag-bundled">Drift: M</span>
+        <span class="tag tag-low">Tenant flex: LOW</span>
+        <span class="tag tag-pay">Impl: L</span>
+        <span class="tag tag-pay">Tests: L</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Pros</div>
+      <div class="card-desc">Strongest typing, editor autocomplete, catches drift at codegen time.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cons</div>
+      <div class="card-desc">Autotask does not publish a clean OpenAPI spec — the same metadata endpoints feed it, so we re-derive Approach A's data anyway, plus a codegen pipeline. Heavy for a 7-entity internal tool. Per-tenant UDF still needs a runtime probe.</div>
+    </div>
+  </div>
+
+  <h2>Comparison at a glance</h2>
+  <table class="matrix">
+    <tr><th>Dimension</th><th>A — runtime probe</th><th>B — checked-in schema</th><th>C — OpenAPI codegen</th></tr>
+    <tr><td>Implementation effort</td><td>Medium</td><td>Small</td><td>Large</td></tr>
+    <tr><td>Drift robustness</td><td><strong>High</strong></td><td>Low</td><td>Medium</td></tr>
+    <tr><td>Per-tenant flexibility</td><td><strong>High</strong></td><td>Medium (partial probe needed)</td><td>Low (same problem as B)</td></tr>
+    <tr><td>Test surface</td><td>Medium</td><td>Small</td><td>Large</td></tr>
+    <tr><td>Runtime cost</td><td>Low-Medium</td><td>Low</td><td>Low</td></tr>
+    <tr><td>Scope fit for current branch</td><td><strong>Yes</strong></td><td>Yes</td><td>No (separate branch)</td></tr>
+  </table>
+
+  <div class="positioning">
+    <span class="callout-label">Recommendation</span>
+    <h2>Approach A — runtime metadata probe with cached schema</h2>
+    <p>It is the only approach that naturally handles the per-tenant UDF variation already confirmed on sandbox <code>dxfferentSB05122022.nl</code>. Schema drift is absorbed without human intervention, and the scope stays inside this feature branch. The extra runtime cost is one bounded burst of seven reads on a 24-hour cycle, inside the 120-per-minute rate budget.</p>
+  </div>
+
+  <h2>Scope and branch fit</h2>
+  <p>Approach A is one feature branch. Touches <code>core/</code> (new schema cache module, small additions to <code>autotask_client</code>), <code>executor/</code> (defaults merge in each <code>_create_*</code>), and adds <code>state/schema_cache/</code> to <code>.gitignore</code>. No refactor of the retry logic that just shipped. Stay on <code>feat/mcp-server</code>.</p>
+
+  <div class="callout">
+    <span class="callout-label">Decision point</span>
+    Approve Approach A, pick a different one, or push back on the evidence. Once approved, next steps are the design doc at <code>docs/superpowers/specs/2026-04-21-executor-payload-completion-design.md</code>, then the implementation plan via the writing-plans skill. Neither will touch executor code this session.
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code — Output Archive</span>
+    <span>Design brief · 2026-04-21</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Autotask Executor Payload Gap \u2014 Design Approaches",
+  "date": "2026-04-21",
+  "summary": "Three approaches for completing required-field payloads per entity and handling per-tenant UDF variation. Recommendation: runtime metadata probe with cached schema + schema-driven defaults, keeping work on feat/mcp-server.",
+  "sections": [
+    {
+      "heading": "Evidence",
+      "items": [
+        {
+          "title": "Metadata probe",
+          "detail": "GET /<Entity>/entityInformation/fields against sandbox dxfferentSB05122022.nl captured 7 JSON dumps. Required writable field counts: Projects 5, Phases 1, Tasks 4, Tickets 4, ServiceCalls 3, ServiceCallTasks 2, TimeEntries 1.",
+          "meta": {}
+        },
+        {
+          "title": "POST probe (one attempt, nothing created)",
+          "detail": "POST /Projects with the 5 metadata-required fields returned HTTP 500 but with a NEW error: `Invalid User Defined Field: demo_filler_run_id`. Schema fields were accepted; UDF does not exist in this tenant.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Open questions (recap)",
+      "items": [
+        {
+          "title": "Source of truth",
+          "detail": "Runtime metadata probe, checked-in schema, or generated stubs?",
+          "meta": {}
+        },
+        {
+          "title": "Freshness",
+          "detail": "How do we detect and absorb Autotask schema changes?",
+          "meta": {}
+        },
+        {
+          "title": "Default values",
+          "detail": "Where do values for required fields come from (plan, global config, inferred)?",
+          "meta": {}
+        },
+        {
+          "title": "Per-tenant variation",
+          "detail": "UDFs confirmed to vary per tenant. Required-fields variation unknown (probably minimal but not verified).",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Approach A \u2014 Runtime probe + schema-driven defaults (RECOMMENDED)",
+      "items": [
+        {
+          "title": "Shape",
+          "detail": "On first seed call, GET /<Entity>/entityInformation/fields for all 7 write entities; cache to state/schema_cache/<entity>.json with 24h TTL. Probe UDF existence the same way. Executor merges plan-provided > global defaults > schema-driven defaults (first active picklist, today for dates, today+estimated_hours for end dates). UDF injection gated on probe result.",
+          "meta": {}
+        },
+        {
+          "title": "Pros",
+          "detail": "Auto-adapts per tenant, zero schema drift, handles UDF variation cleanly, no human maintenance.",
+          "meta": {}
+        },
+        {
+          "title": "Cons",
+          "detail": "~1-2s cold-cache latency on first seed; seven extra reads per refresh (well inside rate limit); moderate test surface (mock metadata endpoint + cache invalidation).",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Approach B \u2014 Checked-in schema + plan-level defaults",
+      "items": [
+        {
+          "title": "Shape",
+          "detail": "Commit core/schemas/<entity>.json hand-curated from a one-time probe. Plan file gains optional `defaults` block per entity. UDF list declared in plan; validated via a single read-only metadata call at dry-run time.",
+          "meta": {}
+        },
+        {
+          "title": "Pros",
+          "detail": "Deterministic, fastest runtime, smallest test surface (JSON fixtures), no runtime API coupling for the main path.",
+          "meta": {}
+        },
+        {
+          "title": "Cons",
+          "detail": "Schema drift is a human problem \u2014 engineer has to notice and update. Per-tenant UDF still needs a runtime probe (partial overlap with A). Plan files get heavier with every required-field recipe.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Approach C \u2014 Generated stubs from OpenAPI spec",
+      "items": [
+        {
+          "title": "Shape",
+          "detail": "Pull or build an Autotask OpenAPI spec, codegen Python dataclasses per entity with required-field validation, regenerate on schedule.",
+          "meta": {}
+        },
+        {
+          "title": "Pros",
+          "detail": "Strongest typing, editor autocomplete, catches drift at codegen time.",
+          "meta": {}
+        },
+        {
+          "title": "Cons",
+          "detail": "Autotask does not publish a clean OpenAPI spec \u2014 the same metadata endpoints feed it, so we re-derive Approach A's data anyway, plus a codegen pipeline. Heavy for a 7-entity internal tool.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Comparison",
+      "items": [
+        {
+          "title": "Approach A",
+          "detail": "Impl effort M | Drift robustness HIGH | Tenant flex HIGH | Test surface M | Runtime cost LOW-M",
+          "meta": {}
+        },
+        {
+          "title": "Approach B",
+          "detail": "Impl effort S | Drift robustness LOW | Tenant flex M (needs partial probe anyway) | Test surface S | Runtime cost LOW",
+          "meta": {}
+        },
+        {
+          "title": "Approach C",
+          "detail": "Impl effort L | Drift robustness MED | Tenant flex LOW (same data, codegen friction) | Test surface L | Runtime cost LOW",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Recommendation",
+      "items": [
+        {
+          "title": "Approach A",
+          "detail": "Only option that naturally handles per-tenant UDF variation (already confirmed to vary). Schema drift absorbed without human intervention. Moderate scope additions: new `schema` module in core, minor refactor to _create_* builders in executor. Stays on feat/mcp-server.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Scope note",
+      "items": [
+        {
+          "title": "Branch fit",
+          "detail": "Approach A is one feature branch. Touches core/ (new schema_cache module, small additions in autotask_client), executor/ (defaults merge in every _create_*), and adds state/schema_cache/ to .gitignore. No refactor of autotask_client retry logic. Stay on feat/mcp-server.",
+          "meta": {}
+        }
+      ]
+    }
+  ],
+  "next_steps": "Max picks an approach. On approval of Approach A, write docs/superpowers/specs/2026-04-21-executor-payload-completion-design.md citing the metadata summary and the UDF finding, then use superpowers:writing-plans for the implementation plan. Commit spec and plan separately on feat/mcp-server. Do not touch executor code this session.",
+  "session_state": {
+    "phase": "design brainstorm",
+    "phase_status": "in_progress",
+    "progress_pct": 40,
+    "work_done_this_session": [
+      "Fixed retry/logging bug on feat/mcp-server (114 tests passing)",
+      "Wrote follow-up doc for executor payload gap",
+      "Metadata probe captured for 7 entities",
+      "POST probe revealed UDF-variation issue",
+      "Drafted 3 design approaches with trade-offs"
+    ],
+    "blockers_hit": "Need Max's approval on approach before writing design doc + plan",
+    "uncommitted_changes": "Scratch metadata JSON in /tmp/autotask-metadata/ (intentionally uncommitted)",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "feat/mcp-server",
+    "local_repo_path": "~/ClaudeCode/autotask-demo-filler-mcp-worktree/",
+    "temp_files": [
+      {
+        "path": "/tmp/autotask-metadata/*.json",
+        "description": "raw entityInformation/fields responses for 7 write entities",
+        "cleanup_after": "design doc written"
+      },
+      {
+        "path": "/tmp/plan_dryrun.json",
+        "description": "hand-crafted seed plan used in earlier dry-run/seed tests",
+        "cleanup_after": "payload gap resolved"
+      }
+    ],
+    "github_links": [
+      {
+        "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-21-autotask-payload-gap-approaches.html",
+        "relevance": "this doc"
+      }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": "ddf3585"
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Autotask sandbox dxfferentSB05122022.nl has UDF `demo_filler_run_id` NOT defined on Projects \u2014 likely also missing on other entities. Needs pre-creation per tenant OR graceful skip."
+  },
+  "project_context": {
+    "protected_resources": [
+      "executor/ directory (no edits this session)",
+      "Autotask sandbox data (one probe POST was attempted, nothing created)"
+    ],
+    "conventions_applied": [
+      "TDD for retry fix",
+      "humanizer anti-slop",
+      "output-page for substantial design output",
+      "pbcopy for terminal commands"
+    ]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommend Approach A (runtime metadata probe with cache) over checked-in schema or OpenAPI codegen",
+      "rejected_alternatives": [
+        "Approach B checked-in schema",
+        "Approach C OpenAPI codegen"
+      ],
+      "rationale": "Only approach that naturally handles per-tenant UDF variation, which is already confirmed. Drift absorbed automatically. Scope stays on current branch.",
+      "trade_offs": "Adds ~1-2s cold-cache latency on first seed; moderate test surface including metadata endpoint mocks.",
+      "contingencies": [
+        {
+          "if_X_then_Y": "if metadata endpoint is rate-limited or flaky, fall back to Approach B for fields and keep runtime probe only for UDFs",
+          "probability": 0.15
+        }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

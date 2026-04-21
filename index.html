@@ -630,6 +630,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-21-autotask-payload-gap-approaches.html",
+    "title": "Autotask Executor Payload Gap — Design Approaches",
+    "date": "2026-04-21T16:30",
+    "summary": "Evidence-backed brainstorm for the autotask-demo-filler executor payload gap. Three approaches (runtime metadata probe, checked-in schema, OpenAPI codegen) with trade-offs. Recommends runtime probe + schema-driven defaults, staying on feat/mcp-server.",
+    "tags": ["Autotask Demo Filler", "MCP Server", "Design"],
+    "type": "strategy",
+    "detail": "Captured live metadata probe for 7 write entities (Projects, Phases, Tasks, Tickets, ServiceCalls, ServiceCallTasks, TimeEntries) against sandbox dxfferentSB05122022.nl. A single POST probe to Projects with all metadata-required fields surfaced a separate gap: the UDF `demo_filler_run_id` does not exist per-tenant and must be probed for at runtime. Approach A (runtime probe + cache + schema-driven defaults) is the only option that handles this tenant variation without human maintenance and fits the current feature branch. Approach B (checked-in schema) is faster and simpler but still needs a partial runtime probe for UDFs and carries manual drift cost. Approach C (OpenAPI codegen) is heavy and re-derives the same metadata. Recommendation pending Max's approval before writing spec and plan."
+  },
+  {
     "file": "2026-04-20-pcos-ttc-crawford.html",
     "title": "PCOS & TTC at 29 — Dr. Natalie Crawford's Playbook",
     "date": "2026-04-20T19:00",
