@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reddit Ads: Upload Creatives + Triple Budget</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Georgia","Times New Roman",serif; color: #2c2c2c; background: #f8f9fa; line-height: 1.65; -webkit-font-smoothing: antialiased; padding: 0; }
+.page-header { max-width: 780px; margin: 0 auto; padding: 16px 24px 0; display: flex; justify-content: space-between; align-items: center; font: 500 12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page { max-width: 780px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+.brand { margin-bottom: 6px; }
+.brand-name { font-family: "Georgia",serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system,sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system,sans-serif; color: #6b7280; }
+h1 { font-family: "Georgia",serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: "Georgia",serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system,sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: "Georgia",serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+.overline { font: 600 11px/1 -apple-system,sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 8px; line-height: 1.6; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: "Georgia",serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system,sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system,sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system,sans-serif; font-size: 13px; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout strong { color: #1a2744; }
+.callout-label { font: 700 11px/1 -apple-system,sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.step-row { display: flex; align-items: flex-start; gap: 16px; margin: 20px 0; padding: 18px 22px; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px; position: relative; }
+.step-row::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: #1a2744; border-radius: 1px; }
+.step-num { font-family: "Georgia",serif; font-size: 28px; font-weight: 700; color: #1a2744; line-height: 1; min-width: 40px; }
+.step-body { flex: 1; }
+.step-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 6px; }
+.step-desc { font-size: 14px; color: #2c2c2c; line-height: 1.6; }
+.step-desc code { font-family: "JetBrains Mono","SF Mono",monospace; font-size: 12px; background: #f0f2f5; padding: 2px 6px; border-radius: 3px; }
+.step-desc ul { margin: 8px 0 0 20px; }
+.kbd { font-family: -apple-system,sans-serif; font-size: 12px; background: #f0f2f5; border: 1px solid #d0d3d8; padding: 2px 6px; border-radius: 3px; color: #1a2744; font-weight: 600; }
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system,sans-serif; color: #8a8f96; }
+.warn { background: #fef3e2; border-left: 3px solid #c8a040; padding: 14px 18px; margin: 18px 0; font-size: 13px; color: #8a6a2a; border-radius: 0 4px 4px 0; }
+.warn strong { color: #8a6a2a; }
+.ad-list { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 14px 0; }
+.ad-item { padding: 10px 14px; background: #f5f7fa; border-left: 2px solid #1a2744; font-size: 13px; }
+.ad-item strong { color: #1a2744; }
+.ad-item code { font-family: "JetBrains Mono",monospace; font-size: 11px; color: #4a5568; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 21, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-21-reddit-ads-upload-and-budget.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div><div class="brand">
+      <div class="brand-name">Claude Code</div>
+      <div class="brand-tagline">Ops &amp; Execution Guide</div>
+    </div></div>
+    <div class="page-meta-right">April 21, 2026<br>Reddit Ads<br>Proxuma Campaign</div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Ads Manager Instructions</div>
+  <h1>Upload 5 New Creatives + Triple Budget</h1>
+  <p class="subtitle">Step-by-step for Reddit Ads Manager. Takes about 10 minutes. No CLI, all UI.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">€60</div>
+      <div class="stat-label">Spent Last Month</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">€180</div>
+      <div class="stat-label">New Monthly Budget</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">€6</div>
+      <div class="stat-label">New Daily Cap</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">New Creatives</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Bottom line</h2>
+    <p>Log in to Reddit Ads Manager, triple the daily budget on your active campaign (from ~€2/day to €6/day), then upload the 5 fresh creatives from <code style="background:rgba(255,255,255,.12);padding:2px 6px;border-radius:3px;color:#fff">~/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/</code> as new ads in the existing ad group.</p>
+  </div>
+
+  <h2>Part A: Triple the budget</h2>
+  <p>Your campaign only burned €60 across the whole month. That means your daily cap was throttling delivery well below what Reddit could give you at your current CPM. Tripling is the right move to generate enough signal data to optimize on.</p>
+
+  <div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-title">Open Reddit Ads Manager</div>
+      <div class="step-desc">Go to <code>ads.reddit.com</code>. Sign in with the Proxuma account. Make sure the account selector in the top-left shows the correct Proxuma ad account (not a personal one).</div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-title">Navigate to the active campaign</div>
+      <div class="step-desc">Left sidebar, click <strong>Campaigns</strong>. You'll see your live Proxuma campaign. Click the campaign name to open it.</div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-title">Edit the daily budget at the Ad Group level</div>
+      <div class="step-desc">
+        Budget lives on the <strong>Ad Group</strong>, not the campaign itself. Click into the ad group row.
+        <ul>
+          <li>Find the <strong>Budget</strong> field. It likely shows something like <code>€2.00 / day</code>.</li>
+          <li>Change it to <strong>€6.00 / day</strong>.</li>
+          <li>If there's a "Lifetime budget" toggle instead, set it to <strong>€180/month</strong> or leave daily mode and just triple the number.</li>
+          <li>Save.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn">
+    <strong>Watch for:</strong> Reddit sometimes auto-pauses an ad group when you change the budget mid-flight. After saving, check that the status is still <strong>Active</strong>, not <strong>Paused</strong>.
+  </div>
+
+  <h2>Part B: Upload 5 new creatives</h2>
+  <p>Rather than creating a new campaign, add these 5 ads to the existing ad group so they share the same targeting, bid, and optimization signal. Reddit will rotate them against your current ads and learn which perform best.</p>
+
+  <h3>The 5 files to upload</h3>
+  <div class="ad-list">
+    <div class="ad-item"><strong>stop-asking-engineers-for-updates.webp</strong> — Resource planning calendar hero. Headline already in the image.</div>
+    <div class="ad-item"><strong>birds-eye-view-every-project.webp</strong> — Gantt timeline hero, "Built for Autotask MSPs".</div>
+    <div class="ad-item"><strong>quote-no-longer-compete-for-time.webp</strong> — Testimonial with 200+/1hr/2-clicks stats.</div>
+    <div class="ad-item"><strong>comparison-monday-morning-autotask-vs-proxuma.webp</strong> — Side-by-side VS comparison.</div>
+    <div class="ad-item"><strong>projects-not-set-in-stone-drag-drop.webp</strong> — Bulk edit drag-and-drop Gantt.</div>
+  </div>
+  <div class="callout">
+    <span class="callout-label">File location</span>
+    All 5 are on M1 Pro at <code>~/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/</code>. Easiest path: in Finder, press <span class="kbd">Shift</span> + <span class="kbd">Cmd</span> + <span class="kbd">G</span> and paste that path. Or drag them across Tailscale-mounted SMB.
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <div class="step-title">Open the Ad Group in the campaign</div>
+      <div class="step-desc">From the campaign page, click into your ad group. You'll see your current ads listed. At the top right there's a button like <strong>Create Ad</strong> or <strong>+ New Ad</strong>.</div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <div class="step-title">Create the first new ad</div>
+      <div class="step-desc">
+        Click <strong>Create Ad</strong>.
+        <ul>
+          <li><strong>Ad format:</strong> Image (single image, not carousel).</li>
+          <li><strong>Upload media:</strong> drag <code>stop-asking-engineers-for-updates.webp</code> from Finder.</li>
+          <li><strong>Headline:</strong> <em>Stop asking your engineers for updates.</em></li>
+          <li><strong>Destination URL:</strong> same landing page as your current ads (<code>proxuma.io</code> or your Autotask demo page — check an existing ad and copy its URL).</li>
+          <li><strong>Call-to-action button:</strong> <em>Learn More</em> or <em>See the demo</em>.</li>
+          <li><strong>Ad name:</strong> <code>ad-stop-asking-engineers-2026-04-21</code> (for your own tracking, not user-facing).</li>
+          <li>Save.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <div class="step-title">Repeat for the other 4 creatives</div>
+      <div class="step-desc">
+        Same flow, use these headlines and names:
+      </div>
+    </div>
+  </div>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Headline</th>
+        <th>Ad name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>birds-eye-view-every-project.webp</code></td>
+        <td>A bird's-eye view of every project</td>
+        <td>ad-birds-eye-gantt-2026-04-21</td>
+      </tr>
+      <tr>
+        <td><code>quote-no-longer-compete-for-time.webp</code></td>
+        <td>200+ MSPs already planned their week</td>
+        <td>ad-quote-compete-for-time-2026-04-21</td>
+      </tr>
+      <tr>
+        <td><code>comparison-monday-morning-autotask-vs-proxuma.webp</code></td>
+        <td>Monday morning in Autotask vs. with Proxuma</td>
+        <td>ad-comparison-monday-2026-04-21</td>
+      </tr>
+      <tr>
+        <td><code>projects-not-set-in-stone-drag-drop.webp</code></td>
+        <td>Projects aren't set in stone. Why should your UI be?</td>
+        <td>ad-projects-not-stone-2026-04-21</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>Headlines:</strong> Reddit may reject if the image already contains the full headline and you repeat it verbatim (looks spammy). Use the headlines above since they're slight variants, not pure copies. If Reddit's reviewer flags one, paraphrase it.
+  </div>
+
+  <h2>Part C: Verify and ship</h2>
+
+  <div class="step-row">
+    <div class="step-num">7</div>
+    <div class="step-body">
+      <div class="step-title">Set status to Active on all 5 new ads</div>
+      <div class="step-desc">After saving each ad, it may default to <strong>Paused</strong>. Go back to the ad group list and flip each new ad's toggle to <strong>Active</strong>. Your 5 originals can stay on too — Reddit rotates across all active ads.</div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">8</div>
+    <div class="step-body">
+      <div class="step-title">Confirm the budget is €6/day</div>
+      <div class="step-desc">Back at the ad group level, check the Budget column reads <strong>€6.00 / day</strong>. If it reverted, set it again and save. Reddit occasionally drops the change on the first save if there's a pending review.</div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">9</div>
+    <div class="step-body">
+      <div class="step-title">Wait for review (up to 24h)</div>
+      <div class="step-desc">New ads go into Reddit's review queue. Most clear within 2 to 6 hours. Check back tomorrow morning. If any are <strong>Rejected</strong>, the reason shows on hover — usually fixable by tweaking the headline.</div>
+    </div>
+  </div>
+
+  <h2>What to check after 72 hours</h2>
+  <ul>
+    <li><strong>Spend pace:</strong> should be around €18 over 3 days (€6/day). If it's still €2/day, the daily budget didn't save — go back to step 3.</li>
+    <li><strong>CTR by ad:</strong> whichever of the 5 new ads has highest CTR is your winner. Pause the bottom 2 after a week if they're under 0.8% CTR.</li>
+    <li><strong>CPC / landing page visits:</strong> compare against the previous month's baseline so you know if the new creatives are actually better or just newer.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="callout-label">Automation note</span>
+    Once everything is live, tomorrow's daily Reddit Ads check-in script (<code>~/mcp-servers/reddit-ads/daily_snapshot.py</code> on M1 Pro) will start picking up per-ad performance data automatically. The API token is currently 401'd — re-run <code>python3 reauth.py</code> in that folder when you get a chance so the tracking resumes.
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Reddit Ads · Proxuma · 2026-04-21</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Reddit Ads: Upload 5 New Creatives + Triple Budget",
+  "date": "2026-04-21",
+  "summary": "Step-by-step UI instructions for Max to manually upload 5 new Proxuma ad creatives to existing Reddit Ads campaign, and triple daily budget from ~€2 to €6 after a month of €60 total spend.",
+  "sections": [
+    {
+      "heading": "Budget change",
+      "items": [
+        {"title": "Old daily budget", "detail": "~€2/day, yielding €60/month actual spend"},
+        {"title": "New daily budget", "detail": "€6/day = €180/month"},
+        {"title": "Where to change", "detail": "Ad Group level in Reddit Ads Manager, not campaign level"}
+      ]
+    },
+    {
+      "heading": "Creatives to upload",
+      "items": [
+        {"title": "stop-asking-engineers-for-updates.webp", "detail": "Resource planning calendar hero"},
+        {"title": "birds-eye-view-every-project.webp", "detail": "Gantt timeline hero"},
+        {"title": "quote-no-longer-compete-for-time.webp", "detail": "Testimonial + stats"},
+        {"title": "comparison-monday-morning-autotask-vs-proxuma.webp", "detail": "Side-by-side VS"},
+        {"title": "projects-not-set-in-stone-drag-drop.webp", "detail": "Bulk drag-drop Gantt"}
+      ]
+    }
+  ],
+  "next_steps": "Max performs UI steps manually in ads.reddit.com. After 72 hours, check spend pace and per-ad CTR. Re-auth Reddit Ads API on M1 Pro (python3 ~/mcp-servers/reddit-ads/reauth.py) so daily_snapshot.py resumes tracking.",
+  "session_state": {
+    "phase": "instructions delivered",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Identified 5 unique Reddit ad creatives in ~/Downloads (one duplicate skipped)",
+      "Transferred and renamed ads to M1 Pro at ~/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/",
+      "Generated step-by-step HTML upload + budget instructions",
+      "Diagnosed Reddit Ads API 401 — needs reauth"
+    ],
+    "blockers_hit": "Reddit Ads API returning 401; daily_snapshot.py/daily_review.py cannot run until Max reauths",
+    "uncommitted_changes": "claude-output repo has new HTML + index update pending commit",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      {"name": "reddit-ads.md", "version_date": "unknown", "verified_live": false}
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-21-reddit-ads-upload-and-budget.html", "relevance": "this doc"}
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "5 renamed .webp files at /Users/maxdekwaasteniet/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/ on M1 Pro (100.85.64.20). Reddit Ads API token expired — reauth required."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "output-page for substantial content", "file paths over raw terminal dumps"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended adding 5 ads to existing ad group rather than new campaign",
+      "rejected_alternatives": ["Separate A/B campaign", "Pausing existing ads first"],
+      "rationale": "Sharing targeting + optimization signal with existing ads yields faster learning and avoids fragmenting €180/mo across multiple campaigns",
+      "trade_offs": "Can't isolate creative lift as cleanly vs. a clean split test",
+      "contingencies": []
+    },
+    {
+      "decision": "Tripled daily budget to €6/day instead of larger jump",
+      "rejected_alternatives": ["5x or 10x budget increase", "Switching to lifetime budget"],
+      "rationale": "Max asked for triple specifically; 3x is enough to generate meaningful signal without burning cash before new creatives are validated",
+      "trade_offs": "Slower learning than a bigger jump would provide",
+      "contingencies": [
+        {"if_X_then_Y": "if 3x still underspends (pace below €5/day after a week), investigate bid cap or targeting bottleneck, not budget", "probability": 0.4}
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
