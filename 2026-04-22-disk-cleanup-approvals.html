@@ -72,7 +72,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
 .item-title { font-size: 14px; font-weight: 700; color: #1a2744; font-family: -apple-system, sans-serif; }
 .item-path { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; font-size: 12px; color: #4a5568; background: #f0f2f5; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-top: 2px; word-break: break-all; }
 .item-size { font-size: 14px; font-weight: 700; color: #1a2744; font-family: -apple-system, sans-serif; white-space: nowrap; }
-.item-note { font-size: 13px; color: #4a5568; margin: 6px 0 10px; font-family: -apple-system, sans-serif; }
+.item-note { font-size: 13px; color: #4a5568; margin: 6px 0 10px; font-family: -apple-system, sans-serif; line-height: 1.55; }
+.item-note p { margin: 0 0 6px; font-size: 13px; color: #4a5568; font-family: -apple-system, sans-serif; }
+.item-note p:last-child { margin-bottom: 0; }
+.item-note .lbl { display: inline-block; min-width: 96px; font-weight: 700; color: #1a2744; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; vertical-align: top; margin-right: 4px; }
+.item-note code { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; background: #f0f2f5; padding: 1px 4px; border-radius: 2px; font-size: 12px; }
 .item-action { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .08em; color: #6b7280; margin-bottom: 8px; }
 .item-action .action-label { color: #1a2744; }
 
@@ -209,7 +213,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">12 GB</div>
       </div>
-      <div class="item-note">Claude.app sandbox VM bundles. Regenerate on next launch of Claude Desktop. Will not affect your chat history.</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Sandbox virtual-machine bundles used by the Claude Desktop app when it runs code locally (the "computer use" / local-agent feature). Each bundle is a self-contained Linux environment Claude spins up inside the app.</p>
+        <p><span class="lbl">What it affects:</span> Nothing user-visible. Your chat history, MCP servers, projects, and preferences live elsewhere (<code>~/Library/Application Support/Claude/claude-code</code>, 190 MB — untouched).</p>
+        <p><span class="lbl">After deletion:</span> First time you use local-agent mode again, Claude Desktop redownloads a fresh bundle (~1-2 GB). Normal chat use is unaffected and instant.</p>
+      </div>
       <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
     </div>
 
@@ -221,7 +229,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">5.3 GB</div>
       </div>
-      <div class="item-note">Python package cache from uv. Re-downloads on next uv install. Zero risk.</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Download cache for <code>uv</code> (modern Python package manager). Stores wheels and source distributions so repeat installs are instant. Used heavily by your Power BI / report-engine / audiobook-gen / pdfclean projects.</p>
+        <p><span class="lbl">What it affects:</span> Installed Python environments (virtualenvs) keep working — they contain their own copies. Only future <code>uv pip install</code> commands are affected.</p>
+        <p><span class="lbl">After deletion:</span> First <code>uv pip install</code> in each project redownloads needed packages (seconds to a minute per project over your connection). Totally transparent.</p>
+      </div>
       <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
     </div>
 
@@ -233,7 +245,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">4.2 GB</div>
       </div>
-      <div class="item-note">Preferred: <code style="font-family:monospace;background:#f0f2f5;padding:1px 4px;border-radius:2px;">npm cache clean --force</code>. Rebuilds automatically.</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> npm's global package cache. When you run <code>npm install</code> anywhere, npm first checks here before hitting the registry. Accumulated from every Node project you've touched.</p>
+        <p><span class="lbl">What it affects:</span> Installed <code>node_modules</code> folders in your projects are separate and untouched. Only the offline-replay / dedupe cache is cleared.</p>
+        <p><span class="lbl">After deletion:</span> Future <code>npm install</code> runs redownload tarballs (a few seconds slower first time). Use the command rather than <code>rm -rf</code> so npm updates its internal index cleanly.</p>
+      </div>
       <div class="item-action"><span class="action-label">Action:</span> npm cache clean --force</div>
     </div>
 
@@ -245,7 +261,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">3.9 GB</div>
       </div>
-      <div class="item-note">Per-app caches. Safe to purge; apps rebuild as needed. Slight slowdown on first launches.</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Standard macOS cache folder — every app dumps throwaway data here (thumbnails, web caches, compiled shaders, download staging). VS Code, Chrome helpers, Spotify, Adobe, iMessage, etc. all contribute.</p>
+        <p><span class="lbl">What it affects:</span> No user data, no settings, no logins. Apps treat it as scratch space.</p>
+        <p><span class="lbl">After deletion:</span> First launch of each app is ~1-3 seconds slower while it regenerates (thumbnails, web-view caches). Noticeable only if you blink.</p>
+      </div>
       <div class="item-action"><span class="action-label">Action:</span> Delete contents (keep folder)</div>
     </div>
 
@@ -257,7 +277,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">3.6 GB</div>
       </div>
-      <div class="item-note">Downloaded HF models. Re-downloads on next use. Check if any active project needs a specific model first.</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Hugging Face model weights cached by the <code>transformers</code> / <code>sentence-transformers</code> / <code>diffusers</code> Python libraries. Stored here whenever Python code does <code>from_pretrained(...)</code>.</p>
+        <p><span class="lbl">What it affects:</span> Any active project that loads a local HF model — your <code>audiobook-gen</code>, <code>proxuma-support-kb</code> embeddings, and possibly <code>report-engine-local</code>. If you regularly run these on this Mac, the next run of each will stall while it redownloads (~200-500 MB per model).</p>
+        <p><span class="lbl">After deletion:</span> First run of each affected script redownloads the specific models it needs. No data loss — just bandwidth + wait time.</p>
+      </div>
       <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
     </div>
 
@@ -269,7 +293,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">948 MB</div>
       </div>
-      <div class="item-note">Empty trash. Obvious.</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Your Trash folder. Files you moved to Trash that macOS hasn't auto-emptied.</p>
+        <p><span class="lbl">What it affects:</span> Whatever you last threw away. Worth a quick peek in Finder first — if there's anything you might regret tossing, fish it out before approving.</p>
+        <p><span class="lbl">After deletion:</span> Files become unrecoverable via standard means (specialised data-recovery tools could still find them, but assume they're gone).</p>
+      </div>
       <div class="item-action"><span class="action-label">Action:</span> Empty Trash</div>
     </div>
 
@@ -281,7 +309,11 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">677 MB</div>
       </div>
-      <div class="item-note">Headless Chrome binary. Re-downloads if a project needs it.</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> A standalone Chromium browser binary downloaded by the <code>puppeteer</code> Node library for headless browser automation. Your <code>claude-in-chrome</code> MCP, any web-scraping scripts, and PageSpeed / screenshot tools may use it.</p>
+        <p><span class="lbl">What it affects:</span> Any script that does <code>require('puppeteer').launch()</code>. Does not affect your actual Google Chrome app.</p>
+        <p><span class="lbl">After deletion:</span> Next puppeteer run redownloads ~180 MB Chromium. One-time wait on first use per project.</p>
+      </div>
       <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
     </div>
   </div>
@@ -302,8 +334,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">11 GB</div>
       </div>
-      <div class="item-note"><strong>Risky.</strong> Photos is running with iCloud sync. To move: quit Photos → rsync library → Option+launch Photos → choose library on Sandisk. If iCloud Photos is ON, consider enabling "Optimise Mac Storage" first (much easier). Needs your call.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Discuss — Optimise Storage toggle may be simpler</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Your full Photos app library — every photo, video, album, face tag, edit, and Memory. iCloud Photos appears to be on (sync was active at 11:04 today).</p>
+        <p><span class="lbl">What it affects:</span> <strong>Core risk item.</strong> If done wrong, thumbnails break, faces have to re-learn, Memories reset, and worst case iCloud gets confused about which Mac holds the primary library. All originals are safe in iCloud, but the local experience can be degraded for days.</p>
+        <p><span class="lbl">After action:</span> The <em>recommended</em> alternative is just toggling Photos → Settings → iCloud → <strong>"Optimise Mac Storage"</strong>. macOS will automatically evict originals it's keeping full-res backups of, reclaiming most of the 11 GB without moving anything. Moving the library to Sandisk is a last resort — Sandisk would need to be plugged in every time you open Photos.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Prefer Optimise Storage toggle; only move library if you answer Q1 that iCloud Photos is off</div>
     </div>
 
     <div class="item" data-id="t2-succession" data-size-gb="8.7" data-tier="2">
@@ -314,8 +350,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">8.7 GB</div>
       </div>
-      <div class="item-note">Move to Sandisk at <code style="font-family:monospace;background:#f0f2f5;padding:1px 4px;border-radius:2px;">/Volumes/Sandisk/Media/Succession/</code>.</div>
-      <div class="item-action"><span class="action-label">Action:</span> rsync → Sandisk, then delete local</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> A folder of Succession video files (full season rip) sitting in your Movies folder.</p>
+        <p><span class="lbl">What it affects:</span> Nothing technical. Just where the files live. Not in iTunes / TV app library — they're loose files.</p>
+        <p><span class="lbl">After action:</span> Files land on Sandisk at <code>/Volumes/Sandisk/Media/Succession/</code>. To watch: plug Sandisk into the M1 Pro (or mount over Tailscale Drive) and open with VLC / IINA. File count and total bytes will be verified before the local copy is deleted.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> rsync → Sandisk, verify, then delete local</div>
     </div>
 
     <div class="item" data-id="t2-dl-videos" data-size-gb="5.0" data-tier="2">
@@ -326,8 +366,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">~5.0 GB</div>
       </div>
-      <div class="item-note">10 recordings &gt;100MB. Biggest: "2026-04-14 16.15.57" (1.7G), "Menu Bar Part 2" (1.0G), "Menu Bar Part 1" (546M). If none are for current projects, archive them.</div>
-      <div class="item-action"><span class="action-label">Action:</span> rsync → <code style="font-family:monospace;font-size:11px;">Sandisk/Archive/ScreenRecordings/</code>, delete local</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Ten <code>.mov</code> files in Downloads from QuickTime / macOS screen capture. Biggest three: <code>Screen Recording 2026-04-14 16.15.57</code> (1.7 GB), <code>Menu Bar Part 2</code> (1.0 GB), <code>Menu Bar Part 1</code> (546 MB). Older ones from March.</p>
+        <p><span class="lbl">What it affects:</span> Only if one of these is footage you still need (demo recording, bug repro, tutorial draft). Answer Q2 at the bottom to list keepers.</p>
+        <p><span class="lbl">After action:</span> Archived at <code>/Volumes/Sandisk/Archive/ScreenRecordings/</code> on M1 Pro with original filenames preserved. Local copies deleted after rsync verify. Anything you listed as a keeper stays on M4 Air.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Archive non-keepers to Sandisk, verify, delete local</div>
     </div>
 
     <div class="item" data-id="t2-civ5" data-size-gb="5.2" data-tier="2">
@@ -338,8 +382,13 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">5.2 GB</div>
       </div>
-      <div class="item-note">Won't run off Sandisk reliably (game bundle). Options: (A) archive to Sandisk + uninstall, (B) just uninstall and re-download from Steam if needed.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Choose archive or uninstall (comment below)</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> The Civilization V standalone game app. Full game bundle (code + assets) in /Applications.</p>
+        <p><span class="lbl">What it affects:</span> Your ability to launch the game. Game <em>saves</em> and preferences live in <code>~/Library/Application Support/Civilization V Campaign Edition</code> and <code>~/Documents</code> — those are not touched by either option below.</p>
+        <p><span class="lbl">After action — Option A (archive):</span> App bundle copied to Sandisk then deleted locally. To play again, copy back. Game bundles can be finicky running from external drives, so restoring is safer than running off Sandisk.</p>
+        <p><span class="lbl">After action — Option B (uninstall):</span> Simpler. If you own it on Steam / App Store, redownload is a click. Choose A only if this was a DRM-free / hard-to-reacquire install. Your saves survive either way.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Tell me A or B in the comment</div>
     </div>
 
     <div class="item" data-id="t2-burnt" data-size-gb="1.5" data-tier="2">
@@ -350,8 +399,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">1.5 GB</div>
       </div>
-      <div class="item-note">Looks like a leftover. Move or trash.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Move to Sandisk/Archive or delete</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> A 1080p movie file of "Burnt" (2015, Bradley Cooper chef film) sitting in Downloads in its own folder. Filename suggests a YTS rip.</p>
+        <p><span class="lbl">What it affects:</span> Nothing system-wise. Just a lone video file.</p>
+        <p><span class="lbl">After action:</span> Either archived at <code>/Volumes/Sandisk/Media/</code> on M1 Pro, or trashed. Default = archive unless you comment "delete".</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Archive to Sandisk (default) or delete</div>
     </div>
 
     <div class="item" data-id="t2-sf-symbols" data-size-gb="0.46" data-tier="2">
@@ -362,8 +415,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">463 MB</div>
       </div>
-      <div class="item-note">Installer. Keep only if you haven't installed yet; otherwise trash.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Delete if installed</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Apple's SF Symbols 7 app installer (DMG). SF Symbols is Apple's icon library for UI design work.</p>
+        <p><span class="lbl">What it affects:</span> If the SF Symbols app is already in /Applications, this DMG is just a leftover. If you haven't installed it yet, you'll lose the installer (but can redownload anytime from Apple Developer).</p>
+        <p><span class="lbl">After action:</span> If SF Symbols.app is installed → trash the DMG directly. If not installed yet and you still want the app → install first, then trash. Sandisk archive is overkill for a redownloadable installer.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Delete after verifying app is installed</div>
     </div>
 
     <div class="item" data-id="t2-inbetween" data-size-gb="0.2" data-tier="2">
@@ -374,8 +431,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">204 MB</div>
       </div>
-      <div class="item-note">Single episode. Move or trash.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Move to Sandisk/Media or delete</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> A single episode of "Mr. Inbetween" (S01E01) in Downloads. 204 MB, 720p.</p>
+        <p><span class="lbl">What it affects:</span> Nothing. Just a video file.</p>
+        <p><span class="lbl">After action:</span> Either archived to <code>/Volumes/Sandisk/Media/</code> or trashed. Default = archive.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Archive to Sandisk (default) or delete</div>
     </div>
   </div>
 
@@ -395,8 +456,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">7.0 GB</div>
       </div>
-      <div class="item-note">Rebuilds from iCloud. Re-sync takes hours and you'll be offline-blind until it finishes. Only approve if Notes is taking a disproportionate share and you can spare a sync window.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Quit Notes, delete cache, relaunch &amp; wait for iCloud re-sync</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> The local SQLite database + attachment blobs for Apple Notes. Every note you've ever created, plus attached images, PDFs, scanned documents, and drawings. 7 GB is heavy — likely lots of attachments.</p>
+        <p><span class="lbl">What it affects:</span> Notes app on this Mac. While re-syncing, notes appear empty or partial; attachments download on-demand as you open them.</p>
+        <p><span class="lbl">After action:</span> Quit Notes → delete the Group Container → reopen Notes → iCloud re-downloads everything. Fast on fibre, but 7 GB across thousands of small records typically takes hours to fully materialise. Other Macs and iPhone not affected (they have their own local copies). Think of it as a forced "re-install" of Notes data on this machine only.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Approve only if you can spare a sync window (overnight preferred)</div>
     </div>
 
     <div class="item" data-id="t3-chrome" data-size-gb="8.6" data-tier="3">
@@ -407,8 +472,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">8.6 GB</div>
       </div>
-      <div class="item-note"><strong>Don't delete directly</strong> — logins, extensions, history live here. Cleanup via Chrome UI: Settings → Privacy → Clear browsing data → Cached images and files (All time). Typically frees 2-4 GB.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Chrome UI cleanup (manual — I'll give you the steps)</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> Your entire Chrome profile — saved passwords, cookies, open tabs, history, extensions (including your AdBlock / 1Password / claude-in-chrome extension), autofill, and the browsing cache. The cache is the fat part; everything else is tiny by comparison.</p>
+        <p><span class="lbl">What it affects:</span> <strong>Do not rm -rf this folder.</strong> Doing so would log you out everywhere, wipe open tabs, break claude-in-chrome, and lose bookmarks not synced to Google. The clean way is Chrome's own "Clear browsing data" dialog — it only removes cached images/files and leaves logins/extensions alone.</p>
+        <p><span class="lbl">After action:</span> Chrome → ⋮ menu → Clear browsing data → Advanced → time range "All time" → tick <em>only</em> "Cached images and files" → Clear. Typically recovers 2-4 GB. First page loads on sites are slightly slower until cache warms back up.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> You do this one in Chrome UI; I'll confirm delta afterward</div>
     </div>
 
     <div class="item" data-id="t3-voicememos" data-size-gb="2.7" data-tier="3">
@@ -419,8 +488,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">2.7 GB</div>
       </div>
-      <div class="item-note">iCloud-synced by default. If you want to trim, do it from the Voice Memos app (delete old memos) rather than filesystem.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Trim from Voice Memos app</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> All the audio recordings from the Voice Memos app, plus waveform previews. Synced with iCloud and your iPhone.</p>
+        <p><span class="lbl">What it affects:</span> Deleting the folder directly would confuse iCloud and potentially delete memos from your iPhone too. Don't.</p>
+        <p><span class="lbl">After action:</span> Open Voice Memos app → sort by duration or date → delete any old / unneeded recordings from the app itself. iCloud then syncs the deletion safely across devices. If a lot of memos are throwaway voice drafts, this can recover ~1-2 GB.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> You trim from Voice Memos app UI</div>
     </div>
 
     <div class="item" data-id="t3-whatsapp" data-size-gb="2.2" data-tier="3">
@@ -431,8 +504,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">2.2 GB</div>
       </div>
-      <div class="item-note">Manage in WhatsApp → Settings → Storage and Data → Manage Storage. Delete old media there.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Trim from WhatsApp UI</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> WhatsApp desktop's cached media — photos, videos, voice notes, documents downloaded from every chat. Grows fast in active group chats.</p>
+        <p><span class="lbl">What it affects:</span> Deleting this folder directly can corrupt the WhatsApp desktop session and force a fresh QR-code pairing. The app's own cleanup is safer.</p>
+        <p><span class="lbl">After action:</span> WhatsApp → Settings (⚙) → Storage and Data → Manage Storage → sort by size → delete media from largest chats (video files and forwarded attachments are usually the worst offenders). Messages themselves stay intact.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> You trim from WhatsApp UI</div>
     </div>
 
     <div class="item" data-id="t3-office" data-size-gb="7.0" data-tier="3">
@@ -443,8 +520,12 @@ p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
         </div>
         <div class="item-size">~7.0 GB</div>
       </div>
-      <div class="item-note">Word 2.6G + Excel 2.4G + PPT 1.2G + Teams 1.0G. Uninstall any you don't use. Can reinstall from Microsoft 365 account anytime.</div>
-      <div class="item-action"><span class="action-label">Action:</span> Specify which to uninstall in comment</div>
+      <div class="item-note">
+        <p><span class="lbl">What it is:</span> The full Microsoft 365 desktop apps. Word 2.6 GB + Excel 2.4 GB + PowerPoint 1.2 GB + Teams 1.0 GB. For Proxuma/MSP work you likely need Teams and maybe Excel; Word + PowerPoint are less essential on an M4 Air used mostly for coding.</p>
+        <p><span class="lbl">What it affects:</span> Your ability to open Office documents locally in those apps. Documents themselves (in OneDrive / attachments) are unaffected. Teams is also the Microsoft Graph / ms365 MCP target for calendars and mail — but that MCP uses Graph API, not the desktop app, so uninstalling Teams.app does not break any automation.</p>
+        <p><span class="lbl">After action:</span> Drag app(s) to Trash. Reinstall anytime from <code>office.com</code> when signed in with ict@proxuma.com. Common call: uninstall Word + PowerPoint (save ~3.8 GB), keep Teams + Excel.</p>
+      </div>
+      <div class="item-action"><span class="action-label">Action:</span> Comment which apps to uninstall</div>
     </div>
   </div>
 
