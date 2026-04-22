@@ -68,25 +68,39 @@ h2::after { content:''; display:block; width:100%; height:2px; background:#1a274
   <p class="subtitle">Distribution of Autotask PSA accounts with 50 or more licensed seats, sourced from AllPSA.xlsx (Sheet1). Seats summed across all product lines per account.</p>
 
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-value">413</div><div class="stat-label">Total Accounts</div></div>
-    <div class="stat-card"><div class="stat-value">29</div><div class="stat-label">Countries</div></div>
-    <div class="stat-card"><div class="stat-value">48.7%</div><div class="stat-label">United States Share</div></div>
-    <div class="stat-card"><div class="stat-value">14.5%</div><div class="stat-label">United Kingdom Share</div></div>
+    <div class="stat-card"><div class="stat-value">413</div><div class="stat-label">50+ Seat Accounts</div></div>
+    <div class="stat-card"><div class="stat-value">7,455</div><div class="stat-label">All Autotask Accounts</div></div>
+    <div class="stat-card"><div class="stat-value">5.5%</div><div class="stat-label">Global 50+ Penetration</div></div>
+    <div class="stat-card"><div class="stat-value">29 / 78</div><div class="stat-label">Countries (50+ / total)</div></div>
   </div>
 
   <div class="chart-wrap">
     <canvas id="pie" width="560" height="560"></canvas>
   </div>
 
-  <h2>Country Breakdown</h2>
+  <h2>50+ Seat Accounts by Country</h2>
   <table class="matrix">
     <thead><tr><th>Country</th><th style="text-align:right">Accounts</th><th style="text-align:right">Share</th></tr></thead>
     <tbody id="tbody"></tbody>
   </table>
 
+  <h2>All Autotask Customers by Country</h2>
+  <p class="subtitle" style="margin-bottom: 14px;">For context: distribution of every Autotask account in the file (7,455 across 78 countries), regardless of seat count. Compare pie shapes to see where 50+ seat density over- or under-indexes vs. raw customer base.</p>
+
+  <div class="chart-wrap">
+    <canvas id="pie2" width="560" height="560"></canvas>
+  </div>
+
+  <h2>Penetration: 50+ Seat Share per Country</h2>
+  <p class="subtitle" style="margin-bottom: 14px;">What % of each country's Autotask customers have 50+ seats. Higher = country skews toward larger MSPs.</p>
+  <table class="matrix">
+    <thead><tr><th>Country</th><th style="text-align:right">Total</th><th style="text-align:right">50+</th><th style="text-align:right">Penetration</th></tr></thead>
+    <tbody id="tbody3"></tbody>
+  </table>
+
   <div class="callout">
     <span class="callout-label">Method</span>
-    Grouped rows in Sheet1 by Account Name, summed Quantity across all product lines, filtered to accounts with total seats >= 50, grouped result by Billing Country. One row per unique account, not per license line.
+    Grouped rows in Sheet1 by Account Name, summed Quantity across product lines. First pie: accounts with total seats >= 50, grouped by Billing Country. Second pie: every unique account, grouped by Billing Country. Penetration table: 50+ count / total count per country, sorted by penetration rate (min 30 total accounts to avoid tiny-sample noise).
   </div>
 
   <div class="page-footer"><span>Claude Code</span><span>AllPSA.xlsx — Sheet1 (10,400 rows)</span></div>
@@ -114,42 +128,63 @@ tbody.insertAdjacentHTML('beforeend', `<tr style="border-top:2px solid #1a2744">
 
 // Pie chart
 const PALETTE = ["#1a2744","#2a4a8a","#4a6ca8","#7a94c4","#c8a87a","#8a6a2a","#1a6b3a","#4a9a6a","#8a2a2a","#c86a4a","#8a8f96","#c0c4ca"];
-const canvas = document.getElementById('pie');
-const ctx = canvas.getContext('2d');
-const cx = 240, cy = 280, r = 180;
-let start = -Math.PI/2;
-MAIN.forEach(([label,val], i)=>{
-  const angle = (val/TOTAL) * Math.PI * 2;
-  ctx.beginPath();
-  ctx.moveTo(cx, cy);
-  ctx.arc(cx, cy, r, start, start + angle);
-  ctx.closePath();
-  ctx.fillStyle = PALETTE[i % PALETTE.length];
-  ctx.fill();
-  ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.stroke();
-  // label for slices >= 3%
-  if (val/TOTAL >= 0.03) {
-    const mid = start + angle/2;
-    const lx = cx + Math.cos(mid) * (r*0.65);
-    const ly = cy + Math.sin(mid) * (r*0.65);
-    ctx.fillStyle = "#fff";
-    ctx.font = "600 11px -apple-system, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(`${(val/TOTAL*100).toFixed(1)}%`, lx, ly);
-  }
-  start += angle;
-});
 
-// Legend (right of pie)
-const lx0 = 450, ly0 = 120;
-ctx.textAlign = "left";
-MAIN.forEach(([label,val], i)=>{
-  const y = ly0 + i*22;
-  ctx.fillStyle = PALETTE[i % PALETTE.length];
-  ctx.fillRect(lx0, y, 12, 12);
-  ctx.fillStyle = "#2c2c2c";
-  ctx.font = "500 11px -apple-system, sans-serif";
-  ctx.fillText(`${label} (${val})`, lx0+18, y+10);
+function drawPie(canvasId, data, total) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const cx = 240, cy = 280, r = 180;
+  let start = -Math.PI/2;
+  const main = [];
+  let other = 0;
+  data.forEach(([c,n])=>{ if (n/total >= 0.015) main.push([c,n]); else other += n; });
+  if (other) main.push([`Other (${data.length - main.length} countries)`, other]);
+  main.forEach(([label,val], i)=>{
+    const angle = (val/total) * Math.PI * 2;
+    ctx.beginPath(); ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, start, start + angle);
+    ctx.closePath();
+    ctx.fillStyle = PALETTE[i % PALETTE.length];
+    ctx.fill();
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.stroke();
+    if (val/total >= 0.03) {
+      const mid = start + angle/2;
+      const lx = cx + Math.cos(mid) * (r*0.65);
+      const ly = cy + Math.sin(mid) * (r*0.65);
+      ctx.fillStyle = "#fff";
+      ctx.font = "600 11px -apple-system, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(`${(val/total*100).toFixed(1)}%`, lx, ly);
+    }
+    start += angle;
+  });
+  const lx0 = 450, ly0 = 120;
+  ctx.textAlign = "left";
+  main.forEach(([label,val], i)=>{
+    const y = ly0 + i*22;
+    ctx.fillStyle = PALETTE[i % PALETTE.length];
+    ctx.fillRect(lx0, y, 12, 12);
+    ctx.fillStyle = "#2c2c2c";
+    ctx.font = "500 11px -apple-system, sans-serif";
+    ctx.fillText(`${label} (${val})`, lx0+18, y+10);
+  });
+}
+
+drawPie('pie', DATA, TOTAL);
+
+// Second pie: all Autotask customers per country
+const ALL = [["United States",4123],["United Kingdom",799],["Canada",562],["Australia",543],["Netherlands",348],["Germany",246],["France",133],["New Zealand",98],["Belgium",84],["Ireland",72],["South Africa",66],["Denmark",42],["Finland",41],["Sweden",39],["Austria",31],["Spain",27],["Italy",19],["Switzerland",18],["Singapore",18],["Norway",13],["Brazil",9],["Mexico",8],["Iceland",6],["Greenland",6],["Israel",6],["Puerto Rico",5],["Greece",5],["Philippines",4],["United Arab Emirates",4],["Faroe Islands",3],["Guernsey",3],["Malaysia",3],["Cyprus",3],["Cayman Islands",3],["Bahamas",3],["Indonesia",2],["Croatia",2],["Curaçao",2],["Ecuador",2],["Jamaica",2],["Hungary",2],["Hong Kong",2],["Barbados",2],["Malta",2],["India",2],["Bosnia and Herzegovina",2],["Lithuania",2],["Macedonia",2],["Grenada",2],["Dominican Republic",2],["Romania",2],["Poland",2],["Trinidad and Tobago",2],["Algeria",2]];
+const ALL_TOTAL = 7455;
+drawPie('pie2', ALL, ALL_TOTAL);
+
+// Penetration table (lookup 50+ by country)
+const BIG_MAP = Object.fromEntries(DATA);
+const tbody3 = document.getElementById('tbody3');
+const penRows = ALL.filter(([c,n]) => n >= 30).map(([c,n]) => {
+  const big = BIG_MAP[c] || 0;
+  return [c, n, big, big/n*100];
+}).sort((a,b) => b[3] - a[3]);
+penRows.forEach(([c, total, big, pen]) => {
+  tbody3.insertAdjacentHTML('beforeend', `<tr><td>${c}</td><td class="num">${total}</td><td class="num">${big}</td><td class="pct"><strong style="color:#1a2744">${pen.toFixed(1)}%</strong></td></tr>`);
 });
 </script>
 
