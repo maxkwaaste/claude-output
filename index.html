@@ -630,6 +630,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-22-psa-rollup-research-plan.html",
+    "title": "Autotask PSA Ownership Crawl — Research Plan (M1 Pro)",
+    "date": "2026-04-22T14:30",
+    "summary": "Execution-ready plan for a per-entry ownership lookup on 413 (default) or 7,455 (stretch) Autotask accounts. 7-source probe per account, Claude Sonnet classifier, 6 parallel workers on M1 Pro, resumable. Deliverables: 5-sheet Excel + HTML cluster report. Cost: ~$25 / ~$400.",
+    "tags": ["Proxuma", "Autotask", "Market Research", "M&A", "Automation"],
+    "type": "strategy",
+    "detail": "Per entry: homepage+footer → /about /legal (multi-lang EN/NL/DE/FR/ES/IT) → country registry (Companies House, KVK, CRO, OpenCorporates) → LinkedIn via SERP → Crunchbase → news → PitchBook/ZoomInfo/OpenCorporates. Sonnet classifier returns strict JSON schema with ownership_status (independent/subsidiary/rollup-portfolio/public-group/holding-company/unclear), parent_name, ultimate_parent, parent_type (pe-backed/public/strategic/conglomerate), pe_firm, confidence, evidence quotes. Architecture: asyncio 6-parallel on M1 Pro, SQLite state, JSONL append-only results, 24h page cache, DDG SERP (free). Phases: prep → pilot 20 (Max gate) → full run → 10% QA sample → Excel + HTML ship. Kickoff command sequence included. Input file at /tmp/psa-research/big-customers.json ready to scp."
+  },
+  {
     "file": "2026-04-22-psa-rollup-preliminary-research.html",
     "title": "Autotask PSA — MSP Roll-up Preliminary Research",
     "date": "2026-04-22T13:05",
