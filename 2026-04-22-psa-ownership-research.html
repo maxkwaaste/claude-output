@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSA Ownership Research — 413 Accounts</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name { font-family: "Georgia", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+h1 { font-family: "Georgia", serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: "Georgia", serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: "Georgia", serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: "Georgia", serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system, sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system, sans-serif; font-size: 13px; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td.num { text-align: right; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.bar-chart { margin: 16px 0; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; font: 400 13px/1 -apple-system, sans-serif; }
+.bar-label { width: 200px; color: #2c2c2c; flex-shrink: 0; font-size: 12px; }
+.bar { flex: 1; height: 22px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 10px; }
+.bar-fill { height: 100%; border-radius: 2px; background: #1a2744; display: flex; align-items: center; padding-left: 8px; font: 600 11px/1 -apple-system, sans-serif; color: #fff; min-width: 2px; }
+.bar-amount { color: #6b7280; font-size: 12px; flex-shrink: 0; width: 80px; text-align: right; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.confidential { background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px; font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .06em; color: #c8402a; margin: 24px 0; }
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 22, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-psa-ownership-research.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Market Intelligence &amp; Account Research</div>
+      </div>
+    </div>
+    <div class="page-meta-right">April 22, 2026<br>Ownership Research<br>Autotask PSA</div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Corporate Ownership Intelligence</div>
+  <h1>PSA Customer Ownership Research</h1>
+  <p class="subtitle">All 413 Autotask PSA accounts with 50+ seats — classified by ownership structure, parent company, and PE affiliation.</p>
+
+  <div class="confidential">Internal use only — not for distribution</div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-value">413</div><div class="stat-label">Accounts researched</div></div>
+    <div class="stat-card"><div class="stat-value">225</div><div class="stat-label">In a parent structure (54%)</div></div>
+    <div class="stat-card"><div class="stat-value">203</div><div class="stat-label">Distinct parent groups</div></div>
+    <div class="stat-card"><div class="stat-value">97</div><div class="stat-label">PE / holding firms</div></div>
+  </div>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>More than half the large-seat base is not independently owned. 54% of accounts (225) belong to a parent group of some kind. The UK is the most heavily consolidated market: 70% of UK accounts are in a roll-up or group. The Netherlands follows at 79%. US consolidation sits at 44% — still material, but with more independent operators.</p>
+  </div>
+
+  <h2>Ownership Status Breakdown</h2>
+  <table class="matrix">
+    <thead><tr><th>Status</th><th>Count</th><th>% of base</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Independent</strong></td><td class="num">188</td><td class="num">45.5%</td><td>Privately held, no parent found</td></tr>
+      <tr><td><strong>Subsidiary</strong></td><td class="num">147</td><td class="num">35.6%</td><td>Owned by a named parent company</td></tr>
+      <tr><td><strong>Rollup-portfolio</strong></td><td class="num">50</td><td class="num">12.1%</td><td>PE-backed MSP consolidator portfolio</td></tr>
+      <tr><td><strong>Holding-company</strong></td><td class="num">16</td><td class="num">3.9%</td><td>Operates within a holding structure</td></tr>
+      <tr><td><strong>Public-group</strong></td><td class="num">6</td><td class="num">1.5%</td><td>Division of a listed company</td></tr>
+      <tr><td><strong>Public-sector</strong></td><td class="num">3</td><td class="num">0.7%</td><td>NHS trust, university, government</td></tr>
+      <tr><td><strong>Unclear</strong></td><td class="num">3</td><td class="num">0.7%</td><td>Insufficient public data</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Confidence distribution</span>
+    224 high-confidence (54%) &middot; 183 medium (44%) &middot; 6 low (1%). Only 3 accounts remain unresolvable without primary source data from the Autotask record.
+  </div>
+
+  <h2>Top Parent Groups by Seat Count</h2>
+  <p>The 10 largest parent groups by total seats controlled across all their PSA accounts.</p>
+  <div class="bar-chart">
+    <div class="bar-row"><div class="bar-label">Spark New Zealand</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="bar-amount">1,019 seats</div></div>
+    <div class="bar-row"><div class="bar-label">boxxe</div><div class="bar"><div class="bar-fill" style="width:53%"></div></div><div class="bar-amount">541 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Pictet (Vennootschappen)</div><div class="bar"><div class="bar-fill" style="width:52%"></div></div><div class="bar-amount">529 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Vela Software Group</div><div class="bar"><div class="bar-fill" style="width:49%"></div></div><div class="bar-amount">500 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Corsica Technologies</div><div class="bar"><div class="bar-fill" style="width:39%"></div></div><div class="bar-amount">393 seats</div></div>
+    <div class="bar-row"><div class="bar-label">BCM One Group Holdings</div><div class="bar"><div class="bar-fill" style="width:36%"></div></div><div class="bar-amount">370 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Dubin Clark</div><div class="bar"><div class="bar-fill" style="width:35%"></div></div><div class="bar-amount">361 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Gamma Communications</div><div class="bar"><div class="bar-fill" style="width:35%"></div></div><div class="bar-amount">360 seats</div></div>
+    <div class="bar-row"><div class="bar-label">eir (Eircom Limited)</div><div class="bar"><div class="bar-fill" style="width:35%"></div></div><div class="bar-amount">360 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Proact IT Group AB</div><div class="bar"><div class="bar-fill" style="width:32%"></div></div><div class="bar-amount">330 seats</div></div>
+  </div>
+
+  <h2>PE / Holding Firm Leaderboard</h2>
+  <p>Firms with the most seats controlled across their portfolio companies in this dataset.</p>
+  <div class="bar-chart">
+    <div class="bar-row"><div class="bar-label">Pictet Alt. Advisors</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="bar-amount">529 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Thompson Street Capital</div><div class="bar"><div class="bar-fill" style="width:81%"></div></div><div class="bar-amount">430 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Inverness Graham</div><div class="bar"><div class="bar-fill" style="width:74%"></div></div><div class="bar-amount">393 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Dubin Clark</div><div class="bar"><div class="bar-fill" style="width:68%"></div></div><div class="bar-amount">361 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Egeria</div><div class="bar"><div class="bar-fill" style="width:63%"></div></div><div class="bar-amount">331 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Livingbridge</div><div class="bar"><div class="bar-fill" style="width:62%"></div></div><div class="bar-amount">327 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Safanad Limited</div><div class="bar"><div class="bar-fill" style="width:62%"></div></div><div class="bar-amount">325 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Macquarie Group</div><div class="bar"><div class="bar-fill" style="width:61%"></div></div><div class="bar-amount">320 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Centerbridge Partners</div><div class="bar"><div class="bar-fill" style="width:60%"></div></div><div class="bar-amount">318 seats</div></div>
+    <div class="bar-row"><div class="bar-label">Phoenix Equity Partners</div><div class="bar"><div class="bar-fill" style="width:56%"></div></div><div class="bar-amount">294 seats</div></div>
+  </div>
+
+  <h2>Country Breakdown</h2>
+  <p>Roll-up penetration rate by country (accounts in any parent structure / total accounts).</p>
+  <table class="matrix">
+    <thead><tr><th>Country</th><th class="num">Accounts</th><th class="num">In parent</th><th class="num">Rollup %</th><th class="num">Total seats</th></tr></thead>
+    <tbody>
+      <tr><td><strong>United States</strong></td><td class="num">201</td><td class="num">88</td><td class="num">44%</td><td class="num">20,755</td></tr>
+      <tr><td><strong>United Kingdom</strong></td><td class="num">60</td><td class="num">42</td><td class="num">70%</td><td class="num">7,544</td></tr>
+      <tr><td><strong>Netherlands</strong></td><td class="num">28</td><td class="num">22</td><td class="num">79%</td><td class="num">2,814</td></tr>
+      <tr><td><strong>Australia</strong></td><td class="num">23</td><td class="num">12</td><td class="num">52%</td><td class="num">2,094</td></tr>
+      <tr><td><strong>New Zealand</strong></td><td class="num">9</td><td class="num">4</td><td class="num">44%</td><td class="num">1,888</td></tr>
+      <tr><td><strong>Ireland</strong></td><td class="num">11</td><td class="num">7</td><td class="num">64%</td><td class="num">1,618</td></tr>
+      <tr><td><strong>Canada</strong></td><td class="num">19</td><td class="num">7</td><td class="num">37%</td><td class="num">1,391</td></tr>
+      <tr><td><strong>Germany</strong></td><td class="num">9</td><td class="num">6</td><td class="num">67%</td><td class="num">993</td></tr>
+      <tr><td><strong>South Africa</strong></td><td class="num">7</td><td class="num">3</td><td class="num">43%</td><td class="num">760</td></tr>
+      <tr><td><strong>Belgium</strong></td><td class="num">6</td><td class="num">5</td><td class="num">83%</td><td class="num">760</td></tr>
+      <tr><td><strong>Finland</strong></td><td class="num">5</td><td class="num">4</td><td class="num">80%</td><td class="num">567</td></tr>
+      <tr><td><strong>France</strong></td><td class="num">6</td><td class="num">4</td><td class="num">67%</td><td class="num">514</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Notable Findings</h2>
+
+  <div class="callout">
+    <span class="callout-label">Constellation / Vela footprint</span>
+    Vela Software Group (Constellation Software division) controls 3 accounts totalling 500 seats. Constellation's broader empire includes FOG Software Group and other verticals — these are long-hold, never-sell acquisitions. High churn risk for any competing vendor.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Opin Kerfi / OK chain (Iceland)</span>
+    Opin Kerfi hf. (now trading as OK) is PE-backed by VEX ehf., an Icelandic PE fund. OK itself acquired Premis ehf. in 2022 and TRS's IT division. Two Autotask accounts (Premis + Opin Kerfi) now sit under the same PE firm.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Recent acquisitions (2024-2026)</span>
+    Several accounts changed hands very recently: Datasharp &rarr; Focus Group (March 2024), JDM &rarr; itm8/Axcel PE (Denmark), Impact Group &rarr; Aavalar/Spruce Infotech (March 2026). These are live roll-up targets where incumbents may be re-evaluating vendor relationships.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Public-market parents</span>
+    Issys ICT (NL) &rarr; Dustin Group AB (Nasdaq Stockholm, Axel Johnson family). AddOns Inc (US) &rarr; COSOL Limited (ASX). Proact IT Group is itself Nasdaq-listed. These accounts are subject to procurement policies and budget cycles of publicly traded companies.
+  </div>
+
+  <h2>Unresolved Accounts (6)</h2>
+  <p>These could not be fully resolved with public data. All are independent with low confidence, or genuinely unclear.</p>
+  <table class="matrix">
+    <thead><tr><th>Account</th><th>Country</th><th>Status</th><th>Blocker</th></tr></thead>
+    <tbody>
+      <tr><td>Inu:It A/S</td><td>Greenland</td><td>Unclear</td><td>Shareholding changes May 2025, paywall on CVR detail</td></tr>
+      <tr><td>CONNECT AB</td><td>Sweden</td><td>Unclear</td><td>Multiple Swedish entities; need domain or org number</td></tr>
+      <tr><td>Global Axiom</td><td>US</td><td>Unclear</td><td>Likely identity mismatch — globalaxiom.com is physical security, not IT MSP</td></tr>
+      <tr><td>Splice Networking Solutions</td><td>US</td><td>Independent (low)</td><td>Possible name variation (spliceit.com); founder-led, no acquisition found</td></tr>
+      <tr><td>Full Med Staffing</td><td>US</td><td>Independent (low)</td><td>Sibling ventures under Zachary Fuller; no formal holding entity registered</td></tr>
+      <tr><td>Formula</td><td>Faroe Islands</td><td>Independent (low)</td><td>No accessible Faroese registry; D&amp;B shows 2-entity family but no parent identified</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Methodology</h2>
+  <p>Seven ordered probes per account: (1) homepage and about pages, (2) company/legal/imprint/colofon pages, (3) UK Companies House PSC register for UK accounts, (4) LinkedIn company sidebar via DDG SERP, (5) Crunchbase via DDG SERP, (6) acquisition/news press search, (7) PitchBook / OpenCorporates snippet search. For European accounts: French societe.com, Dutch KVK, Irish SoloCheck, Croatian fininfo.hr, Swedish allabolag.se, and Swiss Moneyhouse were used directly.</p>
+  <p>Classification by Claude Sonnet 4.6 with structured JSON verdict. Confidence rubric: high = own site or registry filing confirms; medium = one credible third party; low = weak or ambiguous signal. Research conducted April 22, 2026.</p>
+
+  <div class="page-footer">
+    <span>Claude Code &mdash; Proxuma Internal</span>
+    <span>PSA Ownership Research &mdash; 413 accounts &mdash; April 22, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "PSA Customer Ownership Research — 413 Accounts",
+  "date": "2026-04-22",
+  "summary": "All 413 Autotask PSA accounts with 50+ seats classified by ownership structure. 54% (225 accounts) are in some form of parent structure. UK and Netherlands are most consolidated (70% and 79%). 224 high-confidence verdicts.",
+  "sections": [
+    {
+      "heading": "Ownership Status",
+      "items": [
+        {"title": "Independent", "detail": "188 accounts, 45.5%", "meta": {"count": 188}},
+        {"title": "Subsidiary", "detail": "147 accounts, 35.6%", "meta": {"count": 147}},
+        {"title": "Rollup-portfolio", "detail": "50 accounts, 12.1%", "meta": {"count": 50}},
+        {"title": "Holding-company", "detail": "16 accounts, 3.9%", "meta": {"count": 16}},
+        {"title": "Public-group", "detail": "6 accounts, 1.5%", "meta": {"count": 6}},
+        {"title": "Public-sector", "detail": "3 accounts, 0.7%", "meta": {"count": 3}},
+        {"title": "Unclear", "detail": "3 accounts, 0.7%", "meta": {"count": 3}}
+      ]
+    },
+    {
+      "heading": "Confidence",
+      "items": [
+        {"title": "High", "detail": "224 accounts (54%)", "meta": {}},
+        {"title": "Medium", "detail": "183 accounts (44%)", "meta": {}},
+        {"title": "Low", "detail": "6 accounts (1%)", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Key Artifacts",
+      "items": [
+        {"title": "Excel workbook", "detail": "5 sheets: Master, Clusters, PE Firms, Evidence, Review Queue", "meta": {"path": "~/ClaudeCode/psa-ownership-research/output/psa-ownership-2026-04-22.xlsx"}},
+        {"title": "Merged JSONL", "detail": "413 records with full schema", "meta": {"path": "/tmp/psa-research/results-all.jsonl"}},
+        {"title": "HTML cluster report", "detail": "Standalone cluster map + PE leaderboard + country table", "meta": {"path": "/tmp/psa-research/output/psa-ownership.html"}}
+      ]
+    }
+  ],
+  "next_steps": "Research is complete. The 6 unresolved accounts need primary source data from the Autotask record (domain, org number, or city) to disambiguate. Excel workbook is the main deliverable for internal use. Consider loading the JSONL into HubSpot or the support KB for account-level context.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Researched all 413 accounts with 7-probe methodology",
+      "Ran QA pass on 37 low-confidence entries with parallel agents",
+      "Resolved 31 of 37 unclear/low-confidence entries",
+      "Generated Excel (5 sheets) and HTML cluster report",
+      "Identified Opin Kerfi VEX PE chain, Issys/Dustin, AddOns/COSOL, Impact Group/Spruce Infotech"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "results-all.jsonl and xlsx at /tmp/psa-research/ and ~/ClaudeCode/psa-ownership-research/output/",
+    "next_action_required": "none"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/psa-ownership-research/",
+    "temp_files": [
+      {"path": "/tmp/psa-research/results-all.jsonl", "description": "413 merged ownership verdicts", "cleanup_after": "imported to system"},
+      {"path": "/tmp/psa-research/output/psa-ownership-2026-04-22.xlsx", "description": "Excel workbook", "cleanup_after": "distributed"},
+      {"path": "/tmp/psa-research/output/psa-ownership.html", "description": "HTML cluster report", "cleanup_after": "distributed"},
+      {"path": "/tmp/psa-research/big-customers.json", "description": "413 account input file from AllPSA.xlsx", "cleanup_after": "imported"}
+    ],
+    "github_links": [
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-psa-ownership-research.html", "relevance": "this report"}
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "AllPSA.xlsx source file contains 7455 rows; 413 were filtered (50+ seats). Scripts at ~/ClaudeCode/psa-ownership-research/scripts/."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "parallel agent dispatching for batch research"]
+  },
+  "decision_log": [
+    {
+      "decision": "Used Claude Code WebSearch instead of the Python pipeline with Anthropic API",
+      "rejected_alternatives": ["Python async pipeline with claude-sonnet-4-6 API calls"],
+      "rationale": "ANTHROPIC_API_KEY not available on M1 Pro; user said 'use subscription'",
+      "trade_offs": "No caching or resumability; results are in session context rather than SQLite. Evidence_quotes are sparser for batch accounts vs. pilot.",
+      "contingencies": []
+    },
+    {
+      "decision": "Dispatched 8 parallel agents of ~50 accounts each for main research pass",
+      "rejected_alternatives": ["Sequential research", "Larger batches of 100+"],
+      "rationale": "Parallel dispatch gave ~8x speedup. 50-account batches stay within agent context safely.",
+      "trade_offs": "No cross-agent deduplication of parent names (minor inconsistencies possible in parent_name strings).",
+      "contingencies": []
+    },
+    {
+      "decision": "Ran 3 additional QA passes on low-confidence and unclear entries",
+      "rejected_alternatives": ["Accept low confidence as-is"],
+      "rationale": "Resolved 31 of 37 review-queue entries; found Premis/Opin Kerfi/VEX chain, North.tech/Livingbridge, Peach Technologies/Global4, Issys/Dustin, AddOns/COSOL",
+      "trade_offs": "Additional time cost; 6 still unresolvable without primary source data.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>

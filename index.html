@@ -627,86 +627,139 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
   detail: optional string — expanded description shown when user clicks "more".
   Rebuild this block when adding/removing files.
 -->
-<script type="application/json" id="index-data">
-[
+<script type="application/json" id="index-data">[
+  {
+    "file": "2026-04-22-psa-ownership-research.html",
+    "title": "PSA Customer Ownership Research \u2014 413 Accounts",
+    "date": "2026-04-22",
+    "summary": "All 413 Autotask PSA accounts with 50+ seats classified. 54% in a parent structure. 203 parent groups, 97 PE firms.",
+    "tags": [
+      "PSA",
+      "Ownership",
+      "Market Intelligence"
+    ],
+    "type": "overview",
+    "detail": "Corporate ownership research across all large-seat Autotask PSA customers. Classifies each account as independent, subsidiary, rollup-portfolio, public-group, holding-company, or public-sector. 224 high-confidence verdicts. Includes PE firm leaderboard, country rollup rates, and cluster map."
+  },
   {
     "file": "2026-04-22-psa-rollup-research-plan.html",
-    "title": "Autotask PSA Ownership Crawl — Research Plan (M1 Pro)",
+    "title": "Autotask PSA Ownership Crawl \u2014 Research Plan (M1 Pro)",
     "date": "2026-04-22T14:30",
     "summary": "Execution-ready plan for a per-entry ownership lookup on 413 (default) or 7,455 (stretch) Autotask accounts. 7-source probe per account, Claude Sonnet classifier, 6 parallel workers on M1 Pro, resumable. Deliverables: 5-sheet Excel + HTML cluster report. Cost: ~$25 / ~$400.",
-    "tags": ["Proxuma", "Autotask", "Market Research", "M&A", "Automation"],
+    "tags": [
+      "Proxuma",
+      "Autotask",
+      "Market Research",
+      "M&A",
+      "Automation"
+    ],
     "type": "strategy",
-    "detail": "Per entry: homepage+footer → /about /legal (multi-lang EN/NL/DE/FR/ES/IT) → country registry (Companies House, KVK, CRO, OpenCorporates) → LinkedIn via SERP → Crunchbase → news → PitchBook/ZoomInfo/OpenCorporates. Sonnet classifier returns strict JSON schema with ownership_status (independent/subsidiary/rollup-portfolio/public-group/holding-company/unclear), parent_name, ultimate_parent, parent_type (pe-backed/public/strategic/conglomerate), pe_firm, confidence, evidence quotes. Architecture: asyncio 6-parallel on M1 Pro, SQLite state, JSONL append-only results, 24h page cache, DDG SERP (free). Phases: prep → pilot 20 (Max gate) → full run → 10% QA sample → Excel + HTML ship. Kickoff command sequence included. Input file at /tmp/psa-research/big-customers.json ready to scp."
+    "detail": "Per entry: homepage+footer \u2192 /about /legal (multi-lang EN/NL/DE/FR/ES/IT) \u2192 country registry (Companies House, KVK, CRO, OpenCorporates) \u2192 LinkedIn via SERP \u2192 Crunchbase \u2192 news \u2192 PitchBook/ZoomInfo/OpenCorporates. Sonnet classifier returns strict JSON schema with ownership_status (independent/subsidiary/rollup-portfolio/public-group/holding-company/unclear), parent_name, ultimate_parent, parent_type (pe-backed/public/strategic/conglomerate), pe_firm, confidence, evidence quotes. Architecture: asyncio 6-parallel on M1 Pro, SQLite state, JSONL append-only results, 24h page cache, DDG SERP (free). Phases: prep \u2192 pilot 20 (Max gate) \u2192 full run \u2192 10% QA sample \u2192 Excel + HTML ship. Kickoff command sequence included. Input file at /tmp/psa-research/big-customers.json ready to scp."
   },
   {
     "file": "2026-04-22-psa-rollup-preliminary-research.html",
-    "title": "Autotask PSA — MSP Roll-up Preliminary Research",
+    "title": "Autotask PSA \u2014 MSP Roll-up Preliminary Research",
     "date": "2026-04-22T13:05",
     "summary": "Phase 1 scan of the 413 Autotask PSA 50+ seat accounts to identify overarching parent companies. Maps 5 major MSP roll-up groups (Evergreen/Lyra, New Charter, The 20 MSP, Constellation Software, regional plcs), finds 7 parent clusters already visible in spreadsheet labels, and proposes a tiered Phase 2 crawl (A: top 50 + 31 flags / B: top 100 / C: all 413).",
-    "tags": ["Proxuma", "Autotask", "Market Research", "M&A"],
+    "tags": [
+      "Proxuma",
+      "Autotask",
+      "Market Research",
+      "M&A"
+    ],
     "type": "strategy",
-    "detail": "Industry context: 169 MSP M&A transactions in 2025, PE-driven. Evergreen alone has 100+ acquisitions, keeps acquired brands intact — so simple keyword match against published portfolio lists yields almost nothing (only 2 hits across 413). Already visible from raw spreadsheet: Constellation Software cluster (FOG, Apparel21, Markinson, ITS UK = 629 seats), Amicus/Aura merger, Hibernia/eirevo/Evros, Converged Tech Group (Ingram), plus 31 accounts with Group/Holdings/plc in the name. Recommends Option A (top 50 + flagged names, ~120 queries) as staged start before committing to full 413 crawl (~1,200 queries). Data file at /tmp/psa-research/big-customers.json ready."
+    "detail": "Industry context: 169 MSP M&A transactions in 2025, PE-driven. Evergreen alone has 100+ acquisitions, keeps acquired brands intact \u2014 so simple keyword match against published portfolio lists yields almost nothing (only 2 hits across 413). Already visible from raw spreadsheet: Constellation Software cluster (FOG, Apparel21, Markinson, ITS UK = 629 seats), Amicus/Aura merger, Hibernia/eirevo/Evros, Converged Tech Group (Ingram), plus 31 accounts with Group/Holdings/plc in the name. Recommends Option A (top 50 + flagged names, ~120 queries) as staged start before committing to full 413 crawl (~1,200 queries). Data file at /tmp/psa-research/big-customers.json ready."
   },
   {
     "file": "2026-04-22-psa-50plus-seats-by-country.html",
-    "title": "Autotask PSA — 50+ Seat Customers by Country",
+    "title": "Autotask PSA \u2014 50+ Seat Customers by Country",
     "date": "2026-04-22T12:10",
     "summary": "413 Autotask PSA accounts with 50+ total seats across 29 countries. US dominates at 48.7% (201), UK 14.5% (60), Netherlands 6.8% (28), Australia 5.6% (23), Canada 4.8% (20). Pie chart + full table.",
-    "tags": ["Proxuma", "Autotask", "Market Research"],
+    "tags": [
+      "Proxuma",
+      "Autotask",
+      "Market Research"
+    ],
     "type": "overview",
     "detail": "Source: ~/ClaudeCode/market-reports/AllPSA.xlsx Sheet1 (10,400 rows). Method: grouped by Account Name, summed Quantity across all product lines per account, filtered total seats >= 50, then grouped by Billing Country. One row per unique customer, not per product line. Top 11 countries shown as pie slices (>= 1.5% share); remaining 14 countries collapsed to 'Other'. Long tail includes single-account countries like Brazil, Chile, Spain, Singapore, Mexico."
   },
   {
     "file": "2026-04-22-disk-cleanup-approvals.html",
-    "title": "M4 Air Disk Cleanup — Approval Sheet",
+    "title": "M4 Air Disk Cleanup \u2014 Approval Sheet",
     "date": "2026-04-22T11:30",
-    "summary": "Interactive approval UI for freeing disk space on M4 Air (17 GB free of 245 GB). 19 candidate items across three tiers — safe cache deletions, Sandisk transfers, and review-needed actions. Per-item approve/skip/done + comments persist in localStorage; Copy-handoff button emits a structured prompt for the next Claude to execute.",
-    "tags": ["M4 Air", "System", "Ops"],
+    "summary": "Interactive approval UI for freeing disk space on M4 Air (17 GB free of 245 GB). 19 candidate items across three tiers \u2014 safe cache deletions, Sandisk transfers, and review-needed actions. Per-item approve/skip/done + comments persist in localStorage; Copy-handoff button emits a structured prompt for the next Claude to execute.",
+    "tags": [
+      "M4 Air",
+      "System",
+      "Ops"
+    ],
     "type": "guide",
     "detail": "Scanned usage: largest hogs are Claude vm_bundles 12G, Photos Library 11G, Chrome profile 8.6G, Succession rip 8.7G, Downloads recordings ~5G, Civ V 5.2G, .cache/uv 5.3G, .npm 4.2G, Apple Notes 7G. Three tiers rendered as cards with Approve/Skip/Already-done buttons plus comment box per item. Sticky summary bar totals approved GB live. Destination is M1 Pro /Volumes/Sandisk (299 GB free) via SSH host alias 'server'. Flagged honestly: 50% free target (~106 GB) requires app uninstalls; realistic ceiling from transfer + safe deletions is ~85 GB. Four open questions cover iCloud Photos state, screen-recording keepers, target hardness, and free-form additions. The Copy-handoff button generates an execution-ready prompt including approved items, skipped items, Max's answers, and rules (always confirm before destruction, rsync-verify-then-delete pattern, never touch non-approved items)."
   },
   {
     "file": "2026-04-21-reddit-ads-upload-and-budget.html",
-    "title": "Reddit Ads — Upload 5 Creatives + Triple Budget",
+    "title": "Reddit Ads \u2014 Upload 5 Creatives + Triple Budget",
     "date": "2026-04-21T18:10",
-    "summary": "Step-by-step UI instructions for Max to manually upload 5 new Proxuma ad creatives to the existing Reddit Ads campaign and triple daily budget from ~€2 to €6/day after a month of only €60 total spend.",
-    "tags": ["Reddit Ads", "Proxuma", "Ops"],
+    "summary": "Step-by-step UI instructions for Max to manually upload 5 new Proxuma ad creatives to the existing Reddit Ads campaign and triple daily budget from ~\u20ac2 to \u20ac6/day after a month of only \u20ac60 total spend.",
+    "tags": [
+      "Reddit Ads",
+      "Proxuma",
+      "Ops"
+    ],
     "type": "guide",
-    "detail": "Nine-step manual playbook: edit ad group budget to €6/day, then create 5 new single-image ads inside the same ad group using creatives at ~/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/ on M1 Pro. Includes per-ad headlines, naming convention, a review-queue warning, and a 72-hour check-in checklist. Notes the Reddit Ads API is currently 401'd and needs reauth so daily_snapshot.py can resume tracking."
+    "detail": "Nine-step manual playbook: edit ad group budget to \u20ac6/day, then create 5 new single-image ads inside the same ad group using creatives at ~/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/ on M1 Pro. Includes per-ad headlines, naming convention, a review-queue warning, and a 72-hour check-in checklist. Notes the Reddit Ads API is currently 401'd and needs reauth so daily_snapshot.py can resume tracking."
   },
   {
     "file": "2026-04-21-autotask-payload-gap-approaches.html",
-    "title": "Autotask Executor Payload Gap — Design Approaches",
+    "title": "Autotask Executor Payload Gap \u2014 Design Approaches",
     "date": "2026-04-21T16:30",
     "summary": "Evidence-backed brainstorm for the autotask-demo-filler executor payload gap. Three approaches (runtime metadata probe, checked-in schema, OpenAPI codegen) with trade-offs. Recommends runtime probe + schema-driven defaults, staying on feat/mcp-server.",
-    "tags": ["Autotask Demo Filler", "MCP Server", "Design"],
+    "tags": [
+      "Autotask Demo Filler",
+      "MCP Server",
+      "Design"
+    ],
     "type": "strategy",
     "detail": "Captured live metadata probe for 7 write entities (Projects, Phases, Tasks, Tickets, ServiceCalls, ServiceCallTasks, TimeEntries) against sandbox dxfferentSB05122022.nl. A single POST probe to Projects with all metadata-required fields surfaced a separate gap: the UDF `demo_filler_run_id` does not exist per-tenant and must be probed for at runtime. Approach A (runtime probe + cache + schema-driven defaults) is the only option that handles this tenant variation without human maintenance and fits the current feature branch. Approach B (checked-in schema) is faster and simpler but still needs a partial runtime probe for UDFs and carries manual drift cost. Approach C (OpenAPI codegen) is heavy and re-derives the same metadata. Recommendation pending Max's approval before writing spec and plan."
   },
   {
     "file": "2026-04-20-pcos-ttc-crawford.html",
-    "title": "PCOS & TTC at 29 — Dr. Natalie Crawford's Playbook",
+    "title": "PCOS & TTC at 29 \u2014 Dr. Natalie Crawford's Playbook",
     "date": "2026-04-20T19:00",
     "summary": "Research brief synthesizing Crawford's public guidance for a 29-year-old with PCOS, off BC 3+ years, 7 months TTC. Recommends REI referral now, mid-day OPKs + progesterone confirmation, full workup incl. partner SA, letrozole first-line, inositol 40:1.",
-    "tags": ["Fertility", "PCOS", "Research"],
+    "tags": [
+      "Fertility",
+      "PCOS",
+      "Research"
+    ],
     "type": "guide",
     "detail": "Synthesizes Dr. Natalie Crawford's positions from her blog, podcast, and Huberman interview plus primary literature (NEJM PPCOS II, Cochrane inositol review). Key points: PCOS + irregular cycles skips the 12-month wait rule; LH strips tested 10am-2pm paired with BBT/day-21 progesterone; full bloodwork panel including AMH, testosterone, DHEA-S, 17-OHP, fasting insulin; HSG and AFC; partner semen analysis in parallel; letrozole 2.5mg days 3-7 as first-line per 2023 guidelines; myo+d-chiro inositol at 40:1 (2g myo BID); vitamin D, metformin if IR, resistance training over cardio. Inline clickable citations throughout."
   },
   {
     "file": "2026-04-20-proxuma-blue-green-pairs.html",
-    "title": "Proxuma Blue + Green Pairs — Visual Comparison",
+    "title": "Proxuma Blue + Green Pairs \u2014 Visual Comparison",
     "date": "2026-04-20T17:45",
     "summary": "Revised color exploration using Proxuma's actual in-product blue+green (sampled from Planned/Spare bars). Three pairs compared with light + dark mockups. Recommends Deep Azure #1e6fbf + Emerald #10b981 for marketing, original tones preserved for data viz.",
-    "tags": ["Proxuma", "Website Redesign", "Brand", "Color System"],
+    "tags": [
+      "Proxuma",
+      "Website Redesign",
+      "Brand",
+      "Color System"
+    ],
     "type": "strategy",
     "detail": "Supersedes the earlier blue-only pairs doc. Anchored in the #5B9BD5 blue and #70BF6F green sampled from the product UI screenshot. Option A direct-match fails contrast and CTA weight. Option B Deep Azure+Emerald (recommended) preserves blue+green identity at a depth that passes WCAG AA, survives dark mode, and matches AI-era SaaS aesthetic. Option C Cobalt+Lime is bold but sends gamer/crypto signal and lime prints poorly. Proposes two-layer palette: deeper tones for marketing, original in-product tones for data viz."
   },
   {
     "file": "2026-04-20-proxuma-blue-pairs.html",
-    "title": "Proxuma Blue Pairs — Visual Comparison",
+    "title": "Proxuma Blue Pairs \u2014 Visual Comparison",
     "date": "2026-04-20T17:15",
     "summary": "Three candidate color systems for the Nuxt marketing rebuild. Compares Navy+Electric, Cobalt+Cyan, and Indigo+Sky with light + dark UI mockups. Recommends Cobalt+Cyan (#1e40af + #06b6d4) with existing Proxuma sky as tertiary.",
-    "tags": ["Proxuma", "Website Redesign", "Brand", "Color System"],
+    "tags": [
+      "Proxuma",
+      "Website Redesign",
+      "Brand",
+      "Color System"
+    ],
     "type": "strategy",
     "detail": "Visual side-by-side of three two-hue blue systems. Option A Navy+Electric is safe but generic. Option B Cobalt+Cyan (recommended) provides genuine glow for aurora bloom, matches AI product semantics, works best in dark mode, and differentiates in MSP/Autotask space. Option C Indigo+Sky keeps logo continuity but indigo is overexposed and sky fails white-bg contrast. Each option includes light and dark UI mockups plus tradeoffs table across personality, glow, dark mode, logo continuity, differentiation, accessibility, and AI framing."
   },
@@ -715,88 +768,140 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Teamwork.com Visual Teardown v2 for Proxuma Redesign",
     "date": "2026-04-20T16:30",
     "summary": "Visual-first teardown of teamwork.com with embedded annotated screenshots. Opus 4.7 vision caught 3 things v1 missed: pink+violet accent pair, aurora gradient glow, human-on-UI composite photography.",
-    "tags": ["Proxuma", "Website Redesign", "Design Research", "Brand", "Visual Analysis"],
+    "tags": [
+      "Proxuma",
+      "Website Redesign",
+      "Design Research",
+      "Brand",
+      "Visual Analysis"
+    ],
     "type": "strategy",
-    "detail": "V2 upgrade over v1's code-only read. Embedded 5 full-page screenshots (hero, home-tall, product, product-tall, pricing) with detailed Opus 4.7 commentary. Corrections: (1) accent is pink+violet PAIR ~20° apart, not single magenta; (2) aurora gradient glow behind hero card does 80% of mood work; (3) human headshots composited onto product UI, not beside it. 9-item updated secret-sauce list. Proxuma palette mapping now uses teal+mint twin-accent (both already alive in Power BI reports). 6 open clarifying questions including a new photo-shoot budget question for real NL MSP staff overlays."
+    "detail": "V2 upgrade over v1's code-only read. Embedded 5 full-page screenshots (hero, home-tall, product, product-tall, pricing) with detailed Opus 4.7 commentary. Corrections: (1) accent is pink+violet PAIR ~20\u00b0 apart, not single magenta; (2) aurora gradient glow behind hero card does 80% of mood work; (3) human headshots composited onto product UI, not beside it. 9-item updated secret-sauce list. Proxuma palette mapping now uses teal+mint twin-accent (both already alive in Power BI reports). 6 open clarifying questions including a new photo-shoot budget question for real NL MSP staff overlays."
   },
   {
     "file": "2026-04-18-phase8-residual-failures.html",
-    "title": "Phase 8 Residual Failures — Taxonomy & Fix Strategy",
+    "title": "Phase 8 Residual Failures \u2014 Taxonomy & Fix Strategy",
     "date": "2026-04-18T14:00",
     "summary": "42 reports remain broken after Phase 8 Visual Healer. Clusters into 4 failure families with 3 candidate fix strategies.",
-    "tags": ["Power BI", "Visual Healer", "Phase 8", "Strategy"],
+    "tags": [
+      "Power BI",
+      "Visual Healer",
+      "Phase 8",
+      "Strategy"
+    ],
     "type": "strategy",
     "detail": "Analyzed 42 residual FAILs: BROKEN_GRID (19, missing CSS classes), EXPLODED_SVG (13, unsized SVGs), MISSING_KPI (6, SVG transform-origin), OTHER (9, data/content bugs). Recommends template-driven DOM rebuild for 35-38 fixable reports. Includes full inventory table with per-report root cause."
   },
   {
     "file": "2026-04-16-claude-accomplishments-feb-apr.html",
-    "title": "Claude Accomplishments — Feb–Apr 2026",
+    "title": "Claude Accomplishments \u2014 Feb\u2013Apr 2026",
     "date": "2026-04-16T19:30",
     "summary": "Comprehensive CV of everything Max built with Claude between 2026-01-16 and 2026-04-16: 872 Power BI reports, 173 dashboards, 6 MCP servers, 20+ slash commands, 9 custom skills, 36 active GitHub repos.",
-    "tags": ["CV", "Build Log", "Proxuma", "Claude Code"],
+    "tags": [
+      "CV",
+      "Build Log",
+      "Proxuma",
+      "Claude Code"
+    ],
     "type": "overview",
     "detail": "Sourced from 642 Open Brain thoughts, 36 active GitHub repos (maxkwaaste + Proxuma), 67+ local project dirs, ~/.claude/commands + skills, and four com.proxuma.* LaunchAgents. Structured as Top 10 highlights, flat one-line CV list (copy-paste ready for LinkedIn), and per-section deep dives across Power BI & Reporting, Knowledge Base & Docs, MCP Servers & Integrations, Internal Tooling/Skills, Infrastructure & Automation, Sales/GTM, Side Projects, and Writing/Research."
   },
   {
     "file": "2026-04-16-powerbi-report-project-state.html",
-    "title": "Proxuma Power BI Report Project — State of Play",
+    "title": "Proxuma Power BI Report Project \u2014 State of Play",
     "date": "2026-04-16T18:35",
     "summary": "Mid-April 2026 status memo on the Proxuma Power BI report program: 872 live reports (449 EN + 423 NL), 173 Chart.js dashboards, DAX+Visual Truthifier validation layer, and four open issues gating defensibility.",
-    "tags": ["Proxuma", "Power BI", "Content", "SEO", "Truthifier"],
+    "tags": [
+      "Proxuma",
+      "Power BI",
+      "Content",
+      "SEO",
+      "Truthifier"
+    ],
     "type": "overview",
-    "detail": "Three-track framing. Library: V5 Printed Document format, commit 329d666, six pillar pages, 281 planned reports in autotask-content-planner.html. Dashboards: WP parent 4503, daily 07:00 refresh, 10 category coverage. Truthifier: DAX cruise at 76/486 topics with 0 hallucinations on Opus self-review; visual sweep at 105/872 catching GIANT_ARROW_CTA bug. Open: hallucinated source badges (bulk fix across 872), 257 FAQ JSON-LD files staged on GitHub but not WP-deployed, SEO plans 2–5, RPT-047 visual break."
+    "detail": "Three-track framing. Library: V5 Printed Document format, commit 329d666, six pillar pages, 281 planned reports in autotask-content-planner.html. Dashboards: WP parent 4503, daily 07:00 refresh, 10 category coverage. Truthifier: DAX cruise at 76/486 topics with 0 hallucinations on Opus self-review; visual sweep at 105/872 catching GIANT_ARROW_CTA bug. Open: hallucinated source badges (bulk fix across 872), 257 FAQ JSON-LD files staged on GitHub but not WP-deployed, SEO plans 2\u20135, RPT-047 visual break."
   },
   {
     "file": "2026-04-16-telegram-claude-bridge-design.html",
-    "title": "Telegram → Claude Code Bridge (M1 Pro) — Design",
+    "title": "Telegram \u2192 Claude Code Bridge (M1 Pro) \u2014 Design",
     "date": "2026-04-16T18:00",
     "summary": "Design spec for a Telegram chat interface to an always-on Claude Code session on M1 Pro. /clear via CLAUDE.md rule + helper, two-message respawn confirmation, file delivery via Telegram attachment or output-page skill. No plugin patching.",
-    "tags": ["Claude Native", "Telegram", "M1 Pro", "Infrastructure"],
+    "tags": [
+      "Claude Native",
+      "Telegram",
+      "M1 Pro",
+      "Infrastructure"
+    ],
     "type": "strategy",
     "detail": "Five-section design: architecture (extension of existing Claude Native LaunchAgent, two shell helpers, one SessionStart hook, no plugin cache edits); components (telegram-send.sh with machine guard, telegram-clear.sh, CLAUDE.md rules, settings.json hook); data flow (normal / /clear / file delivery); error handling (respawn gap, hook silent, rule ignored, plugin update, mid-task clear); testing (4-step manual validation). Next: writing-plans skill produces the implementation plan."
   },
   {
     "file": "2026-04-15-cloudconnected-problem-brief-joshua.html",
-    "title": "CloudConnected — Freelancer License Question for Joshua",
+    "title": "CloudConnected \u2014 Freelancer License Question for Joshua",
     "date": "2026-04-15T11:30",
     "summary": "Narrow question for Joshua: can a project-only freelance engineer work in Proxuma without an Autotask license? Anastasiya (CloudConnected) called this their 'core question' and 'game changer.' Includes two embedded video clips (2:35 framing + 5:25 core question / Jarka's subcontractor portal idea).",
-    "tags": ["Proxuma", "Sales", "CloudConnected", "Autotask", "Licensing"],
+    "tags": [
+      "Proxuma",
+      "Sales",
+      "CloudConnected",
+      "Autotask",
+      "Licensing"
+    ],
     "type": "overview",
-    "detail": "White minimalist HTML style. Engineer matrix (in-house desk / freelance desk / project-only freelancer) with current license state and what they want. Three rejected workarounds (buy all, share one license, give everyone Autotask). Open technical questions on resource records, time entry, Outlook self-service link, tickets vs project tasks. Bonus: Jarka raised the old Autotask subcontractor portal — worth a one-liner on its current status."
+    "detail": "White minimalist HTML style. Engineer matrix (in-house desk / freelance desk / project-only freelancer) with current license state and what they want. Three rejected workarounds (buy all, share one license, give everyone Autotask). Open technical questions on resource records, time entry, Outlook self-service link, tickets vs project tasks. Bonus: Jarka raised the old Autotask subcontractor portal \u2014 worth a one-liner on its current status."
   },
   {
     "file": "2026-04-14-uk-biometrics-reminder-verification.html",
-    "title": "UK Biometrics Reminder — Verification Report",
+    "title": "UK Biometrics Reminder \u2014 Verification Report",
     "date": "2026-04-14T22:30",
     "summary": "8 Apr 2026 UKVI reminder to book biometrics for European Family Permit GWF086774441. Gmail evidence and forum precedent show biometrics already captured 9 Feb. Drafted Twitter/phone verification messages.",
-    "tags": ["UK Visa", "UKVI", "Personal", "Verification"],
+    "tags": [
+      "UK Visa",
+      "UKVI",
+      "Personal",
+      "Verification"
+    ],
     "type": "evaluation",
-    "detail": "Builds full timeline from 7 Feb application submission through 8 Apr reminder. Strongest evidence: 9 Feb VFS notification 'application sent to UKVI' and 16 Feb Decision Making Centre receipt — both impossible without biometrics enrolment. Forum sources (Expat Forum, JustAnswer) confirm UKVI sends generic stale reminders; Twitter DM to @UKVisas is the documented fix. Includes drafts for Twitter, phone (+44 203 481 1736), and VFS NL helpdesk. Recommends Twitter DM first to avoid duplicate-application risk."
+    "detail": "Builds full timeline from 7 Feb application submission through 8 Apr reminder. Strongest evidence: 9 Feb VFS notification 'application sent to UKVI' and 16 Feb Decision Making Centre receipt \u2014 both impossible without biometrics enrolment. Forum sources (Expat Forum, JustAnswer) confirm UKVI sends generic stale reminders; Twitter DM to @UKVisas is the documented fix. Includes drafts for Twitter, phone (+44 203 481 1736), and VFS NL helpdesk. Recommends Twitter DM first to avoid duplicate-application risk."
   },
   {
     "file": "2026-04-14-workshop-landing-review.html",
-    "title": "Workshop Landing Page — 10 Improvements",
+    "title": "Workshop Landing Page \u2014 10 Improvements",
     "date": "2026-04-14T21:00",
     "summary": "10 prioritized improvements for the Dxfferent AI Transformation Workshop landing page, including a critical JS bug and missing social proof.",
-    "tags": ["Dxfferent", "Landing Page", "Review"],
+    "tags": [
+      "Dxfferent",
+      "Landing Page",
+      "Review"
+    ],
     "type": "evaluation",
     "detail": "Review of workshop-landing-page (3).html. Critical: interest form JS bug (unquoted UUID). High: no social proof, hero headline sells activity not outcome. Medium: no urgency, pricing comparison, missing OG tags, CSS breakpoint order. Low: no sticky nav, form error handling, accessibility."
   },
   {
     "file": "2026-04-14-excalidraw-to-html.html",
-    "title": "Excalidraw to HTML — Draw It, Claude Builds It",
+    "title": "Excalidraw to HTML \u2014 Draw It, Claude Builds It",
     "date": "2026-04-14T15:00",
     "summary": "Public project: draw wireframes in Excalidraw, Claude reads structured JSON and generates HTML. Repo, skill, and visual explainer.",
-    "tags": ["Excalidraw", "MCP", "Claude Code", "Open Source"],
+    "tags": [
+      "Excalidraw",
+      "MCP",
+      "Claude Code",
+      "Open Source"
+    ],
     "type": "product",
-    "detail": "Public repo at github.com/maxkwaaste/excalidraw-to-html. Uses yctimlin/mcp_excalidraw (community) for bidirectional canvas access — Claude reads exact element types, positions, dimensions, text, and arrow bindings instead of interpreting screenshots. Includes CLAUDE.md (setup instructions any Claude can follow), portable skill file, and GitHub Pages landing page. Canvas at localhost:3000, REST API fallback at /api/elements. Landing page: maxkwaaste.github.io/excalidraw-to-html"
+    "detail": "Public repo at github.com/maxkwaaste/excalidraw-to-html. Uses yctimlin/mcp_excalidraw (community) for bidirectional canvas access \u2014 Claude reads exact element types, positions, dimensions, text, and arrow bindings instead of interpreting screenshots. Includes CLAUDE.md (setup instructions any Claude can follow), portable skill file, and GitHub Pages landing page. Canvas at localhost:3000, REST API fallback at /api/elements. Landing page: maxkwaaste.github.io/excalidraw-to-html"
   },
   {
     "file": "2026-04-13-claudezakelijk-strategie-brainstorm.html",
     "title": "ClaudeZakelijk Strategische Brainstorm",
     "date": "2026-04-13T23:30",
     "summary": "Eerlijke analyse van ClaudeZakelijk positionering vs concurrentie. Pricing te laag, nul sociaal bewijs, Claude Partner Network niet aangevraagd. 10 geprioriteerde acties.",
-    "tags": ["ClaudeZakelijk", "Strategie", "Pricing", "Concurrentie"],
+    "tags": [
+      "ClaudeZakelijk",
+      "Strategie",
+      "Pricing",
+      "Concurrentie"
+    ],
     "type": "strategy",
     "detail": "Vergelijkt ClaudeZakelijk positionering met 20 concurrenten uit het eerdere rapport. Scan te goedkoop (EUR 1.5K vs DIDEV EUR 2K voor minder werk). Identificeert 4 revenue-gaten, 4 kwetsbaarheden (DIDEV Claude-track als grootste dreiging), 5 site-zwaktes (TODO op homepage, side-bet taal, geen social proof). Claude Partner Network is no-brainer. Drie timing-buckets: deze week (4 items), twee weken (3 items), maand (3 items)."
   },
@@ -805,7 +910,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "ClaudeZakelijk Concurrentie-analyse",
     "date": "2026-04-13T23:00",
     "summary": "20 concurrenten in 4 categorieen. Niemand combineert Claude-specifiek + NL MKB + vaste prijs. Claude Partner Network is een open kans.",
-    "tags": ["ClaudeZakelijk", "Concurrentie", "NL MKB", "Strategie"],
+    "tags": [
+      "ClaudeZakelijk",
+      "Concurrentie",
+      "NL MKB",
+      "Strategie"
+    ],
     "type": "strategy",
     "detail": "Analyseerde Claude-specifieke consultancies (ClaudeImplementation, ClaudeCertified, LowCode Agency), NL MKB AI-spelers (DIDEV, Jouw Copiloot, WerkenmetAI, AI Advies Bureau), internationale SMB AI-consultancies, en single-tool praktijken (Copilot rollout specialists). Vier strategische openingen: Claude Partner Network joinen, vaste prijs als differentiator, 'geen ontslagen' messaging claimen, 84% vs 6% adoptie-gap benutten."
   },
@@ -814,7 +924,14 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Free Design Tools for Claude Code -- Research Landscape",
     "date": "2026-04-13T21:00",
     "summary": "Comprehensive survey of free design tools, MCP servers, skills, and techniques for visual/design work in Claude Code. Covers Google Stitch 2.0, Figma MCP, Penpot, browser automation, and 60K+ design skills.",
-    "tags": ["Design", "MCP", "Stitch", "Figma", "Penpot", "Skills"],
+    "tags": [
+      "Design",
+      "MCP",
+      "Stitch",
+      "Figma",
+      "Penpot",
+      "Skills"
+    ],
     "type": "guide",
     "detail": "Evaluated 7 tool categories: Google Stitch (350 free gens/month, MCP via davideast/stitch-mcp), Figma MCP (6 calls/month free, too limited), Penpot (fully free OSS with official MCP), browser automation MCPs (Playwright, Glance, Puppeteer), Excalidraw MCP, design skills ecosystem (277K installs on frontend-design), and prompting techniques. Recommended stack: Stitch for generation, Playwright for screenshot iteration, design system skills for guardrails."
   },
@@ -823,7 +940,13 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Autotask Demo Filler -- Realistic MSP Data Seeder",
     "date": "2026-04-13T18:00",
     "summary": "One-shot seeder for Proxuma's Autotask demo env. 11 Python modules, 53 tests, 4 safety gates. Generates JSON plan, executes via REST API, tags every record for clean removal.",
-    "tags": ["Autotask", "Python", "Proxuma", "Demo", "Integration"],
+    "tags": [
+      "Autotask",
+      "Python",
+      "Proxuma",
+      "Demo",
+      "Integration"
+    ],
     "type": "overview",
     "detail": "Built in a single session using subagent-driven development (10 tasks, 12 commits). Architecture: Claude generates seed_plan.json, Python executor applies it on M1 Pro. Safety: credential isolation, resource+account guard, UDF tagging, manifest-gated wipe, PAUSE kill switch, circuit breaker. Target volume: ~30 projects, ~200 tickets, ~2000 time entries spanning -6 to +2 months. Next: one-off Autotask admin setup, then demo-vision interview and first real seed run."
   },
@@ -832,7 +955,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Claude Coding Workflow: Notes Tab + Handoff Schema Upgrade",
     "date": "2026-04-13T17:00",
     "summary": "Built a notes-tab helper and extended the CLAUDE-DATA schema with five handoff fields so successor sessions can resume work from the HTML alone.",
-    "tags": ["Workflow", "Schema", "Tooling", "Handoff"],
+    "tags": [
+      "Workflow",
+      "Schema",
+      "Tooling",
+      "Handoff"
+    ],
     "type": "guide",
     "detail": "Two improvements: (1) tab-status.sh helper sets iTerm tab titles in caveman speak and copies a handoff prompt to clipboard, triggered by a global CLAUDE.md rule. (2) CLAUDE-DATA schema extended with session_state, artifact_pointers, external_state, project_context, and decision_log. Pre-push gate updated. Three follow-up patches applied: gate wording, memory-files dedup, contingencies cap."
   },
@@ -841,7 +969,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "KB Onboarding Guide -- Consolidation Options",
     "date": "2026-04-13T15:00",
     "summary": "The Proxuma Onboarding Guide v0.5 was pushed to kb.proxuma.com as one short stub plus 12 separate detail articles. Three options to reconsolidate it. Recommending Option A: roadmap + detail.",
-    "tags": ["Knowledge Base", "Proxuma", "Editorial", "Decision"],
+    "tags": [
+      "Knowledge Base",
+      "Proxuma",
+      "Editorial",
+      "Decision"
+    ],
     "type": "strategy",
     "detail": "Decision memo for Jasper. Option A keeps the 12 detail articles and rewrites only the onboarding roadmap body with the full v0.5 chapters plus resolved cross-links. Option B inlines everything and deletes the siblings. Option C keeps both copies. Side-by-side table covers author intent, inbound link stability, content duplication, page weight, implementation effort, and future edit cost. Four open questions apply regardless of option: v0.4 vs v0.5, image handling, slug strategy, cross-link audit."
   },
@@ -850,7 +983,14 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "ClaudeZakelijk -- Website MVP (live dev)",
     "date": "2026-04-13T14:00",
     "summary": "Acht pagina's, nul JavaScript, Astro 6 + Tailwind 4, Lighthouse 95+. Opent de draaiende dev-server. Start met 'cd ~/ClaudeCode/claude-cowork-practice && npm run dev' als de link niet opent.",
-    "tags": ["Website", "Astro", "Tailwind", "Claude", "Netherlands", "MVP"],
+    "tags": [
+      "Website",
+      "Astro",
+      "Tailwind",
+      "Claude",
+      "Netherlands",
+      "MVP"
+    ],
     "type": "product",
     "detail": "Statische marketingsite voor ClaudeZakelijk (claudezakelijk.nl). Routes: /, /claude-readiness-scan, /claude-in-30-dagen, /claude-compagnon, /methodologie, /over, /contact, /404. Repo op ~/ClaudeCode/claude-cowork-practice, git-tag mvp-website. Volledige handoff in HANDOFF.md. Placeholders: calLink en email in src/site.ts. Volgende stap: Cloudflare Pages deploy zodra DNS klaar is."
   },
@@ -859,7 +999,13 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Claude Cowork Practice -- NL SMB Business Model",
     "date": "2026-04-13T12:00",
     "summary": "Solo-operated Claude-specialist consultancy for Dutch SMBs. Land-and-expand ladder: audit (1500 EUR), 30-day rollout (8500 EUR), monthly retainer (2000 EUR). Side bet alongside Proxuma/Dxfferent.",
-    "tags": ["Business Model", "GTM", "Consulting", "Claude", "Netherlands"],
+    "tags": [
+      "Business Model",
+      "GTM",
+      "Consulting",
+      "Claude",
+      "Netherlands"
+    ],
     "type": "strategy",
     "detail": "Claude-only positioning, Dutch-first, founder-led credibility. GTM sequenced across 4 phases kicked off by an already-booked free pilot. Target 80K EUR year-1 run rate at 10h/wk cap. Open decisions: brand name, legal entity, pricing confirm, accountant-partner shortlist, newsletter platform. Spec at ~/ClaudeCode/claude-cowork-practice/docs/superpowers/specs/2026-04-13-claude-cowork-practice-design.md."
   },
@@ -868,7 +1014,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "M1 Pro Chrome DNS -- Root Cause & Fix Plan",
     "date": "2026-04-12T22:30",
     "summary": "Chrome, curl and Python all time out on DNS while Safari works. Root cause: Tailscale's IPNExtension has been a zombie for 12 days -- tunnel forwards, localapi dead, 100.100.100.100 no longer answers but still holds resolver #1.",
-    "tags": ["Infrastructure", "Tailscale", "DNS", "M1 Pro"],
+    "tags": [
+      "Infrastructure",
+      "Tailscale",
+      "DNS",
+      "M1 Pro"
+    ],
     "type": "guide",
     "detail": "Live SSH forensics confirm: Tailscale daemon refuses localapi on port 59695 while WireGuard on utun4 still forwards traffic. macOS resolver order 111600 sends every getaddrinfo call to the dead forwarder. Safari survives because Network.framework queries resolvers in parallel; Chrome/curl/Python serialize via getaddrinfo and block on timeout. Five fix options ranked by safety, top pick: disable 'Override local DNS' from Tailscale admin console without touching the M1 Pro."
   },
@@ -877,7 +1028,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "DAX Truthifier -- Pipeline Design for 872 Power BI Reports",
     "date": "2026-04-12T21:00",
     "summary": "Design for replacing ~3,500 fabricated DAX queries across 872 report pages with real, executable queries validated against the Proxuma Demo dataset.",
-    "tags": ["Power BI", "DAX", "Pipeline", "Design"],
+    "tags": [
+      "Power BI",
+      "DAX",
+      "Pipeline",
+      "Design"
+    ],
     "type": "guide",
     "detail": "Five-phase pipeline: schema snapshot, extract+pair EN/NL deduplication, Opus-supervised DAX authoring with 6 anti-hallucination rules, content injection preserving visual design, and visual QA with screenshot diffs. Runs unattended on M1 Pro, estimated 8-15 hours."
   },
@@ -887,7 +1043,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "date": "2026-04-12T18:28",
     "updated": "2026-04-12T18:38",
     "summary": "Part II: cross-language Ngram data (5 languages), deep pre-history from Greek barbarians through limpieza de sangre to eugenics, etymology of 'racism' (French origin, 1894), and the role of Jewish intellectuals in constructing anti-racism post-Holocaust.",
-    "tags": ["Research", "Cultural History", "Corpus Linguistics", "Etymology"],
+    "tags": [
+      "Research",
+      "Cultural History",
+      "Corpus Linguistics",
+      "Etymology"
+    ],
     "type": "strategy",
     "detail": "Extends Part I with three new dimensions: depth (3000-year arc from cultural chauvinism to biological race), breadth (synchronous 1933 spike across French/English/German/Spanish/Italian corpora), and agency (Boas, Hirschfeld, Montagu, Arendt, Adorno, Lemkin, Heschel and their documented roles in building the anti-racism framework). Includes Black-Jewish civil rights alliance data and the 1968 fracture."
   },
@@ -897,7 +1058,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "date": "2026-04-12T18:35",
     "updated": "2026-04-12T18:40",
     "summary": "Multi-session coordination doc for perfecting 940 report pages in GitHub before one push to proxuma.io. Tracks design + SEO work across 14 sessions in 5 phases.",
-    "tags": ["Power BI", "SEO", "Design", "Coordination"],
+    "tags": [
+      "Power BI",
+      "SEO",
+      "Design",
+      "Coordination"
+    ],
     "type": "guide",
     "detail": "Single source of truth for successive Claude sessions. Combines golden standard template spec, SEO requirements (OG tags, hreflang, FAQ schema, trailing slashes), NL translation quality, visual audit, and WordPress deploy rules. Each session reads the CLAUDE-DATA block, picks up where the last left off, and updates progress. 5 phases: global template fixes, internal link audit, NL translation, visual polish, final validation + push."
   },
@@ -906,7 +1072,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "MSP Power BI SEO Landscape Analysis",
     "date": "2026-04-12T18:16",
     "summary": "Full SEO landscape research for Power BI reporting targeting MSPs. Keyword clusters, competitor analysis, search volume estimates, and strategic recommendations for 940 report pages.",
-    "tags": ["Power BI", "SEO", "MSP", "Marketing"],
+    "tags": [
+      "Power BI",
+      "SEO",
+      "MSP",
+      "Marketing"
+    ],
     "type": "strategy",
     "detail": "Covers 5 keyword clusters (PSA integration, MSP KPIs, tool-specific, operational questions, comparisons), 7 direct competitors (BrightGauge, MSPbots, MSPCFO, Cognition360, SquaredUp, CloudRadial, Connectorly), programmatic SEO assessment vs Zapier/Canva models, content format analysis, and a phased action plan with 9 prioritized initiatives."
   },
@@ -915,7 +1086,11 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "When Did Racism Become a Vice? -- A Google Ngram Analysis",
     "date": "2026-04-12T18:08",
     "summary": "Google Ngram frequency analysis of 20 terms across 220 years, tracking when English-language discourse reclassified racial hierarchy from common sense to moral vice.",
-    "tags": ["Research", "Cultural History", "Corpus Linguistics"],
+    "tags": [
+      "Research",
+      "Cultural History",
+      "Corpus Linguistics"
+    ],
     "type": "strategy",
     "detail": "Tests the hypothesis that racism-as-vice is a 20th-century invention using four vocabulary tracks: condemnation language, racial-science language, equality language, and historical event overlay. Finds the crossover occurred 1945-1950, with the full inversion spanning 1935-1965. Interactive Chart.js visualizations with annotated historical events."
   },
@@ -924,9 +1099,13 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Power Monitor - Live Process Power Dashboard",
     "date": "2026-04-12T17:34",
     "summary": "Interactive macOS power monitor with live doughnut chart, per-process CPU/memory bars, kill buttons, and small-slice grouping. Python server + Chart.js frontend.",
-    "tags": ["Tooling", "macOS", "Dashboard"],
+    "tags": [
+      "Tooling",
+      "macOS",
+      "Dashboard"
+    ],
     "type": "product",
-    "detail": "Standalone Python server (no dependencies) serving a live-updating doughnut chart of CPU usage per process. Built to diagnose a 21W underpowered charger situation. Features: 2s auto-refresh, sortable process table, SIGTERM kill buttons, individual Claude terminal slices, grouped 'Other' for sub-1.5% processes, battery/charger stats. Run: python3 server.py → localhost:8847. GitHub: maxkwaaste/power-monitor."
+    "detail": "Standalone Python server (no dependencies) serving a live-updating doughnut chart of CPU usage per process. Built to diagnose a 21W underpowered charger situation. Features: 2s auto-refresh, sortable process table, SIGTERM kill buttons, individual Claude terminal slices, grouped 'Other' for sub-1.5% processes, battery/charger stats. Run: python3 server.py \u2192 localhost:8847. GitHub: maxkwaaste/power-monitor."
   },
   {
     "file": "2026-04-12-powerbi-seo-research-consolidated.html",
@@ -934,7 +1113,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "date": "2026-04-12T17:56",
     "updated": "2026-04-12T18:25",
     "summary": "Deep SEO audit of 940 Power BI report pages with live verification, keyword clusters, competitive mapping, and phased action plan. Critical finding: 640 pages not in WordPress sitemap.",
-    "tags": ["Power BI", "SEO", "Reports", "Competitive Intel"],
+    "tags": [
+      "Power BI",
+      "SEO",
+      "Reports",
+      "Competitive Intel"
+    ],
     "type": "guide",
     "detail": "v2 update with live-verified data from proxuma.io. 940 pages in repo, only ~300 in WordPress sitemap (640 invisible to Google). Hreflang tags missing on live NL pages. 5 keyword clusters mapped with volume estimates. 7 competitors mapped with pricing. Phased action plan from 5/10 to 9/10 SEO maturity. Includes proposed pillar pages and comparison content strategy."
   },
@@ -943,7 +1127,11 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Culture of Critique - Full Audiobook Generation",
     "date": "2026-04-12T17:07",
     "summary": "Kokoro TTS audiobook prompt for the full book. 16 chapters, bm_george voice, M4B per chapter for BookPlayer. Copy prompt to kick off.",
-    "tags": ["Audiobook", "Kokoro", "TTS"],
+    "tags": [
+      "Audiobook",
+      "Kokoro",
+      "TTS"
+    ],
     "type": "guide",
     "detail": "Full chapter-by-chapter generation plan using kokoro-tts-mcp. Each chapter outputs as M4B for BookPlayer on iOS. Voice: bm_george (British male, clear narration). Total estimated generation time: ~4 hours on M4 Air. Includes chapter titles, page ranges, and voice pacing notes."
   },
@@ -953,7 +1141,11 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "date": "2026-04-12T14:59",
     "updated": "2026-04-12T15:05",
     "summary": "Complete product surface and GTM strategy for VibeCoder. Three tiers: Starter $200/mo, Professional $350/mo, Enterprise $500/mo. Benchmarking seeded with data from Different.",
-    "tags": ["VibeCoder", "GTM", "Pricing"],
+    "tags": [
+      "VibeCoder",
+      "GTM",
+      "Pricing"
+    ],
     "type": "strategy",
     "detail": "Applies the Polar Analytics playbook (usage-based tiers, benchmarking as wedge, vertical expansion) to the MSP market. Starter covers report generation, Professional adds dashboards and benchmarks, Enterprise includes white-label and API. Competitive landscape analysis against BrightGauge, Gradient MSP, and CloudRadial. Revenue model projects 50 MSPs in year 1."
   },
@@ -962,7 +1154,11 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Claude Code TTS Evaluation - 8 Methods Tested",
     "date": "2026-04-12T14:36",
     "summary": "8 TTS solutions tested on M4 Air. kokoro-tts-mcp recommended (free, offline, 7/10). voice-mcp best for bidirectional. 2 broken.",
-    "tags": ["Claude Code", "TTS", "Tooling"],
+    "tags": [
+      "Claude Code",
+      "TTS",
+      "Tooling"
+    ],
     "type": "evaluation",
     "detail": "Methods tested: kokoro-tts-mcp, voice-mcp, OpenAI TTS API, ElevenLabs, Coqui XTTS, macOS say command, Bark, Piper. Evaluation criteria: latency, voice quality, offline capability, cost, bidirectional support. kokoro-tts-mcp wins on value (free, offline, 7/10 quality). voice-mcp wins on features (bidirectional conversation). Bark and Coqui broken on Apple Silicon."
   },
@@ -971,7 +1167,11 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Claude Managed Agents - What You Can Build",
     "date": "2026-04-12T14:10",
     "summary": "Overview of Claude Managed Agents: hosted agent runtime with server-side tool execution, MCP integration, GitHub repo mounting, file I/O.",
-    "tags": ["Claude", "Agents", "MCP"],
+    "tags": [
+      "Claude",
+      "Agents",
+      "MCP"
+    ],
     "type": "guide",
     "detail": "Covers the Managed Agents API (beta): creating agents with system prompts and tool configurations, mounting GitHub repos as read/write filesystems, executing MCP tools server-side, streaming agent responses, and managing agent lifecycle. Includes examples for code review agents, documentation generators, and CI/CD automation."
   },
@@ -980,7 +1180,10 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "VibeCoder Product Surface",
     "date": "2026-04-12T13:50",
     "summary": "Maps 9 product opportunities using the Polar Analytics playbook, organized in 3 tiers by build distance.",
-    "tags": ["VibeCoder", "Product"],
+    "tags": [
+      "VibeCoder",
+      "Product"
+    ],
     "type": "product",
     "detail": "Tier 1 (build now): Report Generator, Dashboard Builder, Benchmark Engine. Tier 2 (build next): Alert System, Client Portal, Template Marketplace. Tier 3 (build later): AI Insights, White-Label Platform, API/Integrations. Each opportunity scored on build effort, revenue potential, and competitive differentiation."
   },
@@ -990,12 +1193,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "date": "2026-04-12T17:10",
     "updated": "2026-04-12T17:19",
     "summary": "Browsable index of all 940 Power BI reports across 17 categories and 12 data sources. Search, filter by source (Autotask, Datto, M365, etc.) and language (EN/NL).",
-    "tags": ["Power BI", "Reports", "Index"],
+    "tags": [
+      "Power BI",
+      "Reports",
+      "Index"
+    ],
     "type": "overview",
     "detail": "940 HTML report pages from Proxuma/powerbi-reports repo. 449 EN + 423 NL + 68 root. Categories: Tickets (125), Client Profitability (105), Workforce (98), SLA (92), Contracts (86), Sales (66), M365 (53), Backup (48), Projects (43), Devices (42), CSAT (38), Onboarding (37), Alerts (36), QBR (26), Security (24), Docs (6), Misc (15). Data sources: Autotask PSA, Datto RMM, Datto Backup, Microsoft 365, SmileBack, HubSpot, N-able Cove, HiBob HR, IT Glue, N-able RMM. Also on GitHub: Proxuma/powerbi-reports/blob/main/index.html. Token-efficient summary: REPORT-INDEX.md (24KB)."
   }
-]
-</script>
+]</script>
 
 <script>
 (function() {
