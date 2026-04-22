@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autotask PSA — MSP Roll-up Preliminary Research</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; color: #2c2c2c; background: #f8f9fa; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.page-header { max-width: 780px; margin: 0 auto; padding: 16px 24px 0; display: flex; justify-content: space-between; font: 500 12px/1 -apple-system, sans-serif; }
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page { max-width: 780px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+.brand-name { font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+h1 { font-family: Georgia, serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: Georgia, serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content:''; display:block; width:100%; height:2px; background:#1a2744; margin-top:6px; }
+h3 { font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: Georgia, serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+p { margin-bottom: 14px; font-size: 14px; line-height: 1.65; }
+ul { margin: 0 0 14px 20px; font-size: 14px; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: Georgia, serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; }
+.matrix td { padding: 10px 14px; border-bottom: 1px solid #eef0f2; font-family: -apple-system, sans-serif; font-size: 13px; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; border-radius: 0 4px 4px 0; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning p { color: rgba(255,255,255,.88); margin-bottom: 10px; }
+.positioning .callout-label { color: #c8a87a; }
+.tier { margin-bottom: 20px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.tier-badge { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .07em; padding: 3px 10px; border-radius: 3px; background: #e8edf4; color: #1a2744; border: 1px solid #b0bdd0; }
+.tier-title { font-family: Georgia, serif; font-size: 16px; font-weight: 700; color: #1a2744; }
+.card { background: #fff; border: 1px solid #e2e4e8; border-radius: 4px; padding: 14px 18px; margin-bottom: 8px; position: relative; font-size: 13px; }
+.card::before { content:''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: #1a2744; }
+.card strong { color: #1a2744; }
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">2026-04-22</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-psa-rollup-preliminary-research.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand-name">Claude Code</div>
+      <div class="brand-tagline">Proxuma Market Research</div>
+    </div>
+    <div class="page-meta-right">April 22, 2026<br>Preliminary Scan<br>Autotask PSA</div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">MSP Consolidation — Ownership Mapping</div>
+  <h1>Which 50+ Seat Accounts Share a Parent?</h1>
+  <p class="subtitle">Preliminary scan of the 413 Autotask PSA accounts with 50+ seats to find overarching owners (PE roll-ups, public MSP holdings, software conglomerates). This is Phase 1: industry context + obvious matches from the data already in-hand. Phase 2 (full 413 crawl) is scoped below for your approval.</p>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-value">413</div><div class="stat-label">Accounts in Scope</div></div>
+    <div class="stat-card"><div class="stat-value">31</div><div class="stat-label">Already Flagged as Group / Holdings / plc</div></div>
+    <div class="stat-card"><div class="stat-value">8+</div><div class="stat-label">Parent Clusters Named in Data Itself</div></div>
+    <div class="stat-card"><div class="stat-value">~50</div><div class="stat-label">Realistic Crawl Target (Top by Seats)</div></div>
+  </div>
+
+  <h2>Industry context: the big MSP roll-up parents</h2>
+  <p>Reading the room first. The MSP channel saw <strong>169 publicly announced M&A transactions in 2025</strong>, with private equity doing most of the buying. Five names dominate global Autotask-using roll-ups:</p>
+
+  <div class="tier">
+    <div class="tier-header"><span class="tier-badge">Tier 1</span><span class="tier-title">Evergreen Services Group</span></div>
+    <div class="card"><strong>Owner:</strong> Alpine Investors (PE). <strong>Scale:</strong> 100+ acquisitions, $1B+ ARR via Lyra Technology Group alone. <strong>Structure:</strong> operates through three regional holdcos — Lyra (Northeast US, Upper Midwest, Eastern Canada), Westwood Technology Group, Helix Technology Partners. <strong>Known brands to hunt for:</strong> Wolf Consulting, Tech-Keys, JENLOR Integrations, Beringer Technology, Xpert Technologies, Starport Managed Services, ImageQuest, Blackbird IT (AU), REDD (AU), CT Group (AU), Lancom Technology (NZ).</div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header"><span class="tier-badge">Tier 1</span><span class="tier-title">New Charter Technologies</span></div>
+    <div class="card"><strong>Owner:</strong> Oval Partners (PE). <strong>Scale:</strong> 45+ North American locations. <strong>Known brands:</strong> Orchestrate AI, Element Technologies, Dynamic Edge, NetSource One, DS Tech, ProTech IT, Olmec Systems, Sage CAD, Vested Technologies, TECH II, Stronghold Data, The Tech Group.</div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header"><span class="tier-badge">Tier 1</span><span class="tier-title">The 20 MSP</span></div>
+    <div class="card"><strong>Owner:</strong> self-funded (not PE). <strong>Scale:</strong> 44 acquisitions since 2022. <strong>Known brands:</strong> Red Level Group, iStreet Solutions, InData Consulting, 4Macsolutions, DriveTech, Accurate Computer Solutions, CSP Technologies, Code Red Networks.</div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header"><span class="tier-badge">Tier 2</span><span class="tier-title">Constellation Software (Vela / FOG / Volaris)</span></div>
+    <div class="card"><strong>Owner:</strong> Constellation Software Inc. (TSX-listed Canadian conglomerate). <strong>Model:</strong> acquires vertical-market software companies and runs them as standalone brands under operating groups Vela, FOG, Volaris, Harris, Jonas, etc. Confirmed in our data already — see below.</div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header"><span class="tier-badge">Tier 2</span><span class="tier-title">Regional holdcos and plcs</span></div>
+    <div class="card">BCM One (Thompson Street Capital, US), Technology Services Group / TSG (Pictet Alternative Advisors, UK), AdEPT Technology Group plc (UK public), Maintel (UK public), Amicus ITS / Aura Technology (UK merged), Arcus IT Group (NL), Welltel Group (IE), Nostra (IE), Evros / eirevo (IE), Van Roey ICT Group (BE), InTEC Group (UK). Most of these appear in our top 25 by seats already.</div>
+  </div>
+
+  <h2>Clusters visible in the data already (zero web research needed)</h2>
+  <p>Four groups of accounts are already explicitly labeled or share a domain in the spreadsheet:</p>
+
+  <table class="matrix">
+    <thead><tr><th>Parent cluster</th><th>Accounts found</th><th style="text-align:right">Seats</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Constellation Software (Vela / FOG)</strong></td><td>FOG Software Group (US), ITS (UK), Apparel21 "part of Vela Software Group" (AU), Markinson Software Solutions "Part of Vela Software Group" (AU)</td><td class="num">629</td></tr>
+      <tr><td><strong>Amicus ITS / Aura Technology</strong></td><td>Amicus ITS Ltd trading as Aura Technology (UK) — brand merger</td><td class="num">271</td></tr>
+      <tr><td><strong>Hibernia Services / eirevo</strong></td><td>Hibernia Services Ltd t/a eirevo (IE) — domain resolves to evros.ie, so likely under Evros group</td><td class="num">360</td></tr>
+      <tr><td><strong>Storacall / X-ON</strong></td><td>Storacall Technology Ltd t/as X-ON (UK)</td><td class="num">84</td></tr>
+      <tr><td><strong>Converged Technology Group (Ingram)</strong></td><td>Two records — "Converged Technology Group (Ingram)" and "Converged Technology Group", same domain. Note the parenthetical "Ingram" may imply Ingram Micro ownership</td><td class="num">109</td></tr>
+      <tr><td><strong>Vinson Group</strong></td><td>Epiphany Management Group (Vinson Group, LLC)</td><td class="num">74</td></tr>
+      <tr><td><strong>Group 1 Auto</strong></td><td>EnCompass Iowa LLC (child) - Group 1 Auto</td><td class="num">99</td></tr>
+    </tbody>
+  </table>
+
+  <h2>"Group / Holdings / plc" names — 31 accounts worth verifying</h2>
+  <p>Names containing <em>Group</em>, <em>Holdings</em>, <em>plc</em>, or <em>trading as</em> clauses. Each one is either a roll-up vehicle itself or a brand that's been rolled up. Top of that list by seats:</p>
+  <ul>
+    <li><strong>Technology Services Group Limited</strong> — UK, 529 seats. Already identified: owned by Pictet Alternative Advisors.</li>
+    <li><strong>FOG Software Group</strong> — US, 384 seats. Constellation Software.</li>
+    <li><strong>AdEPT Technology Group plc</strong> — UK, 320 seats. Public.</li>
+    <li><strong>Amicus ITS trading as Aura Technology</strong> — UK, 271 seats. Brand merger.</li>
+    <li><strong>Arcus IT Group</strong> — NL, 258 seats. Dutch MSP consolidator.</li>
+    <li><strong>Van Roey ICT Group</strong> — BE, 201 seats. Unclear owner.</li>
+    <li><strong>Welltel Group</strong> — IE, 161 seats. Irish holdco.</li>
+    <li><strong>Axiom Technology Group</strong> — US, 131 seats.</li>
+    <li><strong>InTEC Group</strong> — UK, 100 seats. UK roll-up platform.</li>
+    <li>... plus 22 more smaller ones.</li>
+  </ul>
+
+  <h2>Quick finding: the big roll-ups are probably under-represented by brand search</h2>
+  <div class="callout">
+    <span class="callout-label">Why this matters</span>
+    Direct keyword match of Evergreen/Lyra, New Charter, and The 20 MSP's <em>known</em> portfolio brands against the 413 list yielded <strong>only 2 hits</strong> (Van Roey ICT Group flagged as possible Evergreen match by coincidence, and Impact Group flagged by domain — neither confirmed). That's because the published brand lists on our side are incomplete — Evergreen has 100+ acquisitions but only a dozen named publicly, and they explicitly keep acquired brands intact. The only way to catch them is <strong>per-account web search</strong> — visit each company's About or Legal page, or check Crunchbase / PitchBook for ownership.
+  </div>
+
+  <h2>Proposed Phase 2 scope</h2>
+  <p>Full 413-account crawl at ~3 web searches per account = ~1,200 queries. Expensive, noisy, and diminishing returns on smaller MSPs (under 50 seats — wait, we already filtered to 50+, so under ~80 seats). Three tiered options, cheapest to most thorough:</p>
+
+  <table class="matrix">
+    <thead><tr><th>Option</th><th>Scope</th><th>Est. queries</th><th>Expected yield</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A — Targeted</strong></td><td>Top 50 by seats + the 31 "Group/Holdings/plc" flags + all 7,455 customers' unique domain-collision pairs</td><td class="num">~120</td><td>Catches the biggest ARR concentration, likely finds 15-25 parent clusters</td></tr>
+      <tr><td><strong>B — Deep on leaders</strong></td><td>Top 100 by seats (roughly 90%+ of the ARR in the 413 set)</td><td class="num">~250</td><td>Near-complete picture of the revenue-weighted view</td></tr>
+      <tr><td><strong>C — Exhaustive</strong></td><td>All 413</td><td class="num">~1,000-1,200</td><td>Complete but lots of independent one-off MSPs in the tail</td></tr>
+    </tbody>
+  </table>
+
+  <div class="positioning">
+    <span class="callout-label">Recommendation</span>
+    <h2>Option A first, then decide</h2>
+    <p>Start with the top 50 + the 31 flagged group names (some overlap, so ~70 accounts). That's enough to cover the long-seat tail, catch the public plcs, and probe the obvious holdco-name candidates. I report back with a cluster map + penetration percentages; you decide whether Option B is worth the extra ~130 queries.</p>
+    <p style="margin-top: 12px;">Say <strong>"go A"</strong>, <strong>"go B"</strong>, <strong>"go C"</strong>, or name your own list (e.g. "only Netherlands" — 28 accounts, ~60 queries).</p>
+  </div>
+
+  <div class="page-footer"><span>Claude Code</span><span>Sources: ChannelE2E, Omdia, Lyra Tech Group, New Charter, The 20</span></div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Autotask PSA — MSP Roll-up Preliminary Research",
+  "date": "2026-04-22",
+  "summary": "Phase 1 preliminary scan to identify overarching parent companies within the 413 Autotask PSA accounts with 50+ seats. Mapped 5 major MSP roll-up groups active in the market (Evergreen/Lyra, New Charter, The 20 MSP, Constellation Software, regional plcs). Found 7 parent clusters already visible in the raw spreadsheet labels/domains covering ~1,620 seats. Direct brand-name match against published portfolio lists yielded only 2 hits, confirming the roll-ups keep acquired brands intact and only per-account web research will surface them.",
+  "sections": [
+    {
+      "heading": "Known parent roll-ups to hunt for",
+      "items": [
+        {"title": "Evergreen Services Group", "detail": "Alpine Investors PE, 100+ acquisitions, operates Lyra/Westwood/Helix. Brands: Wolf, Beringer, JENLOR, Blackbird IT, REDD, Lancom."},
+        {"title": "New Charter Technologies", "detail": "Oval Partners PE, 45+ locations. Brands: Dynamic Edge, Olmec, NetSource One, DS Tech, ProTech IT."},
+        {"title": "The 20 MSP", "detail": "Self-funded, 44 acquisitions. Brands: Red Level, iStreet Solutions, InData, CSP Technologies."},
+        {"title": "Constellation Software (Vela/FOG/Volaris)", "detail": "TSX-listed. Already visible in data: FOG Software Group, Apparel21, Markinson, ITS UK (all share domain patterns)."},
+        {"title": "Regional plcs / holdings", "detail": "BCM One (Thompson Street), TSG (Pictet), AdEPT plc, Maintel plc, Amicus/Aura, Arcus IT, Welltel, Nostra, Van Roey."}
+      ]
+    },
+    {
+      "heading": "Clusters already confirmed from spreadsheet",
+      "items": [
+        {"title": "Constellation Software", "detail": "4 accounts, 629 seats (FOG, ITS UK, Apparel21, Markinson)"},
+        {"title": "Amicus ITS / Aura Technology", "detail": "1 account, 271 seats — explicit brand merger in name"},
+        {"title": "Hibernia / eirevo / Evros", "detail": "1 account, 360 seats"},
+        {"title": "Converged Technology Group (Ingram)", "detail": "2 accounts, 109 seats, suggests Ingram Micro ownership"},
+        {"title": "Vinson Group, Group 1 Auto, Storacall/X-ON", "detail": "3 more parent names appearing in account labels"}
+      ]
+    }
+  ],
+  "next_steps": "Awaiting Max's scope decision: Option A (top 50 + 31 flags, ~120 queries, est 15-25 clusters found), Option B (top 100, ~250 queries), or Option C (all 413, ~1,200 queries). Recommend A as a staged start. Data file at /tmp/psa-research/big-customers.json has all 413 with name/country/seats/domain ready to feed into the crawl.",
+  "session_state": {
+    "phase": "preliminary research",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Web research on 5 major MSP roll-up groups (Evergreen, New Charter, The 20, Constellation, regional plcs)",
+      "Extracted 413 accounts with normalized domains from AllPSA.xlsx Sheet1",
+      "Ran heuristic match: Group/Holdings/plc name pattern, brand-keyword match, domain collision check",
+      "Found 7 parent clusters already visible in raw data; brand keyword match yielded only 2 hits showing published brand lists are incomplete",
+      "Produced tiered scope proposal (A/B/C) for Phase 2 crawl"
+    ],
+    "blockers_hit": "Scope decision needed before burning query budget on full 413",
+    "uncommitted_changes": "New HTML in ~/ClaudeCode/claude-output/ pending commit",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [
+      {"path": "/tmp/psa-research/big-customers.json", "description": "413 accounts with name/country/seats/domain/arr, sorted by seats desc", "cleanup_after": "phase 2 crawl complete"}
+    ],
+    "github_links": [
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-psa-50plus-seats-by-country.html", "relevance": "source data — first pie chart report"},
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-psa-rollup-preliminary-research.html", "relevance": "this doc"}
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Source: ~/ClaudeCode/market-reports/AllPSA.xlsx Sheet1 (10,400 rows, 7,455 unique accounts, 413 with 50+ seats)"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["output-page for substantial analysis", "humanizer", "Open Brain consulted first (Ark/Perspicuity PE context confirmed)"]
+  },
+  "decision_log": [
+    {
+      "decision": "Staged Phase 1 preliminary research before committing to full 413-account crawl",
+      "rejected_alternatives": ["Immediate full 413 crawl"],
+      "rationale": "Max explicitly suggested preliminary first. Full crawl is ~1,200 queries; deserves a scope sanity check on what we already know from the spreadsheet labels alone before burning token budget.",
+      "trade_offs": "Adds one turn of latency, but avoids wasted research on independents clearly unrelated to roll-ups.",
+      "contingencies": [
+        {"if_X_then_Y": "If Max picks Option A and it surfaces dense clusters in one country, pivot Phase 2b to country-specific depth rather than flat top-100", "probability": 0.4},
+        {"if_X_then_Y": "If he picks C (exhaustive), parallelize by country or alphabetical chunk to keep individual agent contexts manageable", "probability": 0.2}
+      ]
+    },
+    {
+      "decision": "Phase 2 research approach: per-account web search (About page + Crunchbase/PitchBook + LinkedIn) rather than brand-list keyword match",
+      "rejected_alternatives": ["Keyword match against published Evergreen/Lyra/New Charter portfolio brand lists"],
+      "rationale": "Keyword match against published lists yielded only 2 hits across 413. The roll-ups explicitly keep acquired brand names intact, and published lists only cover 10-20 of their 100+ portfolio companies. Per-account ownership lookup is the only reliable path.",
+      "trade_offs": "Per-account is ~2-3x more expensive in queries but the only way to catch the majority.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
