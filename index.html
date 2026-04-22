@@ -630,6 +630,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 <script type="application/json" id="index-data">
 [
   {
+    "file": "2026-04-22-disk-cleanup-approvals.html",
+    "title": "M4 Air Disk Cleanup — Approval Sheet",
+    "date": "2026-04-22T11:30",
+    "summary": "Interactive approval UI for freeing disk space on M4 Air (17 GB free of 245 GB). 19 candidate items across three tiers — safe cache deletions, Sandisk transfers, and review-needed actions. Per-item approve/skip/done + comments persist in localStorage; Copy-handoff button emits a structured prompt for the next Claude to execute.",
+    "tags": ["M4 Air", "System", "Ops"],
+    "type": "guide",
+    "detail": "Scanned usage: largest hogs are Claude vm_bundles 12G, Photos Library 11G, Chrome profile 8.6G, Succession rip 8.7G, Downloads recordings ~5G, Civ V 5.2G, .cache/uv 5.3G, .npm 4.2G, Apple Notes 7G. Three tiers rendered as cards with Approve/Skip/Already-done buttons plus comment box per item. Sticky summary bar totals approved GB live. Destination is M1 Pro /Volumes/Sandisk (299 GB free) via SSH host alias 'server'. Flagged honestly: 50% free target (~106 GB) requires app uninstalls; realistic ceiling from transfer + safe deletions is ~85 GB. Four open questions cover iCloud Photos state, screen-recording keepers, target hardness, and free-form additions. The Copy-handoff button generates an execution-ready prompt including approved items, skipped items, Max's answers, and rules (always confirm before destruction, rsync-verify-then-delete pattern, never touch non-approved items)."
+  },
+  {
     "file": "2026-04-21-reddit-ads-upload-and-budget.html",
     "title": "Reddit Ads — Upload 5 Creatives + Triple Budget",
     "date": "2026-04-21T18:10",

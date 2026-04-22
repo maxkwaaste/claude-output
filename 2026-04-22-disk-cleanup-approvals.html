@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M4 Air Disk Cleanup — Approval Sheet</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 880px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 880px; margin: 12px auto 160px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name { font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+
+h1 { font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+.subtitle { font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-value.warn { color: #b45309; }
+.stat-value.ok { color: #1a6b3a; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+
+.tier { margin-bottom: 36px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .07em; padding: 4px 10px; border-radius: 3px; }
+.tier-badge.safe { background: #e6f4ea; border: 1px solid #8ac8a0; color: #1a6b3a; }
+.tier-badge.medium { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-badge.risky { background: #fde8e8; border: 1px solid #d8a0a0; color: #8a2a2a; }
+.tier-title { font-size: 16px; font-weight: 700; color: #1a2744; }
+.tier-desc { font-size: 13px; color: #6b7280; margin-left: auto; font-family: -apple-system, sans-serif; }
+
+.item {
+  border: 1px solid #e2e4e8; border-radius: 4px; padding: 16px 20px; margin-bottom: 10px;
+  position: relative; transition: border-color .2s, background .2s;
+}
+.item::before {
+  content: ''; position: absolute; left: 0; top: 10px; bottom: 10px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.item.decided-approve { background: #f3faf5; border-color: #a8d8b8; }
+.item.decided-approve::before { background: #1a6b3a; }
+.item.decided-skip { background: #fafafa; border-color: #d8d8d8; opacity: 0.7; }
+.item.decided-skip::before { background: #8a8f96; }
+.item.decided-done { background: #f3f7fa; border-color: #a8bcd8; }
+.item.decided-done::before { background: #2a4a8a; }
+
+.item-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 6px; }
+.item-title { font-size: 14px; font-weight: 700; color: #1a2744; font-family: -apple-system, sans-serif; }
+.item-path { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; font-size: 12px; color: #4a5568; background: #f0f2f5; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-top: 2px; word-break: break-all; }
+.item-size { font-size: 14px; font-weight: 700; color: #1a2744; font-family: -apple-system, sans-serif; white-space: nowrap; }
+.item-note { font-size: 13px; color: #4a5568; margin: 6px 0 10px; font-family: -apple-system, sans-serif; }
+.item-action { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .08em; color: #6b7280; margin-bottom: 8px; }
+.item-action .action-label { color: #1a2744; }
+
+.controls { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.ctrl-btn {
+  font: 600 11px/1 -apple-system, sans-serif; padding: 7px 14px; border-radius: 3px;
+  border: 1px solid #d0d3d8; background: #fff; color: #4a5568; cursor: pointer;
+  transition: all .15s; letter-spacing: .04em;
+}
+.ctrl-btn:hover { border-color: #1a2744; color: #1a2744; }
+.ctrl-btn.active.approve { background: #1a6b3a; color: #fff; border-color: #1a6b3a; }
+.ctrl-btn.active.skip { background: #6b7280; color: #fff; border-color: #6b7280; }
+.ctrl-btn.active.done { background: #2a4a8a; color: #fff; border-color: #2a4a8a; }
+
+.comment {
+  width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid #e2e4e8;
+  border-radius: 3px; font-family: -apple-system, sans-serif; font-size: 13px;
+  color: #2c2c2c; resize: vertical; background: #fafbfc;
+}
+.comment:focus { outline: none; border-color: #1a2744; background: #fff; }
+
+/* Summary strip */
+.summary {
+  position: sticky; bottom: 0; background: #fff; border-top: 2px solid #1a2744;
+  padding: 14px 20px; margin: 0 -52px -48px; display: flex;
+  justify-content: space-between; align-items: center; gap: 16px;
+  font-family: -apple-system, sans-serif; font-size: 13px;
+}
+.summary-stats { display: flex; gap: 20px; color: #4a5568; }
+.summary-stats strong { color: #1a2744; }
+.summary-actions { display: flex; gap: 8px; }
+.btn-primary {
+  background: #1a2744; color: #fff; border: none; padding: 10px 18px; border-radius: 3px;
+  font: 600 12px/1 -apple-system, sans-serif; letter-spacing: .06em; cursor: pointer;
+  text-transform: uppercase;
+}
+.btn-primary:hover { background: #2a3a5c; }
+.btn-secondary {
+  background: #fff; color: #1a2744; border: 1px solid #1a2744; padding: 10px 18px; border-radius: 3px;
+  font: 600 12px/1 -apple-system, sans-serif; letter-spacing: .06em; cursor: pointer;
+  text-transform: uppercase;
+}
+.btn-secondary:hover { background: #f0f2f5; }
+
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+  background: #1a2744; color: #fff; padding: 12px 20px; border-radius: 4px;
+  font: 600 12px/1 -apple-system, sans-serif; letter-spacing: .04em;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+.toast.show { opacity: 1; }
+
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 14px 18px;
+  margin: 16px 0; font-size: 13px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+  font-family: -apple-system, sans-serif;
+}
+.callout strong { color: #1a2744; }
+
+.question-block { margin: 20px 0; }
+.question {
+  border: 1px solid #e2e4e8; border-radius: 4px; padding: 14px 18px; margin-bottom: 10px;
+  background: #fafbfc; font-family: -apple-system, sans-serif; font-size: 13px;
+}
+.question-title { font-weight: 700; color: #1a2744; margin-bottom: 8px; }
+
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">22 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-disk-cleanup-approvals.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">System Maintenance · Approval Sheet</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 22, 2026<br>M4 Air → Sandisk (M1 Pro)<br>Disk Cleanup
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Approval Sheet</div>
+  <h1>M4 Air Disk Cleanup</h1>
+  <p class="subtitle">Tick through each item below. Your choices persist in this browser — the next Claude session reads them via the "Copy handoff for next Claude" button.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value warn">17 GB</div>
+      <div class="stat-label">Current Free</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">245 GB</div>
+      <div class="stat-label">Total Disk</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~106 GB</div>
+      <div class="stat-label">Needed for 50% Target</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value ok">299 GB</div>
+      <div class="stat-label">Sandisk Free</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Honest note:</strong> 50% free (123 GB free) means recovering ~106 GB. Realistic ceiling from transfer + safe deletions is ~85 GB (~35% free). Hitting the full 50% requires uninstalling apps, not just moving files. See open questions at the bottom.
+  </div>
+
+  <!-- ============ TIER 1: SAFE DELETIONS ============ -->
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge safe">Tier 1 — Safe delete</span>
+      <span class="tier-title">Caches &amp; regenerable (~31 GB)</span>
+      <span class="tier-desc">No user data lost</span>
+    </div>
+
+    <div class="item" data-id="t1-claude-vm" data-size-gb="12" data-tier="1">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Claude Desktop sandbox VMs</div>
+          <div class="item-path">~/Library/Application Support/Claude/vm_bundles</div>
+        </div>
+        <div class="item-size">12 GB</div>
+      </div>
+      <div class="item-note">Claude.app sandbox VM bundles. Regenerate on next launch of Claude Desktop. Will not affect your chat history.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
+    </div>
+
+    <div class="item" data-id="t1-cache-uv" data-size-gb="5.3" data-tier="1">
+      <div class="item-head">
+        <div>
+          <div class="item-title">uv Python cache</div>
+          <div class="item-path">~/.cache/uv</div>
+        </div>
+        <div class="item-size">5.3 GB</div>
+      </div>
+      <div class="item-note">Python package cache from uv. Re-downloads on next uv install. Zero risk.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
+    </div>
+
+    <div class="item" data-id="t1-npm" data-size-gb="4.2" data-tier="1">
+      <div class="item-head">
+        <div>
+          <div class="item-title">npm cache</div>
+          <div class="item-path">~/.npm</div>
+        </div>
+        <div class="item-size">4.2 GB</div>
+      </div>
+      <div class="item-note">Preferred: <code style="font-family:monospace;background:#f0f2f5;padding:1px 4px;border-radius:2px;">npm cache clean --force</code>. Rebuilds automatically.</div>
+      <div class="item-action"><span class="action-label">Action:</span> npm cache clean --force</div>
+    </div>
+
+    <div class="item" data-id="t1-lib-caches" data-size-gb="3.9" data-tier="1">
+      <div class="item-head">
+        <div>
+          <div class="item-title">macOS Library/Caches</div>
+          <div class="item-path">~/Library/Caches</div>
+        </div>
+        <div class="item-size">3.9 GB</div>
+      </div>
+      <div class="item-note">Per-app caches. Safe to purge; apps rebuild as needed. Slight slowdown on first launches.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Delete contents (keep folder)</div>
+    </div>
+
+    <div class="item" data-id="t1-hf" data-size-gb="3.6" data-tier="1">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Hugging Face model cache</div>
+          <div class="item-path">~/.cache/huggingface</div>
+        </div>
+        <div class="item-size">3.6 GB</div>
+      </div>
+      <div class="item-note">Downloaded HF models. Re-downloads on next use. Check if any active project needs a specific model first.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
+    </div>
+
+    <div class="item" data-id="t1-trash" data-size-gb="0.95" data-tier="1">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Trash</div>
+          <div class="item-path">~/.Trash</div>
+        </div>
+        <div class="item-size">948 MB</div>
+      </div>
+      <div class="item-note">Empty trash. Obvious.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Empty Trash</div>
+    </div>
+
+    <div class="item" data-id="t1-puppeteer" data-size-gb="0.68" data-tier="1">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Puppeteer Chromium download</div>
+          <div class="item-path">~/.cache/puppeteer</div>
+        </div>
+        <div class="item-size">677 MB</div>
+      </div>
+      <div class="item-note">Headless Chrome binary. Re-downloads if a project needs it.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Delete directory</div>
+    </div>
+  </div>
+
+  <!-- ============ TIER 2: TRANSFER TO SANDISK ============ -->
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge medium">Tier 2 — Transfer</span>
+      <span class="tier-title">Media &amp; archive files → Sandisk (~32 GB)</span>
+      <span class="tier-desc">Moved, not deleted</span>
+    </div>
+
+    <div class="item" data-id="t2-photos" data-size-gb="11" data-tier="2">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Photos Library</div>
+          <div class="item-path">~/Pictures/Photos Library.photoslibrary</div>
+        </div>
+        <div class="item-size">11 GB</div>
+      </div>
+      <div class="item-note"><strong>Risky.</strong> Photos is running with iCloud sync. To move: quit Photos → rsync library → Option+launch Photos → choose library on Sandisk. If iCloud Photos is ON, consider enabling "Optimise Mac Storage" first (much easier). Needs your call.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Discuss — Optimise Storage toggle may be simpler</div>
+    </div>
+
+    <div class="item" data-id="t2-succession" data-size-gb="8.7" data-tier="2">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Succession (full season)</div>
+          <div class="item-path">~/Movies/Succession</div>
+        </div>
+        <div class="item-size">8.7 GB</div>
+      </div>
+      <div class="item-note">Move to Sandisk at <code style="font-family:monospace;background:#f0f2f5;padding:1px 4px;border-radius:2px;">/Volumes/Sandisk/Media/Succession/</code>.</div>
+      <div class="item-action"><span class="action-label">Action:</span> rsync → Sandisk, then delete local</div>
+    </div>
+
+    <div class="item" data-id="t2-dl-videos" data-size-gb="5.0" data-tier="2">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Screen recordings in Downloads</div>
+          <div class="item-path">~/Downloads/Screen Recording *.mov, Menu Bar Part 1/2.mov</div>
+        </div>
+        <div class="item-size">~5.0 GB</div>
+      </div>
+      <div class="item-note">10 recordings &gt;100MB. Biggest: "2026-04-14 16.15.57" (1.7G), "Menu Bar Part 2" (1.0G), "Menu Bar Part 1" (546M). If none are for current projects, archive them.</div>
+      <div class="item-action"><span class="action-label">Action:</span> rsync → <code style="font-family:monospace;font-size:11px;">Sandisk/Archive/ScreenRecordings/</code>, delete local</div>
+    </div>
+
+    <div class="item" data-id="t2-civ5" data-size-gb="5.2" data-tier="2">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Civilization V Campaign Edition</div>
+          <div class="item-path">/Applications/Civilization V Campaign Edition.app</div>
+        </div>
+        <div class="item-size">5.2 GB</div>
+      </div>
+      <div class="item-note">Won't run off Sandisk reliably (game bundle). Options: (A) archive to Sandisk + uninstall, (B) just uninstall and re-download from Steam if needed.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Choose archive or uninstall (comment below)</div>
+    </div>
+
+    <div class="item" data-id="t2-burnt" data-size-gb="1.5" data-tier="2">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Burnt (2015) movie file</div>
+          <div class="item-path">~/Downloads/Burnt (2015) [1080p]/</div>
+        </div>
+        <div class="item-size">1.5 GB</div>
+      </div>
+      <div class="item-note">Looks like a leftover. Move or trash.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Move to Sandisk/Archive or delete</div>
+    </div>
+
+    <div class="item" data-id="t2-sf-symbols" data-size-gb="0.46" data-tier="2">
+      <div class="item-head">
+        <div>
+          <div class="item-title">SF-Symbols-7.dmg</div>
+          <div class="item-path">~/Downloads/SF-Symbols-7.dmg</div>
+        </div>
+        <div class="item-size">463 MB</div>
+      </div>
+      <div class="item-note">Installer. Keep only if you haven't installed yet; otherwise trash.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Delete if installed</div>
+    </div>
+
+    <div class="item" data-id="t2-inbetween" data-size-gb="0.2" data-tier="2">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Mr. Inbetween S01E01</div>
+          <div class="item-path">~/Downloads/Mr.Inbetween.S01E01.720p.AMZN.WEBRip.x264-GalaxyTV.mkv</div>
+        </div>
+        <div class="item-size">204 MB</div>
+      </div>
+      <div class="item-note">Single episode. Move or trash.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Move to Sandisk/Media or delete</div>
+    </div>
+  </div>
+
+  <!-- ============ TIER 3: REVIEW/DISCUSS ============ -->
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge risky">Tier 3 — Review</span>
+      <span class="tier-title">Bigger wins, higher risk (~20 GB potential)</span>
+      <span class="tier-desc">Comment with your call</span>
+    </div>
+
+    <div class="item" data-id="t3-notes" data-size-gb="7.0" data-tier="3">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Apple Notes local cache</div>
+          <div class="item-path">~/Library/Group Containers/group.com.apple.notes</div>
+        </div>
+        <div class="item-size">7.0 GB</div>
+      </div>
+      <div class="item-note">Rebuilds from iCloud. Re-sync takes hours and you'll be offline-blind until it finishes. Only approve if Notes is taking a disproportionate share and you can spare a sync window.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Quit Notes, delete cache, relaunch &amp; wait for iCloud re-sync</div>
+    </div>
+
+    <div class="item" data-id="t3-chrome" data-size-gb="8.6" data-tier="3">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Chrome profile data</div>
+          <div class="item-path">~/Library/Application Support/Google</div>
+        </div>
+        <div class="item-size">8.6 GB</div>
+      </div>
+      <div class="item-note"><strong>Don't delete directly</strong> — logins, extensions, history live here. Cleanup via Chrome UI: Settings → Privacy → Clear browsing data → Cached images and files (All time). Typically frees 2-4 GB.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Chrome UI cleanup (manual — I'll give you the steps)</div>
+    </div>
+
+    <div class="item" data-id="t3-voicememos" data-size-gb="2.7" data-tier="3">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Voice Memos</div>
+          <div class="item-path">~/Library/Group Containers/group.com.apple.VoiceMemos.shared</div>
+        </div>
+        <div class="item-size">2.7 GB</div>
+      </div>
+      <div class="item-note">iCloud-synced by default. If you want to trim, do it from the Voice Memos app (delete old memos) rather than filesystem.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Trim from Voice Memos app</div>
+    </div>
+
+    <div class="item" data-id="t3-whatsapp" data-size-gb="2.2" data-tier="3">
+      <div class="item-head">
+        <div>
+          <div class="item-title">WhatsApp media</div>
+          <div class="item-path">~/Library/Group Containers/group.net.whatsapp.WhatsApp.shared</div>
+        </div>
+        <div class="item-size">2.2 GB</div>
+      </div>
+      <div class="item-note">Manage in WhatsApp → Settings → Storage and Data → Manage Storage. Delete old media there.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Trim from WhatsApp UI</div>
+    </div>
+
+    <div class="item" data-id="t3-office" data-size-gb="7.0" data-tier="3">
+      <div class="item-head">
+        <div>
+          <div class="item-title">Microsoft Office suite (uninstall unused)</div>
+          <div class="item-path">/Applications/Microsoft Word.app, Excel.app, PowerPoint.app, Teams.app</div>
+        </div>
+        <div class="item-size">~7.0 GB</div>
+      </div>
+      <div class="item-note">Word 2.6G + Excel 2.4G + PPT 1.2G + Teams 1.0G. Uninstall any you don't use. Can reinstall from Microsoft 365 account anytime.</div>
+      <div class="item-action"><span class="action-label">Action:</span> Specify which to uninstall in comment</div>
+    </div>
+  </div>
+
+  <!-- ============ OPEN QUESTIONS ============ -->
+  <h2>Open Questions</h2>
+  <div class="question-block">
+    <div class="question" data-id="q-photos-icloud">
+      <div class="question-title">Q1. Is iCloud Photos turned ON?</div>
+      <div class="item-note">If yes, "Optimise Mac Storage" (Photos → Settings) may give you the 11 GB back automatically — no library move needed. Answer below.</div>
+      <textarea class="comment" placeholder="Your answer…"></textarea>
+    </div>
+    <div class="question" data-id="q-screen-recordings">
+      <div class="question-title">Q2. Any screen recordings in Downloads needed for an active project?</div>
+      <div class="item-note">List filenames to keep; the rest go to Sandisk or trash.</div>
+      <textarea class="comment" placeholder="Your answer…"></textarea>
+    </div>
+    <div class="question" data-id="q-target">
+      <div class="question-title">Q3. Hard 50% target, or is ~35-40% free acceptable?</div>
+      <div class="item-note">Hitting full 50% means uninstalling apps. ~35% is the easy win ceiling.</div>
+      <textarea class="comment" placeholder="Your answer…"></textarea>
+    </div>
+    <div class="question" data-id="q-other">
+      <div class="question-title">Q4. Anything else you want me to investigate or add to the plan?</div>
+      <textarea class="comment" placeholder="Your answer…"></textarea>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code · System Maintenance</span>
+    <span>M4 Air · Disk Cleanup · 2026-04-22</span>
+  </div>
+
+  <!-- Sticky summary bar -->
+  <div class="summary">
+    <div class="summary-stats">
+      <span>Approved: <strong id="sum-approved">0</strong></span>
+      <span>Skipped: <strong id="sum-skipped">0</strong></span>
+      <span>Already done: <strong id="sum-done">0</strong></span>
+      <span>Est. freed: <strong id="sum-gb">0 GB</strong></span>
+    </div>
+    <div class="summary-actions">
+      <button class="btn-secondary" id="btn-reset" type="button">Reset</button>
+      <button class="btn-primary" id="btn-copy" type="button">Copy handoff for next Claude</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  const STORAGE_KEY = 'disk-cleanup-approvals-2026-04-22';
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch { return {}; }
+  }
+  function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+  const state = loadState();
+  if (!state.items) state.items = {};
+  if (!state.answers) state.answers = {};
+
+  // Render controls + comment into each item
+  document.querySelectorAll('.item').forEach(item => {
+    const id = item.dataset.id;
+    const existing = state.items[id] || { decision: null, comment: '' };
+
+    const controls = document.createElement('div');
+    controls.className = 'controls';
+    ['approve', 'skip', 'done'].forEach(d => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ctrl-btn ' + d;
+      b.dataset.decision = d;
+      b.textContent = d === 'approve' ? '✓ Approve' : d === 'skip' ? '✗ Skip' : '✓ Already done';
+      b.addEventListener('click', () => {
+        const cur = state.items[id]?.decision;
+        const next = cur === d ? null : d;
+        state.items[id] = { ...(state.items[id] || {}), decision: next };
+        saveState(state);
+        render();
+      });
+      controls.appendChild(b);
+    });
+    item.appendChild(controls);
+
+    const ta = document.createElement('textarea');
+    ta.className = 'comment';
+    ta.placeholder = 'Notes / instructions for next Claude…';
+    ta.value = existing.comment || '';
+    ta.addEventListener('input', () => {
+      state.items[id] = { ...(state.items[id] || {}), comment: ta.value };
+      saveState(state);
+    });
+    item.appendChild(ta);
+  });
+
+  // Wire open-question textareas
+  document.querySelectorAll('.question').forEach(q => {
+    const id = q.dataset.id;
+    const ta = q.querySelector('textarea');
+    ta.value = state.answers[id] || '';
+    ta.addEventListener('input', () => {
+      state.answers[id] = ta.value;
+      saveState(state);
+    });
+  });
+
+  function render() {
+    let approved = 0, skipped = 0, done = 0, gb = 0;
+    document.querySelectorAll('.item').forEach(item => {
+      const id = item.dataset.id;
+      const dec = state.items[id]?.decision || null;
+      const size = parseFloat(item.dataset.sizeGb) || 0;
+
+      item.classList.remove('decided-approve', 'decided-skip', 'decided-done');
+      if (dec === 'approve') { item.classList.add('decided-approve'); approved++; gb += size; }
+      else if (dec === 'skip') { item.classList.add('decided-skip'); skipped++; }
+      else if (dec === 'done') { item.classList.add('decided-done'); done++; }
+
+      item.querySelectorAll('.ctrl-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.decision === dec);
+      });
+    });
+    document.getElementById('sum-approved').textContent = approved;
+    document.getElementById('sum-skipped').textContent = skipped;
+    document.getElementById('sum-done').textContent = done;
+    document.getElementById('sum-gb').textContent = gb.toFixed(1) + ' GB';
+  }
+
+  render();
+
+  // Toast
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  // Reset
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    if (!confirm('Clear all decisions and comments on this page?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  });
+
+  // Copy handoff prompt
+  document.getElementById('btn-copy').addEventListener('click', async () => {
+    const approved = [], skipped = [], done = [], commented = [];
+    let gb = 0;
+    document.querySelectorAll('.item').forEach(item => {
+      const id = item.dataset.id;
+      const title = item.querySelector('.item-title').textContent.trim();
+      const path = item.querySelector('.item-path').textContent.trim();
+      const size = item.querySelector('.item-size').textContent.trim();
+      const st = state.items[id] || {};
+      const line = `- [${id}] ${title} (${size}) — ${path}${st.comment ? ' | note: ' + st.comment : ''}`;
+      if (st.decision === 'approve') { approved.push(line); gb += parseFloat(item.dataset.sizeGb) || 0; }
+      else if (st.decision === 'skip') skipped.push(line);
+      else if (st.decision === 'done') done.push(line);
+      if (st.comment && !st.decision) commented.push(line);
+    });
+
+    const answers = Object.entries(state.answers)
+      .filter(([_, v]) => v && v.trim())
+      .map(([k, v]) => `- ${k}: ${v.trim()}`);
+
+    const prompt = `Context from last session: Disk cleanup approval sheet reviewed on M4 Air (245 GB total, was 17 GB free). Max has approved the items below and wants you to execute them. Source: https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-disk-cleanup-approvals.html
+
+APPROVED (${approved.length} items, ~${gb.toFixed(1)} GB to free):
+${approved.length ? approved.join('\n') : '(none)'}
+
+ALREADY DONE (skip execution, just confirm):
+${done.length ? done.join('\n') : '(none)'}
+
+SKIPPED (do not touch):
+${skipped.length ? skipped.join('\n') : '(none)'}
+
+OPEN QUESTIONS — Max's answers:
+${answers.length ? answers.join('\n') : '(no answers provided)'}
+
+OTHER NOTES:
+${commented.length ? commented.join('\n') : '(none)'}
+
+Execution rules:
+- Tier 1 approved items: delete directly (safe, regenerable)
+- Tier 2 approved items: rsync to M1 Pro /Volumes/Sandisk/ via ssh server (SSH host 'server' is configured), verify file count + size match, then delete local
+- Tier 3 approved items: follow item-specific guidance (Chrome UI, WhatsApp UI, uninstall flows)
+- Always show the command before executing, get a final "go" from Max, then run
+- Check disk space before and after, report delta
+- Never touch items not in the APPROVED list
+- If any rsync fails midway, keep local copy until verified
+
+Start by reading df -h / and df -h /Volumes/Sandisk (via ssh server), then propose the first batch.`;
+
+    try {
+      await navigator.clipboard.writeText(prompt);
+      toast('Handoff prompt copied — paste into new Claude session');
+    } catch {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = prompt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast('Copied (fallback)');
+    }
+  });
+})();
+</script>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "M4 Air Disk Cleanup — Approval Sheet",
+  "date": "2026-04-22",
+  "summary": "Interactive approval sheet for freeing disk space on M4 Air (245 GB total, 17 GB free; target 50% free = recover ~106 GB, realistic ceiling ~85 GB). Items grouped in three tiers: safe cache deletions (~31 GB), transfer-to-Sandisk candidates (~32 GB), and review-needed items (~20 GB). Page persists per-item decisions (approve/skip/done) plus comments in localStorage; includes a Copy-handoff button that emits a structured prompt for the executing Claude session.",
+  "sections": [
+    {
+      "heading": "Tier 1 — Safe delete (caches, regenerable, ~31 GB)",
+      "items": [
+        { "title": "Claude Desktop sandbox VMs", "detail": "~/Library/Application Support/Claude/vm_bundles — 12 GB, regenerates on next launch", "meta": { "id": "t1-claude-vm", "size_gb": 12 } },
+        { "title": "uv Python cache", "detail": "~/.cache/uv — 5.3 GB", "meta": { "id": "t1-cache-uv", "size_gb": 5.3 } },
+        { "title": "npm cache", "detail": "~/.npm — 4.2 GB, prefer `npm cache clean --force`", "meta": { "id": "t1-npm", "size_gb": 4.2 } },
+        { "title": "Library/Caches", "detail": "~/Library/Caches — 3.9 GB", "meta": { "id": "t1-lib-caches", "size_gb": 3.9 } },
+        { "title": "Hugging Face cache", "detail": "~/.cache/huggingface — 3.6 GB", "meta": { "id": "t1-hf", "size_gb": 3.6 } },
+        { "title": "Trash", "detail": "~/.Trash — 948 MB", "meta": { "id": "t1-trash", "size_gb": 0.95 } },
+        { "title": "Puppeteer Chromium", "detail": "~/.cache/puppeteer — 677 MB", "meta": { "id": "t1-puppeteer", "size_gb": 0.68 } }
+      ]
+    },
+    {
+      "heading": "Tier 2 — Transfer to Sandisk (~32 GB)",
+      "items": [
+        { "title": "Photos Library", "detail": "11 GB; prefer Optimise Storage toggle over library move if iCloud Photos is ON", "meta": { "id": "t2-photos", "size_gb": 11 } },
+        { "title": "Succession season rip", "detail": "~/Movies/Succession — 8.7 GB", "meta": { "id": "t2-succession", "size_gb": 8.7 } },
+        { "title": "Screen recordings in Downloads", "detail": "10 files >100MB, biggest 1.7G + 1.0G + 546M — ~5 GB total", "meta": { "id": "t2-dl-videos", "size_gb": 5 } },
+        { "title": "Civilization V", "detail": "/Applications/Civilization V Campaign Edition.app — 5.2 GB", "meta": { "id": "t2-civ5", "size_gb": 5.2 } },
+        { "title": "Burnt (2015) movie", "detail": "~/Downloads/Burnt (2015) [1080p] — 1.5 GB", "meta": { "id": "t2-burnt", "size_gb": 1.5 } },
+        { "title": "SF-Symbols-7.dmg", "detail": "463 MB installer", "meta": { "id": "t2-sf-symbols", "size_gb": 0.46 } },
+        { "title": "Mr. Inbetween S01E01", "detail": "204 MB single episode", "meta": { "id": "t2-inbetween", "size_gb": 0.2 } }
+      ]
+    },
+    {
+      "heading": "Tier 3 — Review (bigger wins, riskier, ~20 GB potential)",
+      "items": [
+        { "title": "Apple Notes cache", "detail": "7 GB, rebuilds from iCloud over hours", "meta": { "id": "t3-notes", "size_gb": 7 } },
+        { "title": "Chrome profile cleanup (via UI)", "detail": "8.6 GB directory; 2-4 GB recoverable via Chrome Clear Browsing Data", "meta": { "id": "t3-chrome", "size_gb": 8.6 } },
+        { "title": "Voice Memos", "detail": "2.7 GB — trim via Voice Memos app", "meta": { "id": "t3-voicememos", "size_gb": 2.7 } },
+        { "title": "WhatsApp media", "detail": "2.2 GB — trim via WhatsApp UI", "meta": { "id": "t3-whatsapp", "size_gb": 2.2 } },
+        { "title": "Office suite (uninstall)", "detail": "~7 GB across Word/Excel/PPT/Teams", "meta": { "id": "t3-office", "size_gb": 7 } }
+      ]
+    },
+    {
+      "heading": "Open questions",
+      "items": [
+        { "title": "Q1 iCloud Photos ON?", "detail": "If yes, Optimise Storage is simpler than moving library", "meta": { "id": "q-photos-icloud" } },
+        { "title": "Q2 Screen recordings needed?", "detail": "List keepers", "meta": { "id": "q-screen-recordings" } },
+        { "title": "Q3 Hard 50% target?", "detail": "Or ~35% acceptable?", "meta": { "id": "q-target" } },
+        { "title": "Q4 Other additions?", "detail": "Free-form", "meta": { "id": "q-other" } }
+      ]
+    }
+  ],
+  "next_steps": "Max reviews each item in the browser (approve/skip/already-done) and fills open questions. When ready, clicks 'Copy handoff for next Claude' to get a structured prompt. Pastes into a fresh Claude session which then executes: Tier 1 approved = direct deletion, Tier 2 approved = rsync to ssh host 'server' at /Volumes/Sandisk/ + verify + delete local, Tier 3 = item-specific manual/UI flows. Always show commands before executing and verify disk delta.",
+  "session_state": {
+    "phase": "approval-sheet-generated",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Scanned M4 Air disk usage (228 GB used of 245 GB)",
+      "Identified candidates across three risk tiers totalling ~83 GB potential recovery",
+      "Verified SSH to M1 Pro via host 'server' (Tailscale 100.85.64.20, user maxdekwaasteniet)",
+      "Verified /Volumes/Sandisk mounted on M1 Pro with 299 GB free",
+      "Generated interactive approval HTML with localStorage-persisted per-item decisions and a Copy-handoff button"
+    ],
+    "blockers_hit": "Honest ceiling: 50% free requires ~106 GB recovered; realistic without app uninstalls is ~85 GB. Flagged in UI callout and Q3.",
+    "uncommitted_changes": "claude-output repo: new file 2026-04-22-disk-cleanup-approvals.html + index.html entry",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "MEMORY.md", "version_date": "2026-04-22", "verified_live": true },
+      { "name": "multi-mac-sync.md", "version_date": "2026-04-22", "verified_live": false },
+      { "name": "feedback_automation_m1pro.md", "version_date": "2026-04-22", "verified_live": false }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-22-disk-cleanup-approvals.html", "relevance": "this approval sheet" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "SSH config has host alias 'server' → maxs-laptop (M1 Pro) as user maxdekwaasteniet. Sandisk at /Volumes/Sandisk on M1 Pro, 299 GB free."
+  },
+  "project_context": {
+    "protected_resources": [
+      "Photos Library.photoslibrary (iCloud sync risk — Optimise Storage is preferred path)",
+      "Chrome profile ~/Library/Application Support/Google (never delete directly)",
+      "Voice Memos & WhatsApp group containers (manage via app UI, not filesystem)",
+      "Notes group container (deletion triggers long iCloud re-sync)"
+    ],
+    "conventions_applied": [
+      "humanizer anti-slop",
+      "present plan before destructive actions — ask approval",
+      "automation runs on M1 Pro but this diagnostic ran on M4 Air by necessity",
+      "pbcopy/output-page for substantial outputs"
+    ]
+  },
+  "decision_log": [
+    {
+      "decision": "Built an interactive HTML approval sheet instead of a flat list",
+      "rejected_alternatives": ["flat markdown", "TodoWrite list", "single-decision Y/N"],
+      "rationale": "Max explicitly asked for HTML with comment/approve UI and a handoff path for next Claude. Per-item decisions + comments + sticky Copy-handoff button fulfils that in a reusable pattern.",
+      "trade_offs": "More work upfront; but reusable pattern for future approval workflows.",
+      "contingencies": []
+    },
+    {
+      "decision": "Flagged that 50% free target is unrealistic without app uninstalls",
+      "rejected_alternatives": ["silently aim for 50% and under-deliver", "push uninstalls as default"],
+      "rationale": "Honest framing prevents the executing Claude from making destructive choices Max didn't mean to approve.",
+      "trade_offs": "Max might push back asking for a harder path; that's fine, handled via Q3.",
+      "contingencies": [
+        { "if_X_then_Y": "if Max answers Q3 'hard 50%', next Claude proposes uninstall list for Civ V + unused Office apps", "probability": 0.4 }
+      ]
+    },
+    {
+      "decision": "Excluded destructive actions on iCloud-synced containers (Notes, VoiceMemos, WhatsApp, Chrome) from 'safe' tier",
+      "rejected_alternatives": ["include Notes cache in Tier 1"],
+      "rationale": "Re-sync costs and login loss outweigh GB recovered; routed through Tier 3 with explicit per-app guidance instead.",
+      "trade_offs": "Tier 1 total is smaller than it could be; safety over throughput.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
