@@ -12,6 +12,43 @@ body { font-family: "Georgia", "Times New Roman", serif; color: #2c2c2c; backgro
 .page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
 .page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
 .page { max-width: 780px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+a.cite { color: #1a2744; text-decoration: none; border-bottom: 1px dotted #1a2744; font-weight: 600; font-size: 0.78em; padding: 0 3px; vertical-align: super; line-height: 1; white-space: nowrap; }
+a.cite:hover, a.cite:active { background: #f5f7fa; }
+@media (max-width: 720px) {
+  body { font-size: 15px; }
+  .page-header { padding: 12px 14px 0; font-size: 11px; }
+  .page { margin: 8px 8px 40px; padding: 24px 18px; max-width: 100%; }
+  .brand-rule { margin: 12px 0 22px; }
+  .page-meta { flex-direction: column; gap: 8px; }
+  .page-meta-right { text-align: left; }
+  h1 { font-size: 24px; line-height: 1.25; }
+  h2 { font-size: 19px; margin: 28px 0 10px; }
+  h3 { font-size: 12px; }
+  p, li { font-size: 15px; line-height: 1.65; }
+  .subtitle { font-size: 15px; margin-bottom: 24px; }
+  .stats-row { flex-direction: column; gap: 0; margin: 22px 0; }
+  .stat-card { border-left: none; border-top: 2px solid #d0d3d8; padding: 14px 0 14px 14px; }
+  .stat-card:first-child { border-top: 2px solid #d0d3d8; }
+  .stat-value { font-size: 24px; }
+  .positioning { padding: 20px 18px; margin: 22px 0; }
+  .positioning h2 { font-size: 17px; }
+  .positioning > p { font-size: 14.5px; }
+  .callout { padding: 14px 16px; font-size: 14.5px; }
+  .card { padding: 14px 16px; }
+  .card-title { font-size: 15px; }
+  .card-desc { font-size: 14px; }
+  .pos-steps { flex-direction: column; gap: 8px; }
+  .pos-step { min-width: 0; padding: 14px; text-align: left; display: flex; align-items: center; gap: 14px; }
+  .pos-num { font-size: 24px; flex-shrink: 0; min-width: 28px; }
+  .pos-label { font-size: 14px; margin: 0 0 2px 0; }
+  .pos-desc { font-size: 12.5px; }
+  .pos-step > div:last-child { flex: 1; }
+  .matrix { font-size: 12.5px; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .matrix th, .matrix td { padding: 8px 10px; }
+  ol, ul { margin-left: 18px; }
+  .disclosure p { font-size: 12px; }
+  a.cite { font-size: 0.85em; padding: 0 4px; }
+}
 .brand { margin-bottom: 6px; }
 .brand-name { font-family: "Georgia", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
 .brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
@@ -84,7 +121,7 @@ a { color: #1a2744; }
 
   <div class="overline">PMI Coverage Analysis</div>
   <h1>Arrow Global Bupa + PCOS TTC: What's Actually Covered</h1>
-  <p class="subtitle">Reading the Arrow Global Bupa Select policy guide line by line against Dr. Crawford's PCOS workup. Conclusion: the headline fertility items are excluded. There is still a usable strategy, but it's not the one most people assume.</p>
+  <p class="subtitle">Reading the Arrow Global Bupa Select policy guide line by line against Dr. Crawford's PCOS workup. <a class="cite" href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-pcos-ttc-crawford.html">[Crawford brief]</a> Conclusion: the headline fertility items are excluded. There is still a usable strategy, but it's not the one most people assume.</p>
 
   <div class="stats-row">
     <div class="stat-card">
@@ -112,12 +149,12 @@ a { color: #1a2744; }
 
   <div class="card no">
     <div class="card-title">Exclusion 5 &mdash; Birth control, conception and sexual problems</div>
-    <div class="card-desc">"Treatment isn't covered for: contraception, sterilisation or termination of pregnancy; sexual problems; or <strong>fertility treatment such as assisted reproduction, fertility investigations, IVF, surrogacy, harvesting of donor eggs or donor sperm.</strong>" This is the killing blow. Anything the consultant codes as a fertility workup gets denied.</div>
+    <div class="card-desc">"Treatment isn't covered for: contraception, sterilisation or termination of pregnancy; sexual problems; or <strong>fertility treatment such as assisted reproduction, fertility investigations, IVF, surrogacy, harvesting of donor eggs or donor sperm.</strong>" <a class="cite" href="https://www.bupa.co.uk/-/media/files/site-specific-files/health-insurance/policy-documents/bupa-select-policy-guide.pdf">[1]</a> This is the killing blow. Anything the consultant codes as a fertility workup gets denied.</div>
   </div>
 
   <div class="card no">
     <div class="card-title">Exclusion 6 &mdash; Chronic conditions</div>
-    <div class="card-desc">PCOS is, by definition, chronic. Bupa won't pay for ongoing management. They will pay for diagnosis of an "acute flare-up" of an underlying condition, which is the wedge.</div>
+    <div class="card-desc">PCOS is, by definition, chronic. Bupa won't pay for ongoing management. They will pay for diagnosis of an "acute flare-up" of an underlying condition, which is the wedge. <a class="cite" href="https://www.bupa.co.uk/health-information/womens-health/pcos">[2]</a></div>
   </div>
 
   <div class="card no">
@@ -170,7 +207,7 @@ a { color: #1a2744; }
     Three things the policy pack doesn't tell you, all of which materially change the answer:
     <ol style="margin-top:8px;">
       <li><strong>Does Arrow co-pay or fully pay the premium?</strong> If it's salary-sacrifice with full employee cost, the value at your wife's age is questionable for fertility purposes specifically (almost zero) but reasonable for general health (digital GP + fast specialist access).</li>
-      <li><strong>Is there a separate Carrot, Fertifa, Maven, or similar fertility benefit?</strong> Major UK employers increasingly offer these on top of PMI as a standalone wallet (typically &pound;5-25k per employee for fertility). Arrow is PE-owned and ~1,000+ employees, well within the band that buys this. If they have it, that's the real prize.</li>
+      <li><strong>Is there a separate Carrot, Fertifa, Maven, or similar fertility benefit?</strong> Major UK employers increasingly offer these on top of PMI as a standalone wallet (typically &pound;5-25k per employee for fertility). <a class="cite" href="https://www.fertifa.com/">[8]</a> <a class="cite" href="https://www.get-carrot.com">[9]</a> Arrow is PE-owned and ~1,000+ employees, well within the band that buys this. If they have it, that's the real prize.</li>
       <li><strong>Is there a higher Bupa tier with fertility add-ons?</strong> Rare in UK PMI but exists. Some Bupa group plans add a one-off fertility allowance (typically &pound;3-15k) as an upsell tier. Worth one email.</li>
     </ol>
   </div>
@@ -178,10 +215,10 @@ a { color: #1a2744; }
   <h2>4. The NHS pathway is the real anchor</h2>
   <p>UK NHS funding for IVF varies by Integrated Care Board (your postcode). The general picture for someone at 29 with PCOS:</p>
   <ul>
-    <li>NICE recommends up to 3 full IVF cycles for women under 40 who haven't conceived after 2 years of trying. PCOS-related anovulation that hasn't responded to ovulation induction is an explicitly eligible route.</li>
-    <li>Common ICB criteria: woman's BMI 19-30, neither partner has children from a previous relationship, non-smokers, age cutoff varies (usually 39 or 42).</li>
-    <li>NHS will fund the workup itself (AMH, semen analysis, HSG, ultrasounds) regardless of whether IVF is later approved. This is the workup Bupa won't pay for.</li>
-    <li>Letrozole for ovulation induction is routinely prescribed on the NHS for PCOS, off-label, in line with the 2023 international PCOS guidelines.</li>
+    <li>NICE recommends up to 3 full IVF cycles for women under 40 who haven't conceived after 2 years of trying. <a class="cite" href="https://www.gov.uk/government/publications/nhs-funded-ivf-in-england/nhs-funded-in-vitro-fertilisation-ivf-in-england">[3]</a> PCOS-related anovulation that hasn't responded to ovulation induction is an explicitly eligible route. <a class="cite" href="https://www.hweclinicalguidance.nhs.uk/clinical-policies/fertility-treatment-and-referral-criteria-for-tertiary-level-assisted-conception-ivfiui/">[4]</a></li>
+    <li>Common ICB criteria: woman's BMI 19-30, neither partner has children from a previous relationship, non-smokers, age cutoff varies (usually 39 or 42). <a class="cite" href="https://fertilitynetworkuk.org/access-support/nhs-funding/england/">[5]</a></li>
+    <li>NHS will fund the workup itself (AMH, semen analysis, HSG, ultrasounds) regardless of whether IVF is later approved. This is the workup Bupa won't pay for. <a class="cite" href="https://www.nhs.uk/conditions/infertility/diagnosis/">[6]</a></li>
+    <li>Letrozole for ovulation induction is routinely prescribed on the NHS for PCOS, off-label, in line with the 2023 international PCOS guidelines. <a class="cite" href="https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/treatment/">[7]</a></li>
   </ul>
   <p>Time-to-NHS-clinic varies wildly (weeks to ~6 months depending on ICB). Get on the list now even if you're considering self-pay in parallel.</p>
 
@@ -227,8 +264,22 @@ a { color: #1a2744; }
     <li><strong>To Bupa (after she's on the policy):</strong> ask Bupa's own pre-authorisation team, on the phone, what they'll cover for "investigation of irregular menstrual cycles in a patient with known PCOS". Get the answer in writing on the call notes. They're contractually required to confirm pre-auth before treatment.</li>
   </ol>
 
+  <h2>Sources</h2>
+  <ol>
+    <li><a href="https://www.bupa.co.uk/-/media/files/site-specific-files/health-insurance/policy-documents/bupa-select-policy-guide.pdf">Bupa Select policy guide (PDF)</a> &mdash; the exclusions list, identical wording to your Arrow Global pack</li>
+    <li><a href="https://www.bupa.co.uk/health-information/womens-health/pcos">Bupa &mdash; PCOS overview</a> &mdash; their own framing of the condition</li>
+    <li><a href="https://www.gov.uk/government/publications/nhs-funded-ivf-in-england/nhs-funded-in-vitro-fertilisation-ivf-in-england">GOV.UK &mdash; NHS-funded IVF in England</a></li>
+    <li><a href="https://www.hweclinicalguidance.nhs.uk/clinical-policies/fertility-treatment-and-referral-criteria-for-tertiary-level-assisted-conception-ivfiui/">NHS Herts &amp; West Essex &mdash; IVF/IUI referral criteria (typical ICB)</a></li>
+    <li><a href="https://fertilitynetworkuk.org/access-support/nhs-funding/england/">Fertility Network UK &mdash; NHS funding map by region</a></li>
+    <li><a href="https://www.nhs.uk/conditions/infertility/diagnosis/">NHS &mdash; Infertility diagnosis pathway</a></li>
+    <li><a href="https://www.nhs.uk/conditions/polycystic-ovary-syndrome-pcos/treatment/">NHS &mdash; PCOS treatment (letrozole + IVF)</a></li>
+    <li><a href="https://www.fertifa.com/">Fertifa &mdash; UK employer fertility benefit provider</a></li>
+    <li><a href="https://www.get-carrot.com">Carrot &mdash; global employer fertility benefit provider</a></li>
+    <li><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-pcos-ttc-crawford.html">Crawford PCOS+TTC brief</a> &mdash; the upstream clinical playbook this maps against</li>
+  </ol>
+
   <div class="disclosure">
-    <p><strong>Sources:</strong> Bupa Select policy guide (Arrow Global, BINS 11438, ref 55315294811, May 2024) and Bupa Benefits Table (UK PMI, 30/06/2021), both supplied locally. Bupa cost schedule 2025-2026 (Arrow Global rate card). Web checks: NHS PCOS treatment guidance (nhs.uk), NHS-funded IVF in England (gov.uk), wecovr Bupa private healthcare guide 2025-2026, Fertility Network UK NHS funding pages, NICE fertility guideline overview. Crawford clinical recommendations: source brief at <a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-20-pcos-ttc-crawford.html">claude-output/2026-04-20-pcos-ttc-crawford.html</a>.</p>
+    <p><strong>Local source documents:</strong> Bupa Select policy guide (Arrow Global, BINS 11438, ref 55315294811, May 2024), Bupa Benefits Table (UK PMI, 30/06/2021), and Bupa cost schedule 2025-2026 (Arrow rate card). Supplied via Arrow Global PMI opt-in pack, not online.</p>
     <p><strong>Not medical or insurance advice.</strong> Coverage decisions sit with Bupa's pre-authorisation team and depend on the specific membership certificate and any special conditions. Clinical decisions sit with a qualified clinician. This brief is a strategy memo to help you ask the right questions.</p>
   </div>
 
