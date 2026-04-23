@@ -629,6 +629,19 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-04-23-phase-a-regression-diagnosis.html",
+    "title": "Phase A CSS-stripping regression diagnosis",
+    "date": "2026-04-23",
+    "summary": "2 of 10 Phase A posts lost 49-61% CSS bytes during WP write. Previous class-mismatch hypothesis falsified. Recommend diagnosing pipeline before rollback.",
+    "tags": [
+      "Proxuma",
+      "Power BI",
+      "incident"
+    ],
+    "type": "evaluation",
+    "detail": "Forensic diagnosis of the Phase A canary rollout. Compares live post_content against corpus files for golden 3956, Phase A EN (3976), and Phase A NL (5815). Identifies byte-shrinkage during DB write on a subset of posts, not a class-naming bug. Includes pixel-annotated screenshot comparison, per-post integrity matrix, 4 root-cause hypotheses with confidence badges, and 4 forward paths. Recommends Option D: pause rollout, instrument pipeline, then re-push."
+  },
+  {
     "file": "2026-04-22-psa-ownership-research.html",
     "title": "PSA Customer Ownership Research \u2014 413 Accounts",
     "date": "2026-04-22",

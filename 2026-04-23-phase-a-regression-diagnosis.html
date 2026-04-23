@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase A Regression Diagnosis &mdash; 2026-04-23</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 18px; border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 12px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 9px 12px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.matrix .status-bad { color: #b02a2a; font-weight: 700; }
+.matrix .status-warn { color: #8a6a2a; font-weight: 700; }
+.matrix .status-ok { color: #1a6b3a; font-weight: 600; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.callout.warn { border-left-color: #c8402a; background: #fef3e2; }
+.callout.warn .callout-label { color: #c8402a; }
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.screenshot-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px; margin: 20px 0;
+}
+.screenshot-cell {
+  border: 1px solid #e2e4e8; border-radius: 4px; overflow: hidden;
+  background: #fff; display: flex; flex-direction: column;
+}
+.screenshot-cell img {
+  width: 100%; height: 420px; object-fit: cover; object-position: top;
+  border-bottom: 1px solid #eef0f2; cursor: zoom-in;
+}
+.screenshot-caption {
+  padding: 8px 10px;
+  font: 500 10px/1.3 -apple-system, sans-serif; color: #4a5568;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.screenshot-caption .label-ok { color: #1a6b3a; }
+.screenshot-caption .label-bad { color: #b02a2a; }
+.screenshot-caption .label-warn { color: #8a6a2a; }
+.screenshot-caption .dims {
+  display: block; color: #8a8f96; margin-top: 3px; text-transform: none;
+  letter-spacing: 0; font-size: 10px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 14px 18px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 11px; line-height: 1.55;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 12px;
+  background: #f0f2f5; padding: 1px 5px; border-radius: 3px;
+}
+.diff-add { color: #1a6b3a; }
+.diff-del { color: #b02a2a; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.option-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0;
+}
+.option {
+  border: 1px solid #e2e4e8; border-left: 3px solid #1a2744;
+  padding: 14px 18px; border-radius: 0 4px 4px 0; background: #fff;
+}
+.option h4 {
+  font: 700 12px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #1a2744; margin-bottom: 8px;
+}
+.option p { font-size: 12px; line-height: 1.55; margin-bottom: 6px; }
+.confidence {
+  display: inline-block; padding: 2px 8px; border-radius: 3px;
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; margin-left: 8px;
+}
+.conf-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.conf-med { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.conf-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">2026-04-23</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-23-phase-a-regression-diagnosis.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Incident Diagnosis &amp; Forensics</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 23, 2026<br>Production Regression<br>proxuma.io / Power BI reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Phase A &mdash; Power BI report rollout</div>
+  <h1>CSS-stripping regression on NL-heavy reports</h1>
+  <p class="subtitle">The 2026-04-20 Phase A canary pushed 10 reports. Two published NL posts lost 49&ndash;61&nbsp;percent of their bytes during the write to WordPress, including all <code>.prx-report</code>-scoped CSS. The previous root-cause hypothesis (morph-bar class mismatch) does not hold up under inspection. This note documents what actually happened, who is affected, and what the rollback options look like.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">10 / 10</div>
+      <div class="stat-label">Posts actually pushed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Confirmed broken published</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Suspect partial strip</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Slug deviations</div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="callout-label">Key finding</span>
+    Post <strong>5815</strong> (welke-sla-overtredingen&hellip;, NL) on-disk corpus file is 128,312&nbsp;bytes with 506 <code>.prx-report</code> occurrences across 4 <code>&lt;style&gt;</code> blocks. The live <code>post_content</code> in the WordPress database is 49,647&nbsp;bytes with <strong>zero</strong> <code>.prx-report</code> occurrences and a single surviving <code>&lt;style&gt;</code> block. Something between the push script and the database stripped 79&nbsp;KB of CSS. That is the thin-frame defect Max flagged.
+  </div>
+
+  <h2>Visual comparison (full-page Microlink captures)</h2>
+  <div class="screenshot-row">
+    <div class="screenshot-cell">
+      <a href="assets/2026-04-23-phase-a/golden-3956.png" target="_blank"><img src="assets/2026-04-23-phase-a/golden-3956.png" alt="Golden 3956 baseline"></a>
+      <div class="screenshot-caption">
+        <span class="label-ok">Golden 3956 &middot; baseline</span>
+        <span class="dims">2880 &times; 13,188&nbsp;px &middot; 2.8&nbsp;MB</span>
+      </div>
+    </div>
+    <div class="screenshot-cell">
+      <a href="assets/2026-04-23-phase-a/phaseA-en-project-budget-variance.png" target="_blank"><img src="assets/2026-04-23-phase-a/phaseA-en-project-budget-variance.png" alt="Phase A EN project-budget-variance"></a>
+      <div class="screenshot-caption">
+        <span class="label-ok">Phase A EN &middot; 3976 project-budget-variance</span>
+        <span class="dims">2880 &times; 16,798&nbsp;px &middot; 4.5&nbsp;MB</span>
+      </div>
+    </div>
+    <div class="screenshot-cell">
+      <a href="assets/2026-04-23-phase-a/phaseA-nl-welke-sla.png" target="_blank"><img src="assets/2026-04-23-phase-a/phaseA-nl-welke-sla.png" alt="Phase A NL welke-sla-overtredingen"></a>
+      <div class="screenshot-caption">
+        <span class="label-bad">Phase A NL &middot; 5815 welke-sla&hellip;</span>
+        <span class="dims">2880 &times; 13,362&nbsp;px &middot; 3.4&nbsp;MB</span>
+      </div>
+    </div>
+  </div>
+
+  <p>Click any thumbnail for the full-page PNG. Against the golden, the NL Phase A page shows a visibly thinner teal border outline and slightly altered padding around the document. The EN Phase A page matches the golden structurally and stylistically. Sections are all present on both pushed pages, so the defect sits in the frame rules (border, padding, box-shadow) rather than in missing HTML.</p>
+
+  <h2>Per-post CSS integrity audit</h2>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Post</th>
+        <th>Slug</th>
+        <th>Lang / status</th>
+        <th>Pushed bytes</th>
+        <th>Live bytes</th>
+        <th>Delta</th>
+        <th><code>.prx-report</code> in live</th>
+        <th>Verdict</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>3976</td><td>project-budget-variance</td><td>EN</td><td>96,008</td><td>102,977</td><td>+7%</td><td>227</td><td class="status-ok">OK</td></tr>
+      <tr><td>4063</td><td>project-budgetafwijking-rapport</td><td>NL</td><td>102,924</td><td>97,296</td><td>-5%</td><td>225</td><td class="status-ok">OK</td></tr>
+      <tr><td>5937</td><td>kosten-van-servicelevering-per-klant</td><td>NL draft</td><td>98,897</td><td>98,898</td><td>0%</td><td>511</td><td class="status-ok">OK (draft, not public)</td></tr>
+      <tr><td>4162</td><td>average-task-cycle-time</td><td>EN &middot; <em>unapproved</em></td><td>81,991</td><td>54,092</td><td>-34%</td><td>159</td><td class="status-warn">Suspect partial strip</td></tr>
+      <tr><td>3978</td><td>psa-vs-quickbooks-comparison</td><td>EN &middot; <em>unapproved</em></td><td>82,012</td><td>96,484</td><td>+18%</td><td>229</td><td class="status-ok">OK</td></tr>
+      <tr><td><strong>5815</strong></td><td>welke-sla-overtredingen-hadden-voorkomen-kunnen-worden</td><td>NL</td><td>128,312</td><td>49,761</td><td>-61%</td><td><strong>0</strong></td><td class="status-bad">BROKEN (no scoping)</td></tr>
+      <tr><td>3989</td><td>service-calls-planned-work-weekly</td><td>EN</td><td>89,586</td><td>89,535</td><td>0%</td><td>230</td><td class="status-ok">OK</td></tr>
+      <tr><td>5972</td><td>omzet-per-medewerker-2</td><td>NL draft</td><td>90,444</td><td>90,445</td><td>0%</td><td>467</td><td class="status-ok">OK (draft, not public)</td></tr>
+      <tr><td><strong>5893</strong></td><td>hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar</td><td>NL</td><td>88,646</td><td>45,088</td><td>-49%</td><td>134</td><td class="status-bad">BROKEN (partial scoping)</td></tr>
+      <tr><td>5974</td><td>projectomzet-versus-arbeidskosten</td><td>NL draft &middot; <em>unapproved</em></td><td>83,961</td><td>83,962</td><td>0%</td><td>464</td><td class="status-ok">OK (draft, not public)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>CSS diff (5815 corpus vs live)</h2>
+  <p>First 400 characters of the first <code>&lt;style&gt;</code> block in each version. The corpus opens with the <code>.prx-morph-bar</code> scoped rules that define the report chrome. The live version opens with unscoped global resets and a <code>.pipeline-page</code> wrapper that does not match the corpus at all:</p>
+
+<pre><span class="diff-add">CORPUS (on disk, nl/proxuma-io-welke-sla...html)</span>
+.prx-morph-bar{position:fixed;top:0;left:0;right:0;z-index:10000;height:50px;...}
+.prx-morph-bar.active{pointer-events:all;}
+.prx-morph-bg{position:absolute;inset:0;background:#115e58;opacity:0;
+  transform:scaleY(0);transform-origin:top;transition:...}
+.prx-report *,.prx-report *::before,.prx-report *::after{box-sizing:border-box;...}
+.prx-report{font-family:'Open Sans',...;max-width:1140px;margin:0 auto;padding:0 24px;...}
+[506 occurrences of .prx-report across 4 style blocks, 128,312 bytes total]
+
+<span class="diff-del">LIVE (wp post get 5815 --field=post_content)</span>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Open Sans', sans-serif; background: #f0f4f8; ... }
+.pipeline-page { max-width: 900px; margin: 0 auto; padding: 0 16px 60px; }
+.pipeline-nav { padding: 18px 0 12px; ... }
+[0 occurrences of .prx-report, 1 style block, 49,647 bytes total]</pre>
+
+  <p>The surviving live stylesheet is not the corpus stylesheet with things removed. It is a different stylesheet entirely, targeting <code>.pipeline-page</code> (a chrome wrapper class) instead of <code>.prx-report</code> (the document-inside-frame class). So the push did not truncate, it substituted. The deploy pipeline apparently ran an alternate code path for 5815 that writes a minimal pipeline shell and drops the document CSS.</p>
+
+  <h2>Slug deviation audit</h2>
+  <p>The rollout-log records 10 pushes. Max's approved canary list contains 10 slugs. They are not the same 10.</p>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Approved but NOT pushed</th><th>Pushed but NOT approved</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>new-vs-recurring-ticket-ratio</td><td>average-task-cycle-time &middot; post 4162 (EN)</td></tr>
+      <tr><td>average-deal-size-trend</td><td>psa-vs-quickbooks-comparison &middot; post 3978 (EN)</td></tr>
+      <tr><td>test-backup-health</td><td>projectomzet-versus-arbeidskosten &middot; post 5974 (NL draft)</td></tr>
+    </tbody>
+  </table>
+
+  <p>Seven slugs overlap both lists. Three unapproved posts were touched (two EN published, one NL draft). The NL draft has no public exposure. The two EN published posts (4162, 3978) both rendered OK structurally but 4162 lost 34 percent of its bytes during push, which puts it in the suspect bucket.</p>
+
+  <h2>What the previous diagnosis got wrong</h2>
+  <p>The handoff claimed that corpus HTML uses <code>.prx-morph-bar</code> while live reports use <code>.morph-bar</code>, and that this class mismatch caused the rendering regression. Verification on live WordPress contradicts this:</p>
+
+  <ul>
+    <li>Golden 3956 live HTML contains 11 <code>prx-morph-bar</code> occurrences and zero <code>morph-bar</code>-without-prefix occurrences. The working site uses the prefixed class.</li>
+    <li>Every pre-2026-04-20 revision I sampled across the 10 posts also contains <code>prx-morph-bar</code>. Restoring any of them would not have changed the class.</li>
+    <li>Protected pages 3389 and 3956 and Phase A EN 3976 all render correctly while using <code>prx-morph-bar</code>. Class naming is not the regression surface.</li>
+    <li><code>page-fullhtml.php</code> is 16 lines. It is a minimal wrapper that outputs <code>post_content</code>. No theme chrome is injected via that template, so there is no template-level collision to diagnose.</li>
+  </ul>
+
+  <p>The real divergence is byte-shrinkage during the database write, not class naming. That pattern is visible only on a subset of files and correlates loosely with corpus-file size but not with language alone.</p>
+
+  <h2>Root-cause hypotheses</h2>
+
+  <div class="option-grid">
+    <div class="option">
+      <h4>H1 &middot; Size-triggered fallback <span class="confidence conf-med">medium</span></h4>
+      <p>The deploy script has a conditional path that activates when corpus size crosses a threshold (somewhere near 85&nbsp;KB) or when certain structural markers are present. The fallback writes a pipeline-shell-only version and drops the document stylesheet.</p>
+      <p><strong>Fits:</strong> 5815 (128&nbsp;KB &rarr; 50&nbsp;KB), 5893 (89&nbsp;KB &rarr; 45&nbsp;KB), 4162 (82&nbsp;KB &rarr; 54&nbsp;KB).<br><strong>Does not fit:</strong> 4063 (103&nbsp;KB corpus, pushed fine).</p>
+    </div>
+    <div class="option">
+      <h4>H2 &middot; Chrome-injection overwrite <span class="confidence conf-med">medium</span></h4>
+      <p>The <code>wrap_with_chrome</code> step parses the corpus HTML with a regex that drops inline <code>&lt;style&gt;</code> blocks matching a specific pattern. For files where that pattern exists multiple times or has edge-case whitespace, the regex wins the wrong match and strips the document CSS.</p>
+      <p><strong>Fits:</strong> different corpus files have different numbers of style blocks (3976 has 4, 5815 has 4 too, but only some survive).<br><strong>Evidence to add:</strong> run the wrap pipeline on 5815 locally and diff the output against the live post_content.</p>
+    </div>
+    <div class="option">
+      <h4>H3 &middot; wp_kses filtering <span class="confidence conf-low">low</span></h4>
+      <p>If any code path slipped through <code>wp_update_post()</code> or <code>wp post update</code> instead of <code>$wpdb-&gt;update()</code>, kses would strip long inline styles under default rules.</p>
+      <p><strong>Does not fit cleanly:</strong> kses would either strip all style blocks or none; the live state keeps one chrome block. Worth ruling out by reading the push script.</p>
+    </div>
+    <div class="option">
+      <h4>H4 &middot; SG optimizer mutation <span class="confidence conf-low">low</span></h4>
+      <p>SiteGround's SG Optimizer is known to blank pages that exceed ~5&nbsp;MB with inline base64 images. None of these files come close to that limit, but the optimizer has other CSS-combining rules that can mutate inline styles at render time.</p>
+      <p><strong>Does not fit:</strong> SG Optimizer runs at render, not at <code>post_content</code> write. The divergence is in the DB itself, not in the served HTML.</p>
+    </div>
+  </div>
+
+  <p>Top candidate is <strong>H2 (chrome-injection overwrite)</strong> with H1 as a close runner-up. Both are local-dispatch bugs in the deploy pipeline rather than environment bugs. Confirming either needs a read of <code>deploy_reports_lib.py</code> and <code>batch_generate_nl.py</code> at the point they produced the 2026-04-20 push. Neither is confirmed yet.</p>
+
+  <h2>Rollback and forward-fix options</h2>
+
+  <div class="option-grid">
+    <div class="option">
+      <h4>Option A &middot; Rollback 5815 + 5893 only</h4>
+      <p>Restore the two confirmed broken published posts from their latest pre-push revision via <code>$wpdb-&gt;update()</code>. Leave drafts and other OK posts untouched. Scope: 2 posts. Time: ~10 min. Risk: low. Does not address pipeline bug, so any re-push hits the same fault.</p>
+    </div>
+    <div class="option">
+      <h4>Option B &middot; Rollback all 10 pushed</h4>
+      <p>Restore 7 posts that have clean pre-push revisions. Three drafts (5937, 5972, 5974) have no usable revision and would need corpus-source restore via git. Scope: 10 posts. Time: ~30 min. Risk: medium (more moving parts).</p>
+    </div>
+    <div class="option">
+      <h4>Option C &middot; Fix forward on 5815 + 5893</h4>
+      <p>Re-run the deploy with the corpus file pinned and a flag that forces the document-CSS path. Skip the fallback. Scope: 2 posts. Time depends on pipeline code familiarity. Risk: medium. Directly tests the hypothesis and clears the regression without touching revisions.</p>
+    </div>
+    <div class="option">
+      <h4>Option D &middot; Diagnose pipeline, then choose</h4>
+      <p>Read the push script, reproduce the bug locally on a copy of the 5815 corpus file, nail the exact line that drops CSS, then decide whether to rollback or fix forward with full confidence. Scope: 0 posts touched today. Time: 30&ndash;60 min of diagnostic work. Risk: none (no live changes). Recommended before touching anything.</p>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <span class="callout-label">Recommendation</span>
+    <h2>Take Option D before anything else</h2>
+    <p>The broken surface is small (2 published posts out of 10), no cache or user-facing chrome is corrupted, and the NL drafts that also share the size profile are not public. That is enough runway to diagnose the pipeline bug properly before acting. Once the exact line is known, Option A (rollback the 2 broken) or Option C (fix forward) can be chosen with confidence, and the same fix can gate Phase B so this class of regression cannot repeat at 50-slug scale.</p>
+  </div>
+
+  <h2>Things to flag to Max</h2>
+  <ul>
+    <li><strong>Drafts 5937, 5972, 5974 have no pre-push revision.</strong> If Option B is chosen, their rollback source must come from the <code>Proxuma/powerbi-reports</code> git history prior to commit <code>51d5c61c</code>, not from WordPress revisions.</li>
+    <li><strong>Template meta is not a concern.</strong> All 10 pushed posts, plus golden 3956 and protected 3401, already use <code>page-fullhtml.php</code>. No revert needed.</li>
+    <li><strong>Slug deviation means one unapproved post (5974) is a draft that sits in the database with the 2026-04-20 content.</strong> It has no public route, but it is there. Decision needed: leave as-is, or delete to restore strict scope discipline.</li>
+    <li><strong>Phase B is blocked</strong> until the pipeline bug is understood. Pushing another 50 files with the same deploy script reproduces the regression on any NL file that crosses the size threshold.</li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Claude Code &middot; Incident Diagnosis</span>
+    <span>proxuma.io / Power BI Phase A</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Phase A CSS-stripping regression diagnosis",
+  "date": "2026-04-23",
+  "summary": "The 2026-04-20 Phase A rollout pushed 10 Power BI reports. Two published NL posts (5815, 5893) lost 49-61 percent of their bytes in the WordPress write, including all .prx-report-scoped CSS. Previous morph-bar class-mismatch hypothesis is wrong. Recommendation: diagnose the push pipeline before any rollback or re-push.",
+  "sections": [
+    {
+      "heading": "Pushed posts",
+      "items": [
+        {"title": "3976 project-budget-variance", "detail": "EN, 96KB to 103KB, 227 prx-report lines, OK", "meta": {"lang": "en", "status": "ok", "approved": true}},
+        {"title": "4063 project-budgetafwijking-rapport", "detail": "NL, 103KB to 97KB, 225 prx-report lines, OK", "meta": {"lang": "nl", "status": "ok", "approved": true}},
+        {"title": "5937 kosten-van-servicelevering-per-klant", "detail": "NL draft, 99KB both sides, 511 prx-report lines, OK but draft", "meta": {"lang": "nl", "status": "ok-draft", "approved": true, "post_status": "draft"}},
+        {"title": "4162 average-task-cycle-time", "detail": "EN, 82KB to 54KB (-34 percent), 159 prx-report lines, SUSPECT partial strip", "meta": {"lang": "en", "status": "suspect", "approved": false}},
+        {"title": "3978 psa-vs-quickbooks-comparison", "detail": "EN, 82KB to 96KB, 229 prx-report lines, OK", "meta": {"lang": "en", "status": "ok", "approved": false}},
+        {"title": "5815 welke-sla-overtredingen", "detail": "NL, 128KB to 50KB (-61 percent), 0 prx-report lines, BROKEN confirmed by Max visual", "meta": {"lang": "nl", "status": "broken", "approved": true}},
+        {"title": "3989 service-calls-planned-work-weekly", "detail": "EN, 90KB both sides, 230 prx-report lines, OK", "meta": {"lang": "en", "status": "ok", "approved": false}},
+        {"title": "5972 omzet-per-medewerker-2", "detail": "NL draft, 90KB both sides, 467 prx-report lines, OK but draft", "meta": {"lang": "nl", "status": "ok-draft", "approved": true, "post_status": "draft"}},
+        {"title": "5893 hoeveel-omzet-gewonnen-deze-maand-kwartaal-jaar", "detail": "NL, 89KB to 45KB (-49 percent), 134 prx-report lines, BROKEN partial", "meta": {"lang": "nl", "status": "broken", "approved": true}},
+        {"title": "5974 projectomzet-versus-arbeidskosten", "detail": "NL draft, 84KB both sides, 464 prx-report lines, unapproved slug", "meta": {"lang": "nl", "status": "ok-draft", "approved": false, "post_status": "draft"}}
+      ]
+    },
+    {
+      "heading": "Slug deviations",
+      "items": [
+        {"title": "Approved but not pushed", "detail": "new-vs-recurring-ticket-ratio, average-deal-size-trend, test-backup-health", "meta": {}},
+        {"title": "Pushed but not approved", "detail": "average-task-cycle-time (4162 EN), psa-vs-quickbooks-comparison (3978 EN), projectomzet-versus-arbeidskosten (5974 NL draft)", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Root-cause hypotheses",
+      "items": [
+        {"title": "H1 Size-triggered fallback", "detail": "Deploy path activates on size threshold, writes pipeline shell only. Fits 5815, 5893, 4162. Does not fit 4063 (103KB clean). Confidence medium.", "meta": {"confidence": "medium"}},
+        {"title": "H2 Chrome-injection overwrite", "detail": "wrap_with_chrome regex strips wrong style block on certain edge-case whitespace. Top candidate. Confidence medium.", "meta": {"confidence": "medium"}},
+        {"title": "H3 wp_kses filtering", "detail": "Possible if deploy slipped through wp_update_post. Would strip all or none, not one block. Confidence low.", "meta": {"confidence": "low"}},
+        {"title": "H4 SG Optimizer mutation", "detail": "Runs at render not write. DB divergence rules this out. Confidence low.", "meta": {"confidence": "low"}}
+      ]
+    },
+    {
+      "heading": "Options",
+      "items": [
+        {"title": "A Rollback 5815 and 5893 only", "detail": "Restore latest pre-push revision via wpdb. Scope 2. Time 10 min. Risk low. Does not fix pipeline.", "meta": {}},
+        {"title": "B Rollback all 10", "detail": "7 have revisions, 3 drafts need git-history source. Scope 10. Time 30 min. Risk medium.", "meta": {}},
+        {"title": "C Fix forward on 5815 and 5893", "detail": "Re-run deploy with document-CSS path forced. Tests hypothesis. Scope 2. Risk medium.", "meta": {}},
+        {"title": "D Diagnose pipeline first then choose", "detail": "Read push script, reproduce locally, find exact line dropping CSS. 0 live changes. 30-60 min. Recommended.", "meta": {"recommended": true}}
+      ]
+    }
+  ],
+  "next_steps": "Max reviews this diagnosis and approves Option D (diagnose pipeline first) or picks A/B/C directly. On approval of D, next Claude reads ~/ClaudeCode/powerbi-reports/deploy_reports_lib.py and batch_generate_nl.py, reproduces the 128KB-to-50KB strip locally against the nl/proxuma-io-welke-sla...html corpus file, pins down the exact line, then recommends rollback vs forward-fix with full evidence. Phase B stays blocked until that is done.",
+  "session_state": {
+    "phase": "incident diagnosis",
+    "phase_status": "in_progress",
+    "progress_pct": 80,
+    "work_done_this_session": [
+      "Consulted Open Brain for rollout context",
+      "Located rollout-log.jsonl and slug-postid-map.json at ~/ClaudeCode/claude-output/",
+      "SSH-queried WordPress for revisions, post_status, template meta on all 10 posts",
+      "Discovered morph-bar class mismatch hypothesis is false (all corpus uses prx-morph-bar)",
+      "Captured full-page Microlink screenshots of golden 3956, EN Phase A 3976, NL Phase A 5815",
+      "Diffed live post_content vs on-disk corpus file for 5815 (128KB to 50KB, 506 prx-report to 0)",
+      "Audited all 10 posts for CSS integrity, confirmed 2 broken (5815, 5893), 1 suspect (4162)",
+      "Audited slug deviations (3 swapped)",
+      "Wrote this Stone-themed diagnosis output-page"
+    ],
+    "blockers_hit": "Need Max approval on which option (A/B/C/D) to proceed with. Previous Claude's handoff root-cause was wrong, forcing diagnostic re-scope.",
+    "uncommitted_changes": "claude-output repo has new HTML file and assets/, not yet committed. powerbi-reports repo on truthifier/fix-chart-explosion branch unchanged.",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      {"name": "wordpress-architecture.md", "version_date": "2026-04-05", "verified_live": true},
+      {"name": "report-redesign.md", "version_date": "2026-04-20", "verified_live": false},
+      {"name": "protected-pages.md", "version_date": "2026-03-12", "verified_live": true}
+    ],
+    "git_branch": "truthifier/fix-chart-explosion",
+    "local_repo_path": "~/ClaudeCode/powerbi-reports/",
+    "temp_files": [
+      {"path": "~/ClaudeCode/claude-output/rollback-assess/dump/golden-3956.html", "description": "live post_content dump of golden", "cleanup_after": "incident closed"},
+      {"path": "~/ClaudeCode/claude-output/rollback-assess/dump/nl-phaseA-5815.html", "description": "live post_content dump of broken NL", "cleanup_after": "incident closed"},
+      {"path": "~/ClaudeCode/claude-output/rollback-assess/dump/en-phaseA-3976.html", "description": "live post_content dump of EN Phase A", "cleanup_after": "incident closed"},
+      {"path": "~/ClaudeCode/claude-output/rollback-assess/*.png", "description": "3 full-page Microlink PNGs", "cleanup_after": "incident closed"}
+    ],
+    "github_links": [
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-23-phase-a-regression-diagnosis.html", "relevance": "this doc"},
+      {"url": "https://github.com/Proxuma/powerbi-reports", "relevance": "source corpus repo, branch truthifier/fix-chart-explosion commits 51d5c61c + a4c00f51"}
+    ],
+    "wordpress_ids": [3976, 4063, 5937, 4162, 3978, 5815, 3989, 5972, 5893, 5974, 3956, 3401, 5655, 3389, 4887, 3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [
+      {"file": "~/ClaudeCode/claude-output/assets/2026-04-23-phase-a/golden-3956.png", "description": "Golden 3956 full-page baseline 2880x13188"},
+      {"file": "~/ClaudeCode/claude-output/assets/2026-04-23-phase-a/phaseA-en-project-budget-variance.png", "description": "EN Phase A 3976 full-page 2880x16798"},
+      {"file": "~/ClaudeCode/claude-output/assets/2026-04-23-phase-a/phaseA-nl-welke-sla.png", "description": "NL Phase A 5815 broken 2880x13362"}
+    ],
+    "other": "Nothing live was touched in this session. No WP writes, no cache flush, no file pushes."
+  },
+  "project_context": {
+    "protected_resources": ["WP 3401", "WP 5655", "WP 3389", "WP 4887", "WP 3299 EN gallery", "WP 3495 NL gallery", "WP 3956 golden"],
+    "conventions_applied": ["humanizer anti-slop", "never wp_update_post on reports", "always use wpdb->update", "Open Brain consulted first", "output-page skill for substantial outputs", "Stone theme"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended Option D (diagnose pipeline first) rather than executing rollback",
+      "rejected_alternatives": ["Option A rollback 5815+5893 immediately per Max's original recipe", "Option B rollback all 10", "Option C forward-fix"],
+      "rationale": "Max's original recipe assumed morph-bar class mismatch was the bug. That hypothesis is falsified. Acting on a falsified diagnosis risks restoring pages to a state that also has the real bug baked in (since all pre-push revisions I sampled still contain prx-morph-bar and would also be affected if the true bug is in the push pipeline). Diagnosing first is zero-risk and gates Phase B correctly.",
+      "trade_offs": "30-60 min delay before any rollback. 2 published NL pages remain visually degraded in the meantime. Neither is catastrophic.",
+      "contingencies": [
+        {"if_X_then_Y": "If diagnosis reveals an irreversible DB write, fall back to Option A rollback from latest revision", "probability": 0.3},
+        {"if_X_then_Y": "If diagnosis reveals the bug is in the corpus regeneration (truthifier injector) rather than the push, scope widens to all 868 and Phase B stays blocked for days not hours", "probability": 0.25}
+      ]
+    },
+    {
+      "decision": "Overturned previous 'no rollback needed' verdict after Max's visual review flagged thin-frame on NL",
+      "rejected_alternatives": ["Trusted structural-section table, concluded Phase A was fine"],
+      "rationale": "Max's pixel-level eyeballing caught a CSS regression the section-presence check missed. Structural table was a weak proxy. Pixel comparison is the right primary gate for visual regressions.",
+      "trade_offs": "Lost 20 min on the false-negative verdict; corrected once real evidence was requested.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
