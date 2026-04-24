@@ -100,24 +100,48 @@
   footer{text-align:center;padding:30px;color:#9ca3af;font-size:.82rem}
 
   /* WARM MODE (relaxed tab) */
-  .warm-mode{background:#faf6f0}
-  .warm-mode .section{background:#fffdf9}
-  .warm-mode .section h2{color:#92600e;border-bottom-color:#e8dcc8}
+  /* WARM MODE — relaxed tab */
+  .warm-mode{background:#f5edd8}
+  .warm-mode a{color:#92600e}
+  .warm-mode a:hover{color:#78501a}
+  .warm-mode .tab-bar{background:#e8dcc8}
+  .warm-mode .tab-btn.active{background:#fffdf7;color:#92600e}
+  .warm-mode .tab-panel{background:#fffdf7}
+  .warm-mode .section{background:#fffdf7}
+  .warm-mode .inner-section{background:#fffdf7}
+  .warm-mode .section h2{color:#92600e;border-bottom-color:#e0d2b8}
+  .warm-mode .section h3,.warm-mode .inner-section h3{color:#78501a}
+  .warm-mode table th{background:#92600e}
+  .warm-mode table tr:nth-child(even){background:#faf3e6}
+  .warm-mode table td{border-bottom-color:#e8dcc8}
   .warm-mode .tag{background:#b8860b}
-  .warm-mode .tag.flight{background:#1d4ed8}
+  .warm-mode .tag.flight{background:#6b5b3e}
   .warm-mode .tag.boat{background:#0891b2}
-  .warm-mode .tag.drive{background:#6b7280}
-  .warm-mode .tag.activity{background:#7c3aed}
+  .warm-mode .tag.drive{background:#8b7355}
+  .warm-mode .tag.activity{background:#a0522d}
   .warm-mode .map-link{border-color:#92600e;color:#92600e;background:#fef3e2}
   .warm-mode .map-link:hover{background:#92600e;color:white}
-  .warm-mode .amenity{background:#fef3e2;border-color:#fde8c8;color:#78501a}
+  .warm-mode .amenity{background:#fef3e2;border-color:#f0ddb8;color:#78501a}
   .warm-mode .hotel-card-price{background:#92600e}
+  .warm-mode .hotel-card{border-color:#e0d2b8}
+  .warm-mode .hotel-card-body h4 a{color:#3d2e14}
+  .warm-mode .hotel-card-body h4 a:hover{color:#92600e}
+  .warm-mode .hotel-card-type{color:#8b7355}
+  .warm-mode .highlight-card{border-color:#92600e;background:#fef8ee}
   .warm-mode .highlight-badge{background:#92600e}
+  .warm-mode .callout{background:#fef3e2;border-left-color:#d4a54a}
+  .warm-mode .callout strong{color:#78501a}
   .warm-mode .callout.green{background:#fef3e2;border-left-color:#d4a54a}
   .warm-mode .callout.green strong{color:#78501a}
-  .warm-mode .day-card{border-left-color:#b8860b}
+  .warm-mode .day-card{border-left-color:#b8860b;background:#faf3e6}
   .warm-mode .day-card .day-label{color:#92600e}
-  .warm-mode .hotel-section-label{color:#78501a}
+  .warm-mode .day-card .day-title{color:#3d2e14}
+  .warm-mode .hotel-section-label{color:#78501a;border-bottom-color:#e0d2b8}
+  .warm-mode .option-box{border-color:#e0d2b8;background:#fffdf7}
+  .warm-mode .option-box.recommended{border-color:#92600e;background:#fef8ee}
+  .warm-mode .price-range{color:#8b7355}
+  .warm-mode .photo-caption{color:#8b7355}
+  .warm-mode footer{color:#8b7355}
 
   @media(max-width:700px){
     .two-options,.photo-grid{grid-template-columns:1fr}
