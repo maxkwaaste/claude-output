@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mozambique Trip Plan - 31 Aug t/m 7 Sep 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Open+Sans:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: #f5f0eb;
+    color: #2c3e50;
+    line-height: 1.65;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #0f766e 0%, #115e58 40%, #1a3a4a 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero .subtitle {
+    font-size: 1.15rem;
+    opacity: 0.85;
+    font-weight: 400;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  .section {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: #0f766e;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8e2db;
+  }
+
+  .section h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #115e58;
+    margin: 20px 0 8px 0;
+  }
+
+  .day-card {
+    border-left: 4px solid #0f766e;
+    padding: 16px 20px;
+    margin: 16px 0;
+    background: #f9f7f4;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .day-card .day-label {
+    font-weight: 800;
+    color: #0f766e;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .day-card .day-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #0f766e;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  .tag.warn { background: #d97706; }
+  .tag.flight { background: #1d4ed8; }
+  .tag.boat { background: #0891b2; }
+  .tag.drive { background: #6b7280; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.92rem;
+  }
+
+  table th {
+    background: #0f766e;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e8e2db;
+  }
+
+  table tr:nth-child(even) { background: #f9f7f4; }
+
+  .callout {
+    background: #fef3c7;
+    border-left: 4px solid #d97706;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+    font-size: 0.92rem;
+  }
+
+  .callout.green {
+    background: #d1fae5;
+    border-left-color: #0f766e;
+  }
+
+  .callout strong { color: #92400e; }
+  .callout.green strong { color: #065f46; }
+
+  ul { padding-left: 20px; margin: 8px 0; }
+  li { margin-bottom: 6px; }
+
+  .two-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 16px 0;
+  }
+
+  @media (max-width: 700px) {
+    .two-options { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .hero { padding: 40px 20px; }
+    .section { padding: 20px; }
+  }
+
+  .option-box {
+    border: 2px solid #e8e2db;
+    border-radius: 10px;
+    padding: 20px;
+    background: #fdfcfa;
+  }
+
+  .option-box.recommended {
+    border-color: #0f766e;
+    background: #f0fdf4;
+  }
+
+  .option-box h4 {
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .price-range {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-top: 6px;
+  }
+
+  .map-note {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin: 20px 0;
+    font-style: italic;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: #9ca3af;
+    font-size: 0.82rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Mozambique</h1>
+  <div class="subtitle">31 augustus t/m 7 september 2026 &mdash; Maputo, Vilanculos, Bazaruto, Tofo</div>
+</div>
+
+<div class="container">
+
+<!-- OVERVIEW -->
+<div class="section">
+  <h2>De Route in een Oogopslag</h2>
+  <p>Jullie hebben <strong>7 volle dagen</strong> (aankomst ochtend 31 aug, vertrek middag 7 sep). De drie plekken die jullie willen zien liggen langs de kust, van noord naar zuid:</p>
+
+  <table>
+    <tr><th>Plek</th><th>Afstand vanaf Maputo</th><th>Reistijd weg</th><th>Karakter</th></tr>
+    <tr><td>Tofo / Inhambane</td><td>~470 km</td><td>6-7 uur</td><td>Backpacker-chic strand, walvishaaien, duiken</td></tr>
+    <tr><td>Vilanculos</td><td>~700 km</td><td>9-10 uur</td><td>Gateway naar de eilanden, relaxed stadje</td></tr>
+    <tr><td>Bazaruto / Benguerra</td><td>Vanuit Vilanculos</td><td>45 min boot</td><td>Paradijs-eilanden, snorkelen, luxe lodges</td></tr>
+  </table>
+
+  <div class="callout">
+    <strong>Kernprobleem:</strong> Maputo naar Vilanculos is 9-10 uur rijden over de EN1. Dat is te lang om heen en terug te rijden. De oplossing: vlieg een kant, rijd de andere.
+  </div>
+</div>
+
+<!-- RECOMMENDED ITINERARY -->
+<div class="section">
+  <h2>Aanbevolen Route: Noord naar Zuid</h2>
+  <p>Vlieg dag 1 naar Vilanculos (het verste punt), werk daarna terug richting Maputo via Tofo. Zo heb je maximale tijd op elke plek en een relaxte terugrit.</p>
+
+  <div class="day-card">
+    <div class="day-label">Dag 1 &mdash; Zondag 31 Augustus</div>
+    <div class="day-title">Maputo naar Vilanculos</div>
+    <span class="tag flight">Vlucht</span>
+    <p>Aankomst Maputo 6-7u. LAM vlucht naar Vilanculos (1u15 vliegen, vertrekt ochtend). Inchecken lodge/guesthouse. Middag: verken Vilanculos waterfront, seafood diner.</p>
+    <div class="price-range">LAM vlucht: ~$165-220 p.p. enkele reis</div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">Dag 2 &mdash; Maandag 1 September</div>
+    <div class="day-title">Bazaruto of Benguerra eiland</div>
+    <span class="tag boat">Speedboot</span>
+    <p>Vroeg vertrek per speedboot (45 min) of dhow (2-3 uur, pittoresker). Hele dag op het eiland: snorkelen op het koraalrif, wit zandstrand, zeeschildpadden. Optie: overnachten op het eiland (luxe lodges) of terug dezelfde avond.</p>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">Dag 3 &mdash; Dinsdag 2 September</div>
+    <div class="day-title">Vilanculos / tweede eilanddag</div>
+    <span class="tag boat">Speedboot</span>
+    <p><strong>Als jullie overnachten op het eiland:</strong> ochtend snorkelen/duiken, terug naar Vilanculos in de middag.<br>
+    <strong>Als dagtrip gisteren:</strong> vrije dag Vilanculos. Horse riding op het strand, kayakken, lokale markt.</p>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">Dag 4 &mdash; Woensdag 3 September</div>
+    <div class="day-title">Vilanculos naar Tofo</div>
+    <span class="tag drive">Rijden</span>
+    <p>Ochtend vertrek. Rit Vilanculos naar Tofo: ~250 km, 3.5-4.5 uur via EN1. Goed asfalt tot Inhambane, dan 22km zandweg naar Tofo. Aankomst vroege middag. Sunset op het strand.</p>
+    <div class="callout green">
+      <strong>Tip:</strong> Vertrek voor 8u. Rijd NIET na donker (loslopend vee, geen straatverlichting, voetgangers op de weg).
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">Dag 5 &mdash; Donderdag 4 September</div>
+    <div class="day-title">Tofo: Ocean Safari</div>
+    <span class="tag">Walvishaaien</span> <span class="tag">Bultruggen</span>
+    <p>Ocean safari met Tofo Scuba of Liquid Dive Adventures. Augustus-september is piek voor <strong>bultrugwalvissen</strong> en je hebt kans op walvishaaien (die piek pas echt vanaf oktober). Manta rays zijn er het hele jaar. Middag: chill op Tofo Beach.</p>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">Dag 6 &mdash; Vrijdag 5 September</div>
+    <div class="day-title">Tofo: Duiken of vrije dag</div>
+    <span class="tag">Duiken</span>
+    <p>Optie A: duikdag (Manta Reef is legendarisch). Optie B: relax, snorkelen vanaf het strand, Inhambane bezoeken (dhow harbour, oude Portugese architectuur, markt). Avond: seafood bij Dino's Bar of Casa de Comer.</p>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">Dag 7 &mdash; Zaterdag 6 September</div>
+    <div class="day-title">Tofo naar Maputo</div>
+    <span class="tag drive">Rijden</span>
+    <p>Rit terug naar Maputo: ~470 km, 6-7 uur. Vertrek 7-8u ochtends, aankomst vroege middag. Check in hotel nabij luchthaven. Avond: diner in Maputo (Costa do Sol voor zeevruchten aan het water).</p>
+  </div>
+
+  <div class="day-card">
+    <div class="day-label">Dag 8 &mdash; Zondag 7 September</div>
+    <div class="day-title">Vertrek Maputo</div>
+    <span class="tag flight">Vlucht 14:00</span>
+    <p>Ochtend vrij: Fish Market (Mercado do Peixe) voor brunch, of Fort van Maputo. Naar luchthaven rond 11:30. Vlucht 14:00 naar Windhoek.</p>
+  </div>
+</div>
+
+<!-- ALTERNATIVE -->
+<div class="section">
+  <h2>Alternatieve Route: Zuid naar Noord</h2>
+  <p>Als de LAM vlucht op dag 1 niet lukt (vol/gecanceld), draai je de route om:</p>
+  <div class="day-card">
+    <div class="day-label">Alternatief schema</div>
+    <div class="day-title">Maputo &rarr; Tofo &rarr; Vilanculos &rarr; vlucht terug</div>
+    <p>
+      <strong>Dag 1:</strong> Rijd Maputo naar Tofo (6-7u, vertrek direct na aankomst)<br>
+      <strong>Dag 2-3:</strong> Tofo (ocean safari, duiken)<br>
+      <strong>Dag 4:</strong> Rijd Tofo naar Vilanculos (3.5-4.5u)<br>
+      <strong>Dag 5-6:</strong> Vilanculos + eiland dagtrip<br>
+      <strong>Dag 7:</strong> Vlieg Vilanculos naar Maputo (LAM middag ~14:00). Overnacht Maputo<br>
+      <strong>Dag 8:</strong> Vlucht naar Windhoek
+    </p>
+  </div>
+  <div class="callout">
+    <strong>Nadeel:</strong> Je begint met de langste rit na een nachtvlucht. Maar het werkt als backup.
+  </div>
+</div>
+
+<!-- BAZARUTO DEEP DIVE -->
+<div class="section">
+  <h2>Bazaruto vs. Benguerra</h2>
+
+  <div class="two-options">
+    <div class="option-box recommended">
+      <h4>Benguerra Island</h4>
+      <p>Kleiner, intiemer, beter koraalrif direct voor de kust. Makkelijker bereikbaar vanuit Vilanculos. Twee top-lodges: Azura Benguerra en andBeyond Benguerra.</p>
+      <div class="price-range">Lodges: $400-1200/nacht all-inclusive (stel)<br>Speedboot retour: ~$80-150 p.p.</div>
+    </div>
+    <div class="option-box">
+      <h4>Bazaruto Island</h4>
+      <p>Groter eiland, hogere duinen, meer wildlife (flamingo's, krokodillen in de binnenlandse meren). Anantara Bazaruto is de bekendste lodge.</p>
+      <div class="price-range">Anantara: $500-1500/nacht<br>Speedboot retour: ~$100-200 p.p.</div>
+    </div>
+  </div>
+
+  <h3>Budget-optie: dagtrip</h3>
+  <p>Diverse operators in Vilanculos bieden eiland-dagtrips aan per dhow of speedboot: snorkelen, BBQ lunch op het strand, ~$80-120 p.p. Minder luxe, maar je ziet het eiland zonder de lodge-prijzen.</p>
+
+  <h3>Transfers vanuit Vilanculos</h3>
+  <table>
+    <tr><th>Type</th><th>Tijd</th><th>Kosten (indicatief)</th><th>Noot</th></tr>
+    <tr><td>Speedboot</td><td>30-45 min</td><td>$80-200 p.p. retour</td><td>Standaard, via lodge of operator</td></tr>
+    <tr><td>Dhow (zeilboot)</td><td>2-3 uur</td><td>$40-80 p.p.</td><td>Avontuurlijk, afhankelijk van wind/tij</td></tr>
+    <tr><td>Helikopter</td><td>10-15 min</td><td>$250-400 p.p.</td><td>Spectaculair, via lodges</td></tr>
+  </table>
+</div>
+
+<!-- TOFO -->
+<div class="section">
+  <h2>Tofo: Wat te verwachten in september</h2>
+
+  <h3>Mariene leven</h3>
+  <table>
+    <tr><th>Dier</th><th>Kans in aug-sep</th><th>Piek</th></tr>
+    <tr><td>Bultrugwalvissen</td><td><strong>Uitstekend</strong> (piekseizoen)</td><td>Aug-Sep</td></tr>
+    <tr><td>Walvishaaien</td><td>Redelijk (seizoen begint)</td><td>Okt-Mrt</td></tr>
+    <tr><td>Manta rays</td><td>Goed (het hele jaar)</td><td>Sep-Nov</td></tr>
+    <tr><td>Dolfijnen</td><td>Goed</td><td>Jaar-rond</td></tr>
+  </table>
+
+  <h3>Accommodatie Tofo</h3>
+  <table>
+    <tr><th>Naam</th><th>Type</th><th>Prijsklasse</th></tr>
+    <tr><td>Casa Barry Lodge</td><td>Mid-range lodge</td><td>$80-150/nacht</td></tr>
+    <tr><td>Hotel Tofo Mar</td><td>Hotel aan het strand</td><td>$70-120/nacht</td></tr>
+    <tr><td>Sava Dunes Eco Lodge</td><td>Boutique, uitzicht op zee</td><td>$100-200/nacht</td></tr>
+    <tr><td>Baia Sonambula</td><td>Guesthouse met zwembad</td><td>$60-100/nacht</td></tr>
+    <tr><td>Mozambeat Motel</td><td>Budget-hip</td><td>$30-60/nacht</td></tr>
+  </table>
+
+  <h3>Duikoperators</h3>
+  <ul>
+    <li><strong>Tofo Scuba</strong> &mdash; Gevestigde naam, goede reviews, PADI</li>
+    <li><strong>Liquid Dive Adventures</strong> &mdash; Ocean safaris en duiken, kleinere groepen</li>
+    <li><strong>Peri-Peri Divers</strong> &mdash; Budget-friendly</li>
+  </ul>
+  <div class="price-range">Ocean safari (walvishaai/bultrug): ~$65-85 p.p. | Duik (2 dives): ~$80-120 p.p.</div>
+</div>
+
+<!-- VILANCULOS -->
+<div class="section">
+  <h2>Vilanculos: Accommodatie</h2>
+  <table>
+    <tr><th>Naam</th><th>Type</th><th>Prijsklasse</th></tr>
+    <tr><td>Casa Rex</td><td>Boutique hotel, direct aan zee</td><td>$100-180/nacht</td></tr>
+    <tr><td>Bahia Mar Club</td><td>Resort, zwembad, strand</td><td>$120-200/nacht</td></tr>
+    <tr><td>Vilanculos Beach Lodge</td><td>Lodge aan het water</td><td>$60-100/nacht</td></tr>
+    <tr><td>Zombie Cucumber Backpackers</td><td>Budget met karakter</td><td>$15-40/nacht</td></tr>
+  </table>
+</div>
+
+<!-- PRACTICAL -->
+<div class="section">
+  <h2>Praktische Zaken</h2>
+
+  <h3>Visum (Nederlands paspoort)</h3>
+  <div class="callout green">
+    <strong>Goed nieuws:</strong> Nederlanders zijn visa-exempt voor 30 dagen. Maar je moet wel vooraf een ETA (Electronic Travel Authorisation) aanvragen via <strong>evisa.gov.mz</strong>. Doe dit minimaal 5 dagen voor vertrek. Je krijgt een pre-autorisatiebrief met barcode die je geprint moet meenemen.
+  </div>
+
+  <h3>Vervoer</h3>
+  <ul>
+    <li><strong>Huurauto:</strong> 4x4 niet strikt nodig voor EN1 (geasfalteerd), maar wel handig voor de zandweg naar Tofo. Een gewone sedan kan het, maar met een SUV zit je comfortabeler. Huur in Maputo (Avis, Europcar aanwezig).</li>
+    <li><strong>Rijden na donker:</strong> Absoluut niet doen. Loslopend vee, voetgangers zonder reflectie, gaten in de weg.</li>
+    <li><strong>Brandstof:</strong> Tankstations langs EN1 aanwezig, maar tank altijd vol bij vertrek.</li>
+  </ul>
+
+  <h3>Geld</h3>
+  <ul>
+    <li>Munteenheid: Mozambikaanse Metical (MZN). ~65 MZN per 1 USD (2025/2026).</li>
+    <li>USD en ZAR worden vaak geaccepteerd in toeristische gebieden.</li>
+    <li>ATM's in Maputo, Inhambane, Vilanculos. Neem genoeg cash mee naar Tofo en de eilanden.</li>
+    <li>Creditcards: alleen in grotere hotels/lodges.</li>
+  </ul>
+
+  <h3>Gezondheid</h3>
+  <ul>
+    <li><strong>Malaria:</strong> Heel Mozambique is malariagebied. Profylaxe verplicht (Malarone of Doxycycline). DEET muggenspray mee.</li>
+    <li><strong>Vaccinaties:</strong> Gele koorts alleen verplicht als je uit een risicoland komt. Hepatitis A/B en DTP aangeraden.</li>
+    <li><strong>Water:</strong> Drink flessenwater.</li>
+    <li><strong>Reisverzekering:</strong> Inclusief evacuatie. Dichtstbijzijnde goed ziekenhuis is in Maputo of Zuid-Afrika.</li>
+  </ul>
+
+  <h3>Weer in september</h3>
+  <ul>
+    <li>Droog seizoen, 25-30 graden overdag, 's nachts ~18-20.</li>
+    <li>Zeewater: 22-24 graden (fris, 3mm wetsuit handig voor duiken).</li>
+    <li>Weinig regen, veel zon. Ideale reisperiode.</li>
+  </ul>
+
+  <h3>Taal</h3>
+  <p>Portugees is de officiële taal. In toeristische gebieden kom je ver met Engels. Handig om te kennen: <em>Obrigado/a</em> (dank je), <em>Bom dia</em> (goedemorgen), <em>Quanto custa?</em> (hoeveel kost het?).</p>
+</div>
+
+<!-- BUDGET -->
+<div class="section">
+  <h2>Budget Indicatie (2 personen, 8 dagen)</h2>
+  <table>
+    <tr><th>Post</th><th>Budget</th><th>Mid-range</th><th>Comfort</th></tr>
+    <tr><td>LAM vlucht Maputo-Vilanculos</td><td colspan="3">$330-440 (2 pers, enkele reis)</td></tr>
+    <tr><td>Huurauto (7 dagen + brandstof)</td><td colspan="3">$350-500</td></tr>
+    <tr><td>Accommodatie (7 nachten)</td><td>$350-500</td><td>$700-1100</td><td>$1200-2000</td></tr>
+    <tr><td>Eiland dagtrip (dhow + snorkel)</td><td>$160-240</td><td>$200-400</td><td>Lodge overnacht: $800-2400</td></tr>
+    <tr><td>Ocean safari Tofo</td><td colspan="3">$130-170 (2 pers)</td></tr>
+    <tr><td>Duiken (2 dives)</td><td colspan="3">$160-240 (2 pers)</td></tr>
+    <tr><td>Eten (7 dagen)</td><td>$200-300</td><td>$350-500</td><td>$500-700</td></tr>
+    <tr><td><strong>Totaal (excl. vlucht naar Maputo)</strong></td><td><strong>$1700-2400</strong></td><td><strong>$2200-3400</strong></td><td><strong>$3500-6500</strong></td></tr>
+  </table>
+  <p class="price-range">Prijzen zijn indicatief en afhankelijk van seizoen en beschikbaarheid. Vroeg boeken voor LAM vluchten en lodges.</p>
+</div>
+
+<!-- BOOKING CHECKLIST -->
+<div class="section">
+  <h2>Boekingslijst (nu al regelen)</h2>
+  <table>
+    <tr><th>#</th><th>Wat</th><th>Wanneer boeken</th><th>Waar</th></tr>
+    <tr><td>1</td><td>LAM vlucht Maputo &rarr; Vilanculos</td><td>Zo snel mogelijk (6+ weken vooruit)</td><td>lam.co.mz of via Kayak</td></tr>
+    <tr><td>2</td><td>ETA visum</td><td>Min. 5 dagen voor vertrek</td><td>evisa.gov.mz</td></tr>
+    <tr><td>3</td><td>Huurauto Maputo (ophalen luchthaven)</td><td>4-6 weken vooruit</td><td>Avis, Europcar</td></tr>
+    <tr><td>4</td><td>Accommodatie Vilanculos (2 nachten)</td><td>4+ weken vooruit</td><td>Booking.com of direct</td></tr>
+    <tr><td>5</td><td>Eilandtransfer + dagtrip/lodge</td><td>2-4 weken vooruit</td><td>Via lodge of lokale operator</td></tr>
+    <tr><td>6</td><td>Accommodatie Tofo (2-3 nachten)</td><td>4+ weken vooruit</td><td>Booking.com of direct</td></tr>
+    <tr><td>7</td><td>Ocean safari / duiken Tofo</td><td>1-2 weken vooruit of ter plekke</td><td>tofoscuba.com / liquiddiveadventures.com</td></tr>
+    <tr><td>8</td><td>Hotel Maputo laatste nacht</td><td>2+ weken vooruit</td><td>Booking.com</td></tr>
+    <tr><td>9</td><td>Malariaprofylaxe recept</td><td>Huisarts bezoeken, 2+ weken vooruit</td><td>Huisarts / GGD</td></tr>
+  </table>
+</div>
+
+<!-- TO DISCUSS -->
+<div class="section">
+  <h2>Beslispunten voor jullie</h2>
+  <ul>
+    <li><strong>Eiland overnachten of dagtrip?</strong> Overnachten is magisch maar duur ($400-1200/nacht). Dagtrip per dhow met BBQ op het strand is ook geweldig en een fractie van de prijs.</li>
+    <li><strong>Benguerra of Bazaruto?</strong> Benguerra voor snorkelen/intimiteit, Bazaruto voor landschap/avontuur.</li>
+    <li><strong>Hoeveel nachten Tofo vs. Vilanculos?</strong> Aanbevolen: 2 nachten Vilanculos (incl. eiland), 2-3 nachten Tofo. Tofo heeft meer te doen voor actieve dagen.</li>
+    <li><strong>Huurauto of shuttles?</strong> Auto geeft vrijheid en flexibiliteit. Shuttles (Fatima's Nest e.d.) bestaan maar zijn onbetrouwbaar qua schema.</li>
+  </ul>
+</div>
+
+</div>
+
+<footer>
+  Samengesteld door Claude &mdash; 24 april 2026<br>
+  Prijzen zijn indicatief. Check actuele beschikbaarheid bij het boeken.
+</footer>
+
+<!-- CLAUDE-DATA
+{
+  "type": "travel-plan",
+  "title": "Mozambique Trip Plan",
+  "date": "2026-04-24",
+  "trip_dates": "2026-08-31 to 2026-09-07",
+  "destinations": ["Maputo", "Vilanculos", "Bazaruto/Benguerra", "Tofo"],
+  "summary": "7-day Mozambique itinerary combining Vilanculos, Bazaruto Archipelago, and Tofo Beach. Recommended route: fly Maputo to Vilanculos day 1, island trip day 2-3, drive to Tofo day 4, ocean safari day 5-6, drive back to Maputo day 7.",
+  "key_bookings": ["LAM flight MPM-VNX", "ETA visa evisa.gov.mz", "Car rental Maputo", "Island transfer Vilanculos", "Accommodation Vilanculos + Tofo + Maputo", "Ocean safari Tofo"],
+  "budget_range_mid": "$2200-3400 for 2 persons excl international flights"
+}
+-->
+
+</body>
+</html>
