@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultant Brief: Dxfferent Assessment -- Andy Kedjierski</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.pos-steps { display: flex; gap: 10px; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 24, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-dxfferent-joshua-brief.html">View on GitHub</a></span>
+</div>
+<div class="page">
+
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Proxuma</div>
+        <div class="brand-tagline">Consultant Brief &mdash; Internal</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 24, 2026<br>Discovery Call Intel<br>Guide-as-a-Service
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="confidential">Internal &mdash; Do not share with prospect</div>
+
+  <div class="overline">New prospect briefing</div>
+  <h1>Dxfferent &mdash; Andy Kedjierski</h1>
+  <p class="subtitle">Discovery call summary and engagement brief for Joshua. Andy is not the owner but was brought on by the owner (his friend) to do an operational assessment and get this MSP ready to scale. Both Andy and the owner will participate in sprints. Andy is comparing us with at least two other vendors.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">~$3M</div>
+      <div class="stat-label">Annual Revenue (MRR)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">13</div>
+      <div class="stat-label">Employees</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Level 2</div>
+      <div class="stat-label">Maturity (Max's Assessment)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6-8 wk</div>
+      <div class="stat-label">Wants Results In</div>
+    </div>
+  </div>
+
+  <h2>The People</h2>
+
+  <div class="card">
+    <div class="card-title">Andy Kedjierski</div>
+    <div class="card-buyer">Primary contact &mdash; Operations / COO role</div>
+    <div class="card-desc">Brought in by the owner (his friend) specifically to assess the business and streamline operations. Not the decision maker on budget -- that's the owner. 20 years US Army, then Tech Data Corporation with teams across Europe and Latin America. Uses AI daily (1-2 hours) for policies, research, product evaluation. Knows the Kaseya ecosystem from conferences and TruPeer but has never worked hands-on in Autotask. Wants to learn the why behind everything, not just have someone do it for them.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">The Owner (unnamed)</div>
+    <div class="card-buyer">Decision maker &mdash; Budget authority</div>
+    <div class="card-desc">Owns the MSP. Realizes the business is at ~$3M but can't scale because he's not confident in service delivery or client onboarding. Brought Andy in to fix this. Max recommended both Andy and the owner attend the bi-weekly sprints. Andy agreed and expects the owner will want to be involved to build confidence that things are moving in the right direction.</div>
+  </div>
+
+  <h2>Tech Stack</h2>
+
+  <table class="matrix">
+    <tr><th>Tool</th><th>Status</th><th>Notes</th></tr>
+    <tr><td><strong>Autotask PSA</strong></td><td>Live (Oct migration)</td><td>Migrated from ConnectWise. Paid for Kaseya "white glove" migration but unhappy with results. Only using Help Desk and Project Management modules. CRM, billing, sales not used in AT.</td></tr>
+    <tr><td><strong>Datto RMM</strong></td><td>Integrated</td><td>Only integration into Autotask currently. Monitors board exists but noisy. Lead supervisor is the only one who looks at it. Andy opened a ticket with Kaseya for help auditing alerts. We offered to help with this too (we have templates).</td></tr>
+    <tr><td><strong>IT Glue</strong></td><td>Integrated</td><td>Already connected to Autotask sidebar. Good foundation for process charts.</td></tr>
+    <tr><td><strong>QuickBooks</strong></td><td>NOT integrated</td><td>All billing done here manually. Invoicing is a major pain point -- they manually adjust invoices every few months. Andy said "that's got to end." Highest-paid person doing the manual labor.</td></tr>
+    <tr><td><strong>HubSpot</strong></td><td>NOT integrated</td><td>Used for opportunity tracking. Owner may want to keep it for lead gen. Could potentially move opportunity tracking to Autotask CRM module.</td></tr>
+    <tr><td><strong>PandaDoc</strong></td><td>NOT integrated</td><td>Generating SOWs and sending for signature. Owner not necessarily tied to keeping it.</td></tr>
+    <tr><td><strong>Cruhu</strong></td><td>Integrated</td><td>CSAT tool, coming up for renewal. Andy comparing with SmileBack and Autotask's built-in thermometer. Has employee recognition module with KPI gamification, but they don't have KPIs yet so that feature is wasted money right now.</td></tr>
+    <tr><td><strong>TimeZest</strong></td><td>Integrated</td><td>Scheduling tool, already connected.</td></tr>
+    <tr><td><strong>ScalePad (Lifecycle Insights/Manager X)</strong></td><td>NOT integrated</td><td>Andy wants to use for strategic planning and QBR recommendations. Can push opportunities to Autotask, which is another reason to consolidate CRM there.</td></tr>
+    <tr><td><strong>Nextiva</strong></td><td>NOT integrated</td><td>Phone system. Andy unsure if it can integrate with Autotask.</td></tr>
+    <tr><td><strong>Google Workspace</strong></td><td>Internal use</td><td>They're a "Google shop" internally. Andy wants to eventually change this. Paying for Gemini but team doesn't use it. Not integrated with Autotask for clients' 365.</td></tr>
+  </table>
+
+  <h2>What's Broken (in Andy's words)</h2>
+
+  <div class="card">
+    <div class="card-title">No KPIs, No SLAs</div>
+    <div class="card-desc">SLAs not set properly. No KPIs defined or measured. Andy built a basic morning huddle dashboard last week but needs help with the KPIs he can't figure out how to measure in Autotask. Starting to drive daily huddles with the team next Monday.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">No Dashboards (useful ones)</div>
+    <div class="card-desc">No useful dashboards. Built one for the morning huddle but needs role-based dashboards with proper data enforcement so numbers are accurate. Engineers aren't logging time on tickets consistently.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">No Client Reports</div>
+    <div class="card-desc">Zero reports going out to clients. No QBR process in place.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">No Process Charts / Flows</div>
+    <div class="card-desc">No ticket triage. Everything comes in as a generic "service ticket" -- no categorization, no differentiated workflow. Working on defining expectations around ticket creation (required fields, when to escalate, what statuses mean) but no flow charts exist.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">No Automations</div>
+    <div class="card-desc">"Almost no automations built out to help the team." They're operating at a very basic level. Need workflow rules to enforce time entry, ticket hygiene, and process compliance.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Noisy RMM Alerts</div>
+    <div class="card-desc">Monitors board full of noise. Lead supervisor is only one who checks it and says "there's a lot of noise." Andy wants alerts pruned so only actionable items remain, then routed to the main service board where all eyes can see them. We offered templates for this.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Billing Chaos</div>
+    <div class="card-desc">QuickBooks not integrated. Manual invoice adjustments every few months. Clients not standardized on offerings. Andy: "that's got to end." Max promised "no more incorrect invoices" once integrated.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Missing Integrations</div>
+    <div class="card-desc">Only Datto RMM integrated with Autotask. No 365 integration for clients, no QuickBooks, no HubSpot, no ScalePad. "Our hands are tied."</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">No AI Adoption by Team</div>
+    <div class="card-desc">Andy uses AI daily, but the team doesn't. A senior technician called himself a "Google genius" -- hasn't tried Gemini despite paying for it. Cooper AI in Autotask not being used. Copilot not being used.</div>
+  </div>
+
+  <h2>Staffing Concern</h2>
+
+  <div class="callout">
+    <span class="callout-label">About the lead supervisor</span>
+    Andy's opening line: "He's not much of a supervisor. And he might be a decent technician." This person is the only one checking the monitors board, doesn't have strategic thinking skills, hasn't addressed alert noise proactively. No centralized services / tools expert on staff. One guy has admin access and "kind of knows his way around some things" but can't identify problems or streamline processes.
+  </div>
+
+  <h2>What Max Proposed</h2>
+
+  <ul>
+    <li><strong>Guide-as-a-Service at $2,500/mo.</strong> Bi-weekly 2-hour sprint meetings + unlimited Teams DM access to Joshua + consultant does homework between sprints.</li>
+    <li><strong>Startup fee TBD</strong> -- $1K to $3K depending on assessment results.</li>
+    <li><strong>Power BI</strong> mentioned as separate product at $300/mo (MCP suite, AI-driven reports, DAX queries, QBR generation). Not quoted as part of the initial engagement.</li>
+    <li><strong>Buddy-as-a-Service</strong> mentioned as upgrade path if they want us to do all the homework -- not pushed, Andy said he wants to learn.</li>
+    <li><strong>API access proposal:</strong> Max floated connecting our Claude to their Autotask for rapid implementation. Andy was cautious -- wants to understand data handling first. Don't push this early.</li>
+  </ul>
+
+  <h2>Recommended Sprint Plan</h2>
+  <p>Based on the call, here's a suggested module sequence. Andy wants to see results in 6-8 weeks, so front-load the visible wins.</p>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Service Desk</div>
+      <div class="pos-desc">Triage, categories, SLAs, KPIs, workflow rules, time entry enforcement</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">RMM Audit</div>
+      <div class="pos-desc">Alert pruning, monitor templates, route to service board</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Dashboards</div>
+      <div class="pos-desc">Role-based dashboards, morning huddle board, management KPI view</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">Billing</div>
+      <div class="pos-desc">QuickBooks integration, contract cleanup, service offering simplification</div>
+    </div>
+  </div>
+
+  <p style="margin-top: 16px;">After these four, the natural follow-ons are: IT Glue process charts in the sidebar, CRM module (potentially replacing HubSpot for opportunities), ScalePad integration, client-facing reports, and AI adoption for the team.</p>
+
+  <h2>Competitive Situation</h2>
+
+  <div class="callout">
+    <span class="callout-label">Andy is talking to others</span>
+    He mentioned he talked to one vendor yesterday and has another call today. They're all being asked to provide a scope of work with cost and timeline for everything on his list. Andy said our price was "a little bit more than I thought" but acknowledged there's "a lot of value" based on the hours. He needs to present a comparison to the owner who makes the final call. He asked us for a roadmap showing what gets accomplished in month 1, 2, 3 -- Max committed to getting that to him after talking to Joshua.
+  </div>
+
+  <h2>Key Buying Signals</h2>
+
+  <ul>
+    <li>"I want this done as quickly as possible" -- will commit 10-15 hours/week internally</li>
+    <li>Genuinely wants to learn, not just outsource -- fits Guide-as-a-Service perfectly</li>
+    <li>Said he'll make a labor commitment so we can estimate timeline</li>
+    <li>Invoicing pain is acute -- if we can promise "no more incorrect invoices," that resonates</li>
+    <li>Core stack (Autotask, Datto RMM, IT Glue, QuickBooks) is our bread and butter</li>
+    <li>Not locked into ancillary tools -- open to consolidation</li>
+    <li>Andy uses AI daily, is excited about our AI capabilities and Power BI MCP demo</li>
+  </ul>
+
+  <h2>Watch-Outs</h2>
+
+  <ul>
+    <li><strong>Andy is not the decision maker.</strong> Budget approval goes through the owner. Everything we say to Andy needs to be owner-friendly when relayed.</li>
+    <li><strong>Price sensitivity.</strong> $2,500/mo was higher than expected. The competitor comparison will matter. Have the roadmap ready fast.</li>
+    <li><strong>6-8 week pressure.</strong> Andy needs visible results that quickly. Sprint 1 must deliver something tangible he can show the owner.</li>
+    <li><strong>API access hesitancy.</strong> Don't bring up Claude-to-Autotask access again until trust is established. Andy was polite but clearly uncomfortable.</li>
+    <li><strong>Google shop internally.</strong> Could cause friction if we assume 365 defaults. Clarify their internal vs. client tooling early.</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Action Required from Joshua</h2>
+    <p>Max promised Andy a roadmap showing what gets accomplished in each month of the engagement. Joshua needs to review the SOW (Andy sent one to Max) and this brief, then help Max put together a month-by-month plan with realistic timelines. Andy committed 10-15 hours/week internal effort. Factor that in. This is competitive -- other vendors are quoting by end of this week.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Proxuma &mdash; Internal Brief</span>
+    <span>Source: Dxfferent Assessment discovery call recording</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Consultant Brief: Dxfferent / Andy Kedjierski",
+  "date": "2026-04-24",
+  "summary": "Internal brief for Joshua from the discovery call with Andy Kedjierski at Dxfferent, a ~$3M / 13-person US MSP that migrated from ConnectWise to Autotask in October and needs operational streamlining. Andy is comparing us with 2+ other vendors.",
+  "sections": [
+    {
+      "heading": "Company Profile",
+      "items": [
+        { "title": "Dxfferent", "detail": "~$3M ARR, 13 employees, US-based MSP. Migrated from ConnectWise to Autotask October 2025 via Kaseya white-glove (unhappy with result). Core stack: Autotask, Datto RMM, IT Glue, QuickBooks.", "meta": { "revenue": "~3M", "employees": 13, "maturity": "level-2" } }
+      ]
+    },
+    {
+      "heading": "Key Contacts",
+      "items": [
+        { "title": "Andy Kedjierski", "detail": "COO-type role, brought in by owner (his friend) to assess and streamline operations. 20yr Army, then Tech Data. Uses AI daily. Not the budget decision maker.", "meta": { "role": "operations-lead", "decision_maker": false } },
+        { "title": "Owner (unnamed)", "detail": "Owns the MSP, controls budget. Wants to scale but lacks confidence in delivery. Both will attend sprints.", "meta": { "role": "owner", "decision_maker": true } }
+      ]
+    },
+    {
+      "heading": "Problems Identified",
+      "items": [
+        { "title": "No KPIs or SLAs", "detail": "Nothing defined or measured. Andy built a basic dashboard for morning huddles.", "meta": { "priority": "high" } },
+        { "title": "No process charts", "detail": "All tickets come in as generic service tickets. No triage, no categorization, no workflow.", "meta": { "priority": "high" } },
+        { "title": "No automations", "detail": "Team operating at basic level. No workflow rules for time entry, escalation, or compliance.", "meta": { "priority": "high" } },
+        { "title": "Billing chaos", "detail": "QuickBooks not integrated. Manual invoice adjustments every few months.", "meta": { "priority": "high" } },
+        { "title": "Noisy RMM", "detail": "Monitors board full of noise, only lead supervisor checks it.", "meta": { "priority": "medium" } },
+        { "title": "No client reports", "detail": "Zero reports going to clients, no QBR process.", "meta": { "priority": "medium" } },
+        { "title": "Missing integrations", "detail": "Only Datto RMM connected. No 365, QuickBooks, HubSpot, ScalePad.", "meta": { "priority": "medium" } }
+      ]
+    },
+    {
+      "heading": "Competitive Situation",
+      "items": [
+        { "title": "Multiple vendors being compared", "detail": "Andy talked to one vendor yesterday, another today. All providing scope + cost + timeline. Our $2,500/mo was higher than expected but he sees value.", "meta": { "urgency": "this-week" } }
+      ]
+    }
+  ],
+  "next_steps": "Joshua to review Andy's SOW and this brief, then help Max build a month-by-month roadmap showing what gets delivered in each sprint. Andy wants this to compare against competing proposals. Time-sensitive -- other vendors quoting this week.",
+  "session_state": {
+    "phase": "brief delivered",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Transcribed and analyzed Dxfferent discovery call VTT",
+      "Created Joshua's consultant brief as output-page HTML",
+      "Extracted tech stack, pain points, buying signals, competitive intel"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new file pending commit",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-dxfferent-joshua-brief.html", "relevance": "this document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Source VTT at ~/Downloads/Dxfferent Assessment (1).vtt"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Structured brief as prospect intelligence doc rather than meeting minutes",
+      "rejected_alternatives": ["Raw transcript summary", "Simple bullet list"],
+      "rationale": "Joshua needs actionable context -- who to prepare for, what's broken, what was promised, and what the competitive pressure looks like. A structured brief serves that better than chronological notes.",
+      "trade_offs": "Loses some conversational nuance but gains scannability",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
