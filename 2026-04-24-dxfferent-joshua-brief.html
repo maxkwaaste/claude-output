@@ -193,8 +193,8 @@ li::marker { color: #1a2744; }
   <div class="confidential">Internal &mdash; Do not share with prospect</div>
 
   <div class="overline">New prospect briefing</div>
-  <h1>Dxfferent &mdash; Andy Kedjierski</h1>
-  <p class="subtitle">Discovery call summary and engagement brief for Joshua. Andy is not the owner but was brought on by the owner (his friend) to do an operational assessment and get this MSP ready to scale. Both Andy and the owner will participate in sprints. Andy is comparing us with at least two other vendors.</p>
+  <h1>Handled IT Partners &mdash; Andy Kedjierski</h1>
+  <p class="subtitle">Discovery call summary, SOW analysis, and sprint timeline evaluation for Joshua. The MSP is called Handled IT Partners (the call was filed under "Dxfferent Assessment"). Andy is not the owner but was brought on by the owners (Chris and Ralf) to do an operational assessment and get this MSP ready to scale. Andy, Chris, and Ralf will participate in sprints. Andy is comparing us with at least two other vendors. Service manager is Michael.</p>
 
   <div class="stats-row">
     <div class="stat-card">
@@ -224,9 +224,15 @@ li::marker { color: #1a2744; }
   </div>
 
   <div class="card">
-    <div class="card-title">The Owner (unnamed)</div>
-    <div class="card-buyer">Decision maker &mdash; Budget authority</div>
-    <div class="card-desc">Owns the MSP. Realizes the business is at ~$3M but can't scale because he's not confident in service delivery or client onboarding. Brought Andy in to fix this. Max recommended both Andy and the owner attend the bi-weekly sprints. Andy agreed and expects the owner will want to be involved to build confidence that things are moving in the right direction.</div>
+    <div class="card-title">Chris &amp; Ralf (co-owners)</div>
+    <div class="card-buyer">Decision makers &mdash; Budget authority</div>
+    <div class="card-desc">Own Handled IT Partners. Revenue at ~$3M but can't scale because they're not confident in service delivery or client onboarding. Brought Andy in to fix this. The executive dashboard in the SOW is specifically for Chris and Ralf. Max recommended both Andy and the owners attend the bi-weekly sprints. Andy agreed and expects the owners will want to be involved to build confidence that things are moving in the right direction.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Michael</div>
+    <div class="card-buyer">Service Manager</div>
+    <div class="card-desc">Referenced in the SOW as the person who should receive the daily time summary email at 5:30 PM flagging underperforming technicians. Key internal stakeholder for Phase 4 (utilization/time entry enforcement). The SOW suggests he needs tooling to hold the team accountable.</div>
   </div>
 
   <h2>Tech Stack</h2>
@@ -338,6 +344,214 @@ li::marker { color: #1a2744; }
 
   <p style="margin-top: 16px;">After these four, the natural follow-ons are: IT Glue process charts in the sidebar, CRM module (potentially replacing HubSpot for opportunities), ScalePad integration, client-facing reports, and AI adoption for the team.</p>
 
+  <h2>Andy's SOW: Phase-by-Phase Analysis</h2>
+  <p>Andy wrote his own SOW titled "Autotask Operational Excellence &amp; Integration Audit." This is not a generic wish list -- it's unusually detailed and shows someone who has done this at other MSPs before. He even has a section called "Technical Implementation Advice for the Vendor" spelling out the exact automations he wants. The goal as stated: move Handled IT Partners from a "reactive" ticketing system to a "proactive" service engine.</p>
+
+  <div class="callout">
+    <span class="callout-label">Assessment: Andy knows what he wants</span>
+    This SOW is more detailed than what most MSPs produce. Andy has clearly run operational transformations before (Tech Data, prior MSP experience). He will hold us to specifics. The upside: less discovery needed, less ambiguity. The risk: if we can't match this level of precision in our roadmap, we lose credibility against competitors who can.
+  </div>
+
+  <h3>Phase 1: Foundation &amp; SLA Remediation</h3>
+  <div class="card">
+    <div class="card-desc">
+      <ul style="margin-top:0">
+        <li>Audit and rebuild SLA sets (Response, Resolution Plan, Resolution targets)</li>
+        <li>Align ticket statuses with SLA clocks ("Waiting Customer" pauses, "In Progress" runs)</li>
+        <li>Verify business hours and holidays so SLA clocks only run during contracted support hours</li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag tag-independent">Standard config</span>
+      <span class="tag tag-bundled">Sprint 1</span>
+    </div>
+  </div>
+
+  <h3>Phase 2: Process Enforcement &amp; Workflow Automation</h3>
+  <div class="card">
+    <div class="card-desc">
+      <ul style="margin-top:0">
+        <li>Mandatory categorization: workflow rules to block ticket closure without Issue Type, Sub-Issue Type, Work Type</li>
+        <li>Checklist libraries for Onboarding, Offboarding, Desktop Setup</li>
+        <li>Stale ticket notifications (no activity &gt;24h)</li>
+        <li>"Perfect Ticket" template: ticket categories hiding irrelevant fields, highlighting critical ones (Cruhu scores, IT Glue links)</li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag tag-independent">Workflow rules</span>
+      <span class="tag tag-bundled">Sprint 1-2</span>
+    </div>
+  </div>
+
+  <h3>Phase 3: Integration Audit &amp; Optimization</h3>
+  <div class="card">
+    <div class="card-desc">
+      <ul style="margin-top:0">
+        <li><strong>QuickBooks:</strong> Work Types to Service Items mapping, "Ready to Bill" flow</li>
+        <li><strong>Datto RMM:</strong> Alerts to actionable tickets with correct priorities</li>
+        <li><strong>Cruhu:</strong> Writeback to Autotask UDFs for dashboard reporting</li>
+        <li><strong>IT Glue:</strong> Side-panel/extension for one-click documentation</li>
+        <li><strong>Nextiva/TimeZest/ScalePad:</strong> API user restrictions, data population (warranty dates from ScalePad)</li>
+        <li><strong>Lifecycle Manager X:</strong> Integration for "Project Conversion" from aging assets</li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag tag-acquired">Heaviest phase</span>
+      <span class="tag tag-bundled">Sprint 2-4</span>
+    </div>
+  </div>
+
+  <h3>Phase 4: Utilization &amp; Time Entry Accountability</h3>
+  <div class="card">
+    <div class="card-desc">
+      <ul style="margin-top:0">
+        <li>"Time Entry Lag" report to catch bundling (all 8h entered at end of shift). Target: entry within 30 min of work</li>
+        <li>Overlapping time detection ("Ghost Billing") for simultaneous entries</li>
+        <li>Stopwatch enforcement over manual rounding</li>
+        <li>Utilization targets at 75%, configured against true 40h week minus holidays/PTO</li>
+        <li>Standardize internal task codes (Admin, Training, Travel, Research)</li>
+        <li><strong>Enforcement automations Andy specifically asked for:</strong></li>
+        <li style="list-style:none; margin-left:20px">"Forgot to Stop" alert: ping if stopwatch running &gt;4h</li>
+        <li style="list-style:none; margin-left:20px">Daily time summary email to Michael at 5:30 PM for techs under 6.5h</li>
+        <li style="list-style:none; margin-left:20px">"Incomplete" block: reject time entries with summary &lt;20 characters</li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag tag-acquired">Culture change</span>
+      <span class="tag tag-bundled">Sprint 3-4</span>
+    </div>
+  </div>
+
+  <h3>Phase 5a: KPI &amp; Dashboards</h3>
+  <div class="card">
+    <div class="card-desc">
+      <p style="margin-bottom:8px"><strong>Three dashboard sets required:</strong></p>
+      <ul style="margin-top:0">
+        <li><strong>Technician "My Work":</strong> Daily time entry, personal SLA performance, real-time utilization. KPIs: tickets closed/day, calls received, talk time, daily utilization%, time entry lag, response time, resolution time, SLA adherence, aging tickets, high-time tickets, stale tickets, re-opened tickets, first call resolution</li>
+        <li><strong>Service Manager (Michael) "Process Compliance":</strong> SLA breaches, uncategorized tickets, resource utilization. KPIs: CSAT, tickets closed/day, calls/day, avg talk time, response/resolution time, SLA adherence, aging/stale/re-opened tickets, FCR</li>
+        <li><strong>Executive (Chris &amp; Ralf):</strong> Contract profitability, overall CSAT. KPIs: profitability, CSAT, calls/day, avg talk time, devices/users with high tickets, tickets by type/sub-type, tickets by priority</li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag tag-acquired">High visibility</span>
+      <span class="tag tag-bundled">Sprint 4-5</span>
+    </div>
+  </div>
+
+  <h3>Phase 5b: Technical Debt &amp; Cleanup</h3>
+  <div class="card">
+    <div class="card-desc">
+      <ul style="margin-top:0">
+        <li>Identify and merge duplicate companies/contacts from ConnectWise migration</li>
+        <li>Security audit: all API user permissions reviewed, "Least Privilege" applied</li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag tag-diy">Can run parallel</span>
+      <span class="tag tag-bundled">Sprint 1 or 5</span>
+    </div>
+  </div>
+
+  <h2>Timeline Evaluation for Joshua</h2>
+  <p>Here's the sprint-by-sprint mapping. Assuming 2-week sprints, 2h meeting each + Joshua's homework hours + Andy committing 10-15h/week internal effort. Some phases overlap -- Phase 5b (cleanup) can run in the background from sprint 1.</p>
+
+  <table class="matrix">
+    <tr><th>Sprint</th><th>Weeks</th><th>Focus</th><th>Deliverables</th><th>Complexity</th></tr>
+    <tr>
+      <td><strong>1</strong></td><td>1-2</td>
+      <td>SLA Foundation + Ticket Hygiene</td>
+      <td>SLA sets rebuilt, status-to-clock mapping, business hours configured. Mandatory categorization workflow rules. Start duplicate cleanup in background.</td>
+      <td>Medium -- standard config but need to understand their contract types first</td>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td><td>3-4</td>
+      <td>Process Enforcement + RMM Audit</td>
+      <td>Checklist libraries, stale ticket automation, "Perfect Ticket" template. RMM alert pruning, monitor templates, route actionable alerts to service board.</td>
+      <td>Medium -- the RMM audit could take longer depending on how much noise exists</td>
+    </tr>
+    <tr>
+      <td><strong>3</strong></td><td>5-6</td>
+      <td>Integrations (QuickBooks + Stack)</td>
+      <td>QuickBooks integration (Work Types to Service Items, Ready to Bill flow). Cruhu writeback. IT Glue side-panel config. Verify all API user permissions.</td>
+      <td>High -- QuickBooks mapping is the single biggest piece. Need their full service offering / contract matrix to map correctly.</td>
+    </tr>
+    <tr>
+      <td><strong>4</strong></td><td>7-8</td>
+      <td>Time Entry + Utilization</td>
+      <td>Time entry lag report, ghost billing detection, stopwatch enforcement, utilization targets (75%), internal task codes. All three enforcement automations (forgot-to-stop, daily summary to Michael, incomplete block).</td>
+      <td>Medium config, HIGH change management -- this is where the team will push back hardest</td>
+    </tr>
+    <tr>
+      <td><strong>5</strong></td><td>9-10</td>
+      <td>Dashboards + KPIs (Tech + Manager)</td>
+      <td>Technician "My Work" dashboard, Service Manager "Process Compliance" dashboard. Finalize remaining integrations (ScalePad, Nextiva, Lifecycle Manager X).</td>
+      <td>Medium -- many KPIs but most are standard Autotask widgets once the data is clean from prior sprints</td>
+    </tr>
+    <tr>
+      <td><strong>6</strong></td><td>11-12</td>
+      <td>Executive Dashboard + Polish</td>
+      <td>Chris &amp; Ralf executive view (profitability, CSAT, device/user analysis). Final security audit. Process documentation in IT Glue. Handover.</td>
+      <td>Low-medium -- depends on whether they want Power BI or native Autotask dashboards for this</td>
+    </tr>
+  </table>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Sprints (bi-weekly)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3 mo</div>
+      <div class="stat-label">Minimum Timeline</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$7,500</div>
+      <div class="stat-label">Min. GaaS Cost (3x $2,500)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$15,000</div>
+      <div class="stat-label">Total w/ Startup Fee ($1-3K)</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Joshua's call: 3 months aggressive, 4 months realistic</span>
+    <strong>3 months (6 sprints)</strong> is achievable if Andy truly delivers 10-15h/week and the owners make decisions fast. The bottleneck won't be config -- it'll be (1) getting their service offering / contract matrix documented for QuickBooks mapping, (2) change management when time entry enforcement kicks in (sprint 4), and (3) whether they want native Autotask dashboards or Power BI for the executive view.<br><br>
+    <strong>4 months (8 sprints)</strong> is safer and allows for the inevitable "Andy got pulled into a client emergency for two weeks" scenario. It also gives breathing room for the integrations that depend on third-party support (ScalePad, Nextiva, Lifecycle Manager X).<br><br>
+    <strong>Recommendation:</strong> Quote 4 months at $2,500/mo = $10,000 GaaS + $2,000 startup fee = <strong>$12,000 total</strong>. Position the startup fee as covering the initial audit, assessment form processing, and SOW-to-sprint-plan conversion. If they finish in 3 months, great -- they saved $2,500. If Andy brings up the 6-8 week pressure from the call, point to sprints 1-4 (the first 8 weeks) as the window where all the foundational work gets done and he'll have dashboards + enforcement in place. The final sprints are polish and executive reporting.
+  </div>
+
+  <h3>What Andy can handle himself (homework)</h3>
+  <ul>
+    <li>Documenting their full service offering and contract matrix for QuickBooks mapping</li>
+    <li>Defining the checklist items for Onboarding, Offboarding, Desktop Setup (he knows the processes)</li>
+    <li>Getting internal task codes agreed with Michael (Admin, Training, Travel, Research)</li>
+    <li>Communicating process changes to the team (he's the authority figure here)</li>
+    <li>Duplicate cleanup: identifying which companies/contacts are duplicates from the migration</li>
+    <li>ScalePad/Nextiva configuration on their end (API keys, access setup)</li>
+  </ul>
+
+  <h3>What Joshua must do (our homework)</h3>
+  <ul>
+    <li>SLA set design and implementation</li>
+    <li>All workflow rules (mandatory categorization, stale ticket, time entry enforcement)</li>
+    <li>QuickBooks integration mapping and testing</li>
+    <li>RMM alert audit and monitor template deployment</li>
+    <li>Dashboard design and widget configuration (all three levels)</li>
+    <li>Cruhu writeback UDF setup</li>
+    <li>IT Glue side-panel configuration</li>
+    <li>API user security review</li>
+    <li>The three enforcement automations (forgot-to-stop, daily summary, incomplete block)</li>
+  </ul>
+
+  <h3>Upsell opportunities (don't lead with these)</h3>
+  <ul>
+    <li><strong>Power BI ($300/mo):</strong> The executive dashboard for Chris and Ralf would be far more powerful in Power BI than native Autotask. Wait until sprint 5-6 to propose, when they've seen the native dashboards and want more.</li>
+    <li><strong>CRM migration:</strong> Moving opportunities from HubSpot/PandaDoc to Autotask CRM. Could be a follow-on engagement after the core work.</li>
+    <li><strong>AI skills:</strong> Andy is very receptive to AI. Once KPIs exist and dashboards have data, the MCP suite becomes relevant. Don't pitch until the data foundation is solid.</li>
+    <li><strong>Client reports / QBR automation:</strong> Andy mentioned they don't send reports to clients. This is a natural follow-on after the Power BI is in place.</li>
+  </ul>
+
   <h2>Competitive Situation</h2>
 
   <div class="callout">
@@ -369,7 +583,12 @@ li::marker { color: #1a2744; }
 
   <div class="positioning">
     <h2>Action Required from Joshua</h2>
-    <p>Max promised Andy a roadmap showing what gets accomplished in each month of the engagement. Joshua needs to review the SOW (Andy sent one to Max) and this brief, then help Max put together a month-by-month plan with realistic timelines. Andy committed 10-15 hours/week internal effort. Factor that in. This is competitive -- other vendors are quoting by end of this week.</p>
+    <p>The SOW analysis and sprint plan above is a starting point. Joshua needs to:</p>
+    <p>1. Validate or adjust the sprint sequence and timing estimates<br>
+    2. Flag anything in the SOW that's harder than it looks (especially the enforcement automations and QuickBooks mapping)<br>
+    3. Confirm the 4-month / $12,000 total recommendation or adjust<br>
+    4. Help Max draft the month-by-month roadmap to send to Andy<br><br>
+    Andy is comparing proposals this week. Other vendors are quoting fixed-scope projects. Our advantage is the ongoing relationship + unlimited access model. The roadmap needs to show concrete deliverables per sprint so Andy can present it to Chris and Ralf with confidence.</p>
   </div>
 
   <div class="page-footer">
@@ -380,9 +599,9 @@ li::marker { color: #1a2744; }
 
 <script type="application/json" id="claude-data">
 {
-  "title": "Consultant Brief: Dxfferent / Andy Kedjierski",
+  "title": "Consultant Brief: Handled IT Partners / Andy Kedjierski",
   "date": "2026-04-24",
-  "summary": "Internal brief for Joshua from the discovery call with Andy Kedjierski at Dxfferent, a ~$3M / 13-person US MSP that migrated from ConnectWise to Autotask in October and needs operational streamlining. Andy is comparing us with 2+ other vendors.",
+  "summary": "Internal brief + SOW analysis for Joshua. Handled IT Partners (filed as 'Dxfferent Assessment'), ~$3M / 13-person US MSP. Full SOW breakdown with sprint-level timeline: 6 sprints over 3-4 months, recommended quote $12K total ($2,500/mo x4 + $2K startup). Andy comparing 2+ vendors this week.",
   "sections": [
     {
       "heading": "Company Profile",
