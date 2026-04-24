@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mozambique Trip Plan - 31 Aug t/m 7 Sep 2026</title>
+<title>Mozambique Trip Plan - 1 t/m 7 Sep 2026</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Open+Sans:wght@400;600;700;800&display=swap');
 
@@ -19,7 +19,6 @@
   a { color: #0f766e; text-decoration: none; font-weight: 600; }
   a:hover { text-decoration: underline; color: #115e58; }
 
-  /* HERO */
   .hero {
     position: relative;
     min-height: 420px;
@@ -43,284 +42,187 @@
     font-family: 'DM Serif Display', serif;
     font-size: 3.2rem;
     margin-bottom: 12px;
-    letter-spacing: -0.5px;
     text-shadow: 0 2px 20px rgba(0,0,0,0.3);
   }
-  .hero .subtitle {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    font-weight: 400;
-  }
+  .hero .subtitle { font-size: 1.2rem; opacity: 0.9; }
   .hero .route-badges {
     margin-top: 20px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
   }
   .hero .route-badges span {
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(8px);
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 0.85rem; font-weight: 700;
     border: 1px solid rgba(255,255,255,0.3);
   }
 
   .container { max-width: 940px; margin: 0 auto; padding: 40px 24px; }
 
-  /* SECTIONS */
   .section {
-    background: white;
-    border-radius: 12px;
-    padding: 32px;
-    margin-bottom: 28px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    background: white; border-radius: 12px; padding: 32px;
+    margin-bottom: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
   .section h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    color: #0f766e;
-    margin-bottom: 18px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #e8e2db;
+    font-family: 'DM Serif Display', serif; font-size: 1.6rem;
+    color: #0f766e; margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 2px solid #e8e2db;
   }
   .section h3 {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #115e58;
+    font-size: 1.05rem; font-weight: 800; color: #115e58;
     margin: 20px 0 8px 0;
   }
 
-  /* PHOTO SECTIONS */
   .photo-banner {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    width: 100%; height: 280px; object-fit: cover;
+    border-radius: 10px; margin-bottom: 20px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.12);
   }
   .photo-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 16px 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;
   }
   .photo-grid img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    width: 100%; height: 200px; object-fit: cover; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s;
   }
   .photo-grid img:hover { transform: scale(1.02); }
   .photo-caption {
-    text-align: center;
-    font-size: 0.78rem;
-    color: #9ca3af;
-    margin-top: -8px;
-    margin-bottom: 16px;
+    text-align: center; font-size: 0.78rem; color: #9ca3af;
+    margin-top: -8px; margin-bottom: 16px;
   }
 
-  /* MAP */
   .map-container {
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 16px 0;
+    border-radius: 10px; overflow: hidden; margin: 16px 0;
     box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    position: relative;
   }
-  .map-container iframe {
-    width: 100%;
-    height: 360px;
-    border: 0;
-  }
-  .map-links {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin: 12px 0;
-  }
+  .map-container iframe { width: 100%; height: 360px; border: 0; }
+
+  .map-links { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
   .map-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #f0fdf4;
-    border: 1px solid #0f766e;
-    color: #0f766e;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #f0fdf4; border: 1px solid #0f766e; color: #0f766e;
+    padding: 8px 16px; border-radius: 8px;
+    font-size: 0.85rem; font-weight: 700; text-decoration: none;
     transition: all 0.2s;
   }
-  .map-link:hover {
-    background: #0f766e;
-    color: white;
-    text-decoration: none;
-  }
+  .map-link:hover { background: #0f766e; color: white; text-decoration: none; }
   .map-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .pin-svg { display: inline; }
 
-  /* DAY CARDS */
   .day-card {
-    border-left: 4px solid #0f766e;
-    padding: 16px 20px;
-    margin: 16px 0;
-    background: #f9f7f4;
-    border-radius: 0 8px 8px 0;
+    border-left: 4px solid #0f766e; padding: 16px 20px; margin: 16px 0;
+    background: #f9f7f4; border-radius: 0 8px 8px 0;
   }
   .day-card .day-label {
-    font-weight: 800;
-    color: #0f766e;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
+    font-weight: 800; color: #0f766e; font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
   }
   .day-card .day-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.25rem;
-    margin-bottom: 8px;
+    font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin-bottom: 8px;
   }
   .day-card .day-photo {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin: 12px 0 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%; height: 200px; object-fit: cover; border-radius: 8px;
+    margin: 12px 0 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
-  /* TAGS */
   .tag {
-    display: inline-block;
-    background: #0f766e;
-    color: white;
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    margin-right: 6px;
-    margin-bottom: 4px;
+    display: inline-block; background: #0f766e; color: white;
+    padding: 3px 10px; border-radius: 12px;
+    font-size: 0.75rem; font-weight: 700; margin-right: 6px; margin-bottom: 4px;
   }
   .tag.warn { background: #d97706; }
   .tag.flight { background: #1d4ed8; }
   .tag.boat { background: #0891b2; }
   .tag.drive { background: #6b7280; }
 
-  /* TABLES */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0;
-    font-size: 0.92rem;
-  }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; }
   table th {
-    background: #0f766e;
-    color: white;
-    padding: 10px 14px;
-    text-align: left;
-    font-weight: 700;
-    font-size: 0.82rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    background: #0f766e; color: white; padding: 10px 14px; text-align: left;
+    font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;
   }
-  table td {
-    padding: 10px 14px;
-    border-bottom: 1px solid #e8e2db;
-  }
+  table td { padding: 10px 14px; border-bottom: 1px solid #e8e2db; }
   table tr:nth-child(even) { background: #f9f7f4; }
 
-  /* CALLOUTS */
   .callout {
-    background: #fef3c7;
-    border-left: 4px solid #d97706;
-    padding: 14px 18px;
-    border-radius: 0 8px 8px 0;
-    margin: 16px 0;
-    font-size: 0.92rem;
+    background: #fef3c7; border-left: 4px solid #d97706;
+    padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 0.92rem;
   }
-  .callout.green {
-    background: #d1fae5;
-    border-left-color: #0f766e;
-  }
+  .callout.green { background: #d1fae5; border-left-color: #0f766e; }
   .callout strong { color: #92400e; }
   .callout.green strong { color: #065f46; }
 
   ul { padding-left: 20px; margin: 8px 0; }
   li { margin-bottom: 6px; }
 
-  /* TWO COL */
-  .two-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 16px 0;
-  }
+  .two-options { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 16px 0; }
   .option-box {
-    border: 2px solid #e8e2db;
-    border-radius: 10px;
-    padding: 20px;
-    background: #fdfcfa;
+    border: 2px solid #e8e2db; border-radius: 10px; padding: 20px; background: #fdfcfa;
   }
-  .option-box.recommended {
-    border-color: #0f766e;
-    background: #f0fdf4;
-  }
+  .option-box.recommended { border-color: #0f766e; background: #f0fdf4; }
   .option-box h4 { font-weight: 800; margin-bottom: 8px; }
-  .option-box img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 12px;
+  .price-range { font-size: 0.85rem; color: #6b7280; margin-top: 6px; }
+
+  /* HOTEL CARDS */
+  .hotel-card {
+    display: grid; grid-template-columns: 280px 1fr; gap: 0;
+    border: 1px solid #e8e2db; border-radius: 12px; overflow: hidden;
+    margin: 16px 0; background: white; transition: box-shadow 0.2s;
   }
-  .price-range {
-    font-size: 0.85rem;
-    color: #6b7280;
-    margin-top: 6px;
+  .hotel-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.12); }
+  .hotel-card-img {
+    width: 100%; height: 100%; min-height: 220px; object-fit: cover;
+  }
+  .hotel-card-body { padding: 20px; }
+  .hotel-card-body h4 {
+    font-size: 1.1rem; font-weight: 800; margin-bottom: 2px;
+  }
+  .hotel-card-body h4 a { color: #2c3e50; }
+  .hotel-card-body h4 a:hover { color: #0f766e; }
+  .hotel-card-type {
+    font-size: 0.8rem; color: #6b7280; margin-bottom: 8px; font-weight: 600;
+  }
+  .hotel-card-price {
+    display: inline-block; background: #0f766e; color: white;
+    padding: 4px 12px; border-radius: 6px; font-size: 0.85rem;
+    font-weight: 800; margin-bottom: 10px;
+  }
+  .hotel-card-amenities {
+    display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 8px;
+  }
+  .amenity {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #f0fdf4; border: 1px solid #d1fae5;
+    padding: 3px 10px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600; color: #065f46;
+  }
+  .hotel-card-desc {
+    font-size: 0.88rem; color: #4b5563; line-height: 1.5; margin: 6px 0;
+  }
+  .hotel-card-link {
+    display: inline-block; margin-top: 8px;
+    font-size: 0.85rem; font-weight: 700;
   }
 
-  /* PLACE CARDS */
-  .place-card {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 16px;
-    border: 1px solid #e8e2db;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 12px 0;
-    background: white;
-    transition: box-shadow 0.2s;
+  .hotel-section-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem; color: #115e58;
+    margin: 28px 0 8px; padding: 8px 0;
+    border-bottom: 1px solid #e8e2db;
   }
-  .place-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-  .place-card img {
-    width: 100%;
-    height: 100%;
-    min-height: 140px;
-    object-fit: cover;
+  .hotel-section-label:first-of-type { margin-top: 0; }
+  .hotel-section-nights {
+    font-size: 0.82rem; font-weight: 400; color: #6b7280;
   }
-  .place-card-info { padding: 16px 16px 16px 0; }
-  .place-card-info h4 { margin-bottom: 4px; font-weight: 800; }
-  .place-card-info .place-type { font-size: 0.82rem; color: #6b7280; margin-bottom: 6px; }
 
   footer {
-    text-align: center;
-    padding: 30px;
-    color: #9ca3af;
-    font-size: 0.82rem;
+    text-align: center; padding: 30px; color: #9ca3af; font-size: 0.82rem;
   }
 
   @media (max-width: 700px) {
     .two-options { grid-template-columns: 1fr; }
     .photo-grid { grid-template-columns: 1fr; }
-    .place-card { grid-template-columns: 1fr; }
-    .place-card img { height: 180px; }
-    .place-card-info { padding: 16px; }
+    .hotel-card { grid-template-columns: 1fr; }
+    .hotel-card-img { height: 200px; }
     .hero h1 { font-size: 2.2rem; }
     .hero-content { padding: 40px 20px; }
     .section { padding: 20px; }
@@ -330,13 +232,12 @@
 </head>
 <body>
 
-<!-- HERO WITH PHOTO -->
 <div class="hero">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <h1>Mozambique</h1>
-    <div class="subtitle">31 augustus t/m 7 september 2026</div>
+    <div class="subtitle">1 t/m 7 september 2026</div>
     <div class="route-badges">
       <span>Maputo</span>
       <span>Vilanculos</span>
@@ -348,10 +249,10 @@
 
 <div class="container">
 
-<!-- ROUTE OVERVIEW + MAP -->
+<!-- ROUTE OVERVIEW -->
 <div class="section">
   <h2>De Route in een Oogopslag</h2>
-  <p>Jullie hebben <strong>7 volle dagen</strong> (aankomst ochtend 31 aug, vertrek middag 7 sep). De drie plekken liggen langs de kust, van noord naar zuid:</p>
+  <p>Jullie hebben <strong>6 volle dagen + 1 ochtendje</strong> (aankomst ochtend 1 sep, vertrek middag 7 sep). De drie bestemmingen liggen langs de kust, van noord naar zuid:</p>
 
   <div class="map-container">
     <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=32.0%2C-26.2%2C36.5%2C-21.0&amp;layer=mapnik&amp;marker=-23.92%2C35.32" loading="lazy"></iframe>
@@ -385,23 +286,23 @@
   </table>
 
   <div class="callout">
-    <strong>Kernprobleem:</strong> Maputo naar Vilanculos is 9-10 uur rijden over de EN1. Dat is te lang om heen en terug te rijden. De oplossing: vlieg een kant, rijd de andere.
+    <strong>Kernprobleem:</strong> Maputo naar Vilanculos is 9-10 uur rijden over de EN1. De oplossing: vlieg een kant, rijd de andere.
   </div>
 </div>
 
-<!-- RECOMMENDED ITINERARY -->
+<!-- ITINERARY -->
 <div class="section">
   <h2>Aanbevolen Route: Noord naar Zuid</h2>
-  <p>Vlieg dag 1 naar Vilanculos (het verste punt), werk daarna terug richting Maputo via Tofo. Maximale tijd op elke plek, relaxte terugrit.</p>
+  <p>Vlieg dag 1 naar Vilanculos (het verste punt), werk daarna terug richting Maputo via Tofo.</p>
 
   <div class="day-card">
-    <div class="day-label">Dag 1 &mdash; Zondag 31 Augustus</div>
+    <div class="day-label">Dag 1 &mdash; Maandag 1 September</div>
     <div class="day-title">Maputo naar Vilanculos</div>
     <span class="tag flight">Vlucht LAM</span>
     <img class="day-photo" src="https://images.unsplash.com/photo-1544298903-35eee5a95b4d?w=900&h=400&fit=crop&auto=format&q=80" alt="Mozambique kust" loading="lazy">
-    <p>Aankomst Maputo 6-7u. <a href="https://www.flightsfrom.com/MPM-VNX" target="_blank">LAM vlucht naar Vilanculos</a> (1u15, vertrekt ochtend). Inchecken lodge. Middag: verken Vilanculos waterfront, seafood diner.</p>
+    <p>Aankomst Maputo 6-7u. <a href="https://www.flightsfrom.com/MPM-VNX" target="_blank">LAM vlucht naar Vilanculos</a> (1u15). Inchecken. Middag: Vilanculos waterfront, seafood diner.</p>
     <div class="map-links" style="margin-top:10px">
-      <a class="map-link" href="https://www.google.com/maps/dir/Maputo+International+Airport/Vilanculos,+Mozambique/" target="_blank" rel="noopener">
+      <a class="map-link" href="https://www.google.com/maps/dir/Maputo+International+Airport/Vilanculos,+Mozambique/" target="_blank">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Maputo &rarr; Vilanculos
       </a>
@@ -410,17 +311,17 @@
   </div>
 
   <div class="day-card">
-    <div class="day-label">Dag 2 &mdash; Maandag 1 September</div>
+    <div class="day-label">Dag 2 &mdash; Dinsdag 2 September</div>
     <div class="day-title">Bazaruto of Benguerra eiland</div>
-    <span class="tag boat">Speedboot</span>
+    <span class="tag boat">Speedboot dagtrip</span>
     <img class="day-photo" src="https://plus.unsplash.com/premium_photo-1666286956135-0fb603dad5cf?w=900&h=400&fit=crop&auto=format&q=80" alt="Tropisch eiland vanuit de lucht" loading="lazy">
-    <p>Vroeg vertrek per speedboot (45 min) of dhow (2-3 uur). Hele dag op het eiland: snorkelen op het koraalrif, wit zandstrand, zeeschildpadden. Optie: overnachten op het eiland of terug dezelfde avond.</p>
+    <p>Vroeg vertrek per speedboot (45 min) of dhow (2-3 uur). Hele dag snorkelen, wit zandstrand, zeeschildpadden. BBQ lunch op het eiland. Terug voor zonsondergang.</p>
     <div class="map-links" style="margin-top:10px">
-      <a class="map-link" href="https://www.google.com/maps/place/Benguerra+Island/" target="_blank" rel="noopener">
+      <a class="map-link" href="https://www.google.com/maps/place/Benguerra+Island/" target="_blank">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Benguerra Island
       </a>
-      <a class="map-link" href="https://www.google.com/maps/place/Bazaruto+Island/" target="_blank" rel="noopener">
+      <a class="map-link" href="https://www.google.com/maps/place/Bazaruto+Island/" target="_blank">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Bazaruto Island
       </a>
@@ -428,53 +329,43 @@
   </div>
 
   <div class="day-card">
-    <div class="day-label">Dag 3 &mdash; Dinsdag 2 September</div>
-    <div class="day-title">Vilanculos / tweede eilanddag</div>
-    <span class="tag boat">Speedboot</span>
-    <p><strong>Overnacht op eiland:</strong> ochtend snorkelen/duiken, terug naar Vilanculos middag.<br>
-    <strong>Dagtrip gisteren:</strong> vrije dag Vilanculos. Horse riding, kayakken, lokale markt.</p>
-  </div>
-
-  <div class="day-card">
-    <div class="day-label">Dag 4 &mdash; Woensdag 3 September</div>
+    <div class="day-label">Dag 3 &mdash; Woensdag 3 September</div>
     <div class="day-title">Vilanculos naar Tofo</div>
     <span class="tag drive">Rijden 3.5-4.5u</span>
-    <img class="day-photo" src="https://images.unsplash.com/photo-1711802536786-149a0d0c5879?w=900&h=400&fit=crop&auto=format&q=80" alt="Dhow zeilboot aan de kust" loading="lazy">
-    <p>Ochtend vertrek. Rit ~250 km via EN1. Goed asfalt tot Inhambane, dan 22km zandweg naar Tofo. Aankomst vroege middag. Sunset op het strand.</p>
+    <img class="day-photo" src="https://images.unsplash.com/photo-1711802536786-149a0d0c5879?w=900&h=400&fit=crop&auto=format&q=80" alt="Dhow zeilboot" loading="lazy">
+    <p>Ochtend vertrek. ~250 km via EN1. Goed asfalt tot Inhambane, dan 22km zandweg naar Tofo. Aankomst vroege middag.</p>
     <div class="map-links" style="margin-top:10px">
-      <a class="map-link" href="https://www.google.com/maps/dir/Vilanculos,+Mozambique/Praia+do+Tofo,+Mozambique/" target="_blank" rel="noopener">
+      <a class="map-link" href="https://www.google.com/maps/dir/Vilanculos,+Mozambique/Praia+do+Tofo,+Mozambique/" target="_blank">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Vilanculos &rarr; Tofo route
       </a>
     </div>
-    <div class="callout green">
-      <strong>Tip:</strong> Vertrek voor 8u. Rijd NIET na donker (loslopend vee, geen straatverlichting, voetgangers op de weg).
-    </div>
+    <div class="callout green"><strong>Tip:</strong> Vertrek voor 8u. NIET rijden na donker.</div>
   </div>
 
   <div class="day-card">
-    <div class="day-label">Dag 5 &mdash; Donderdag 4 September</div>
+    <div class="day-label">Dag 4 &mdash; Donderdag 4 September</div>
     <div class="day-title">Tofo: Ocean Safari</div>
     <span class="tag">Walvishaaien</span> <span class="tag">Bultruggen</span>
-    <img class="day-photo" src="https://plus.unsplash.com/premium_photo-1664303395976-2c473d2803c5?w=900&h=400&fit=crop&auto=format&q=80" alt="Bultrug walvis in de oceaan" loading="lazy">
-    <p>Ocean safari met <a href="https://www.tofoscuba.com/" target="_blank">Tofo Scuba</a> of <a href="https://www.liquiddiveadventures.com/" target="_blank">Liquid Dive Adventures</a>. Augustus-september is piek voor <strong>bultrugwalvissen</strong> en je hebt kans op walvishaaien (piek vanaf oktober). Manta rays het hele jaar. Middag: chill op Tofo Beach.</p>
+    <img class="day-photo" src="https://plus.unsplash.com/premium_photo-1664303395976-2c473d2803c5?w=900&h=400&fit=crop&auto=format&q=80" alt="Bultrug walvis" loading="lazy">
+    <p>Ocean safari met <a href="https://www.tofoscuba.com/" target="_blank">Tofo Scuba</a> of <a href="https://www.liquiddiveadventures.com/" target="_blank">Liquid Dive Adventures</a>. Piekseizoen voor <strong>bultrugwalvissen</strong>, kans op walvishaaien en manta rays.</p>
   </div>
 
   <div class="day-card">
-    <div class="day-label">Dag 6 &mdash; Vrijdag 5 September</div>
+    <div class="day-label">Dag 5 &mdash; Vrijdag 5 September</div>
     <div class="day-title">Tofo: Duiken of vrije dag</div>
     <span class="tag">Duiken</span>
-    <img class="day-photo" src="https://plus.unsplash.com/premium_photo-1661841439995-1706237c83dc?w=900&h=400&fit=crop&auto=format&q=80" alt="Koraalrif snorkelen" loading="lazy">
-    <p>Optie A: duikdag (Manta Reef is legendarisch). Optie B: relax, snorkelen vanaf het strand, <a href="https://www.google.com/maps/place/Inhambane,+Mozambique/" target="_blank">Inhambane</a> bezoeken (dhow harbour, Portugese architectuur, markt). Avond: seafood bij Dino's Bar of Casa de Comer.</p>
+    <img class="day-photo" src="https://plus.unsplash.com/premium_photo-1661841439995-1706237c83dc?w=900&h=400&fit=crop&auto=format&q=80" alt="Koraalrif" loading="lazy">
+    <p>Duikdag (Manta Reef) of relax. Of <a href="https://www.google.com/maps/place/Inhambane,+Mozambique/" target="_blank">Inhambane</a> bezoeken: dhow harbour, Portugese architectuur, markt.</p>
   </div>
 
   <div class="day-card">
-    <div class="day-label">Dag 7 &mdash; Zaterdag 6 September</div>
+    <div class="day-label">Dag 6 &mdash; Zaterdag 6 September</div>
     <div class="day-title">Tofo naar Maputo</div>
     <span class="tag drive">Rijden 6-7u</span>
-    <p>Rit terug: ~470 km, vertrek 7-8u, aankomst vroege middag. Check in hotel nabij luchthaven. Avond: diner bij <a href="https://www.google.com/maps/place/Costa+do+Sol,+Maputo/" target="_blank">Costa do Sol</a> (zeevruchten aan het water).</p>
+    <p>~470 km, vertrek 7-8u. Aankomst vroege middag. Avond: <a href="https://www.google.com/maps/place/Costa+do+Sol,+Maputo/" target="_blank">Costa do Sol</a> (zeevruchten aan het water).</p>
     <div class="map-links" style="margin-top:10px">
-      <a class="map-link" href="https://www.google.com/maps/dir/Praia+do+Tofo,+Mozambique/Maputo,+Mozambique/" target="_blank" rel="noopener">
+      <a class="map-link" href="https://www.google.com/maps/dir/Praia+do+Tofo,+Mozambique/Maputo,+Mozambique/" target="_blank">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Tofo &rarr; Maputo route
       </a>
@@ -482,146 +373,334 @@
   </div>
 
   <div class="day-card">
-    <div class="day-label">Dag 8 &mdash; Zondag 7 September</div>
+    <div class="day-label">Dag 7 &mdash; Zondag 7 September</div>
     <div class="day-title">Vertrek Maputo</div>
-    <span class="tag flight">Vlucht 14:00</span>
-    <p>Ochtend vrij: <a href="https://www.google.com/maps/place/Mercado+do+Peixe,+Maputo/" target="_blank">Mercado do Peixe</a> voor brunch, of <a href="https://www.google.com/maps/place/Fortaleza+de+Maputo/" target="_blank">Fort van Maputo</a>. Naar luchthaven rond 11:30. Vlucht 14:00 naar Windhoek.</p>
+    <span class="tag flight">Vlucht ~14:00</span>
+    <p><a href="https://www.google.com/maps/place/Mercado+do+Peixe,+Maputo/" target="_blank">Mercado do Peixe</a> brunch of <a href="https://www.google.com/maps/place/Fortaleza+de+Maputo/" target="_blank">Fort van Maputo</a>. Luchthaven rond 11:30. Vlucht naar Windhoek.</p>
   </div>
 </div>
 
-<!-- ALTERNATIVE -->
+<!-- HOTELS -->
 <div class="section">
-  <h2>Alternatieve Route: Zuid naar Noord</h2>
-  <p>Als de LAM vlucht op dag 1 niet lukt (vol/gecanceld), draai je de route om:</p>
-  <div class="day-card">
-    <div class="day-label">Alternatief schema</div>
-    <div class="day-title">Maputo &rarr; Tofo &rarr; Vilanculos &rarr; vlucht terug</div>
-    <p>
-      <strong>Dag 1:</strong> Rijd Maputo naar Tofo (6-7u, vertrek direct na aankomst)<br>
-      <strong>Dag 2-3:</strong> Tofo (ocean safari, duiken)<br>
-      <strong>Dag 4:</strong> Rijd Tofo naar Vilanculos (3.5-4.5u)<br>
-      <strong>Dag 5-6:</strong> Vilanculos + eiland dagtrip<br>
-      <strong>Dag 7:</strong> Vlieg Vilanculos naar Maputo (LAM middag ~14:00). Overnacht Maputo<br>
-      <strong>Dag 8:</strong> Vlucht naar Windhoek
-    </p>
-    <div class="map-links" style="margin-top:10px">
-      <a class="map-link" href="https://www.google.com/maps/dir/Maputo,+Mozambique/Praia+do+Tofo,+Mozambique/Vilanculos,+Mozambique/Maputo,+Mozambique/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        Alternatieve route in Maps
-      </a>
+  <h2>Hotels &amp; Accommodatie</h2>
+
+  <!-- VILANCULOS -->
+  <div class="hotel-section-label">Vilanculos <span class="hotel-section-nights">&mdash; 2 nachten (1 &amp; 2 september)</span></div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://static.wixstatic.com/media/2f486b_551e0ca19816469d97b424e60f2469d9~mv2.jpeg/v1/fill/w_600,h_450,al_c,q_80,enc_auto/2f486b_551e0ca19816469d97b424e60f2469d9~mv2.jpeg" alt="Bahia Mar Vilanculos" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.bahiamarclub.com" target="_blank">Bahia Mar Boutique Hotel</a></h4>
+      <div class="hotel-card-type">Boutique Resort &mdash; Vilanculos waterfront</div>
+      <div class="hotel-card-price">$120-200/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Zwembad</span>
+        <span class="amenity">Spa &amp; Wellness</span>
+        <span class="amenity">Restaurant</span>
+        <span class="amenity">Gym</span>
+        <span class="amenity">WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Kitesurfen</span>
+        <span class="amenity">Duiken</span>
+      </div>
+      <div class="hotel-card-desc">Zeezichtkamers, beachfront suites, en garden suites. Restaurant met Mozambikaanse specialiteiten. Eiland-excursies naar Bazaruto direct boekbaar. Yoga, wellness retreats.</div>
+      <a class="hotel-card-link" href="https://www.bahiamarclub.com" target="_blank">Bekijk &amp; Boek &rarr;</a>
     </div>
   </div>
-  <div class="callout">
-    <strong>Nadeel:</strong> Je begint met de langste rit na een nachtvlucht. Maar het werkt als backup.
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://images.unsplash.com/photo-1574622858722-df7d9efe1cce?w=600&h=450&fit=crop&auto=format&q=80" alt="Casa Rex Vilanculos" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://casa-rex-vilanculos.h-rez.com/" target="_blank">Casa Rex by Sol Resorts</a></h4>
+      <div class="hotel-card-type">4-sterren Boutique Hotel &mdash; direct aan zee</div>
+      <div class="hotel-card-price">$234-500/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Zwembad</span>
+        <span class="amenity">Spa</span>
+        <span class="amenity">Restaurant</span>
+        <span class="amenity">WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Gratis airport shuttle</span>
+        <span class="amenity">Bibliotheek</span>
+        <span class="amenity">Tuin</span>
+      </div>
+      <div class="hotel-card-desc">15 kamers met balkon of patio, zeezicht. Wit zandstrand direct voor de deur. Hot stone massage, terras met oceaanview. Kluis en koffie/thee op kamer.</div>
+      <a class="hotel-card-link" href="https://casa-rex-vilanculos.h-rez.com/" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://images.unsplash.com/photo-1544298903-35eee5a95b4d?w=600&h=450&fit=crop&auto=format&q=80" alt="Vilanculos Beach Lodge" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.vilanculosbeachlodge.com/" target="_blank">Vilanculos Beach Lodge</a></h4>
+      <div class="hotel-card-type">Strand-lodge &mdash; 15 min van vliegveld</div>
+      <div class="hotel-card-price">$60-120/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Infinity pool</span>
+        <span class="amenity">Spa</span>
+        <span class="amenity">Restaurant</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Kluis</span>
+        <span class="amenity">Muggennet</span>
+        <span class="amenity">Strand</span>
+      </div>
+      <div class="hotel-card-desc">21 kamers (20 deluxe bungalows op ironwood palen + 1 family suite). Rieten dak, mahonihouten vloeren, priveterras. Lokale &amp; Portugese keuken. Infinity pool met uitzicht op de Indische Oceaan.</div>
+      <a class="hotel-card-link" href="https://www.vilanculosbeachlodge.com/" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <!-- TOFO -->
+  <div class="hotel-section-label">Praia do Tofo <span class="hotel-section-nights">&mdash; 3 nachten (3, 4 &amp; 5 september)</span></div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://images.squarespace-cdn.com/content/v1/5a0c29d9cd39c332554a20f5/c494f794-856c-45b9-8f45-227b14ca9f9c/DJI_0209.jpg?format=600w" alt="Liquid Dive Adventures Resort" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.liquiddiveadventures.com/tofo-beach-accommodation" target="_blank">Liquid Dive Adventures Resort</a></h4>
+      <div class="hotel-card-type">Duik-resort aan het strand &mdash; PADI 5* IDC Eco Center</div>
+      <div class="hotel-card-price">&euro;120/nacht B&amp;B (2 pers)</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Zwembad</span>
+        <span class="amenity">Duikcentrum</span>
+        <span class="amenity">Restaurant</span>
+        <span class="amenity">WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Ontbijt incl.</span>
+        <span class="amenity">Strand</span>
+        <span class="amenity">Eco</span>
+      </div>
+      <div class="hotel-card-desc">12 beachfront bungalows met priveterras en zeezicht. Eigen PADI duikcentrum met dagelijkse duiktrips. Happi Restaurant op het strand. Walvishaai &amp; manta tours direct boekbaar. Pakketdeals: 3 nachten + 6 duiken vanaf &euro;624.</div>
+      <a class="hotel-card-link" href="https://www.liquiddiveadventures.com/tofo-beach-accommodation" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://cdn.sanity.io/images/oa1cj0to/production/3d3a04815d2cac39ea5eaffc7583f5f2df146a56-1600x1199.jpg?w=600&h=450&fit=crop" alt="Sava Dunes Eco Lodge" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.savadunes.com/" target="_blank">Sava Dunes Eco Lodge</a></h4>
+      <div class="hotel-card-type">Luxe eco-lodge &mdash; op de duinen, compleet off-grid</div>
+      <div class="hotel-card-price">$100-200/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Zeezicht</span>
+        <span class="amenity">100% solar</span>
+        <span class="amenity">Strand</span>
+        <span class="amenity">Bodyboarden</span>
+        <span class="amenity">Eco</span>
+        <span class="amenity">Privaat</span>
+      </div>
+      <div class="hotel-card-desc">5 ocean-facing cottages + 1 family chalet, gebouwd op een zandduin met panoramisch zeezicht. Compleet op zonne-energie. Afgelegen locatie 5.5 km ten noorden van Tofo, bij Barra Beach. Authentiek, rustig, luxe.</div>
+      <a class="hotel-card-link" href="https://www.savadunes.com/" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://plus.unsplash.com/premium_photo-1661864349303-d028cff528b5?w=600&h=450&fit=crop&auto=format&q=80" alt="Hotel Tofo Mar" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.booking.com/hotel/mz/tofo-mar.html" target="_blank">Hotel Tofo Mar</a></h4>
+      <div class="hotel-card-type">Boutique strandhotel &mdash; direct op Tofo Beach</div>
+      <div class="hotel-card-price">$80-250/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Rooftop bar</span>
+        <span class="amenity">Restaurant</span>
+        <span class="amenity">WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Ontbijt incl.</span>
+        <span class="amenity">Activiteitencentrum</span>
+        <span class="amenity">Parking</span>
+      </div>
+      <div class="hotel-card-desc">13 moderne kamers (8 double, 3 deluxe, 2 suites) met kluis, airco en zeezicht. Iconisch balkon over het strand. Activiteitencentrum: walvishaaien, deep sea fishing, fat bikes, Pansy Island trips. Portugees-Mozambikaanse keuken.</div>
+      <a class="hotel-card-link" href="https://www.booking.com/hotel/mz/tofo-mar.html" target="_blank">Bekijk op Booking.com &rarr;</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://plus.unsplash.com/premium_photo-1666286956135-0fb603dad5cf?w=600&h=450&fit=crop&auto=format&q=80" alt="Baia Sonambula" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.sonambulas.com/" target="_blank">Baia Sonambula</a></h4>
+      <div class="hotel-card-type">Boutique guesthouse &mdash; handgemaakt, intiem</div>
+      <div class="hotel-card-price">$63-150/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Zeezicht</span>
+        <span class="amenity">Starlink WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Ontbijt incl.</span>
+        <span class="amenity">Tuin</span>
+        <span class="amenity">Boottochten</span>
+        <span class="amenity">E-bikes</span>
+      </div>
+      <div class="hotel-card-desc">3 verblijfopties: 6 ocean-view bungalows (guesthouse), 1 private suite voor stellen tussen de duinen, en een 3-slaapkamer hilltop villa (max 6 gasten). Handgemaakt met oog voor detail. Transfers beschikbaar. Duiken, snorkelen, whale watching direct boekbaar.</div>
+      <a class="hotel-card-link" href="https://www.sonambulas.com/" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <!-- MAPUTO -->
+  <div class="hotel-section-label">Maputo <span class="hotel-section-nights">&mdash; 1 nacht (6 september)</span></div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://image-tc.galaxy.tf/wijpeg-cmt2ydfxpt4fyb3ccucac37ko/psh-exterior-3.jpg?width=600" alt="Polana Serena Hotel Maputo" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.serenahotels.com/polana" target="_blank">Polana Serena Hotel</a></h4>
+      <div class="hotel-card-type">5-sterren historisch hotel &mdash; gebouwd in 1922</div>
+      <div class="hotel-card-price">$188-350/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">2 Zwembaden</span>
+        <span class="amenity">Spa &amp; Stoomcabine</span>
+        <span class="amenity">3 Restaurants</span>
+        <span class="amenity">WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Minibar</span>
+        <span class="amenity">Roomservice 24u</span>
+        <span class="amenity">Parking</span>
+      </div>
+      <div class="hotel-card-desc">150 kamers in koloniaal-paleiselijke stijl. #3 hotel van Maputo op TripAdvisor. Indoor + outdoor pool. Massages, facials, body treatments. 15 minuten van de luchthaven, shuttle op aanvraag. Historisch: hier logeerden koningen en diplomaten.</div>
+      <a class="hotel-card-link" href="https://www.serenahotels.com/polana" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://image-tc.galaxy.tf/wijpeg-3i5x9qto1ry5tunltl79kw93t/psh-swimming-pool-5.jpg?width=600" alt="Southern Sun Maputo" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.southernsun.com/southern-sun-maputo" target="_blank">Southern Sun Maputo</a></h4>
+      <div class="hotel-card-type">Modern strandhotel &mdash; Avenida Marginal</div>
+      <div class="hotel-card-price">$148-200/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Infinity pool</span>
+        <span class="amenity">Restaurant &amp; Bar</span>
+        <span class="amenity">WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Ontbijt incl.</span>
+        <span class="amenity">Gym 24u</span>
+        <span class="amenity">Parking</span>
+        <span class="amenity">20 min airport</span>
+      </div>
+      <div class="hotel-card-desc">269 kamers, direct aan het strand. Infinity pool met oceaanview. Evolve Restaurant + Deco Lounge met terras. Conferentiezalen. TripAdvisor Certificate of Excellence. Airport shuttle beschikbaar.</div>
+      <a class="hotel-card-link" href="https://www.southernsun.com/southern-sun-maputo" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://images.unsplash.com/photo-1574622858722-df7d9efe1cce?w=600&h=450&fit=crop&auto=format&q=80" alt="StayEasy Maputo" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.southernsun.com/stayeasy-maputo" target="_blank">StayEasy Maputo</a></h4>
+      <div class="hotel-card-type">Budget strandhotel &mdash; 9 km van vliegveld</div>
+      <div class="hotel-card-price">$60-100/nacht</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Zwembad</span>
+        <span class="amenity">WiFi</span>
+        <span class="amenity">Airco</span>
+        <span class="amenity">Ontbijt incl.</span>
+        <span class="amenity">Parking</span>
+        <span class="amenity">Zeezicht</span>
+        <span class="amenity">9 km airport</span>
+      </div>
+      <div class="hotel-card-desc">125 kamers, beachfront aan de Avenida Marginal. Modern, clean, geen frills. Gratis ontbijtbuffet en WiFi. Toegang tot restaurant van zuster-hotel Southern Sun. 200 meter van de oceaan. Goede deal voor 1 nacht.</div>
+      <a class="hotel-card-link" href="https://www.southernsun.com/stayeasy-maputo" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
+  </div>
+
+  <!-- EILAND -->
+  <div class="hotel-section-label">Bazaruto Archipelago <span class="hotel-section-nights">&mdash; optioneel overnachten (in plaats van dagtrip)</span></div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://plus.unsplash.com/premium_photo-1661841439995-1706237c83dc?w=600&h=450&fit=crop&auto=format&q=80" alt="Azura Benguerra Island" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://azura-retreats.com/" target="_blank">Azura Benguerra Island</a></h4>
+      <div class="hotel-card-type">Luxe all-inclusive &mdash; Benguerra Island</div>
+      <div class="hotel-card-price">Vanaf $955 p.p./nacht all-inclusive</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Prive zwembad</span>
+        <span class="amenity">Alle maaltijden</span>
+        <span class="amenity">Dranken incl.</span>
+        <span class="amenity">Duiken</span>
+        <span class="amenity">Snorkelen</span>
+        <span class="amenity">Kayak</span>
+        <span class="amenity">Spa</span>
+        <span class="amenity">Strand</span>
+      </div>
+      <div class="hotel-card-desc">Beach Villa's, Royal Beach Villa's (met 10m infinity pool), en Villa Amizade voor families. Alles inbegrepen: maaltijden, selected drinks, activiteiten. Helikopter of speedboot transfer vanuit Vilanculos. Droomlocatie.</div>
+      <a class="hotel-card-link" href="https://azura-retreats.com/" target="_blank">Bekijk Azura &rarr;</a> &nbsp;|&nbsp;
+      <a class="hotel-card-link" href="https://www.mozambique.co.za/Mozambique_Hotels_&_Resorts-travel/pricing_azura-mozambique.html" target="_blank">Prijslijst &rarr;</a>
+    </div>
+  </div>
+
+  <div class="hotel-card">
+    <img class="hotel-card-img" src="https://plus.unsplash.com/premium_photo-1666286956135-0fb603dad5cf?w=600&h=450&fit=crop&auto=format&q=80" alt="andBeyond Benguerra Island" loading="lazy">
+    <div class="hotel-card-body">
+      <h4><a href="https://www.andbeyond.com/our-lodges/indian-ocean-islands/mozambique/bazaruto-archipelago/andbeyond-benguerra-island/" target="_blank">andBeyond Benguerra Island</a></h4>
+      <div class="hotel-card-type">Luxe eiland-lodge &mdash; Benguerra Island</div>
+      <div class="hotel-card-price">Op aanvraag (luxe segment)</div>
+      <div class="hotel-card-amenities">
+        <span class="amenity">Duikcentrum</span>
+        <span class="amenity">Snorkelen</span>
+        <span class="amenity">Alle maaltijden</span>
+        <span class="amenity">Kayak</span>
+        <span class="amenity">Zeilvaren</span>
+        <span class="amenity">Privaat strand</span>
+        <span class="amenity">Eco</span>
+      </div>
+      <div class="hotel-card-desc">Op het tweede grootste eiland van de Bazaruto Archipelago, in een beschermd marien reservaat. Eigen duikcentrum met volledig programma. Ongerepte koraalriffen, pristine stranden. Helikopter- of boottransfer.</div>
+      <a class="hotel-card-link" href="https://www.andbeyond.com/our-lodges/indian-ocean-islands/mozambique/bazaruto-archipelago/andbeyond-benguerra-island/" target="_blank">Bekijk &amp; Boek &rarr;</a>
+    </div>
   </div>
 </div>
 
 <!-- BAZARUTO VS BENGUERRA -->
 <div class="section">
   <h2>Bazaruto vs. Benguerra</h2>
-
   <div class="photo-grid">
-    <img src="https://plus.unsplash.com/premium_photo-1666286956135-0fb603dad5cf?w=500&h=350&fit=crop&auto=format&q=80" alt="Tropisch eiland vanuit de lucht" loading="lazy">
-    <img src="https://plus.unsplash.com/premium_photo-1661841439995-1706237c83dc?w=500&h=350&fit=crop&auto=format&q=80" alt="Koraalrif snorkelen" loading="lazy">
+    <img src="https://plus.unsplash.com/premium_photo-1666286956135-0fb603dad5cf?w=500&h=350&fit=crop&auto=format&q=80" alt="Tropisch eiland" loading="lazy">
+    <img src="https://plus.unsplash.com/premium_photo-1661841439995-1706237c83dc?w=500&h=350&fit=crop&auto=format&q=80" alt="Koraalrif" loading="lazy">
   </div>
   <div class="photo-caption">Bazaruto Archipelago: ongerept koraalrif en turquoise water</div>
 
   <div class="two-options">
     <div class="option-box recommended">
       <h4>Benguerra Island</h4>
-      <p>Kleiner, intiemer, beter koraalrif direct voor de kust. Makkelijker bereikbaar vanuit Vilanculos.</p>
-      <h4 style="margin-top:12px; font-size:0.9rem">Lodges:</h4>
-      <ul style="font-size:0.9rem">
-        <li><a href="https://azura-retreats.com/" target="_blank">Azura Benguerra</a> &mdash; villa's met zwembad, all-inclusive</li>
-        <li><a href="https://www.andbeyond.com/our-lodges/indian-ocean-islands/mozambique/bazaruto-archipelago/andbeyond-benguerra-island/" target="_blank">andBeyond Benguerra</a> &mdash; luxe, eigen duikcentrum</li>
-      </ul>
-      <div class="price-range">Lodges: $400-1200/nacht all-inclusive (stel)<br>Speedboot retour: ~$80-150 p.p.</div>
+      <p>Kleiner, intiemer, beter koraalrif. <a href="https://azura-retreats.com/" target="_blank">Azura</a> en <a href="https://www.andbeyond.com/our-lodges/indian-ocean-islands/mozambique/bazaruto-archipelago/andbeyond-benguerra-island/" target="_blank">andBeyond</a> lodges.</p>
+      <div class="price-range">Lodges: $955+ p.p./nacht all-inclusive<br>Speedboot retour: ~$80-150 p.p.</div>
     </div>
     <div class="option-box">
       <h4>Bazaruto Island</h4>
-      <p>Groter eiland, hogere duinen, meer wildlife (flamingo's, krokodillen in binnenlandse meren).</p>
-      <h4 style="margin-top:12px; font-size:0.9rem">Lodge:</h4>
-      <ul style="font-size:0.9rem">
-        <li><a href="https://www.mozambiquetravel.com/bazaruto-archipelago/" target="_blank">Anantara Bazaruto</a> &mdash; resort, watersport, spa</li>
-      </ul>
+      <p>Groter, hogere duinen, meer wildlife. <a href="https://www.mozambiquetravel.com/bazaruto-archipelago/" target="_blank">Anantara</a> resort.</p>
       <div class="price-range">Anantara: $500-1500/nacht<br>Speedboot retour: ~$100-200 p.p.</div>
     </div>
   </div>
 
   <h3>Budget-optie: dagtrip</h3>
-  <p>Diverse operators in Vilanculos bieden eiland-dagtrips aan per dhow of speedboot: snorkelen, BBQ lunch op het strand, ~$80-120 p.p. Minder luxe, maar je ziet het eiland zonder de lodge-prijzen.</p>
+  <p>Dhow of speedboot met snorkelen en BBQ lunch op het strand: ~$80-120 p.p. via lokale operators in Vilanculos.</p>
 
   <h3>Transfers vanuit Vilanculos</h3>
   <table>
-    <tr><th>Type</th><th>Tijd</th><th>Kosten (indicatief)</th><th>Noot</th></tr>
+    <tr><th>Type</th><th>Tijd</th><th>Kosten</th><th>Noot</th></tr>
     <tr><td>Speedboot</td><td>30-45 min</td><td>$80-200 p.p. retour</td><td>Standaard, via lodge of operator</td></tr>
-    <tr><td>Dhow (zeilboot)</td><td>2-3 uur</td><td>$40-80 p.p.</td><td>Avontuurlijk, afhankelijk van wind/tij</td></tr>
+    <tr><td>Dhow (zeilboot)</td><td>2-3 uur</td><td>$40-80 p.p.</td><td>Avontuurlijk, wind-afhankelijk</td></tr>
     <tr><td>Helikopter</td><td>10-15 min</td><td>$250-400 p.p.</td><td>Spectaculair, via lodges</td></tr>
   </table>
 </div>
 
-<!-- TOFO -->
+<!-- TOFO MARINE LIFE -->
 <div class="section">
-  <h2>Tofo: Wat te verwachten in september</h2>
-
+  <h2>Tofo: Mariene leven in september</h2>
   <div class="photo-grid">
-    <img src="https://plus.unsplash.com/premium_photo-1661864349303-d028cff528b5?w=500&h=350&fit=crop&auto=format&q=80" alt="Walvishaai duiken" loading="lazy">
-    <img src="https://plus.unsplash.com/premium_photo-1664303395976-2c473d2803c5?w=500&h=350&fit=crop&auto=format&q=80" alt="Bultrug walvis" loading="lazy">
+    <img src="https://plus.unsplash.com/premium_photo-1661864349303-d028cff528b5?w=500&h=350&fit=crop&auto=format&q=80" alt="Walvishaai" loading="lazy">
+    <img src="https://plus.unsplash.com/premium_photo-1664303395976-2c473d2803c5?w=500&h=350&fit=crop&auto=format&q=80" alt="Bultrug" loading="lazy">
   </div>
   <div class="photo-caption">Links: walvishaai | Rechts: bultrug &mdash; beide te zien in september</div>
 
-  <h3>Mariene leven</h3>
   <table>
-    <tr><th>Dier</th><th>Kans in aug-sep</th><th>Piek</th></tr>
+    <tr><th>Dier</th><th>Kans in september</th><th>Piek</th></tr>
     <tr><td>Bultrugwalvissen</td><td><strong>Uitstekend</strong> (piekseizoen)</td><td>Aug-Sep</td></tr>
     <tr><td>Walvishaaien</td><td>Redelijk (seizoen begint)</td><td>Okt-Mrt</td></tr>
     <tr><td>Manta rays</td><td>Goed (het hele jaar)</td><td>Sep-Nov</td></tr>
     <tr><td>Dolfijnen</td><td>Goed</td><td>Jaar-rond</td></tr>
   </table>
 
-  <h3>Accommodatie Tofo</h3>
-  <table>
-    <tr><th>Naam</th><th>Type</th><th>Prijsklasse</th></tr>
-    <tr><td><a href="https://www.savadunes.com/" target="_blank">Sava Dunes Eco Lodge</a></td><td>Luxe eco-lodge, duintop, zeezicht</td><td>$100-200/nacht</td></tr>
-    <tr><td><a href="https://www.sonambulas.com/" target="_blank">Baia Sonambula</a></td><td>Boutique guesthouse, 6 kamers</td><td>$60-100/nacht</td></tr>
-    <tr><td><a href="https://www.liquiddiveadventures.com/tofo-beach-accommodation" target="_blank">Liquid Dive Adventures Resort</a></td><td>Bungalows bij duikcentrum</td><td>$60-120/nacht</td></tr>
-    <tr><td>Hotel Tofo Mar</td><td>Hotel direct aan het strand</td><td>$80-250/nacht</td></tr>
-    <tr><td>Mozambeat Motel</td><td>Budget-hip</td><td>$30-60/nacht</td></tr>
-  </table>
-
   <h3>Duikoperators</h3>
   <ul>
-    <li><a href="https://www.tofoscuba.com/" target="_blank"><strong>Tofo Scuba</strong></a> &mdash; Gevestigde naam, PADI 5*, goede reviews</li>
-    <li><a href="https://www.liquiddiveadventures.com/" target="_blank"><strong>Liquid Dive Adventures</strong></a> &mdash; PADI 5* IDC, eco-centrum, kleinere groepen, eigen resort</li>
+    <li><a href="https://www.tofoscuba.com/" target="_blank"><strong>Tofo Scuba</strong></a> &mdash; PADI 5*, gevestigde naam</li>
+    <li><a href="https://www.liquiddiveadventures.com/" target="_blank"><strong>Liquid Dive Adventures</strong></a> &mdash; PADI 5* IDC, eco-centrum, eigen resort</li>
     <li><strong>Peri-Peri Divers</strong> &mdash; Budget-friendly</li>
   </ul>
-  <div class="price-range">Ocean safari (walvishaai/bultrug): ~$65-85 p.p. | Duik (2 dives): ~$80-120 p.p.</div>
-</div>
-
-<!-- VILANCULOS -->
-<div class="section">
-  <h2>Vilanculos: Accommodatie</h2>
-
-  <img class="photo-banner" src="https://images.unsplash.com/photo-1574622858722-df7d9efe1cce?w=900&h=350&fit=crop&auto=format&q=80" alt="Mozambique kustlijn" loading="lazy">
-
-  <table>
-    <tr><th>Naam</th><th>Type</th><th>Prijsklasse</th></tr>
-    <tr><td><a href="https://casa-rex-vilanculos.h-rez.com/" target="_blank">Casa Rex</a></td><td>Boutique hotel, direct aan zee</td><td>$100-180/nacht</td></tr>
-    <tr><td><a href="https://www.bahiamarclub.com" target="_blank">Bahia Mar Club</a></td><td>Resort, zwembad, strand, spa</td><td>$120-200/nacht</td></tr>
-    <tr><td><a href="https://www.vilanculosbeachlodge.com/" target="_blank">Vilanculos Beach Lodge</a></td><td>Lodge, 21 kamers, aan het water</td><td>$60-100/nacht</td></tr>
-    <tr><td>Zombie Cucumber Backpackers</td><td>Budget met karakter</td><td>$15-40/nacht</td></tr>
-  </table>
-
-  <div class="map-links" style="margin-top:12px">
-    <a class="map-link" href="https://www.google.com/maps/search/hotels+vilanculos+mozambique/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      Hotels in Vilanculos op Maps
-    </a>
-    <a class="map-link" href="https://www.google.com/maps/search/hotels+tofo+mozambique/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      Hotels in Tofo op Maps
-    </a>
-  </div>
+  <div class="price-range">Ocean safari: ~$65-85 p.p. | Duik (2 dives): ~$80-120 p.p.</div>
 </div>
 
 <!-- PRACTICAL -->
@@ -630,105 +709,87 @@
 
   <h3>Visum (Nederlands paspoort)</h3>
   <div class="callout green">
-    <strong>Goed nieuws:</strong> Nederlanders zijn visa-exempt voor 30 dagen. Maar je moet wel vooraf een ETA aanvragen via <a href="https://evisa.gov.mz/" target="_blank" style="color:#065f46"><strong>evisa.gov.mz</strong></a>. Doe dit minimaal 5 dagen voor vertrek. Je krijgt een pre-autorisatiebrief met barcode die je <strong>geprint</strong> moet meenemen.
+    <strong>Goed nieuws:</strong> Visa-exempt voor 30 dagen. Wel vooraf ETA aanvragen via <a href="https://evisa.gov.mz/" target="_blank" style="color:#065f46"><strong>evisa.gov.mz</strong></a>. Minimaal 5 dagen voor vertrek. Print de autorisatiebrief met barcode.
   </div>
 
   <h3>Vervoer</h3>
   <ul>
-    <li><strong>Huurauto:</strong> 4x4 niet strikt nodig voor EN1 (geasfalteerd), maar wel handig voor de zandweg naar Tofo. SUV zit comfortabeler. Huur in Maputo (Avis, Europcar aanwezig).</li>
-    <li><strong>Rijden na donker:</strong> Absoluut niet doen. Loslopend vee, voetgangers zonder reflectie, gaten in de weg.</li>
-    <li><strong>Brandstof:</strong> Tankstations langs EN1 aanwezig, maar tank altijd vol bij vertrek.</li>
+    <li><strong>Huurauto:</strong> SUV handig voor zandweg naar Tofo. EN1 is geasfalteerd. Huur in Maputo (Avis, Europcar).</li>
+    <li><strong>Rijden na donker:</strong> Niet doen. Loslopend vee, voetgangers, gaten.</li>
+    <li><strong>Brandstof:</strong> Tankstations langs EN1, maar tank altijd vol bij vertrek.</li>
   </ul>
 
   <h3>Geld</h3>
   <ul>
-    <li>Munteenheid: Mozambikaanse Metical (MZN). ~65 MZN per 1 USD (2025/2026).</li>
-    <li>USD en ZAR worden vaak geaccepteerd in toeristische gebieden.</li>
-    <li>ATM's in Maputo, Inhambane, Vilanculos. Neem genoeg cash mee naar Tofo en de eilanden.</li>
-    <li>Creditcards: alleen in grotere hotels/lodges.</li>
+    <li>Metical (MZN), ~65 MZN = 1 USD. USD/ZAR vaak geaccepteerd.</li>
+    <li>ATM's in Maputo, Inhambane, Vilanculos. Cash mee naar Tofo en eilanden.</li>
+    <li>Creditcards: alleen grotere hotels.</li>
   </ul>
 
   <h3>Gezondheid</h3>
   <ul>
-    <li><strong>Malaria:</strong> Heel Mozambique is malariagebied. Profylaxe verplicht (Malarone of Doxycycline). DEET muggenspray mee.</li>
-    <li><strong>Vaccinaties:</strong> Gele koorts alleen verplicht als je uit een risicoland komt. Hepatitis A/B en DTP aangeraden.</li>
-    <li><strong>Water:</strong> Drink flessenwater.</li>
-    <li><strong>Reisverzekering:</strong> Inclusief evacuatie. Dichtstbijzijnde goed ziekenhuis is in Maputo of Zuid-Afrika.</li>
+    <li><strong>Malaria:</strong> Profylaxe verplicht (Malarone/Doxycycline). DEET mee.</li>
+    <li><strong>Vaccinaties:</strong> Hep A/B en DTP aangeraden. Gele koorts alleen als je uit risicoland komt.</li>
+    <li><strong>Water:</strong> Flessenwater. <strong>Reisverzekering:</strong> Inclusief evacuatie.</li>
   </ul>
 
-  <h3>Weer in september</h3>
-  <ul>
-    <li>Droog seizoen, 25-30 graden overdag, 's nachts ~18-20.</li>
-    <li>Zeewater: 22-24 graden (fris, 3mm wetsuit handig voor duiken).</li>
-    <li>Weinig regen, veel zon. Ideale reisperiode.</li>
-  </ul>
-
-  <h3>Taal</h3>
-  <p>Portugees is de officiele taal. In toeristische gebieden kom je ver met Engels. Handig: <em>Obrigado/a</em> (dank je), <em>Bom dia</em> (goedemorgen), <em>Quanto custa?</em> (hoeveel kost het?).</p>
+  <h3>Weer</h3>
+  <p>Droog seizoen, 25-30 graden, zeewater 22-24 graden (3mm wetsuit handig). Ideale reisperiode.</p>
 </div>
 
 <!-- BUDGET -->
 <div class="section">
-  <h2>Budget Indicatie (2 personen, 8 dagen)</h2>
+  <h2>Budget Indicatie (2 personen, 7 dagen / 6 nachten)</h2>
   <table>
     <tr><th>Post</th><th>Budget</th><th>Mid-range</th><th>Comfort</th></tr>
     <tr><td>LAM vlucht Maputo-Vilanculos</td><td colspan="3">$330-440 (2 pers, enkele reis)</td></tr>
-    <tr><td>Huurauto (7 dagen + brandstof)</td><td colspan="3">$350-500</td></tr>
-    <tr><td>Accommodatie (7 nachten)</td><td>$350-500</td><td>$700-1100</td><td>$1200-2000</td></tr>
-    <tr><td>Eiland dagtrip (dhow + snorkel)</td><td>$160-240</td><td>$200-400</td><td>Lodge overnacht: $800-2400</td></tr>
-    <tr><td>Ocean safari Tofo</td><td colspan="3">$130-170 (2 pers)</td></tr>
-    <tr><td>Duiken (2 dives)</td><td colspan="3">$160-240 (2 pers)</td></tr>
-    <tr><td>Eten (7 dagen)</td><td>$200-300</td><td>$350-500</td><td>$500-700</td></tr>
-    <tr><td><strong>Totaal (excl. vlucht naar Maputo)</strong></td><td><strong>$1700-2400</strong></td><td><strong>$2200-3400</strong></td><td><strong>$3500-6500</strong></td></tr>
+    <tr><td>Huurauto (6 dagen + brandstof)</td><td colspan="3">$300-450</td></tr>
+    <tr><td>Accommodatie (6 nachten)</td><td>$360-480</td><td>$650-1000</td><td>$1100-1800</td></tr>
+    <tr><td>Eiland dagtrip</td><td>$160-240</td><td>$200-400</td><td>Lodge overnacht: $800+</td></tr>
+    <tr><td>Ocean safari + duiken</td><td colspan="3">$260-400 (2 pers)</td></tr>
+    <tr><td>Eten (6 dagen)</td><td>$180-270</td><td>$300-450</td><td>$450-650</td></tr>
+    <tr><td><strong>Totaal (excl. internationaal)</strong></td><td><strong>$1600-2300</strong></td><td><strong>$2000-3150</strong></td><td><strong>$3200-5800</strong></td></tr>
   </table>
-  <div class="price-range">Prijzen indicatief. Vroeg boeken voor LAM vluchten en eiland-lodges.</div>
 </div>
 
-<!-- BOOKING CHECKLIST -->
+<!-- BOOKING -->
 <div class="section">
-  <h2>Boekingslijst (nu al regelen)</h2>
+  <h2>Boekingslijst</h2>
   <table>
     <tr><th>#</th><th>Wat</th><th>Wanneer</th><th>Link</th></tr>
-    <tr><td>1</td><td>LAM vlucht Maputo &rarr; Vilanculos</td><td>ASAP (6+ weken vooruit)</td><td><a href="https://www.flightsfrom.com/MPM-VNX" target="_blank">Zoek vluchten</a></td></tr>
-    <tr><td>2</td><td>ETA visum</td><td>Min. 5 dagen voor vertrek</td><td><a href="https://evisa.gov.mz/" target="_blank">evisa.gov.mz</a></td></tr>
-    <tr><td>3</td><td>Huurauto Maputo</td><td>4-6 weken vooruit</td><td><a href="https://www.google.com/search?q=car+rental+maputo+airport" target="_blank">Zoek huurauto</a></td></tr>
-    <tr><td>4</td><td>Accommodatie Vilanculos (2 nachten)</td><td>4+ weken vooruit</td><td><a href="https://casa-rex-vilanculos.h-rez.com/" target="_blank">Casa Rex</a> / <a href="https://www.bahiamarclub.com" target="_blank">Bahia Mar</a></td></tr>
-    <tr><td>5</td><td>Eilandtransfer + dagtrip/lodge</td><td>2-4 weken vooruit</td><td><a href="https://azura-retreats.com/" target="_blank">Azura</a> / <a href="https://www.mozambiquetravel.com/bazaruto-archipelago/" target="_blank">MozTravel</a></td></tr>
-    <tr><td>6</td><td>Accommodatie Tofo (2-3 nachten)</td><td>4+ weken vooruit</td><td><a href="https://www.savadunes.com/" target="_blank">Sava Dunes</a> / <a href="https://www.sonambulas.com/" target="_blank">Baia Sonambula</a></td></tr>
-    <tr><td>7</td><td>Ocean safari / duiken Tofo</td><td>1-2 weken vooruit</td><td><a href="https://www.tofoscuba.com/" target="_blank">Tofo Scuba</a> / <a href="https://www.liquiddiveadventures.com/" target="_blank">Liquid Dive</a></td></tr>
-    <tr><td>8</td><td>Hotel Maputo laatste nacht</td><td>2+ weken vooruit</td><td><a href="https://www.google.com/maps/search/hotels+near+maputo+airport/" target="_blank">Hotels Maps</a></td></tr>
-    <tr><td>9</td><td>Malariaprofylaxe recept</td><td>Huisarts, 2+ weken vooruit</td><td>Huisarts / GGD</td></tr>
+    <tr><td>1</td><td>LAM vlucht Maputo &rarr; Vilanculos</td><td>ASAP</td><td><a href="https://www.flightsfrom.com/MPM-VNX" target="_blank">Zoek vluchten</a></td></tr>
+    <tr><td>2</td><td>ETA visum</td><td>Min. 5 dagen vooruit</td><td><a href="https://evisa.gov.mz/" target="_blank">evisa.gov.mz</a></td></tr>
+    <tr><td>3</td><td>Huurauto ophalen Vilanculos</td><td>4-6 weken vooruit</td><td><a href="https://www.google.com/search?q=car+rental+vilanculos+airport" target="_blank">Zoek huurauto</a></td></tr>
+    <tr><td>4</td><td>Hotel Vilanculos (2 nachten)</td><td>4+ weken</td><td><a href="https://www.bahiamarclub.com" target="_blank">Bahia Mar</a> / <a href="https://www.vilanculosbeachlodge.com/" target="_blank">Beach Lodge</a></td></tr>
+    <tr><td>5</td><td>Eiland dagtrip + transfer</td><td>2-4 weken</td><td><a href="https://www.mozambiquetravel.com/bazaruto-archipelago/" target="_blank">MozTravel</a></td></tr>
+    <tr><td>6</td><td>Hotel Tofo (3 nachten)</td><td>4+ weken</td><td><a href="https://www.liquiddiveadventures.com/tofo-beach-accommodation" target="_blank">Liquid Dive</a> / <a href="https://www.sonambulas.com/" target="_blank">Sonambula</a></td></tr>
+    <tr><td>7</td><td>Ocean safari / duiken</td><td>1-2 weken</td><td><a href="https://www.tofoscuba.com/" target="_blank">Tofo Scuba</a></td></tr>
+    <tr><td>8</td><td>Hotel Maputo (1 nacht)</td><td>2+ weken</td><td><a href="https://www.southernsun.com/southern-sun-maputo" target="_blank">Southern Sun</a></td></tr>
+    <tr><td>9</td><td>Malariaprofylaxe</td><td>Huisarts, 2+ weken</td><td>Huisarts / GGD</td></tr>
   </table>
 </div>
 
-<!-- USEFUL LINKS -->
+<!-- LINKS -->
 <div class="section">
-  <h2>Handige Links</h2>
+  <h2>Alle Links</h2>
   <div class="map-links" style="flex-wrap:wrap">
     <a class="map-link" href="https://www.mozambiquetravel.com/" target="_blank">Mozambique Travel Guide</a>
-    <a class="map-link" href="https://evisa.gov.mz/" target="_blank">ETA Visum Aanvraag</a>
-    <a class="map-link" href="https://www.flightsfrom.com/MPM-VNX" target="_blank">LAM Vluchten MPM-VNX</a>
+    <a class="map-link" href="https://evisa.gov.mz/" target="_blank">ETA Visum</a>
+    <a class="map-link" href="https://www.flightsfrom.com/MPM-VNX" target="_blank">LAM Vluchten</a>
     <a class="map-link" href="https://www.tofoscuba.com/" target="_blank">Tofo Scuba</a>
     <a class="map-link" href="https://www.liquiddiveadventures.com/" target="_blank">Liquid Dive Adventures</a>
     <a class="map-link" href="https://azura-retreats.com/" target="_blank">Azura Retreats</a>
     <a class="map-link" href="https://www.andbeyond.com/our-lodges/indian-ocean-islands/mozambique/bazaruto-archipelago/andbeyond-benguerra-island/" target="_blank">andBeyond Benguerra</a>
-    <a class="map-link" href="https://casa-rex-vilanculos.h-rez.com/" target="_blank">Casa Rex Vilanculos</a>
-    <a class="map-link" href="https://www.bahiamarclub.com" target="_blank">Bahia Mar Club</a>
+    <a class="map-link" href="https://casa-rex-vilanculos.h-rez.com/" target="_blank">Casa Rex</a>
+    <a class="map-link" href="https://www.bahiamarclub.com" target="_blank">Bahia Mar</a>
     <a class="map-link" href="https://www.vilanculosbeachlodge.com/" target="_blank">Vilanculos Beach Lodge</a>
-    <a class="map-link" href="https://www.savadunes.com/" target="_blank">Sava Dunes Tofo</a>
+    <a class="map-link" href="https://www.savadunes.com/" target="_blank">Sava Dunes</a>
     <a class="map-link" href="https://www.sonambulas.com/" target="_blank">Baia Sonambula</a>
+    <a class="map-link" href="https://www.booking.com/hotel/mz/tofo-mar.html" target="_blank">Hotel Tofo Mar</a>
+    <a class="map-link" href="https://www.serenahotels.com/polana" target="_blank">Polana Serena</a>
+    <a class="map-link" href="https://www.southernsun.com/southern-sun-maputo" target="_blank">Southern Sun Maputo</a>
+    <a class="map-link" href="https://www.southernsun.com/stayeasy-maputo" target="_blank">StayEasy Maputo</a>
   </div>
-</div>
-
-<!-- DECISIONS -->
-<div class="section">
-  <h2>Beslispunten voor jullie</h2>
-  <ul>
-    <li><strong>Eiland overnachten of dagtrip?</strong> Overnachten is magisch maar duur ($400-1200/nacht). Dagtrip per dhow met BBQ op het strand is ook geweldig en een fractie van de prijs.</li>
-    <li><strong>Benguerra of Bazaruto?</strong> Benguerra voor snorkelen/intimiteit, Bazaruto voor landschap/avontuur.</li>
-    <li><strong>Hoeveel nachten Tofo vs. Vilanculos?</strong> Aanbevolen: 2 nachten Vilanculos (incl. eiland), 2-3 nachten Tofo. Tofo heeft meer te doen voor actieve dagen.</li>
-    <li><strong>Huurauto of shuttles?</strong> Auto geeft vrijheid en flexibiliteit. Shuttles bestaan maar zijn onbetrouwbaar qua schema.</li>
-  </ul>
 </div>
 
 </div>
@@ -736,7 +797,7 @@
 <footer>
   Samengesteld door Claude &mdash; 24 april 2026<br>
   Prijzen zijn indicatief. Check actuele beschikbaarheid bij het boeken.<br>
-  Foto's: Unsplash (vrij te gebruiken)
+  Foto's: Unsplash + accommodatie-websites
 </footer>
 
 <!-- CLAUDE-DATA
@@ -744,24 +805,26 @@
   "type": "travel-plan",
   "title": "Mozambique Trip Plan",
   "date": "2026-04-24",
-  "version": 2,
-  "trip_dates": "2026-08-31 to 2026-09-07",
+  "version": 3,
+  "trip_dates": "2026-09-01 to 2026-09-07",
+  "nights": 6,
   "destinations": ["Maputo", "Vilanculos", "Bazaruto/Benguerra", "Tofo"],
-  "summary": "7-day Mozambique itinerary combining Vilanculos, Bazaruto Archipelago, and Tofo Beach. Recommended route: fly Maputo to Vilanculos day 1, island trip day 2-3, drive to Tofo day 4, ocean safari day 5-6, drive back to Maputo day 7.",
-  "key_bookings": ["LAM flight MPM-VNX", "ETA visa evisa.gov.mz", "Car rental Maputo", "Island transfer Vilanculos", "Accommodation Vilanculos + Tofo + Maputo", "Ocean safari Tofo"],
-  "budget_range_mid": "$2200-3400 for 2 persons excl international flights",
-  "key_links": {
-    "visa": "https://evisa.gov.mz/",
-    "flights": "https://www.flightsfrom.com/MPM-VNX",
-    "tofo_scuba": "https://www.tofoscuba.com/",
-    "liquid_dive": "https://www.liquiddiveadventures.com/",
-    "azura": "https://azura-retreats.com/",
-    "andbeyond": "https://www.andbeyond.com/our-lodges/indian-ocean-islands/mozambique/bazaruto-archipelago/andbeyond-benguerra-island/",
-    "casa_rex": "https://casa-rex-vilanculos.h-rez.com/",
-    "bahia_mar": "https://www.bahiamarclub.com",
-    "sava_dunes": "https://www.savadunes.com/",
-    "sonambula": "https://www.sonambulas.com/"
-  }
+  "itinerary": [
+    {"day": 1, "date": "2026-09-01", "from": "Maputo", "to": "Vilanculos", "transport": "LAM flight"},
+    {"day": 2, "date": "2026-09-02", "location": "Bazaruto/Benguerra", "activity": "Island day trip"},
+    {"day": 3, "date": "2026-09-03", "from": "Vilanculos", "to": "Tofo", "transport": "Drive 3.5-4.5h"},
+    {"day": 4, "date": "2026-09-04", "location": "Tofo", "activity": "Ocean safari"},
+    {"day": 5, "date": "2026-09-05", "location": "Tofo", "activity": "Diving/free day"},
+    {"day": 6, "date": "2026-09-06", "from": "Tofo", "to": "Maputo", "transport": "Drive 6-7h"},
+    {"day": 7, "date": "2026-09-07", "location": "Maputo", "activity": "Depart 14:00 to Windhoek"}
+  ],
+  "accommodation": {
+    "vilanculos": ["Bahia Mar $120-200", "Casa Rex $234-500", "Vilanculos Beach Lodge $60-120"],
+    "tofo": ["Liquid Dive Adventures EUR120 B&B", "Sava Dunes $100-200", "Hotel Tofo Mar $80-250", "Baia Sonambula $63-150"],
+    "maputo": ["Polana Serena $188-350", "Southern Sun $148-200", "StayEasy $60-100"],
+    "island": ["Azura Benguerra from $955pp all-inclusive", "andBeyond Benguerra on request"]
+  },
+  "budget_range_mid": "$2000-3150 for 2 persons excl international flights"
 }
 -->
 
