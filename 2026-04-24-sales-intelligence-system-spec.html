@@ -198,7 +198,7 @@ pre {
 
   <div class="overline">SYSTEM SPECIFICATION</div>
   <h1>Proxuma Sales Intelligence System</h1>
-  <p class="subtitle">Zero-touch capture of all Dxfferent tenant Teams calls, AI extraction of structured sales and consulting intelligence into Forge CRM, and a continuously evolving sales playbook.</p>
+  <p class="subtitle">Zero-touch capture of all Proxuma and Dxfferent tenant Teams calls, AI extraction of structured sales and consulting intelligence into Forge CRM, a continuously evolving sales playbook, and a proactive AI sales agent.</p>
 
   <div class="stats-row">
     <div class="stat-card">
@@ -224,7 +224,7 @@ pre {
     <div>
       <h3>What This Is</h3>
       <ul>
-        <li>Auto-capture of every Teams call on the Dxfferent tenant</li>
+        <li>Auto-capture of every Teams call on the Proxuma and Dxfferent tenants</li>
         <li>AI extraction of pain points, deal stages, objections, action items</li>
         <li>Automatic CRM enrichment in Forge (Flow Nexus)</li>
         <li>Living sales playbook built from real call data</li>
@@ -275,7 +275,7 @@ pre {
   </div>
 
   <h3>Prerequisite: Teams Admin Policy</h3>
-  <p>The Dxfferent M365 tenant needs a one-time policy change in Teams Admin Center: enable automatic recording and automatic transcription for all users (or a specific user group). Auto-recording causes a notification banner for all meeting participants. This is a compliance consideration -- external attendees will see "Recording has started."</p>
+  <p>Both the Proxuma and Dxfferent M365 tenants need a one-time policy change in Teams Admin Center: enable automatic recording and automatic transcription for all users (or a specific user group). Auto-recording causes a notification banner for all meeting participants. This is a compliance consideration -- external attendees will see "Recording has started."</p>
 
   <h3>Three Approaches</h3>
 
@@ -736,13 +736,13 @@ Scoring Loop --> Action Loop (top N) --> Forge Review Interface
     <tr>
       <td><strong>Teams auto-record policy</strong></td>
       <td>Not configured</td>
-      <td>Dxfferent M365 admin</td>
+      <td>Proxuma + Dxfferent admins</td>
       <td>One-time change in Teams Admin Center</td>
     </tr>
     <tr>
       <td><strong>Teams auto-transcribe</strong></td>
       <td>Not configured</td>
-      <td>Dxfferent M365 admin</td>
+      <td>Proxuma + Dxfferent admins</td>
       <td>Enabled alongside auto-record</td>
     </tr>
     <tr>
@@ -839,12 +839,12 @@ Scoring Loop --> Action Loop (top N) --> Forge Review Interface
 {
   "title": "Proxuma Sales Intelligence System Spec",
   "date": "2026-04-24",
-  "summary": "Full spec for zero-touch AI sales intelligence: auto-capture all Dxfferent tenant Teams calls, extract structured data into Forge CRM, build a living sales playbook from 140+ transcripts, and a proactive AI sales agent (Sales Claw) that scores deals, drafts personalized follow-ups, and learns from Max's edits and feedback.",
+  "summary": "Full spec for zero-touch AI sales intelligence: auto-capture all Proxuma and Dxfferent tenant Teams calls, extract structured data into Forge CRM, build a living sales playbook from 140+ transcripts, and a proactive AI sales agent (Sales Claw) that scores deals, drafts personalized follow-ups, and learns from Max's edits and feedback.",
   "sections": [
     {
       "heading": "Pillar 1: Transcript Pipeline",
       "items": [
-        { "title": "Teams Admin Policy", "detail": "Enable auto-record and auto-transcribe for all users on Dxfferent M365 tenant. One-time admin change.", "meta": { "status": "not_configured" } },
+        { "title": "Teams Admin Policy", "detail": "Enable auto-record and auto-transcribe on Proxuma and Dxfferent M365 tenants. One-time admin change per tenant.", "meta": { "status": "not_configured" } },
         { "title": "Three Approaches", "detail": "A: Graph API polling (daily batch). B: Power Automate (event-driven). C: Hybrid (recommended) -- PA handles trigger, M1 Pro handles AI.", "meta": { "recommended": "C" } },
         { "title": "File Organization", "detail": "OneDrive: /Dxfferent/Call-Recordings/{YYYY-MM}/{date}-{attendee}-{company}/ with recording.mp4, transcript.vtt, metadata.json", "meta": {} }
       ]
