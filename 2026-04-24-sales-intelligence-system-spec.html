@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Sales Intelligence System -- Spec</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.pos-steps { display: flex; gap: 10px; margin: 20px 0; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.flow-diagram {
+  background: #f5f7fa; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 24px; margin: 20px 0; font-family: "JetBrains Mono", "SF Mono", monospace;
+  font-size: 13px; line-height: 1.8; white-space: pre; overflow-x: auto;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 24, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-sales-intelligence-system-spec.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Sales Operations &amp; Automation</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 24, 2026<br>System Spec<br>Proxuma / Dxfferent
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SYSTEM SPECIFICATION</div>
+  <h1>Proxuma Sales Intelligence System</h1>
+  <p class="subtitle">Zero-touch capture of all Dxfferent tenant Teams calls, AI extraction of structured sales and consulting intelligence into Forge CRM, and a continuously evolving sales playbook.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">3-5</div>
+      <div class="stat-label">Users</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">20-50</div>
+      <div class="stat-label">Calls / Week</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">140+</div>
+      <div class="stat-label">Existing Transcripts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Pillars</div>
+    </div>
+  </div>
+
+  <!-- WHAT THIS IS / IS NOT -->
+  <div class="two-col">
+    <div>
+      <h3>What This Is</h3>
+      <ul>
+        <li>Auto-capture of every Teams call on the Dxfferent tenant</li>
+        <li>AI extraction of pain points, deal stages, objections, action items</li>
+        <li>Automatic CRM enrichment in Forge (Flow Nexus)</li>
+        <li>Living sales playbook built from real call data</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What This Is Not</h3>
+      <ul>
+        <li>Not a live call assistant or real-time prompter</li>
+        <li>Not a replacement for human sales leadership</li>
+        <li>Not a call recording tool (relies on Teams built-in)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- THREE PILLARS -->
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Transcript Pipeline</div>
+      <div class="pos-desc">Auto-capture all Teams calls, deliver to processing queue</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">AI Extraction</div>
+      <div class="pos-desc">Structured data from each call into Forge CRM</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Sales Playbook</div>
+      <div class="pos-desc">Living playbook from 140+ real transcripts</div>
+    </div>
+  </div>
+
+  <!-- PILLAR 1 -->
+  <h2>Pillar 1: Transcript Pipeline</h2>
+
+  <div class="callout">
+    <span class="callout-label">Problem</span>
+    Today someone has to press "Record" in Teams, then manually export the .vtt transcript, then drop it into a Claude session. Consultants won't do this consistently. The system breaks at step one.
+  </div>
+
+  <h3>Prerequisite: Teams Admin Policy</h3>
+  <p>The Dxfferent M365 tenant needs a one-time policy change in Teams Admin Center: enable automatic recording and automatic transcription for all users (or a specific user group). Auto-recording causes a notification banner for all meeting participants. This is a compliance consideration -- external attendees will see "Recording has started."</p>
+
+  <h3>Three Approaches</h3>
+
+  <table class="matrix">
+    <tr>
+      <th>Approach</th>
+      <th>How It Works</th>
+      <th>Pros</th>
+      <th>Cons</th>
+    </tr>
+    <tr>
+      <td><strong>A: Graph API Polling</strong></td>
+      <td>Daily scheduled job on M1 Pro calls Microsoft Graph API to fetch new transcripts from the last 24 hours</td>
+      <td>No extra licensing. Full control. Runs on existing M1 Pro automation infra.</td>
+      <td>Up to 24-hour delay. Requires specific Graph API permissions (OnlineMeetings.Read.All).</td>
+    </tr>
+    <tr>
+      <td><strong>B: Power Automate</strong></td>
+      <td>Power Automate triggers on "When a meeting recording is available," copies transcript to OneDrive folder</td>
+      <td>Event-driven, near real-time. Microsoft handles trigger reliability.</td>
+      <td>Another moving part. Harder to customize. Power Automate debugging.</td>
+    </tr>
+    <tr>
+      <td><strong>C: Hybrid (Recommended)</strong></td>
+      <td>Power Automate handles trigger and file organization. M1 Pro watches OneDrive folder for AI processing.</td>
+      <td>Each system does what it's best at. Clean boundary (a folder of files). Easy to debug.</td>
+      <td>Two systems to maintain.</td>
+    </tr>
+  </table>
+
+  <h3>File Organization</h3>
+  <pre>/Dxfferent/Call-Recordings/
+  2026-04/
+    2026-04-24-max-knoxtech/
+      recording.mp4
+      transcript.vtt
+      metadata.json
+    2026-04-24-joshua-solulan/
+      recording.mp4
+      transcript.vtt
+      metadata.json</pre>
+  <p>The <code>metadata.json</code> contains: meeting subject, start time, duration, and attendee list with email addresses. Generated by the pipeline from Graph API or Power Automate context.</p>
+
+  <!-- PILLAR 2 -->
+  <h2>Pillar 2: AI Extraction &amp; CRM Enrichment</h2>
+
+  <div class="callout">
+    <span class="callout-label">Problem</span>
+    Transcripts are raw text. Forge CRM needs structured data: pain points, deal stages, contact profiles, action items. Today Max does this manually, one transcript at a time.
+  </div>
+
+  <h3>Call Classification</h3>
+  <table class="matrix">
+    <tr>
+      <th>Type</th>
+      <th>Identified By</th>
+      <th>Processing</th>
+    </tr>
+    <tr>
+      <td><strong>Sales demo/pitch</strong></td>
+      <td>Max is on the call + sales language (pricing, demo, features)</td>
+      <td>Full sales extraction</td>
+    </tr>
+    <tr>
+      <td><strong>Consulting intake</strong></td>
+      <td>Joshua + new customer + scoping language</td>
+      <td>Consulting intake extraction</td>
+    </tr>
+    <tr>
+      <td><strong>Consulting session</strong></td>
+      <td>Any consultant + existing customer + project language</td>
+      <td>Consulting session extraction</td>
+    </tr>
+    <tr>
+      <td><strong>Internal</strong></td>
+      <td>All attendees are @dxfferent.com or @proxuma.io</td>
+      <td>Skipped</td>
+    </tr>
+  </table>
+
+  <h3>Sales Call Extraction</h3>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Pain Points</div>
+        <div class="card-desc">Verbatim quotes from the prospect, one-sentence summary, severity rating (high/medium/low). Accumulated over time, never overwritten.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Objections</div>
+        <div class="card-desc">Categorized (budget, timing, internal approval, competitor, skepticism, technical). Includes how Max handled it and whether it was resolved.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Deal Stage</div>
+        <div class="card-desc">AI recommends: discovery, qualified, proposal, negotiation, won, lost, stalled. Auto-advance allowed up to "qualified" only. Beyond that requires Max's approval.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Buying Signals</div>
+        <div class="card-desc">Statements indicating purchase intent, extracted verbatim from the conversation.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Call Quality Score</div>
+        <div class="card-desc">1-10 against the sales framework defined in the playbook (Pillar 3). Coaching notes: what went well, what to improve.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Next Steps</div>
+        <div class="card-desc">Action items with owner (Max or prospect). Deadlines if mentioned in conversation.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Consulting Call Extraction</h3>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Project Progress</div>
+        <div class="card-desc">Topics discussed, matched to existing project in Forge or flagged as new.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Environment Updates</div>
+        <div class="card-desc">Tech stack changes, new tools, new info about the customer's setup.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Action Items</div>
+        <div class="card-desc">List with owner and deadline. Both sides (consultant + customer).</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Satisfaction Signals</div>
+        <div class="card-desc">Positive, negative, or neutral with evidence quotes. Blockers preventing progress.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>CRM Write Logic</h3>
+  <ul>
+    <li><strong>Contact matching:</strong> Email address from metadata.json as primary key. No match = draft contact flagged for review.</li>
+    <li><strong>Company matching:</strong> Attendee email domain + existing Forge records. No match = draft company flagged for review.</li>
+    <li><strong>Data writing:</strong> Structured "call intelligence" note on the contact/company record, timestamped, linked to transcript and recording on OneDrive.</li>
+    <li><strong>Pain points and objections:</strong> Accumulated over time on the company record. Appended, never overwritten.</li>
+    <li><strong>Deal stage:</strong> Auto-advance up to "qualified." Beyond that = proposed update, Max approves or rejects. Reasoning always included.</li>
+  </ul>
+
+  <h3>Processing Schedule</h3>
+  <p>Daily batch at 07:00 CET on M1 Pro (100.85.64.20). Morning summary to Max: calls processed (by type), internal calls skipped, deal stage changes, new draft contacts/companies, any failures.</p>
+
+  <!-- PILLAR 3 -->
+  <h2>Pillar 3: Sales Playbook Generation</h2>
+
+  <div class="callout">
+    <span class="callout-label">Problem</span>
+    Max's sales knowledge lives in his head. When he hires a closer or SDR, there's no documented process for how to demo Proxuma/Dxfferent, handle objections, or qualify leads.
+  </div>
+
+  <h3>Phase 1: Initial Generation</h3>
+  <p>AI analyzes the full library of 140+ demo transcripts in Open Brain to produce:</p>
+
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Sales Process Map</div>
+        <div class="card-desc">How Max opens calls, transitions to demo, order of feature demos, pricing conversations, close or next-step setup. Talk ratio and average call length.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Objection Library</div>
+        <div class="card-desc">Every objection categorized with frequency percentages. Verbatim examples of successful and unsuccessful responses. Which responses led to positive outcomes vs. stalls. Proxuma's version of Leonard's "74% budget" discovery.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Qualification Criteria</div>
+        <div class="card-desc">What closed-won customers have in common. What stalled/lost deals share. Red flags that show up early. Green flags that predict conversion.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Product Positioning</div>
+        <div class="card-desc">Features that get the strongest reactions. Features that confuse. How Max actually explains the value prop (real words, not marketing copy). Most frequent prospect questions.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Phase 2: Human Review</h3>
+  <p>Max reviews each section with four responses:</p>
+  <ul>
+    <li><strong>"This is right"</strong> -- keep as-is</li>
+    <li><strong>"I do this but I shouldn't"</strong> -- flag for improvement, note what to do instead</li>
+    <li><strong>"The AI misread this"</strong> -- correct with actual intent or context</li>
+    <li><strong>"This is missing"</strong> -- add knowledge the transcripts don't capture</li>
+  </ul>
+
+  <h3>Phase 3: Living Document</h3>
+  <ul>
+    <li>New objection types added automatically as they appear</li>
+    <li>Call quality scores measured against the playbook's framework (the playbook IS the scoring criteria)</li>
+    <li>Quarterly review: AI generates a changelog of what shifted</li>
+    <li>Top-scored calls flagged as training examples for future hires</li>
+    <li>New hire onboarding: playbook + top 10 calls to watch + their calls scored against the same framework</li>
+  </ul>
+
+  <p>Playbook lives in Forge (Flow Nexus) as a structured document. Sections are independently updatable. Every claim links back to transcript evidence. Version history maintained.</p>
+
+  <!-- DATA FLOW -->
+  <h2>Data Flow</h2>
+
+  <div class="flow-diagram">Teams Meeting (auto-record, auto-transcribe)
+    |
+    v
+OneDrive / SharePoint (recordings + transcripts by date/attendee)
+    |
+    |-- Power Automate trigger (Approach B/C)
+    |-- Graph API polling (Approach A)
+    |
+    v
+M1 Pro (automation server, 100.85.64.20)
+    |
+    v
+Call Classification (internal / sales / consulting intake / session)
+    |
+    |-- Internal: skip
+    |
+    v
+AI Extraction (Claude, call-type-specific schema)
+    |
+    +--> Forge CRM: contacts, companies, call intelligence notes
+    |       |
+    |       +--> Deal stage proposals (auto up to qualified)
+    |       +--> Pain points, objections, buying signals
+    |       +--> Action items with owners
+    |
+    +--> Open Brain: contact profiles, company context
+    |
+    +--> Sales Playbook: updated with new patterns, objections, scores
+    |
+    +--> Morning Summary to Max</div>
+
+  <!-- PRIOR ART -->
+  <h2>Inspiration: Leonard / Unfungeible</h2>
+  <table class="matrix">
+    <tr>
+      <th>Leonard's Setup</th>
+      <th>Proxuma's Setup</th>
+    </tr>
+    <tr>
+      <td>Fathom as note-taker</td>
+      <td>Microsoft Teams + Copilot (native)</td>
+    </tr>
+    <tr>
+      <td>OpenClaw with heartbeat</td>
+      <td>Claude on M1 Pro with scheduled jobs</td>
+    </tr>
+    <tr>
+      <td>One closer (Adrian)</td>
+      <td>Max (sales) + Joshua (consulting) + 1-3 consultants</td>
+    </tr>
+    <tr>
+      <td>Single sales framework</td>
+      <td>Two frameworks: sales + consulting</td>
+    </tr>
+    <tr>
+      <td>Mission control dashboard</td>
+      <td>Forge CRM (Flow Nexus)</td>
+    </tr>
+    <tr>
+      <td>$130/month (Fathom + Claude)</td>
+      <td>M365 licensing + Claude API costs</td>
+    </tr>
+    <tr>
+      <td>Manual framework creation</td>
+      <td>Playbook reverse-engineered from 140+ existing transcripts</td>
+    </tr>
+  </table>
+
+  <div class="positioning">
+    <span class="callout-label">Key Insight</span>
+    <h2>AI sees patterns across every call that no human has the bandwidth to track</h2>
+    <p>Leonard discovered that 74% of his objections were budget-related -- something he missed during months of manual reviews. This system should surface the equivalent for Proxuma. With 140+ transcripts already in Open Brain, the data is there. It just needs structured extraction.</p>
+  </div>
+
+  <!-- PREREQUISITES -->
+  <h2>Prerequisites &amp; Dependencies</h2>
+  <table class="matrix">
+    <tr>
+      <th>Item</th>
+      <th>Status</th>
+      <th>Owner</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td><strong>Teams auto-record policy</strong></td>
+      <td>Not configured</td>
+      <td>Dxfferent M365 admin</td>
+      <td>One-time change in Teams Admin Center</td>
+    </tr>
+    <tr>
+      <td><strong>Teams auto-transcribe</strong></td>
+      <td>Not configured</td>
+      <td>Dxfferent M365 admin</td>
+      <td>Enabled alongside auto-record</td>
+    </tr>
+    <tr>
+      <td><strong>Forge CRM data model</strong></td>
+      <td>Needs definition</td>
+      <td>Max / dev</td>
+      <td>Contact, company, deal, call-intelligence schemas</td>
+    </tr>
+    <tr>
+      <td><strong>Forge CRM API access</strong></td>
+      <td>Available</td>
+      <td>--</td>
+      <td>Flow Nexus MCP tools exist</td>
+    </tr>
+    <tr>
+      <td><strong>MS365 Graph API permissions</strong></td>
+      <td>Partially configured</td>
+      <td>Max</td>
+      <td>May need OnlineMeetings.Read.All</td>
+    </tr>
+    <tr>
+      <td><strong>M1 Pro automation cron</strong></td>
+      <td>Exists</td>
+      <td>Max</td>
+      <td>Already runs other automation</td>
+    </tr>
+    <tr>
+      <td><strong>Power Automate license</strong></td>
+      <td>Check</td>
+      <td>Dxfferent admin</td>
+      <td>Likely included in M365 Business Premium</td>
+    </tr>
+    <tr>
+      <td><strong>Privacy/consent review</strong></td>
+      <td>Not done</td>
+      <td>Max</td>
+      <td>Auto-recording notifies all attendees</td>
+    </tr>
+  </table>
+
+  <!-- OPEN QUESTIONS -->
+  <h2>Open Questions</h2>
+  <ol>
+    <li><strong>Morning summary channel:</strong> Email, Teams message, or Claude session?</li>
+    <li><strong>Forge CRM schema:</strong> Exact data model for contacts, companies, deals, and call intelligence notes needs to be defined during implementation.</li>
+    <li><strong>Outlook-to-Forge connection:</strong> When live, contact/company matching may simplify. Spec works without it.</li>
+    <li><strong>Historical backfill:</strong> Reprocess 140+ existing transcripts through this system to populate Forge retroactively? Or start fresh?</li>
+    <li><strong>Consultant buy-in:</strong> The system records all their calls. They need to know and agree.</li>
+    <li><strong>Call quality scoring threshold:</strong> At what score should a call be flagged? Needs calibration after playbook generation.</li>
+    <li><strong>Graph API transcript access:</strong> Verify current MS365 MCP permissions cover meeting transcript retrieval.</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma Sales Intelligence System Spec -- April 24, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Sales Intelligence System Spec",
+  "date": "2026-04-24",
+  "summary": "Full spec for zero-touch AI sales intelligence: auto-capture all Dxfferent tenant Teams calls, extract structured data into Forge CRM, build a living sales playbook from 140+ existing transcripts.",
+  "sections": [
+    {
+      "heading": "Pillar 1: Transcript Pipeline",
+      "items": [
+        { "title": "Teams Admin Policy", "detail": "Enable auto-record and auto-transcribe for all users on Dxfferent M365 tenant. One-time admin change.", "meta": { "status": "not_configured" } },
+        { "title": "Three Approaches", "detail": "A: Graph API polling (daily batch). B: Power Automate (event-driven). C: Hybrid (recommended) -- PA handles trigger, M1 Pro handles AI.", "meta": { "recommended": "C" } },
+        { "title": "File Organization", "detail": "OneDrive: /Dxfferent/Call-Recordings/{YYYY-MM}/{date}-{attendee}-{company}/ with recording.mp4, transcript.vtt, metadata.json", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Pillar 2: AI Extraction & CRM Enrichment",
+      "items": [
+        { "title": "Call Classification", "detail": "Four types: sales (Max), consulting intake (Joshua), consulting session (team), internal (skipped). Email domain + content analysis.", "meta": {} },
+        { "title": "Sales Extraction", "detail": "Pain points (verbatim+severity), objections (categorized), buying signals, deal stage (auto up to qualified), call quality 1-10, coaching notes.", "meta": {} },
+        { "title": "Consulting Extraction", "detail": "Project progress, environment updates, action items with owners, satisfaction signals, blockers.", "meta": {} },
+        { "title": "CRM Write Logic", "detail": "Match contacts by email, companies by domain. Draft records for unknowns. Accumulate pain points/objections. Deal stage auto-advance capped at qualified.", "meta": {} },
+        { "title": "Processing Schedule", "detail": "Daily batch 07:00 CET on M1 Pro. Morning summary to Max.", "meta": { "server": "100.85.64.20" } }
+      ]
+    },
+    {
+      "heading": "Pillar 3: Sales Playbook",
+      "items": [
+        { "title": "Phase 1: Initial Generation", "detail": "AI analyzes 140+ transcripts. Outputs: sales process map, objection library with frequencies, qualification criteria, product positioning.", "meta": {} },
+        { "title": "Phase 2: Human Review", "detail": "Max reviews with four responses: right / do but shouldn't / AI misread / missing.", "meta": {} },
+        { "title": "Phase 3: Living Document", "detail": "New objections auto-added. Quarterly changelog. Top calls flagged for training. New hire onboarding package.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Max reviews spec, answers open questions (morning summary channel, historical backfill yes/no, consultant buy-in). Then create implementation plan starting with Pillar 1 (Teams admin policy + transcript pipeline).",
+  "session_state": {
+    "phase": "spec complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Pulled Leonard/Unfungeible YouTube transcript for reference",
+      "Brainstormed all three pillars with Max",
+      "Wrote full spec to ~/ClaudeCode/sdr-claw/docs/",
+      "Generated output-page HTML"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "Spec markdown at ~/ClaudeCode/sdr-claw/docs/2026-04-24-sales-intelligence-system-spec.md (not in git repo yet)",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/sdr-claw/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-sales-intelligence-system-spec.html", "relevance": "this spec output page" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial outputs"]
+  },
+  "decision_log": [
+    {
+      "decision": "Spec covers all three pipeline approaches (A/B/C) with C as recommended, rather than prescribing one",
+      "rejected_alternatives": ["Prescribe only Approach C", "Only spec the recommended approach"],
+      "rationale": "Max explicitly asked for all three approaches to be specced so he can decide later",
+      "trade_offs": "Longer spec, but more flexibility for implementation",
+      "contingencies": [
+        { "if_X_then_Y": "If Outlook-to-Forge direct connection ships soon, parts of contact matching simplify and Approach B becomes more attractive", "probability": 0.5 }
+      ]
+    },
+    {
+      "decision": "Deal stage auto-advance capped at 'qualified' -- human approval required beyond that",
+      "rejected_alternatives": ["Full auto-advance", "No auto-advance at all"],
+      "rationale": "Moving a deal to proposal/negotiation/won has commercial consequences. Discovery-to-qualified is low-risk classification.",
+      "trade_offs": "Max needs to approve stage changes beyond qualified, adding a manual step",
+      "contingencies": []
+    },
+    {
+      "decision": "Playbook reverse-engineered from existing transcripts (hybrid approach C) rather than written from scratch",
+      "rejected_alternatives": ["Max writes playbook manually", "AI generates from YouTube sales content like Leonard did"],
+      "rationale": "140+ real transcripts already exist in Open Brain. Real data beats generic sales training content. Max reviews and corrects.",
+      "trade_offs": "First draft may surface patterns Max disagrees with, requiring review effort",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
