@@ -214,7 +214,7 @@ pre {
       <div class="stat-label">Existing Transcripts</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">3</div>
+      <div class="stat-value">4</div>
       <div class="stat-label">Pillars</div>
     </div>
   </div>
@@ -228,6 +228,7 @@ pre {
         <li>AI extraction of pain points, deal stages, objections, action items</li>
         <li>Automatic CRM enrichment in Forge (Flow Nexus)</li>
         <li>Living sales playbook built from real call data</li>
+        <li>Proactive AI sales agent that drafts emails and learns from feedback</li>
       </ul>
     </div>
     <div>
@@ -236,11 +237,12 @@ pre {
         <li>Not a live call assistant or real-time prompter</li>
         <li>Not a replacement for human sales leadership</li>
         <li>Not a call recording tool (relies on Teams built-in)</li>
+        <li>Not an always-on bot (runs 3x/day via cron, not a daemon)</li>
       </ul>
     </div>
   </div>
 
-  <!-- THREE PILLARS -->
+  <!-- FOUR PILLARS -->
   <div class="pos-steps">
     <div class="pos-step">
       <div class="pos-num">1</div>
@@ -256,6 +258,11 @@ pre {
       <div class="pos-num">3</div>
       <div class="pos-label">Sales Playbook</div>
       <div class="pos-desc">Living playbook from 140+ real transcripts</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">Sales Claw</div>
+      <div class="pos-desc">Proactive AI agent: scores deals, drafts emails, learns from feedback</div>
     </div>
   </div>
 
@@ -471,6 +478,165 @@ pre {
 
   <p>Playbook lives in Forge (Flow Nexus) as a structured document. Sections are independently updatable. Every claim links back to transcript evidence. Version history maintained.</p>
 
+  <!-- PILLAR 4 -->
+  <h2>Pillar 4: Sales Claw</h2>
+
+  <div class="callout">
+    <span class="callout-label">Problem</span>
+    Deals fall through the cracks. Max is the only salesperson managing ~200 open deals. Prospects promised a proposal don't get one. Customers with dropping satisfaction don't get a check-in. NemoClaw proved the concept on Twenty CRM but hit limitations: Anthropic removed shell access, the draft queue overflowed, and it was tightly coupled to the wrong CRM.
+  </div>
+
+  <div class="callout" style="border-left-color: #0f766e;">
+    <span class="callout-label" style="color: #0f766e;">Replaces NemoClaw</span>
+    Sales Claw is a clean rebuild for Forge CRM. Model-agnostic (Claude or GPT). Runs 3x/day via cron jobs, not an always-on daemon. Carries forward NemoClaw's proven patterns: draft diff engine, pre-call briefings, and edit-based learning.
+  </div>
+
+  <h3>Architecture: Three Loops</h3>
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Scoring Loop</div>
+      <div class="pos-desc">Score every open deal on urgency, produce ranked list</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">Action Loop</div>
+      <div class="pos-desc">Draft emails for top N deals (adaptive cap)</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Learning Loop</div>
+      <div class="pos-desc">Edit diffs + feedback + patterns improve over time</div>
+    </div>
+  </div>
+
+  <h3>Scoring Signals</h3>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Staleness</div>
+        <div class="card-desc">Days since last activity vs. stage norms. A proposal-stage deal going quiet for 5 days is more urgent than a new-stage deal going quiet for 5 days.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Broken Promises</div>
+        <div class="card-desc">Next steps from Pillar 2 call intelligence: did they happen? Prospect asked for pricing -- was it sent? Max said "I'll send X by Friday" -- did he?</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Inbound Urgency</div>
+        <div class="card-desc">New leads with no response (highest priority). Prospects who replied but haven't heard back from Max.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Momentum</div>
+        <div class="card-desc">Deal stage progression speed vs. average. Recent engagement frequency vs. historical. Buying signals from last call.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Satisfaction (Consulting)</div>
+        <div class="card-desc">Satisfaction drops between consecutive calls. Unresolved blockers accumulating. From Pillar 2 consulting extraction data.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Composite Score</div>
+        <div class="card-desc">0-100 per deal. Suggested action: email, call, send_proposal, send_offer, or no_action. Weights shift via Learning Loop.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Draft Review Interface</h3>
+  <p>Purpose-built in Forge CRM. Every action feeds the Learning Loop. Max never opens Outlook for Sales Claw drafts.</p>
+
+  <table class="matrix">
+    <tr>
+      <th>Action</th>
+      <th>What Happens</th>
+      <th>What Claw Learns</th>
+    </tr>
+    <tr>
+      <td><strong>Approve & Send (A)</strong></td>
+      <td>Email sends via MS365 MCP immediately</td>
+      <td>Draft was good -- reinforces style, timing, prospect selection</td>
+    </tr>
+    <tr>
+      <td><strong>Edit & Send (E)</strong></td>
+      <td>Max edits inline, hits send</td>
+      <td>Before/after diff captured. Patterns extracted from edits</td>
+    </tr>
+    <tr>
+      <td><strong>Reject (R)</strong></td>
+      <td>Draft discarded</td>
+      <td>Wrong prospect or approach -- weakens similar scoring</td>
+    </tr>
+    <tr>
+      <td><strong>Feedback (F)</strong></td>
+      <td>Free-text box, dismiss or re-draft</td>
+      <td>Explicit correction as labeled training data</td>
+    </tr>
+    <tr>
+      <td><strong>Snooze (S)</strong></td>
+      <td>Moves to tomorrow's queue</td>
+      <td>Right prospect, wrong timing -- adjusts staleness threshold</td>
+    </tr>
+  </table>
+
+  <p>Keyboard shortcuts in parentheses. Target: 5 drafts reviewed in under 2 minutes. Adaptive cap starts at 5/day. If Max sends 4/5, cap rises. If Max ignores 3/5, cap drops.</p>
+
+  <h3>Learning Loop</h3>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Channel 1: Edit Diffs (passive)</div>
+        <div class="card-desc">Highest signal. Every Edit & Send produces a before/after pair. After 20+ pairs, Claw generates "Max's writing rules" -- specific, stored in Forge, human-editable.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Channel 2: Telegram Feedback (explicit)</div>
+        <div class="card-desc">Free-text corrections from review interface. Telegram reserved for escalation: unreviewed drafts, urgent inbound, satisfaction drops.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Channel 3: Action Patterns (implicit)</div>
+        <div class="card-desc">Approve rate, time-of-day patterns, prospect-type preferences, volume tolerance. Auto-adjusts cap and schedule.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Visibility</div>
+        <div class="card-desc">"Claw is learning" page in Forge: drafts reviewed, approve/edit/reject ratios over time, top writing rules, scoring weight changes. Builds trust.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Nudge Dashboard</h3>
+  <p>Single view in Forge CRM -- Max's daily sales cockpit. Three sections:</p>
+  <ol>
+    <li><strong>Today's Queue:</strong> Draft review cards sorted by urgency, keyboard-navigable, progress indicator ("3 of 5 reviewed")</li>
+    <li><strong>Pipeline Health:</strong> All open deals color-coded (green/yellow/red), filterable by stage/health/action type, expandable to full deal context + engagement timeline</li>
+    <li><strong>Alerts:</strong> Unresponded inbound leads, broken promises, satisfaction drops, returning prospects</li>
+  </ol>
+
+  <h3>Execution Architecture</h3>
+  <div class="flow-diagram">Scheduler (cron / launchd / Flow Nexus / Claude scheduled agents)
+    |
+    v
+Runner Script (Node.js or Python)
+  - Reads config (schedule, cap, weights)
+  - Calls Forge CRM API for pipeline data
+  - Calls LLM API with tools for scoring + drafts
+  - Writes results back to Forge CRM
+  - Sends via MS365 MCP when Max approves
+    |
+    v
+LLM Adapter (swappable)
+  - Claude API (Anthropic SDK)
+  - OpenAI API (GPT / OpenClaw compatible)
+  - Model choice in config, not code
+    |
+    v
+Learning Store (Forge CRM)
+  - Edit diffs, feedback records
+  - Writing rules (generated + manual)
+  - Scoring weights (auto-adjusted)</div>
+
+  <p><strong>Schedule:</strong> 3 runs/day -- 07:00, 12:00, 16:30 CET. Configurable. <strong>Communication:</strong> Forge review interface (primary), Telegram (escalation only), Outlook (sending mechanism via MS365 MCP).</p>
+
   <!-- DATA FLOW -->
   <h2>Data Flow</h2>
 
@@ -491,7 +657,7 @@ Call Classification (internal / sales / consulting intake / session)
     |-- Internal: skip
     |
     v
-AI Extraction (Claude, call-type-specific schema)
+AI Extraction (Claude/GPT, call-type-specific schema)
     |
     +--> Forge CRM: contacts, companies, call intelligence notes
     |       |
@@ -500,10 +666,20 @@ AI Extraction (Claude, call-type-specific schema)
     |       +--> Action items with owners
     |
     +--> Open Brain: contact profiles, company context
-    |
     +--> Sales Playbook: updated with new patterns, objections, scores
+    +--> Morning Summary to Max
+
+Sales Claw (3x/day cron, reads Forge CRM data above)
     |
-    +--> Morning Summary to Max</div>
+    v
+Scoring Loop --> Action Loop (top N) --> Forge Review Interface
+    |                                        |
+    |               +--> Approve/Edit & Send --> MS365 MCP sends
+    |               +--> Reject/Snooze -------> Learning Loop
+    |               +--> Feedback -------------> Learning Loop
+    |
+    +--> Writing rules + scoring weights + adaptive cap
+    +--> Telegram (escalation only)</div>
 
   <!-- PRIOR ART -->
   <h2>Inspiration: Leonard / Unfungeible</h2>
@@ -605,6 +781,36 @@ AI Extraction (Claude, call-type-specific schema)
       <td>Max</td>
       <td>Auto-recording notifies all attendees</td>
     </tr>
+    <tr>
+      <td><strong>LLM adapter layer</strong></td>
+      <td>Needs implementation</td>
+      <td>Dev</td>
+      <td>Must support Claude API + OpenAI API (model in config)</td>
+    </tr>
+    <tr>
+      <td><strong>Forge review interface</strong></td>
+      <td>Needs implementation</td>
+      <td>Dev</td>
+      <td>Draft cards with Approve/Edit/Reject/Feedback/Snooze + keyboard shortcuts</td>
+    </tr>
+    <tr>
+      <td><strong>Telegram bot (notification)</strong></td>
+      <td>Partially exists</td>
+      <td>Dev</td>
+      <td>Reuse NemoClaw token, switch to notification-only mode</td>
+    </tr>
+    <tr>
+      <td><strong>NemoClaw decommission</strong></td>
+      <td>Planned</td>
+      <td>Max</td>
+      <td>Sunset after Forge CRM has all data</td>
+    </tr>
+    <tr>
+      <td><strong>MS365 send capability</strong></td>
+      <td>Needs verification</td>
+      <td>Max</td>
+      <td>Verify send-email (not just create-draft) works via MS365 MCP</td>
+    </tr>
   </table>
 
   <!-- OPEN QUESTIONS -->
@@ -617,6 +823,10 @@ AI Extraction (Claude, call-type-specific schema)
     <li><strong>Consultant buy-in:</strong> The system records all their calls. They need to know and agree.</li>
     <li><strong>Call quality scoring threshold:</strong> At what score should a call be flagged? Needs calibration after playbook generation.</li>
     <li><strong>Graph API transcript access:</strong> Verify current MS365 MCP permissions cover meeting transcript retrieval.</li>
+    <li><strong>Scoring weight calibration:</strong> Initial weights need tuning against historical data. Adjust based on first 2 weeks of scored output.</li>
+    <li><strong>Learning loop cold start:</strong> ~20+ edit-diff pairs needed before writing rules become useful. Static style template until then.</li>
+    <li><strong>NemoClaw data migration:</strong> Migrate historical learning data to Forge, or start fresh?</li>
+    <li><strong>MS365 send vs. draft:</strong> Can MS365 MCP send directly, or only create drafts? Affects review interface design.</li>
   </ol>
 
   <div class="page-footer">
@@ -629,7 +839,7 @@ AI Extraction (Claude, call-type-specific schema)
 {
   "title": "Proxuma Sales Intelligence System Spec",
   "date": "2026-04-24",
-  "summary": "Full spec for zero-touch AI sales intelligence: auto-capture all Dxfferent tenant Teams calls, extract structured data into Forge CRM, build a living sales playbook from 140+ existing transcripts.",
+  "summary": "Full spec for zero-touch AI sales intelligence: auto-capture all Dxfferent tenant Teams calls, extract structured data into Forge CRM, build a living sales playbook from 140+ transcripts, and a proactive AI sales agent (Sales Claw) that scores deals, drafts personalized follow-ups, and learns from Max's edits and feedback.",
   "sections": [
     {
       "heading": "Pillar 1: Transcript Pipeline",
@@ -656,6 +866,17 @@ AI Extraction (Claude, call-type-specific schema)
         { "title": "Phase 2: Human Review", "detail": "Max reviews with four responses: right / do but shouldn't / AI misread / missing.", "meta": {} },
         { "title": "Phase 3: Living Document", "detail": "New objections auto-added. Quarterly changelog. Top calls flagged for training. New hire onboarding package.", "meta": {} }
       ]
+    },
+    {
+      "heading": "Pillar 4: Sales Claw",
+      "items": [
+        { "title": "Scoring Loop", "detail": "Scores every open deal 0-100 on staleness, broken promises, momentum, satisfaction (consulting), and inbound urgency. Produces ranked list with suggested actions.", "meta": { "schedule": "3x/day" } },
+        { "title": "Action Loop", "detail": "Takes top N deals (adaptive cap starting at 5/day). Drafts personalized emails referencing actual call intelligence. Stores in Forge CRM for review.", "meta": { "adaptive": true } },
+        { "title": "Draft Review Interface", "detail": "Purpose-built in Forge CRM. Five actions: Approve & Send (A), Edit & Send (E), Reject (R), Feedback (F), Snooze (S). Every action feeds the Learning Loop. Sends via MS365 MCP.", "meta": {} },
+        { "title": "Learning Loop", "detail": "Three channels: edit diffs (passive, highest signal), Telegram feedback (explicit), action patterns (implicit). Generates 'Max's writing rules' document. Adjusts scoring weights and adaptive cap.", "meta": { "cold_start": "~20 edit pairs" } },
+        { "title": "Nudge Dashboard", "detail": "Daily cockpit in Forge: Today's Queue (draft cards), Pipeline Health (color-coded deals), Alerts (inbound, broken promises, satisfaction drops, returning prospects).", "meta": {} },
+        { "title": "Execution", "detail": "Model-agnostic (Claude/GPT). Runner script + LLM adapter (model in config). 3 runs/day (07:00, 12:00, 16:30). Replaces NemoClaw entirely.", "meta": { "replaces": "NemoClaw" } }
+      ]
     }
   ],
   "next_steps": "Max reviews spec, answers open questions (morning summary channel, historical backfill yes/no, consultant buy-in). Then create implementation plan starting with Pillar 1 (Teams admin policy + transcript pipeline).",
@@ -667,7 +888,8 @@ AI Extraction (Claude, call-type-specific schema)
       "Pulled Leonard/Unfungeible YouTube transcript for reference",
       "Brainstormed all three pillars with Max",
       "Wrote full spec to ~/ClaudeCode/sdr-claw/docs/",
-      "Generated output-page HTML"
+      "Generated output-page HTML",
+      "Added Pillar 4: Sales Claw -- proactive AI sales agent with scoring/action/learning loops, Forge CRM review interface, nudge dashboard, model-agnostic execution"
     ],
     "blockers_hit": null,
     "uncommitted_changes": "Spec markdown at ~/ClaudeCode/sdr-claw/docs/2026-04-24-sales-intelligence-system-spec.md (not in git repo yet)",
