@@ -9,13 +9,13 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Open+Sans:wght@400;600;700;800&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Open Sans',sans-serif;background:#f5f0eb;color:#2c3e50;line-height:1.65}
+  body{font-family:'Open Sans',sans-serif;background:#f5f0eb;color:#2c3e50;line-height:1.65;transition:background .4s ease}
   a{color:#0f766e;text-decoration:none;font-weight:600}
   a:hover{text-decoration:underline;color:#115e58}
 
   .hero{position:relative;min-height:380px;display:flex;align-items:center;justify-content:center;text-align:center;color:white;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1574622858722-df7d9efe1cce?w=1400&h=700&fit=crop&auto=format&q=80') center/cover no-repeat}
-  .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,118,110,.75),rgba(26,58,74,.85))}
+  .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1574622858722-df7d9efe1cce?w=1400&h=700&fit=crop&auto=format&q=80') center/cover no-repeat;transition:background-image .4s ease}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,118,110,.75),rgba(26,58,74,.85));transition:background .4s ease}
   .hero-content{position:relative;z-index:1;padding:50px 40px}
   .hero h1{font-family:'DM Serif Display',serif;font-size:3.2rem;margin-bottom:10px;text-shadow:0 2px 20px rgba(0,0,0,.3)}
   .hero .subtitle{font-size:1.15rem;opacity:.9}
@@ -31,10 +31,10 @@
   .tab-content.active{display:block}
   .tab-panel{background:white;border-radius:0 0 12px 12px;padding:0;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:28px}
 
-  .section{background:white;border-radius:12px;padding:32px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+  .section{background:white;border-radius:12px;padding:32px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:background .4s ease}
   .section.no-radius-top{border-radius:0 0 12px 12px}
   .inner-section{padding:32px}
-  .section h2{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#0f766e;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e8e2db}
+  .section h2{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#0f766e;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e8e2db;transition:color .4s ease,border-color .4s ease}
   .section h3,.inner-section h3{font-size:1.05rem;font-weight:800;color:#115e58;margin:20px 0 8px}
 
   #routeMap{height:420px;border-radius:10px;margin:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.1);z-index:0}
@@ -50,12 +50,12 @@
   .photo-grid img{width:100%;height:200px;object-fit:cover;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
   .photo-caption{text-align:center;font-size:.78rem;color:#9ca3af;margin-top:-8px;margin-bottom:16px}
 
-  .day-card{border-left:4px solid #0f766e;padding:16px 20px;margin:16px 0;background:#f9f7f4;border-radius:0 8px 8px 0}
-  .day-card .day-label{font-weight:800;color:#0f766e;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+  .day-card{border-left:4px solid #0f766e;padding:16px 20px;margin:16px 0;background:#f9f7f4;border-radius:0 8px 8px 0;transition:border-color .4s ease}
+  .day-card .day-label{font-weight:800;color:#0f766e;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;transition:color .4s ease}
   .day-card .day-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:8px}
   .day-card .day-photo{width:100%;height:190px;object-fit:cover;border-radius:8px;margin:12px 0 8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 
-  .tag{display:inline-block;background:#0f766e;color:white;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:700;margin-right:6px;margin-bottom:4px}
+  .tag{display:inline-block;background:#0f766e;color:white;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:700;margin-right:6px;margin-bottom:4px;transition:background .4s ease}
   .tag.flight{background:#1d4ed8}.tag.boat{background:#0891b2}.tag.drive{background:#6b7280}.tag.activity{background:#7c3aed}
 
   table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92rem}
@@ -64,8 +64,8 @@
   table tr:nth-child(even){background:#f9f7f4}
 
   .callout{background:#fef3c7;border-left:4px solid #d97706;padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;font-size:.92rem}
-  .callout.green{background:#d1fae5;border-left-color:#0f766e}
-  .callout strong{color:#92400e}.callout.green strong{color:#065f46}
+  .callout.green{background:#d1fae5;border-left-color:#0f766e;transition:background .4s ease,border-color .4s ease}
+  .callout strong{color:#92400e}.callout.green strong{color:#065f46;transition:color .4s ease}
 
   ul{padding-left:20px;margin:8px 0}li{margin-bottom:6px}
   .two-options{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0}
@@ -83,21 +83,41 @@
   .hotel-card-body h4 a{color:#2c3e50}
   .hotel-card-body h4 a:hover{color:#0f766e}
   .hotel-card-type{font-size:.8rem;color:#6b7280;margin-bottom:8px;font-weight:600}
-  .hotel-card-price{display:inline-block;background:#0f766e;color:white;padding:4px 12px;border-radius:6px;font-size:.85rem;font-weight:800;margin-bottom:10px}
+  .hotel-card-price{display:inline-block;background:#0f766e;color:white;padding:4px 12px;border-radius:6px;font-size:.85rem;font-weight:800;margin-bottom:10px;transition:background .4s ease}
   .hotel-card-amenities{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
-  .amenity{display:inline-flex;align-items:center;gap:4px;background:#f0fdf4;border:1px solid #d1fae5;padding:3px 9px;border-radius:6px;font-size:.73rem;font-weight:600;color:#065f46}
+  .amenity{display:inline-flex;align-items:center;gap:4px;background:#f0fdf4;border:1px solid #d1fae5;padding:3px 9px;border-radius:6px;font-size:.73rem;font-weight:600;color:#065f46;transition:background .4s ease,border-color .4s ease,color .4s ease}
   .hotel-card-desc{font-size:.86rem;color:#4b5563;line-height:1.5;margin:6px 0}
   .hotel-card-link{display:inline-block;margin-top:6px;font-size:.85rem;font-weight:700}
-  .hotel-section-label{font-family:'DM Serif Display',serif;font-size:1.2rem;color:#115e58;margin:28px 0 8px;padding:8px 0;border-bottom:1px solid #e8e2db}
+  .hotel-section-label{font-family:'DM Serif Display',serif;font-size:1.2rem;color:#115e58;margin:28px 0 8px;padding:8px 0;border-bottom:1px solid #e8e2db;transition:color .4s ease}
   .hotel-section-label:first-of-type{margin-top:4px}
   .hotel-section-nights{font-size:.82rem;font-weight:400;color:#6b7280}
 
   /* ONE-BASE highlight */
   .highlight-card{border:2px solid #0f766e;border-radius:12px;overflow:hidden;margin:16px 0;background:#f0fdf4}
-  .highlight-card .highlight-badge{background:#0f766e;color:white;padding:6px 16px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+  .highlight-card .highlight-badge{background:#0f766e;color:white;padding:6px 16px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;transition:background .4s ease}
   .highlight-card .hotel-card{border:none;margin:0;border-radius:0}
 
   footer{text-align:center;padding:30px;color:#9ca3af;font-size:.82rem}
+
+  /* WARM MODE (relaxed tab) */
+  .warm-mode{background:#faf6f0}
+  .warm-mode .section{background:#fffdf9}
+  .warm-mode .section h2{color:#92600e;border-bottom-color:#e8dcc8}
+  .warm-mode .tag{background:#b8860b}
+  .warm-mode .tag.flight{background:#1d4ed8}
+  .warm-mode .tag.boat{background:#0891b2}
+  .warm-mode .tag.drive{background:#6b7280}
+  .warm-mode .tag.activity{background:#7c3aed}
+  .warm-mode .map-link{border-color:#92600e;color:#92600e;background:#fef3e2}
+  .warm-mode .map-link:hover{background:#92600e;color:white}
+  .warm-mode .amenity{background:#fef3e2;border-color:#fde8c8;color:#78501a}
+  .warm-mode .hotel-card-price{background:#92600e}
+  .warm-mode .highlight-badge{background:#92600e}
+  .warm-mode .callout.green{background:#fef3e2;border-left-color:#d4a54a}
+  .warm-mode .callout.green strong{color:#78501a}
+  .warm-mode .day-card{border-left-color:#b8860b}
+  .warm-mode .day-card .day-label{color:#92600e}
+  .warm-mode .hotel-section-label{color:#78501a}
 
   @media(max-width:700px){
     .two-options,.photo-grid{grid-template-columns:1fr}
@@ -164,7 +184,7 @@
     <span class="tag flight">Vlucht LAM 1u15</span>
     <img class="day-photo" src="https://images.unsplash.com/photo-1544298903-35eee5a95b4d?w=900&h=380&fit=crop&auto=format&q=80" alt="Mozambique kust" loading="lazy">
     <p>Aankomst 6-7u. <a href="https://www.flightsfrom.com/MPM-VNX" target="_blank">LAM vlucht</a> naar Vilanculos. Middag: waterfront verkennen, seafood diner.</p>
-    <div class="price-range">LAM: ~$165-220 p.p.</div>
+    <div class="price-range">LAM: ~&euro;140-190 p.p.</div>
   </div>
 
   <div class="day-card">
@@ -225,7 +245,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.bahiamarclub.com" target="_blank">Bahia Mar Boutique Hotel</a></h4>
       <div class="hotel-card-type">Boutique Resort &mdash; waterfront</div>
-      <div class="hotel-card-price">$120-200/nacht</div>
+      <div class="hotel-card-price">&euro;100-170/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Zwembad</span><span class="amenity">Spa</span><span class="amenity">Restaurant</span><span class="amenity">Gym</span><span class="amenity">WiFi</span><span class="amenity">Airco</span><span class="amenity">Kitesurfen</span><span class="amenity">Duiken</span>
       </div>
@@ -239,7 +259,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://casa-rex-vilanculos.h-rez.com/" target="_blank">Casa Rex by Sol Resorts</a></h4>
       <div class="hotel-card-type">4-sterren &mdash; direct aan zee</div>
-      <div class="hotel-card-price">$234-500/nacht</div>
+      <div class="hotel-card-price">&euro;200-425/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Zwembad</span><span class="amenity">Spa</span><span class="amenity">Restaurant</span><span class="amenity">WiFi</span><span class="amenity">Airco</span><span class="amenity">Airport shuttle</span>
       </div>
@@ -253,7 +273,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.vilanculosbeachlodge.com/" target="_blank">Vilanculos Beach Lodge</a></h4>
       <div class="hotel-card-type">Strand-lodge &mdash; 15 min vliegveld</div>
-      <div class="hotel-card-price">$60-120/nacht</div>
+      <div class="hotel-card-price">&euro;50-100/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Infinity pool</span><span class="amenity">Spa</span><span class="amenity">Restaurant</span><span class="amenity">Airco</span><span class="amenity">Strand</span><span class="amenity">Kitesurfen</span>
       </div>
@@ -283,7 +303,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.savadunes.com/" target="_blank">Sava Dunes Eco Lodge</a></h4>
       <div class="hotel-card-type">Luxe eco &mdash; off-grid op de duinen</div>
-      <div class="hotel-card-price">$100-200/nacht</div>
+      <div class="hotel-card-price">&euro;85-170/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Zeezicht</span><span class="amenity">100% solar</span><span class="amenity">Strand</span><span class="amenity">Privaat</span><span class="amenity">Eco</span>
       </div>
@@ -297,7 +317,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.booking.com/hotel/mz/tofo-mar.html" target="_blank">Hotel Tofo Mar</a></h4>
       <div class="hotel-card-type">Boutique strandhotel &mdash; direct op Tofo Beach</div>
-      <div class="hotel-card-price">$80-250/nacht</div>
+      <div class="hotel-card-price">&euro;70-215/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Rooftop bar</span><span class="amenity">Restaurant</span><span class="amenity">WiFi</span><span class="amenity">Airco</span><span class="amenity">Ontbijt</span><span class="amenity">Activiteiten</span>
       </div>
@@ -311,7 +331,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.sonambulas.com/" target="_blank">Baia Sonambula</a></h4>
       <div class="hotel-card-type">Boutique guesthouse &mdash; handgemaakt</div>
-      <div class="hotel-card-price">$63-150/nacht</div>
+      <div class="hotel-card-price">&euro;55-130/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Zeezicht</span><span class="amenity">Starlink WiFi</span><span class="amenity">Airco</span><span class="amenity">Ontbijt</span><span class="amenity">E-bikes</span><span class="amenity">Boottochten</span>
       </div>
@@ -327,7 +347,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.serenahotels.com/polana" target="_blank">Polana Serena Hotel</a></h4>
       <div class="hotel-card-type">5-sterren historisch &mdash; 1922</div>
-      <div class="hotel-card-price">$188-350/nacht</div>
+      <div class="hotel-card-price">&euro;160-300/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">2 Pools</span><span class="amenity">Spa</span><span class="amenity">3 Restaurants</span><span class="amenity">WiFi</span><span class="amenity">Roomservice 24u</span><span class="amenity">15 min airport</span>
       </div>
@@ -341,7 +361,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.southernsun.com/southern-sun-maputo" target="_blank">Southern Sun Maputo</a></h4>
       <div class="hotel-card-type">Modern strandhotel</div>
-      <div class="hotel-card-price">$148-200/nacht</div>
+      <div class="hotel-card-price">&euro;125-170/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Infinity pool</span><span class="amenity">Restaurant</span><span class="amenity">WiFi</span><span class="amenity">Ontbijt</span><span class="amenity">Gym 24u</span><span class="amenity">20 min airport</span>
       </div>
@@ -355,7 +375,7 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.southernsun.com/stayeasy-maputo" target="_blank">StayEasy Maputo</a></h4>
       <div class="hotel-card-type">Budget &mdash; 9 km vliegveld</div>
-      <div class="hotel-card-price">$60-100/nacht</div>
+      <div class="hotel-card-price">&euro;50-85/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Pool</span><span class="amenity">WiFi</span><span class="amenity">Ontbijt</span><span class="amenity">Parking</span><span class="amenity">Zeezicht</span>
       </div>
@@ -372,12 +392,12 @@
     <div class="option-box recommended">
       <h4>Benguerra Island</h4>
       <p>Kleiner, intiemer, beter koraalrif. <a href="https://azura-retreats.com/" target="_blank">Azura</a> en <a href="https://www.andbeyond.com/our-lodges/indian-ocean-islands/mozambique/bazaruto-archipelago/andbeyond-benguerra-island/" target="_blank">andBeyond</a>.</p>
-      <div class="price-range">Lodges: $955+ p.p./nacht all-inclusive | Dagtrip: $80-120 p.p.</div>
+      <div class="price-range">Lodges: &euro;815+ p.p./nacht all-inclusive | Dagtrip: &euro;70-100 p.p.</div>
     </div>
     <div class="option-box">
       <h4>Bazaruto Island</h4>
       <p>Groter, hogere duinen, meer wildlife. <a href="https://www.mozambiquetravel.com/bazaruto-archipelago/" target="_blank">Anantara</a> resort.</p>
-      <div class="price-range">Anantara: $500-1500/nacht | Dagtrip: $80-150 p.p.</div>
+      <div class="price-range">Anantara: &euro;425-1.275/nacht | Dagtrip: &euro;70-130 p.p.</div>
     </div>
   </div>
 </div>
@@ -396,7 +416,7 @@
     <tr><td>Manta rays</td><td>Goed</td><td>Sep-Nov</td></tr>
     <tr><td>Dolfijnen</td><td>Goed</td><td>Jaar-rond</td></tr>
   </table>
-  <div class="price-range">Ocean safari: ~$65-85 p.p. | Duik (2 dives): ~$80-120 p.p. | <a href="https://www.tofoscuba.com/" target="_blank">Tofo Scuba</a> | <a href="https://www.liquiddiveadventures.com/" target="_blank">Liquid Dive</a></div>
+  <div class="price-range">Ocean safari: ~&euro;55-72 p.p. | Duik (2 dives): ~&euro;70-100 p.p. | <a href="https://www.tofoscuba.com/" target="_blank">Tofo Scuba</a> | <a href="https://www.liquiddiveadventures.com/" target="_blank">Liquid Dive</a></div>
 </div>
 
 </div><!-- end tab-roadtrip -->
@@ -433,7 +453,7 @@
     <span class="tag boat">Speedboot dagtrip</span>
     <img class="day-photo" src="https://plus.unsplash.com/premium_photo-1666286956135-0fb603dad5cf?w=900&h=380&fit=crop&auto=format&q=80" alt="Eiland" loading="lazy">
     <p>Speedboot naar Benguerra Island. Snorkelen op Two Mile Reef, lunch op het strand, zeeschildpadden. Terug bij zonsondergang.</p>
-    <div class="price-range">Dagtrip: ~$80-150 p.p. via resort of <a href="https://www.odysseadive.com/" target="_blank">Odyssea</a></div>
+    <div class="price-range">Dagtrip: ~&euro;70-130 p.p. via resort of <a href="https://www.odysseadive.com/" target="_blank">Odyssea</a></div>
   </div>
 
   <div class="day-card">
@@ -486,12 +506,12 @@
       <div class="hotel-card-body">
         <h4><a href="https://dugong-beach-vilanculos.h-rez.com/" target="_blank">Dugong Beach Lodge</a></h4>
         <div class="hotel-card-type">Full Board Plus &mdash; beachfront, bij Coastal Wildlife Sanctuary</div>
-        <div class="hotel-card-price">~$650 p.p./nacht Full Board Plus</div>
+        <div class="hotel-card-price">~&euro;555 p.p./nacht Full Board Plus</div>
         <div class="hotel-card-amenities">
           <span class="amenity">3 Zwembaden</span><span class="amenity">Spa</span><span class="amenity">Alle maaltijden</span><span class="amenity">Select activiteiten</span><span class="amenity">Strand</span><span class="amenity">Windsurfen</span><span class="amenity">Snorkelen</span><span class="amenity">Kayak</span><span class="amenity">WiFi</span><span class="amenity">Airco</span><span class="amenity">Wildlife</span>
         </div>
         <div class="hotel-card-desc">Alle maaltijden, select dranken en activiteiten inbegrepen. Privaat strand, 3 pools, spa. Direct aan Vilanculos Coastal Wildlife Sanctuary. Windsurfen, snorkelen, kayakken bij de prijs in. Duiken en eilandtrips als add-on boekbaar. Heropend december 2025 na renovatie.</div>
-        <div class="price-range">6 nachten &asymp; $3,900 p.p. / $7,800 voor 2 personen all-in (excl. eilandtrips &amp; duiken)</div>
+        <div class="price-range">6 nachten &asymp; &euro;3.315 p.p. / &euro;6.650 voor 2 personen all-in (excl. eilandtrips &amp; duiken)</div>
         <a class="hotel-card-link" href="https://dugong-beach-vilanculos.h-rez.com/" target="_blank">Bekijk &amp; Boek &rarr;</a> &nbsp;|&nbsp;
         <a class="hotel-card-link" href="https://www.mozambique.co.za/Mozambique_Beach_Lodging_Options-travel/pricing_mozambique-resorts-dugong-lodge.html" target="_blank">Prijslijst &rarr;</a>
       </div>
@@ -505,7 +525,7 @@
       <div class="hotel-card-body">
         <h4><a href="https://santorinimozambique.com/" target="_blank">Santorini Mozambique</a></h4>
         <div class="hotel-card-type">Luxe villa-collectie &mdash; panoramisch uitzicht op de baai</div>
-        <div class="hotel-card-price">~$1,200/nacht</div>
+        <div class="hotel-card-price">~&euro;1.020/nacht</div>
         <div class="hotel-card-amenities">
           <span class="amenity">3 Pools</span><span class="amenity">Prive strand</span><span class="amenity">Restaurant</span><span class="amenity">Ontbijt</span><span class="amenity">Airport shuttle</span><span class="amenity">Motorboot</span><span class="amenity">Kayak</span><span class="amenity">Windsurfen</span><span class="amenity">Airco</span>
         </div>
@@ -520,12 +540,12 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.bahiamarclub.com" target="_blank">Bahia Mar Boutique Hotel</a></h4>
       <div class="hotel-card-type">Mid-range &mdash; kitesurfen &amp; duiken vanuit de deur</div>
-      <div class="hotel-card-price">$120-200/nacht (B&amp;B)</div>
+      <div class="hotel-card-price">&euro;100-170/nacht (B&amp;B)</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Zwembad</span><span class="amenity">Spa</span><span class="amenity">Restaurant</span><span class="amenity">Gym</span><span class="amenity">Kitesurfen</span><span class="amenity">Duiken</span><span class="amenity">Yoga</span><span class="amenity">WiFi</span>
       </div>
       <div class="hotel-card-desc">Niet all-inclusive, maar goed restaurant op locatie + activiteiten direct boekbaar. Kitesurfen en eiland-excursies vanuit het hotel. Goede middenweg qua prijs en comfort.</div>
-      <div class="price-range">6 nachten &asymp; $720-1,200 (kamer) + eten &amp; activiteiten apart &asymp; totaal $1,500-2,500 voor 2 pers.</div>
+      <div class="price-range">6 nachten &asymp; &euro;615-1.020 (kamer) + eten &amp; activiteiten apart &asymp; totaal &euro;1.275-2.130 voor 2 pers.</div>
       <a class="hotel-card-link" href="https://www.bahiamarclub.com" target="_blank">Bekijk &rarr;</a>
     </div>
   </div>
@@ -535,12 +555,12 @@
     <div class="hotel-card-body">
       <h4><a href="https://www.vilanculosbeachlodge.com/" target="_blank">Vilanculos Beach Lodge</a></h4>
       <div class="hotel-card-type">Budget-comfort &mdash; kitesurfing hotspot</div>
-      <div class="hotel-card-price">$60-120/nacht</div>
+      <div class="hotel-card-price">&euro;50-100/nacht</div>
       <div class="hotel-card-amenities">
         <span class="amenity">Infinity pool</span><span class="amenity">Spa</span><span class="amenity">Restaurant</span><span class="amenity">Kitesurfen</span><span class="amenity">Strand</span><span class="amenity">Airco</span>
       </div>
       <div class="hotel-card-desc">Bekend als kitesurfing hub. Goede prijs, mooie bungalows. Eten en activiteiten apart boeken. Dichtbij vliegveld.</div>
-      <div class="price-range">6 nachten &asymp; $360-720 (kamer) + eten &amp; activiteiten &asymp; totaal $1,000-1,800 voor 2 pers.</div>
+      <div class="price-range">6 nachten &asymp; &euro;305-615 (kamer) + eten &amp; activiteiten &asymp; totaal &euro;850-1.530 voor 2 pers.</div>
       <a class="hotel-card-link" href="https://www.vilanculosbeachlodge.com/" target="_blank">Bekijk &rarr;</a>
     </div>
   </div>
@@ -551,13 +571,13 @@
   <h2>Dagtrips vanuit Vilanculos</h2>
   <table>
     <tr><th>Activiteit</th><th>Duur</th><th>Kosten</th><th>Boeken via</th></tr>
-    <tr><td>Eilandtrip Benguerra (snorkel + BBQ)</td><td>Hele dag</td><td>$80-150 p.p.</td><td>Resort of <a href="https://www.odysseadive.com/" target="_blank">Odyssea</a></td></tr>
-    <tr><td>Eilandtrip Bazaruto (duinen + flamingo's)</td><td>Hele dag</td><td>$100-200 p.p.</td><td>Resort of <a href="https://www.odysseadive.com/" target="_blank">Odyssea</a></td></tr>
-    <tr><td>2-dive trip Bazaruto riffen</td><td>Halve dag</td><td>$80-140 p.p.</td><td><a href="https://www.odysseadive.com/" target="_blank">Odyssea Dive</a></td></tr>
-    <tr><td>Kitesurfles (beginner)</td><td>2-3 uur</td><td>$60-100 p.p.</td><td><a href="https://www.odysseadive.com/" target="_blank">Odyssea Kite</a></td></tr>
-    <tr><td>Dhow sunset cruise</td><td>2-3 uur</td><td>$40-80 p.p.</td><td>Resort of lokale operator</td></tr>
-    <tr><td>Paardrijden op het strand</td><td>1-2 uur</td><td>$30-60 p.p.</td><td>Lokale operator</td></tr>
-    <tr><td>Deep sea fishing</td><td>Halve/hele dag</td><td>$150-400 (boot)</td><td>Resort</td></tr>
+    <tr><td>Eilandtrip Benguerra (snorkel + BBQ)</td><td>Hele dag</td><td>&euro;70-130 p.p.</td><td>Resort of <a href="https://www.odysseadive.com/" target="_blank">Odyssea</a></td></tr>
+    <tr><td>Eilandtrip Bazaruto (duinen + flamingo's)</td><td>Hele dag</td><td>&euro;85-170 p.p.</td><td>Resort of <a href="https://www.odysseadive.com/" target="_blank">Odyssea</a></td></tr>
+    <tr><td>2-dive trip Bazaruto riffen</td><td>Halve dag</td><td>&euro;70-120 p.p.</td><td><a href="https://www.odysseadive.com/" target="_blank">Odyssea Dive</a></td></tr>
+    <tr><td>Kitesurfles (beginner)</td><td>2-3 uur</td><td>&euro;50-85 p.p.</td><td><a href="https://www.odysseadive.com/" target="_blank">Odyssea Kite</a></td></tr>
+    <tr><td>Dhow sunset cruise</td><td>2-3 uur</td><td>&euro;35-70 p.p.</td><td>Resort of lokale operator</td></tr>
+    <tr><td>Paardrijden op het strand</td><td>1-2 uur</td><td>&euro;25-50 p.p.</td><td>Lokale operator</td></tr>
+    <tr><td>Deep sea fishing</td><td>Halve/hele dag</td><td>&euro;130-340 (boot)</td><td>Resort</td></tr>
     <tr><td>Lokale markt Vilanculos</td><td>Ochtend</td><td>Gratis</td><td>Zelfstandig</td></tr>
   </table>
 </div>
@@ -580,7 +600,7 @@
   </ul>
   <h3>Geld &amp; Gezondheid</h3>
   <ul>
-    <li>Metical (MZN), ~65 = $1. USD/ZAR vaak geaccepteerd. Cash mee naar eilanden.</li>
+    <li>Metical (MZN), ~57 MZN = &euro;1. EUR/ZAR vaak geaccepteerd. Cash mee naar eilanden.</li>
     <li><strong>Malaria:</strong> Profylaxe verplicht (Malarone/Doxycycline). DEET muggenspray.</li>
     <li><strong>Reisverzekering:</strong> Inclusief evacuatie. Droog seizoen, 25-30 graden.</li>
   </ul>
@@ -591,12 +611,12 @@
   <h2>Budget Vergelijking (2 personen)</h2>
   <table>
     <tr><th>Post</th><th>Roadtrip (mid-range)</th><th>One-base (Bahia Mar)</th><th>One-base (Dugong AI)</th></tr>
-    <tr><td>Vluchten (LAM)</td><td>$330-440 (enkele reis)</td><td>$500-700 (retour)</td><td>$500-700 (retour)</td></tr>
-    <tr><td>Huurauto</td><td>$300-450</td><td>Niet nodig</td><td>Niet nodig</td></tr>
-    <tr><td>Accommodatie (6n)</td><td>$650-1000</td><td>$720-1200</td><td>~$7,800 all-in</td></tr>
-    <tr><td>Eten</td><td>$300-450</td><td>$350-500</td><td>Inbegrepen</td></tr>
-    <tr><td>Activiteiten</td><td>$300-500</td><td>$300-600</td><td>$200-400 (add-ons)</td></tr>
-    <tr><td><strong>Totaal</strong></td><td><strong>$2,000-3,150</strong></td><td><strong>$1,900-3,000</strong></td><td><strong>$8,500-8,900</strong></td></tr>
+    <tr><td>Vluchten (LAM)</td><td>&euro;280-375 (enkele reis)</td><td>&euro;425-595 (retour)</td><td>&euro;425-595 (retour)</td></tr>
+    <tr><td>Huurauto</td><td>&euro;255-385</td><td>Niet nodig</td><td>Niet nodig</td></tr>
+    <tr><td>Accommodatie (6n)</td><td>&euro;555-850</td><td>&euro;615-1.020</td><td>~&euro;6.650 all-in</td></tr>
+    <tr><td>Eten</td><td>&euro;255-385</td><td>&euro;300-425</td><td>Inbegrepen</td></tr>
+    <tr><td>Activiteiten</td><td>&euro;255-425</td><td>&euro;255-510</td><td>&euro;170-340 (add-ons)</td></tr>
+    <tr><td><strong>Totaal</strong></td><td><strong>&euro;1.700-2.680</strong></td><td><strong>&euro;1.620-2.550</strong></td><td><strong>&euro;7.225-7.575</strong></td></tr>
   </table>
   <div class="price-range">Alle prijzen excl. internationale vluchten naar/van Maputo.</div>
 </div>
@@ -648,11 +668,44 @@
 </footer>
 
 <script>
+// Hero config per tab
+const heroConfig = {
+  roadtrip: {
+    img: 'https://images.unsplash.com/photo-1574622858722-df7d9efe1cce?w=1400&h=700&fit=crop&auto=format&q=80',
+    overlay: 'linear-gradient(135deg,rgba(15,118,110,.75),rgba(26,58,74,.85))',
+    subtitle: '1 t/m 7 september 2026'
+  },
+  onebase: {
+    img: 'https://images.unsplash.com/photo-1573209580826-13bdfd6db7e7?w=1400&h=700&fit=crop&auto=format&q=80',
+    overlay: 'linear-gradient(135deg,rgba(139,90,43,.6),rgba(62,48,30,.75))',
+    subtitle: '6 nachten Vilanculos — zon, zee, niks moeten'
+  }
+};
+
 function switchTab(tab) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   event.target.classList.add('active');
+
+  // Update hero visuals
+  const cfg = heroConfig[tab];
+  if (cfg) {
+    const bg = document.querySelector('.hero-bg');
+    const ov = document.querySelector('.hero-overlay');
+    const st = document.querySelector('.hero .subtitle');
+    if (bg) bg.style.backgroundImage = "url('" + cfg.img + "')";
+    if (ov) ov.style.background = cfg.overlay;
+    if (st) st.textContent = cfg.subtitle;
+  }
+
+  // Warm mode toggle for relaxed tab
+  if (tab === 'onebase') {
+    document.body.classList.add('warm-mode');
+  } else {
+    document.body.classList.remove('warm-mode');
+  }
+
   if (tab === 'onebase' && !window._baseMapInit) initBaseMap();
 }
 
@@ -751,11 +804,12 @@ function initBaseMap() {
   "type": "travel-plan",
   "title": "Mozambique Trip Plan",
   "date": "2026-04-24",
-  "version": 4,
+  "version": 5,
   "trip_dates": "2026-09-01 to 2026-09-07",
+  "currency": "EUR",
   "tabs": ["roadtrip", "one-base"],
   "one_base_location": "Vilanculos",
-  "one_base_hotels": ["Dugong Beach Lodge $650pp FB+", "Santorini $1200/night", "Bahia Mar $120-200", "VBL $60-120"]
+  "one_base_hotels": ["Dugong Beach Lodge €555pp FB+", "Santorini €1.020/night", "Bahia Mar €100-170", "VBL €50-100"]
 }
 -->
 
