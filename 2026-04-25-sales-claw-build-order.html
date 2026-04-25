@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Claw -- Build Order & Refined Spec</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.positioning li { color: rgba(255,255,255,.88); }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.pos-steps { display: flex; gap: 10px; margin: 20px 0; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+.phase-block { margin-bottom: 32px; }
+.phase-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  padding-bottom: 8px; border-bottom: 2px solid #1a2744;
+}
+.phase-number {
+  font: 800 24px/1 "Georgia", serif; color: #1a2744;
+  background: #e8edf4; width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.phase-title { font: 700 18px/1.2 "Georgia", serif; color: #1a2744; }
+.phase-timeline {
+  font: 500 11px/1 -apple-system, sans-serif; color: #6b7280;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.step-card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 16px 20px; margin-bottom: 10px; position: relative;
+  padding-left: 52px;
+}
+.step-num {
+  position: absolute; left: 16px; top: 16px;
+  font: 700 16px/1 "Georgia", serif; color: #1a2744;
+}
+.step-title { font: 700 14px/1.3 "Georgia", serif; color: #1a2744; margin-bottom: 4px; }
+.step-desc { font-size: 13px; color: #4a5568; line-height: 1.55; }
+.decision-resolved {
+  background: #e6f4ea; border-left: 3px solid #1a6b3a; padding: 12px 18px;
+  margin: 6px 0; font-size: 13px; border-radius: 0 4px 4px 0;
+}
+.decision-resolved strong { color: #1a6b3a; }
+.decision-open {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 12px 18px;
+  margin: 6px 0; font-size: 13px; border-radius: 0 4px 4px 0;
+}
+.decision-open strong { color: #8a6a2a; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 25, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-25-sales-claw-build-order.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Sales Intelligence &amp; Automation</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 25, 2026<br>Build Plan<br>SDR Claw
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Sales Intelligence System</div>
+  <h1>Sales Claw Build Order</h1>
+  <p class="subtitle">Refined spec with Max's decisions incorporated. Build order starts where the data lives: Twenty CRM with 7,603 companies and 369 open deals.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">369</div>
+      <div class="stat-label">Open Deals in Twenty</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">161+</div>
+      <div class="stat-label">Call Notes Already Created</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10+</div>
+      <div class="stat-label">Target Drafts / Day</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Build Phases</div>
+    </div>
+  </div>
+
+  <h2>Decisions Locked In</h2>
+
+  <div class="decision-resolved"><strong>GDPR / Recording:</strong> Teams notification banner is sufficient for full compliance. No additional consent mechanism needed.</div>
+  <div class="decision-resolved"><strong>Tenant Ownership:</strong> Both Proxuma and Dxfferent tenants are Max's call. No external approval needed for admin changes.</div>
+  <div class="decision-resolved"><strong>Morning Summary:</strong> Delivered via email. That's where the day starts.</div>
+  <div class="decision-resolved"><strong>Daily Draft Cap:</strong> Start with 5, ramp up as more emails pass approval. Adaptive cap already in the spec.</div>
+  <div class="decision-resolved"><strong>AI Sending:</strong> AI creates drafts only. Max sends, whether through an app or in Outlook. AI never gets actual send access.</div>
+  <div class="decision-resolved"><strong>Consultants:</strong> Data sources, not users. They've agreed to data farming. Their calls feed content generation and AI training.</div>
+  <div class="decision-resolved"><strong>Priority:</strong> Sales Claw first. Most direct revenue impact, least blocked.</div>
+  <div class="decision-resolved"><strong>CRM Strategy:</strong> Build against Twenty CRM (where the data lives). Migrate to Forge later behind an adapter layer.</div>
+  <div class="decision-resolved"><strong>Historical Backfill:</strong> Already partially done. 161+ notes, 58 companies, 12 people enriched. Check completeness before adding more.</div>
+  <div class="decision-resolved"><strong>Definition of Done:</strong> 10+ emails/day Max would have forgotten, resulting in actual sales conversations.</div>
+
+  <h2>CRM Reality Check</h2>
+
+  <div class="callout">
+    <span class="callout-label">Key Finding</span>
+    The spec assumed Forge CRM throughout, but <strong>Twenty CRM is where the data lives</strong>. 7,603 companies, 1,891 people, 369 opportunities, 161+ call intelligence notes. NemoClaw ran against Twenty until it was paused April 14. Forge CRM schema hasn't been defined yet. Building Sales Claw against Twenty first, then migrating to Forge behind a CRM adapter, is the fastest path to value.
+  </div>
+
+  <h3>CRM Adapter Interface</h3>
+  <p>Six methods abstract the CRM. Twenty adapter first, Forge adapter later. Same contract, swap config.</p>
+
+  <table class="matrix">
+    <tr><th>Method</th><th>What It Does</th></tr>
+    <tr><td><code>listOpenDeals()</code></td><td>All open opportunities with stage, contacts, last activity</td></tr>
+    <tr><td><code>getDealContext(dealId)</code></td><td>Call intelligence notes, pain points, objections, next steps</td></tr>
+    <tr><td><code>getContact(contactId)</code></td><td>Name, email, company, role, history</td></tr>
+    <tr><td><code>writeDraft(dealId, draft)</code></td><td>Store pending draft with status</td></tr>
+    <tr><td><code>updateDraftStatus(id, status)</code></td><td>Track approve/edit/reject/snooze + edit diff</td></tr>
+    <tr><td><code>writeLearningRecord(type, data)</code></td><td>Edit diffs, feedback, action patterns</td></tr>
+  </table>
+
+  <h2>Build Order</h2>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-number">1</div>
+      <div>
+        <div class="phase-title">Sales Claw MVP</div>
+        <div class="phase-timeline">Weeks 1-3 / Scoring + Drafting</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-title">CRM Adapter (Twenty)</div>
+      <div class="step-desc">Build the adapter interface against Twenty CRM API at crm.proxuma.io. Pull all 369 opportunities with contacts, stages, last activity. Pull existing call intelligence notes. Test: can we read everything we need?</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-title">Scoring Loop</div>
+      <div class="step-desc">Composite scoring: staleness + promises + momentum + inbound urgency. Run against all 369 opportunities. Output ranked JSON with score, reasoning, suggested action. Max validates: do the top 10 make sense?</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-title">Draft Generation</div>
+      <div class="step-desc">Top 5 scored deals get personalized draft emails. Uses call intelligence notes from Twenty as context. Static style template until learning loop kicks in. Drafts stored as MS365 email drafts (Max sends from Outlook).</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-title">Deploy on M1 Pro</div>
+      <div class="step-desc">Daily cron at 07:00 CET on M1 Pro (100.85.64.20). Morning email summary: "5 drafts ready for review" with deal names and scores. Telegram notification when drafts are ready. Start once/day, ramp to 3x/day later.</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-number">2</div>
+      <div>
+        <div class="phase-title">Learning Loop</div>
+        <div class="phase-timeline">Weeks 4-5 / Feedback + Adaptation</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-title">Feedback Capture</div>
+      <div class="step-desc">Track which drafts Max sends, edits, or ignores. Poll MS365 sent folder to detect sends, compare to original for edit diffs. Store in local SQLite on M1 Pro. After 20+ edit pairs, generate "Max's writing rules" document.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-title">Adaptive Behavior</div>
+      <div class="step-desc">Adjust daily cap based on approve rate. Adjust scoring weights based on which actions Max takes. Ramp to 3x/day (07:00, 12:00, 16:30). Target: approve rate > 70%, 10+ drafts/day.</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-number">3</div>
+      <div>
+        <div class="phase-title">Transcript Pipeline</div>
+        <div class="phase-timeline">Weeks 6-8 / Auto-Capture + Extraction</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">7</div>
+      <div class="step-title">Teams Admin Policy</div>
+      <div class="step-desc">Enable auto-record + auto-transcribe on both Proxuma and Dxfferent tenants. 30-minute admin change. Verify notification banner for external attendees.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">8</div>
+      <div class="step-title">Transcript Capture (Hybrid)</div>
+      <div class="step-desc">Power Automate trigger + M1 Pro processing. OneDrive folder structure by date/attendee/company. M1 Pro cron watches for new .vtt files.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">9</div>
+      <div class="step-title">AI Extraction</div>
+      <div class="step-desc">Classify calls (sales/consulting/internal). Extract pain points, objections, deal stages, action items. Write to Twenty CRM as call intelligence notes. New data feeds the scoring loop directly.</div>
+    </div>
+  </div>
+
+  <div class="phase-block">
+    <div class="phase-header">
+      <div class="phase-number">4</div>
+      <div>
+        <div class="phase-title">Playbook + Forge Migration</div>
+        <div class="phase-timeline">Weeks 9-12 / Codify + Migrate</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">10</div>
+      <div class="step-title">Playbook Generation</div>
+      <div class="step-desc">Analyze full transcript library (140+ existing + new from pipeline). Sales process map, objection library, qualification criteria, product positioning. Max reviews and corrects.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">11</div>
+      <div class="step-title">Forge CRM Migration</div>
+      <div class="step-desc">Define Forge schema based on what the Twenty adapter actually uses. Build Forge adapter, swap config. Migrate data. Build the review interface in Forge (keyboard shortcuts, scoring visibility).</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">12</div>
+      <div class="step-title">Full Integration</div>
+      <div class="step-desc">Playbook feeds call quality scoring. Sales Claw drafts reference playbook positioning. New calls update playbook automatically. NemoClaw fully decommissioned.</div>
+    </div>
+  </div>
+
+  <h2>What's Blocked vs. Ready</h2>
+
+  <table class="matrix">
+    <tr><th>Component</th><th>Blocked By</th><th>Status</th></tr>
+    <tr><td><strong>Sales Claw scoring</strong></td><td>Nothing</td><td><span class="tag tag-independent">Ready</span></td></tr>
+    <tr><td><strong>Sales Claw drafting</strong></td><td>Nothing</td><td><span class="tag tag-independent">Ready</span></td></tr>
+    <tr><td><strong>Learning loop</strong></td><td>20+ review cycles</td><td><span class="tag tag-acquired">After 2 weeks live</span></td></tr>
+    <tr><td><strong>Transcript pipeline</strong></td><td>Teams admin policy</td><td><span class="tag tag-acquired">30-min admin task</span></td></tr>
+    <tr><td><strong>AI extraction</strong></td><td>Transcript pipeline</td><td><span class="tag tag-diy">Sequential</span></td></tr>
+    <tr><td><strong>Playbook</strong></td><td>Enough transcript data</td><td><span class="tag tag-bundled">Data exists</span></td></tr>
+    <tr><td><strong>Forge migration</strong></td><td>Schema + proven model</td><td><span class="tag tag-diy">Deferred by design</span></td></tr>
+  </table>
+
+  <h2>Definition of Done</h2>
+
+  <div class="positioning">
+    <h2>Sales Claw is done when it drafts 10+ emails per day that Max would have forgotten to write, and those emails result in sales conversations.</h2>
+    <p>Not "10 emails generated." 10 emails Max actually sends because the system surfaced the right prospect at the right time with the right message.</p>
+  </div>
+
+  <h3>Milestones</h3>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">v0.1</div>
+      <div class="pos-label">Score All Deals</div>
+      <div class="pos-desc">369 opportunities ranked. Max validates the ordering.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">v0.2</div>
+      <div class="pos-label">5 Drafts/Day</div>
+      <div class="pos-desc">Approve rate > 50%. Max sends more than rejects.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">v0.3</div>
+      <div class="pos-label">Learning Active</div>
+      <div class="pos-desc">Approve rate > 70%. Edit distance shrinks.</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">v1.0</div>
+      <div class="pos-label">10+ Drafts/Day</div>
+      <div class="pos-desc">Approve > 75%. 2+ replies/week from Claw emails.</div>
+    </div>
+  </div>
+
+  <h2>Remaining Open Questions</h2>
+
+  <div class="decision-open"><strong>Graph API Permissions:</strong> Verify MS365 MCP permissions cover meeting transcript retrieval. Needed for Phase 3.</div>
+  <div class="decision-open"><strong>Scoring Weight Calibration:</strong> Run against historical Twenty data first. Tune after 2 weeks of live feedback.</div>
+  <div class="decision-open"><strong>Learning Loop Cold Start:</strong> Estimate 20+ edit-diff pairs needed. Static style template from Max's best emails until then.</div>
+  <div class="decision-open"><strong>Call Quality Threshold:</strong> Calibrate after playbook generation. Not blocking Phase 1-2.</div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Sales Intelligence System -- Build Order v1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Sales Claw Build Order & Refined Spec",
+  "date": "2026-04-25",
+  "summary": "Refined Sales Intelligence spec with 10 decisions locked in. Build order: Sales Claw first against Twenty CRM (369 deals, 161+ notes), then transcript pipeline, then playbook, then Forge migration.",
+  "sections": [
+    {
+      "heading": "Decisions Locked In",
+      "items": [
+        { "title": "GDPR", "detail": "Teams notification banner sufficient for full compliance", "meta": {} },
+        { "title": "Priority", "detail": "Sales Claw first, most direct revenue impact", "meta": {} },
+        { "title": "CRM Strategy", "detail": "Build against Twenty CRM first, migrate to Forge behind adapter layer", "meta": {} },
+        { "title": "AI Sending", "detail": "AI creates drafts only, Max sends manually", "meta": {} },
+        { "title": "Consultants", "detail": "Data sources, not users. Agreed to data farming.", "meta": {} },
+        { "title": "Morning Summary", "detail": "Email delivery", "meta": {} },
+        { "title": "Draft Cap", "detail": "Start at 5/day, adaptive ramp", "meta": {} },
+        { "title": "Definition of Done", "detail": "10+ drafts/day Max would've forgotten, resulting in sales", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Build Order",
+      "items": [
+        { "title": "Phase 1: Sales Claw MVP (weeks 1-3)", "detail": "CRM adapter for Twenty, scoring loop on 369 deals, draft generation for top 5, deploy on M1 Pro cron", "meta": {"steps": [1,2,3,4]} },
+        { "title": "Phase 2: Learning Loop (weeks 4-5)", "detail": "Feedback capture via MS365 sent folder polling, adaptive cap and scoring weights", "meta": {"steps": [5,6]} },
+        { "title": "Phase 3: Transcript Pipeline (weeks 6-8)", "detail": "Teams admin policy, Power Automate trigger, AI extraction to Twenty CRM", "meta": {"steps": [7,8,9]} },
+        { "title": "Phase 4: Playbook + Forge (weeks 9-12)", "detail": "Playbook from 140+ transcripts, Forge schema + migration, full integration", "meta": {"steps": [10,11,12]} }
+      ]
+    },
+    {
+      "heading": "CRM Reality",
+      "items": [
+        { "title": "Twenty CRM is live", "detail": "7,603 companies, 1,891 people, 369 opportunities, 161+ call notes", "meta": {} },
+        { "title": "Forge CRM not active yet", "detail": "Schema undefined. Build against Twenty, migrate later.", "meta": {} },
+        { "title": "NemoClaw paused Apr 14", "detail": "6 subsystems paused for CRM migration. Sales Claw replaces it.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Start Phase 1 Step 1: build the Twenty CRM adapter. Pull all 369 opportunities with contacts and call intelligence notes. Verify we can read everything the scoring loop needs. Then implement the scoring composite and validate the ranking with Max.",
+  "session_state": {
+    "phase": "spec refinement complete, ready to build",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Incorporated 10 refinement answers into spec",
+      "Discovered CRM reality: Twenty live, Forge not ready",
+      "Added CRM adapter strategy (build on Twenty, migrate to Forge)",
+      "Defined 4-phase build order with 12 steps",
+      "Set definition of done: 10+ useful drafts/day resulting in sales",
+      "Resolved 4 open questions, narrowed remaining to 4"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "Updated spec at ~/ClaudeCode/sdr-claw/docs/2026-04-24-sales-intelligence-system-spec.md",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/sdr-claw/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-25-sales-claw-build-order.html", "relevance": "this build order document" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-sales-intelligence-system-spec.html", "relevance": "original spec (pre-refinement HTML version)" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Twenty CRM live at crm.proxuma.io on M1 Pro. NemoClaw LaunchAgents unloaded since Apr 14."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "automation runs on M1 Pro"]
+  },
+  "decision_log": [
+    {
+      "decision": "Build Sales Claw against Twenty CRM first, not Forge",
+      "rejected_alternatives": ["Wait for Forge CRM setup", "Build CRM-agnostic from day one"],
+      "rationale": "Twenty has 7,603 companies, 369 deals, 161+ call notes. Forge schema undefined. Building against real data is faster and validates the model before migration.",
+      "trade_offs": "Will need to build the Forge adapter later and migrate data. But the adapter interface is simple (6 methods) and the alternative is weeks of schema design before writing a single line of scoring logic.",
+      "contingencies": [
+        { "if_X_then_Y": "If Forge CRM becomes available mid-Phase 1, can swap adapter early without changing scoring/drafting logic", "probability": 0.2 }
+      ]
+    },
+    {
+      "decision": "Sales Claw first, Playbook deferred to Phase 4",
+      "rejected_alternatives": ["Playbook first to establish scoring criteria", "Parallel build of both"],
+      "rationale": "Sales Claw has direct revenue impact from day one. Playbook needs Sales Claw's data to improve. Starting with static style templates is good enough for MVP.",
+      "trade_offs": "Call quality scoring won't be available until playbook exists. Drafts use static templates instead of learned style for first 4-5 weeks.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
