@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mozambique Trip Plan v2 -- Aug 31 - Sep 7, 2026</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.positioning li { color: rgba(255,255,255,.88); }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 140px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+
+/* Trip-specific: day timeline */
+.day-block { margin-bottom: 24px; }
+.day-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+}
+.day-num {
+  width: 44px; height: 44px; border-radius: 50%; background: #1a2744;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font: 700 16px/1 -apple-system, sans-serif; flex-shrink: 0;
+}
+.day-num.travel { background: #6b7280; }
+.day-num.island { background: #0f766e; }
+.day-num.beach { background: #2a4a8a; }
+.day-info { flex: 1; }
+.day-date {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .08em; color: #6b7280;
+}
+.day-place {
+  font-family: "Georgia", serif; font-size: 17px; font-weight: 700; color: #1a2744;
+}
+.day-body { margin-left: 56px; }
+.day-body p { font-size: 14px; margin-bottom: 8px; }
+
+.accom-box {
+  background: #f5f7fa; border-radius: 4px; padding: 14px 18px; margin: 8px 0;
+  font-size: 13px; font-family: -apple-system, sans-serif;
+}
+.accom-box strong { color: #1a2744; }
+
+.flight-box {
+  background: #fef3e2; border-radius: 4px; padding: 14px 18px; margin: 8px 0 16px;
+  font-size: 13px; font-family: -apple-system, sans-serif; color: #5a4a2a;
+  border-left: 3px solid #c8a040;
+}
+.flight-box strong { color: #8a6a2a; }
+
+.dive-box {
+  background: #e6f4ea; border-radius: 4px; padding: 14px 18px; margin: 8px 0;
+  font-size: 13px; font-family: -apple-system, sans-serif; color: #1a5a3a;
+  border-left: 3px solid #4caf50;
+}
+.dive-box strong { color: #1a6b3a; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 25, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-25-mozambique-trip-v2.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Travel Planning</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 25, 2026<br>Trip Itinerary v2<br>Mozambique + Namibia
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">REVISED ITINERARY</div>
+  <h1>Mozambique: Vilanculos, Bazaruto & Tofo</h1>
+  <p class="subtitle">Aug 31 - Sep 7, 2026. Couple, early 30s. Munich departure, continuing to Windhoek. Scuba diving, beach, humpback whales, island life.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Days / 7 Nights</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Destinations</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$4,200-6,800</div>
+      <div class="stat-label">Est. Budget (2 pax)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Sep</div>
+      <div class="stat-label">Humpback Peak</div>
+    </div>
+  </div>
+
+  <!-- ROUTE OVERVIEW -->
+  <h2>Route Overview</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>Nights</th>
+      <th>Dates</th>
+      <th>Location</th>
+      <th>Highlights</th>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td>
+      <td>Mon Aug 31 - Tue Sep 1</td>
+      <td><strong>Vilanculos</strong></td>
+      <td>Gateway town, beach, dhow sunset sail, market</td>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td>
+      <td>Wed Sep 2 - Thu Sep 3</td>
+      <td><strong>Bazaruto / Benguerra Island</strong></td>
+      <td>National park, reef diving, dugongs, dunes</td>
+    </tr>
+    <tr>
+      <td><strong>3</strong></td>
+      <td>Fri Sep 4 - Sun Sep 6</td>
+      <td><strong>Praia do Tofo</strong></td>
+      <td>Manta rays, humpback whales, beach town vibe</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>Mon Sep 7</td>
+      <td><strong>Tofo &rarr; Maputo &rarr; Windhoek</strong></td>
+      <td>Transfer day, fly onward to Namibia</td>
+    </tr>
+  </table>
+
+  <!-- FLIGHTS -->
+  <h2>Flights & Transfers</h2>
+
+  <h3>Getting In: Munich to Vilanculos</h3>
+  <div class="flight-box">
+    <strong>Option A (recommended):</strong> Munich &rarr; Johannesburg (Lufthansa, ~10h, direct, A350) &rarr; Vilanculos (Airlink, ~2h15). Arrive Aug 31 midday if taking early JNB connection.<br><br>
+    <strong>Option B:</strong> Munich &rarr; Maputo (via JNB or Addis Ababa) &rarr; Vilanculos (LAM, ~1h15, 4x/week). Adds a Maputo overnight if connections don't align.<br><br>
+    <strong>Est. cost:</strong> $700-1,100pp Munich-Vilanculos. Lufthansa MUC-JNB from ~550 EUR, Airlink JNB-VNX from ~$190.
+  </div>
+
+  <h3>Vilanculos &harr; Bazaruto/Benguerra</h3>
+  <div class="flight-box">
+    <strong>Boat transfer:</strong> Speedboat 30-45 min ($50-100pp round trip). Most lodges arrange this. Dhow safari option: 2-3 hours, more scenic, ~$40-80pp.<br><br>
+    <strong>Helicopter:</strong> 10-15 min, $200-300pp one-way. Only worth it if the lodge includes it.
+  </div>
+
+  <h3>Bazaruto/Benguerra to Tofo (the tricky bit)</h3>
+  <div class="callout">
+    <span class="callout-label">Key logistics decision</span>
+    There is no direct flight from Vilanculos to Inhambane/Tofo. Three options:
+  </div>
+  <table class="matrix">
+    <tr>
+      <th>Option</th>
+      <th>Time</th>
+      <th>Cost (2 pax)</th>
+      <th>Verdict</th>
+    </tr>
+    <tr>
+      <td><strong>A. Fly VNX-INH</strong></td>
+      <td>45 min flight</td>
+      <td>~$150-200pp</td>
+      <td style="color: #1a6b3a; font-weight: 600;">Best option. LAM flies this 4-5x/week.</td>
+    </tr>
+    <tr>
+      <td><strong>B. Drive EN1 highway</strong></td>
+      <td>5-6 hours</td>
+      <td>~$100-150 (private transfer)</td>
+      <td>Cheap but eats a full day. Road quality is decent.</td>
+    </tr>
+    <tr>
+      <td><strong>C. Fly via Maputo</strong></td>
+      <td>~5h total (2 flights + layover)</td>
+      <td>~$400-500pp</td>
+      <td>Expensive and slower than direct VNX-INH.</td>
+    </tr>
+  </table>
+  <p>Recommendation: take the LAM flight VNX-INH on Wednesday Sep 3 (returning from island that morning, flying afternoon). The 45-min hop runs ~$150-200pp and saves the whole day. Then 25-min taxi from Inhambane airport to Tofo.</p>
+
+  <h3>Monday Sep 7: Tofo to Maputo to Windhoek</h3>
+  <div class="flight-box">
+    <strong>LAM Inhambane &rarr; Maputo:</strong> Flies Mondays, but departure is ~15:30 (afternoon, not morning). Flight time 1h.<br><br>
+    <strong>Alternative:</strong> Drive Tofo &rarr; Maputo early morning (~6-7 hours via EN1). Leave at 05:00, arrive ~11:00-12:00. This works better for catching an afternoon/evening Airlink to Windhoek (via JNB).<br><br>
+    <strong>Airlink Maputo &rarr; Windhoek:</strong> Via Johannesburg. Maputo-JNB ~1h, JNB-WDH ~2h. Multiple daily connections. Need to confirm Sep 7 schedule.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Monday morning timing</span>
+    The LAM Inhambane flight leaves at 15:30, not morning. If you want to leave Tofo in the morning, driving is the only option. Leave Tofo at 05:00, drive to Maputo (~6h), catch an evening flight to JNB then WDH. Alternatively, shift the Windhoek leg to Tuesday Sep 8 and take the afternoon LAM flight comfortably.
+  </div>
+
+  <!-- DAY BY DAY -->
+  <h2>Day-by-Day Itinerary</h2>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num travel">1</div>
+      <div class="day-info">
+        <div class="day-date">Monday, August 31</div>
+        <div class="day-place">Arrive Vilanculos</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Arrive Vilanculos via JNB (Airlink). Check in, settle. Late afternoon dhow sunset sail on the bay with views of the Bazaruto Archipelago. Dinner at a beachfront restaurant.</p>
+      <div class="accom-box">
+        <strong>Stay:</strong> Vilanculos Beach Lodge or Samara Lodge. Mid-range, beachfront, pool. ~$80-120/night for a double.
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num">2</div>
+      <div class="day-info">
+        <div class="day-date">Tuesday, September 1</div>
+        <div class="day-place">Vilanculos</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Full day in Vilanculos. Options: snorkeling day trip to Magaruque Island (closest island, 2h by dhow or 20 min speedboat), horse riding on the beach, explore the local fish market, or just hang at the beach.</p>
+      <div class="dive-box">
+        <strong>Diving:</strong> Two Mile Reef is accessible as a day trip from Vilanculos. Good coral, reef fish, occasional mantas. Dive operators in town charge ~$60-80 per 2-tank dive.
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num island">3</div>
+      <div class="day-info">
+        <div class="day-date">Wednesday, September 2</div>
+        <div class="day-place">Bazaruto or Benguerra Island</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Morning speedboat transfer from Vilanculos (~30-45 min). Check into island lodge. Afternoon snorkeling or first dive on the house reef. Sundowners on the beach.</p>
+      <div class="dive-box">
+        <strong>September marine life:</strong> Humpback whales at peak migration (100+ spotted in a single day). Reef manta rays at cleaning stations. Dugong sightings possible. Coral gardens in the marine national park.
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num island">4</div>
+      <div class="day-info">
+        <div class="day-date">Thursday, September 3</div>
+        <div class="day-place">Bazaruto or Benguerra Island</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Full day on the island. Morning dive (Two Mile Reef or house reef). Afternoon options: walk the inland sand dunes and freshwater lakes on Bazaruto, or kayak/paddleboard on Benguerra. Humpback whale watching from the shore or by boat.</p>
+      <p>Late afternoon: speedboat back to Vilanculos. Evening: fly VNX-INH (LAM, 45 min) if available, or overnight in Vilanculos and fly next morning.</p>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num beach">5</div>
+      <div class="day-info">
+        <div class="day-date">Friday, September 4</div>
+        <div class="day-place">Praia do Tofo</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Arrive Tofo (25 min taxi from Inhambane airport). Check into beachfront lodge. Afternoon dive with one of Tofo's PADI centers. Tofo is the manta ray capital of Mozambique: year-round resident population at Manta Reef.</p>
+      <div class="accom-box">
+        <strong>Stay:</strong> Hotel Tofo Mar ($80-150/night, boutique beachfront, 8 rooms) or Liquid Dive Adventures lodge ($70-100/night, beachfront cabins, on-site dive center). Both mid-range and walking distance to bars/restaurants.
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num beach">6</div>
+      <div class="day-info">
+        <div class="day-date">Saturday, September 5</div>
+        <div class="day-place">Praia do Tofo</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Full day diving. Morning 2-tank dive: Manta Reef + The Office (cleaning station). Afternoon: ocean safari for humpback whales (boat trip, ~$40-60pp). Evening: Tofo's bar scene, fresh seafood at Dino's or Casa de Comer.</p>
+      <div class="dive-box">
+        <strong>Tofo dive sites:</strong> Manta Reef (reef mantas year-round), The Office (cleaning station), Tofinho (whale sharks Oct-Mar, humpbacks Jun-Oct), Giants Castle, Amazon. Visibility 10-25m in September.
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num beach">7</div>
+      <div class="day-info">
+        <div class="day-date">Sunday, September 6</div>
+        <div class="day-place">Praia do Tofo</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Last full day. Morning dive or sleep in. Walk to Tofinho Beach (rocky headland, tide pools). Afternoon: relax, pack. Final sunset dinner on the beach. Early night -- long transfer day tomorrow.</p>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num travel">8</div>
+      <div class="day-info">
+        <div class="day-date">Monday, September 7</div>
+        <div class="day-place">Tofo &rarr; Maputo &rarr; Windhoek</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <p>Early morning departure from Tofo. Drive to Maputo (~6-7h, depart 05:00). Or: take the 15:30 LAM flight from Inhambane and add an overnight in Maputo/shift Windhoek to Sep 8.</p>
+      <div class="flight-box">
+        <strong>Onward:</strong> Airlink Maputo &rarr; JNB &rarr; Windhoek. Multiple daily connections. Total travel time ~5-6h including layover.
+      </div>
+    </div>
+  </div>
+
+  <!-- BAZARUTO VS BENGUERRA -->
+  <h2>Bazaruto vs. Benguerra Island</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>Factor</th>
+      <th>Bazaruto Island</th>
+      <th>Benguerra Island</th>
+    </tr>
+    <tr>
+      <td><strong>Size</strong></td>
+      <td>Largest island (37km long)</td>
+      <td>Smaller, more intimate (11km)</td>
+    </tr>
+    <tr>
+      <td><strong>Landscape</strong></td>
+      <td>Sand dunes, freshwater lakes, forests, flamingos</td>
+      <td>Pristine beaches, tropical vegetation</td>
+    </tr>
+    <tr>
+      <td><strong>Diving</strong></td>
+      <td>Good, Two Mile Reef nearby</td>
+      <td>Better house reef right offshore</td>
+    </tr>
+    <tr>
+      <td><strong>Budget option</strong></td>
+      <td>Pestana Bazaruto Lodge: ~$465/night all-inclusive</td>
+      <td>andBeyond Benguerra: ~$1,050+/night pp (luxury tier)</td>
+    </tr>
+    <tr>
+      <td><strong>Vibe</strong></td>
+      <td>More variety, exploration, nature walks</td>
+      <td>Pure luxury barefoot island, snorkel-off-the-beach</td>
+    </tr>
+    <tr>
+      <td><strong>Wildlife</strong></td>
+      <td>Crocodiles in lakes, flamingos, diverse birdlife</td>
+      <td>Marine-focused: turtles, reef life, dolphins</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Recommendation</span>
+    <strong>Bazaruto Island with Pestana Lodge</strong> gives the best balance for your trip. At ~$465/night all-inclusive (vs. $1,050+pp on Benguerra), you save $1,000-2,000 for just 2 nights and still get great diving, humpback whale watching, and the bonus of walking the inland dunes and freshwater lakes. Benguerra is the splurge choice if budget allows -- the house reef is genuinely better for snorkeling straight off the beach.
+  </div>
+
+  <!-- BUDGET -->
+  <h2>Budget Estimate (2 people, 7 nights)</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>Category</th>
+      <th>Budget</th>
+      <th>Mid-Range</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td><strong>Flights MUC-VNX</strong></td>
+      <td>$1,400</td>
+      <td>$1,800</td>
+      <td>Lufthansa + Airlink, 2 pax</td>
+    </tr>
+    <tr>
+      <td><strong>Internal flights (VNX-INH + INH-MPM)</strong></td>
+      <td>$500</td>
+      <td>$700</td>
+      <td>LAM, 2 pax. Or drive INH-MPM to save ~$200</td>
+    </tr>
+    <tr>
+      <td><strong>Flights MPM-WDH</strong></td>
+      <td>$500</td>
+      <td>$700</td>
+      <td>Airlink via JNB, 2 pax</td>
+    </tr>
+    <tr>
+      <td><strong>Vilanculos (2 nights)</strong></td>
+      <td>$160</td>
+      <td>$240</td>
+      <td>$80-120/night mid-range lodge</td>
+    </tr>
+    <tr>
+      <td><strong>Bazaruto Island (2 nights)</strong></td>
+      <td>$930</td>
+      <td>$1,400</td>
+      <td>Pestana all-inclusive ~$465/night. Benguerra: $2,100+</td>
+    </tr>
+    <tr>
+      <td><strong>Tofo (3 nights)</strong></td>
+      <td>$240</td>
+      <td>$450</td>
+      <td>$80-150/night beachfront lodge</td>
+    </tr>
+    <tr>
+      <td><strong>Boat transfers (Bazaruto)</strong></td>
+      <td>$100</td>
+      <td>$200</td>
+      <td>Speedboat round trip, 2 pax</td>
+    </tr>
+    <tr>
+      <td><strong>Diving (6-8 dives)</strong></td>
+      <td>$400</td>
+      <td>$600</td>
+      <td>$50-80 per dive at Tofo + Bazaruto</td>
+    </tr>
+    <tr>
+      <td><strong>Food & drinks (non-inclusive days)</strong></td>
+      <td>$350</td>
+      <td>$500</td>
+      <td>5 non-island days, ~$70-100/day for 2</td>
+    </tr>
+    <tr>
+      <td><strong>Activities & transport</strong></td>
+      <td>$200</td>
+      <td>$350</td>
+      <td>Whale watching, taxis, dhow trips</td>
+    </tr>
+    <tr class="row-total">
+      <td><strong>Total (2 pax)</strong></td>
+      <td><strong>$4,780</strong></td>
+      <td><strong>$6,940</strong></td>
+      <td>Add ~$1,200 if choosing Benguerra over Bazaruto</td>
+    </tr>
+  </table>
+
+  <!-- LOGISTICS CHECKLIST -->
+  <h2>Pre-Trip Checklist</h2>
+
+  <div class="two-col">
+    <div>
+      <h3>Documents</h3>
+      <ul>
+        <li>German passport: ETA required from <strong>evisa.gov.mz</strong> (visa-exempt but ETA mandatory since Feb 2026)</li>
+        <li>Namibia: visa-free for German passports (90 days)</li>
+        <li>South Africa transit visa: not required for Germans (if connecting in JNB)</li>
+        <li>Travel insurance with diving cover</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Book in Advance</h3>
+      <ul>
+        <li>MUC-JNB-VNX flights (Lufthansa + Airlink)</li>
+        <li>Bazaruto/Benguerra lodge (limited rooms, books out)</li>
+        <li>LAM flights VNX-INH (only 4-5x/week)</li>
+        <li>Dive packages at Tofo (reserve for weekend slots)</li>
+        <li>Airlink MPM-JNB-WDH for Sep 7</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>September Conditions</h3>
+  <ul>
+    <li><strong>Weather:</strong> Dry season, 22-28C daytime, little rain. Comfortable and sunny.</li>
+    <li><strong>Water:</strong> 22-24C, visibility 10-25m. Comfortable in a 3mm wetsuit.</li>
+    <li><strong>Humpback whales:</strong> Peak migration. 100+ spotted in a single day around the archipelago.</li>
+    <li><strong>Manta rays:</strong> Year-round at Tofo cleaning stations. Reliable sightings.</li>
+    <li><strong>Whale sharks:</strong> Building toward peak (Oct-Mar). Possible but not guaranteed in early September.</li>
+  </ul>
+
+  <!-- BOTTOM LINE -->
+  <div class="positioning">
+    <h2>Open Decisions</h2>
+    <ul>
+      <li><strong>Bazaruto or Benguerra?</strong> Bazaruto (Pestana) saves $1,200+ and has landscape variety. Benguerra (andBeyond) is the barefoot luxury splurge with better house reef.</li>
+      <li><strong>Sep 7 timing:</strong> The Monday LAM flight from Inhambane leaves at 15:30, not morning. Either drive Tofo-Maputo at 05:00 (6-7h) or push Windhoek to Sep 8 and fly comfortably.</li>
+      <li><strong>VNX-INH flight day:</strong> Check LAM schedule for Thu Sep 3 availability (boat back from island morning, fly afternoon). Backup: drive 5-6h.</li>
+      <li><strong>Cape Town alternative:</strong> Still on the table as a stopover instead of Mozambique. Different trip character entirely. Research from Apr 5 saved in Open Brain.</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Mozambique Trip Plan v2 &middot; 2 of 2 travellers</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Mozambique Trip Plan v2 -- Vilanculos, Bazaruto & Tofo",
+  "date": "2026-04-25",
+  "summary": "Revised 8-day Mozambique itinerary: 2 nights Vilanculos, 2 nights Bazaruto/Benguerra Island, 3 nights Tofo, Monday transfer to Windhoek. Budget $4,780-6,940 for 2 people including all flights.",
+  "sections": [
+    {
+      "heading": "Route",
+      "items": [
+        { "title": "Vilanculos", "detail": "2 nights. Gateway to Bazaruto Archipelago. Dhow sailing, market, beach.", "meta": { "nights": 2, "dates": "Aug 31 - Sep 1" } },
+        { "title": "Bazaruto/Benguerra Island", "detail": "2 nights. Marine national park, humpback whales, reef diving, dunes.", "meta": { "nights": 2, "dates": "Sep 2 - Sep 3" } },
+        { "title": "Praia do Tofo", "detail": "3 nights. Manta ray capital, beach town, whale watching, dive scene.", "meta": { "nights": 3, "dates": "Sep 4 - Sep 6" } },
+        { "title": "Transfer day", "detail": "Tofo to Maputo (drive 6h or LAM 15:30) then Airlink to Windhoek via JNB.", "meta": { "date": "Sep 7" } }
+      ]
+    },
+    {
+      "heading": "Key logistics",
+      "items": [
+        { "title": "VNX-INH flight", "detail": "LAM flies Vilanculos-Inhambane 4-5x/week, 45 min, ~$150-200pp. Best option for island-to-Tofo transfer.", "meta": {} },
+        { "title": "Monday departure issue", "detail": "LAM INH-MPM on Mondays departs 15:30, not morning. Must drive if morning departure needed.", "meta": {} },
+        { "title": "ETA required", "detail": "German passports need ETA from evisa.gov.mz since Feb 2026.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Budget",
+      "items": [
+        { "title": "Budget estimate", "detail": "$4,780 (budget) to $6,940 (mid-range) for 2 people. Add ~$1,200 for Benguerra over Bazaruto.", "meta": { "budget_low": 4780, "budget_high": 6940, "currency": "USD" } }
+      ]
+    },
+    {
+      "heading": "Open decisions",
+      "items": [
+        { "title": "Bazaruto vs Benguerra", "detail": "Bazaruto/Pestana saves $1,200+, landscape variety. Benguerra/andBeyond is luxury with better house reef.", "meta": {} },
+        { "title": "Sep 7 timing", "detail": "Drive at 05:00 or push Windhoek to Sep 8 and take afternoon LAM flight.", "meta": {} },
+        { "title": "Cape Town alternative", "detail": "Still viable as stopover. Different trip character. Prior research in Open Brain.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Decide Bazaruto vs Benguerra, confirm Sep 7 departure preference (early drive vs push to Sep 8), then start booking flights and island lodge.",
+  "session_state": {
+    "phase": "itinerary research",
+    "phase_status": "in_progress",
+    "progress_pct": 60,
+    "work_done_this_session": [
+      "Revised itinerary per wife's input: 2N Vilanculos + 2N Bazaruto + 3N Tofo",
+      "Researched VNX-INH flight logistics (LAM 4-5x/week, 45 min)",
+      "Identified Monday departure constraint (LAM 15:30 not morning)",
+      "Priced Bazaruto (Pestana ~$465/night) vs Benguerra (andBeyond ~$1,050+pp)",
+      "Updated budget to $4,780-6,940 range for 2 pax"
+    ],
+    "blockers_hit": "Need decisions on Bazaruto vs Benguerra and Sep 7 departure timing before booking",
+    "uncommitted_changes": null,
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-25-mozambique-trip-v2.html", "relevance": "this itinerary" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Open Brain has prior research from Apr 5: original Mozambique itinerary + Cape Town alternative"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommend Bazaruto/Pestana over Benguerra/andBeyond as default",
+      "rejected_alternatives": ["Benguerra as default recommendation"],
+      "rationale": "Saves $1,200+ for 2 nights. Pestana is all-inclusive at $465/night. Bazaruto has landscape variety (dunes, lakes) that Benguerra lacks. Diving quality is comparable via Two Mile Reef.",
+      "trade_offs": "Benguerra has better house reef for snorkeling off the beach. More exclusive atmosphere.",
+      "contingencies": [
+        { "if_X_then_Y": "If budget allows $1,200+ extra, switch to Benguerra for the house reef and barefoot luxury", "probability": 0.4 }
+      ]
+    },
+    {
+      "decision": "Recommend LAM VNX-INH flight over driving for island-to-Tofo transfer",
+      "rejected_alternatives": ["Drive EN1 5-6 hours", "Fly via Maputo (2 flights)"],
+      "rationale": "45-min flight saves a full day. Only ~$150-200pp. Via-Maputo is slower and more expensive.",
+      "trade_offs": "LAM schedule is limited (4-5x/week). Must confirm Thu Sep 3 availability.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
