@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Intel Spec -- Review Questions</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+
+.progress-bar {
+  background: #eef0f2; border-radius: 4px; height: 8px; margin: 24px 0 8px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: #1a2744; border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.progress-label {
+  font: 500 11px/1 -apple-system, sans-serif; color: #6b7280;
+  text-align: right; margin-bottom: 24px;
+}
+
+.question-block {
+  margin-bottom: 28px; padding: 24px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 4px; position: relative;
+}
+.question-block::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 3px; border-radius: 1px;
+}
+.question-block.blocker::before { background: #c8402a; }
+.question-block.workflow::before { background: #0f766e; }
+.question-block.priority::before { background: #2a4a8a; }
+
+.question-block.answered { border-color: #8ac8a0; }
+.question-block.answered::before { background: #1a6b3a !important; }
+
+.q-category {
+  font: 700 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; margin-bottom: 8px;
+}
+.blocker .q-category { color: #c8402a; }
+.workflow .q-category { color: #0f766e; }
+.priority .q-category { color: #2a4a8a; }
+
+.q-number {
+  font-family: "Georgia", serif; font-size: 15px; font-weight: 700;
+  color: #1a2744; margin-bottom: 4px;
+}
+.q-body {
+  font-size: 14px; color: #2c2c2c; line-height: 1.65; margin-bottom: 14px;
+}
+
+.q-textarea {
+  width: 100%; min-height: 80px; border: 1px solid #d0d3d8; border-radius: 4px;
+  padding: 12px 14px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px; line-height: 1.5; color: #2c2c2c; resize: vertical;
+  background: #fafbfc;
+  transition: border-color 0.2s, background 0.2s;
+}
+.q-textarea:focus {
+  outline: none; border-color: #1a2744; background: #fff;
+}
+.q-textarea::placeholder { color: #adb5bd; }
+
+.q-status {
+  display: inline-block; margin-top: 8px;
+  font: 500 11px/1 -apple-system, sans-serif; color: #8ac8a0;
+  opacity: 0; transition: opacity 0.3s;
+}
+.q-status.visible { opacity: 1; }
+
+.generate-section {
+  margin-top: 40px; padding: 28px; background: #1a2744;
+  border-radius: 4px; text-align: center;
+}
+.generate-section h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.generate-section h2::after { display: none; }
+.generate-section p { color: rgba(255,255,255,.7); margin-bottom: 18px; font-size: 14px; }
+
+.btn-generate {
+  display: inline-block; padding: 12px 32px;
+  background: #fff; color: #1a2744; border: none; border-radius: 4px;
+  font: 700 14px/1 -apple-system, sans-serif; cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-generate:hover { background: #eef0f2; }
+.btn-generate:active { transform: scale(0.98); }
+.btn-generate:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.output-box {
+  margin-top: 20px; display: none;
+}
+.output-box.visible { display: block; }
+.output-textarea {
+  width: 100%; min-height: 280px; border: 2px solid #fff; border-radius: 4px;
+  padding: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; line-height: 1.6; color: #2c2c2c; resize: vertical;
+  background: #f8f9fa;
+}
+
+.btn-copy {
+  margin-top: 10px; padding: 10px 24px;
+  background: #1a2744; color: #fff; border: 2px solid #fff; border-radius: 4px;
+  font: 600 13px/1 -apple-system, sans-serif; cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-copy:hover { background: #2a3a5a; }
+
+.copy-toast {
+  display: inline-block; margin-left: 12px;
+  font: 500 12px/1 -apple-system, sans-serif; color: #8ac8a0;
+  opacity: 0; transition: opacity 0.3s;
+}
+.copy-toast.visible { opacity: 1; }
+
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="date">April 25, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-25-sales-intel-spec-review.html">View on GitHub</a></span>
+</div>
+
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Spec Review</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 25, 2026<br>Interactive Review<br>Sales Intelligence System
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SPEC REFINEMENT</div>
+  <h1>Sales Intelligence System -- Your Input</h1>
+  <p class="subtitle">11 questions that will shape what gets built. Answer in your own words -- short answers are fine. When you're done, hit the button at the bottom to generate a handoff prompt for the next Claude session.</p>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label" id="progressLabel">0 of 11 answered</div>
+
+  <!-- SECTION 1: BLOCKERS -->
+  <h2>Questions that block building</h2>
+
+  <div class="question-block blocker" id="q1">
+    <div class="q-category">Blocker</div>
+    <div class="q-number">1. Recording consent and GDPR</div>
+    <div class="q-body">
+      The spec says every Teams call gets auto-recorded with a banner notification. In the Netherlands, that has AVG/GDPR weight. External prospects will see "Recording has started" on every call.<br><br>
+      Have you talked to anyone (lawyer, Dxfferent partners) about this? How do you think your prospects will react? If some push back, you'd need a way to turn off recording per call -- which means the pipeline goes from "we get everything" to "we get most things."
+    </div>
+    <textarea class="q-textarea" data-q="1" placeholder="Your take on the recording consent situation..."></textarea>
+    <div class="q-status" id="status1">Saved</div>
+  </div>
+
+  <div class="question-block blocker" id="q2">
+    <div class="q-category">Blocker</div>
+    <div class="q-number">2. Two tenants -- who decides for Dxfferent?</div>
+    <div class="q-body">
+      Auto-record and auto-transcribe need to be turned on for both Proxuma and Dxfferent. Proxuma is your call. But Dxfferent -- who makes that decision? If it takes weeks to approve on the Dxfferent side, the whole transcript pipeline is stuck.
+    </div>
+    <textarea class="q-textarea" data-q="2" placeholder="Who owns the Dxfferent admin decision..."></textarea>
+    <div class="q-status" id="status2">Saved</div>
+  </div>
+
+  <div class="question-block blocker" id="q3">
+    <div class="q-category">Blocker</div>
+    <div class="q-number">3. Does Forge actually exist yet?</div>
+    <div class="q-body">
+      The spec references Forge CRM everywhere as the place data goes. But the prerequisites table says "Forge CRM data model: needs definition." So honestly -- is Forge a running system you can write data to today? Or is Forge itself something that needs to be built first?<br><br>
+      If Forge is still mostly an idea, then Pillars 2, 3, and 4 all wait on it, and the real first step is "build Forge," not "build the transcript pipeline."
+    </div>
+    <textarea class="q-textarea" data-q="3" placeholder="Where Forge is at right now..."></textarea>
+    <div class="q-status" id="status3">Saved</div>
+  </div>
+
+  <div class="question-block blocker" id="q4">
+    <div class="q-category">Blocker</div>
+    <div class="q-number">4. What shape are the 140+ transcripts in?</div>
+    <div class="q-body">
+      You mention 140+ demo transcripts in Open Brain. Are these actual .vtt files with timestamps and speaker labels ("Max said X, prospect said Y")? Or are they more like notes and summaries you captured after calls?<br><br>
+      The playbook quality depends entirely on this. Clean transcripts with real dialog means the AI can find real patterns. Summaries mean the playbook is based on your memory of what happened, not what actually happened.
+    </div>
+    <textarea class="q-textarea" data-q="4" placeholder="What the transcripts look like..."></textarea>
+    <div class="q-status" id="status4">Saved</div>
+  </div>
+
+  <!-- SECTION 2: WORKFLOW -->
+  <h2>How you want to work with this system</h2>
+
+  <div class="question-block workflow" id="q5">
+    <div class="q-category">Workflow</div>
+    <div class="q-number">5. Morning summary -- where do you actually look first?</div>
+    <div class="q-body">
+      Options: email, Teams message, or Claude session. Don't think about where you <em>should</em> look. Think about your actual morning: you sit down at 7:30 with coffee -- what do you open first? That's where the summary should go.
+    </div>
+    <textarea class="q-textarea" data-q="5" placeholder="Where your eyes go first in the morning..."></textarea>
+    <div class="q-status" id="status5">Saved</div>
+  </div>
+
+  <div class="question-block workflow" id="q6">
+    <div class="q-category">Workflow</div>
+    <div class="q-number">6. Five drafts a day -- right number?</div>
+    <div class="q-body">
+      With 200 open deals, the system will always have more to do. But 5 AI-written emails in your review queue every morning -- will that feel like "thank god this is handled" or "oh no, more stuff to deal with"?<br><br>
+      NemoClaw's draft queue overflowed. What number feels helpful to you on a busy day?
+    </div>
+    <textarea class="q-textarea" data-q="6" placeholder="How many drafts feels right..."></textarea>
+    <div class="q-status" id="status6">Saved</div>
+  </div>
+
+  <div class="question-block workflow" id="q7">
+    <div class="q-category">Workflow</div>
+    <div class="q-number">7. How much do you trust AI emails going out under your name?</div>
+    <div class="q-body">
+      The spec has one-click "Approve & Send." That means you read a draft, think "good enough," and it goes out immediately. Are you comfortable with that from day one? Or would you rather all drafts land in Outlook as drafts first, so you can review them there for the first month while the writing rules get trained?
+    </div>
+    <textarea class="q-textarea" data-q="7" placeholder="Your comfort level with one-click send..."></textarea>
+    <div class="q-status" id="status7">Saved</div>
+  </div>
+
+  <div class="question-block workflow" id="q8">
+    <div class="q-category">Workflow</div>
+    <div class="q-number">8. Joshua and the consultants -- users or data sources?</div>
+    <div class="q-body">
+      The spec captures their calls and extracts consulting data. But do Joshua and the consultants ever see any of this? Do they get their own action items list? Their own satisfaction alerts? Or is this purely your dashboard, and they just happen to generate the data?<br><br>
+      "Max's tool" and "team tool" are different products with different requirements.
+    </div>
+    <textarea class="q-textarea" data-q="8" placeholder="Whether this is just for you or for the team too..."></textarea>
+    <div class="q-status" id="status8">Saved</div>
+  </div>
+
+  <!-- SECTION 3: PRIORITIES -->
+  <h2>Priorities and sequencing</h2>
+
+  <div class="question-block priority" id="q9">
+    <div class="q-category">Priority</div>
+    <div class="q-number">9. Playbook first, or Sales Claw first?</div>
+    <div class="q-body">
+      Pillar 3 (playbook) gives Sales Claw better scoring criteria. But Pillar 4 (Sales Claw) gives you daily value right away -- deals stop falling through cracks tomorrow.<br><br>
+      If you had to pick one to have working in two weeks, which would you choose?
+    </div>
+    <textarea class="q-textarea" data-q="9" placeholder="Which would help you more right now..."></textarea>
+    <div class="q-status" id="status9">Saved</div>
+  </div>
+
+  <div class="question-block priority" id="q10">
+    <div class="q-category">Priority</div>
+    <div class="q-number">10. Historical backfill -- yes or no?</div>
+    <div class="q-body">
+      Running 140+ old transcripts through the new pipeline means Forge starts with data from day one. Skipping it means Forge fills up gradually from new calls only.<br><br>
+      The backfill is a one-time weekend effort. But it also means your first experience with the system is reviewing 140 old records rather than watching new data flow in. What sounds more useful?
+    </div>
+    <textarea class="q-textarea" data-q="10" placeholder="Start full or start fresh..."></textarea>
+    <div class="q-status" id="status10">Saved</div>
+  </div>
+
+  <div class="question-block priority" id="q11">
+    <div class="q-category">Priority</div>
+    <div class="q-number">11. What does "done" look like?</div>
+    <div class="q-body">
+      Describe the morning where you'd say "this was worth building." What are you seeing that you're not seeing today? What just happened without you having to do it? Paint that picture -- it tells me what to build first and what to postpone.
+    </div>
+    <textarea class="q-textarea" data-q="11" placeholder="The morning where this system earns its place..."></textarea>
+    <div class="q-status" id="status11">Saved</div>
+  </div>
+
+  <!-- GENERATE SECTION -->
+  <div class="generate-section">
+    <h2>Generate Handoff Prompt</h2>
+    <p>When you've answered the questions that matter to you, hit the button. It builds a prompt you can paste into a new Claude session to continue from here.</p>
+    <button class="btn-generate" id="btnGenerate">Generate Prompt</button>
+    <div class="output-box" id="outputBox">
+      <textarea class="output-textarea" id="outputPrompt" readonly></textarea>
+      <button class="btn-copy" id="btnCopy">Copy to Clipboard</button>
+      <span class="copy-toast" id="copyToast">Copied</span>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Sales Intel Spec Review -- April 25, 2026</span>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'sales-intel-spec-review-answers';
+const TOTAL = 11;
+
+function loadAnswers() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveAnswers(answers) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+}
+
+function updateProgress(answers) {
+  const count = Object.values(answers).filter(v => v.trim().length > 0).length;
+  const pct = Math.round((count / TOTAL) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = count + ' of ' + TOTAL + ' answered';
+}
+
+function markAnswered(qNum, hasText) {
+  const block = document.getElementById('q' + qNum);
+  if (hasText) block.classList.add('answered');
+  else block.classList.remove('answered');
+}
+
+const answers = loadAnswers();
+
+document.querySelectorAll('.q-textarea').forEach(ta => {
+  const qNum = ta.dataset.q;
+  if (answers[qNum]) {
+    ta.value = answers[qNum];
+    markAnswered(qNum, true);
+  }
+
+  let timer;
+  ta.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      answers[qNum] = ta.value;
+      saveAnswers(answers);
+      updateProgress(answers);
+      markAnswered(qNum, ta.value.trim().length > 0);
+
+      const status = document.getElementById('status' + qNum);
+      status.classList.add('visible');
+      setTimeout(() => status.classList.remove('visible'), 1500);
+    }, 400);
+  });
+});
+
+updateProgress(answers);
+
+document.getElementById('btnGenerate').addEventListener('click', () => {
+  const current = loadAnswers();
+  const answered = Object.entries(current).filter(([k,v]) => v.trim().length > 0);
+
+  if (answered.length === 0) {
+    alert('Answer at least one question first.');
+    return;
+  }
+
+  const labels = {
+    '1': 'Recording consent / GDPR',
+    '2': 'Dxfferent tenant ownership',
+    '3': 'Forge CRM status',
+    '4': 'Transcript quality (140+)',
+    '5': 'Morning summary channel',
+    '6': 'Daily draft cap',
+    '7': 'Trust level for AI emails',
+    '8': 'Consultants as users vs data sources',
+    '9': 'Playbook vs Sales Claw priority',
+    '10': 'Historical backfill decision',
+    '11': 'Definition of done'
+  };
+
+  let answersBlock = answered.map(([k, v]) => {
+    return '- **' + labels[k] + ':** ' + v.trim();
+  }).join('\n');
+
+  const unanswered = [];
+  for (let i = 1; i <= TOTAL; i++) {
+    if (!current[String(i)] || current[String(i)].trim().length === 0) {
+      unanswered.push(labels[String(i)]);
+    }
+  }
+
+  let unansweredBlock = '';
+  if (unanswered.length > 0) {
+    unansweredBlock = '\n\n**Still unanswered (ask me about these if they matter):** ' + unanswered.join(', ');
+  }
+
+  const prompt = `Context from last session: We wrote the Proxuma Sales Intelligence System spec (4 pillars: transcript pipeline, AI extraction into Forge CRM, sales playbook from 140+ transcripts, Sales Claw proactive agent). Spec is at ~/ClaudeCode/sdr-claw/docs/2026-04-24-sales-intelligence-system-spec.html and on GitHub at maxkwaaste/claude-output. Also on M1 Pro at same path.
+
+I reviewed 11 refinement questions and here are my answers:
+
+${answersBlock}${unansweredBlock}
+
+Based on my answers, update the spec where needed and propose a build order. Start with whatever is most blocked or most valuable given what I told you. Read the full spec from the file first.`;
+
+  const box = document.getElementById('outputBox');
+  const textarea = document.getElementById('outputPrompt');
+  textarea.value = prompt;
+  box.classList.add('visible');
+  textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+document.getElementById('btnCopy').addEventListener('click', () => {
+  const textarea = document.getElementById('outputPrompt');
+  navigator.clipboard.writeText(textarea.value).then(() => {
+    const toast = document.getElementById('copyToast');
+    toast.classList.add('visible');
+    setTimeout(() => toast.classList.remove('visible'), 2000);
+  });
+});
+</script>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Sales Intel Spec -- Review Questions",
+  "date": "2026-04-25",
+  "summary": "Interactive review page for the Proxuma Sales Intelligence System spec. 11 questions across 3 categories (blockers, workflow, priorities) with per-question comment fields persisted to localStorage. Generates a handoff prompt with Max's answers for a new Claude session to continue spec refinement and start building.",
+  "sections": [
+    {
+      "heading": "Blockers (Q1-Q4)",
+      "items": [
+        { "title": "Q1: Recording consent / GDPR", "detail": "Auto-recording Teams calls has AVG/GDPR implications. Need to know if legal has been consulted and how prospects might react.", "meta": { "category": "blocker" } },
+        { "title": "Q2: Dxfferent tenant ownership", "detail": "Who approves the admin changes on Dxfferent side? Timeline risk if it takes weeks.", "meta": { "category": "blocker" } },
+        { "title": "Q3: Forge CRM status", "detail": "Is Forge a running system or still needs building? If the latter, Pillars 2-4 all depend on it.", "meta": { "category": "blocker" } },
+        { "title": "Q4: Transcript quality", "detail": "Are the 140+ transcripts clean .vtt with speaker labels, or summaries/notes? Determines playbook quality.", "meta": { "category": "blocker" } }
+      ]
+    },
+    {
+      "heading": "Workflow (Q5-Q8)",
+      "items": [
+        { "title": "Q5: Morning summary channel", "detail": "Where Max actually looks first -- design for real behavior, not ideal behavior.", "meta": { "category": "workflow" } },
+        { "title": "Q6: Daily draft cap", "detail": "Starting at 5/day -- is that helpful or homework? NemoClaw overflow as cautionary tale.", "meta": { "category": "workflow" } },
+        { "title": "Q7: AI email trust level", "detail": "One-click send from day one vs. Outlook drafts for the first month while writing rules train.", "meta": { "category": "workflow" } },
+        { "title": "Q8: Consultants as users", "detail": "Max-only tool vs. team tool -- different products with different requirements.", "meta": { "category": "workflow" } }
+      ]
+    },
+    {
+      "heading": "Priorities (Q9-Q11)",
+      "items": [
+        { "title": "Q9: Playbook vs Sales Claw", "detail": "Playbook improves scoring; Claw delivers daily value. Which one in two weeks?", "meta": { "category": "priority" } },
+        { "title": "Q10: Historical backfill", "detail": "Start with 140 records populated vs. start empty and fill gradually.", "meta": { "category": "priority" } },
+        { "title": "Q11: Definition of done", "detail": "Paint the morning where the system earns its place. Shapes build order.", "meta": { "category": "priority" } }
+      ]
+    }
+  ],
+  "next_steps": "Max fills in answers in the HTML page. Generates handoff prompt. Pastes into new Claude session. That session reads the spec, incorporates Max's answers, updates spec, and proposes build order.",
+  "session_state": {
+    "phase": "spec review",
+    "phase_status": "awaiting_input",
+    "progress_pct": 0,
+    "work_done_this_session": [
+      "Copied spec to M1 Pro at ~/ClaudeCode/sdr-claw/docs/",
+      "Built interactive review page with 11 questions, localStorage persistence, progress tracking, and handoff prompt generator"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "New file: 2026-04-25-sales-intel-spec-review.html",
+    "next_action_required": "user-input"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-25-sales-intel-spec-review.html", "relevance": "this review page" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-sales-intelligence-system-spec.html", "relevance": "the spec being reviewed" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Spec also stored on M1 Pro at ~/ClaudeCode/sdr-claw/docs/2026-04-24-sales-intelligence-system-spec.html"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "output-page skill", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Color-coded question categories (red=blocker, teal=workflow, blue=priority) with green highlight when answered",
+      "rejected_alternatives": ["All same color", "Numbered only"],
+      "rationale": "Visual hierarchy helps Max triage which questions matter most",
+      "trade_offs": "Slightly more complex CSS but clearer scanning",
+      "contingencies": []
+    },
+    {
+      "decision": "Handoff prompt includes both answered and unanswered question labels",
+      "rejected_alternatives": ["Only include answered questions"],
+      "rationale": "Next Claude session should know what was skipped so it can ask if relevant",
+      "trade_offs": "Slightly longer prompt but prevents blind spots",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
