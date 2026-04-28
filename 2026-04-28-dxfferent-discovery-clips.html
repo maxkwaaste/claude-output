@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dxfferent Discovery Call -- Clip Brief for Joshua</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+
+/* Video clip styles */
+.clip-section { margin: 24px 0; }
+.clip-card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 6px;
+  padding: 0; margin-bottom: 20px; overflow: hidden;
+  position: relative;
+}
+.clip-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: #1a2744; border-radius: 3px 0 0 3px;
+}
+.clip-header {
+  padding: 16px 22px 12px;
+  border-bottom: 1px solid #eef0f2;
+}
+.clip-title {
+  font-family: "Georgia", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.clip-timestamp {
+  font: 500 11px/1 -apple-system, sans-serif;
+  color: #6b7280; text-transform: uppercase; letter-spacing: .05em;
+}
+.clip-body { padding: 16px 22px; }
+.clip-context {
+  font-size: 14px; color: #4a5568; line-height: 1.6; margin-bottom: 12px;
+}
+.clip-quote {
+  background: #f8f9fb; border-left: 2px solid #c8a040; padding: 12px 16px;
+  font-size: 13px; color: #2c2c2c; line-height: 1.55; font-style: italic;
+  margin-bottom: 12px; border-radius: 0 4px 4px 0;
+}
+.clip-quote .speaker {
+  font-style: normal; font-weight: 700; color: #1a2744;
+}
+.clip-action {
+  font: 500 12px/1.4 -apple-system, sans-serif;
+  color: #1a2744; background: #e8edf4; padding: 8px 12px;
+  border-radius: 4px; display: inline-block;
+}
+.play-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #1a2744; color: #fff; border: none; padding: 8px 16px;
+  border-radius: 4px; cursor: pointer; font: 600 12px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em; margin-top: 8px;
+  transition: background .15s;
+}
+.play-btn:hover { background: #2a3a5a; }
+.play-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* Video player */
+.video-container {
+  position: sticky; top: 12px; z-index: 100;
+  max-width: 780px; margin: 0 auto 20px;
+  background: #000; border-radius: 6px; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,.15);
+  display: none;
+}
+.video-container.active { display: block; }
+.video-container video { width: 100%; display: block; }
+.video-controls {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 16px; background: #1a2744;
+  font: 500 12px/1 -apple-system, sans-serif; color: #fff;
+}
+.video-close {
+  background: none; border: 1px solid rgba(255,255,255,.3); color: #fff;
+  padding: 4px 12px; border-radius: 3px; cursor: pointer;
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.video-close:hover { background: rgba(255,255,255,.1); }
+.now-playing { color: #c8a040; }
+</style>
+</head>
+<body>
+
+<div class="video-container" id="videoBox">
+  <video id="player" controls>
+    <source src="file:///Users/maxdekwaasteniet/Downloads/Dxfferent%20Assessment-20260424_153705-Meeting%20Recording.mp4" type="video/mp4">
+  </video>
+  <div class="video-controls">
+    <span class="now-playing" id="nowPlaying">Select a clip below</span>
+    <button class="video-close" onclick="closePlayer()">Close</button>
+  </div>
+</div>
+
+<div class="page-header">
+  <span class="date">April 28, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-28-dxfferent-discovery-clips.html">View on GitHub</a></span>
+</div>
+
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Consulting Intelligence</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 28, 2026<br>Consultant Brief<br>Dxfferent MSP
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="confidential">Internal document -- Proxuma consulting team only</div>
+
+  <div class="overline">Discovery Call Clips</div>
+  <h1>Dxfferent / Andy Kedjierski</h1>
+  <p class="subtitle">Key moments from the April 24 discovery call, with video clips and action items for Joshua. Click any play button to jump to that moment in the recording.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">~$3M</div>
+      <div class="stat-label">ARR (MSP Revenue)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">13</div>
+      <div class="stat-label">Employees</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Level 2</div>
+      <div class="stat-label">Maturity (Target: 3)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6-8 wk</div>
+      <div class="stat-label">Results Deadline</div>
+    </div>
+  </div>
+
+  <h2>Tech Stack</h2>
+  <table class="matrix">
+    <tr><th>Tool</th><th>Status</th><th>Notes</th></tr>
+    <tr><td><strong>Autotask</strong></td><td>Primary PSA</td><td>Migrated from ConnectWise Oct 2025. White glove migration was not great.</td></tr>
+    <tr><td><strong>Datto RMM</strong></td><td>Integrated</td><td>Only confirmed integration. Monitors board has noise issues.</td></tr>
+    <tr><td><strong>IT Glue</strong></td><td>Integrated</td><td>In place but underutilized.</td></tr>
+    <tr><td><strong>QuickBooks</strong></td><td>Not integrated</td><td>Manual invoicing. Adjustments every month. Big pain point.</td></tr>
+    <tr><td><strong>Cruhu</strong></td><td>Renewal pending</td><td>CSAT tool. Andy comparing against SmileBack. Decision needed Monday.</td></tr>
+    <tr><td><strong>TimeZest</strong></td><td>Integrated</td><td>Scheduling tool, already connected.</td></tr>
+    <tr><td><strong>HubSpot</strong></td><td>Not integrated</td><td>Opportunity tracking. Not feeding into Autotask.</td></tr>
+    <tr><td><strong>PandaDoc</strong></td><td>Standalone</td><td>SOWs and proposals. Could potentially move to Autotask.</td></tr>
+    <tr><td><strong>ScalePad / Lifecycle Manager X</strong></td><td>Not integrated</td><td>Hardware lifecycle and strategic planning. Has Autotask integration for opportunity push.</td></tr>
+    <tr><td><strong>Nextiva</strong></td><td>Not integrated</td><td>Phone system. Unknown integration capability.</td></tr>
+    <tr><td><strong>Google Workspace</strong></td><td>Internal</td><td>Andy wants to eventually move off Google. Not integrated with Autotask for clients' 365.</td></tr>
+  </table>
+
+  <h2>Key Clips</h2>
+
+  <div class="clip-section">
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">1. The Situation: Why Andy Was Brought In</div>
+        <div class="clip-timestamp">00:00 - 03:42</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">Andy is not the owner. He's been brought in by a friend (the owner) to do an overall assessment and get the business to a scalable model. The owner is at ~$3M but doesn't have confidence in delivery or client onboarding.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "He's not confident in the delivery. He's not confident in the ability to onboard clients. He knows that he doesn't have the right skills here. So he brought me on to do an overall assessment, figure out how to streamline operations and how to get this business to a scalable model."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "We don't have KPIs built out in the system. We don't have SLAs set properly. We don't have any useful dashboards. There's almost no automations built out to help the team. They're really operating at a very basic level."
+        </div>
+        <div class="clip-action">Joshua: This is textbook Level 2 intake. Everything on Andy's SOW maps to our standard sprint track.</div>
+        <button class="play-btn" onclick="playClip(0, 225)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">2. Monitor Noise and RMM Chaos</div>
+        <div class="clip-timestamp">04:07 - 05:08</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">The monitors board is a mess. Only one person looks at it, and his answer is "there's a lot of noise." Andy opened a ticket with Kaseya to audit the alerts. Max offered Proxuma templates for this.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "Our lead supervisor lead guy is the only one who looks at that board periodically. And his answer to me is, there's a lot of noise on there."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "Oh no, we can help with that as well. We got templates for that."
+        </div>
+        <div class="clip-action">Joshua: Quick win here. RMM alert audit + our monitoring templates. Could be Sprint 1 deliverable.</div>
+        <button class="play-btn" onclick="playClip(247, 308)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">3. No AI Adoption by the Team</div>
+        <div class="clip-timestamp">06:17 - 08:04</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">Andy uses AI daily (1-2 hours for policy writing, research). But his team is not using it at all. One senior tech calls himself a "Google genius" and has never tried Gemini, even though they're paying for it.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "I asked one of our senior technicians... he said that he's a Google genius or something. I said, have you ever thought about using Gemini? He's like, no, I haven't. We need a lot of help."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "I'm not kidding, Andy. We're so AI first that we fired half our developers and everyone has a $200 a month subscription."
+        </div>
+        <div class="clip-action">Joshua: AI adoption opportunity. Andy is receptive, team needs training. Cooper AI / Copilot already available but unused.</div>
+        <button class="play-btn" onclick="playClip(377, 484)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">4. Process Charts and Ticket Triage</div>
+        <div class="clip-timestamp">09:23 - 11:15</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">No flow charts exist. All tickets come in as the same type ("everything is a service ticket"). No triage, no categorization, no escalation paths. Max explained how categorization drives process, and how IT Glue sidebar shows engineers the steps.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "All tickets in ours right now come in the same. Everything is a service ticket."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "That triage needs to happen. That kicks off a categorization, which then determines the flow that the ticket goes through. And all of that is spelled out in the sidebar that you get in Autotask when you've integrated IT Glue."
+        </div>
+        <div class="clip-action">Joshua: Full ticket lifecycle setup needed. Our process chart library + IT Glue sidebar integration. Core sprint work.</div>
+        <button class="play-btn" onclick="playClip(563, 675)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">5. Pricing and Service Model Explained</div>
+        <div class="clip-timestamp">11:59 - 16:26</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">Max explained the two-week sprint model, $2,500/month Guide-as-a-Service, potential $1-3K startup fee, and how the monthly fee covers biweekly 2hr meetings + unlimited Teams DM access to the consultant. Also mentioned Buddy-as-a-Service as upgrade option.</div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "The first figure I'll give you is 2,500 a month. That's how much Guide-as-a-Service costs. That's everything I just described."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "No, I would much rather us learn how to do some of this stuff and do some of it ourselves. I want somebody else to help me get it done faster and the right way."
+        </div>
+        <div class="clip-action">Joshua: Andy wants Guide model (not Buddy). Wants to understand the why. Both Andy + owner will attend biweekly calls.</div>
+        <button class="play-btn" onclick="playClip(719, 986)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">6. Invoicing Pain Point</div>
+        <div class="clip-timestamp">19:04 - 20:10</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">QuickBooks is not integrated with Autotask. They manually adjust invoices every several months. The most expensive person in the org is doing this manual labor.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "Invoicing is a problem right now. They manually adjust invoices every several months and that's got to end."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "One of the promises is no more incorrect invoices. But we'll first take a look at your service offering."
+        </div>
+        <div class="clip-action">Joshua: QuickBooks integration sprint. Needs service offering review first (simplification).</div>
+        <button class="play-btn" onclick="playClip(1144, 1210)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">7. Power BI and AI Capabilities Demo</div>
+        <div class="clip-timestamp">26:47 - 29:18</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">Max demoed the Power BI MCP concept: Autotask + Datto RMM + Microsoft data piped into Power BI, then queried by AI for reports, QBRs, security audits, license optimization. Explained the anti-hallucination approach (DAX queries embedded in reports for verification).</div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "Your AI is going to query the Power BI and tell you what are my top 10 customers costing me the most time. Generate a QBR report for this customer, telling him which hardware devices to upgrade."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "Our custom Power BI skill gives you those reports and then puts the Power BI query in them. So that you can run that in your Power BI environment and see if it's hallucinating."
+        </div>
+        <div class="clip-action">Joshua: Power BI upsell opportunity ($300/mo). Andy asked about cost. Not immediate priority but strong interest.</div>
+        <button class="play-btn" onclick="playClip(1607, 1758)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">8. Competitive Situation and Timeline Pressure</div>
+        <div class="clip-timestamp">31:52 - 33:34</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">Andy is talking to at least 2 other vendors. He's not the decision maker (owner is). He wants a roadmap showing what gets done in month 1, 2, 3. Price is "a little more than expected" but sees value in the hours.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "It's a little bit more than I thought it would be. I'm not the decision maker, so I'd have to take that up. I am talking to a couple other people."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "If you give me kind of a roadmap to say, in the first month, we think we could accomplish this... what do we think we're going to see benefits in the first month or two or three?"
+        </div>
+        <div class="clip-action">Joshua: We need a month-by-month roadmap in the proposal. Andy is comparing us against 2+ vendors. Specific deliverables per sprint will close this.</div>
+        <button class="play-btn" onclick="playClip(1912, 2014)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">9. Results Needed in 6-8 Weeks</div>
+        <div class="clip-timestamp">39:01 - 40:35</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">Andy needs standardized processes, KPIs enforced and measured, and dashboards within 6-8 weeks. He's already built a basic morning huddle dashboard. Starting it next Monday. But the data going in is unreliable because there's no enforcement.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "Probably within the next 6 to 8 weeks, I need to have results that we're seeing with standardized processes, KPIs being enforced and measured."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "In order to make sure the dashboards are accurate, I need to configure the system with enforcement activities and processes to force the team to put the data in."
+        </div>
+        <div class="clip-action">Joshua: First 3 sprints (6 weeks) must deliver: ticket workflows with required fields, time entry enforcement, KPI dashboards. Non-negotiable timeline.</div>
+        <button class="play-btn" onclick="playClip(2341, 2434)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+    <div class="clip-card">
+      <div class="clip-header">
+        <div class="clip-title">10. AI-Connected Autotask (Acceleration Option)</div>
+        <div class="clip-timestamp">40:35 - 42:21</div>
+      </div>
+      <div class="clip-body">
+        <div class="clip-context">Max floated the idea of connecting Claude directly to their Autotask for rapid configuration. Andy is intrigued but needs to think about data handling. His vision: become a data-driven organization with AI and automation throughout.</div>
+        <div class="clip-quote">
+          <span class="speaker">Andy:</span> "I want to be a data-driven organization. And I want AI and automation throughout our company because it will just make us better and our clients happier."
+        </div>
+        <div class="clip-quote">
+          <span class="speaker">Max:</span> "We can get a rapid implementation done. Because we have a framework, a giant spreadsheet for every setting in Autotask."
+        </div>
+        <div class="clip-action">Joshua: Don't push AI access in proposal. But mention it as acceleration option for after trust is established.</div>
+        <button class="play-btn" onclick="playClip(2435, 2541)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Clip</button>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>Recommended Sprint Plan (for Proposal)</h2>
+  <table class="matrix">
+    <tr><th>Sprint</th><th>Focus</th><th>Deliverables</th></tr>
+    <tr><td><strong>Sprint 1</strong><br>Weeks 1-2</td><td>Service Desk Foundation</td><td>Ticket categories, triage rules, required fields, status definitions, escalation paths. Basic workflow rules enforcing data entry. Morning huddle dashboard v2.</td></tr>
+    <tr><td><strong>Sprint 2</strong><br>Weeks 3-4</td><td>KPIs and Process Charts</td><td>SLA configuration, KPI definitions per role, role-specific dashboards. IT Glue sidebar process charts for top 5 ticket types. RMM alert audit and noise reduction.</td></tr>
+    <tr><td><strong>Sprint 3</strong><br>Weeks 5-6</td><td>Integrations and Billing</td><td>QuickBooks integration. Service offering review and simplification. M365 integration for client environments. ScalePad/Autotask opportunity sync.</td></tr>
+    <tr><td><strong>Sprint 4+</strong><br>Ongoing</td><td>Optimization</td><td>Client reporting. CRM consolidation (HubSpot pipeline to Autotask). AI agent implementations. Power BI setup ($300/mo upsell).</td></tr>
+  </table>
+
+  <div class="positioning">
+    <h2>Next Steps for Joshua</h2>
+    <p>1. Watch the 10 clips above (takes about 15 min total, not 43 min of raw call).<br>
+    2. Build the month-by-month roadmap for the proposal based on the sprint plan above.<br>
+    3. Estimate total sprint count (likely 6-8 sprints = 3-4 months minimum, plus ongoing).<br>
+    4. Note: Andy is comparing us with 2+ vendors who are giving fixed-scope proposals. We need to match that with specific deliverables per sprint while keeping our flexible model.<br>
+    5. Andy's email/SOW is already with Max. Coordinate on startup fee ($1-3K).</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Dxfferent Discovery Call Brief -- Internal</span>
+  </div>
+</div>
+
+<script>
+const player = document.getElementById('player');
+const videoBox = document.getElementById('videoBox');
+const nowPlaying = document.getElementById('nowPlaying');
+
+function playClip(start, end) {
+  videoBox.classList.add('active');
+  player.currentTime = start;
+  player.play();
+  nowPlaying.textContent = formatTime(start) + ' - ' + formatTime(end);
+
+  player.onended = null;
+  const checkEnd = () => {
+    if (player.currentTime >= end) {
+      player.pause();
+      player.removeEventListener('timeupdate', checkEnd);
+    }
+  };
+  player.addEventListener('timeupdate', checkEnd);
+
+  videoBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closePlayer() {
+  player.pause();
+  videoBox.classList.remove('active');
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+</script>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Dxfferent Discovery Call -- Clip Brief for Joshua",
+  "date": "2026-04-28",
+  "summary": "10 timestamped video clips from the April 24 discovery call with Andy Kedjierski (Dxfferent, ~$3M US MSP). Internal brief for Joshua with action items per clip and a recommended sprint plan for the proposal.",
+  "sections": [
+    {
+      "heading": "Prospect Overview",
+      "items": [
+        { "title": "Dxfferent MSP", "detail": "~$3M ARR, 13 employees, migrated CW to Autotask Oct 2025. Andy is COO-type brought in by owner to streamline ops.", "meta": { "revenue": "~3M", "employees": 13, "maturity": "Level 2" } }
+      ]
+    },
+    {
+      "heading": "Key Clips",
+      "items": [
+        { "title": "Why Andy Was Brought In", "detail": "Owner lacks confidence in delivery and onboarding. No KPIs, no dashboards, no automations.", "meta": { "timestamp": "00:00-03:42" } },
+        { "title": "Monitor Noise / RMM", "detail": "Only one person checks monitors board. Too much noise. Kaseya ticket opened.", "meta": { "timestamp": "04:07-05:08" } },
+        { "title": "No AI Adoption", "detail": "Andy uses AI daily but team has zero adoption. Senior tech calls himself a Google genius.", "meta": { "timestamp": "06:17-08:04" } },
+        { "title": "Ticket Triage Missing", "detail": "Everything is a service ticket. No categorization, no escalation paths, no process charts.", "meta": { "timestamp": "09:23-11:15" } },
+        { "title": "Pricing / Service Model", "detail": "$2,500/mo quoted. Andy prefers Guide (learning) over Buddy (done-for-you).", "meta": { "timestamp": "11:59-16:26" } },
+        { "title": "Invoicing Pain", "detail": "QuickBooks not integrated. Manual invoice adjustments every month.", "meta": { "timestamp": "19:04-20:10" } },
+        { "title": "Power BI Demo", "detail": "Showed AI-queried Power BI concept. Andy asked about cost ($300/mo).", "meta": { "timestamp": "26:47-29:18" } },
+        { "title": "Competitive Situation", "detail": "Talking to 2+ vendors. Wants month-by-month roadmap. Not decision maker.", "meta": { "timestamp": "31:52-33:34" } },
+        { "title": "6-8 Week Deadline", "detail": "Needs KPIs enforced, processes standardized, dashboards accurate within 6-8 weeks.", "meta": { "timestamp": "39:01-40:35" } },
+        { "title": "AI Autotask Access", "detail": "Floated Claude-to-Autotask connection. Andy intrigued but needs to think on data handling.", "meta": { "timestamp": "40:35-42:21" } }
+      ]
+    },
+    {
+      "heading": "Recommended Sprint Plan",
+      "items": [
+        { "title": "Sprint 1: Service Desk Foundation", "detail": "Ticket categories, triage, required fields, escalation, basic workflows.", "meta": { "weeks": "1-2" } },
+        { "title": "Sprint 2: KPIs and Process Charts", "detail": "SLAs, role KPIs, dashboards, IT Glue process charts, RMM alert audit.", "meta": { "weeks": "3-4" } },
+        { "title": "Sprint 3: Integrations and Billing", "detail": "QuickBooks, M365, service offering simplification, ScalePad sync.", "meta": { "weeks": "5-6" } },
+        { "title": "Sprint 4+: Optimization", "detail": "Client reporting, CRM consolidation, AI agents, Power BI upsell.", "meta": { "weeks": "7+" } }
+      ]
+    }
+  ],
+  "next_steps": "Joshua should watch the 10 clips (about 15 min), then build a month-by-month roadmap for the proposal. Estimate total sprint count (likely 6-8 sprints). Andy is comparing with 2+ vendors and wants specific deliverables per sprint. Coordinate with Max on startup fee ($1-3K).",
+  "session_state": {
+    "phase": "consultant handoff",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Parsed full VTT transcript from discovery call",
+      "Identified 10 key moments with timestamps",
+      "Built interactive HTML with video clip player",
+      "Created recommended sprint plan for proposal"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new file, not yet pushed",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-28-dxfferent-discovery-clips.html", "relevance": "this doc" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-dxfferent-joshua-brief.html", "relevance": "previous text-only brief from same call" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Video file at ~/Downloads/Dxfferent Assessment-20260424_153705-Meeting Recording.mp4 (338MB) referenced by local file:// URL in the HTML"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Used local file:// video reference instead of embedding or uploading",
+      "rejected_alternatives": ["Base64 embedding (338MB too large)", "YouTube upload (private content)", "Trim clips with ffmpeg (adds complexity, loses flexibility)"],
+      "rationale": "Local file reference lets Joshua scrub freely. HTML video player with timestamp-based clip buttons gives the best UX for reviewing specific moments.",
+      "trade_offs": "Only works on Max's machine or wherever the MP4 lives. Joshua needs the file to play clips.",
+      "contingencies": [
+        { "if_X_then_Y": "If Joshua needs remote access, upload MP4 to shared OneDrive and update the source URL", "probability": 0.5 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
