@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power BI Reports -- WordPress Push Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.step-grid { display: grid; grid-template-columns: 42px 1fr; gap: 0; margin: 18px 0; }
+.step-num-box {
+  font: 800 18px/1 "Georgia", serif; color: #1a2744;
+  padding-top: 2px;
+}
+.step-content { padding-bottom: 22px; border-bottom: 1px solid #eef0f2; }
+.step-content:last-child { border-bottom: none; }
+.step-title { font: 700 15px/1.3 "Georgia", serif; color: #1a2744; margin-bottom: 4px; }
+.step-detail { font-size: 13px; color: #4a5568; line-height: 1.6; }
+.step-detail code { font-size: 12px; }
+.risk-tag {
+  display: inline-block; font: 600 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em; padding: 3px 8px;
+  border-radius: 3px; margin-left: 8px;
+}
+.risk-low { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.risk-med { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.risk-high { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 28, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-28-powerbi-reports-wp-push-plan.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Implementation Plan</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 28, 2026<br>Execution Plan<br>Power BI Reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">POWER BI REPORT LIBRARY</div>
+  <h1>Push 872 Local Reports to proxuma.io</h1>
+  <p class="subtitle">Fix question-box text, sync local HTML to WordPress, verify DAX toggles and copy buttons work live.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Local Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">480</div>
+      <div class="stat-label">WP Pages Now</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~392</div>
+      <div class="stat-label">New Pages Needed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Bad Questions</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Current State</span>
+    <strong>Local files</strong> (~/ClaudeCode/powerbi-reports/) have 449 EN + 423 NL reports in the blue search-hero design with question bar, DAX toggles, and copy buttons. <strong>WordPress</strong> has 233 EN + 247 NL pages, many using an older teal-hero design without the question bar. The local versions are the source of truth and need to replace what's on WP. The page template (<code>page-fullhtml.php</code>) outputs raw <code>post_content</code> inside the theme header/footer, so the full HTML files can be injected directly.
+  </div>
+
+  <h2>Problem Breakdown</h2>
+
+  <h3>1. Question Box: 3 Reports Have Statements Instead of Questions</h3>
+  <p>Out of 872 reports, only 3 have a <code>.search-bar-text</code> that does not end with a question mark:</p>
+  <table class="matrix">
+    <tr><th>File</th><th>Current Text</th><th>Fix</th></tr>
+    <tr>
+      <td>en/...one-click-sla-visualization...post.html</td>
+      <td>"A one-click SLA visualization that Autotask can't build"</td>
+      <td>Rewrite as a question</td>
+    </tr>
+    <tr>
+      <td>nl/...klantomzet-maand-over-maand...post.html</td>
+      <td>"klantomzet maand-over-maand rapport"</td>
+      <td>Rewrite as a Dutch question</td>
+    </tr>
+    <tr>
+      <td>nl/...omzetverlies-door-vertrokken-klanten...post.html</td>
+      <td>"omzetverlies door vertrokken klanten"</td>
+      <td>Rewrite as a Dutch question</td>
+    </tr>
+  </table>
+  <p>Low effort. Each gets a short, natural-sounding question that fits the search bar context ("You searched for:").</p>
+
+  <h3>2. Local-to-WP Sync: Two Template Generations</h3>
+  <p>The WP pages use a different HTML structure (teal hero, <code>search-hero-title</code> class) than the local files (blue search-hero, <code>search-bar-text</code> class). This means every WP page needs a full content replacement, not a patch. For ~392 reports that don't exist on WP yet, new pages need to be created under parent 3299 (EN) or 3495 (NL).</p>
+
+  <h3>3. DAX Toggles and Copy Buttons</h3>
+  <p>The local files have working JS: click <code>.dax-trigger</code> to toggle <code>.expanded</code> class, and <code>prxCopyDAX()</code> uses <code>navigator.clipboard.writeText()</code> with a <code>document.execCommand('copy')</code> fallback. The JS lives inline in each report's <code>&lt;script&gt;</code> block. Since <code>page-fullhtml.php</code> echoes content raw, the JS should work on WP. But SiteGround's optimizer or caching could interfere, so live verification is required.</p>
+
+  <h2>Execution Plan</h2>
+
+  <div class="step-grid">
+    <div class="step-num-box">1</div>
+    <div class="step-content">
+      <div class="step-title">Fix the 3 Statement Questions <span class="risk-tag risk-low">Low Risk</span></div>
+      <div class="step-detail">
+        Edit the 3 files in <code>~/ClaudeCode/powerbi-reports/</code>. Replace each statement with a natural question. Suggested rewrites:
+        <ul style="margin-top:8px">
+          <li><strong>EN:</strong> "How does SLA performance compare when visualized outside Autotask?" or "What does a one-click SLA overview look like outside Autotask?"</li>
+          <li><strong>NL:</strong> "Hoe ontwikkelt de klantomzet zich maand-over-maand?" (klantomzet)</li>
+          <li><strong>NL:</strong> "Hoeveel omzet gaat er verloren door vertrokken klanten?" (omzetverlies)</li>
+        </ul>
+        Also check for any overly long questions that could be shortened for a more natural search-bar feel. Commit to the powerbi-reports repo.
+      </div>
+    </div>
+
+    <div class="step-num-box">2</div>
+    <div class="step-content">
+      <div class="step-title">Build a Slug-to-WP-ID Mapping <span class="risk-tag risk-low">Low Risk</span></div>
+      <div class="step-detail">
+        Pull the full list of existing WP pages under parents 3299 and 3495 via WP-CLI (<code>wp post list</code>). Map each <code>post_name</code> (slug) to page ID. Match these against local filenames. Categorize into: <strong>update</strong> (slug exists on WP) vs. <strong>create</strong> (new page needed). Save the mapping as a JSON file for the push script.
+      </div>
+    </div>
+
+    <div class="step-num-box">3</div>
+    <div class="step-content">
+      <div class="step-title">Upload Local HTML to Server <span class="risk-tag risk-low">Low Risk</span></div>
+      <div class="step-detail">
+        rsync the <code>en/</code> and <code>nl/</code> directories to the SiteGround server (<code>~/tmp/reports-upload/</code>). This stages the files for WP-CLI to read. Previous sessions used the same approach successfully.
+      </div>
+    </div>
+
+    <div class="step-num-box">4</div>
+    <div class="step-content">
+      <div class="step-title">Push Content to WordPress <span class="risk-tag risk-med">Medium Risk</span></div>
+      <div class="step-detail">
+        Write a WP-CLI batch script (run on server) that:
+        <ul style="margin-top:8px">
+          <li>For <strong>existing pages</strong>: <code>$wpdb->update()</code> the <code>post_content</code> column (not <code>wp_update_post()</code> which strips styles/scripts)</li>
+          <li>For <strong>new pages</strong>: <code>wp post create</code> with <code>--post_parent=3299</code> (EN) or <code>3495</code> (NL), <code>--page_template=page-fullhtml.php</code>, <code>--post_status=publish</code></li>
+          <li>Derive the slug from the filename (strip <code>proxuma-io-</code> prefix and <code>-post.html</code> suffix)</li>
+          <li>Set proper <code>post_title</code> extracted from the HTML <code>&lt;title&gt;</code> tag or <code>#prx-hero-h1</code></li>
+        </ul>
+        <strong>Important:</strong> Do NOT touch pages 3299, 3495, 3401, 5655, 3389, 4887 (protected). Process in batches of 50, verify each batch before proceeding.
+      </div>
+    </div>
+
+    <div class="step-num-box">5</div>
+    <div class="step-content">
+      <div class="step-title">Flush Cache <span class="risk-tag risk-low">Low Risk</span></div>
+      <div class="step-detail">
+        Run <code>wp cache flush && wp sg purge</code> for dynamic cache. Then flush CDN via SiteTools socket: <code>/chroot/tmp/site-tools.sock</code> with <code>domain-all</code> API + <code>flush_cache</code>. This is standard procedure from previous pushes.
+      </div>
+    </div>
+
+    <div class="step-num-box">6</div>
+    <div class="step-content">
+      <div class="step-title">Verify Live: Visual + Functional <span class="risk-tag risk-med">Medium Risk</span></div>
+      <div class="step-detail">
+        Pick 5 EN + 5 NL reports (mix of updated and newly created). For each:
+        <ul style="margin-top:8px">
+          <li>Open in Chrome via browser MCP tools</li>
+          <li>Verify the search-hero question box renders correctly (blue design, question text visible)</li>
+          <li>Click each DAX toggle -- confirm the query code appears</li>
+          <li>Click "Copy Query" -- confirm clipboard gets the DAX text</li>
+          <li>Check morph bar, pipeline steps, KPI grid, and CTA all render properly</li>
+          <li>Compare side-by-side with the local file if anything looks off</li>
+        </ul>
+        If SG optimizer is stripping JS or styles, the fix is to add the pages to SG's exclusion list or adjust the minification settings.
+      </div>
+    </div>
+
+    <div class="step-num-box">7</div>
+    <div class="step-content">
+      <div class="step-title">Update Gallery Pages (3299 + 3495) <span class="risk-tag risk-med">Medium Risk</span></div>
+      <div class="step-detail">
+        The gallery pages (EN 3299, NL 3495) use ACF field <code>bf_sections_0_html_code</code> for their content. Regenerate gallery HTML to include all ~449 EN and ~423 NL report cards with correct links. Update via <code>update_post_meta()</code>. Gallery cards should link to the correct WP slugs.
+      </div>
+    </div>
+  </div>
+
+  <h2>Risk Assessment</h2>
+
+  <div class="callout">
+    <span class="callout-label">SiteGround Optimizer</span>
+    SG optimizer has been known to silently blank pages larger than ~5MB (inline base64 images) and can interfere with inline JS through minification. The report files are 30-150KB each, well under the size limit. But JS minification could break the DAX toggle event listeners. If this happens, the fix is to exclude <code>/powerbi/insights/*</code> from SG's JS combine/minify settings.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">The $wpdb->update() Requirement</span>
+    For <strong>existing pages</strong>, we must use <code>$wpdb->update()</code> directly, not <code>wp_update_post()</code>. The latter runs content through <code>wp_kses</code> and strips <code>&lt;style&gt;</code>/<code>&lt;script&gt;</code> tags. This is a documented gotcha from previous sessions. For <strong>new pages</strong>, <code>wp post create</code> via WP-CLI is safe because WP-CLI bypasses kses for admin users.
+  </div>
+
+  <h2>Estimated Effort</h2>
+
+  <table class="matrix">
+    <tr><th>Step</th><th>Time</th><th>Runs On</th></tr>
+    <tr><td>Fix 3 questions</td><td>5 min</td><td>M4 Air</td></tr>
+    <tr><td>Build slug mapping</td><td>10 min</td><td>M4 Air (SSH to SG)</td></tr>
+    <tr><td>rsync upload</td><td>5 min</td><td>M4 Air to SG</td></tr>
+    <tr><td>WP push (480 updates + ~392 creates)</td><td>30-45 min</td><td>SG server</td></tr>
+    <tr><td>Cache flush</td><td>2 min</td><td>SG server</td></tr>
+    <tr><td>Live verification (10 reports)</td><td>15 min</td><td>M4 Air (Chrome)</td></tr>
+    <tr><td>Gallery update</td><td>15 min</td><td>M4 Air (SSH to SG)</td></tr>
+    <tr class="row-total"><td><strong>Total</strong></td><td><strong>~80-95 min</strong></td><td></td></tr>
+  </table>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>The question-box fix is trivial (3 files). The real work is the WP push: replacing 480 existing pages with the local blue-design HTML and creating ~392 new ones. The DAX toggles and copy buttons should work out of the box since the JS is inline, but SiteGround's optimizer is the wild card. Steps 1-5 can run in one session. Step 6 (verification) gates whether we call it done or need to debug SG optimizer interference.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Power BI Reports Push Plan &middot; April 28, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Power BI Reports -- WordPress Push Plan",
+  "date": "2026-04-28",
+  "summary": "Plan to push 872 local Power BI report HTML files to proxuma.io WordPress. Fixes 3 statement-not-question search bar texts, syncs all local files to WP (480 updates + ~392 new pages), and verifies DAX toggle/copy functionality live.",
+  "sections": [
+    {
+      "heading": "Question Box Fix",
+      "items": [
+        { "title": "3 reports have statements instead of questions", "detail": "EN: one-click-sla, NL: klantomzet-maand, NL: omzetverlies-vertrokken. Simple text edits.", "meta": { "count": 3, "effort": "5 min" } }
+      ]
+    },
+    {
+      "heading": "WP Sync",
+      "items": [
+        { "title": "Template mismatch", "detail": "WP pages use older teal-hero design. Local files use blue search-hero. Full content replacement needed for all 480 existing pages.", "meta": {} },
+        { "title": "New pages needed", "detail": "~392 local files have no WP page yet (449 EN local vs 233 WP, 423 NL local vs 247 WP).", "meta": { "new_en": 216, "new_nl": 176 } },
+        { "title": "Use $wpdb->update() for existing", "detail": "wp_update_post strips style/script tags. Must use direct DB update.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "DAX Verification",
+      "items": [
+        { "title": "JS is inline per report", "detail": "prxCopyDAX() uses navigator.clipboard with execCommand fallback. page-fullhtml.php echoes content raw. Should work but SG optimizer could interfere.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Execute step 1 (fix 3 questions), then step 2 (build mapping), then steps 3-5 (upload + push + cache). Verify with step 6. Update galleries last.",
+  "session_state": {
+    "phase": "plan complete",
+    "phase_status": "complete",
+    "progress_pct": 5,
+    "work_done_this_session": [
+      "Audited all 872 report files for question-vs-statement (found 3 bad)",
+      "Compared local HTML structure vs WP HTML structure (different template generations)",
+      "Counted WP pages (233 EN + 247 NL = 480) vs local files (449 EN + 423 NL = 872)",
+      "Verified page-fullhtml.php outputs raw post_content",
+      "Confirmed DAX toggle JS and copy button JS present in both local and WP files",
+      "Wrote execution plan"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "powerbi-reports repo unchanged. claude-output has this plan file uncommitted.",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "powerbi-reports-bulk-publish.md", "version_date": "2026-02-20", "verified_live": false },
+      { "name": "report-redesign.md", "version_date": "2026-03-28", "verified_live": false }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/powerbi-reports/",
+    "temp_files": [
+      { "path": "/tmp/wp-en-pages.csv", "description": "233 EN WP page IDs + slugs", "cleanup_after": "push complete" },
+      { "path": "/tmp/wp-report-6144.html", "description": "Sample WP report content for comparison", "cleanup_after": "push complete" }
+    ],
+    "github_links": [],
+    "wordpress_ids": [3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3299", "WP page 3495", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "$wpdb->update not wp_update_post for existing pages", "page-fullhtml.php template", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Full content replacement for all 480 existing WP pages rather than patching",
+      "rejected_alternatives": ["Inject only the search-bar into existing teal-hero design", "Only push new pages, leave existing ones on old design"],
+      "rationale": "The local files are the golden standard. Patching would leave two different design systems on the site. Clean replacement ensures consistency.",
+      "trade_offs": "Higher risk (touching 480 live pages) but results in uniform design across all reports",
+      "contingencies": [
+        { "if_X_then_Y": "If SG optimizer breaks JS on the new design, exclude /powerbi/insights/* from SG JS minification", "probability": 0.25 },
+        { "if_X_then_Y": "If $wpdb->update fails on some pages due to content size, split into smaller batches", "probability": 0.1 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
