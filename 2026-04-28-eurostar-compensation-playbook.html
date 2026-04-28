@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurostar Cancellation Compensation Playbook</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+a { color: #1a2744; }
+a:hover { color: #2a4a8a; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.positioning li { color: rgba(255,255,255,.88); }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-badge.warn { background: #fde8e8; border: 1px solid #d8a0a0; color: #8a2a2a; }
+.tier-badge.green { background: #e6f4ea; border: 1px solid #8ac8a0; color: #1a6b3a; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 140px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.pos-steps { display: flex; gap: 10px; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.source-link {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px; color: #2a4a8a; text-decoration: none;
+  border-bottom: 1px dotted #8aa8d8; padding-bottom: 1px;
+}
+.source-link:hover { color: #1a2744; border-color: #1a2744; }
+.source-ref {
+  display: inline-block; background: #e8edf4; color: #2a4a8a;
+  font: 600 9px/1 -apple-system, sans-serif; padding: 2px 5px;
+  border-radius: 2px; vertical-align: super; margin-left: 2px;
+  text-decoration: none; cursor: pointer;
+}
+.source-ref:hover { background: #1a2744; color: #fff; }
+.sources-list {
+  margin: 8px 0 0 0; padding: 0; list-style: none;
+}
+.sources-list li {
+  font: 400 12px/1.6 -apple-system, sans-serif; color: #6b7280;
+  margin-bottom: 4px; padding-left: 20px; position: relative;
+}
+.sources-list li::before {
+  content: attr(data-ref); position: absolute; left: 0;
+  font: 600 10px/1.8 -apple-system, sans-serif; color: #2a4a8a;
+}
+.sources-list a { color: #2a4a8a; text-decoration: none; border-bottom: 1px dotted #8aa8d8; }
+.sources-list a:hover { color: #1a2744; }
+.experience-card {
+  background: #faf9f7; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 12px;
+}
+.experience-card .exp-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.experience-card .exp-who {
+  font: 600 13px/1 -apple-system, sans-serif; color: #1a2744;
+}
+.experience-card .exp-outcome {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; padding: 3px 8px; border-radius: 3px;
+}
+.exp-outcome.success { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.exp-outcome.partial { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.exp-outcome.fail { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.experience-card .exp-body {
+  font: 400 13px/1.55 -apple-system, sans-serif; color: #4a5568;
+}
+.step-timeline { margin: 20px 0; }
+.step-item {
+  display: flex; gap: 16px; margin-bottom: 16px; position: relative;
+}
+.step-item::before {
+  content: ''; position: absolute; left: 15px; top: 36px; bottom: -16px;
+  width: 2px; background: #e2e4e8;
+}
+.step-item:last-child::before { display: none; }
+.step-number {
+  width: 32px; height: 32px; border-radius: 50%; background: #1a2744;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font: 700 14px/1 -apple-system, sans-serif; flex-shrink: 0;
+}
+.step-content { flex: 1; }
+.step-title {
+  font: 700 14px/1.3 "Georgia", serif; color: #1a2744; margin-bottom: 4px;
+}
+.step-detail {
+  font: 400 13px/1.55 -apple-system, sans-serif; color: #4a5568;
+}
+.step-detail a { color: #2a4a8a; }
+.checklist { list-style: none; margin: 8px 0 0 0; padding: 0; }
+.checklist li {
+  font: 400 13px/1.6 -apple-system, sans-serif; color: #4a5568;
+  padding: 4px 0 4px 24px; position: relative;
+}
+.checklist li::before {
+  content: ''; position: absolute; left: 0; top: 8px;
+  width: 14px; height: 14px; border: 2px solid #1a2744; border-radius: 3px;
+}
+.warning-box {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 14px 18px;
+  margin: 14px 0; border-radius: 0 4px 4px 0;
+}
+.warning-box .callout-label { color: #8a6a2a; }
+.warning-box p { color: #5c4316; margin-bottom: 0; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 28, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-28-eurostar-compensation-playbook.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Personal Travel &amp; Consumer Rights</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 28, 2026<br>Action Plan<br>Eurostar Ref: QQT7FD
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">CANCELLED TRAIN COMPENSATION</div>
+  <h1>Eurostar Cancellation: Maximum Compensation Playbook</h1>
+  <p class="subtitle">Amsterdam Centraal to London St Pancras, 28 April 2026. Your train was cancelled. Here is exactly what you're owed, how to claim it, and what other passengers learned the hard way.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">100%</div>
+      <div class="stat-label">Ticket Refund</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">&euro;170</div>
+      <div class="stat-label">Hotel (per night)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">&euro;60</div>
+      <div class="stat-label">Food (per day)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">&euro;60</div>
+      <div class="stat-label">Transport (taxi)</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: YOUR RIGHTS -->
+  <h2>1. Your Legal Rights</h2>
+
+  <p>Your rights come from two places: EU Regulation 2021/782 (which replaced the older 1371/2007) and Eurostar's own Customer Charter. The regulation is the floor, and Eurostar's charter is slightly more generous in some areas.</p>
+
+  <h3>EU Regulation 2021/782 <a href="https://transport.ec.europa.eu/transport-themes/passenger-rights/rail-passenger-rights_en" class="source-ref" title="EU Commission - Rail Passenger Rights">1</a></h3>
+  <ul>
+    <li><strong>Cancellation:</strong> Full refund of the ticket price for the unused portion, or re-routing at the earliest opportunity <a href="https://www.eurostar.com/rw-en/rail-passengers-rights" class="source-ref" title="Eurostar Rail Passengers Rights">2</a></li>
+    <li><strong>Accommodation:</strong> If you're stranded overnight, the railway must provide or pay for a hotel <a href="https://transport.ec.europa.eu/transport-themes/passenger-rights/rail-passenger-rights_en" class="source-ref" title="EU Rail Passenger Rights">1</a></li>
+    <li><strong>Meals:</strong> Free meals and refreshments proportionate to the waiting time <a href="https://transport.ec.europa.eu/transport-themes/passenger-rights/rail-passenger-rights_en" class="source-ref" title="EU Rail Passenger Rights">1</a></li>
+    <li><strong>Re-routing right:</strong> If no alternative is offered within 100 minutes of scheduled departure, you can arrange your own transport (bus, coach, rail) and claim the costs back <a href="https://www.eurostar.com/rw-en/rail-passengers-rights" class="source-ref" title="Eurostar Passenger Rights">2</a></li>
+  </ul>
+
+  <h3>Eurostar Customer Charter <a href="https://www.eurostar.com/uk-en/customer-charter" class="source-ref" title="Eurostar Customer Charter">3</a></h3>
+  <ul>
+    <li><strong>Refund:</strong> Full ticket refund processed within 28 days</li>
+    <li><strong>Hotel:</strong> "A taxi or hotel will be made available" for late-night delays when public transport is unavailable</li>
+    <li><strong>Expenses:</strong> Will reimburse "reasonable costs for hotels or taxis where receipts are provided"</li>
+  </ul>
+
+  <h3>The Flyer You Received (Amsterdam-London Route Specific Caps)</h3>
+  <table class="matrix">
+    <tr>
+      <th>Expense</th>
+      <th>Euro Cap</th>
+      <th>GBP Cap</th>
+      <th>Source</th>
+    </tr>
+    <tr>
+      <td><strong>Hotel</strong> (per room/night, single or duo)</td>
+      <td>&euro;170</td>
+      <td>&pound;150</td>
+      <td>Printed flyer at station</td>
+    </tr>
+    <tr>
+      <td><strong>Transport to hotel</strong> (taxi)</td>
+      <td>&euro;60</td>
+      <td>&pound;50</td>
+      <td>Printed flyer at station</td>
+    </tr>
+    <tr>
+      <td><strong>Food</strong> (per person, per day)</td>
+      <td>&euro;60</td>
+      <td>&pound;40</td>
+      <td>Printed flyer at station</td>
+    </tr>
+    <tr class="row-total">
+      <td><strong>Max expenses (excl. ticket refund)</strong></td>
+      <td><strong>&euro;290</strong></td>
+      <td><strong>&pound;240</strong></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Key point</span>
+    The expense reimbursement is <strong>separate from and on top of</strong> your full ticket refund. These are two independent claims. The refund gives you your ticket money back. The expenses cover what you spent because you were stranded.
+  </div>
+
+  <!-- SECTION 2: DELAY COMPENSATION -->
+  <h2>2. Delay Compensation (Bonus on Top)</h2>
+
+  <p>If the cancellation means you arrive at your final destination late (because you take a later train), you're also entitled to delay compensation. This stacks on top of expenses. <a href="https://www.eurostar.com/uk-en/travel-info/service-information/claiming-compensation" class="source-ref" title="Eurostar Compensation Page">4</a></p>
+
+  <table class="matrix">
+    <tr>
+      <th>Arrival Delay</th>
+      <th>E-Voucher</th>
+      <th>Cash Refund</th>
+    </tr>
+    <tr>
+      <td>60 to 119 minutes</td>
+      <td>30% of ticket</td>
+      <td>25% of ticket</td>
+    </tr>
+    <tr>
+      <td>120 to 179 minutes</td>
+      <td>60% of ticket</td>
+      <td>50% of ticket</td>
+    </tr>
+    <tr>
+      <td>180+ minutes</td>
+      <td>75% of ticket</td>
+      <td>50% of ticket</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Strategy note</span>
+    If you take a much later train (or travel tomorrow), the delay is massive. A 180+ minute delay gets you <strong>75% back as a voucher or 50% cash on top of your full refund</strong>. But only if you actually travel. If you just take the refund and don't travel at all, the delay compensation does not apply. <a href="https://www.lovemoney.com/news/54875/eurostar-cancellations-strike-refund-rights" class="source-ref" title="LoveMoney Eurostar Rights">5</a>
+  </div>
+
+  <!-- SECTION 3: WHAT PEOPLE EXPERIENCED -->
+  <h2>3. What Other Passengers Experienced</h2>
+
+  <p>Here's what happened when real people tried to claim. These are drawn from TripAdvisor forums, Rick Steves forums, travel blogs, and consumer advocacy sites.</p>
+
+  <div class="experience-card">
+    <div class="exp-header">
+      <span class="exp-who">Suzanne Kraft (via Elliott Advocacy)</span>
+      <span class="exp-outcome success">Full reimbursement</span>
+    </div>
+    <div class="exp-body">
+      Train cancelled from London, no explanation, station office closed. Spent $196 on a hotel, $97 on breakfast, $1,119 on replacement tickets. Initially Eurostar ignored her. After consumer advocate Christopher Elliott intervened, Eurostar refunded everything: original tickets, replacement tickets, hotel, and meals.
+      <br><br><strong>Lesson:</strong> Escalate if they stall. Document everything. A staff member promised reimbursement verbally but it took outside pressure to deliver.
+      <br><a href="https://www.elliott.org/the-troubleshooter/eurostar-canceled-train-left-her-stranded/" class="source-link">Read full story on Elliott.org</a>
+    </div>
+  </div>
+
+  <div class="experience-card">
+    <div class="exp-header">
+      <span class="exp-who">Darrell O (TripAdvisor, Dec 2023)</span>
+      <span class="exp-outcome partial">Partial reimbursement</span>
+    </div>
+    <div class="exp-body">
+      Return journey from Netherlands cancelled. No staff at station, customer service unreachable for 3 days. Claimed &pound;800 for hotel, food, and alternative transport. Eurostar agreed to consider hotel costs and "selected few food costs" only. Alternative transport was flat-out refused. Process dragged on over a month with "lost emails" and "website technical issues."
+      <br><br><strong>Lesson:</strong> They will reimburse hotel and food, but alternative transport is almost always rejected. Keep pushing. Follow up weekly.
+      <br><a href="https://www.tripadvisor.ie/ShowUserReviews-g186338-d14099564-r937712823-Eurostar-London_England.html" class="source-link">Read review on TripAdvisor</a>
+    </div>
+  </div>
+
+  <div class="experience-card">
+    <div class="exp-header">
+      <span class="exp-who">Rick Steves Forum User (June 2025)</span>
+      <span class="exp-outcome fail">Claim rejected</span>
+    </div>
+    <div class="exp-body">
+      Train delayed over an hour (Paris to London). Multiple compensation claims submitted online. All rejected with "delay is under 60 minutes" and "force majeure" despite the passenger clearly experiencing 60+ minutes of delay. Staff on board said the trip would be eligible. The online system disagreed.
+      <br><br><strong>Lesson:</strong> Delay is measured by <em>arrival time at destination</em> vs. scheduled arrival, not by departure delay. Document your actual arrival time. If the online form rejects you, email <code>traveller.care@eurostar.com</code> directly.
+      <br><a href="https://community.ricksteves.com/travel-forum/transportation/eurorstar-train-delay-compensation" class="source-link">Read thread on Rick Steves forum</a>
+    </div>
+  </div>
+
+  <div class="experience-card">
+    <div class="exp-header">
+      <span class="exp-who">TripAdvisor Forum Users (Refund Tips Thread)</span>
+      <span class="exp-outcome success">Full refund obtained</span>
+    </div>
+    <div class="exp-body">
+      Multiple users shared tips for getting cash refunds instead of vouchers. One user emailed on a Sunday and had the full refund in their bank by Thursday. Another found a hidden refund link in their booking account and got the refund the next day. The key pattern: use the help portal email form, be explicit about wanting cash (not vouchers), and cite consumer rights.
+      <br><br><strong>Lesson:</strong> Don't accept the e-voucher push. Insist on cash. Use <a href="https://help.eurostar.com/email">help.eurostar.com/email</a> for fastest response.
+      <br><a href="https://www.tripadvisor.com/ShowTopic-g1-i12483-k13340320-Tips_to_get_Eurostar_refund-Train_Travel.html" class="source-link">Read tips thread on TripAdvisor</a>
+    </div>
+  </div>
+
+  <div class="experience-card">
+    <div class="exp-header">
+      <span class="exp-who">SoloSophie Travel Blog</span>
+      <span class="exp-outcome partial">Mixed experience</span>
+    </div>
+    <div class="exp-body">
+      Travel blogger stuck at Gare du Nord near midnight after cancellation. No info, closed cafes, empty vending machines, poor conditions. Notes that Eurostar will push vouchers because they're worth more (30% vs 25%), but that's only better if you plan to ride Eurostar again. For cancellations specifically: you only get a refund or rebooking, no bonus compensation.
+      <br><br><strong>Lesson:</strong> Avoid the last trains of the day. If stranded, the station experience is poor. Book your own hotel fast before other stranded passengers take what's available nearby.
+      <br><a href="https://www.solosophie.com/what-to-do-when-your-eurostar-train-is-cancelled/" class="source-link">Read blog post on SoloSophie</a>
+    </div>
+  </div>
+
+  <div class="experience-card">
+    <div class="exp-header">
+      <span class="exp-who">Christmas Cancellation (TripAdvisor Thread)</span>
+      <span class="exp-outcome fail">Flight cost refused</span>
+    </div>
+    <div class="exp-body">
+      Family's Eurostar from Amsterdam cancelled on a strike day. Next available train not until Boxing Day. Bought BA flights for &pound;500. Eurostar refused to pay for flights, offering only "a seat on a different train." EU regulation explicitly covers re-routing by rail, coach, or bus, but <em>not</em> flights.
+      <br><br><strong>Lesson:</strong> Never book a flight as alternative transport. Eurostar won't reimburse it, and the EU regulation doesn't require them to. Only rail/bus/coach alternatives are covered under the 100-minute re-routing rule.
+      <br><a href="https://www.tripadvisor.com/ShowTopic-g1-i12483-k14618956-o10-Will_Eurostar_pay_for_flights_needed_after_cancelled_train-Train_Travel.html" class="source-link">Read discussion on TripAdvisor</a>
+    </div>
+  </div>
+
+  <!-- SECTION 4: YOUR ACTION PLAN -->
+  <h2>4. Your Action Plan</h2>
+
+  <p>Your specific situation: train cancelled today (28 April), you have friends in Amsterdam, and you want to maximize the money you get back.</p>
+
+  <div class="step-timeline">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Book a hotel tonight (up to &euro;170)</div>
+        <div class="step-detail">
+          Book a room near Amsterdam Centraal for tonight. Aim for &euro;155-170 range on Booking.com or similar. You need a real, itemized receipt with your name on it. Make sure it shows the hotel name, dates, and amount. Even if you visit your friends after dinner, you sleep at the hotel.
+          <ul class="checklist">
+            <li>Book a room showing tonight's date</li>
+            <li>Get an itemized invoice/receipt with your name</li>
+            <li>Keep the booking confirmation email too</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Take a taxi from the station (up to &euro;60)</div>
+        <div class="step-detail">
+          Take a taxi from Amsterdam Centraal to your hotel. Ask the driver for a receipt. If you use Uber or Bolt, the app receipt works fine.
+          <ul class="checklist">
+            <li>Keep the taxi receipt (paper or app screenshot)</li>
+            <li>Make sure it shows date, pickup, dropoff, and amount</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Eat well today (up to &euro;60)</div>
+        <div class="step-detail">
+          Go to restaurants, not supermarkets. You can split this across lunch and dinner. Keep every receipt. The receipts should be itemized (showing what you ordered), not just a card payment slip.
+          <ul class="checklist">
+            <li>Ask for itemized receipts at every restaurant</li>
+            <li>Total food spending should be close to but not exceed &euro;60</li>
+            <li>Receipts should show date, restaurant name, items, and total</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <div class="step-title">Claim your full ticket refund (cash, not voucher)</div>
+        <div class="step-detail">
+          Go to <a href="https://www.eurostar.com/uk-en/travel-info/service-information/claiming-compensation">eurostar.com/claiming-compensation</a> or use the QR code on the flyer. Select <strong>refund</strong>, not exchange, not e-voucher. If the form pushes vouchers, email <a href="mailto:traveller.care@eurostar.com">traveller.care@eurostar.com</a> and explicitly state you want a cash refund to your original payment method.
+          <ul class="checklist">
+            <li>Use booking reference QQT7FD</li>
+            <li>Select "refund" not "voucher" or "exchange"</li>
+            <li>If stuck, email traveller.care@eurostar.com</li>
+            <li>Refund processed within 28 days</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">5</div>
+      <div class="step-content">
+        <div class="step-title">Submit expense claim (hotel + taxi + food)</div>
+        <div class="step-detail">
+          This is a separate claim from the ticket refund. Contact Eurostar via their <a href="https://help.eurostar.com/email">help portal contact form</a> or email <a href="mailto:traveller.care@eurostar.com">traveller.care@eurostar.com</a>. Attach one clean PDF with all receipts. Include:
+          <ul class="checklist">
+            <li>Scan/photo of the disruption flyer you received</li>
+            <li>Scan/photo of your original Eurostar ticket</li>
+            <li>Hotel receipt</li>
+            <li>Taxi receipt</li>
+            <li>Food receipts</li>
+            <li>Your IBAN for reimbursement</li>
+          </ul>
+          <br>
+          You have <strong>3 months</strong> from today to submit this claim. <a href="https://help.eurostar.com/faq/rw-en/question/Can-I-claim-for-other-expenses-incurred-because-of-my-delay" class="source-ref" title="Eurostar Expense Claim FAQ">6</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">6</div>
+      <div class="step-content">
+        <div class="step-title">Rebook for tomorrow (free exchange)</div>
+        <div class="step-detail">
+          You're entitled to a free exchange to any available train in the same class within 120 days. Rebook for tomorrow through Manage Your Booking on eurostar.com. If you prefer to just take the refund and arrange your own travel, that's fine too. But the free exchange is there if you want it.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: TOTAL HAUL -->
+  <div class="positioning">
+    <h2>Your Maximum Compensation</h2>
+    <ul>
+      <li><strong>Full ticket price refunded</strong> (whatever you paid for QQT7FD)</li>
+      <li><strong>Hotel:</strong> up to &euro;170 reimbursed</li>
+      <li><strong>Taxi:</strong> up to &euro;60 reimbursed</li>
+      <li><strong>Food:</strong> up to &euro;60 reimbursed</li>
+      <li><strong>Total expenses: up to &euro;290</strong> on top of your ticket refund</li>
+      <li>Plus a nice evening in Amsterdam with your friends</li>
+    </ul>
+    <p style="margin-top: 14px;">You spend tonight in a hotel (reimbursed), eat well (reimbursed), take taxis (reimbursed), and get your full ticket price back. Net out-of-pocket: zero. Net gain: &euro;290 worth of hotel, food, and transport that costs you nothing, plus your ticket money returned.</p>
+  </div>
+
+  <!-- SECTION 6: WARNINGS -->
+  <h2>5. Warnings from Other Passengers</h2>
+
+  <div class="warning-box">
+    <span class="callout-label">Do not accept vouchers by default</span>
+    <p>Eurostar's online system pushes e-vouchers first. They're valid for 12 months and are worth slightly more (30% vs 25% for delays). But if you don't plan to ride Eurostar again soon, cash is better. Explicitly request a cash refund. <a href="https://www.solosophie.com/what-to-do-when-your-eurostar-train-is-cancelled/" class="source-ref" title="SoloSophie Blog">7</a></p>
+  </div>
+
+  <div class="warning-box">
+    <span class="callout-label">Don't book flights as alternative transport</span>
+    <p>EU regulation covers re-routing by rail, bus, or coach only. Flight costs will be refused. Multiple travelers learned this the hard way. <a href="https://www.tripadvisor.com/ShowTopic-g1-i12483-k14618956-o10-Will_Eurostar_pay_for_flights_needed_after_cancelled_train-Train_Travel.html" class="source-ref" title="TripAdvisor Flight Discussion">8</a></p>
+  </div>
+
+  <div class="warning-box">
+    <span class="callout-label">Expect slow processing</span>
+    <p>Refunds take up to 28 days. Expense claims can take longer. Multiple passengers reported "lost emails" and delayed responses. Follow up weekly by email. If no response after 4 weeks, file a complaint with the national enforcement body or contact a consumer advocate. <a href="https://www.tripadvisor.ie/ShowUserReviews-g186338-d14099564-r937712823-Eurostar-London_England.html" class="source-ref" title="TripAdvisor Review">9</a></p>
+  </div>
+
+  <div class="warning-box">
+    <span class="callout-label">Keep your original ticket</span>
+    <p>The flyer explicitly says "retain all receipts AND your original Eurostar tickets for reimbursement." Don't throw away anything until the money is in your account.</p>
+  </div>
+
+  <div class="warning-box">
+    <span class="callout-label">Delay is measured on arrival, not departure</span>
+    <p>If you end up taking a later train and want delay compensation on top, the delay clock is based on when you actually arrive at London St Pancras vs. your original scheduled arrival. Not when the train left. <a href="https://community.ricksteves.com/travel-forum/transportation/eurorstar-train-delay-compensation" class="source-ref" title="Rick Steves Forum">10</a></p>
+  </div>
+
+  <!-- SECTION 7: USEFUL LINKS -->
+  <h2>6. Useful Links</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>What</th>
+      <th>Link</th>
+    </tr>
+    <tr>
+      <td>Claim refund / compensation</td>
+      <td><a href="https://www.eurostar.com/uk-en/travel-info/service-information/claiming-compensation">eurostar.com/claiming-compensation</a></td>
+    </tr>
+    <tr>
+      <td>Online compensation form</td>
+      <td><a href="https://compensation.eurostar.com/">compensation.eurostar.com</a></td>
+    </tr>
+    <tr>
+      <td>PRR compensation portal</td>
+      <td><a href="https://prr.eurostar.com/">prr.eurostar.com</a></td>
+    </tr>
+    <tr>
+      <td>Email for expense claims</td>
+      <td><a href="mailto:traveller.care@eurostar.com">traveller.care@eurostar.com</a></td>
+    </tr>
+    <tr>
+      <td>Help Centre contact form</td>
+      <td><a href="https://help.eurostar.com/email">help.eurostar.com/email</a></td>
+    </tr>
+    <tr>
+      <td>Disruption claim form</td>
+      <td><a href="https://disruption.eurostar.com/form">disruption.eurostar.com/form</a></td>
+    </tr>
+    <tr>
+      <td>Customer Charter</td>
+      <td><a href="https://www.eurostar.com/uk-en/customer-charter">eurostar.com/customer-charter</a></td>
+    </tr>
+    <tr>
+      <td>EU Rail Passenger Rights</td>
+      <td><a href="https://transport.ec.europa.eu/transport-themes/passenger-rights/rail-passenger-rights_en">EC Rail Passenger Rights</a></td>
+    </tr>
+    <tr>
+      <td>Eurostar Passenger Rights page</td>
+      <td><a href="https://www.eurostar.com/rw-en/rail-passengers-rights">eurostar.com/rail-passengers-rights</a></td>
+    </tr>
+  </table>
+
+  <!-- SOURCES -->
+  <h2>7. Sources</h2>
+  <ol class="sources-list">
+    <li data-ref="[1]"><a href="https://transport.ec.europa.eu/transport-themes/passenger-rights/rail-passenger-rights_en">European Commission - Rail Passenger Rights (Regulation 2021/782)</a></li>
+    <li data-ref="[2]"><a href="https://www.eurostar.com/rw-en/rail-passengers-rights">Eurostar - Rail Passengers Rights</a></li>
+    <li data-ref="[3]"><a href="https://www.eurostar.com/uk-en/customer-charter">Eurostar - Customer Charter</a></li>
+    <li data-ref="[4]"><a href="https://www.eurostar.com/uk-en/travel-info/service-information/claiming-compensation">Eurostar - Exchanges, Compensations and Refunds</a></li>
+    <li data-ref="[5]"><a href="https://www.lovemoney.com/news/54875/eurostar-cancellations-strike-refund-rights">LoveMoney - Eurostar: Your Rights if Delayed or Cancelled</a></li>
+    <li data-ref="[6]"><a href="https://help.eurostar.com/faq/rw-en/question/Can-I-claim-for-other-expenses-incurred-because-of-my-delay">Eurostar Help - Can I Claim for Other Expenses?</a></li>
+    <li data-ref="[7]"><a href="https://www.solosophie.com/what-to-do-when-your-eurostar-train-is-cancelled/">SoloSophie - What to Do When Your Eurostar is Cancelled</a></li>
+    <li data-ref="[8]"><a href="https://www.tripadvisor.com/ShowTopic-g1-i12483-k14618956-o10-Will_Eurostar_pay_for_flights_needed_after_cancelled_train-Train_Travel.html">TripAdvisor - Will Eurostar Pay for Flights After Cancelled Train?</a></li>
+    <li data-ref="[9]"><a href="https://www.tripadvisor.ie/ShowUserReviews-g186338-d14099564-r937712823-Eurostar-London_England.html">TripAdvisor - Compensation Process Made So Difficult (Darrell O review)</a></li>
+    <li data-ref="[10]"><a href="https://community.ricksteves.com/travel-forum/transportation/eurorstar-train-delay-compensation">Rick Steves Forum - Eurostar Train Delay Compensation</a></li>
+    <li data-ref="[11]"><a href="https://www.elliott.org/the-troubleshooter/eurostar-canceled-train-left-her-stranded/">Elliott Advocacy - Eurostar Canceled My Train and Left Us Stranded</a></li>
+    <li data-ref="[12]"><a href="https://www.tripadvisor.com/ShowTopic-g1-i12483-k13340320-Tips_to_get_Eurostar_refund-Train_Travel.html">TripAdvisor - Tips to Get Eurostar Refund</a></li>
+    <li data-ref="[13]"><a href="https://www.euronews.com/travel/2025/12/30/all-of-your-travel-rights-explained-as-eurostar-cancel-trains-amid-major-disruption">Euronews - All of Your Travel Rights Explained (Dec 2025 Disruption)</a></li>
+    <li data-ref="[14]"><a href="https://www.zadrails.com/blog/eurostar-delays-and-cancellations/">ZadRails - Eurostar Delays and Cancellations Guide</a></li>
+    <li data-ref="[15]"><a href="https://help.raileurope.com/article/40950-submitting-a-claim-to-eurostar">Rail Europe Help - Submitting a Claim to Eurostar</a></li>
+    <li data-ref="[16]"><a href="https://en.wikipedia.org/wiki/Rail_Passenger_Rights_Regulation_2021">Wikipedia - Rail Passenger Rights Regulation 2021</a></li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Eurostar Compensation Playbook - QQT7FD - April 28, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Eurostar Cancellation Compensation Playbook",
+  "date": "2026-04-28",
+  "summary": "Full compensation playbook for Eurostar cancellation (ref QQT7FD, Amsterdam-London, 28 April 2026). Covers EU regulation rights, expense caps from station flyer, real passenger experiences, and step-by-step action plan to maximize reimbursement.",
+  "sections": [
+    {
+      "heading": "Legal Rights",
+      "items": [
+        { "title": "EU Regulation 2021/782", "detail": "Full refund, hotel, meals, re-routing after 100 min", "meta": {} },
+        { "title": "Eurostar Customer Charter", "detail": "Reasonable hotel/taxi costs with receipts", "meta": {} },
+        { "title": "Station Flyer Caps", "detail": "Hotel €170/night, taxi €60, food €60/day", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Real Experiences",
+      "items": [
+        { "title": "Suzanne Kraft (Elliott.org)", "detail": "Full reimbursement after advocacy escalation", "meta": {"outcome": "success"} },
+        { "title": "Darrell O (TripAdvisor)", "detail": "Hotel + some food reimbursed, alt transport refused", "meta": {"outcome": "partial"} },
+        { "title": "Rick Steves Forum User", "detail": "Delay claim rejected despite 60+ min delay", "meta": {"outcome": "fail"} },
+        { "title": "Christmas Cancellation", "detail": "Flight cost of £500 refused by Eurostar", "meta": {"outcome": "fail"} }
+      ]
+    },
+    {
+      "heading": "Action Plan",
+      "items": [
+        { "title": "Book hotel €155-170", "detail": "Near Centraal, keep itemized receipt", "meta": {"step": 1} },
+        { "title": "Taxi from station €60", "detail": "Keep receipt", "meta": {"step": 2} },
+        { "title": "Eat out €60", "detail": "Restaurants, itemized receipts", "meta": {"step": 3} },
+        { "title": "Claim ticket refund", "detail": "Cash not voucher, ref QQT7FD", "meta": {"step": 4} },
+        { "title": "Submit expense claim", "detail": "One PDF, all receipts, IBAN", "meta": {"step": 5} },
+        { "title": "Rebook for tomorrow", "detail": "Free exchange within 120 days", "meta": {"step": 6} }
+      ]
+    }
+  ],
+  "next_steps": "Max should book hotel tonight, eat out, keep all receipts. Submit ticket refund claim via eurostar.com and expense claim via traveller.care@eurostar.com within 3 months.",
+  "session_state": {
+    "phase": "report delivered",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Checked Gmail for Eurostar booking (ref QQT7FD, AMS-LON, 28 Apr 2026)",
+      "Read station flyer: hotel €170, taxi €60, food €60",
+      "Researched EU regulation 2021/782 passenger rights",
+      "Scraped 6 real passenger experiences from forums and blogs",
+      "Built HTML compensation playbook with sources"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new file 2026-04-28-eurostar-compensation-playbook.html",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-28-eurostar-compensation-playbook.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [
+      { "file": "~/Downloads/IMG_1659.JPG", "description": "Eurostar disruption flyer with expense caps" }
+    ],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial reports"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended booking a real hotel rather than staying with friends",
+      "rejected_alternatives": ["Stay with friends and skip hotel claim"],
+      "rationale": "Hotel reimbursement requires a real receipt. Staying with friends means losing €170 in claimable expenses. The hotel is fully reimbursed so there's no cost.",
+      "trade_offs": "Slightly less social time with friends vs €170 free hotel night",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
