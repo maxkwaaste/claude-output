@@ -276,6 +276,31 @@ a:hover { color: #2a4a8a; }
 }
 .warning-box .callout-label { color: #8a6a2a; }
 .warning-box p { color: #5c4316; margin-bottom: 0; }
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .page { padding: 24px 18px; margin: 8px auto 40px; }
+  h1 { font-size: 22px; }
+  h2 { font-size: 17px; }
+  .stats-row { flex-wrap: wrap; }
+  .stat-card { flex: 1 1 45%; min-width: 120px; padding: 14px 16px; }
+  .stat-value { font-size: 26px; }
+  .matrix { font-size: 11px; }
+  .matrix th, .matrix td { padding: 8px 8px; }
+  .two-col { flex-direction: column; gap: 14px; }
+  .page-meta { flex-direction: column; gap: 8px; }
+  .page-meta-right { text-align: left; }
+  .page-header { padding: 12px 16px 0; }
+  .step-item { gap: 12px; }
+  .step-number { width: 28px; height: 28px; font-size: 12px; }
+  .callout, .warning-box { padding: 14px 16px; }
+  .callout pre { font-size: 11px; }
+  .positioning { padding: 18px 20px; }
+  .experience-card { padding: 14px 16px; }
+  .exp-header { flex-direction: column; gap: 6px; align-items: flex-start; }
+  .bar-label { width: 100px; font-size: 11px; }
+  .scenario-row { flex-direction: column; }
+  .pos-steps { flex-direction: column; }
+}
 </style>
 </head>
 <body>
@@ -303,12 +328,12 @@ a:hover { color: #2a4a8a; }
 
   <div class="stats-row">
     <div class="stat-card">
-      <div class="stat-value">&euro;95</div>
-      <div class="stat-label">Delay Compensation (Cash)</div>
+      <div class="stat-value">&euro;147</div>
+      <div class="stat-label">Delay Comp (50% of &euro;294)</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">&euro;170</div>
-      <div class="stat-label">Hotel (per night)</div>
+      <div class="stat-value">&euro;151</div>
+      <div class="stat-label">Hotel (confirmed)</div>
     </div>
     <div class="stat-card">
       <div class="stat-value">&euro;60</div>
@@ -321,8 +346,8 @@ a:hover { color: #2a4a8a; }
   </div>
 
   <div class="callout" style="background: #e6f4ea; border-left-color: #1a6b3a;">
-    <span class="callout-label" style="color: #1a6b3a;">Updated Plan (v2 -- 28 April 18:50)</span>
-    <strong>Exchange, don't refund.</strong> Original ticket paid: &euro;190. By exchanging to tomorrow's Eurostar (free) and claiming 50% delay compensation (&euro;95 cash), plus &euro;290 in expenses, total cash in pocket is <strong>&euro;385</strong> with zero out of pocket. Train tomorrow is free.
+    <span class="callout-label" style="color: #1a6b3a;">Confirmed (v3 -- 28 April 19:48)</span>
+    <strong>Eurostar Plus exchanged, hotel booked.</strong> Eurostar confirmation shows total paid: &euro;294 (original &euro;190 + &euro;104 upgrade). Delay compensation at 50% = <strong>&euro;147 cash</strong>. Hotel V Frederiksplein booked at &euro;151.73 (breakfast included). Forwarded to Yuki (de-kwaasteniet-holding-bv@yukiworks.nl) for business accounting. Eurostar also emailed a free hotel offer, confirming they acknowledge the disruption.
   </div>
 
   <!-- SECTION 1: YOUR RIGHTS -->
@@ -413,8 +438,8 @@ a:hover { color: #2a4a8a; }
   </table>
 
   <div class="callout" style="background: #e6f4ea; border-left-color: #1a6b3a;">
-    <span class="callout-label" style="color: #1a6b3a;">Your situation (v2)</span>
-    You paid &euro;190. You're exchanging to tomorrow's train (free). Original arrival: 28 April evening. New arrival: 29 April evening. That's 180+ minutes delay. You get <strong>50% cash = &euro;95</strong>. This is on top of the free exchange and on top of the &euro;290 expense reimbursement. <a href="https://www.lovemoney.com/news/54875/eurostar-cancellations-strike-refund-rights" class="source-ref" title="LoveMoney Eurostar Rights">5</a>
+    <span class="callout-label" style="color: #1a6b3a;">Your situation (confirmed)</span>
+    Total ticket price on confirmation: &euro;294. Original arrival: 28 April evening. New arrival: 29 April 20:27. That's 180+ minutes delay. Claim <strong>50% cash = &euro;147</strong>. Eurostar may argue the &euro;104 upgrade isn't part of the original fare and only pay 50% of &euro;190 = &euro;95. Either way, claim on &euro;294 first and see what they accept. <a href="https://www.lovemoney.com/news/54875/eurostar-cancellations-strike-refund-rights" class="source-ref" title="LoveMoney Eurostar Rights">5</a>
   </div>
 
   <!-- SECTION 3: WHAT PEOPLE EXPERIENCED -->
@@ -497,22 +522,20 @@ a:hover { color: #2a4a8a; }
   <!-- SECTION 4: YOUR ACTION PLAN (V2) -->
   <h2>4. Your Action Plan (Updated)</h2>
 
-  <p>Original ticket: &euro;190. Train cancelled 28 April. Strategy: exchange (not refund) to keep the free train, then claim delay compensation and expenses separately. All expenses go on business card (tax deductible), all reimbursements come back to your private account.</p>
+  <p>Original ticket: &euro;190. Exchanged to Eurostar Plus for &euro;104 extra (total &euro;294). Train cancelled 28 April. Strategy: exchange + delay compensation + expense reimbursement. All expenses on business card (forwarded to Yuki), reimbursements to private IBAN.</p>
 
   <div class="step-timeline">
     <div class="step-item">
       <div class="step-number">1</div>
       <div class="step-content">
-        <div class="step-title">Exchange ticket to tomorrow's Eurostar (free)</div>
+        <div class="step-title">Exchange ticket to tomorrow's Eurostar Plus <span class="tag tag-independent" style="vertical-align: middle; font-size: 9px;">DONE</span></div>
         <div class="step-detail">
-          Exchange via Manage My Booking on eurostar.com. Select "Datum / vertrekuur wijzigen" (change date/time). Aim for the 16:00-17:00 departure, ideally 16:40. Same class. This is free because the original train was cancelled.
-          <ul class="checklist">
-            <li>Do NOT select refund or e-voucher</li>
-            <li>Select change date/time</li>
-            <li>Pick 29 April, 16:00-17:00 departure</li>
-            <li>Confirm it shows &euro;0 to pay</li>
+          Exchanged to Eurostar Plus, Wed 29 April, 18:40 departure, arriving London St Pancras 21:57. Direct. Paid &euro;104 upgrade via Apple Pay. Total on booking: &euro;294. Confirmation forwarded to Yuki (de-kwaasteniet-holding-bv@yukiworks.nl).
+          <ul class="checklist" style="opacity: 0.5;">
+            <li>Eurostar ref: QQT7FD</li>
+            <li>Confirmation email received 19:47</li>
+            <li>Fill in Advance Passenger Information (API) before travel</li>
           </ul>
-          <div class="tags"><span class="tag tag-independent">Claude handles this -- see Prompt A below</span></div>
         </div>
       </div>
     </div>
@@ -520,14 +543,14 @@ a:hover { color: #2a4a8a; }
     <div class="step-item">
       <div class="step-number">2</div>
       <div class="step-content">
-        <div class="step-title">Book a hotel tonight (up to &euro;170)</div>
+        <div class="step-title">Book a hotel tonight <span class="tag tag-independent" style="vertical-align: middle; font-size: 9px;">DONE</span></div>
         <div class="step-detail">
-          Book a room near Amsterdam Centraal for tonight. Aim for &euro;155-170 range on Booking.com or similar. You need a real, itemized receipt with your name on it. Put it on the business card. Eurostar reimburses to your private account.
-          <ul class="checklist">
-            <li>Book a room showing tonight's date</li>
-            <li>Get an itemized invoice/receipt with your name</li>
-            <li>Keep the booking confirmation email</li>
-            <li>Pay on business card</li>
+          Hotel V Frederiksplein, Weteringschans 136, Amsterdam. Standard Double Room, breakfast included. &euro;151.73 total (&euro;113.65 + &euro;23.87 VAT + &euro;14.21 city tax). Booking.com confirmation #5044685928. Card ending 4970.
+          <ul class="checklist" style="opacity: 0.5;">
+            <li>Check-in: Tue 28 April from 15:00</li>
+            <li>Check-out: Wed 29 April until 11:00</li>
+            <li>Non-refundable booking</li>
+            <li>Ask for itemized invoice at checkout</li>
           </ul>
         </div>
       </div>
@@ -564,9 +587,9 @@ a:hover { color: #2a4a8a; }
     <div class="step-item">
       <div class="step-number">5</div>
       <div class="step-content">
-        <div class="step-title">Claim delay compensation: &euro;95 cash</div>
+        <div class="step-title">Claim delay compensation: &euro;147 cash (try &euro;294 base) or &euro;95 (if &euro;190 base)</div>
         <div class="step-detail">
-          After the exchange is confirmed, claim delay compensation. Original arrival: 28 April evening. New arrival: 29 April evening = 180+ minutes delay = 50% of &euro;190 = <strong>&euro;95 cash</strong>. Go to <a href="https://compensation.eurostar.com/">compensation.eurostar.com</a> or <a href="https://prr.eurostar.com/">prr.eurostar.com</a>. Select cash, not e-voucher. You may need to wait 24 hours after travel before the system accepts the claim.
+          Exchange is confirmed. Claim delay compensation after you travel. Original arrival: 28 April evening. New arrival: 29 April 21:57 = 180+ minutes delay = 50% of ticket price. Confirmation shows &euro;294 total paid. Claim on that amount first (&euro;147). If Eurostar only counts the original &euro;190, you'll get &euro;95. Go to <a href="https://compensation.eurostar.com/">compensation.eurostar.com</a> or <a href="https://prr.eurostar.com/">prr.eurostar.com</a>.
           <ul class="checklist">
             <li>Wait until after you travel (29 April)</li>
             <li>Use booking ref QQT7FD</li>
@@ -601,15 +624,15 @@ a:hover { color: #2a4a8a; }
 
   <!-- SECTION 5: TOTAL HAUL (V2) -->
   <div class="positioning">
-    <h2>Your Total Haul</h2>
+    <h2>Your Total Haul (Confirmed)</h2>
     <ul>
-      <li><strong>Free train to London tomorrow</strong> (exchange, &euro;0)</li>
-      <li><strong>Delay compensation:</strong> &euro;95 cash (50% of &euro;190)</li>
-      <li><strong>Hotel:</strong> up to &euro;170 reimbursed to private account</li>
-      <li><strong>Taxi:</strong> up to &euro;60 reimbursed to private account</li>
-      <li><strong>Food:</strong> up to &euro;60 reimbursed to private account</li>
+      <li><strong>Eurostar Plus to London</strong> -- 29 April, 18:40 direct, paid &euro;104 upgrade (business card)</li>
+      <li><strong>Delay compensation:</strong> &euro;147 cash (best case, 50% of &euro;294) or &euro;95 (worst case, 50% of &euro;190)</li>
+      <li><strong>Hotel V Frederiksplein:</strong> &euro;151.73 reimbursed (breakfast included)</li>
+      <li><strong>Taxi:</strong> up to &euro;60 reimbursed</li>
+      <li><strong>Food:</strong> up to &euro;60 reimbursed</li>
     </ul>
-    <p style="margin-top: 14px;"><strong>Total cash in pocket: up to &euro;385.</strong> Expenses go on the business card (tax deductible). Reimbursements come back to your private IBAN. Net out of pocket: zero. You also get a free night in Amsterdam with your friends.</p>
+    <p style="margin-top: 14px;"><strong>Best case: &euro;418 private cash in</strong> (&euro;147 + &euro;151 + &euro;60 + &euro;60), business cost &euro;104. <strong>Worst case: &euro;366</strong> (&euro;95 + &euro;151 + &euro;60 + &euro;60), business cost &euro;104. Either way, net positive after the &euro;104 upgrade.</p>
   </div>
 
   <!-- SECTION: MONEY FLOW -->
@@ -622,10 +645,10 @@ a:hover { color: #2a4a8a; }
       <th>Amount</th>
     </tr>
     <tr>
-      <td>Hotel tonight</td>
-      <td>Business card</td>
+      <td>Hotel V Frederiksplein</td>
+      <td>Business card (****4970)</td>
       <td>Private IBAN (from Eurostar)</td>
-      <td>up to &euro;170</td>
+      <td>&euro;151.73</td>
     </tr>
     <tr>
       <td>Food tonight</td>
@@ -643,51 +666,57 @@ a:hover { color: #2a4a8a; }
       <td>Delay compensation</td>
       <td>n/a</td>
       <td>Private (from Eurostar)</td>
-      <td>&euro;95</td>
+      <td>&euro;95 - &euro;147</td>
     </tr>
     <tr>
-      <td>Tomorrow's train</td>
-      <td>Free exchange</td>
-      <td>n/a</td>
-      <td>&euro;0</td>
+      <td>Eurostar Plus upgrade</td>
+      <td>Apple Pay / business (&euro;104)</td>
+      <td>n/a (cost)</td>
+      <td>-&euro;104</td>
     </tr>
     <tr class="row-total">
-      <td><strong>Total private cash in</strong></td>
+      <td><strong>Net private cash in</strong></td>
       <td></td>
       <td></td>
-      <td><strong>up to &euro;385</strong></td>
+      <td><strong>&euro;262 - &euro;314</strong></td>
     </tr>
   </table>
-  <p>The business expenses (hotel, food, taxi) are legitimate business travel costs and tax-deductible. You were on a business trip that got disrupted. The Eurostar reimbursement is a personal consumer rights claim under EU Regulation 2021/782, paid to you as the passenger.</p>
+  <p>All expenses forwarded to Yuki (de-kwaasteniet-holding-bv@yukiworks.nl) for business accounting. The Eurostar reimbursement is a personal consumer rights claim under EU Regulation 2021/782, paid to you as the passenger. The &euro;104 upgrade and hotel/food/taxi are legitimate business travel costs, tax-deductible.</p>
+
+  <div class="callout">
+    <span class="callout-label">Bonus: Eurostar free hotel offer</span>
+    Eurostar emailed you a free hotel link via API Global Solutions (received 19:01). You already booked Hotel V on your own, which is fine -- you can claim your own hotel expense. But keep this email as proof that Eurostar acknowledged the disruption and offered accommodation, which strengthens your expense claim.
+  </div>
 
   <!-- SECTION: CLAUDE PROMPTS -->
   <h2>4c. Claude Automation Prompts</h2>
   <p>Copy-paste these into separate Claude Code sessions to handle the claims automatically.</p>
 
-  <h3>Prompt A: Exchange + Delay Compensation (Chrome MCP)</h3>
+  <h3>Prompt A: Delay Compensation Claim (Chrome MCP -- run after 29 April travel)</h3>
   <div class="callout">
-    <pre style="white-space: pre-wrap; font-size: 12px; background: transparent; padding: 0; margin: 0;">Go back to the booking management page for QQT7FD. The refund has NOT been submitted yet.
+    <pre style="white-space: pre-wrap; font-size: 12px; background: transparent; padding: 0; margin: 0;">I need to claim delay compensation from Eurostar. Use Chrome browser automation.
 
-STEP 1: Exchange my ticket for tomorrow's train
-- Go to https://www.eurostar.com/uk-en/travel-info/service-information/claiming-compensation or navigate to Manage My Booking with ref QQT7FD
-- Select "Datum / vertrekuur wijzigen" (Change date/time)
-- Exchange to: Tuesday 29 April 2026, Amsterdam Centraal to London St Pancras
-- Departure between 16:00-17:00, ideally the 16:40 if available
-- Same class as original booking
-- This must be FREE -- my original train was cancelled. If it tries to charge me, stop and screenshot
-
-STEP 2: After exchange is confirmed, claim delay compensation
-- Go to https://compensation.eurostar.com/ or https://prr.eurostar.com/
+The exchange is already confirmed. Details:
 - Booking ref: QQT7FD
-- Original arrival was 28 April evening. Now arriving 29 April evening. That is 180+ minutes delay.
-- Select CASH: 50% of ticket price = &euro;95
-- Do NOT accept e-voucher
-- If the system says wait 24 hours, note that and I'll claim after I travel tomorrow
+- Original train: 28 April 2026, Amsterdam to London (cancelled)
+- New train: 29 April 2026, 18:40 departure, arriving 21:57 (Eurostar Plus)
+- Total paid on booking confirmation: &euro;294
+- Original scheduled arrival: 28 April evening
+- Actual arrival: 29 April 21:57 = 180+ minutes delay
+
+Steps:
+1. Go to https://compensation.eurostar.com/ or https://prr.eurostar.com/
+2. Enter booking ref QQT7FD
+3. The delay is 180+ minutes, so I'm entitled to 50% of ticket price
+4. The confirmation email shows "Totaal betaald: 294.00&euro;" -- claim on the full &euro;294 (= &euro;147 compensation)
+5. Select CASH refund, NOT e-voucher
+6. If it only calculates on &euro;190 (original fare), accept &euro;95 but note it
+7. If the system says I need to wait, tell me when I can come back
 
 Screenshot every step. Always pick cash over vouchers.</pre>
   </div>
 
-  <h3>Prompt B: Expense Claim (Chrome MCP -- run after 29 April)</h3>
+  <h3>Prompt B: Expense Claim (Chrome MCP -- run after checkout 29 April)</h3>
   <div class="callout">
     <pre style="white-space: pre-wrap; font-size: 12px; background: transparent; padding: 0; margin: 0;">I need to submit an expense claim to Eurostar for a cancelled train. Use Chrome browser automation.
 
@@ -700,8 +729,13 @@ Screenshot every step. Always pick cash over vouchers.</pre>
    - Date of travel: 28 April 2026
    - Route: Amsterdam Centraal to London St Pancras
    - Type of query: Expenses / Disruption claim
-4. In the details field, write something like:
-   "My Eurostar train on 28 April 2026 (ref QQT7FD, Amsterdam to London) was cancelled. I was stranded overnight in Amsterdam. I am claiming reimbursement for hotel accommodation, food, and transport as per the disruption flyer provided at Amsterdam Centraal and EU Regulation 2021/782. Receipts attached. Please reimburse to my bank account (IBAN provided). Total claim: [AMOUNT -- I'll fill this in]."
+4. In the details field, write:
+   "My Eurostar train on 28 April 2026 (ref QQT7FD, Amsterdam to London) was cancelled (train skipped Amsterdam Centraal). I was stranded overnight in Amsterdam. Eurostar acknowledged the disruption and emailed me a hotel offer via API Global Solutions at 19:01 on 28 April. I had already booked my own accommodation. I am claiming reimbursement for:
+   - Hotel: Hotel V Frederiksplein, &euro;151.73 (Booking.com #5044685928)
+   - Food: &euro;[AMOUNT]
+   - Transport/taxi: &euro;[AMOUNT]
+   Total claim: &euro;[TOTAL]
+   As per the disruption flyer provided at Amsterdam Centraal station and EU Regulation 2021/782, please reimburse to my bank account. IBAN: [I'LL FILL THIS IN]."
 5. If there's an upload field for receipts, tell me and I'll upload my receipt photos
 6. If there's no web form, draft me an email to traveller.care@eurostar.com with the same content, ready to send via MS365
 
@@ -833,9 +867,9 @@ Draft it in my MS365 email, ready to send. Do not send it -- just create the dra
 
 <script type="application/json" id="claude-data">
 {
-  "title": "Eurostar Cancellation Compensation Playbook (v2)",
+  "title": "Eurostar Cancellation Compensation Playbook (v3 - confirmed)",
   "date": "2026-04-28",
-  "summary": "Updated playbook: exchange (not refund) to keep free train, claim €95 delay comp + €290 expenses = €385 total. Includes 3 Claude prompts for automation. Business card pays expenses, Eurostar reimburses to private IBAN.",
+  "summary": "Confirmed: Eurostar Plus exchange (18:40 Wed 29 Apr, €104 upgrade). Hotel V Frederiksplein booked (€151.73). Delay comp: €95-€147. Total private cash in: €262-€314. Includes 3 Claude prompts. Mobile-friendly.",
   "sections": [
     {
       "heading": "Legal Rights",
@@ -846,28 +880,28 @@ Draft it in my MS365 email, ready to send. Do not send it -- just create the dra
       ]
     },
     {
-      "heading": "Action Plan v2",
+      "heading": "Action Plan v3 (confirmed)",
       "items": [
-        { "title": "Exchange to tomorrow 16:40 Eurostar", "detail": "Free exchange, do NOT refund", "meta": {"step": 1, "automated": "Prompt A"} },
-        { "title": "Book hotel €155-170", "detail": "Business card, keep receipt", "meta": {"step": 2} },
-        { "title": "Taxi €60", "detail": "Business card, keep receipt", "meta": {"step": 3} },
-        { "title": "Eat out €60", "detail": "Business card, itemized receipts", "meta": {"step": 4} },
-        { "title": "Delay compensation €95 cash", "detail": "50% of €190, claim after travel", "meta": {"step": 5, "automated": "Prompt A"} },
-        { "title": "Expense claim €290", "detail": "All receipts in one PDF, private IBAN", "meta": {"step": 6, "automated": "Prompt B"} }
+        { "title": "Eurostar Plus exchange", "detail": "DONE - 18:40 Wed 29 Apr, €104 upgrade, ref QQT7FD", "meta": {"step": 1, "status": "done"} },
+        { "title": "Hotel V Frederiksplein", "detail": "DONE - €151.73, Booking.com #5044685928, card ****4970", "meta": {"step": 2, "status": "done"} },
+        { "title": "Taxi €60", "detail": "Business card, keep receipt", "meta": {"step": 3, "status": "pending"} },
+        { "title": "Eat out €60", "detail": "Business card, itemized receipts", "meta": {"step": 4, "status": "pending"} },
+        { "title": "Delay compensation €95-€147", "detail": "Claim after travel on 50% of €294 (or €190)", "meta": {"step": 5, "automated": "Prompt A"} },
+        { "title": "Expense claim up to €272", "detail": "Hotel + food + taxi, all receipts in one PDF", "meta": {"step": 6, "automated": "Prompt B"} }
       ]
     },
     {
-      "heading": "Money Flow",
+      "heading": "Money Flow (confirmed)",
       "items": [
-        { "title": "Business card pays", "detail": "Hotel + food + taxi (tax deductible)", "meta": {} },
-        { "title": "Eurostar reimburses to private", "detail": "€95 delay comp + up to €290 expenses", "meta": {} },
-        { "title": "Total private cash", "detail": "Up to €385", "meta": {} }
+        { "title": "Business card pays", "detail": "€104 upgrade + €151.73 hotel + food + taxi", "meta": {} },
+        { "title": "Eurostar reimburses to private", "detail": "€95-€147 delay comp + up to €272 expenses", "meta": {} },
+        { "title": "Net private cash in", "detail": "€262-€314 (after €104 business cost)", "meta": {} }
       ]
     }
   ],
-  "next_steps": "Paste Prompt A to the Chrome MCP Claude to exchange ticket and claim delay comp. Tonight: book hotel, eat, taxi, keep all receipts on business card. After travel tomorrow: run Prompt B to submit expense claim. If no response in 2 weeks: run Prompt C to draft follow-up email.",
+  "next_steps": "Exchange and hotel confirmed. Tonight: eat out (keep receipts, up to €60), take taxi (keep receipt, up to €60). Tomorrow after travel: run Prompt A to claim delay compensation (€95-€147). After checkout: run Prompt B to submit expense claim. If no response in 2 weeks: run Prompt C.",
   "session_state": {
-    "phase": "v2 plan delivered",
+    "phase": "v3 confirmed",
     "phase_status": "complete",
     "progress_pct": 100,
     "work_done_this_session": [
@@ -876,9 +910,13 @@ Draft it in my MS365 email, ready to send. Do not send it -- just create the dra
       "Researched EU regulation 2021/782 passenger rights",
       "Scraped 6 real passenger experiences from forums and blogs",
       "Built HTML compensation playbook with sources",
-      "Updated plan: exchange instead of refund for €385 total haul",
-      "Added 3 Claude automation prompts (exchange, expenses, follow-up)",
-      "Added business vs private money flow table"
+      "Updated plan: exchange instead of refund",
+      "Confirmed exchange: Eurostar Plus 18:40 Wed 29 Apr, €104 upgrade (Apple Pay)",
+      "Confirmed hotel: Hotel V Frederiksplein €151.73 (Booking.com #5044685928)",
+      "Discovered Eurostar free hotel offer email (API Global Solutions) as disruption proof",
+      "Recalculated delay comp: €147 (50% of €294 total) or €95 (50% of €190 original)",
+      "Added mobile-responsive CSS",
+      "Updated 3 Claude automation prompts with confirmed details"
     ],
     "blockers_hit": null,
     "uncommitted_changes": null,
@@ -901,7 +939,7 @@ Draft it in my MS365 email, ready to send. Do not send it -- just create the dra
     "screenshots": [
       { "file": "~/Downloads/IMG_1659.JPG", "description": "Eurostar disruption flyer with expense caps" }
     ],
-    "other": "Chrome MCP Claude session paused at Eurostar contact form -- needs Prompt A pasted to redirect to exchange flow"
+    "other": "Exchange confirmed 19:47. Eurostar free hotel offer email from API Global Solutions at 19:01 (disruption proof). Eurostar confirmation forwarded to Yuki at 19:48."
   },
   "project_context": {
     "protected_resources": [],
@@ -909,12 +947,12 @@ Draft it in my MS365 email, ready to send. Do not send it -- just create the dra
   },
   "decision_log": [
     {
-      "decision": "Exchange instead of refund",
-      "rejected_alternatives": ["Full refund + book own travel on business card"],
-      "rationale": "Exchange gives free train (€0) + €95 delay comp + €290 expenses = €385. Refund gives €190 back but costs €100-200 for new travel. Exchange nets more.",
-      "trade_offs": "Locked into Eurostar tomorrow instead of flexible KLM booking",
+      "decision": "Exchange to Eurostar Plus at €104 instead of refund + KLM €249",
+      "rejected_alternatives": ["Full refund (€190) + KLM Economy (€249) = net €231", "Free Standard exchange (sold out)"],
+      "rationale": "Exchange + €104 nets €281 (€385 private - €104 business). Refund + KLM nets €231 (€480 - €249). Exchange wins by €50, plus direct train beats easyJet to Gatwick for Pimlico. Eurostar Plus includes meal and more legroom.",
+      "trade_offs": "Paid €104 for upgrade that wouldn't have been needed if Standard wasn't sold out. But still net positive vs flight.",
       "contingencies": [
-        { "if_X_then_Y": "If exchange fails or no 16:00-17:00 trains available, fall back to refund + KLM Economy on business card", "probability": 0.15 }
+        { "if_X_then_Y": "If delay comp only calculated on €190 (not €294), net drops to €262 vs €231 for flight -- still better by €31", "probability": 0.5 }
       ]
     },
     {
