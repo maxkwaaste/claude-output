@@ -243,7 +243,17 @@ pre {
   <p>The WP pages use a different HTML structure (teal hero, <code>search-hero-title</code> class) than the local files (blue search-hero, <code>search-bar-text</code> class). This means every WP page needs a full content replacement, not a patch. For ~392 reports that don't exist on WP yet, new pages need to be created under parent 3299 (EN) or 3495 (NL).</p>
 
   <h3>3. DAX Toggles and Copy Buttons</h3>
-  <p>The local files have working JS: click <code>.dax-trigger</code> to toggle <code>.expanded</code> class, and <code>prxCopyDAX()</code> uses <code>navigator.clipboard.writeText()</code> with a <code>document.execCommand('copy')</code> fallback. The JS lives inline in each report's <code>&lt;script&gt;</code> block. Since <code>page-fullhtml.php</code> echoes content raw, the JS should work on WP. But SiteGround's optimizer or caching could interfere, so live verification is required.</p>
+  <p>Verified live on proxuma.io: the DAX toggles open and show query code, the copy button works. However, <code>prxCopyDAX()</code> resets the button text to English <strong>"Copy Query"</strong> even in NL files where the button says "Kopieer Query". This affects all 423 NL files. The fix is a one-line change in the JS: detect the original button text and restore it instead of hardcoding English.</p>
+
+  <h3>4. Duplicate Related-Reports Sections</h3>
+  <p>17 files have the <code>.related-reports</code> div appearing twice (7 EN + 10 NL). This renders two identical "Related Reports" grids stacked on top of each other. Simple DOM fix: remove the second occurrence.</p>
+
+  <h3>5. Empty Related-Report Card Descriptions</h3>
+  <p>548 files (236 EN + 312 NL) have at least one <code>.rr-card-desc</code> that is completely empty (<code>&lt;div class="rr-card-desc"&gt;&lt;/div&gt;</code>). The card title renders fine but the description line is blank. This is likely because the batch generator didn't have the linked report's subtitle available when creating the card. Fix options:</p>
+  <ul>
+    <li><strong>Option A:</strong> Script that cross-references each linked report's <code>.search-hero-sub</code> text and backfills the empty descriptions. Requires matching the <code>href</code> slug to a local file.</li>
+    <li><strong>Option B:</strong> Remove the empty <code>.rr-card-desc</code> div entirely so the card shows just title + category badge + link. Cleaner than showing blank space.</li>
+  </ul>
 
   <h2>Execution Plan</h2>
 
@@ -269,13 +279,37 @@ pre {
 
     <div class="step-num-box">2</div>
     <div class="step-content">
+      <div class="step-title">Fix Copy Button Language in NL Files <span class="risk-tag risk-low">Low Risk</span></div>
+      <div class="step-detail">
+        All 423 NL files have <code>prxCopyDAX()</code> hardcoded to reset button text to English "Copy Query" after copying. Fix: replace <code>btn.textContent='Copy Query'</code> with <code>btn.textContent='Kopieer Query'</code> and <code>btn.textContent='Copied!'</code> with <code>btn.textContent='Gekopieerd!'</code> in all NL files. Simple sed/find-replace across the <code>nl/</code> directory.
+      </div>
+    </div>
+
+    <div class="step-num-box">3</div>
+    <div class="step-content">
+      <div class="step-title">Remove Duplicate Related-Reports Sections <span class="risk-tag risk-low">Low Risk</span></div>
+      <div class="step-detail">
+        17 files (7 EN + 10 NL) have the <code>.related-reports</code> div appearing twice. Write a BeautifulSoup script to detect and remove the second occurrence. Verify the first one has the correct cards before deleting.
+      </div>
+    </div>
+
+    <div class="step-num-box">4</div>
+    <div class="step-content">
+      <div class="step-title">Fix Empty Related-Report Descriptions <span class="risk-tag risk-med">Medium Risk</span></div>
+      <div class="step-detail">
+        548 files (236 EN + 312 NL) have at least one empty <code>.rr-card-desc</code>. Build a cross-reference script: for each empty description, look up the linked report's slug, find the matching local HTML file, extract its <code>.search-hero-sub</code> text, and backfill. For cards linking to reports that don't exist yet locally, either hide the empty desc div or insert a generic one-liner based on the card title.
+      </div>
+    </div>
+
+    <div class="step-num-box">5</div>
+    <div class="step-content">
       <div class="step-title">Build a Slug-to-WP-ID Mapping <span class="risk-tag risk-low">Low Risk</span></div>
       <div class="step-detail">
         Pull the full list of existing WP pages under parents 3299 and 3495 via WP-CLI (<code>wp post list</code>). Map each <code>post_name</code> (slug) to page ID. Match these against local filenames. Categorize into: <strong>update</strong> (slug exists on WP) vs. <strong>create</strong> (new page needed). Save the mapping as a JSON file for the push script.
       </div>
     </div>
 
-    <div class="step-num-box">3</div>
+    <div class="step-num-box">6</div>
     <div class="step-content">
       <div class="step-title">Upload Local HTML to Server <span class="risk-tag risk-low">Low Risk</span></div>
       <div class="step-detail">
@@ -283,7 +317,7 @@ pre {
       </div>
     </div>
 
-    <div class="step-num-box">4</div>
+    <div class="step-num-box">7</div>
     <div class="step-content">
       <div class="step-title">Push Content to WordPress <span class="risk-tag risk-med">Medium Risk</span></div>
       <div class="step-detail">
@@ -298,7 +332,7 @@ pre {
       </div>
     </div>
 
-    <div class="step-num-box">5</div>
+    <div class="step-num-box">8</div>
     <div class="step-content">
       <div class="step-title">Flush Cache <span class="risk-tag risk-low">Low Risk</span></div>
       <div class="step-detail">
@@ -306,7 +340,7 @@ pre {
       </div>
     </div>
 
-    <div class="step-num-box">6</div>
+    <div class="step-num-box">9</div>
     <div class="step-content">
       <div class="step-title">Verify Live: Visual + Functional <span class="risk-tag risk-med">Medium Risk</span></div>
       <div class="step-detail">
@@ -323,7 +357,7 @@ pre {
       </div>
     </div>
 
-    <div class="step-num-box">7</div>
+    <div class="step-num-box">10</div>
     <div class="step-content">
       <div class="step-title">Update Gallery Pages (3299 + 3495) <span class="risk-tag risk-med">Medium Risk</span></div>
       <div class="step-detail">
@@ -348,19 +382,22 @@ pre {
 
   <table class="matrix">
     <tr><th>Step</th><th>Time</th><th>Runs On</th></tr>
-    <tr><td>Rewrite ~340 search bar texts (script + Claude batch + review)</td><td>45-60 min</td><td>M4 Air</td></tr>
-    <tr><td>Build slug mapping</td><td>10 min</td><td>M4 Air (SSH to SG)</td></tr>
-    <tr><td>rsync upload</td><td>5 min</td><td>M4 Air to SG</td></tr>
-    <tr><td>WP push (480 updates + ~392 creates)</td><td>30-45 min</td><td>SG server</td></tr>
-    <tr><td>Cache flush</td><td>2 min</td><td>SG server</td></tr>
-    <tr><td>Live verification (10 reports)</td><td>15 min</td><td>M4 Air (Chrome)</td></tr>
-    <tr><td>Gallery update</td><td>15 min</td><td>M4 Air (SSH to SG)</td></tr>
-    <tr class="row-total"><td><strong>Total</strong></td><td><strong>~120-150 min</strong></td><td></td></tr>
+    <tr><td>1. Rewrite ~340 search bar texts</td><td>45-60 min</td><td>M4 Air</td></tr>
+    <tr><td>2. Fix copy button language in 423 NL files</td><td>5 min</td><td>M4 Air</td></tr>
+    <tr><td>3. Remove 17 duplicate related-reports</td><td>10 min</td><td>M4 Air</td></tr>
+    <tr><td>4. Fix 548 empty related-report descriptions</td><td>20-30 min</td><td>M4 Air</td></tr>
+    <tr><td>5. Build slug mapping</td><td>10 min</td><td>M4 Air (SSH)</td></tr>
+    <tr><td>6. rsync upload</td><td>5 min</td><td>M4 Air to SG</td></tr>
+    <tr><td>7. WP push (480 updates + ~392 creates)</td><td>30-45 min</td><td>SG server</td></tr>
+    <tr><td>8. Cache flush</td><td>2 min</td><td>SG server</td></tr>
+    <tr><td>9. Live verification (10 reports)</td><td>15 min</td><td>M4 Air (Chrome)</td></tr>
+    <tr><td>10. Gallery update</td><td>15 min</td><td>M4 Air (SSH)</td></tr>
+    <tr class="row-total"><td><strong>Total</strong></td><td><strong>~160-200 min</strong></td><td></td></tr>
   </table>
 
   <div class="positioning">
     <h2>Bottom Line</h2>
-    <p>Two big pieces of work here. First: rewriting ~340 search-bar texts (mostly NL topic labels that were never turned into real questions). A Claude batch API call with the report title as context should handle the generation, but the results need a human eye before committing. Second: the WP push itself -- replacing 480 existing pages and creating ~392 new ones. The DAX toggles and copy buttons should work since the JS is inline, but SiteGround's optimizer is the wild card. Total estimated time: 2-2.5 hours.</p>
+    <p>Four cleanup tasks before pushing: rewrite ~340 bad search-bar texts, fix copy button language in 423 NL files, remove 17 duplicate related-reports sections, and backfill 548 empty related-report descriptions. Then the WP push: replace 480 existing pages and create ~392 new ones. Live test on the sales-prestaties page confirmed DAX toggles and copy buttons work on WP. Total estimated time: 2.5-3.5 hours.</p>
   </div>
 
   <div class="page-footer">
@@ -373,12 +410,15 @@ pre {
 {
   "title": "Power BI Reports -- WordPress Push Plan",
   "date": "2026-04-28",
-  "summary": "Plan to push 872 local Power BI report HTML files to proxuma.io WordPress. Rewrites ~340 bad search-bar texts (70% of NL files are topic labels, not questions), syncs all local files to WP (480 updates + ~392 new pages), and verifies DAX toggle/copy functionality live.",
+  "summary": "Plan to push 872 local Power BI report HTML files to proxuma.io WordPress. 10-step plan: rewrite ~340 bad search-bar texts, fix NL copy button language (423 files), remove 17 duplicate related-reports sections, backfill 548 empty related-report descriptions, then push to WP (480 updates + ~392 creates). Live test on sales-prestaties confirmed DAX toggles work.",
   "sections": [
     {
       "heading": "Question Box Fix",
       "items": [
-        { "title": "~340 reports have bad search bar text", "detail": "EN: 42 bad (17 statements, 10 too-long, 6 labels, 4 subtitles, 2 wrong-lang, 3 dupes). NL: 298 bad (215 labels, 38 subtitles, 23 statements, 15 wrong-lang, 8 too-long). Root cause: NL batch translation created topic labels not questions.", "meta": { "en_bad": 42, "nl_bad": 298, "total_bad": 340, "effort": "45-60 min" } }
+        { "title": "~340 reports have bad search bar text", "detail": "EN: 42 bad (17 statements, 10 too-long, 6 labels, 4 subtitles, 2 wrong-lang, 3 dupes). NL: 298 bad (215 labels, 38 subtitles, 23 statements, 15 wrong-lang, 8 too-long). Root cause: NL batch translation created topic labels not questions.", "meta": { "en_bad": 42, "nl_bad": 298, "total_bad": 340, "effort": "45-60 min" } },
+        { "title": "Copy button resets to English in 423 NL files", "detail": "prxCopyDAX() hardcodes 'Copy Query' and 'Copied!' as reset text. NL buttons say 'Kopieer Query' initially but flash English after clicking.", "meta": { "files": 423, "effort": "5 min" } },
+        { "title": "17 files have duplicate related-reports sections", "detail": "7 EN + 10 NL files render two identical Related Reports grids.", "meta": { "en": 7, "nl": 10, "effort": "10 min" } },
+        { "title": "548 files have empty related-report descriptions", "detail": "236 EN + 312 NL files have rr-card-desc divs with no text. Card title shows but description is blank.", "meta": { "en": 236, "nl": 312, "effort": "20-30 min" } }
       ]
     },
     {
@@ -396,7 +436,7 @@ pre {
       ]
     }
   ],
-  "next_steps": "Execute step 1 (rewrite ~340 search bar texts via Claude batch + review). Then steps 2-5 (mapping, rsync, push, cache). Verify with step 6. Update galleries last. Full audit at /tmp/question-audit.txt.",
+  "next_steps": "Execute steps 1-4 (search bar texts, copy button lang, dupe related-reports, empty descriptions) as local fixes. Then steps 5-8 (mapping, rsync, push, cache). Verify with step 9. Update galleries last. Full audit at /tmp/question-audit.txt.",
   "session_state": {
     "phase": "plan complete",
     "phase_status": "complete",
@@ -404,6 +444,10 @@ pre {
     "work_done_this_session": [
       "Audited all 872 report files for question quality (found ~340 bad: 298 NL + 42 EN)",
       "Full audit saved to /tmp/question-audit.txt with every bad text categorized",
+      "Found copy button language bug: all 423 NL files reset to English 'Copy Query' after clicking",
+      "Found 17 files with duplicate related-reports sections (7 EN + 10 NL)",
+      "Found 548 files with empty related-report card descriptions (236 EN + 312 NL)",
+      "Live-tested push on sales-prestaties page (WP 3507): DAX toggles work, question text updated",
       "Compared local HTML structure vs WP HTML structure (different template generations)",
       "Counted WP pages (233 EN + 247 NL = 480) vs local files (449 EN + 423 NL = 872)",
       "Verified page-fullhtml.php outputs raw post_content",
