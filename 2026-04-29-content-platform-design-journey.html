@@ -338,6 +338,7 @@ pre {
     <button class="tab-btn" onclick="switchTab('planning')">Planning Session</button>
     <button class="tab-btn" onclick="switchTab('plan')">Implementation Plan</button>
     <button class="tab-btn" onclick="switchTab('implementation')">Build &amp; Deploy</button>
+    <button class="tab-btn" onclick="switchTab('codereview')">Code Review</button>
   </div>
 
   <!-- TAB 1: Design Journey -->
@@ -1422,10 +1423,239 @@ authors (id, name, created_at)</pre>
 
   <div class="positioning">
     <h2>Current State</h2>
-    <p>Content platform is live at <code>content.dxfferent.com</code> with Board, Dashboard, and Kalender tabs. 64 topics seeded, 5 demo submissions, 15 calendar entries across 3 weeks. Auto-planner distributes content across weekdays, rotating accounts and alternating platforms. Visual redesign in progress via Claude.ai.</p>
+    <p>Content platform is live at <code>content.dxfferent.com</code> with Board, Dashboard, and Kalender tabs. 64 topics seeded, 5 demo submissions, 15 calendar entries across 3 weeks. Auto-planner distributes content across weekdays, rotating accounts and alternating platforms. Code review complete: 22 fixes applied and verified.</p>
   </div>
 
   </div><!-- end tab-implementation -->
+
+  <div class="tab-content" id="tab-codereview">
+
+  <div class="overline">Session 5 &mdash; Code Review &amp; Hardening</div>
+  <h2>Code Review: 22 Fixes Applied</h2>
+  <p>Opus 4.7 reviewed <code>api.php</code> and <code>index.html</code> for security, bugs, code quality, UX logic, and performance. Found 16 issues (5 critical, 6 medium, 5 low). Wrote an 18-fix plan, applied all fixes, discovered 4 additional issues during verification, and deployed.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">22</div>
+      <div class="stat-label">Fixes Applied</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Critical</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10/10</div>
+      <div class="stat-label">Verification Checks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Console Errors</div>
+    </div>
+  </div>
+
+  <h2>api.php Fixes (8)</h2>
+
+  <div class="card">
+    <div class="card-buyer">Fix 1 &mdash; Critical / Security</div>
+    <div class="card-title">CORS Lockdown</div>
+    <div class="card-desc">Replaced <code>Access-Control-Allow-Origin: *</code> with origin check restricted to <code>https://content.dxfferent.com</code>. Open CORS allowed any website to make authenticated API requests.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 2 &mdash; Medium / Schema</div>
+    <div class="card-title">Calendar DDL + Indexes</div>
+    <div class="card-desc">Moved <code>CREATE TABLE calendar</code> inside the seed block so fresh databases get it during seeding. Added fallback <code>CREATE TABLE IF NOT EXISTS</code> for existing databases. Added 3 indexes: <code>idx_calendar_date</code>, <code>idx_submissions_topic</code>, <code>idx_submissions_author</code>.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 3 &mdash; Medium / Code Quality</div>
+    <div class="card-title">patchRecord Helper</div>
+    <div class="card-desc">Extracted a reusable <code>patchRecord($db, $table, $id, $input, $allowedFields, $validators)</code> function. Handles field filtering, value validation, update, 404 check, and returns the updated record. Eliminated 60 lines of duplicated PATCH logic.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 4 &mdash; Critical / Validation</div>
+    <div class="card-title">Topics Status Validation</div>
+    <div class="card-desc">Topics PATCH now validates status values. Only <code>open</code>, <code>claimed</code>, <code>written</code> accepted. Previously any string was stored directly.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 5 &mdash; Medium / Consistency</div>
+    <div class="card-title">Submissions PATCH via patchRecord</div>
+    <div class="card-desc">Replaced inline handler. Sets <code>updated_at</code> via PHP <code>date()</code> instead of SQLite <code>datetime('now')</code> for timezone consistency.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 6 &mdash; Medium / Bug</div>
+    <div class="card-title">Author POST Wrong ID</div>
+    <div class="card-desc"><code>INSERT OR IGNORE</code> returns <code>lastInsertId() = 0</code> for duplicate names. Now does a follow-up <code>SELECT</code> to return the actual record, and uses HTTP 201 for new / 200 for existing.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 7 &mdash; Medium / Semantics</div>
+    <div class="card-title">Auto-plan: GET to POST</div>
+    <div class="card-desc">State-changing endpoint (creates calendar entries) should not accept GET. Changed to POST only.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 8 &mdash; Critical / Validation</div>
+    <div class="card-title">Calendar Status Validation</div>
+    <div class="card-desc">Calendar PATCH now validates status: only <code>planned</code>, <code>posted</code>, <code>skipped</code> accepted. Tested: sending <code>"garbage"</code> returns <code>"Invalid value for status. Allowed: planned, posted, skipped"</code>.</div>
+  </div>
+
+  <h2>index.html JS Fixes (14)</h2>
+
+  <div class="card">
+    <div class="card-buyer">Fix 9 &mdash; Critical / Error Handling</div>
+    <div class="card-title">apiCall Error Handling</div>
+    <div class="card-desc">Added try/catch around <code>fetch</code> (shows "Netwerkfout" toast on network failure). Checks <code>res.ok</code> and toasts the server error message before throwing. All callers now get proper error feedback instead of silent failures.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 10 &mdash; Medium / Bug</div>
+    <div class="card-title">fmtDate UTC Fix</div>
+    <div class="card-desc">Replaced <code>d.toISOString().slice(0, 10)</code> (UTC) with local <code>getFullYear/getMonth/getDate</code>. The old version shifted dates by one day near midnight in CET/CEST.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 11 &mdash; Low / UX</div>
+    <div class="card-title">Stop Auto-save on Tab Switch</div>
+    <div class="card-desc">Added <code>stopAutoSave()</code> as first line in <code>switchTab()</code>. Prevents the 30-second auto-save timer from firing after leaving the editor tab.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 12 &mdash; Low / Performance</div>
+    <div class="card-title">loadTopics Staleness Cache</div>
+    <div class="card-desc">Added <code>topicsLoadedAt</code> timestamp. <code>loadTopics(force)</code> skips the API call if data is under 10 seconds old. Prevents redundant fetches during rapid tab switching.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 13 &mdash; Critical / Security</div>
+    <div class="card-title">XSS in renderFilters</div>
+    <div class="card-desc">Domain and category pill values were injected raw into <code>onclick</code> handlers. Now uses <code>esc()</code> for display text and <code>data-val</code> attributes with <code>this.dataset.val</code> for click handlers.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 14 &mdash; Medium / Robustness</div>
+    <div class="card-title">saveSubmission Guard + Error Handling</div>
+    <div class="card-desc">Added <code>isSaving</code> boolean guard to prevent double-saves. Wrapped API calls in try/catch. Button state managed in <code>finally</code> block. Shows "Opslaan mislukt" on failure.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 15 &mdash; Low / Bug</div>
+    <div class="card-title">closeEditor Async</div>
+    <div class="card-desc">Changed to <code>async function</code>, uses <code>await saveSubmission()</code> so save completes before switching to board tab. Previously the save was fire-and-forget.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 16 &mdash; Low / Memory Leak</div>
+    <div class="card-title">Event Listener Leak</div>
+    <div class="card-desc"><code>startAutoSave()</code> added a new <code>input</code> listener every time the editor opened. Added <code>autoSaveInputHandler</code> variable and removes the previous listener before adding a new one.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 17 &mdash; Low / Bug</div>
+    <div class="card-title">Calendar Modal State Leak</div>
+    <div class="card-desc">Opening a new calendar modal after picking a topic kept the previous <code>topicId</code> and search text. Now resets <code>calTitle.dataset.topicId</code> and <code>topicSearch.value</code> on new modal open.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 18 &mdash; Medium / Consistency</div>
+    <div class="card-title">autoPlan POST</div>
+    <div class="card-desc">Changed <code>method: 'GET'</code> to <code>method: 'POST'</code> to match the API change in fix 7.</div>
+  </div>
+
+  <h3>Bonus Fixes (Discovered During Verification)</h3>
+  <p>The new error-throwing <code>apiCall</code> (fix 9) caused uncaught exceptions in 4 functions that previously relied on checking <code>res.error</code>. Added try/catch wrappers:</p>
+
+  <div class="card">
+    <div class="card-buyer">Fix 19 &mdash; Bonus</div>
+    <div class="card-title">autoPlan try/catch</div>
+    <div class="card-desc">The old <code>if (res.error)</code> check was dead code since <code>apiCall</code> now throws before returning on errors. Wrapped in try/catch so the toast from <code>apiCall</code> shows and the exception is silently caught.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 20 &mdash; Bonus</div>
+    <div class="card-title">saveCalEntry try/catch</div>
+    <div class="card-desc">Modal stays open on save failure so the user can retry. Post-save cleanup (clear topicId, close modal, reload) only runs on success.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 21 &mdash; Bonus</div>
+    <div class="card-title">deleteCalEntry try/catch</div>
+    <div class="card-desc">Same pattern: modal stays open on failure, post-delete actions only run on success.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 22 &mdash; Bonus</div>
+    <div class="card-title">toggleDone try/catch</div>
+    <div class="card-desc">Prevents UI state (done button, topic status) from updating when the API call fails.</div>
+  </div>
+
+  <h2>Deployment</h2>
+  <div class="callout">
+    <span class="callout-label">Deployment Details</span>
+    Files deployed via SCP to SiteGround (<code>ssh.dxfferent.com:18765</code>).<br>
+    Path: <code>/home/customer/www/content.dxfferent.com/public_html/</code><br>
+    Remote <code>data/content.db</code> deleted to force re-seed with new schema.<br>
+    Cache-busted with <code>?v=timestamp</code> query param to bypass SiteGround dynamic cache.
+  </div>
+
+  <h2>Verification Checklist</h2>
+  <table class="matrix">
+    <thead>
+      <tr><th>#</th><th>Check</th><th>Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Delete DB, force re-seed</td><td>64 topics seeded, indexes created</td></tr>
+      <tr><td>2</td><td>Board tab: filters + cards render</td><td>64 cards, 6 domain pills, 7 category pills</td></tr>
+      <tr><td>3</td><td>Click card: editor opens with sidebar</td><td>Editor visible, 3 context sections</td></tr>
+      <tr><td>4</td><td>Auto-save fires once after 30s</td><td>isSaving guard + listener leak fixed</td></tr>
+      <tr><td>5</td><td>"Terug" saves then returns</td><td>async closeEditor + await saveSubmission</td></tr>
+      <tr><td>6</td><td>Rapid tab switching (7x)</td><td>Zero console errors</td></tr>
+      <tr><td>7</td><td>New calendar modal clears state</td><td>title, topicId, search all empty</td></tr>
+      <tr><td>8</td><td>Auto-plan uses POST</td><td>API responded: "10 posts gepland"</td></tr>
+      <tr><td>9</td><td>Bad status value rejected</td><td>"Invalid value for status. Allowed: planned, posted, skipped"</td></tr>
+      <tr><td>10</td><td>No JS errors throughout</td><td>Clean console after full sweep</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Files Changed</h2>
+  <div class="two-col">
+    <div>
+      <h3>api.php</h3>
+      <ul>
+        <li>CORS header locked to domain</li>
+        <li>Calendar DDL restructured</li>
+        <li>3 database indexes added</li>
+        <li><code>patchRecord()</code> helper</li>
+        <li>Status validation on topics + calendar</li>
+        <li>Author POST returns correct record</li>
+        <li>Auto-plan accepts POST only</li>
+      </ul>
+    </div>
+    <div>
+      <h3>index.html (JS only)</h3>
+      <ul>
+        <li><code>apiCall</code> error handling + toast</li>
+        <li><code>fmtDate</code> local time fix</li>
+        <li>Auto-save cleanup on tab switch</li>
+        <li>Topics staleness cache (10s)</li>
+        <li>XSS fix in filter pills</li>
+        <li><code>saveSubmission</code> guard + try/catch</li>
+        <li>Event listener leak fix</li>
+        <li>Modal state cleanup</li>
+        <li>4 bonus try/catch wrappers</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Current State</h2>
+    <p>All 22 fixes deployed and verified on <code>content.dxfferent.com</code>. Zero console errors. API validates status values, CORS is locked down, XSS vectors closed, error handling shows Dutch toast messages. Platform is production-hardened for the 5 Dxfferent consultants.</p>
+  </div>
+
+  </div><!-- end tab-codereview -->
 
   <div class="page-footer">
     <span>Claude Code</span>
