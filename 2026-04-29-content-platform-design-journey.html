@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Platform Design Journey -- From Idea to Spec in One Session</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-bewijs { background: #E6F1FB; color: #0C447C; border: 1px solid #a8ceef; }
+.tag-educatie { background: #EEEDFE; color: #3C3489; border: 1px solid #b8b4e8; }
+.tag-markt { background: #E1F5EE; color: #085041; border: 1px solid #8ac8a0; }
+.tag-contrair { background: #FAECE7; color: #712B13; border: 1px solid #e8b8a0; }
+.tag-eigen { background: #FBEAF0; color: #72243E; border: 1px solid #d8a0b8; }
+.tag-tools { background: #FAEEDA; color: #633806; border: 1px solid #d8c080; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.mockup-img {
+  width: 100%; border: 1px solid #e2e4e8; border-radius: 4px; margin: 16px 0;
+}
+.phase-badge {
+  display: inline-block; font: 600 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .07em;
+  padding: 3px 10px; border-radius: 3px; margin-right: 8px;
+}
+.phase-now { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.phase-later { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.timeline {
+  position: relative; padding-left: 28px; margin: 16px 0;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px;
+  width: 2px; background: #d0d3d8;
+}
+.timeline-item {
+  position: relative; margin-bottom: 20px;
+}
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 4px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #1a2744; border: 2px solid #fff;
+}
+.timeline-item.done::before { background: #2b8a3e; }
+.timeline-label {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #6b7280; margin-bottom: 4px;
+}
+.timeline-text { font-size: 14px; color: #2c2c2c; }
+.convo-block {
+  background: #f8f9fb; border-radius: 6px; padding: 16px 20px; margin: 12px 0;
+  border: 1px solid #eef0f2;
+}
+.convo-role {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; margin-bottom: 6px;
+}
+.convo-role.human { color: #1a6b3a; }
+.convo-role.claude { color: #1a2744; }
+.convo-text { font-size: 13px; color: #4a5568; line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 29, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Product Design &amp; Architecture</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 29, 2026<br>Design Journey<br>Dxfferent / Proxuma
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">DESIGN PROCESS WALKTHROUGH</div>
+  <h1>Content Platform for MSP Consultants</h1>
+  <p class="subtitle">How we went from a PDF with MSP problems to a full product spec in one brainstorming session. This document walks through the design decisions, mockups, and final architecture for the Proxuma Content Platform.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">63</div>
+      <div class="stat-label">Content Topics</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Content Categories</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Consultants</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Phases Planned</div>
+    </div>
+  </div>
+
+  <!-- SECTION: The Problem -->
+  <h2>The Starting Point</h2>
+  <p>We have a team of 5 Dxfferent consultants with deep MSP and Autotask expertise. Their knowledge is the source of all our content, but there's no structured way to capture it. AI can transform content into blog posts, LinkedIn posts, and articles, but it can't be the <em>source</em>. We need a way to farm our experts for their knowledge in a way that's convenient for them.</p>
+
+  <div class="callout">
+    <span class="callout-label">Key Principle</span>
+    AI cannot be the source of content. It can only transform what our experts write. The platform's job is to make contributing as frictionless as possible.
+  </div>
+
+  <h3>Source Materials</h3>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">MSP Journey PDF</div>
+        <div class="card-buyer">Problem Matrix</div>
+        <div class="card-desc">30 sub-topics across 6 domains (Identity, Organisation, GRC, Positioning, Portfolio, Technology, Blueprint, Data Driven). Each has structured Problems / Frustrations / Questions columns for L2-L3 MSPs.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Contentbibliotheek</div>
+        <div class="card-buyer">Content Ideas</div>
+        <div class="card-desc">63 concrete content ideas derived from the MSP Journey, categorized into 6 content types with hook templates and source domain mapping. This becomes the topic menu for consultants.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: Content Categories -->
+  <h2>The 6 Content Categories</h2>
+  <p>Each content idea is tagged with one of these categories. The colors carry through into the platform UI as filter pills and card badges.</p>
+
+  <table class="matrix">
+    <tr>
+      <th>Category</th>
+      <th>Count</th>
+      <th>Purpose</th>
+      <th>Example Hook</th>
+    </tr>
+    <tr>
+      <td><span class="tag tag-bewijs">Bewijs & resultaat</span></td>
+      <td>12</td>
+      <td>Case studies, data analysis, proof points</td>
+      <td>"Ik analyseerde [X] en vond [Y]"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-educatie">Educatie & uitleg</span></td>
+      <td>16</td>
+      <td>How-tos, explainers, frameworks</td>
+      <td>"Complex ding makkelijk gemaakt"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-markt">Markt & visie</span></td>
+      <td>10</td>
+      <td>Market predictions, vision pieces</td>
+      <td>"Toekomst van [markt / tool]"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-contrair">Contrair & polariserend</span></td>
+      <td>14</td>
+      <td>Myth-busting, contrarian takes</td>
+      <td>"Waarom [mythe] niet klopt"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-eigen">Eigen verhaal</span></td>
+      <td>7</td>
+      <td>Personal stories, lessons learned</td>
+      <td>"Wat ik nooit meer zou doen"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-tools">Tools & resources</span></td>
+      <td>4</td>
+      <td>Comparisons, lists, templates</td>
+      <td>"[X] vs [Y] voor MSP's"</td>
+    </tr>
+  </table>
+
+  <!-- SECTION: Design Decisions -->
+  <h2>Design Decisions</h2>
+  <p>The brainstorming session covered several key decisions. Here's how each one landed.</p>
+
+  <h3>Decision 1: Two entry paths</h3>
+  <div class="convo-block">
+    <div class="convo-role human">Max</div>
+    <div class="convo-text">"If they want to do free form they should be able to. Claude can then categorize. If they want to pick a topic this should also be available as an option."</div>
+  </div>
+  <p><strong>Result:</strong> Consultants can either browse the 63 topics and claim one, or hit "Vrije tekst schrijven" to dump raw text without picking a topic. Free-form submissions get categorized by Claude later.</p>
+
+  <h3>Decision 2: Dual filter system</h3>
+  <p>We explored three options for how consultants navigate the topic list. The question: do consultants think in domains ("I know about PSA") or content types ("I want to write a case study")?</p>
+
+  <div class="callout">
+    <span class="callout-label">Three Options Mocked Up in Excalidraw</span>
+    <strong>Option A:</strong> Filter by content category only (Bewijs, Educatie, Markt...)<br>
+    <strong>Option B:</strong> Filter by MSP Journey domain only (Data Driven, Technology...)<br>
+    <strong>Option C:</strong> Both filter rows, independently selectable
+  </div>
+
+  <img src="assets/content-platform-mockups.png" alt="Three filter options mockup from Excalidraw" class="mockup-img">
+
+  <p><strong>Result:</strong> Option C. Two filter rows: DOMEIN (grey pills) and TYPE (colored pills matching the contentbibliotheek palette). Consultants can combine filters or use either independently.</p>
+
+  <h3>Decision 3: Full-width editor</h3>
+  <p>When a consultant clicks a topic, we open a full-width editor view (not an inline accordion). The left side is the writing area with auto-save. The right side shows context: the hook template, category badge, and relevant MSP Journey problems/frustrations/questions for that domain.</p>
+
+  <h3>Decision 4: Storage and hosting</h3>
+  <div class="convo-block">
+    <div class="convo-role human">Max</div>
+    <div class="convo-text">"Use an URL like content.dxfferent.com instead. You have SiteGround and WP access to dxfferent.com."</div>
+  </div>
+  <p><strong>Result:</strong> Standalone app at <code>content.dxfferent.com</code> on a separate SiteGround subdomain. Completely isolated from WordPress. SQLite database via PHP PDO. No auth (5 internal users), noindex for search engines.</p>
+
+  <h3>Decision 5: Phased approach</h3>
+  <p>The full vision includes AI transformation, content calendar, LinkedIn integration, and analytics. We broke it into three phases to ship value fast.</p>
+
+  <!-- SECTION: Architecture -->
+  <h2>Architecture</h2>
+
+  <h3>File Structure</h3>
+  <pre>content.dxfferent.com/
+  index.html          -- SPA (topic board + editor views)
+  api.php             -- REST API (CRUD on SQLite)
+  seed.json           -- 63 topics + MSP Journey context
+  data/
+    content.db        -- SQLite (auto-created on first request)
+    .htaccess         -- Deny from all
+  .htaccess           -- URL rewriting, noindex, cache headers</pre>
+
+  <h3>Database Schema</h3>
+  <pre>topics (id, title, hook, category, domain, subdomain, status, claimed_by, created_at)
+submissions (id, topic_id, author, raw_content, category, domain, created_at, updated_at)
+authors (id, name, created_at)</pre>
+
+  <h3>API Endpoints</h3>
+  <table class="matrix">
+    <tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td>/api/topics</td><td>List all topics (filters: category, domain, status)</td></tr>
+    <tr><td>GET</td><td>/api/topics/:id</td><td>Single topic with submissions</td></tr>
+    <tr><td>PATCH</td><td>/api/topics/:id</td><td>Update status, claimed_by, title, hook</td></tr>
+    <tr><td>POST</td><td>/api/submissions</td><td>Create submission (body: topic_id, author, raw_content)</td></tr>
+    <tr><td>PATCH</td><td>/api/submissions/:id</td><td>Edit content inline</td></tr>
+    <tr><td>GET</td><td>/api/stats</td><td>Counts by status, category, domain</td></tr>
+  </table>
+
+  <!-- SECTION: Phases -->
+  <h2>Three Phases</h2>
+
+  <div class="timeline">
+    <div class="timeline-item done">
+      <div class="timeline-label"><span class="phase-badge phase-now">Now</span> Phase 1: Content Harvesting</div>
+      <div class="timeline-text">Topic board with dual filters, full-width editor, free-form input, SQLite storage, visual status tracking. Ship to content.dxfferent.com by April 30.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> Phase 2: Transformation + Calendar</div>
+      <div class="timeline-text">Claude transforms raw content into blog posts, LinkedIn posts, and articles. Content calendar for scheduling. Publishing status board with color-coded visuals.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Later</span> Phase 3: Publishing + Analytics</div>
+      <div class="timeline-text">LinkedIn API integration for direct posting. dxfferent.com publishing. Page view tracking, LinkedIn metrics, and content performance analytics to steer topic selection.</div>
+    </div>
+  </div>
+
+  <!-- SECTION: Portability -->
+  <h2>Portability to Proxuma</h2>
+  <p>The architecture is designed for later integration into the Proxuma platform (Laravel + Nuxt 3) via the <code>claude-harness</code> manifest system.</p>
+  <ul>
+    <li><code>seed.json</code> feeds a Laravel database seeder directly</li>
+    <li>API contract maps 1:1 to Laravel resource routes</li>
+    <li>SQLite schema translates to a standard Laravel migration</li>
+    <li>Frontend is decoupled via <code>/api/*</code>: swap the backend, keep the UI</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>One brainstorming session produced a complete spec for a content platform that solves a real problem: getting expert knowledge out of consultants' heads and into a structured library. Phase 1 ships tomorrow. The rest builds on top without rework.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Content Platform Design Journey | Dxfferent / Proxuma</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Content Platform Design Journey",
+  "date": "2026-04-29",
+  "summary": "Full design process walkthrough for the Proxuma Content Platform. From MSP Journey PDF to production spec in one brainstorming session. Phase 1 ships April 30 to content.dxfferent.com.",
+  "sections": [
+    {
+      "heading": "Starting Point",
+      "items": [
+        { "title": "MSP Journey PDF", "detail": "30 sub-topics across 6 domains with Problems/Frustrations/Questions", "meta": {} },
+        { "title": "Contentbibliotheek", "detail": "63 content ideas with category, hook, source mapping", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Design Decisions",
+      "items": [
+        { "title": "Two entry paths", "detail": "Pick a topic or dump free-form text (Claude categorizes later)", "meta": {} },
+        { "title": "Dual filter system", "detail": "Option C chosen: domain pills + colored category pills, independent", "meta": {} },
+        { "title": "Full-width editor", "detail": "Click topic opens editor with context panel showing hook + MSP Journey context", "meta": {} },
+        { "title": "Standalone subdomain", "detail": "content.dxfferent.com, isolated from WordPress, SQLite + PHP", "meta": {} },
+        { "title": "Three-phase rollout", "detail": "Phase 1: harvesting. Phase 2: AI + calendar. Phase 3: publishing + analytics", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Architecture",
+      "items": [
+        { "title": "Stack", "detail": "Single HTML SPA + api.php + SQLite on SiteGround subdomain", "meta": {} },
+        { "title": "Portability", "detail": "seed.json, API contract, and schema map directly to Laravel/Nuxt", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Phase 1 implementation underway in parallel session. Deploy to content.dxfferent.com by April 30. Then share with consultant team for first content contributions.",
+  "session_state": {
+    "phase": "spec complete, implementation started",
+    "phase_status": "in_progress",
+    "progress_pct": 40,
+    "work_done_this_session": [
+      "Read MSP Journey PDF and contentbibliotheek HTML",
+      "Brainstormed with dual filter mockups in Excalidraw",
+      "Designed database schema, API, and frontend views",
+      "Wrote full spec to docs/superpowers/specs/",
+      "Created handoff prompt for implementation session"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "claude-continue"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html", "relevance": "this presentation" },
+      { "url": "https://github.com/Proxuma-Nova/claude-harness", "relevance": "future integration target" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [
+      { "file": "~/Downloads/Autoriteit/content-platform-mockups.png", "description": "Excalidraw mockup of 3 filter options (A, B, C)" }
+    ],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Dual filter system (Option C) for topic navigation",
+      "rejected_alternatives": ["Category-only filters (Option A)", "Domain-only filters (Option B)"],
+      "rationale": "Consultants think both in expertise domains and content types. Two independent filter rows cover both without mode-switching.",
+      "trade_offs": "Slightly more vertical space used, but with only 5 users this is a non-issue.",
+      "contingencies": []
+    },
+    {
+      "decision": "Standalone subdomain isolated from WordPress",
+      "rejected_alternatives": ["WordPress plugin", "Subdirectory under WP"],
+      "rationale": "Clean separation avoids theme conflicts, .htaccess battles, and SG Optimizer interference. Easier to port later.",
+      "trade_offs": "Requires subdomain setup in SiteGround Site Tools.",
+      "contingencies": []
+    },
+    {
+      "decision": "SQLite over hosted DB for Phase 1",
+      "rejected_alternatives": ["JSON file on disk", "Supabase/hosted DB"],
+      "rationale": "Real querying and indexing without infrastructure. 5 concurrent users is well within SQLite's write-lock tolerance.",
+      "trade_offs": "Concurrent write locks possible but negligible at this scale.",
+      "contingencies": [
+        { "if_X_then_Y": "If concurrent write issues arise, migrate to MySQL on SiteGround", "probability": 0.05 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
