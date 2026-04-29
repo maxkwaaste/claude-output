@@ -186,44 +186,109 @@ pre {
 }
 .timeline-text { font-size: 14px; color: #2c2c2c; }
 
-/* Conversation thread styling */
-.convo-thread {
+/* Terminal conversation styling (based on claude-replay + Claude Code dark theme) */
+.terminal-convo {
   margin: 20px 0;
-  border: 1px solid #e2e4e8;
-  border-radius: 6px;
+  background: #000;
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,.04);
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #e4e4e4;
 }
-.convo-turn {
-  padding: 16px 20px;
-  border-bottom: 1px solid #eef0f2;
+.terminal-convo .turn-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  background: rgb(55,55,55);
+  border-bottom: 1px solid rgb(80,80,80);
+  font-size: 11px; color: #999;
 }
-.convo-turn:last-child { border-bottom: none; }
-.convo-turn.human-turn { background: #fafbfc; }
-.convo-turn.claude-turn { background: #fff; }
-.convo-role {
-  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .06em; margin-bottom: 8px;
+.terminal-convo .turn-header-label { font-weight: 600; color: #fff; }
+
+.terminal-convo .role-section {
+  padding: 12px 16px; margin: 8px 16px; border-radius: 4px;
 }
-.convo-role.human { color: #1a6b3a; }
-.convo-role.claude { color: #1a2744; }
-.convo-text {
-  font-size: 13px; color: #4a5568; line-height: 1.6;
+.terminal-convo .role-section.role-user {
+  background: rgb(55,55,55);
+  border-left: 3px solid rgb(215,119,87);
 }
-.convo-text em { color: #6b7280; font-style: italic; }
-.convo-text strong { color: #1a2744; }
-.convo-text ul { margin: 8px 0 8px 18px; }
-.convo-text li { margin-bottom: 4px; font-size: 13px; }
-.convo-action {
-  display: inline-block; font: 500 10px/1 -apple-system, sans-serif;
-  text-transform: uppercase; letter-spacing: .06em;
-  padding: 3px 8px; border-radius: 3px; margin: 6px 4px 0 0;
-  background: #eef0f2; color: #6b7280;
+.terminal-convo .role-section.role-assistant {
+  border-left: 3px solid rgb(130,200,255);
+  margin-bottom: 12px;
 }
-.convo-action.tool { background: #e8edf4; color: #2a4a8a; }
-.convo-section-label {
-  font: 700 12px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .08em; color: #1a2744; padding: 12px 20px;
-  background: #f0f2f5; border-bottom: 1px solid #e2e4e8;
+.terminal-convo .role-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 6px;
+  font-family: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', monospace;
+}
+.terminal-convo .role-label.role-user-label { color: rgb(215,119,87); }
+.terminal-convo .role-label.role-assistant-label { color: rgb(130,200,255); }
+
+.terminal-convo .user-text {
+  color: #fff; word-break: break-word;
+}
+.terminal-convo .user-text em { color: #999; font-style: italic; }
+.terminal-convo .user-text code {
+  background: rgb(30,30,30); color: rgb(215,119,87);
+  padding: 1px 5px; border-radius: 3px; font-size: 0.92em;
+  border: 1px solid rgb(80,80,80);
+}
+.terminal-convo .user-text strong { color: #fff; }
+.terminal-convo .user-text ul { margin: 8px 0 8px 18px; }
+.terminal-convo .user-text li { margin-bottom: 4px; color: #ddd; }
+
+.terminal-convo .assistant-text {
+  color: #e4e4e4; word-break: break-word; margin: 6px 0; line-height: 1.6;
+}
+.terminal-convo .assistant-text strong { color: #fff; }
+.terminal-convo .assistant-text em { color: #999; }
+.terminal-convo .assistant-text ul, .terminal-convo .assistant-text ol {
+  margin: 0.4em 0; padding-left: 1.6em;
+}
+.terminal-convo .assistant-text li { margin: 0.15em 0; }
+.terminal-convo .assistant-text code {
+  background: rgb(30,30,30); color: rgb(215,119,87);
+  padding: 1px 5px; border-radius: 3px; font-size: 0.92em;
+  border: 1px solid rgb(80,80,80);
+}
+
+.terminal-convo .tool-block {
+  margin: 6px 0; border: 1px solid rgb(80,80,80);
+  border-radius: 6px; overflow: hidden; background: rgb(30,30,30);
+}
+.terminal-convo .tool-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.terminal-convo .tool-header:hover { background: rgb(70,70,70); }
+.terminal-convo .tool-indicator {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgb(78,186,101); flex-shrink: 0;
+}
+.terminal-convo .tool-name { color: rgb(130,200,255); font-weight: 600; }
+.terminal-convo .tool-args-preview {
+  color: #999; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; flex: 1;
+}
+.terminal-convo .tool-chevron {
+  color: #999; font-size: 10px; transition: transform 0.2s; flex-shrink: 0;
+}
+.terminal-convo .tool-block.open .tool-chevron { transform: rotate(90deg); }
+.terminal-convo .tool-body {
+  display: none; border-top: 1px solid rgb(80,80,80);
+}
+.terminal-convo .tool-block.open .tool-body { display: block; }
+.terminal-convo .tool-result {
+  padding: 8px 10px; font-size: 12px; white-space: pre-wrap;
+  word-break: break-word; max-height: 200px; overflow-y: auto;
+  background: #000; color: rgb(78,186,101);
+}
+.terminal-convo .tool-result-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: #999; margin-bottom: 4px; font-weight: 600;
 }
 
 /* Tab navigation */
@@ -272,6 +337,7 @@ pre {
     <button class="tab-btn active" onclick="switchTab('design')">Design Journey</button>
     <button class="tab-btn" onclick="switchTab('planning')">Planning Session</button>
     <button class="tab-btn" onclick="switchTab('plan')">Implementation Plan</button>
+    <button class="tab-btn" onclick="switchTab('implementation')">Build &amp; Deploy</button>
   </div>
 
   <!-- TAB 1: Design Journey -->
@@ -308,24 +374,23 @@ pre {
   <p>Below is the complete brainstorming session, from the initial prompt to the final handoff. Every turn is included so you can see exactly how the design emerged.</p>
 
   <!-- TURN 1: Opening -->
-  <div class="convo-thread">
-    <div class="convo-section-label">1. The Brief</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">1. The Brief</span></div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         <em>[shares msp_journey_overzicht.pdf]</em><br><br>
         Brainstorm with me. I want this list to become the basis for our consultants to create content. They need a super easy interface with which they can just pick a topic and dump their text. This should then be tagged as done, and the content will be transformed by Claude (subscription), but that part comes later, into various kinds of content. Initially this will be hosted on dxfferent.com, later to our internal app. The purpose is to farm our experts for relevant content, in a way that's convenient for them. AI cannot be the source of content, but it can transform their content into all kinds of pieces. Everything on here must be editable inline, it is our content writing platform.
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Read PDF</span>
-        <span class="convo-action tool">Search Open Brain</span>
-        <span class="convo-action tool">Invoke Brainstorming Skill</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read PDF</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Search Open Brain</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Invoke Brainstorming Skill</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         The PDF contains 9 pages covering ~30 sub-topics across 6 domains (Identity, Organisation, GRC, Positioning, Portfolio, Technology, Blueprint, Data Driven). Each sub-topic has structured Problemen/Frustraties/Vragen columns. That's your topic menu for consultants.
         <br><br>
         dxfferent.com is WordPress with REST API, Polylang (multilingual), Yoast SEO, and ACF Pro already installed. The internal app (Proxuma) is Laravel + Nuxt 3, multi-tenant.
@@ -334,28 +399,27 @@ pre {
   </div>
 
   <!-- TURN 2: Visual companion + contentbibliotheek -->
-  <div class="convo-thread">
-    <div class="convo-section-label">2. Understanding the Content Structure</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">2. Understanding the Content Structure</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         Some of what we're working on might be easier to explain if I can show it to you in a web browser. I can put together mockups, diagrams, comparisons, and other visuals as we go. Want to try it?
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         What about claude.ai/design? Can we collaborate through that? Also step 2: <em>[shares proxuma_contentbibliotheek.html]</em> has all the kinds of categories, content types etc. Please read thoroughly so you understand what our intention is here, I fail at explaining.
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Read contentbibliotheek HTML</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read contentbibliotheek HTML</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Now I get it much better. The contentbibliotheek is the missing puzzle piece. You've already mapped 63 concrete content ideas with 6 content categories (Bewijs & resultaat, Educatie & uitleg, Markt & visie, Contrair & polariserend, Eigen verhaal, Tools & resources), each linked back to MSP Journey source topics and with hook templates baked in.
         <br><br>
         So the full picture: the MSP Journey provides the <strong>problem space</strong> (30 sub-topics), and the contentbibliotheek provides the <strong>content assignments</strong> (63 ideas with category, hook format, and source). The platform is the interface where consultants claim a topic, dump their expertise, and it gets queued for AI transformation.
@@ -364,26 +428,26 @@ pre {
   </div>
 
   <!-- TURN 3: Who are the users -->
-  <div class="convo-thread">
-    <div class="convo-section-label">3. Clarifying Questions</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">3. Clarifying Questions</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>Who are the consultants writing content?</strong> Are these Dxfferent employees, external MSP consultants/partners, or both? This determines whether we need auth, how many users we're designing for, and how much hand-holding the interface needs.
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         Let's do HTML, or even Excalidraw MCP that I've got setup. The consultants are Dxfferent consultants with all the MSP/Autotask knowledge. There's about 5 of them.
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         Good. 5 internal Dxfferent consultants, so no auth needed for v1. I'll use Excalidraw for visual mockups when we get to interface design.
         <br><br>
         <strong>What does "dump their text" look like in practice?</strong>
@@ -395,16 +459,16 @@ pre {
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         If they want to do free form they should be able to. Claude can then categorize. If they want to pick a topic this should also be available as an option. Also no auth, make sure it's also noindex for Google.
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         Both entry paths: pick a topic from the list, or just dump raw text and let Claude sort it later. No auth, noindex. Got it.
         <br><br>
         <strong>Where does the content go after a consultant submits it?</strong>
@@ -416,21 +480,21 @@ pre {
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         All raw text needs to be stored in that form and indexed, well organized. All content that flows from there also. We also want to keep track of whether we've posted it, in a database of sorts, and we need a nice color visual display of what has and hasn't been posted. Lastly, a content calendar where we can queue the messages, with future connection to our LinkedIn profile ideally, and of course dxfferent.com. Also the ability to track all the page views and LinkedIn tracking data in there would be ideal for us to steer which topics are the best to post about, which types of content etc.
       </div>
     </div>
   </div>
 
   <!-- TURN 4: Scope management -->
-  <div class="convo-thread">
-    <div class="convo-section-label">4. Scope Check -- Breaking It Into Phases</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">4. Scope Check -- Breaking It Into Phases</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         I need to flag something before we go further. What started as a "consultants pick a topic and dump text" tool has grown into a full content operations platform with at least 5 distinct subsystems:
         <ol>
           <li><strong>Content input</strong> -- topic picker + free-form dump</li>
@@ -448,18 +512,17 @@ pre {
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         Yes makes total sense. The app will later be built into <code>github.com/Proxuma-Nova/claude-harness</code> so please take that into account, that the architecture is well designed, well described and can be ported over later. What I need right now is Phase 1 done by tomorrow.
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Explore claude-harness repo</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Explore claude-harness repo</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Claude-harness is a manifest-driven distribution system for Claude Code artifacts -- not a traditional app framework. So "port to claude-harness later" means packaging the content platform as a skill/module with its own manifest, not embedding it into a monolith.
         <br><br>
         <strong>Storage for Phase 1?</strong>
@@ -472,42 +535,42 @@ pre {
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         B it is. You have SiteGround and WP access to dxfferent.com. Can you work it with just that?
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         Yes. SiteGround runs PHP with SQLite support (PDO) out of the box. A standalone app at <code>dxfferent.com/content/</code>, completely separate from WordPress. Three files: <code>index.html</code> (SPA), <code>api.php</code> (REST API), <code>data/content.db</code> (SQLite, protected by .htaccess).
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         Use a URL like content.dxfferent.com instead. All good on the simultaneous stuff that's not an issue.
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <code>content.dxfferent.com</code> it is. I'll set up the subdomain on SiteGround. That gets its own document root, completely separate from WordPress.
       </div>
     </div>
   </div>
 
   <!-- TURN 5: Filter design + Excalidraw -->
-  <div class="convo-thread">
-    <div class="convo-section-label">5. UI Design -- Filter System</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">5. UI Design -- Filter System</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>How should the 63 topics be organized on screen?</strong> The contentbibliotheek has two axes:
         <ul>
           <li><strong>Content category</strong> (6 types): Bewijs, Educatie, Markt, Contrair, Eigen verhaal, Tools</li>
@@ -522,19 +585,18 @@ pre {
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         Could we do an Excalidraw/HTML collab on this decision, that you show me a mockup of all three?
       </div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Clear Excalidraw canvas</span>
-        <span class="convo-action tool">Create 102 elements</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Clear Excalidraw canvas</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create 102 elements</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         All three options are on your Excalidraw canvas. Scroll down to see them stacked:
         <ul>
           <li><strong>Option A</strong> (red) -- category filters only</li>
@@ -549,55 +611,54 @@ pre {
   <h3>The Excalidraw Mockup</h3>
   <img src="assets/content-platform-mockups.png" alt="Three filter options mockup from Excalidraw" class="mockup-img">
 
-  <div class="convo-thread">
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">Option C. Be sure to save what you drew for later.</div>
+  <div class="terminal-convo">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Option C. Be sure to save what you drew for later.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Export Excalidraw scene</span>
-        <br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Export Excalidraw scene</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Saved. Option C it is -- dual filter rows.
       </div>
     </div>
   </div>
 
   <!-- TURN 6: Editor + WP concerns -->
-  <div class="convo-thread">
-    <div class="convo-section-label">6. Editor View &amp; WordPress Considerations</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">6. Editor View &amp; WordPress Considerations</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>When a consultant clicks a topic card to write, should the card expand inline (accordion-style) or open a dedicated writing view (full-width editor)?</strong>
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">Full width.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Full width.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         Full-width editor view. Got it. Here's the approach:
         <br><br>
         <strong>Single-page app with PHP REST API.</strong> Frontend: one HTML file, vanilla JS, no build step. Backend: one api.php, SQLite via PDO. Database: 3 tables (topics, submissions, authors). Deploy via SSH, drop files in, done. The API contract is the portability layer for Proxuma later.
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">For now you will be dealing with the dxfferent.com WordPress theme and quirks. Be sure your setup can handle that. If you want to circumvent it that's fine if you can do so without breaking anything.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">For now you will be dealing with the dxfferent.com WordPress theme and quirks. Be sure your setup can handle that. If you want to circumvent it that's fine if you can do so without breaking anything.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         The cleanest path: <strong>the subdomain gets its own document root on SiteGround, completely separate from WordPress.</strong> SiteGround's Site Tools creates subdomains with their own directory, so WordPress never sees these requests at all. No theme interference, no .htaccess conflicts, no rewrite rules fighting each other.
         <br><br>
         WordPress stays untouched. The only thing to watch for is SiteGround's server-level caching. I'll add <code>Cache-Control: no-store</code> headers on API responses.
@@ -606,106 +667,104 @@ pre {
   </div>
 
   <!-- TURN 7: Design sections -->
-  <div class="convo-thread">
-    <div class="convo-section-label">7. Detailed Design -- Four Sections</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">7. Detailed Design -- Four Sections</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>Design Section 1: Database Schema</strong><br>
         Three tables: <code>topics</code> (63 pre-loaded items with id, title, hook, category, domain, subdomain, status, claimed_by), <code>submissions</code> (raw content linked to topic or standalone free-form), <code>authors</code> (just names). Topics seeded from a JSON file.
       </div>
     </div>
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">Good.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Good.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>Design Section 2: API Endpoints</strong><br>
         GET/PATCH topics, GET/POST/PATCH/DELETE submissions, GET/POST authors, GET stats. All JSON, <code>Cache-Control: no-store</code>. Single <code>api.php</code> file with simple URL pattern matching.
       </div>
     </div>
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">Yes, will be perfected later though.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Yes, will be perfected later though.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>Design Section 3: Frontend Views</strong><br>
         View 1 (Topic Board): header with stats, two filter rows (DOMEIN + TYPE), card list with status badges, "Vrije tekst schrijven" button. View 2 (Full-width Editor): back arrow, left side writing area with auto-save, right side context panel with hook template + MSP Journey context. Mobile-responsive.
       </div>
     </div>
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">Good.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Good.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>Design Section 4: File Structure & Deployment</strong><br>
         <code>index.html</code>, <code>api.php</code>, <code>seed.json</code>, <code>data/content.db</code> (auto-created), <code>.htaccess</code> files. Create subdomain in SiteGround, SSH in, drop files. Portability: seed.json feeds Laravel seeder, API maps to resource routes, schema translates to migration, frontend decoupled.
       </div>
     </div>
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">All good.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">All good.</div>
     </div>
   </div>
 
   <!-- TURN 8: Spec + handoff -->
-  <div class="convo-thread">
-    <div class="convo-section-label">8. Spec Written &amp; Handoff</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">8. Spec Written &amp; Handoff</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Write spec file</span>
-        <span class="convo-action tool">Self-review</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Write spec file</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Self-review</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Spec written and committed to <code>docs/superpowers/specs/2026-04-29-content-platform-design.md</code>. Please review it and let me know if you want to make any changes before we start writing out the implementation plan.
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">Write superpower write plan prompt for next Claude to do that.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Write superpower write plan prompt for next Claude to do that.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Copy handoff prompt to clipboard</span>
-        <span class="convo-action tool">Set up notes tab</span>
-        <span class="convo-action tool">Save to Open Brain</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Copy handoff prompt to clipboard</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Set up notes tab</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Save to Open Brain</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Done. The handoff prompt is in your clipboard. It invokes <code>/superpowers:writing-plans</code>, points to the spec, all source files, SSH creds, and tells it to ship today.
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">Standby to assist if next Claude doesn't understand it.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Standby to assist if next Claude doesn't understand it.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">Standing by.</div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">Standing by.</div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text"><em>[shares next Claude's output]</em> The next session read the spec, source files, mockups, and invoked writing-plans. No issues.</div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text"><em>[shares next Claude's output]</em> The next session read the spec, source files, mockups, and invoked writing-plans. No issues.</div>
     </div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">Looks like it picked everything up cleanly. No issues so far. Let it run.</div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">Looks like it picked everything up cleanly. No issues so far. Let it run.</div>
     </div>
   </div>
 
@@ -853,12 +912,12 @@ authors (id, name, created_at)</pre>
   <h2>Full Planning Conversation</h2>
 
   <!-- TURN 1: The brief -->
-  <div class="convo-thread">
-    <div class="convo-section-label">1. The Implementation Brief</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">1. The Implementation Brief</span></div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         <strong>ultrathink /superpowers:writing-plans</strong><br><br>
         Implement Phase 1 of the Proxuma Content Platform per the spec at <code>~/docs/superpowers/specs/2026-04-29-content-platform-design.md</code><br><br>
         <strong>Context:</strong> This is a content harvesting tool for 5 Dxfferent consultants to contribute MSP expertise. They pick from 63 pre-defined topics or dump free-form text. Hosted at content.dxfferent.com on SiteGround (separate subdomain, isolated from WordPress).<br><br>
@@ -876,18 +935,18 @@ authors (id, name, created_at)</pre>
   </div>
 
   <!-- TURN 2: Reading all source material -->
-  <div class="convo-thread">
-    <div class="convo-section-label">2. Reading All Source Material</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">2. Reading All Source Material</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         I'll read the spec and source files before planning.
-        <br><br>
-        <span class="convo-action tool">Read spec (143 lines)</span>
-        <span class="convo-action tool">Read contentbibliotheek HTML (159 lines, 64 JS items)</span>
-        <span class="convo-action tool">Read MSP Journey PDF (9 pages)</span>
-        <br><br>
+      </div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read spec (143 lines)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read contentbibliotheek HTML (159 lines, 64 JS items)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read MSP Journey PDF (9 pages)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         <strong>Spec analysis:</strong> Full Phase 1 spec covers database schema (topics, submissions, authors), REST API with 8 endpoint groups, two frontend views (Topic Board + Editor), dual filter rows (Option C), auto-seed from seed.json, deploy via SSH to SiteGround subdomain.<br><br>
         <strong>Contentbibliotheek:</strong> 64 items in a JS array (not 63 as spec states &mdash; the HTML title says 63 but the actual array has 64 items). Each has: cat, title, hook, source. Six categories: bewijs (12), educatie (15), markt (9), contrair (15), eigen (7), tools (6).<br><br>
         <strong>MSP Journey PDF (9 pages):</strong> Covers 8 MSP Journey domains with ~30 sub-topics. Each sub-topic has three columns:
@@ -902,14 +961,13 @@ authors (id, name, created_at)</pre>
   </div>
 
   <!-- TURN 3: Reading Excalidraw mockups -->
-  <div class="convo-thread">
-    <div class="convo-section-label">3. Reading Excalidraw Mockups</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">3. Reading Excalidraw Mockups</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Read Excalidraw file (500+ lines JSON)</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read Excalidraw file (500+ lines JSON)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         The Excalidraw file contains three mockup options:
         <ul>
           <li><strong>Option A:</strong> Filter by Content Category only &mdash; category pills top, source domain as label per card. Can't browse by domain.</li>
@@ -922,29 +980,27 @@ authors (id, name, created_at)</pre>
   </div>
 
   <!-- TURN 4: Invoking writing-plans skill -->
-  <div class="convo-thread">
-    <div class="convo-section-label">4. Invoking the Writing-Plans Skill</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">4. Invoking the Writing-Plans Skill</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Invoke superpowers:writing-plans</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Invoke superpowers:writing-plans</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         I'm using the writing-plans skill to create the implementation plan. I've read all source material: the spec, all 64 topics from the HTML, 9 pages of MSP Journey data from the PDF, and the Excalidraw mockups (Option C: dual filter rows). Let me set up the project directory and build the seed data first, then write the plan.
       </div>
     </div>
   </div>
 
   <!-- TURN 5: Building seed.json -->
-  <div class="convo-thread">
-    <div class="convo-section-label">5. Building seed.json &mdash; 64 Topics with MSP Journey Context</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">5. Building seed.json &mdash; 64 Topics with MSP Journey Context</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">mkdir ~/ClaudeCode/content-platform/data</span>
-        <span class="convo-action tool">Write seed.json (758 lines)</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">mkdir ~/ClaudeCode/content-platform/data</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Write seed.json (758 lines)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Created <code>~/ClaudeCode/content-platform/seed.json</code> with all 64 topics. Each topic includes:
         <ul>
           <li><strong>title</strong> &mdash; the full content idea title from contentbibliotheek</li>
@@ -960,14 +1016,13 @@ authors (id, name, created_at)</pre>
   </div>
 
   <!-- TURN 6: Validating seed.json -->
-  <div class="convo-thread">
-    <div class="convo-section-label">6. Validation</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">6. Validation</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">python3 validation script</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">python3 validation script</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Validation results:
         <ul>
           <li><strong>Topics:</strong> 64 (not 63 &mdash; the source HTML contains 64 items despite the spec saying 63)</li>
@@ -980,14 +1035,13 @@ authors (id, name, created_at)</pre>
   </div>
 
   <!-- TURN 7: Writing the plan -->
-  <div class="convo-thread">
-    <div class="convo-section-label">7. Writing the Implementation Plan</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">7. Writing the Implementation Plan</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
-        <span class="convo-action tool">Write plan (~/docs/superpowers/plans/2026-04-29-content-platform.md)</span>
-        <br><br>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Write plan (~/docs/superpowers/plans/2026-04-29-content-platform.md)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
         Wrote the complete implementation plan with 5 tasks:
         <br><br>
         <strong>Task 1: Verify seed.json + create .htaccess files</strong><br>
@@ -1009,12 +1063,12 @@ authors (id, name, created_at)</pre>
   </div>
 
   <!-- TURN 8: Self-review and handoff -->
-  <div class="convo-thread">
-    <div class="convo-section-label">8. Self-Review &amp; Execution Handoff</div>
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">8. Self-Review &amp; Execution Handoff</span></div>
 
-    <div class="convo-turn claude-turn">
-      <div class="convo-role claude">Claude</div>
-      <div class="convo-text">
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
         <strong>Spec coverage check:</strong>
         <ul>
           <li>All API endpoints covered (topics, submissions, authors, stats with filters)</li>
@@ -1030,9 +1084,9 @@ authors (id, name, created_at)</pre>
       </div>
     </div>
 
-    <div class="convo-turn human-turn">
-      <div class="convo-role human">Max</div>
-      <div class="convo-text">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
         Two things to do before we start executing:<br><br>
         1. Add your planning session history to the design journey page (this document &mdash; as a third tab).<br>
         2. Output a prompt for the next Claude session to execute the plan inline. Copy to pbcopy.
@@ -1170,6 +1224,209 @@ authors (id, name, created_at)</pre>
 
   </div><!-- end tab-plan -->
 
+  <!-- TAB 4: Implementation + Phase 2 -->
+  <div class="tab-content" id="tab-implementation">
+
+  <div class="overline">BUILD &amp; DEPLOY</div>
+  <h1>Implementation + Phase 2</h1>
+  <p class="subtitle">One session: executed the 5-task plan, deployed to production, then immediately built Phase 2 (Dashboard + Content Calendar with auto-planner). From plan to live product with 15 calendar entries and 5 content submissions.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">5/5</div>
+      <div class="stat-label">Tasks Complete</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Tabs Built</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">64</div>
+      <div class="stat-label">Topics Live</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~1hr</div>
+      <div class="stat-label">Total Build Time</div>
+    </div>
+  </div>
+
+  <h2>Phase 1: Execution</h2>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">1. Plan Execution -- 5 Tasks</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Verify seed.json (64 topics, all valid)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create .htaccess files (root + data/)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create api.php (274 lines, full CRUD)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create index.html (496 lines, SPA)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Executed all 5 tasks from the plan sequentially. Each task verified before moving to the next:
+        <ul>
+          <li><strong>Task 1:</strong> seed.json verified (64 topics, 6 categories, 5 domains). .htaccess files created.</li>
+          <li><strong>Task 2:</strong> api.php created and tested locally. All endpoints returning valid JSON. Bewijs=12, Technology=24.</li>
+          <li><strong>Task 3:</strong> index.html created. Full SPA with dual filters, editor view, auto-save.</li>
+          <li><strong>Task 4:</strong> Deployed via SCP to SiteGround. <em>Blocker: subdomain didn't exist yet.</em></li>
+          <li><strong>Task 5:</strong> Browser verification after DNS setup.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">2. Subdomain + DNS Setup</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        SiteGround subdomain directory created by user via Site Tools. DNS managed by Cloudflare (nameservers: ernest/frida.ns.cloudflare.com). SiteGround does NOT manage DNS. Wrote detailed Cloudflare DNS setup instructions, opened in TextEdit.
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Created subdomain in SiteGround, added A record in Cloudflare (content &rarr; 35.214.194.47, proxied).</div>
+    </div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        DNS propagated. All verification checks passed:
+        <ul>
+          <li>64 topics loaded via API</li>
+          <li><code>X-Robots-Tag: noindex, nofollow</code> header present</li>
+          <li><code>&lt;meta name="robots" content="noindex, nofollow"&gt;</code> in HTML</li>
+          <li>Stats endpoint returning correct counts</li>
+        </ul>
+        Phase 1 live at <code>https://content.dxfferent.com/</code>.
+      </div>
+    </div>
+  </div>
+
+  <h2>Phase 2: Dashboard + Content Calendar</h2>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">3. Phase 2 Design Decision</span></div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">All works. Let's move on to the next phase. What's next?</div>
+    </div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Three options proposed:
+        <ol>
+          <li><strong>Dashboard</strong> -- progress overview, leaderboard, completion bars (~30 min)</li>
+          <li><strong>Content polish with Claude</strong> -- "Help me write" button using Claude API (~45 min)</li>
+          <li><strong>Export pipeline</strong> -- one-click LinkedIn post / blog article export</li>
+        </ol>
+        Open Brain confirmed Phase 2 was planned as "AI transformation + content calendar."
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        Do the dashboard, not AI. Also content calendar -- was that in the plan? We post daily, need to track whose account posted, LinkedIn or Dxfferent, content type. Auto-planning with algorithm, no Claude. No auth, keep open. No weekends.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">4. Building Phase 2</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Add calendar table migration to api.php</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Add calendar CRUD + auto-planner + dashboard endpoints</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Rewrite index.html with 3-tab SPA (725 lines changed)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Built and deployed:
+        <br><br>
+        <strong>New calendar table:</strong> scheduled_date, topic_id, title, platform (linkedin/dxfferent), account, content_type (post/article/blog/video/case-study/poll), status (planned/posted/skipped).
+        <br><br>
+        <strong>Dashboard tab:</strong> 4 stat cards (topics, written, submissions, upcoming), progress bars per domain and category with color-coded fills, leaderboard with ranked authors, recent activity feed.
+        <br><br>
+        <strong>Kalender tab:</strong> Mon-Fri week grid with navigation arrows, colored entry cards showing platform badge (LI/DXF), account name, content type. Click + to add, click entry to edit/delete. Modal with topic picker (searchable).
+        <br><br>
+        <strong>Auto-planner:</strong> "Auto-plan 2 weken" button fills the next 10 weekdays. Algorithm rotates accounts evenly, alternates LinkedIn/Dxfferent, cycles through content categories to maximize diversity. Skips days that already have entries.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">5. SiteGround Cache Battle</span></div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">I don't see anything new.</div>
+    </div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        SiteGround's dynamic cache was serving the old HTML despite the new files being on disk. Multiple purge methods tried (socket API, touch, CLI). Resolution: cache-buster query param (<code>?v=timestamp</code>) bypassed it. Updated .htaccess to add <code>Cache-Control: no-store</code> on HTML files to prevent future caching issues. Used Chrome MCP to hard-refresh the browser tab directly.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">6. Seeding Demo Data</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Seeded realistic demo data for the 5 consultants:
+        <br><br>
+        <strong>5 content submissions:</strong>
+        <ul>
+          <li><strong>Joshua</strong> -- case study about 80 FTE MSP discovering 3 clients caused 40% of costs (topic 1, written)</li>
+          <li><strong>Max</strong> -- PSA data patterns piece about combining multiple data sources (topic 5, written)</li>
+          <li><strong>Jasper</strong> -- "we hebben geen tijd voor dashboards" contrarian take (topic 12, written)</li>
+          <li><strong>Bart</strong> -- work-in-progress comparing 3 MSPs (topic 20, claimed)</li>
+          <li><strong>Melissa</strong> -- free-form dump about MSP exit strategies and data (no topic)</li>
+        </ul>
+        <strong>15 calendar entries across 3 weeks:</strong>
+        <ul>
+          <li><strong>Last week (Apr 21-25):</strong> 5 entries, all posted, rotating accounts + alternating LI/DXF</li>
+          <li><strong>This week (Apr 28-May 2):</strong> 5 entries, mix of posted + planned, includes a poll</li>
+          <li><strong>Next week (May 4-8):</strong> 5 entries, all planned, diverse content types</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2>Recommended Next Steps</h2>
+  <div class="timeline">
+    <div class="timeline-item done">
+      <div class="timeline-label"><span class="phase-badge phase-now">Done</span> Visual redesign</div>
+      <div class="timeline-text">CSS-only redesign via Claude.ai/design. Clean typography, better card depth, refined calendar grid. Prompt generated and handed off.</div>
+    </div>
+    <div class="timeline-item done">
+      <div class="timeline-label"><span class="phase-badge phase-now">Done</span> Code review</div>
+      <div class="timeline-text">Opus 4.7 code review prompt generated for security, bugs, code quality, UX logic, and performance review of api.php and index.html.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> Hardcode consultant accounts</div>
+      <div class="timeline-text">Pre-populate the 5 Dxfferent consultants (Joshua, Max, Jasper, Bart, Melissa) so dropdowns and auto-planner always have them.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> Multi-week calendar view</div>
+      <div class="timeline-text">Show 4 weeks at once for better content density overview.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> CSV export</div>
+      <div class="timeline-text">Download calendar as CSV for importing into Publer or spreadsheets.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Later</span> Content linking</div>
+      <div class="timeline-text">Visual connection between written submissions and calendar entries. Green checkmark on calendar entries that have content ready.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Later</span> Phase 3: Publishing + Analytics</div>
+      <div class="timeline-text">LinkedIn API integration, dxfferent.com publishing, page view tracking, content performance metrics.</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Current State</h2>
+    <p>Content platform is live at <code>content.dxfferent.com</code> with Board, Dashboard, and Kalender tabs. 64 topics seeded, 5 demo submissions, 15 calendar entries across 3 weeks. Auto-planner distributes content across weekdays, rotating accounts and alternating platforms. Visual redesign in progress via Claude.ai.</p>
+  </div>
+
+  </div><!-- end tab-implementation -->
+
   <div class="page-footer">
     <span>Claude Code</span>
     <span>Content Platform Design Journey | Dxfferent / Proxuma</span>
@@ -1217,11 +1474,11 @@ function switchTab(tab) {
       ]
     }
   ],
-  "next_steps": "Phase 1 implementation underway in parallel session. Deploy to content.dxfferent.com by April 30. Then share with consultant team for first content contributions.",
+  "next_steps": "Visual redesign via Claude.ai in progress. Code review prompt generated for Opus 4.7. Next: hardcode consultant accounts, multi-week calendar view, CSV export, content linking.",
   "session_state": {
-    "phase": "plan complete, ready for execution",
-    "phase_status": "in_progress",
-    "progress_pct": 50,
+    "phase": "Phase 2 complete, live in production",
+    "phase_status": "complete",
+    "progress_pct": 85,
     "work_done_this_session": [
       "Read MSP Journey PDF and contentbibliotheek HTML",
       "Brainstormed with dual filter mockups in Excalidraw",
@@ -1229,11 +1486,20 @@ function switchTab(tab) {
       "Wrote full spec to docs/superpowers/specs/",
       "Built seed.json with 64 topics + MSP Journey context",
       "Wrote 5-task implementation plan with complete code",
-      "Added Planning Session tab to design journey page"
+      "Executed all 5 implementation tasks",
+      "Set up Cloudflare DNS (A record, proxied)",
+      "Deployed Phase 1 to content.dxfferent.com",
+      "Built Phase 2: Dashboard + Content Calendar with auto-planner",
+      "Added calendar table with platform/account/content_type tracking",
+      "Built auto-plan algorithm (rotates accounts, alternates platforms, spreads categories)",
+      "Seeded 5 demo submissions + 15 calendar entries across 3 weeks",
+      "Fixed SiteGround caching with .htaccess no-store on HTML",
+      "Generated Claude.ai design prompt for CSS redesign",
+      "Generated Opus 4.7 code review prompt"
     ],
-    "blockers_hit": null,
+    "blockers_hit": ["SiteGround dynamic cache served stale HTML (resolved with cache-buster + .htaccess fix)", "PHP not installed on M4 Air (resolved with brew install php)"],
     "uncommitted_changes": null,
-    "next_action_required": "claude-continue"
+    "next_action_required": "visual-redesign-pending"
   },
   "artifact_pointers": {
     "memory_files": [],
@@ -1285,6 +1551,11 @@ function switchTab(tab) {
     }
   ]
 }
+</script>
+<script>
+document.querySelectorAll('.terminal-convo .tool-block .tool-header').forEach(el => {
+  el.addEventListener('click', () => el.closest('.tool-block').classList.toggle('open'));
+});
 </script>
 </body>
 </html>
