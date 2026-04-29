@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Content Platform Phase 2.5 -- Design Journey</title>
+<title>Content Platform Design Journey -- From Idea to Spec in One Session</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -84,20 +84,20 @@ li::marker { color: #1a2744; }
   font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
   letter-spacing: .1em; color: #6b7280; margin-top: 6px;
 }
-.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
-.matrix th {
-  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
-  text-transform: uppercase; letter-spacing: .06em;
-  background: #1a2744; color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
 }
-.matrix td {
-  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 13px;
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
 }
-.matrix tr:nth-child(even) td { background: #f8f9fb; }
-.matrix td strong { font-weight: 700; color: #1a2744; }
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
 .callout {
   background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
   margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
@@ -114,42 +114,32 @@ li::marker { color: #1a2744; }
 .positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
 .positioning h2::after { display: none; }
 .positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
-.card {
-  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
-  padding: 18px 22px; margin-bottom: 8px; position: relative;
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-.card::before {
-  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
-  width: 2px; background: #1a2744; border-radius: 1px;
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
 }
-.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
-.card-buyer {
-  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
-}
-.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
 .tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .tag {
   font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
   letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
 }
-.tag-schema { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
-.tag-ui { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
-.tag-api { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
-.tag-arch { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
-.q-block { background: #f5f7fa; border-radius: 4px; padding: 16px 20px; margin: 14px 0; }
-.q-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #6b7280; margin-bottom: 6px; }
-.q-text { font-size: 14px; color: #1a2744; font-weight: 600; margin-bottom: 4px; }
-.q-answer { font-size: 14px; color: #2c2c2c; }
-.q-answer strong { color: #1a2744; }
-.review-item { padding: 12px 0; border-bottom: 1px solid #eef0f2; }
-.review-item:last-child { border-bottom: none; }
-.review-item p { margin-bottom: 0; }
-.review-num { font: 700 12px/1 -apple-system, sans-serif; color: #1a2744; display: inline; }
-.review-sev { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 2px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
-.sev-critical { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
-.sev-important { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
-.sev-minor { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-bewijs { background: #E6F1FB; color: #0C447C; border: 1px solid #a8ceef; }
+.tag-educatie { background: #EEEDFE; color: #3C3489; border: 1px solid #b8b4e8; }
+.tag-markt { background: #E1F5EE; color: #085041; border: 1px solid #8ac8a0; }
+.tag-contrair { background: #FAECE7; color: #712B13; border: 1px solid #e8b8a0; }
+.tag-eigen { background: #FBEAF0; color: #72243E; border: 1px solid #d8a0b8; }
+.tag-tools { background: #FAEEDA; color: #633806; border: 1px solid #d8c080; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
 .page-footer {
   display: flex; justify-content: space-between; margin-top: 40px;
   padding-top: 12px; border-top: 1px solid #d0d3d8;
@@ -159,15 +149,175 @@ code {
   font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
   background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
 }
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.mockup-img {
+  width: 100%; border: 1px solid #e2e4e8; border-radius: 4px; margin: 16px 0;
+}
+.phase-badge {
+  display: inline-block; font: 600 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .07em;
+  padding: 3px 10px; border-radius: 3px; margin-right: 8px;
+}
+.phase-now { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.phase-later { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.timeline {
+  position: relative; padding-left: 28px; margin: 16px 0;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px;
+  width: 2px; background: #d0d3d8;
+}
+.timeline-item {
+  position: relative; margin-bottom: 20px;
+}
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 4px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #1a2744; border: 2px solid #fff;
+}
+.timeline-item.done::before { background: #2b8a3e; }
+.timeline-label {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #6b7280; margin-bottom: 4px;
+}
+.timeline-text { font-size: 14px; color: #2c2c2c; }
+
+/* Terminal conversation styling (based on claude-replay + Claude Code dark theme) */
+.terminal-convo {
+  margin: 20px 0;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,.04);
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #e4e4e4;
+}
+.terminal-convo .turn-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  background: rgb(55,55,55);
+  border-bottom: 1px solid rgb(80,80,80);
+  font-size: 11px; color: #999;
+}
+.terminal-convo .turn-header-label { font-weight: 600; color: #fff; }
+
+.terminal-convo .role-section {
+  padding: 12px 16px; margin: 8px 16px; border-radius: 4px;
+}
+.terminal-convo .role-section.role-user {
+  background: rgb(55,55,55);
+  border-left: 3px solid rgb(215,119,87);
+}
+.terminal-convo .role-section.role-assistant {
+  border-left: 3px solid rgb(130,200,255);
+  margin-bottom: 12px;
+}
+.terminal-convo .role-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 6px;
+  font-family: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', monospace;
+}
+.terminal-convo .role-label.role-user-label { color: rgb(215,119,87); }
+.terminal-convo .role-label.role-assistant-label { color: rgb(130,200,255); }
+
+.terminal-convo .user-text {
+  color: #fff; word-break: break-word;
+}
+.terminal-convo .user-text em { color: #999; font-style: italic; }
+.terminal-convo .user-text code {
+  background: rgb(30,30,30); color: rgb(215,119,87);
+  padding: 1px 5px; border-radius: 3px; font-size: 0.92em;
+  border: 1px solid rgb(80,80,80);
+}
+.terminal-convo .user-text strong { color: #fff; }
+.terminal-convo .user-text ul { margin: 8px 0 8px 18px; }
+.terminal-convo .user-text li { margin-bottom: 4px; color: #ddd; }
+
+.terminal-convo .assistant-text {
+  color: #e4e4e4; word-break: break-word; margin: 6px 0; line-height: 1.6;
+}
+.terminal-convo .assistant-text strong { color: #fff; }
+.terminal-convo .assistant-text em { color: #999; }
+.terminal-convo .assistant-text ul, .terminal-convo .assistant-text ol {
+  margin: 0.4em 0; padding-left: 1.6em;
+}
+.terminal-convo .assistant-text li { margin: 0.15em 0; }
+.terminal-convo .assistant-text code {
+  background: rgb(30,30,30); color: rgb(215,119,87);
+  padding: 1px 5px; border-radius: 3px; font-size: 0.92em;
+  border: 1px solid rgb(80,80,80);
+}
+
+.terminal-convo .tool-block {
+  margin: 6px 0; border: 1px solid rgb(80,80,80);
+  border-radius: 6px; overflow: hidden; background: rgb(30,30,30);
+}
+.terminal-convo .tool-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.terminal-convo .tool-header:hover { background: rgb(70,70,70); }
+.terminal-convo .tool-indicator {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgb(78,186,101); flex-shrink: 0;
+}
+.terminal-convo .tool-name { color: rgb(130,200,255); font-weight: 600; }
+.terminal-convo .tool-args-preview {
+  color: #999; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; flex: 1;
+}
+.terminal-convo .tool-chevron {
+  color: #999; font-size: 10px; transition: transform 0.2s; flex-shrink: 0;
+}
+.terminal-convo .tool-block.open .tool-chevron { transform: rotate(90deg); }
+.terminal-convo .tool-body {
+  display: none; border-top: 1px solid rgb(80,80,80);
+}
+.terminal-convo .tool-block.open .tool-body { display: block; }
+.terminal-convo .tool-result {
+  padding: 8px 10px; font-size: 12px; white-space: pre-wrap;
+  word-break: break-word; max-height: 200px; overflow-y: auto;
+  background: #000; color: rgb(78,186,101);
+}
+.terminal-convo .tool-result-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: #999; margin-bottom: 4px; font-weight: 600;
+}
+
+/* Tab navigation */
+.tab-nav {
+  display: flex; gap: 0; margin: -48px -52px 32px; border-bottom: 2px solid #e2e4e8;
+}
+.tab-btn {
+  flex: 1; padding: 16px 24px; text-align: center; cursor: pointer;
+  font: 600 13px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #6b7280; background: #f8f9fb;
+  border: none; border-bottom: 3px solid transparent;
+  transition: all .15s; margin-bottom: -2px;
+}
+.tab-btn:first-child { border-radius: 2px 0 0 0; }
+.tab-btn:last-child { border-radius: 0 2px 0 0; }
+.tab-btn:hover { color: #1a2744; background: #f0f2f5; }
+.tab-btn.active {
+  color: #1a2744; background: #fff;
+  border-bottom: 3px solid #1a2744;
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 </style>
 </head>
 <body>
-
 <div class="page-header">
-  <span class="date">29 April 2026</span>
+  <span class="date">April 29, 2026</span>
   <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html">View on GitHub</a></span>
 </div>
-
 <div class="page">
   <div class="page-meta">
     <div>
@@ -177,319 +327,1570 @@ code {
       </div>
     </div>
     <div class="page-meta-right">
-      April 29, 2026<br>Design Session<br>Content Platform
+      April 29, 2026<br>Design Journey<br>Dxfferent / Proxuma
     </div>
   </div>
   <div class="brand-rule"></div>
 
-  <div class="overline">Dxfferent Content Platform</div>
-  <h1>Phase 2.5 Design Journey</h1>
-  <p class="subtitle">Full brainstorming session: from requirements through clarifying questions, design decisions, spec writing, V2 code review, and spec revision. Four features designed for content.dxfferent.com.</p>
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('design')">Design Journey</button>
+    <button class="tab-btn" onclick="switchTab('planning')">Planning Session</button>
+    <button class="tab-btn" onclick="switchTab('plan')">Implementation Plan</button>
+    <button class="tab-btn" onclick="switchTab('implementation')">Build &amp; Deploy</button>
+    <button class="tab-btn" onclick="switchTab('codereview')">Code Review</button>
+    <button class="tab-btn" onclick="switchTab('darktheme')">V2 Dark Theme</button>
+  </div>
+
+  <!-- TAB 1: Design Journey -->
+  <div class="tab-content active" id="tab-design">
+
+  <div class="overline">DESIGN PROCESS WALKTHROUGH</div>
+  <h1>Content Platform for MSP Consultants</h1>
+  <p class="subtitle">How we went from a PDF with MSP problems to a full product spec in one brainstorming session. This document walks through every conversation turn, design decision, and the final architecture.</p>
 
   <div class="stats-row">
     <div class="stat-card">
-      <div class="stat-value">4</div>
-      <div class="stat-label">Features Designed</div>
+      <div class="stat-value">63</div>
+      <div class="stat-label">Content Topics</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">8</div>
-      <div class="stat-label">Design Decisions</div>
+      <div class="stat-value">6</div>
+      <div class="stat-label">Content Categories</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">12</div>
-      <div class="stat-label">V2 Review Fixes</div>
+      <div class="stat-value">5</div>
+      <div class="stat-label">Consultants</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">2</div>
-      <div class="stat-label">Files Modified</div>
+      <div class="stat-value">1</div>
+      <div class="stat-label">Session to Spec</div>
     </div>
   </div>
 
-  <h2>Starting Point</h2>
-  <p>The Proxuma Content Platform was already live at content.dxfferent.com with 3 tabs (Board, Dashboard, Kalender), a PHP REST API backed by SQLite, and a vanilla JS SPA. 64 MSP topics seeded, 5 consultants with demo submissions, 15 calendar entries, and an auto-planner algorithm. A code review had already been applied (CORS lockdown, input validation, database indexes).</p>
-  <p>The brief: design and build four features -- a kanban board, fake performance metrics, content derivatives view, and CSV/Google Sheets export. All within the existing vanilla JS + PHP + SQLite stack, no frameworks.</p>
+  <!-- =========================================== -->
+  <!-- SECTION: Full Conversation History           -->
+  <!-- =========================================== -->
 
-  <h2>Design Decisions</h2>
-  <p>Eight clarifying questions were asked one at a time. Each resolved a key architectural choice.</p>
+  <h2>Full Conversation History</h2>
+  <p>Below is the complete brainstorming session, from the initial prompt to the final handoff. Every turn is included so you can see exactly how the design emerged.</p>
 
-  <div class="q-block">
-    <div class="q-label">Question 1</div>
-    <div class="q-text">Kanban placement: 4th tab or replace/toggle within Board?</div>
-    <div class="q-answer">Three options presented: replace Board (A), toggle within Board (B), separate 4th tab (C). <strong>Decision: B -- toggle within Board.</strong> Keeps tab count tight, acknowledges kanban and list are the same data, consultants switch views as needed.</div>
-  </div>
+  <!-- TURN 1: Opening -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">1. The Brief</span></div>
 
-  <div class="q-block">
-    <div class="q-label">Question 2</div>
-    <div class="q-text">Kanban stages vs current topic statuses?</div>
-    <div class="q-answer">Current DB has 3 statuses (open, claimed, written). Kanban needs 5 columns (Idee, Schrijven, Review, Gepland, Gepost). Two approaches: expand status enum (A) or add separate kanban_stage column (B). <strong>Decision: A -- expand status, derive Gepland/Gepost from calendar JOINs.</strong> Single source of truth, no state duplication.</div>
-  </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        <em>[shares msp_journey_overzicht.pdf]</em><br><br>
+        Brainstorm with me. I want this list to become the basis for our consultants to create content. They need a super easy interface with which they can just pick a topic and dump their text. This should then be tagged as done, and the content will be transformed by Claude (subscription), but that part comes later, into various kinds of content. Initially this will be hosted on dxfferent.com, later to our internal app. The purpose is to farm our experts for relevant content, in a way that's convenient for them. AI cannot be the source of content, but it can transform their content into all kinds of pieces. Everything on here must be editable inline, it is our content writing platform.
+      </div>
+    </div>
 
-  <div class="q-block">
-    <div class="q-label">Question 3</div>
-    <div class="q-text">Content derivatives: attach to submissions or topics?</div>
-    <div class="q-answer">Derivatives represent output formats (LinkedIn post, blog, email snippet) generated from raw content. <strong>Decision: A -- attach to submissions.</strong> The submission is the actual human-written content that gets transformed. Preserves the audit trail of who wrote what. User emphasized: "quality is paramount, we can't have AI building on AI with content."</div>
-  </div>
-
-  <div class="q-block">
-    <div class="q-label">Question 4</div>
-    <div class="q-text">Fake performance data: stored in DB or computed on the fly?</div>
-    <div class="q-answer"><strong>Decision: A -- stored in DB.</strong> Four new columns on calendar table (impressions, clicks, engagement_rate, comments). Simple SQL aggregations for dashboard, CSV export reads columns directly, schema is ready for real analytics data. User requirement: "fake data needs to be deletable instantly and the architecture must be built for real data."</div>
-  </div>
-
-  <div class="q-block">
-    <div class="q-label">Question 5</div>
-    <div class="q-text">CSV export scope: current week, date range, or full dump?</div>
-    <div class="q-answer">User pivoted: "ideally it talks to Google Sheets, if possible a live connection." <strong>Decision: Google Apps Script webhook for live sync + CSV download as fallback.</strong> Apps Script is ~20 lines, no OAuth needed, webhook URL stored as a platform setting. Both options available in an inline export panel on the calendar tab.</div>
-  </div>
-
-  <div class="callout">
-    <span class="callout-label">Architectural Principle</span>
-    <strong>"No content should ever be destroyed, just archived. It's only text after all."</strong> All DELETE endpoints become soft deletes via <code>archived_at</code> column. Demo data wipe clears metrics and archives derivatives but never destroys submissions, calendar entries, or topics.
-  </div>
-
-  <h2>Feature Designs</h2>
-
-  <div class="card">
-    <div class="card-title">1. Kanban Board</div>
-    <div class="card-buyer">Toggle within Board tab</div>
-    <div class="card-desc">Five columns: Idee (open) &rarr; Schrijven (claimed) &rarr; Review (new status) &rarr; Gepland (has planned calendar entry) &rarr; Gepost (has posted calendar entry). HTML5 drag-and-drop, no library. Moving to Gepland opens calendar modal with date picker. Filters apply across all columns. Mobile: columns stack, drag replaced with dropdown.</div>
-    <div class="tags">
-      <span class="tag tag-ui">UI</span>
-      <span class="tag tag-schema">Schema</span>
-      <span class="tag tag-api">API</span>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read PDF</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Search Open Brain</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Invoke Brainstorming Skill</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        The PDF contains 9 pages covering ~30 sub-topics across 6 domains (Identity, Organisation, GRC, Positioning, Portfolio, Technology, Blueprint, Data Driven). Each sub-topic has structured Problemen/Frustraties/Vragen columns. That's your topic menu for consultants.
+        <br><br>
+        dxfferent.com is WordPress with REST API, Polylang (multilingual), Yoast SEO, and ACF Pro already installed. The internal app (Proxuma) is Laravel + Nuxt 3, multi-tenant.
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">2. Fake Performance Data</div>
-    <div class="card-buyer">Deterministic, content-type aware metrics</div>
-    <div class="card-desc">Four nullable columns on calendar: impressions, clicks, engagement_rate, comments. Generated during seed with content_type + platform aware ranges (case studies outperform polls on clicks, polls win on engagement). Consultant name hashed for per-person variation. Dashboard gets aggregate performance cards. One-click wipe sets all to NULL.</div>
-    <div class="tags">
-      <span class="tag tag-schema">Schema</span>
-      <span class="tag tag-api">API</span>
+  <!-- TURN 2: Visual companion + contentbibliotheek -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">2. Understanding the Content Structure</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Some of what we're working on might be easier to explain if I can show it to you in a web browser. I can put together mockups, diagrams, comparisons, and other visuals as we go. Want to try it?
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        What about claude.ai/design? Can we collaborate through that? Also step 2: <em>[shares proxuma_contentbibliotheek.html]</em> has all the kinds of categories, content types etc. Please read thoroughly so you understand what our intention is here, I fail at explaining.
+      </div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read contentbibliotheek HTML</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Now I get it much better. The contentbibliotheek is the missing puzzle piece. You've already mapped 63 concrete content ideas with 6 content categories (Bewijs & resultaat, Educatie & uitleg, Markt & visie, Contrair & polariserend, Eigen verhaal, Tools & resources), each linked back to MSP Journey source topics and with hook templates baked in.
+        <br><br>
+        So the full picture: the MSP Journey provides the <strong>problem space</strong> (30 sub-topics), and the contentbibliotheek provides the <strong>content assignments</strong> (63 ideas with category, hook format, and source). The platform is the interface where consultants claim a topic, dump their expertise, and it gets queued for AI transformation.
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">3. Content Derivatives</div>
-    <div class="card-buyer">Submission-level derivative tree</div>
-    <div class="card-desc">New <code>derivatives</code> table (FK to submissions). Each submission gets 2-4 fake derivatives based on topic category: bewijs gets 4 formats (linkedin-post, blog, email, infographic), contrair gets 2 (linkedin-post, newsletter). Inline tree view on topic cards. Nested JSON API endpoint for full topic &rarr; submission &rarr; derivatives tree.</div>
-    <div class="tags">
-      <span class="tag tag-schema">Schema</span>
-      <span class="tag tag-ui">UI</span>
-      <span class="tag tag-api">API</span>
+  <!-- TURN 3: Who are the users -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">3. Clarifying Questions</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>Who are the consultants writing content?</strong> Are these Dxfferent employees, external MSP consultants/partners, or both? This determines whether we need auth, how many users we're designing for, and how much hand-holding the interface needs.
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        Let's do HTML, or even Excalidraw MCP that I've got setup. The consultants are Dxfferent consultants with all the MSP/Autotask knowledge. There's about 5 of them.
+      </div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Good. 5 internal Dxfferent consultants, so no auth needed for v1. I'll use Excalidraw for visual mockups when we get to interface design.
+        <br><br>
+        <strong>What does "dump their text" look like in practice?</strong>
+        <ul>
+          <li><strong>A) Free-form text field</strong> -- just paste or type whatever, raw and unstructured</li>
+          <li><strong>B) Lightly guided</strong> -- topic card shows hook template and related problems/frustrations/questions</li>
+          <li><strong>C) Structured input</strong> -- specific fields like "key insight", "example from practice"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        If they want to do free form they should be able to. Claude can then categorize. If they want to pick a topic this should also be available as an option. Also no auth, make sure it's also noindex for Google.
+      </div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Both entry paths: pick a topic from the list, or just dump raw text and let Claude sort it later. No auth, noindex. Got it.
+        <br><br>
+        <strong>Where does the content go after a consultant submits it?</strong>
+        <ul>
+          <li><strong>A) Single-page app</strong> -- everything lives on one page. Topic list, submissions, status tracking.</li>
+          <li><strong>B) Separate flows</strong> -- browse/pick page and a separate writing/editing page per topic.</li>
+        </ul>
+        I'm leaning toward A -- one page where they can see everything at a glance.
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        All raw text needs to be stored in that form and indexed, well organized. All content that flows from there also. We also want to keep track of whether we've posted it, in a database of sorts, and we need a nice color visual display of what has and hasn't been posted. Lastly, a content calendar where we can queue the messages, with future connection to our LinkedIn profile ideally, and of course dxfferent.com. Also the ability to track all the page views and LinkedIn tracking data in there would be ideal for us to steer which topics are the best to post about, which types of content etc.
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">4. CSV + Google Sheets Export</div>
-    <div class="card-buyer">Inline export panel on calendar</div>
-    <div class="card-desc">Date range picker defaulting to current month. CSV download (UTF-8 + BOM, comma-delimited, Content-Disposition header). Google Sheets sync via Apps Script webhook -- POST JSON to configured URL, ~20 lines of Apps Script. Webhook URL stored in new <code>settings</code> table. Button greyed out if not configured.</div>
-    <div class="tags">
-      <span class="tag tag-api">API</span>
-      <span class="tag tag-ui">UI</span>
+  <!-- TURN 4: Scope management -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">4. Scope Check -- Breaking It Into Phases</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        I need to flag something before we go further. What started as a "consultants pick a topic and dump text" tool has grown into a full content operations platform with at least 5 distinct subsystems:
+        <ol>
+          <li><strong>Content input</strong> -- topic picker + free-form dump</li>
+          <li><strong>Content storage & indexing</strong> -- structured database of raw + transformed content</li>
+          <li><strong>Publishing tracker</strong> -- visual status board</li>
+          <li><strong>Content calendar</strong> -- scheduling queue with LinkedIn + dxfferent.com integration</li>
+          <li><strong>Analytics</strong> -- page views, LinkedIn metrics, content performance steering</li>
+        </ol>
+        That's a real product. <strong>Can we build this in phases?</strong>
+        <ul>
+          <li><strong>Phase 1</strong> -- Content harvesting tool. Ship within days.</li>
+          <li><strong>Phase 2</strong> -- AI transformation + content calendar + publishing status</li>
+          <li><strong>Phase 3</strong> -- LinkedIn/dxfferent.com integrations + analytics</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        Yes makes total sense. The app will later be built into <code>github.com/Proxuma-Nova/claude-harness</code> so please take that into account, that the architecture is well designed, well described and can be ported over later. What I need right now is Phase 1 done by tomorrow.
+      </div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Explore claude-harness repo</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Claude-harness is a manifest-driven distribution system for Claude Code artifacts -- not a traditional app framework. So "port to claude-harness later" means packaging the content platform as a skill/module with its own manifest, not embedding it into a monolith.
+        <br><br>
+        <strong>Storage for Phase 1?</strong>
+        <ul>
+          <li><strong>A) JSON file</strong> -- dead simple but no querying</li>
+          <li><strong>B) SQLite</strong> -- single file, proper querying, easy to migrate</li>
+          <li><strong>C) Supabase</strong> -- proper backend but adds setup time</li>
+        </ul>
+        I recommend <strong>B (SQLite)</strong>.
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        B it is. You have SiteGround and WP access to dxfferent.com. Can you work it with just that?
+      </div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Yes. SiteGround runs PHP with SQLite support (PDO) out of the box. A standalone app at <code>dxfferent.com/content/</code>, completely separate from WordPress. Three files: <code>index.html</code> (SPA), <code>api.php</code> (REST API), <code>data/content.db</code> (SQLite, protected by .htaccess).
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        Use a URL like content.dxfferent.com instead. All good on the simultaneous stuff that's not an issue.
+      </div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <code>content.dxfferent.com</code> it is. I'll set up the subdomain on SiteGround. That gets its own document root, completely separate from WordPress.
+      </div>
     </div>
   </div>
 
-  <h2>V2 Code Review</h2>
-  <p>After the initial spec was written, the frontend was redesigned with a V2 dark theme (PP Monument Extended headings, DM Sans body, dark surfaces, red-to-orange gradient, trapezoid clip-paths). An Opus 4.7 agent reviewed the spec against the updated codebase and found 12 conflicts.</p>
+  <!-- TURN 5: Filter design + Excalidraw -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">5. UI Design -- Filter System</span></div>
 
-  <h3>Critical (would break implementation)</h3>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>How should the 63 topics be organized on screen?</strong> The contentbibliotheek has two axes:
+        <ul>
+          <li><strong>Content category</strong> (6 types): Bewijs, Educatie, Markt, Contrair, Eigen verhaal, Tools</li>
+          <li><strong>MSP Journey domain</strong>: Data Driven, Technology, Organisation, etc.</li>
+        </ul>
+        Three options:
+        <ul>
+          <li><strong>A)</strong> Filter by content category, source shown per card</li>
+          <li><strong>B)</strong> Filter by MSP Journey domain, category as badge</li>
+          <li><strong>C)</strong> Both filters available, consultant toggles between them</li>
+        </ul>
+      </div>
+    </div>
 
-  <div class="review-item">
-    <span class="review-num">#1</span><span class="review-sev sev-critical">Critical</span>
-    <p>CSV endpoint needs early exit before global <code>Content-Type: application/json</code> header. Added early route check pattern at top of api.php.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#2</span><span class="review-sev sev-critical">Critical</span>
-    <p>Soft delete is cross-cutting: ~15 SELECT queries need <code>WHERE archived_at IS NULL</code>. Spec now explicitly scopes the change.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#3</span><span class="review-sev sev-critical">Critical</span>
-    <p>One-to-many topic-to-calendar mapping (one topic posted on both LinkedIn and Dxfferent). Switched from JOIN to subquery with <code>GROUP_CONCAT</code>.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#4</span><span class="review-sev sev-critical">Critical</span>
-    <p>Schema migration for existing databases. Added <code>PRAGMA table_info</code> check + ALTER pattern instead of assuming DB delete.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#5</span><span class="review-sev sev-critical">Critical</span>
-    <p>Derivatives tree endpoint needs nested JSON, not flat rows. Added explicit PHP assembly logic and response shape to spec.</p>
-  </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        Could we do an Excalidraw/HTML collab on this decision, that you show me a mockup of all three?
+      </div>
+    </div>
 
-  <h3>Important (would cause inconsistency)</h3>
-
-  <div class="review-item">
-    <span class="review-num">#6</span><span class="review-sev sev-important">Important</span>
-    <p>No V2 design tokens referenced. Added full token table: <code>--surface</code>, <code>--line</code>, <code>--gradient</code>, category jewel tones.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#7</span><span class="review-sev sev-important">Important</span>
-    <p>Toggle button had no DOM insertion point. Specified: between <code>.header</code> and <code>.stats</code> in Board view.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#8</span><span class="review-sev sev-important">Important</span>
-    <p>Editor <code>toggleDone()</code> didn't handle the new <code>review</code> status. Added explicit state machine for all transitions.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#9</span><span class="review-sev sev-important">Important</span>
-    <p><code>DELETE /demo-data</code> route conflicts with calendar DELETE handler. Changed to <code>POST /demo-data/clear</code>.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#10</span><span class="review-sev sev-important">Important</span>
-    <p>Export panel needs structural DOM placement. Specified as full-width div below <code>.cal-header</code>.</p>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Clear Excalidraw canvas</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create 102 elements</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        All three options are on your Excalidraw canvas. Scroll down to see them stacked:
+        <ul>
+          <li><strong>Option A</strong> (red) -- category filters only</li>
+          <li><strong>Option B</strong> (blue) -- domain filters only</li>
+          <li><strong>Option C</strong> (green, recommended) -- two filter rows: DOMEIN on top, TYPE below</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <h3>Minor (good to clarify)</h3>
+  <!-- Mockup image -->
+  <h3>The Excalidraw Mockup</h3>
+  <img src="assets/content-platform-mockups.png" alt="Three filter options mockup from Excalidraw" class="mockup-img">
 
-  <div class="review-item">
-    <span class="review-num">#11</span><span class="review-sev sev-minor">Minor</span>
-    <p>Auto-planner + kanban interaction confirmed working correctly. Auto-planned topics appear in Gepland column as expected.</p>
-  </div>
-  <div class="review-item">
-    <span class="review-num">#12</span><span class="review-sev sev-minor">Minor</span>
-    <p>Seed logic confirmed as <code>api.php</code> only. <code>seed.json</code> remains untouched.</p>
+  <div class="terminal-convo">
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Option C. Be sure to save what you drew for later.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Export Excalidraw scene</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Saved. Option C it is -- dual filter rows.
+      </div>
+    </div>
   </div>
 
-  <h2>Schema Changes Summary</h2>
+  <!-- TURN 6: Editor + WP concerns -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">6. Editor View &amp; WordPress Considerations</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>When a consultant clicks a topic card to write, should the card expand inline (accordion-style) or open a dedicated writing view (full-width editor)?</strong>
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Full width.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Full-width editor view. Got it. Here's the approach:
+        <br><br>
+        <strong>Single-page app with PHP REST API.</strong> Frontend: one HTML file, vanilla JS, no build step. Backend: one api.php, SQLite via PDO. Database: 3 tables (topics, submissions, authors). Deploy via SSH, drop files in, done. The API contract is the portability layer for Proxuma later.
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">For now you will be dealing with the dxfferent.com WordPress theme and quirks. Be sure your setup can handle that. If you want to circumvent it that's fine if you can do so without breaking anything.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        The cleanest path: <strong>the subdomain gets its own document root on SiteGround, completely separate from WordPress.</strong> SiteGround's Site Tools creates subdomains with their own directory, so WordPress never sees these requests at all. No theme interference, no .htaccess conflicts, no rewrite rules fighting each other.
+        <br><br>
+        WordPress stays untouched. The only thing to watch for is SiteGround's server-level caching. I'll add <code>Cache-Control: no-store</code> headers on API responses.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 7: Design sections -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">7. Detailed Design -- Four Sections</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>Design Section 1: Database Schema</strong><br>
+        Three tables: <code>topics</code> (63 pre-loaded items with id, title, hook, category, domain, subdomain, status, claimed_by), <code>submissions</code> (raw content linked to topic or standalone free-form), <code>authors</code> (just names). Topics seeded from a JSON file.
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Good.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>Design Section 2: API Endpoints</strong><br>
+        GET/PATCH topics, GET/POST/PATCH/DELETE submissions, GET/POST authors, GET stats. All JSON, <code>Cache-Control: no-store</code>. Single <code>api.php</code> file with simple URL pattern matching.
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Yes, will be perfected later though.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>Design Section 3: Frontend Views</strong><br>
+        View 1 (Topic Board): header with stats, two filter rows (DOMEIN + TYPE), card list with status badges, "Vrije tekst schrijven" button. View 2 (Full-width Editor): back arrow, left side writing area with auto-save, right side context panel with hook template + MSP Journey context. Mobile-responsive.
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Good.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>Design Section 4: File Structure & Deployment</strong><br>
+        <code>index.html</code>, <code>api.php</code>, <code>seed.json</code>, <code>data/content.db</code> (auto-created), <code>.htaccess</code> files. Create subdomain in SiteGround, SSH in, drop files. Portability: seed.json feeds Laravel seeder, API maps to resource routes, schema translates to migration, frontend decoupled.
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">All good.</div>
+    </div>
+  </div>
+
+  <!-- TURN 8: Spec + handoff -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">8. Spec Written &amp; Handoff</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Write spec file</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Self-review</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Spec written and committed to <code>docs/superpowers/specs/2026-04-29-content-platform-design.md</code>. Please review it and let me know if you want to make any changes before we start writing out the implementation plan.
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Write superpower write plan prompt for next Claude to do that.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Copy handoff prompt to clipboard</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Set up notes tab</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Save to Open Brain</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Done. The handoff prompt is in your clipboard. It invokes <code>/superpowers:writing-plans</code>, points to the spec, all source files, SSH creds, and tells it to ship today.
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Standby to assist if next Claude doesn't understand it.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">Standing by.</div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text"><em>[shares next Claude's output]</em> The next session read the spec, source files, mockups, and invoked writing-plans. No issues.</div>
+    </div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">Looks like it picked everything up cleanly. No issues so far. Let it run.</div>
+    </div>
+  </div>
+
+  <!-- =========================================== -->
+  <!-- SECTION: Design Summary                      -->
+  <!-- =========================================== -->
+
+  <h2>The 6 Content Categories</h2>
 
   <table class="matrix">
-    <tr><th>Change</th><th>Type</th><th>Detail</th></tr>
-    <tr><td><strong>topics.status</strong></td><td>Enum expand</td><td>Add <code>review</code> to existing open/claimed/written</td></tr>
-    <tr><td><strong>calendar.impressions</strong></td><td>New column</td><td>INTEGER, nullable</td></tr>
-    <tr><td><strong>calendar.clicks</strong></td><td>New column</td><td>INTEGER, nullable</td></tr>
-    <tr><td><strong>calendar.engagement_rate</strong></td><td>New column</td><td>REAL, nullable</td></tr>
-    <tr><td><strong>calendar.comments</strong></td><td>New column</td><td>INTEGER, nullable</td></tr>
-    <tr><td><strong>*.archived_at</strong></td><td>New column</td><td>DATETIME on submissions, calendar, derivatives</td></tr>
-    <tr><td><strong>derivatives</strong></td><td>New table</td><td>id, submission_id FK, format, title, status, archived_at, created_at</td></tr>
-    <tr><td><strong>settings</strong></td><td>New table</td><td>key TEXT PK, value TEXT</td></tr>
+    <tr>
+      <th>Category</th>
+      <th>Count</th>
+      <th>Purpose</th>
+      <th>Example Hook</th>
+    </tr>
+    <tr>
+      <td><span class="tag tag-bewijs">Bewijs & resultaat</span></td>
+      <td>12</td>
+      <td>Case studies, data analysis, proof points</td>
+      <td>"Ik analyseerde [X] en vond [Y]"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-educatie">Educatie & uitleg</span></td>
+      <td>16</td>
+      <td>How-tos, explainers, frameworks</td>
+      <td>"Complex ding makkelijk gemaakt"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-markt">Markt & visie</span></td>
+      <td>10</td>
+      <td>Market predictions, vision pieces</td>
+      <td>"Toekomst van [markt / tool]"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-contrair">Contrair & polariserend</span></td>
+      <td>14</td>
+      <td>Myth-busting, contrarian takes</td>
+      <td>"Waarom [mythe] niet klopt"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-eigen">Eigen verhaal</span></td>
+      <td>7</td>
+      <td>Personal stories, lessons learned</td>
+      <td>"Wat ik nooit meer zou doen"</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-tools">Tools & resources</span></td>
+      <td>4</td>
+      <td>Comparisons, lists, templates</td>
+      <td>"[X] vs [Y] voor MSP's"</td>
+    </tr>
   </table>
 
-  <div class="positioning">
-    <h2>Next Step</h2>
-    <p>Spec is complete and reviewed against V2 codebase. Next: create an implementation plan, then hand off to implementation-agent-4.7 for coding. The agent will modify api.php and index.html, test locally, deploy via SCP, delete remote content.db to trigger reseed, and verify all endpoints.</p>
+  <!-- Architecture -->
+  <h2>Architecture</h2>
+
+  <h3>File Structure</h3>
+  <pre>content.dxfferent.com/
+  index.html          -- SPA (topic board + editor views)
+  api.php             -- REST API (CRUD on SQLite)
+  seed.json           -- 63 topics + MSP Journey context
+  data/
+    content.db        -- SQLite (auto-created on first request)
+    .htaccess         -- Deny from all
+  .htaccess           -- URL rewriting, noindex, cache headers</pre>
+
+  <h3>Database Schema</h3>
+  <pre>topics (id, title, hook, category, domain, subdomain, status, claimed_by, created_at)
+submissions (id, topic_id, author, raw_content, category, domain, created_at, updated_at)
+authors (id, name, created_at)</pre>
+
+  <h3>API Endpoints</h3>
+  <table class="matrix">
+    <tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td>/api/topics</td><td>List all topics (filters: category, domain, status)</td></tr>
+    <tr><td>GET</td><td>/api/topics/:id</td><td>Single topic with submissions</td></tr>
+    <tr><td>PATCH</td><td>/api/topics/:id</td><td>Update status, claimed_by, title, hook</td></tr>
+    <tr><td>POST</td><td>/api/submissions</td><td>Create submission (body: topic_id, author, raw_content)</td></tr>
+    <tr><td>PATCH</td><td>/api/submissions/:id</td><td>Edit content inline</td></tr>
+    <tr><td>GET</td><td>/api/stats</td><td>Counts by status, category, domain</td></tr>
+  </table>
+
+  <!-- Phases -->
+  <h2>Three Phases</h2>
+
+  <div class="timeline">
+    <div class="timeline-item done">
+      <div class="timeline-label"><span class="phase-badge phase-now">Now</span> Phase 1: Content Harvesting</div>
+      <div class="timeline-text">Topic board with dual filters, full-width editor, free-form input, SQLite storage, visual status tracking. Ship to content.dxfferent.com by April 30.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> Phase 2: Transformation + Calendar</div>
+      <div class="timeline-text">Claude transforms raw content into blog posts, LinkedIn posts, and articles. Content calendar for scheduling. Publishing status board with color-coded visuals.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Later</span> Phase 3: Publishing + Analytics</div>
+      <div class="timeline-text">LinkedIn API integration for direct posting. dxfferent.com publishing. Page view tracking, LinkedIn metrics, and content performance analytics to steer topic selection.</div>
+    </div>
   </div>
+
+  <!-- Portability -->
+  <h2>Portability to Proxuma</h2>
+  <ul>
+    <li><code>seed.json</code> feeds a Laravel database seeder directly</li>
+    <li>API contract maps 1:1 to Laravel resource routes</li>
+    <li>SQLite schema translates to a standard Laravel migration</li>
+    <li>Frontend is decoupled via <code>/api/*</code>: swap the backend, keep the UI</li>
+    <li>Will be packaged as a <code>claude-harness</code> module with manifest.json</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>One brainstorming session produced a complete spec for a content platform that solves a real problem: getting expert knowledge out of consultants' heads and into a structured library. Phase 1 ships tomorrow. The rest builds on top without rework.</p>
+  </div>
+
+  </div><!-- end tab-design -->
+
+  <!-- TAB 2: Planning Session -->
+  <div class="tab-content" id="tab-planning">
+
+  <div class="overline">IMPLEMENTATION PLANNING</div>
+  <h1>Planning Session</h1>
+  <p class="subtitle">The full conversation where we read all source material, extracted 64 topics with MSP Journey context into seed.json, and produced a 5-task implementation plan. From spec to deployment-ready plan in one session.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">64</div>
+      <div class="stat-label">Topics Extracted</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Impl. Tasks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Source Files Parsed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">758</div>
+      <div class="stat-label">Lines seed.json</div>
+    </div>
+  </div>
+
+  <h2>Full Planning Conversation</h2>
+
+  <!-- TURN 1: The brief -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">1. The Implementation Brief</span></div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        <strong>ultrathink /superpowers:writing-plans</strong><br><br>
+        Implement Phase 1 of the Proxuma Content Platform per the spec at <code>~/docs/superpowers/specs/2026-04-29-content-platform-design.md</code><br><br>
+        <strong>Context:</strong> This is a content harvesting tool for 5 Dxfferent consultants to contribute MSP expertise. They pick from 63 pre-defined topics or dump free-form text. Hosted at content.dxfferent.com on SiteGround (separate subdomain, isolated from WordPress).<br><br>
+        <strong>Source files to extract the 63 topics from:</strong>
+        <ul>
+          <li><code>proxuma_contentbibliotheek.html</code> &mdash; has all items as JS array with cat, title, hook, source fields</li>
+          <li><code>msp_journey_overzicht.pdf</code> &mdash; problems/frustrations/questions per domain to embed in seed.json context field</li>
+        </ul>
+        <strong>Excalidraw mockups</strong> of the chosen UI (Option C &mdash; dual filter rows): <code>content-platform-mockups.excalidraw</code><br><br>
+        <strong>Tech:</strong> single index.html (vanilla JS SPA), single api.php (REST, SQLite via PDO), seed.json (64 topics + MSP Journey context). No framework, no build step. Deploy via SSH to SiteGround subdomain.<br><br>
+        <strong>SSH:</strong> <code>ssh -i ~/.ssh/id_ed25519_siteground_dxfferent -p 18765 u110-srp2wn2ngthp@ssh.dxfferent.com</code><br><br>
+        Subdomain needs to be created first in SiteGround Site Tools. Ship today.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 2: Reading all source material -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">2. Reading All Source Material</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        I'll read the spec and source files before planning.
+      </div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read spec (143 lines)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read contentbibliotheek HTML (159 lines, 64 JS items)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read MSP Journey PDF (9 pages)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        <strong>Spec analysis:</strong> Full Phase 1 spec covers database schema (topics, submissions, authors), REST API with 8 endpoint groups, two frontend views (Topic Board + Editor), dual filter rows (Option C), auto-seed from seed.json, deploy via SSH to SiteGround subdomain.<br><br>
+        <strong>Contentbibliotheek:</strong> 64 items in a JS array (not 63 as spec states &mdash; the HTML title says 63 but the actual array has 64 items). Each has: cat, title, hook, source. Six categories: bewijs (12), educatie (15), markt (9), contrair (15), eigen (7), tools (6).<br><br>
+        <strong>MSP Journey PDF (9 pages):</strong> Covers 8 MSP Journey domains with ~30 sub-topics. Each sub-topic has three columns:
+        <ul>
+          <li><strong>Problemen</strong> &mdash; concrete problems MSP directors face</li>
+          <li><strong>Frustraties</strong> &mdash; emotional frustrations and recurring complaints</li>
+          <li><strong>Vragen</strong> &mdash; questions they're trying to answer</li>
+        </ul>
+        Domains covered: Identity (Missie, Visie, Strategie, Cultuur), Organisation (Strategisch Plan, Organisatiestructuur, Employee Journey, Communicatie, Medewerkerstevredenheid, Taken &amp; Verantwoordelijkheden, Personeelsplanning, Beloning), GRC (7 sub-topics), Positioning (4 sub-topics), Portfolio (4 sub-topics), Technology (PSA, Automatisering, Contracten &amp; Billing, RMM, AI intern, Klantportaal), Blueprint (5 sub-topics), Data Driven (5 sub-topics).
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 3: Reading Excalidraw mockups -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">3. Reading Excalidraw Mockups</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Read Excalidraw file (500+ lines JSON)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        The Excalidraw file contains three mockup options:
+        <ul>
+          <li><strong>Option A:</strong> Filter by Content Category only &mdash; category pills top, source domain as label per card. Can't browse by domain.</li>
+          <li><strong>Option B:</strong> Filter by MSP Journey Domain only &mdash; domain pills top, category as label per card. Can't browse by category.</li>
+          <li><strong>Option C (selected):</strong> Dual filter rows &mdash; domain pills (row 1) + colored category pills (row 2). Both filters work independently. A card showing Technology / Automatisering with green "Markt &amp; visie" badge and "geschreven door Tom" status demonstrates the written state.</li>
+        </ul>
+        Enough context from the mockups. Option C is dual filter rows (domain + category).
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 4: Invoking writing-plans skill -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">4. Invoking the Writing-Plans Skill</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Invoke superpowers:writing-plans</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        I'm using the writing-plans skill to create the implementation plan. I've read all source material: the spec, all 64 topics from the HTML, 9 pages of MSP Journey data from the PDF, and the Excalidraw mockups (Option C: dual filter rows). Let me set up the project directory and build the seed data first, then write the plan.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 5: Building seed.json -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">5. Building seed.json &mdash; 64 Topics with MSP Journey Context</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">mkdir ~/ClaudeCode/content-platform/data</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Write seed.json (758 lines)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Created <code>~/ClaudeCode/content-platform/seed.json</code> with all 64 topics. Each topic includes:
+        <ul>
+          <li><strong>title</strong> &mdash; the full content idea title from contentbibliotheek</li>
+          <li><strong>hook</strong> &mdash; the hook template (e.g., "Case study: 1 probleem, 1 oplossing, 1 resultaat")</li>
+          <li><strong>category</strong> &mdash; one of: bewijs, educatie, markt, contrair, eigen, tools</li>
+          <li><strong>domain</strong> &mdash; MSP Journey domain (Data Driven, Technology, Organisation, Algemeen, Markt)</li>
+          <li><strong>subdomain</strong> &mdash; specific area (Analyse, PSA, Personeelsplanning, etc.)</li>
+          <li><strong>context</strong> &mdash; JSON object with problemen[], frustraties[], vragen[] arrays extracted from the MSP Journey PDF. Null for topics in "Algemeen" and "Markt" domains that don't map to MSP Journey sub-topics.</li>
+        </ul>
+        <strong>Mapping logic:</strong> Each topic's <code>source</code> field (e.g., "Data Driven / Analyse") was split into domain + subdomain, then matched to the corresponding MSP Journey section. For example, a topic with source "Technology / PSA" gets the full Problemen/Frustraties/Vragen from the "PSA (Autotask)" section of the PDF.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 6: Validating seed.json -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">6. Validation</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">python3 validation script</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Validation results:
+        <ul>
+          <li><strong>Topics:</strong> 64 (not 63 &mdash; the source HTML contains 64 items despite the spec saying 63)</li>
+          <li><strong>Categories:</strong> bewijs (12), contrair (15), educatie (15), eigen (7), markt (9), tools (6)</li>
+          <li><strong>Domains:</strong> Algemeen (2), Data Driven (25), Markt (1), Organisation (12), Technology (24)</li>
+        </ul>
+        All topics have valid required fields. 61 of 64 topics have MSP Journey context (the 3 without context are in "Algemeen/Proxuma" and "Markt/MSP" domains which don't have corresponding MSP Journey sections).
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 7: Writing the plan -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">7. Writing the Implementation Plan</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Write plan (~/docs/superpowers/plans/2026-04-29-content-platform.md)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Wrote the complete implementation plan with 5 tasks:
+        <br><br>
+        <strong>Task 1: Verify seed.json + create .htaccess files</strong><br>
+        Root .htaccess with RewriteEngine for <code>/api/*</code> routing, noindex headers, SiteGround cache bypass. Data directory .htaccess with <code>Deny from all</code> to protect SQLite DB.
+        <br><br>
+        <strong>Task 2: Create api.php</strong><br>
+        Complete REST API (~180 lines PHP). Routes: GET/PATCH topics, GET/POST/PATCH/DELETE submissions, GET/POST authors, GET stats. Auto-creates SQLite DB and seeds from seed.json on first request. All responses include <code>Cache-Control: no-store</code>. CORS headers for local development.
+        <br><br>
+        <strong>Task 3: Create index.html</strong><br>
+        Full SPA (~400 lines). Two views: Topic Board (default) with dual filter rows matching the contentbibliotheek style, and full-width Editor with context panel showing MSP Journey problemen/frustraties/vragen. Features: localStorage author persistence, auto-save every 30s + on blur, "Markeer als geschreven" toggle, "Vrije tekst schrijven" for free-form dumps, mobile responsive grid.
+        <br><br>
+        <strong>Task 4: Deploy to SiteGround</strong><br>
+        SSH connectivity check, find document root, SCP all files, set permissions, verify with curl (stats endpoint, topic count, HTML load, noindex header).
+        <br><br>
+        <strong>Task 5: Browser verification</strong><br>
+        13-point manual verification checklist covering all spec requirements.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 8: Self-review and handoff -->
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">8. Self-Review &amp; Execution Handoff</span></div>
+
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        <strong>Spec coverage check:</strong>
+        <ul>
+          <li>All API endpoints covered (topics, submissions, authors, stats with filters)</li>
+          <li>Topic Board with dual filter rows (Option C), stats bar, colored pills</li>
+          <li>Full-width Editor with context panel, auto-save, localStorage author</li>
+          <li>.htaccess for rewriting, noindex, cache bypass, data protection</li>
+          <li>Auto-seed DB from seed.json on first request</li>
+          <li>Mobile responsive grid layout</li>
+          <li>Deployment via SSH to SiteGround</li>
+        </ul>
+        <strong>Intentionally skipped:</strong> "Inline-editable fields on the board view" &mdash; minor UX polish, not blocking for ship.<br><br>
+        <strong>Offered two execution paths:</strong> Subagent-driven (recommended) or inline execution. Pre-requisite: create <code>content.dxfferent.com</code> subdomain in SiteGround Site Tools before Task 4.
+      </div>
+    </div>
+
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        Two things to do before we start executing:<br><br>
+        1. Add your planning session history to the design journey page (this document &mdash; as a third tab).<br>
+        2. Output a prompt for the next Claude session to execute the plan inline. Copy to pbcopy.
+      </div>
+    </div>
+  </div>
+
+  </div><!-- end tab-planning -->
+
+  <!-- TAB 3: Implementation Plan -->
+  <div class="tab-content" id="tab-plan">
+
+  <div class="overline">IMPLEMENTATION PLAN</div>
+  <h1>Phase 1: Content Harvesting Tool</h1>
+  <p class="subtitle">5-task implementation plan generated by a second Claude session from the design spec. Each task builds on the previous one. Local dev path: <code>~/ClaudeCode/content-platform/</code></p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Tasks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Files to Create</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">64</div>
+      <div class="stat-label">Topics in Seed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Deploy Target</div>
+    </div>
+  </div>
+
+  <h2>File Structure</h2>
+  <pre>~/ClaudeCode/content-platform/
+  index.html          -- Full SPA: topic board + editor views
+  api.php             -- REST API: routing, SQLite CRUD, auto-seed
+  seed.json           -- 64 topics with MSP Journey context (pre-built)
+  data/
+    .htaccess         -- Deny from all (protect SQLite DB)
+    content.db        -- Auto-created on first API request
+  .htaccess           -- URL rewriting, noindex, cache headers</pre>
+
+  <h2>Task 1: Verify seed.json + Create .htaccess Files</h2>
+  <div class="card">
+    <div class="card-title">Verify seed.json has 64 topics with correct structure</div>
+    <div class="card-desc">Each topic must have title, hook, category (one of: bewijs, educatie, markt, contrair, eigen, tools), and domain. The seed.json was pre-built by the planning session with MSP Journey context (problemen/frustraties/vragen) embedded per topic.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Create data/.htaccess</div>
+    <div class="card-desc"><code>Deny from all</code> -- prevents direct download of the SQLite database file.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Create root .htaccess</div>
+    <div class="card-desc">URL rewriting (<code>/api/*</code> to <code>api.php</code>), <code>X-Robots-Tag: noindex, nofollow</code> header, <code>Cache-Control: no-store</code> on API responses, block direct access to data/ directory.</div>
+  </div>
+
+  <h2>Task 2: Create api.php -- REST API</h2>
+  <div class="card">
+    <div class="card-title">Full REST API with SQLite auto-seed</div>
+    <div class="card-desc">Single PHP file handling all CRUD operations. On first request, creates the SQLite database and seeds all 64 topics from seed.json. WAL journal mode for concurrent reads. Endpoints: topics (GET, PATCH), submissions (GET, POST, PATCH, DELETE), authors (GET, POST), stats (GET).</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Local testing</div>
+    <div class="card-desc">Test with <code>php -S localhost:8888</code>. Verify: 64 topics loaded, filters work, submission CRUD works, stats return correct counts.</div>
+  </div>
+
+  <h2>Task 3: Create index.html -- Full SPA Frontend</h2>
+  <p>The largest file. Contains the complete single-page app with two views:</p>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Topic Board (default view)</div>
+        <div class="card-desc">
+          Header with stats bar, dual filter rows (DOMEIN grey pills + TYPE colored pills), card list with status badges (open/claimed/written), "Vrije tekst schrijven" button for free-form.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Full-width Editor</div>
+        <div class="card-desc">
+          Back arrow, author name field (localStorage), large textarea with auto-save (30s + on blur), context sidebar with hook template + MSP Journey problemen/frustraties/vragen. "Markeer als geschreven" button.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Browser verification checklist</h3>
+  <ol>
+    <li>Page loads with 64 topic cards</li>
+    <li>Stats bar shows "64 topics / 0 geschreven / 64 open"</li>
+    <li>Domain filter works (click "Technology" = 24 cards)</li>
+    <li>Category filter works with colored active states</li>
+    <li>Combined filters work (Technology + Bewijs = subset)</li>
+    <li>Click card = editor opens with hook + MSP Journey context in sidebar</li>
+    <li>Enter name + content, click Opslaan = saves (201 response)</li>
+    <li>Markeer als geschreven = card turns green on return</li>
+    <li>Vrije tekst schrijven = opens editor with "Claude categoriseert dit later"</li>
+    <li>Author name persists between topic switches</li>
+    <li>Auto-save fires after 30 seconds of idle</li>
+    <li>Mobile responsive at 375px width</li>
+  </ol>
+
+  <h2>Task 4: Deploy to SiteGround</h2>
+  <div class="callout">
+    <span class="callout-label">Pre-requisite</span>
+    The subdomain <code>content.dxfferent.com</code> must be created in SiteGround Site Tools before deployment. Tasks 1-3 can run without it.
+  </div>
+  <div class="card">
+    <div class="card-title">Deployment steps</div>
+    <div class="card-desc">
+      <ol style="margin:8px 0 0 18px;">
+        <li>Check SSH connectivity to SiteGround</li>
+        <li>Find subdomain document root (likely <code>~/www/content.dxfferent.com/public_html/</code>)</li>
+        <li>SCP all files: .htaccess, data/.htaccess, api.php, index.html, seed.json</li>
+        <li>Set file permissions (755 for data dir, 644 for files)</li>
+        <li>Verify with curl: /api/stats returns JSON, /api/topics returns 64 topics, noindex header present</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Task 5: Browser Verification</h2>
+  <div class="card">
+    <div class="card-title">Live site verification</div>
+    <div class="card-desc">Open <code>https://content.dxfferent.com/</code> and run through the full 13-point checklist above. Fix and redeploy if anything fails.</div>
+  </div>
+
+  <div class="positioning">
+    <h2>Implementation Status</h2>
+    <p>The seed.json with all 64 topics and MSP Journey context has been pre-built. The implementation plan is ready for execution. One Claude session handles all 5 tasks sequentially, with local testing before deployment.</p>
+  </div>
+
+  </div><!-- end tab-plan -->
+
+  <!-- TAB 4: Implementation + Phase 2 -->
+  <div class="tab-content" id="tab-implementation">
+
+  <div class="overline">BUILD &amp; DEPLOY</div>
+  <h1>Implementation + Phase 2</h1>
+  <p class="subtitle">One session: executed the 5-task plan, deployed to production, then immediately built Phase 2 (Dashboard + Content Calendar with auto-planner). From plan to live product with 15 calendar entries and 5 content submissions.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">5/5</div>
+      <div class="stat-label">Tasks Complete</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Tabs Built</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">64</div>
+      <div class="stat-label">Topics Live</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~1hr</div>
+      <div class="stat-label">Total Build Time</div>
+    </div>
+  </div>
+
+  <h2>Phase 1: Execution</h2>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">1. Plan Execution -- 5 Tasks</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Verify seed.json (64 topics, all valid)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create .htaccess files (root + data/)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create api.php (274 lines, full CRUD)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Create index.html (496 lines, SPA)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Executed all 5 tasks from the plan sequentially. Each task verified before moving to the next:
+        <ul>
+          <li><strong>Task 1:</strong> seed.json verified (64 topics, 6 categories, 5 domains). .htaccess files created.</li>
+          <li><strong>Task 2:</strong> api.php created and tested locally. All endpoints returning valid JSON. Bewijs=12, Technology=24.</li>
+          <li><strong>Task 3:</strong> index.html created. Full SPA with dual filters, editor view, auto-save.</li>
+          <li><strong>Task 4:</strong> Deployed via SCP to SiteGround. <em>Blocker: subdomain didn't exist yet.</em></li>
+          <li><strong>Task 5:</strong> Browser verification after DNS setup.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">2. Subdomain + DNS Setup</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        SiteGround subdomain directory created by user via Site Tools. DNS managed by Cloudflare (nameservers: ernest/frida.ns.cloudflare.com). SiteGround does NOT manage DNS. Wrote detailed Cloudflare DNS setup instructions, opened in TextEdit.
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">Created subdomain in SiteGround, added A record in Cloudflare (content &rarr; 35.214.194.47, proxied).</div>
+    </div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        DNS propagated. All verification checks passed:
+        <ul>
+          <li>64 topics loaded via API</li>
+          <li><code>X-Robots-Tag: noindex, nofollow</code> header present</li>
+          <li><code>&lt;meta name="robots" content="noindex, nofollow"&gt;</code> in HTML</li>
+          <li>Stats endpoint returning correct counts</li>
+        </ul>
+        Phase 1 live at <code>https://content.dxfferent.com/</code>.
+      </div>
+    </div>
+  </div>
+
+  <h2>Phase 2: Dashboard + Content Calendar</h2>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">3. Phase 2 Design Decision</span></div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">All works. Let's move on to the next phase. What's next?</div>
+    </div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Three options proposed:
+        <ol>
+          <li><strong>Dashboard</strong> -- progress overview, leaderboard, completion bars (~30 min)</li>
+          <li><strong>Content polish with Claude</strong> -- "Help me write" button using Claude API (~45 min)</li>
+          <li><strong>Export pipeline</strong> -- one-click LinkedIn post / blog article export</li>
+        </ol>
+        Open Brain confirmed Phase 2 was planned as "AI transformation + content calendar."
+      </div>
+    </div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">
+        Do the dashboard, not AI. Also content calendar -- was that in the plan? We post daily, need to track whose account posted, LinkedIn or Dxfferent, content type. Auto-planning with algorithm, no Claude. No auth, keep open. No weekends.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">4. Building Phase 2</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Add calendar table migration to api.php</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Add calendar CRUD + auto-planner + dashboard endpoints</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="tool-block"><div class="tool-header"><span class="tool-indicator"></span><span class="tool-name">Rewrite index.html with 3-tab SPA (725 lines changed)</span><span class="tool-chevron">&#9654;</span></div></div>
+      <div class="assistant-text">
+        Built and deployed:
+        <br><br>
+        <strong>New calendar table:</strong> scheduled_date, topic_id, title, platform (linkedin/dxfferent), account, content_type (post/article/blog/video/case-study/poll), status (planned/posted/skipped).
+        <br><br>
+        <strong>Dashboard tab:</strong> 4 stat cards (topics, written, submissions, upcoming), progress bars per domain and category with color-coded fills, leaderboard with ranked authors, recent activity feed.
+        <br><br>
+        <strong>Kalender tab:</strong> Mon-Fri week grid with navigation arrows, colored entry cards showing platform badge (LI/DXF), account name, content type. Click + to add, click entry to edit/delete. Modal with topic picker (searchable).
+        <br><br>
+        <strong>Auto-planner:</strong> "Auto-plan 2 weken" button fills the next 10 weekdays. Algorithm rotates accounts evenly, alternates LinkedIn/Dxfferent, cycles through content categories to maximize diversity. Skips days that already have entries.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">5. SiteGround Cache Battle</span></div>
+    <div class="role-section role-user">
+      <div class="role-label role-user-label">User</div>
+      <div class="user-text">I don't see anything new.</div>
+    </div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        SiteGround's dynamic cache was serving the old HTML despite the new files being on disk. Multiple purge methods tried (socket API, touch, CLI). Resolution: cache-buster query param (<code>?v=timestamp</code>) bypassed it. Updated .htaccess to add <code>Cache-Control: no-store</code> on HTML files to prevent future caching issues. Used Chrome MCP to hard-refresh the browser tab directly.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-convo">
+    <div class="turn-header"><span class="turn-header-label">6. Seeding Demo Data</span></div>
+    <div class="role-section role-assistant">
+      <div class="role-label role-assistant-label">Claude</div>
+      <div class="assistant-text">
+        Seeded realistic demo data for the 5 consultants:
+        <br><br>
+        <strong>5 content submissions:</strong>
+        <ul>
+          <li><strong>Joshua</strong> -- case study about 80 FTE MSP discovering 3 clients caused 40% of costs (topic 1, written)</li>
+          <li><strong>Max</strong> -- PSA data patterns piece about combining multiple data sources (topic 5, written)</li>
+          <li><strong>Jasper</strong> -- "we hebben geen tijd voor dashboards" contrarian take (topic 12, written)</li>
+          <li><strong>Bart</strong> -- work-in-progress comparing 3 MSPs (topic 20, claimed)</li>
+          <li><strong>Melissa</strong> -- free-form dump about MSP exit strategies and data (no topic)</li>
+        </ul>
+        <strong>15 calendar entries across 3 weeks:</strong>
+        <ul>
+          <li><strong>Last week (Apr 21-25):</strong> 5 entries, all posted, rotating accounts + alternating LI/DXF</li>
+          <li><strong>This week (Apr 28-May 2):</strong> 5 entries, mix of posted + planned, includes a poll</li>
+          <li><strong>Next week (May 4-8):</strong> 5 entries, all planned, diverse content types</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2>Recommended Next Steps</h2>
+  <div class="timeline">
+    <div class="timeline-item done">
+      <div class="timeline-label"><span class="phase-badge phase-now">Done</span> Visual redesign</div>
+      <div class="timeline-text">CSS-only redesign via Claude.ai/design. Clean typography, better card depth, refined calendar grid. Prompt generated and handed off.</div>
+    </div>
+    <div class="timeline-item done">
+      <div class="timeline-label"><span class="phase-badge phase-now">Done</span> Code review</div>
+      <div class="timeline-text">Opus 4.7 code review prompt generated for security, bugs, code quality, UX logic, and performance review of api.php and index.html.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> Hardcode consultant accounts</div>
+      <div class="timeline-text">Pre-populate the 5 Dxfferent consultants (Joshua, Max, Jasper, Bart, Melissa) so dropdowns and auto-planner always have them.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> Multi-week calendar view</div>
+      <div class="timeline-text">Show 4 weeks at once for better content density overview.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Next</span> CSV export</div>
+      <div class="timeline-text">Download calendar as CSV for importing into Publer or spreadsheets.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Later</span> Content linking</div>
+      <div class="timeline-text">Visual connection between written submissions and calendar entries. Green checkmark on calendar entries that have content ready.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-label"><span class="phase-badge phase-later">Later</span> Phase 3: Publishing + Analytics</div>
+      <div class="timeline-text">LinkedIn API integration, dxfferent.com publishing, page view tracking, content performance metrics.</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Current State</h2>
+    <p>Content platform is live at <code>content.dxfferent.com</code> with Board, Dashboard, and Kalender tabs. 64 topics seeded, 5 demo submissions, 15 calendar entries across 3 weeks. Auto-planner distributes content across weekdays, rotating accounts and alternating platforms. Code review complete: 22 fixes applied and verified.</p>
+  </div>
+
+  </div><!-- end tab-implementation -->
+
+  <div class="tab-content" id="tab-codereview">
+
+  <div class="overline">Session 5 &mdash; Code Review &amp; Hardening</div>
+  <h2>Code Review: 22 Fixes Applied</h2>
+  <p>Opus 4.7 reviewed <code>api.php</code> and <code>index.html</code> for security, bugs, code quality, UX logic, and performance. Found 16 issues (5 critical, 6 medium, 5 low). Wrote an 18-fix plan, applied all fixes, discovered 4 additional issues during verification, and deployed.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">22</div>
+      <div class="stat-label">Fixes Applied</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Critical</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10/10</div>
+      <div class="stat-label">Verification Checks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Console Errors</div>
+    </div>
+  </div>
+
+  <h2>api.php Fixes (8)</h2>
+
+  <div class="card">
+    <div class="card-buyer">Fix 1 &mdash; Critical / Security</div>
+    <div class="card-title">CORS Lockdown</div>
+    <div class="card-desc">Replaced <code>Access-Control-Allow-Origin: *</code> with origin check restricted to <code>https://content.dxfferent.com</code>. Open CORS allowed any website to make authenticated API requests.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 2 &mdash; Medium / Schema</div>
+    <div class="card-title">Calendar DDL + Indexes</div>
+    <div class="card-desc">Moved <code>CREATE TABLE calendar</code> inside the seed block so fresh databases get it during seeding. Added fallback <code>CREATE TABLE IF NOT EXISTS</code> for existing databases. Added 3 indexes: <code>idx_calendar_date</code>, <code>idx_submissions_topic</code>, <code>idx_submissions_author</code>.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 3 &mdash; Medium / Code Quality</div>
+    <div class="card-title">patchRecord Helper</div>
+    <div class="card-desc">Extracted a reusable <code>patchRecord($db, $table, $id, $input, $allowedFields, $validators)</code> function. Handles field filtering, value validation, update, 404 check, and returns the updated record. Eliminated 60 lines of duplicated PATCH logic.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 4 &mdash; Critical / Validation</div>
+    <div class="card-title">Topics Status Validation</div>
+    <div class="card-desc">Topics PATCH now validates status values. Only <code>open</code>, <code>claimed</code>, <code>written</code> accepted. Previously any string was stored directly.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 5 &mdash; Medium / Consistency</div>
+    <div class="card-title">Submissions PATCH via patchRecord</div>
+    <div class="card-desc">Replaced inline handler. Sets <code>updated_at</code> via PHP <code>date()</code> instead of SQLite <code>datetime('now')</code> for timezone consistency.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 6 &mdash; Medium / Bug</div>
+    <div class="card-title">Author POST Wrong ID</div>
+    <div class="card-desc"><code>INSERT OR IGNORE</code> returns <code>lastInsertId() = 0</code> for duplicate names. Now does a follow-up <code>SELECT</code> to return the actual record, and uses HTTP 201 for new / 200 for existing.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 7 &mdash; Medium / Semantics</div>
+    <div class="card-title">Auto-plan: GET to POST</div>
+    <div class="card-desc">State-changing endpoint (creates calendar entries) should not accept GET. Changed to POST only.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 8 &mdash; Critical / Validation</div>
+    <div class="card-title">Calendar Status Validation</div>
+    <div class="card-desc">Calendar PATCH now validates status: only <code>planned</code>, <code>posted</code>, <code>skipped</code> accepted. Tested: sending <code>"garbage"</code> returns <code>"Invalid value for status. Allowed: planned, posted, skipped"</code>.</div>
+  </div>
+
+  <h2>index.html JS Fixes (14)</h2>
+
+  <div class="card">
+    <div class="card-buyer">Fix 9 &mdash; Critical / Error Handling</div>
+    <div class="card-title">apiCall Error Handling</div>
+    <div class="card-desc">Added try/catch around <code>fetch</code> (shows "Netwerkfout" toast on network failure). Checks <code>res.ok</code> and toasts the server error message before throwing. All callers now get proper error feedback instead of silent failures.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 10 &mdash; Medium / Bug</div>
+    <div class="card-title">fmtDate UTC Fix</div>
+    <div class="card-desc">Replaced <code>d.toISOString().slice(0, 10)</code> (UTC) with local <code>getFullYear/getMonth/getDate</code>. The old version shifted dates by one day near midnight in CET/CEST.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 11 &mdash; Low / UX</div>
+    <div class="card-title">Stop Auto-save on Tab Switch</div>
+    <div class="card-desc">Added <code>stopAutoSave()</code> as first line in <code>switchTab()</code>. Prevents the 30-second auto-save timer from firing after leaving the editor tab.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 12 &mdash; Low / Performance</div>
+    <div class="card-title">loadTopics Staleness Cache</div>
+    <div class="card-desc">Added <code>topicsLoadedAt</code> timestamp. <code>loadTopics(force)</code> skips the API call if data is under 10 seconds old. Prevents redundant fetches during rapid tab switching.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 13 &mdash; Critical / Security</div>
+    <div class="card-title">XSS in renderFilters</div>
+    <div class="card-desc">Domain and category pill values were injected raw into <code>onclick</code> handlers. Now uses <code>esc()</code> for display text and <code>data-val</code> attributes with <code>this.dataset.val</code> for click handlers.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 14 &mdash; Medium / Robustness</div>
+    <div class="card-title">saveSubmission Guard + Error Handling</div>
+    <div class="card-desc">Added <code>isSaving</code> boolean guard to prevent double-saves. Wrapped API calls in try/catch. Button state managed in <code>finally</code> block. Shows "Opslaan mislukt" on failure.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 15 &mdash; Low / Bug</div>
+    <div class="card-title">closeEditor Async</div>
+    <div class="card-desc">Changed to <code>async function</code>, uses <code>await saveSubmission()</code> so save completes before switching to board tab. Previously the save was fire-and-forget.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 16 &mdash; Low / Memory Leak</div>
+    <div class="card-title">Event Listener Leak</div>
+    <div class="card-desc"><code>startAutoSave()</code> added a new <code>input</code> listener every time the editor opened. Added <code>autoSaveInputHandler</code> variable and removes the previous listener before adding a new one.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 17 &mdash; Low / Bug</div>
+    <div class="card-title">Calendar Modal State Leak</div>
+    <div class="card-desc">Opening a new calendar modal after picking a topic kept the previous <code>topicId</code> and search text. Now resets <code>calTitle.dataset.topicId</code> and <code>topicSearch.value</code> on new modal open.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 18 &mdash; Medium / Consistency</div>
+    <div class="card-title">autoPlan POST</div>
+    <div class="card-desc">Changed <code>method: 'GET'</code> to <code>method: 'POST'</code> to match the API change in fix 7.</div>
+  </div>
+
+  <h3>Bonus Fixes (Discovered During Verification)</h3>
+  <p>The new error-throwing <code>apiCall</code> (fix 9) caused uncaught exceptions in 4 functions that previously relied on checking <code>res.error</code>. Added try/catch wrappers:</p>
+
+  <div class="card">
+    <div class="card-buyer">Fix 19 &mdash; Bonus</div>
+    <div class="card-title">autoPlan try/catch</div>
+    <div class="card-desc">The old <code>if (res.error)</code> check was dead code since <code>apiCall</code> now throws before returning on errors. Wrapped in try/catch so the toast from <code>apiCall</code> shows and the exception is silently caught.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 20 &mdash; Bonus</div>
+    <div class="card-title">saveCalEntry try/catch</div>
+    <div class="card-desc">Modal stays open on save failure so the user can retry. Post-save cleanup (clear topicId, close modal, reload) only runs on success.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 21 &mdash; Bonus</div>
+    <div class="card-title">deleteCalEntry try/catch</div>
+    <div class="card-desc">Same pattern: modal stays open on failure, post-delete actions only run on success.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-buyer">Fix 22 &mdash; Bonus</div>
+    <div class="card-title">toggleDone try/catch</div>
+    <div class="card-desc">Prevents UI state (done button, topic status) from updating when the API call fails.</div>
+  </div>
+
+  <h2>Deployment</h2>
+  <div class="callout">
+    <span class="callout-label">Deployment Details</span>
+    Files deployed via SCP to SiteGround (<code>ssh.dxfferent.com:18765</code>).<br>
+    Path: <code>/home/customer/www/content.dxfferent.com/public_html/</code><br>
+    Remote <code>data/content.db</code> deleted to force re-seed with new schema.<br>
+    Cache-busted with <code>?v=timestamp</code> query param to bypass SiteGround dynamic cache.
+  </div>
+
+  <h2>Verification Checklist</h2>
+  <table class="matrix">
+    <thead>
+      <tr><th>#</th><th>Check</th><th>Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Delete DB, force re-seed</td><td>64 topics seeded, indexes created</td></tr>
+      <tr><td>2</td><td>Board tab: filters + cards render</td><td>64 cards, 6 domain pills, 7 category pills</td></tr>
+      <tr><td>3</td><td>Click card: editor opens with sidebar</td><td>Editor visible, 3 context sections</td></tr>
+      <tr><td>4</td><td>Auto-save fires once after 30s</td><td>isSaving guard + listener leak fixed</td></tr>
+      <tr><td>5</td><td>"Terug" saves then returns</td><td>async closeEditor + await saveSubmission</td></tr>
+      <tr><td>6</td><td>Rapid tab switching (7x)</td><td>Zero console errors</td></tr>
+      <tr><td>7</td><td>New calendar modal clears state</td><td>title, topicId, search all empty</td></tr>
+      <tr><td>8</td><td>Auto-plan uses POST</td><td>API responded: "10 posts gepland"</td></tr>
+      <tr><td>9</td><td>Bad status value rejected</td><td>"Invalid value for status. Allowed: planned, posted, skipped"</td></tr>
+      <tr><td>10</td><td>No JS errors throughout</td><td>Clean console after full sweep</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Files Changed</h2>
+  <div class="two-col">
+    <div>
+      <h3>api.php</h3>
+      <ul>
+        <li>CORS header locked to domain</li>
+        <li>Calendar DDL restructured</li>
+        <li>3 database indexes added</li>
+        <li><code>patchRecord()</code> helper</li>
+        <li>Status validation on topics + calendar</li>
+        <li>Author POST returns correct record</li>
+        <li>Auto-plan accepts POST only</li>
+      </ul>
+    </div>
+    <div>
+      <h3>index.html (JS only)</h3>
+      <ul>
+        <li><code>apiCall</code> error handling + toast</li>
+        <li><code>fmtDate</code> local time fix</li>
+        <li>Auto-save cleanup on tab switch</li>
+        <li>Topics staleness cache (10s)</li>
+        <li>XSS fix in filter pills</li>
+        <li><code>saveSubmission</code> guard + try/catch</li>
+        <li>Event listener leak fix</li>
+        <li>Modal state cleanup</li>
+        <li>4 bonus try/catch wrappers</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Current State</h2>
+    <p>All 22 fixes deployed and verified on <code>content.dxfferent.com</code>. Zero console errors. API validates status values, CORS is locked down, XSS vectors closed, error handling shows Dutch toast messages. Platform is production-hardened for the 5 Dxfferent consultants.</p>
+  </div>
+
+  </div><!-- end tab-codereview -->
+
+  <!-- TAB 6: V2 Dark Theme -->
+  <div class="tab-content" id="tab-darktheme">
+
+  <div class="overline">Session 4 -- 29 April 2026</div>
+  <h2>V2 Dark Theme Applied</h2>
+  <p>Applied the Dxfferent brand dark-theme CSS redesign from a Claude Design handoff to the live content platform. The design was created in a separate Claude.ai chat and exported as a 690-line <code>style-v2.css</code> with a preview mockup and install instructions.</p>
+
+  <h3>The Challenge</h3>
+  <p>The design CSS targeted different class names and HTML structure than production. The design used selectors like <code>.chip</code>, <code>.badge</code>, <code>.entry</code>, <code>.stat-card</code>, <code>.leaderboard li</code>, while production uses <code>.pill</code>, <code>.cat-badge</code>, <code>.cal-entry</code>, <code>.dash-stat</code>, <code>.leader-row</code>. Two approaches were considered:</p>
+  <ul>
+    <li><strong>Option A:</strong> Add the V2 CSS as-is and alias HTML classes/data-attributes to match</li>
+    <li><strong>Option B (chosen):</strong> Adapt the V2 CSS to target existing production class names</li>
+  </ul>
+  <p>Option B was chosen because it avoids HTML churn and keeps all JS untouched. The implementation agent (Opus 4.7) rewrote every selector in the design CSS to match the production class inventory.</p>
+
+  <h3>Selector Mapping</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Design Selector</th><th>Production Selector</th></tr></thead>
+      <tbody>
+        <tr><td><code>nav button, .tab, [role="tab"]</code></td><td><code>.tab-btn</code></td></tr>
+        <tr><td><code>.filter, .chip</code></td><td><code>.pill</code></td></tr>
+        <tr><td><code>.badge, .tag, .category</code></td><td><code>.cat-badge</code></td></tr>
+        <tr><td><code>.badge.bewijs</code></td><td><code>.cat-bewijs</code></td></tr>
+        <tr><td><code>.stat-card .value</code></td><td><code>.dash-stat-num</code></td></tr>
+        <tr><td><code>.stat-card .label</code></td><td><code>.dash-stat-label</code></td></tr>
+        <tr><td><code>.panel-card</code></td><td><code>.dash-card</code></td></tr>
+        <tr><td><code>.progress-row > .pname</code></td><td><code>.progress-label</code></td></tr>
+        <tr><td><code>.progress-row > .pnum</code></td><td><code>.progress-num</code></td></tr>
+        <tr><td><code>.leaderboard li</code></td><td><code>.leader-row</code></td></tr>
+        <tr><td><code>.calendar, .week-grid</code> (7 cols)</td><td><code>.cal-grid</code> (5 cols, kept)</td></tr>
+        <tr><td><code>.day, .calendar-day</code></td><td><code>.cal-day</code></td></tr>
+        <tr><td><code>.entry, .calendar-entry</code></td><td><code>.cal-entry</code></td></tr>
+        <tr><td><code>.entry .meta</code></td><td><code>.cal-entry-meta</code></td></tr>
+        <tr><td><code>.entry .ttl</code></td><td><code>.cal-entry-title</code></td></tr>
+        <tr><td><code>.modal footer, .modal-footer</code></td><td><code>.modal-actions</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Design System Applied</h3>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Fonts</div>
+      <div class="stat-detail">DM Sans (body) + PP Monument Extended (display, with Archivo Black fallback)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Jewel Tones</div>
+      <div class="stat-detail">bewijs (blue), educatie (purple), markt (green), contrair (orange), eigen (pink), tools (gold)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">60+</div>
+      <div class="stat-label">CSS Vars</div>
+      <div class="stat-detail">Full token system on :root for colors, surfaces, spacing, motion</div>
+    </div>
+  </div>
+
+  <h3>Key Design Tokens</h3>
+  <ul>
+    <li><strong>Background:</strong> <code>#030303</code> (near-black)</li>
+    <li><strong>Card surfaces:</strong> <code>#1F1F1F</code></li>
+    <li><strong>Brand gradient:</strong> <code>linear-gradient(81deg, #ED4C35 0%, #FF6927 100%)</code> (red to orange)</li>
+    <li><strong>Corners:</strong> 2-4px (sharp, not rounded)</li>
+    <li><strong>Signature shapes:</strong> Trapezoid <code>clip-path</code> on stat cards and leaderboard rank badges</li>
+    <li><strong>Hover:</strong> Gradient accent bar sweeps in from left via <code>::after</code> with <code>transform: scaleX()</code></li>
+    <li><strong>Today indicator:</strong> Orange top border + gradient background fade on calendar days</li>
+  </ul>
+
+  <h3>What Was Preserved</h3>
+  <ul>
+    <li>All 34 JS functions untouched</li>
+    <li>All class names kept (JS queries by class)</li>
+    <li>5-column calendar grid (design had 7)</li>
+    <li>Modal overlay as div with click-to-close (design suggested <code>&lt;dialog&gt;</code>)</li>
+    <li>No HTML structure changes</li>
+    <li>Auto-save, editor, toast, all interactions working</li>
+  </ul>
+
+  <h3>Known Limitation</h3>
+  <p>The card left-spine accent bar (<code>.card::before</code>) renders a generic grey bar because the <code>.card</code> div does not carry a category class. The category is only on the child <code>.cat-badge</code> span. A future JS tweak could add the category as a data-attribute on the card div to enable per-category spine colors.</p>
+
+  <h3>Repo + Deployment</h3>
+  <ul>
+    <li><strong>GitHub:</strong> <a href="https://github.com/maxkwaaste/content-dxfferent">maxkwaaste/content-dxfferent</a> (private)</li>
+    <li><strong>CLAUDE.md added</strong> with full architecture reference: stack, API endpoints, DB schema, CSS class inventory, deploy commands</li>
+    <li><strong>Deployed</strong> via SCP to <code>content.dxfferent.com</code></li>
+    <li><strong>Verified</strong> live with cache-busted URL</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Current State</h2>
+    <p>V2 dark theme live on <code>content.dxfferent.com</code>. Repository pushed to GitHub with CLAUDE.md architecture document. Platform is fully branded with dxfferent.com design system: dark canvas, PP Monument headings, DM Sans body, red-to-orange gradient, jewel-tone categories, trapezoid signature accents. All three tabs (Board, Dashboard, Kalender), the editor, modal, and auto-planner are working in the dark theme.</p>
+  </div>
+
+  </div><!-- end tab-darktheme -->
 
   <div class="page-footer">
     <span>Claude Code</span>
-    <span>Content Platform Phase 2.5 Design Journey</span>
+    <span>Content Platform Design Journey | Dxfferent / Proxuma</span>
   </div>
 </div>
 
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+
 <script type="application/json" id="claude-data">
 {
-  "title": "Content Platform Phase 2.5 -- Design Journey",
+  "title": "Content Platform Design Journey",
   "date": "2026-04-29",
-  "summary": "Full brainstorming session for Phase 2.5 of the Dxfferent Content Platform. Four features designed (kanban board, fake performance metrics, content derivatives, CSV/Sheets export), 8 design decisions made, spec reviewed against V2 dark theme with 12 issues fixed.",
+  "summary": "Full design process walkthrough with complete conversation history for the Proxuma Content Platform. Three tabs: Design Journey (brainstorming), Planning Session (seed.json generation + plan writing), Implementation Plan (summary). From MSP Journey PDF to production spec to deployment-ready plan.",
   "sections": [
+    {
+      "heading": "Starting Point",
+      "items": [
+        { "title": "MSP Journey PDF", "detail": "30 sub-topics across 6 domains with Problems/Frustrations/Questions", "meta": {} },
+        { "title": "Contentbibliotheek", "detail": "63 content ideas with category, hook, source mapping", "meta": {} }
+      ]
+    },
     {
       "heading": "Design Decisions",
       "items": [
-        { "title": "Kanban: toggle within Board tab (option B)", "detail": "Same data, two views. Filter pills work in both modes.", "meta": {} },
-        { "title": "Status enum expansion (option A)", "detail": "Add 'review' status. Gepland/Gepost derived from calendar JOINs, not stored on topic.", "meta": {} },
-        { "title": "Derivatives on submissions (option A)", "detail": "Audit trail traces back to human-written content. Quality over convenience.", "meta": {} },
-        { "title": "Metrics stored in DB (option A)", "detail": "Four nullable columns. NULL = no data. Architecture ready for real analytics.", "meta": {} },
-        { "title": "Google Sheets via Apps Script webhook + CSV fallback", "detail": "~20 lines Apps Script, no OAuth. Webhook URL in settings table.", "meta": {} },
-        { "title": "No content destruction", "detail": "All deletes become soft deletes via archived_at. Only DB file deletion is true destruction.", "meta": {} }
+        { "title": "Two entry paths", "detail": "Pick a topic or dump free-form text (Claude categorizes later)", "meta": {} },
+        { "title": "Dual filter system", "detail": "Option C chosen: domain pills + colored category pills, independent", "meta": {} },
+        { "title": "Full-width editor", "detail": "Click topic opens editor with context panel showing hook + MSP Journey context", "meta": {} },
+        { "title": "Standalone subdomain", "detail": "content.dxfferent.com, isolated from WordPress, SQLite + PHP", "meta": {} },
+        { "title": "Three-phase rollout", "detail": "Phase 1: harvesting. Phase 2: AI + calendar. Phase 3: publishing + analytics", "meta": {} }
       ]
     },
     {
-      "heading": "Features",
+      "heading": "Architecture",
       "items": [
-        { "title": "Kanban Board", "detail": "5 columns, HTML5 drag-and-drop, calendar modal integration for Gepland moves, mobile dropdown fallback.", "meta": { "tables_affected": "topics" } },
-        { "title": "Fake Performance Data", "detail": "Deterministic generation per content_type + platform. Dashboard aggregates. One-click wipe.", "meta": { "tables_affected": "calendar" } },
-        { "title": "Content Derivatives", "detail": "New derivatives table on submissions. Category-based fake generation. Nested tree API.", "meta": { "tables_affected": "derivatives (new)" } },
-        { "title": "CSV + Google Sheets Export", "detail": "Inline panel, date range, UTF-8+BOM CSV, Apps Script POST sync.", "meta": { "tables_affected": "settings (new)" } }
-      ]
-    },
-    {
-      "heading": "V2 Code Review",
-      "items": [
-        { "title": "12 conflicts found, all resolved", "detail": "5 critical (CSV headers, soft delete scope, one-to-many mapping, schema migration, nested JSON), 5 important (tokens, DOM placement, state machine, route conflict, export panel), 2 minor (auto-planner, seed source).", "meta": {} }
+        { "title": "Stack", "detail": "Single HTML SPA + api.php + SQLite on SiteGround subdomain", "meta": {} },
+        { "title": "Portability", "detail": "seed.json, API contract, and schema map directly to Laravel/Nuxt", "meta": {} }
       ]
     }
   ],
-  "next_steps": "Create implementation plan from the revised spec using writing-plans skill. Then hand off to implementation-agent-4.7 for all coding work on api.php and index.html. Deploy via SCP, delete remote content.db for reseed, verify endpoints.",
+  "next_steps": "Platform is fully branded and deployed. Next: hardcode consultant accounts, add per-category card spine colors via JS data-attribute, multi-week calendar view, CSV export, content linking.",
   "session_state": {
-    "phase": "brainstorming complete, pre-implementation",
+    "phase": "V2 dark theme applied, pushed to GitHub",
     "phase_status": "complete",
-    "progress_pct": 30,
+    "progress_pct": 95,
     "work_done_this_session": [
-      "Explored codebase (api.php, index.html, seed.json, CLAUDE.md)",
-      "Searched Open Brain for prior context on content platform",
-      "Asked 8 clarifying questions, resolved all design decisions",
-      "Wrote full spec to docs/superpowers/specs/2026-04-29-phase-2.5-design.md",
-      "Spawned Opus 4.7 agent to review spec against V2 dark theme codebase",
-      "Fixed all 12 spec issues from review (5 critical, 5 important, 2 minor)",
-      "Committed revised spec to content-dxfferent repo"
+      "Read MSP Journey PDF and contentbibliotheek HTML",
+      "Brainstormed with dual filter mockups in Excalidraw",
+      "Designed database schema, API, and frontend views",
+      "Wrote full spec to docs/superpowers/specs/",
+      "Built seed.json with 64 topics + MSP Journey context",
+      "Wrote 5-task implementation plan with complete code",
+      "Executed all 5 implementation tasks",
+      "Set up Cloudflare DNS (A record, proxied)",
+      "Deployed Phase 1 to content.dxfferent.com",
+      "Built Phase 2: Dashboard + Content Calendar with auto-planner",
+      "Added calendar table with platform/account/content_type tracking",
+      "Built auto-plan algorithm (rotates accounts, alternates platforms, spreads categories)",
+      "Seeded 5 demo submissions + 15 calendar entries across 3 weeks",
+      "Fixed SiteGround caching with .htaccess no-store on HTML",
+      "Generated Claude.ai design prompt for CSS redesign",
+      "Generated Opus 4.7 code review prompt",
+      "Applied V2 dark theme CSS (adapted 690-line design CSS to production class names)",
+      "DM Sans + PP Monument Extended fonts, red-orange gradient, jewel-tone categories",
+      "Trapezoid clip-path accents, gradient hover bars, dark form inputs",
+      "Pushed repo to GitHub (maxkwaaste/content-dxfferent, private)",
+      "Added CLAUDE.md architecture doc (stack, API, schema, CSS classes, deploy commands)"
     ],
-    "blockers_hit": null,
+    "blockers_hit": ["SiteGround dynamic cache served stale HTML (resolved with cache-buster + .htaccess fix)", "PHP not installed on M4 Air (resolved with brew install php)", "Implementation agent needs git repo for worktree isolation (resolved with git init)"],
     "uncommitted_changes": null,
-    "next_action_required": "claude-continue"
+    "next_action_required": "none"
   },
   "artifact_pointers": {
     "memory_files": [],
     "git_branch": "main",
-    "local_repo_path": "~/ClaudeCode/content-platform/",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
     "temp_files": [],
     "github_links": [
-      { "url": "https://github.com/maxkwaaste/content-dxfferent", "relevance": "content platform repo" },
-      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html", "relevance": "this document" }
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html", "relevance": "this presentation" },
+      { "url": "https://github.com/maxkwaaste/content-dxfferent", "relevance": "content platform source code (private)" },
+      { "url": "https://github.com/Proxuma-Nova/claude-harness", "relevance": "future integration target" }
     ],
     "wordpress_ids": [],
-    "commit_sha": "b4b3b7a"
+    "commit_sha": null
   },
   "external_state": {
     "wp_cache_flushed": null,
     "drafts_pending": [],
-    "screenshots": [],
-    "other": "content.dxfferent.com is live with V2 dark theme. No changes deployed to production in this session."
+    "screenshots": [
+      { "file": "~/Downloads/Autoriteit/content-platform-mockups.png", "description": "Excalidraw mockup of 3 filter options (A, B, C)" }
+    ],
+    "other": ""
   },
   "project_context": {
-    "protected_resources": ["seed.json (read-only)", "data/content.db (gitignored, auto-seeds)"],
-    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "open brain consulted"]
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
   },
   "decision_log": [
     {
-      "decision": "Kanban as toggle within Board tab, not separate tab",
-      "rejected_alternatives": ["Replace Board entirely", "4th tab"],
-      "rationale": "Same data, two views. Keeps navigation simple for 5 consultants.",
-      "trade_offs": "Slightly more complex JS state management vs cleaner UX",
+      "decision": "Dual filter system (Option C) for topic navigation",
+      "rejected_alternatives": ["Category-only filters (Option A)", "Domain-only filters (Option B)"],
+      "rationale": "Consultants think both in expertise domains and content types. Two independent filter rows cover both without mode-switching.",
+      "trade_offs": "Slightly more vertical space used, but with only 5 users this is a non-issue.",
       "contingencies": []
     },
     {
-      "decision": "Derivatives attach to submissions, not topics",
-      "rejected_alternatives": ["Topic-level derivatives"],
-      "rationale": "User requirement: quality is paramount, derivative chain must trace to human-written content",
-      "trade_offs": "More complex tree query (topic > submissions > derivatives) but better data integrity",
+      "decision": "Standalone subdomain isolated from WordPress",
+      "rejected_alternatives": ["WordPress plugin", "Subdirectory under WP"],
+      "rationale": "Clean separation avoids theme conflicts, .htaccess battles, and SG Optimizer interference.",
+      "trade_offs": "Requires subdomain setup in SiteGround Site Tools.",
       "contingencies": []
     },
     {
-      "decision": "No content destruction, soft deletes everywhere",
-      "rejected_alternatives": ["Hard deletes with confirmation"],
-      "rationale": "User principle: no content should ever be destroyed, just archived. It is only text after all.",
-      "trade_offs": "Cross-cutting change affecting ~15 queries, but preserves all user work",
-      "contingencies": []
-    },
-    {
-      "decision": "Google Sheets via Apps Script webhook instead of OAuth2",
-      "rejected_alternatives": ["Google Sheets API v4 with OAuth2", "CSV only"],
-      "rationale": "No OAuth complexity, no Google Cloud project needed. 20 lines of Apps Script, one-time setup.",
-      "trade_offs": "Requires manual Apps Script setup (5 min), but avoids credential management entirely",
+      "decision": "SQLite over hosted DB for Phase 1",
+      "rejected_alternatives": ["JSON file on disk", "Supabase/hosted DB"],
+      "rationale": "Real querying and indexing without infrastructure. 5 concurrent users is well within SQLite write-lock tolerance.",
+      "trade_offs": "Concurrent write locks possible but negligible at this scale.",
       "contingencies": [
-        { "if_X_then_Y": "If consultants need real-time bidirectional sync, upgrade to Sheets API v4 with service account", "probability": 0.15 }
+        { "if_X_then_Y": "If concurrent write issues arise, migrate to MySQL on SiteGround", "probability": 0.05 }
       ]
-    },
-    {
-      "decision": "POST /demo-data/clear instead of DELETE /demo-data",
-      "rejected_alternatives": ["DELETE /demo-data"],
-      "rationale": "V2 code review found route collision with existing DELETE /calendar/:id handler",
-      "trade_offs": "Slightly non-RESTful but avoids routing bugs",
-      "contingencies": []
     }
   ]
 }
 </script>
-
+<script>
+document.querySelectorAll('.terminal-convo .tool-block .tool-header').forEach(el => {
+  el.addEventListener('click', () => el.closest('.tool-block').classList.toggle('open'));
+});
+</script>
 </body>
 </html>

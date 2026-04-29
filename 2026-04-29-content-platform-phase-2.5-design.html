@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Platform Phase 2.5 -- Design Journey</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-schema { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-ui { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-api { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-arch { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.q-block { background: #f5f7fa; border-radius: 4px; padding: 16px 20px; margin: 14px 0; }
+.q-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #6b7280; margin-bottom: 6px; }
+.q-text { font-size: 14px; color: #1a2744; font-weight: 600; margin-bottom: 4px; }
+.q-answer { font-size: 14px; color: #2c2c2c; }
+.q-answer strong { color: #1a2744; }
+.review-item { padding: 12px 0; border-bottom: 1px solid #eef0f2; }
+.review-item:last-child { border-bottom: none; }
+.review-item p { margin-bottom: 0; }
+.review-num { font: 700 12px/1 -apple-system, sans-serif; color: #1a2744; display: inline; }
+.review-sev { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 2px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+.sev-critical { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.sev-important { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.sev-minor { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <span class="date">29 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html">View on GitHub</a></span>
+</div>
+
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Product Design &amp; Architecture</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 29, 2026<br>Design Session<br>Content Platform
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Dxfferent Content Platform</div>
+  <h1>Phase 2.5 Design Journey</h1>
+  <p class="subtitle">Full brainstorming session: from requirements through clarifying questions, design decisions, spec writing, V2 code review, and spec revision. Four features designed for content.dxfferent.com.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Features Designed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Design Decisions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">V2 Review Fixes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Files Modified</div>
+    </div>
+  </div>
+
+  <h2>Starting Point</h2>
+  <p>The Proxuma Content Platform was already live at content.dxfferent.com with 3 tabs (Board, Dashboard, Kalender), a PHP REST API backed by SQLite, and a vanilla JS SPA. 64 MSP topics seeded, 5 consultants with demo submissions, 15 calendar entries, and an auto-planner algorithm. A code review had already been applied (CORS lockdown, input validation, database indexes).</p>
+  <p>The brief: design and build four features -- a kanban board, fake performance metrics, content derivatives view, and CSV/Google Sheets export. All within the existing vanilla JS + PHP + SQLite stack, no frameworks.</p>
+
+  <h2>Design Decisions</h2>
+  <p>Eight clarifying questions were asked one at a time. Each resolved a key architectural choice.</p>
+
+  <div class="q-block">
+    <div class="q-label">Question 1</div>
+    <div class="q-text">Kanban placement: 4th tab or replace/toggle within Board?</div>
+    <div class="q-answer">Three options presented: replace Board (A), toggle within Board (B), separate 4th tab (C). <strong>Decision: B -- toggle within Board.</strong> Keeps tab count tight, acknowledges kanban and list are the same data, consultants switch views as needed.</div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-label">Question 2</div>
+    <div class="q-text">Kanban stages vs current topic statuses?</div>
+    <div class="q-answer">Current DB has 3 statuses (open, claimed, written). Kanban needs 5 columns (Idee, Schrijven, Review, Gepland, Gepost). Two approaches: expand status enum (A) or add separate kanban_stage column (B). <strong>Decision: A -- expand status, derive Gepland/Gepost from calendar JOINs.</strong> Single source of truth, no state duplication.</div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-label">Question 3</div>
+    <div class="q-text">Content derivatives: attach to submissions or topics?</div>
+    <div class="q-answer">Derivatives represent output formats (LinkedIn post, blog, email snippet) generated from raw content. <strong>Decision: A -- attach to submissions.</strong> The submission is the actual human-written content that gets transformed. Preserves the audit trail of who wrote what. User emphasized: "quality is paramount, we can't have AI building on AI with content."</div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-label">Question 4</div>
+    <div class="q-text">Fake performance data: stored in DB or computed on the fly?</div>
+    <div class="q-answer"><strong>Decision: A -- stored in DB.</strong> Four new columns on calendar table (impressions, clicks, engagement_rate, comments). Simple SQL aggregations for dashboard, CSV export reads columns directly, schema is ready for real analytics data. User requirement: "fake data needs to be deletable instantly and the architecture must be built for real data."</div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-label">Question 5</div>
+    <div class="q-text">CSV export scope: current week, date range, or full dump?</div>
+    <div class="q-answer">User pivoted: "ideally it talks to Google Sheets, if possible a live connection." <strong>Decision: Google Apps Script webhook for live sync + CSV download as fallback.</strong> Apps Script is ~20 lines, no OAuth needed, webhook URL stored as a platform setting. Both options available in an inline export panel on the calendar tab.</div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Architectural Principle</span>
+    <strong>"No content should ever be destroyed, just archived. It's only text after all."</strong> All DELETE endpoints become soft deletes via <code>archived_at</code> column. Demo data wipe clears metrics and archives derivatives but never destroys submissions, calendar entries, or topics.
+  </div>
+
+  <h2>Feature Designs</h2>
+
+  <div class="card">
+    <div class="card-title">1. Kanban Board</div>
+    <div class="card-buyer">Toggle within Board tab</div>
+    <div class="card-desc">Five columns: Idee (open) &rarr; Schrijven (claimed) &rarr; Review (new status) &rarr; Gepland (has planned calendar entry) &rarr; Gepost (has posted calendar entry). HTML5 drag-and-drop, no library. Moving to Gepland opens calendar modal with date picker. Filters apply across all columns. Mobile: columns stack, drag replaced with dropdown.</div>
+    <div class="tags">
+      <span class="tag tag-ui">UI</span>
+      <span class="tag tag-schema">Schema</span>
+      <span class="tag tag-api">API</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. Fake Performance Data</div>
+    <div class="card-buyer">Deterministic, content-type aware metrics</div>
+    <div class="card-desc">Four nullable columns on calendar: impressions, clicks, engagement_rate, comments. Generated during seed with content_type + platform aware ranges (case studies outperform polls on clicks, polls win on engagement). Consultant name hashed for per-person variation. Dashboard gets aggregate performance cards. One-click wipe sets all to NULL.</div>
+    <div class="tags">
+      <span class="tag tag-schema">Schema</span>
+      <span class="tag tag-api">API</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Content Derivatives</div>
+    <div class="card-buyer">Submission-level derivative tree</div>
+    <div class="card-desc">New <code>derivatives</code> table (FK to submissions). Each submission gets 2-4 fake derivatives based on topic category: bewijs gets 4 formats (linkedin-post, blog, email, infographic), contrair gets 2 (linkedin-post, newsletter). Inline tree view on topic cards. Nested JSON API endpoint for full topic &rarr; submission &rarr; derivatives tree.</div>
+    <div class="tags">
+      <span class="tag tag-schema">Schema</span>
+      <span class="tag tag-ui">UI</span>
+      <span class="tag tag-api">API</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. CSV + Google Sheets Export</div>
+    <div class="card-buyer">Inline export panel on calendar</div>
+    <div class="card-desc">Date range picker defaulting to current month. CSV download (UTF-8 + BOM, comma-delimited, Content-Disposition header). Google Sheets sync via Apps Script webhook -- POST JSON to configured URL, ~20 lines of Apps Script. Webhook URL stored in new <code>settings</code> table. Button greyed out if not configured.</div>
+    <div class="tags">
+      <span class="tag tag-api">API</span>
+      <span class="tag tag-ui">UI</span>
+    </div>
+  </div>
+
+  <h2>V2 Code Review</h2>
+  <p>After the initial spec was written, the frontend was redesigned with a V2 dark theme (PP Monument Extended headings, DM Sans body, dark surfaces, red-to-orange gradient, trapezoid clip-paths). An Opus 4.7 agent reviewed the spec against the updated codebase and found 12 conflicts.</p>
+
+  <h3>Critical (would break implementation)</h3>
+
+  <div class="review-item">
+    <span class="review-num">#1</span><span class="review-sev sev-critical">Critical</span>
+    <p>CSV endpoint needs early exit before global <code>Content-Type: application/json</code> header. Added early route check pattern at top of api.php.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#2</span><span class="review-sev sev-critical">Critical</span>
+    <p>Soft delete is cross-cutting: ~15 SELECT queries need <code>WHERE archived_at IS NULL</code>. Spec now explicitly scopes the change.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#3</span><span class="review-sev sev-critical">Critical</span>
+    <p>One-to-many topic-to-calendar mapping (one topic posted on both LinkedIn and Dxfferent). Switched from JOIN to subquery with <code>GROUP_CONCAT</code>.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#4</span><span class="review-sev sev-critical">Critical</span>
+    <p>Schema migration for existing databases. Added <code>PRAGMA table_info</code> check + ALTER pattern instead of assuming DB delete.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#5</span><span class="review-sev sev-critical">Critical</span>
+    <p>Derivatives tree endpoint needs nested JSON, not flat rows. Added explicit PHP assembly logic and response shape to spec.</p>
+  </div>
+
+  <h3>Important (would cause inconsistency)</h3>
+
+  <div class="review-item">
+    <span class="review-num">#6</span><span class="review-sev sev-important">Important</span>
+    <p>No V2 design tokens referenced. Added full token table: <code>--surface</code>, <code>--line</code>, <code>--gradient</code>, category jewel tones.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#7</span><span class="review-sev sev-important">Important</span>
+    <p>Toggle button had no DOM insertion point. Specified: between <code>.header</code> and <code>.stats</code> in Board view.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#8</span><span class="review-sev sev-important">Important</span>
+    <p>Editor <code>toggleDone()</code> didn't handle the new <code>review</code> status. Added explicit state machine for all transitions.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#9</span><span class="review-sev sev-important">Important</span>
+    <p><code>DELETE /demo-data</code> route conflicts with calendar DELETE handler. Changed to <code>POST /demo-data/clear</code>.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#10</span><span class="review-sev sev-important">Important</span>
+    <p>Export panel needs structural DOM placement. Specified as full-width div below <code>.cal-header</code>.</p>
+  </div>
+
+  <h3>Minor (good to clarify)</h3>
+
+  <div class="review-item">
+    <span class="review-num">#11</span><span class="review-sev sev-minor">Minor</span>
+    <p>Auto-planner + kanban interaction confirmed working correctly. Auto-planned topics appear in Gepland column as expected.</p>
+  </div>
+  <div class="review-item">
+    <span class="review-num">#12</span><span class="review-sev sev-minor">Minor</span>
+    <p>Seed logic confirmed as <code>api.php</code> only. <code>seed.json</code> remains untouched.</p>
+  </div>
+
+  <h2>Schema Changes Summary</h2>
+
+  <table class="matrix">
+    <tr><th>Change</th><th>Type</th><th>Detail</th></tr>
+    <tr><td><strong>topics.status</strong></td><td>Enum expand</td><td>Add <code>review</code> to existing open/claimed/written</td></tr>
+    <tr><td><strong>calendar.impressions</strong></td><td>New column</td><td>INTEGER, nullable</td></tr>
+    <tr><td><strong>calendar.clicks</strong></td><td>New column</td><td>INTEGER, nullable</td></tr>
+    <tr><td><strong>calendar.engagement_rate</strong></td><td>New column</td><td>REAL, nullable</td></tr>
+    <tr><td><strong>calendar.comments</strong></td><td>New column</td><td>INTEGER, nullable</td></tr>
+    <tr><td><strong>*.archived_at</strong></td><td>New column</td><td>DATETIME on submissions, calendar, derivatives</td></tr>
+    <tr><td><strong>derivatives</strong></td><td>New table</td><td>id, submission_id FK, format, title, status, archived_at, created_at</td></tr>
+    <tr><td><strong>settings</strong></td><td>New table</td><td>key TEXT PK, value TEXT</td></tr>
+  </table>
+
+  <div class="positioning">
+    <h2>Next Step</h2>
+    <p>Spec is complete and reviewed against V2 codebase. Next: create an implementation plan, then hand off to implementation-agent-4.7 for coding. The agent will modify api.php and index.html, test locally, deploy via SCP, delete remote content.db to trigger reseed, and verify all endpoints.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Content Platform Phase 2.5 Design Journey</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Content Platform Phase 2.5 -- Design Journey",
+  "date": "2026-04-29",
+  "summary": "Full brainstorming session for Phase 2.5 of the Dxfferent Content Platform. Four features designed (kanban board, fake performance metrics, content derivatives, CSV/Sheets export), 8 design decisions made, spec reviewed against V2 dark theme with 12 issues fixed.",
+  "sections": [
+    {
+      "heading": "Design Decisions",
+      "items": [
+        { "title": "Kanban: toggle within Board tab (option B)", "detail": "Same data, two views. Filter pills work in both modes.", "meta": {} },
+        { "title": "Status enum expansion (option A)", "detail": "Add 'review' status. Gepland/Gepost derived from calendar JOINs, not stored on topic.", "meta": {} },
+        { "title": "Derivatives on submissions (option A)", "detail": "Audit trail traces back to human-written content. Quality over convenience.", "meta": {} },
+        { "title": "Metrics stored in DB (option A)", "detail": "Four nullable columns. NULL = no data. Architecture ready for real analytics.", "meta": {} },
+        { "title": "Google Sheets via Apps Script webhook + CSV fallback", "detail": "~20 lines Apps Script, no OAuth. Webhook URL in settings table.", "meta": {} },
+        { "title": "No content destruction", "detail": "All deletes become soft deletes via archived_at. Only DB file deletion is true destruction.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Features",
+      "items": [
+        { "title": "Kanban Board", "detail": "5 columns, HTML5 drag-and-drop, calendar modal integration for Gepland moves, mobile dropdown fallback.", "meta": { "tables_affected": "topics" } },
+        { "title": "Fake Performance Data", "detail": "Deterministic generation per content_type + platform. Dashboard aggregates. One-click wipe.", "meta": { "tables_affected": "calendar" } },
+        { "title": "Content Derivatives", "detail": "New derivatives table on submissions. Category-based fake generation. Nested tree API.", "meta": { "tables_affected": "derivatives (new)" } },
+        { "title": "CSV + Google Sheets Export", "detail": "Inline panel, date range, UTF-8+BOM CSV, Apps Script POST sync.", "meta": { "tables_affected": "settings (new)" } }
+      ]
+    },
+    {
+      "heading": "V2 Code Review",
+      "items": [
+        { "title": "12 conflicts found, all resolved", "detail": "5 critical (CSV headers, soft delete scope, one-to-many mapping, schema migration, nested JSON), 5 important (tokens, DOM placement, state machine, route conflict, export panel), 2 minor (auto-planner, seed source).", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Create implementation plan from the revised spec using writing-plans skill. Then hand off to implementation-agent-4.7 for all coding work on api.php and index.html. Deploy via SCP, delete remote content.db for reseed, verify endpoints.",
+  "session_state": {
+    "phase": "brainstorming complete, pre-implementation",
+    "phase_status": "complete",
+    "progress_pct": 30,
+    "work_done_this_session": [
+      "Explored codebase (api.php, index.html, seed.json, CLAUDE.md)",
+      "Searched Open Brain for prior context on content platform",
+      "Asked 8 clarifying questions, resolved all design decisions",
+      "Wrote full spec to docs/superpowers/specs/2026-04-29-phase-2.5-design.md",
+      "Spawned Opus 4.7 agent to review spec against V2 dark theme codebase",
+      "Fixed all 12 spec issues from review (5 critical, 5 important, 2 minor)",
+      "Committed revised spec to content-dxfferent repo"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "claude-continue"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/content-platform/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/content-dxfferent", "relevance": "content platform repo" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html", "relevance": "this document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": "b4b3b7a"
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "content.dxfferent.com is live with V2 dark theme. No changes deployed to production in this session."
+  },
+  "project_context": {
+    "protected_resources": ["seed.json (read-only)", "data/content.db (gitignored, auto-seeds)"],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "open brain consulted"]
+  },
+  "decision_log": [
+    {
+      "decision": "Kanban as toggle within Board tab, not separate tab",
+      "rejected_alternatives": ["Replace Board entirely", "4th tab"],
+      "rationale": "Same data, two views. Keeps navigation simple for 5 consultants.",
+      "trade_offs": "Slightly more complex JS state management vs cleaner UX",
+      "contingencies": []
+    },
+    {
+      "decision": "Derivatives attach to submissions, not topics",
+      "rejected_alternatives": ["Topic-level derivatives"],
+      "rationale": "User requirement: quality is paramount, derivative chain must trace to human-written content",
+      "trade_offs": "More complex tree query (topic > submissions > derivatives) but better data integrity",
+      "contingencies": []
+    },
+    {
+      "decision": "No content destruction, soft deletes everywhere",
+      "rejected_alternatives": ["Hard deletes with confirmation"],
+      "rationale": "User principle: no content should ever be destroyed, just archived. It is only text after all.",
+      "trade_offs": "Cross-cutting change affecting ~15 queries, but preserves all user work",
+      "contingencies": []
+    },
+    {
+      "decision": "Google Sheets via Apps Script webhook instead of OAuth2",
+      "rejected_alternatives": ["Google Sheets API v4 with OAuth2", "CSV only"],
+      "rationale": "No OAuth complexity, no Google Cloud project needed. 20 lines of Apps Script, one-time setup.",
+      "trade_offs": "Requires manual Apps Script setup (5 min), but avoids credential management entirely",
+      "contingencies": [
+        { "if_X_then_Y": "If consultants need real-time bidirectional sync, upgrade to Sheets API v4 with service account", "probability": 0.15 }
+      ]
+    },
+    {
+      "decision": "POST /demo-data/clear instead of DELETE /demo-data",
+      "rejected_alternatives": ["DELETE /demo-data"],
+      "rationale": "V2 code review found route collision with existing DELETE /calendar/:id handler",
+      "trade_offs": "Slightly non-RESTful but avoids routing bugs",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+
+</body>
+</html>
