@@ -340,6 +340,7 @@ pre {
     <button class="tab-btn" onclick="switchTab('implementation')">Build &amp; Deploy</button>
     <button class="tab-btn" onclick="switchTab('codereview')">Code Review</button>
     <button class="tab-btn" onclick="switchTab('darktheme')">V2 Dark Theme</button>
+    <button class="tab-btn" onclick="switchTab('phase25plan')">Phase 2.5 Plan</button>
   </div>
 
   <!-- TAB 1: Design Journey -->
@@ -1756,6 +1757,83 @@ authors (id, name, created_at)</pre>
 
   </div><!-- end tab-darktheme -->
 
+  <div class="tab-content" id="tab-phase25plan">
+
+  <div class="overline">SESSION 7 -- PHASE 2.5 IMPLEMENTATION PLANNING</div>
+  <h2>From Design Spec to Execution-Ready Plan</h2>
+  <p>This session took the Phase 2.5 design spec (written earlier today in the brainstorming session) and turned it into a 9-task implementation plan with 60+ checkbox steps. Then generated a self-contained agent prompt for Opus 4.7 on M1 Pro to execute it.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Features</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">9</div>
+      <div class="stat-label">Tasks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">60+</div>
+      <div class="stat-label">Steps</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3.7K</div>
+      <div class="stat-label">Agent Prompt (chars)</div>
+    </div>
+  </div>
+
+  <h3>What went in</h3>
+  <p>The design spec at <code>docs/superpowers/specs/2026-04-29-phase-2.5-design.md</code> (430 lines) specifying kanban board, fake performance metrics, content derivatives, and CSV/Sheets export. Plus the current state of <code>api.php</code> (502 lines) and <code>index.html</code> (1,721 lines).</p>
+
+  <h3>The four features</h3>
+
+  <table class="matrix">
+    <tr><th>Feature</th><th>Backend</th><th>Frontend</th></tr>
+    <tr><td><strong>Kanban Board</strong></td><td>Kanban subquery on topics (calendar_statuses, derivative_count). New <code>review</code> status.</td><td>5-column drag-and-drop board, list/kanban toggle, mobile dropdown fallback.</td></tr>
+    <tr><td><strong>Fake Performance Data</strong></td><td>Metrics columns on calendar. Deterministic seed from entry ID. Generate/clear endpoints.</td><td>Dashboard performance cards, top content, inline metrics on calendar entries.</td></tr>
+    <tr><td><strong>Content Derivatives</strong></td><td>New derivatives table. Tree API, stats API. Category-based format rules.</td><td>Derivative count on board cards, format breakdown on dashboard.</td></tr>
+    <tr><td><strong>CSV + Sheets Export</strong></td><td>CSV early-exit endpoint, Apps Script webhook sync, settings table.</td><td>Export panel on calendar tab with date range, webhook config UI.</td></tr>
+  </table>
+
+  <h3>Cross-cutting: soft delete</h3>
+  <p><code>archived_at DATETIME</code> added to submissions, calendar, and derivatives. Every DELETE becomes an UPDATE. Every SELECT gets <code>WHERE archived_at IS NULL</code>. About 15 queries affected. Schema migrations use <code>PRAGMA table_info</code> check + <code>ALTER TABLE</code> for existing databases.</p>
+
+  <h3>Plan structure</h3>
+  <table class="matrix">
+    <tr><th>#</th><th>Task</th><th>File</th><th>Depends On</th></tr>
+    <tr><td>1</td><td>Schema migrations + soft delete</td><td>api.php</td><td>None</td></tr>
+    <tr><td>2</td><td>Derivatives API + seed data</td><td>api.php</td><td>1</td></tr>
+    <tr><td>3</td><td>Settings, demo data, export, kanban query, dashboard perf</td><td>api.php</td><td>1</td></tr>
+    <tr><td>4</td><td>Kanban board UI</td><td>index.html</td><td>3</td></tr>
+    <tr><td>5</td><td>Editor review button</td><td>index.html</td><td>1, 4</td></tr>
+    <tr><td>6</td><td>Dashboard performance cards + demo buttons</td><td>index.html</td><td>3</td></tr>
+    <tr><td>7</td><td>Calendar metrics display</td><td>index.html</td><td>3</td></tr>
+    <tr><td>8</td><td>Export panel UI</td><td>index.html</td><td>3</td></tr>
+    <tr><td>9</td><td>Deploy + verify</td><td>both</td><td>All</td></tr>
+  </table>
+
+  <p>Backend-first ordering (Tasks 1-3 api.php, then Tasks 4-8 index.html) minimizes context switches. Each step has complete code blocks, exact test commands with expected output, and commit instructions.</p>
+
+  <h3>Agent handoff</h3>
+  <p>Generated a 3,701-char self-contained prompt for Opus 4.7 on M1 Pro. Contains the plan file path, complete codebase layout with line numbers, all V2 design tokens, category colors, SCP deploy commands, and rules. The agent reads the plan and executes all 9 tasks without needing any other context.</p>
+
+  <p>Run: <code>cd ~/ClaudeCode/content-platform && claude --model claude-opus-4-7</code></p>
+
+  <h3>Key decisions this session</h3>
+  <ul>
+    <li><strong>Single plan for all 4 features</strong> -- they share the soft-delete foundation. Splitting would duplicate Task 1 or create cross-plan dependencies.</li>
+    <li><strong>Backend-first task ordering</strong> -- all api.php edits in one pass, then all index.html edits. Frontend needs endpoints to exist. curl tests cover backend correctness before UI work starts.</li>
+    <li><strong>Full codebase layout in agent prompt</strong> -- agent starts cold on M1 Pro. Line numbers for api.php switch router (line 152) and index.html JS start (line 1175) save 5-10 minutes of exploration.</li>
+  </ul>
+
+  <h3>Files produced</h3>
+  <ul>
+    <li><code>docs/superpowers/plans/2026-04-29-phase-2.5.md</code> -- the 9-task implementation plan</li>
+    <li>Agent prompt copied to clipboard (3,701 chars)</li>
+  </ul>
+
+  </div><!-- end tab-phase25plan -->
+
   <div class="page-footer">
     <span>Claude Code</span>
     <span>Content Platform Design Journey | Dxfferent / Proxuma</span>
@@ -1803,11 +1881,11 @@ function switchTab(tab) {
       ]
     }
   ],
-  "next_steps": "Platform is fully branded and deployed. Next: hardcode consultant accounts, add per-category card spine colors via JS data-attribute, multi-week calendar view, CSV export, content linking.",
+  "next_steps": "Run the Phase 2.5 agent prompt on M1 Pro with Opus 4.7. Agent reads the plan at docs/superpowers/plans/2026-04-29-phase-2.5.md and executes all 9 tasks, ending with SCP deploy to content.dxfferent.com.",
   "session_state": {
-    "phase": "V2 dark theme applied, pushed to GitHub",
+    "phase": "Phase 2.5 plan written, agent prompt generated, ready for M1 Pro execution",
     "phase_status": "complete",
-    "progress_pct": 95,
+    "progress_pct": 100,
     "work_done_this_session": [
       "Read MSP Journey PDF and contentbibliotheek HTML",
       "Brainstormed with dual filter mockups in Excalidraw",
@@ -1829,7 +1907,9 @@ function switchTab(tab) {
       "DM Sans + PP Monument Extended fonts, red-orange gradient, jewel-tone categories",
       "Trapezoid clip-path accents, gradient hover bars, dark form inputs",
       "Pushed repo to GitHub (maxkwaaste/content-dxfferent, private)",
-      "Added CLAUDE.md architecture doc (stack, API, schema, CSS classes, deploy commands)"
+      "Added CLAUDE.md architecture doc (stack, API, schema, CSS classes, deploy commands)",
+      "Wrote Phase 2.5 implementation plan (9 tasks, 60+ steps) from design spec",
+      "Generated 3,701-char self-contained agent prompt for Opus 4.7 on M1 Pro"
     ],
     "blockers_hit": ["SiteGround dynamic cache served stale HTML (resolved with cache-buster + .htaccess fix)", "PHP not installed on M4 Air (resolved with brew install php)", "Implementation agent needs git repo for worktree isolation (resolved with git init)"],
     "uncommitted_changes": null,
