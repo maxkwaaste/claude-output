@@ -339,6 +339,7 @@ pre {
     <button class="tab-btn" onclick="switchTab('plan')">Implementation Plan</button>
     <button class="tab-btn" onclick="switchTab('implementation')">Build &amp; Deploy</button>
     <button class="tab-btn" onclick="switchTab('codereview')">Code Review</button>
+    <button class="tab-btn" onclick="switchTab('darktheme')">V2 Dark Theme</button>
   </div>
 
   <!-- TAB 1: Design Journey -->
@@ -1657,6 +1658,104 @@ authors (id, name, created_at)</pre>
 
   </div><!-- end tab-codereview -->
 
+  <!-- TAB 6: V2 Dark Theme -->
+  <div class="tab-content" id="tab-darktheme">
+
+  <div class="overline">Session 4 -- 29 April 2026</div>
+  <h2>V2 Dark Theme Applied</h2>
+  <p>Applied the Dxfferent brand dark-theme CSS redesign from a Claude Design handoff to the live content platform. The design was created in a separate Claude.ai chat and exported as a 690-line <code>style-v2.css</code> with a preview mockup and install instructions.</p>
+
+  <h3>The Challenge</h3>
+  <p>The design CSS targeted different class names and HTML structure than production. The design used selectors like <code>.chip</code>, <code>.badge</code>, <code>.entry</code>, <code>.stat-card</code>, <code>.leaderboard li</code>, while production uses <code>.pill</code>, <code>.cat-badge</code>, <code>.cal-entry</code>, <code>.dash-stat</code>, <code>.leader-row</code>. Two approaches were considered:</p>
+  <ul>
+    <li><strong>Option A:</strong> Add the V2 CSS as-is and alias HTML classes/data-attributes to match</li>
+    <li><strong>Option B (chosen):</strong> Adapt the V2 CSS to target existing production class names</li>
+  </ul>
+  <p>Option B was chosen because it avoids HTML churn and keeps all JS untouched. The implementation agent (Opus 4.7) rewrote every selector in the design CSS to match the production class inventory.</p>
+
+  <h3>Selector Mapping</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Design Selector</th><th>Production Selector</th></tr></thead>
+      <tbody>
+        <tr><td><code>nav button, .tab, [role="tab"]</code></td><td><code>.tab-btn</code></td></tr>
+        <tr><td><code>.filter, .chip</code></td><td><code>.pill</code></td></tr>
+        <tr><td><code>.badge, .tag, .category</code></td><td><code>.cat-badge</code></td></tr>
+        <tr><td><code>.badge.bewijs</code></td><td><code>.cat-bewijs</code></td></tr>
+        <tr><td><code>.stat-card .value</code></td><td><code>.dash-stat-num</code></td></tr>
+        <tr><td><code>.stat-card .label</code></td><td><code>.dash-stat-label</code></td></tr>
+        <tr><td><code>.panel-card</code></td><td><code>.dash-card</code></td></tr>
+        <tr><td><code>.progress-row > .pname</code></td><td><code>.progress-label</code></td></tr>
+        <tr><td><code>.progress-row > .pnum</code></td><td><code>.progress-num</code></td></tr>
+        <tr><td><code>.leaderboard li</code></td><td><code>.leader-row</code></td></tr>
+        <tr><td><code>.calendar, .week-grid</code> (7 cols)</td><td><code>.cal-grid</code> (5 cols, kept)</td></tr>
+        <tr><td><code>.day, .calendar-day</code></td><td><code>.cal-day</code></td></tr>
+        <tr><td><code>.entry, .calendar-entry</code></td><td><code>.cal-entry</code></td></tr>
+        <tr><td><code>.entry .meta</code></td><td><code>.cal-entry-meta</code></td></tr>
+        <tr><td><code>.entry .ttl</code></td><td><code>.cal-entry-title</code></td></tr>
+        <tr><td><code>.modal footer, .modal-footer</code></td><td><code>.modal-actions</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Design System Applied</h3>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Fonts</div>
+      <div class="stat-detail">DM Sans (body) + PP Monument Extended (display, with Archivo Black fallback)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Jewel Tones</div>
+      <div class="stat-detail">bewijs (blue), educatie (purple), markt (green), contrair (orange), eigen (pink), tools (gold)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">60+</div>
+      <div class="stat-label">CSS Vars</div>
+      <div class="stat-detail">Full token system on :root for colors, surfaces, spacing, motion</div>
+    </div>
+  </div>
+
+  <h3>Key Design Tokens</h3>
+  <ul>
+    <li><strong>Background:</strong> <code>#030303</code> (near-black)</li>
+    <li><strong>Card surfaces:</strong> <code>#1F1F1F</code></li>
+    <li><strong>Brand gradient:</strong> <code>linear-gradient(81deg, #ED4C35 0%, #FF6927 100%)</code> (red to orange)</li>
+    <li><strong>Corners:</strong> 2-4px (sharp, not rounded)</li>
+    <li><strong>Signature shapes:</strong> Trapezoid <code>clip-path</code> on stat cards and leaderboard rank badges</li>
+    <li><strong>Hover:</strong> Gradient accent bar sweeps in from left via <code>::after</code> with <code>transform: scaleX()</code></li>
+    <li><strong>Today indicator:</strong> Orange top border + gradient background fade on calendar days</li>
+  </ul>
+
+  <h3>What Was Preserved</h3>
+  <ul>
+    <li>All 34 JS functions untouched</li>
+    <li>All class names kept (JS queries by class)</li>
+    <li>5-column calendar grid (design had 7)</li>
+    <li>Modal overlay as div with click-to-close (design suggested <code>&lt;dialog&gt;</code>)</li>
+    <li>No HTML structure changes</li>
+    <li>Auto-save, editor, toast, all interactions working</li>
+  </ul>
+
+  <h3>Known Limitation</h3>
+  <p>The card left-spine accent bar (<code>.card::before</code>) renders a generic grey bar because the <code>.card</code> div does not carry a category class. The category is only on the child <code>.cat-badge</code> span. A future JS tweak could add the category as a data-attribute on the card div to enable per-category spine colors.</p>
+
+  <h3>Repo + Deployment</h3>
+  <ul>
+    <li><strong>GitHub:</strong> <a href="https://github.com/maxkwaaste/content-dxfferent">maxkwaaste/content-dxfferent</a> (private)</li>
+    <li><strong>CLAUDE.md added</strong> with full architecture reference: stack, API endpoints, DB schema, CSS class inventory, deploy commands</li>
+    <li><strong>Deployed</strong> via SCP to <code>content.dxfferent.com</code></li>
+    <li><strong>Verified</strong> live with cache-busted URL</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Current State</h2>
+    <p>V2 dark theme live on <code>content.dxfferent.com</code>. Repository pushed to GitHub with CLAUDE.md architecture document. Platform is fully branded with dxfferent.com design system: dark canvas, PP Monument headings, DM Sans body, red-to-orange gradient, jewel-tone categories, trapezoid signature accents. All three tabs (Board, Dashboard, Kalender), the editor, modal, and auto-planner are working in the dark theme.</p>
+  </div>
+
+  </div><!-- end tab-darktheme -->
+
   <div class="page-footer">
     <span>Claude Code</span>
     <span>Content Platform Design Journey | Dxfferent / Proxuma</span>
@@ -1704,11 +1803,11 @@ function switchTab(tab) {
       ]
     }
   ],
-  "next_steps": "Visual redesign via Claude.ai in progress. Code review prompt generated for Opus 4.7. Next: hardcode consultant accounts, multi-week calendar view, CSV export, content linking.",
+  "next_steps": "Platform is fully branded and deployed. Next: hardcode consultant accounts, add per-category card spine colors via JS data-attribute, multi-week calendar view, CSV export, content linking.",
   "session_state": {
-    "phase": "Phase 2 complete, live in production",
+    "phase": "V2 dark theme applied, pushed to GitHub",
     "phase_status": "complete",
-    "progress_pct": 85,
+    "progress_pct": 95,
     "work_done_this_session": [
       "Read MSP Journey PDF and contentbibliotheek HTML",
       "Brainstormed with dual filter mockups in Excalidraw",
@@ -1725,11 +1824,16 @@ function switchTab(tab) {
       "Seeded 5 demo submissions + 15 calendar entries across 3 weeks",
       "Fixed SiteGround caching with .htaccess no-store on HTML",
       "Generated Claude.ai design prompt for CSS redesign",
-      "Generated Opus 4.7 code review prompt"
+      "Generated Opus 4.7 code review prompt",
+      "Applied V2 dark theme CSS (adapted 690-line design CSS to production class names)",
+      "DM Sans + PP Monument Extended fonts, red-orange gradient, jewel-tone categories",
+      "Trapezoid clip-path accents, gradient hover bars, dark form inputs",
+      "Pushed repo to GitHub (maxkwaaste/content-dxfferent, private)",
+      "Added CLAUDE.md architecture doc (stack, API, schema, CSS classes, deploy commands)"
     ],
-    "blockers_hit": ["SiteGround dynamic cache served stale HTML (resolved with cache-buster + .htaccess fix)", "PHP not installed on M4 Air (resolved with brew install php)"],
+    "blockers_hit": ["SiteGround dynamic cache served stale HTML (resolved with cache-buster + .htaccess fix)", "PHP not installed on M4 Air (resolved with brew install php)", "Implementation agent needs git repo for worktree isolation (resolved with git init)"],
     "uncommitted_changes": null,
-    "next_action_required": "visual-redesign-pending"
+    "next_action_required": "none"
   },
   "artifact_pointers": {
     "memory_files": [],
@@ -1738,6 +1842,7 @@ function switchTab(tab) {
     "temp_files": [],
     "github_links": [
       { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html", "relevance": "this presentation" },
+      { "url": "https://github.com/maxkwaaste/content-dxfferent", "relevance": "content platform source code (private)" },
       { "url": "https://github.com/Proxuma-Nova/claude-harness", "relevance": "future integration target" }
     ],
     "wordpress_ids": [],
