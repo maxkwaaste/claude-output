@@ -76,7 +76,6 @@ li::marker { color: #1a2744; }
   flex: 1; padding: 20px 24px;
   border-left: 2px solid #d0d3d8;
 }
-.stat-card:first-child { border-left: 2px solid #d0d3d8; }
 .stat-value {
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
@@ -186,17 +185,46 @@ pre {
   letter-spacing: .06em; color: #6b7280; margin-bottom: 4px;
 }
 .timeline-text { font-size: 14px; color: #2c2c2c; }
-.convo-block {
-  background: #f8f9fb; border-radius: 6px; padding: 16px 20px; margin: 12px 0;
-  border: 1px solid #eef0f2;
+
+/* Conversation thread styling */
+.convo-thread {
+  margin: 20px 0;
+  border: 1px solid #e2e4e8;
+  border-radius: 6px;
+  overflow: hidden;
 }
+.convo-turn {
+  padding: 16px 20px;
+  border-bottom: 1px solid #eef0f2;
+}
+.convo-turn:last-child { border-bottom: none; }
+.convo-turn.human-turn { background: #fafbfc; }
+.convo-turn.claude-turn { background: #fff; }
 .convo-role {
   font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .06em; margin-bottom: 6px;
+  letter-spacing: .06em; margin-bottom: 8px;
 }
 .convo-role.human { color: #1a6b3a; }
 .convo-role.claude { color: #1a2744; }
-.convo-text { font-size: 13px; color: #4a5568; line-height: 1.55; }
+.convo-text {
+  font-size: 13px; color: #4a5568; line-height: 1.6;
+}
+.convo-text em { color: #6b7280; font-style: italic; }
+.convo-text strong { color: #1a2744; }
+.convo-text ul { margin: 8px 0 8px 18px; }
+.convo-text li { margin-bottom: 4px; font-size: 13px; }
+.convo-action {
+  display: inline-block; font: 500 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .06em;
+  padding: 3px 8px; border-radius: 3px; margin: 6px 4px 0 0;
+  background: #eef0f2; color: #6b7280;
+}
+.convo-action.tool { background: #e8edf4; color: #2a4a8a; }
+.convo-section-label {
+  font: 700 12px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .08em; color: #1a2744; padding: 12px 20px;
+  background: #f0f2f5; border-bottom: 1px solid #e2e4e8;
+}
 </style>
 </head>
 <body>
@@ -220,7 +248,7 @@ pre {
 
   <div class="overline">DESIGN PROCESS WALKTHROUGH</div>
   <h1>Content Platform for MSP Consultants</h1>
-  <p class="subtitle">How we went from a PDF with MSP problems to a full product spec in one brainstorming session. This document walks through the design decisions, mockups, and final architecture for the Proxuma Content Platform.</p>
+  <p class="subtitle">How we went from a PDF with MSP problems to a full product spec in one brainstorming session. This document walks through every conversation turn, design decision, and the final architecture.</p>
 
   <div class="stats-row">
     <div class="stat-card">
@@ -236,41 +264,425 @@ pre {
       <div class="stat-label">Consultants</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">3</div>
-      <div class="stat-label">Phases Planned</div>
+      <div class="stat-value">1</div>
+      <div class="stat-label">Session to Spec</div>
     </div>
   </div>
 
-  <!-- SECTION: The Problem -->
-  <h2>The Starting Point</h2>
-  <p>We have a team of 5 Dxfferent consultants with deep MSP and Autotask expertise. Their knowledge is the source of all our content, but there's no structured way to capture it. AI can transform content into blog posts, LinkedIn posts, and articles, but it can't be the <em>source</em>. We need a way to farm our experts for their knowledge in a way that's convenient for them.</p>
+  <!-- =========================================== -->
+  <!-- SECTION: Full Conversation History           -->
+  <!-- =========================================== -->
 
-  <div class="callout">
-    <span class="callout-label">Key Principle</span>
-    AI cannot be the source of content. It can only transform what our experts write. The platform's job is to make contributing as frictionless as possible.
-  </div>
+  <h2>Full Conversation History</h2>
+  <p>Below is the complete brainstorming session, from the initial prompt to the final handoff. Every turn is included so you can see exactly how the design emerged.</p>
 
-  <h3>Source Materials</h3>
-  <div class="two-col">
-    <div>
-      <div class="card">
-        <div class="card-title">MSP Journey PDF</div>
-        <div class="card-buyer">Problem Matrix</div>
-        <div class="card-desc">30 sub-topics across 6 domains (Identity, Organisation, GRC, Positioning, Portfolio, Technology, Blueprint, Data Driven). Each has structured Problems / Frustrations / Questions columns for L2-L3 MSPs.</div>
+  <!-- TURN 1: Opening -->
+  <div class="convo-thread">
+    <div class="convo-section-label">1. The Brief</div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        <em>[shares msp_journey_overzicht.pdf]</em><br><br>
+        Brainstorm with me. I want this list to become the basis for our consultants to create content. They need a super easy interface with which they can just pick a topic and dump their text. This should then be tagged as done, and the content will be transformed by Claude (subscription), but that part comes later, into various kinds of content. Initially this will be hosted on dxfferent.com, later to our internal app. The purpose is to farm our experts for relevant content, in a way that's convenient for them. AI cannot be the source of content, but it can transform their content into all kinds of pieces. Everything on here must be editable inline, it is our content writing platform.
       </div>
     </div>
-    <div>
-      <div class="card">
-        <div class="card-title">Contentbibliotheek</div>
-        <div class="card-buyer">Content Ideas</div>
-        <div class="card-desc">63 concrete content ideas derived from the MSP Journey, categorized into 6 content types with hook templates and source domain mapping. This becomes the topic menu for consultants.</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Read PDF</span>
+        <span class="convo-action tool">Search Open Brain</span>
+        <span class="convo-action tool">Invoke Brainstorming Skill</span>
+        <br><br>
+        The PDF contains 9 pages covering ~30 sub-topics across 6 domains (Identity, Organisation, GRC, Positioning, Portfolio, Technology, Blueprint, Data Driven). Each sub-topic has structured Problemen/Frustraties/Vragen columns. That's your topic menu for consultants.
+        <br><br>
+        dxfferent.com is WordPress with REST API, Polylang (multilingual), Yoast SEO, and ACF Pro already installed. The internal app (Proxuma) is Laravel + Nuxt 3, multi-tenant.
       </div>
     </div>
   </div>
 
-  <!-- SECTION: Content Categories -->
+  <!-- TURN 2: Visual companion + contentbibliotheek -->
+  <div class="convo-thread">
+    <div class="convo-section-label">2. Understanding the Content Structure</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        Some of what we're working on might be easier to explain if I can show it to you in a web browser. I can put together mockups, diagrams, comparisons, and other visuals as we go. Want to try it?
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        What about claude.ai/design? Can we collaborate through that? Also step 2: <em>[shares proxuma_contentbibliotheek.html]</em> has all the kinds of categories, content types etc. Please read thoroughly so you understand what our intention is here, I fail at explaining.
+      </div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Read contentbibliotheek HTML</span>
+        <br><br>
+        Now I get it much better. The contentbibliotheek is the missing puzzle piece. You've already mapped 63 concrete content ideas with 6 content categories (Bewijs & resultaat, Educatie & uitleg, Markt & visie, Contrair & polariserend, Eigen verhaal, Tools & resources), each linked back to MSP Journey source topics and with hook templates baked in.
+        <br><br>
+        So the full picture: the MSP Journey provides the <strong>problem space</strong> (30 sub-topics), and the contentbibliotheek provides the <strong>content assignments</strong> (63 ideas with category, hook format, and source). The platform is the interface where consultants claim a topic, dump their expertise, and it gets queued for AI transformation.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 3: Who are the users -->
+  <div class="convo-thread">
+    <div class="convo-section-label">3. Clarifying Questions</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>Who are the consultants writing content?</strong> Are these Dxfferent employees, external MSP consultants/partners, or both? This determines whether we need auth, how many users we're designing for, and how much hand-holding the interface needs.
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        Let's do HTML, or even Excalidraw MCP that I've got setup. The consultants are Dxfferent consultants with all the MSP/Autotask knowledge. There's about 5 of them.
+      </div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        Good. 5 internal Dxfferent consultants, so no auth needed for v1. I'll use Excalidraw for visual mockups when we get to interface design.
+        <br><br>
+        <strong>What does "dump their text" look like in practice?</strong>
+        <ul>
+          <li><strong>A) Free-form text field</strong> -- just paste or type whatever, raw and unstructured</li>
+          <li><strong>B) Lightly guided</strong> -- topic card shows hook template and related problems/frustrations/questions</li>
+          <li><strong>C) Structured input</strong> -- specific fields like "key insight", "example from practice"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        If they want to do free form they should be able to. Claude can then categorize. If they want to pick a topic this should also be available as an option. Also no auth, make sure it's also noindex for Google.
+      </div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        Both entry paths: pick a topic from the list, or just dump raw text and let Claude sort it later. No auth, noindex. Got it.
+        <br><br>
+        <strong>Where does the content go after a consultant submits it?</strong>
+        <ul>
+          <li><strong>A) Single-page app</strong> -- everything lives on one page. Topic list, submissions, status tracking.</li>
+          <li><strong>B) Separate flows</strong> -- browse/pick page and a separate writing/editing page per topic.</li>
+        </ul>
+        I'm leaning toward A -- one page where they can see everything at a glance.
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        All raw text needs to be stored in that form and indexed, well organized. All content that flows from there also. We also want to keep track of whether we've posted it, in a database of sorts, and we need a nice color visual display of what has and hasn't been posted. Lastly, a content calendar where we can queue the messages, with future connection to our LinkedIn profile ideally, and of course dxfferent.com. Also the ability to track all the page views and LinkedIn tracking data in there would be ideal for us to steer which topics are the best to post about, which types of content etc.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 4: Scope management -->
+  <div class="convo-thread">
+    <div class="convo-section-label">4. Scope Check -- Breaking It Into Phases</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        I need to flag something before we go further. What started as a "consultants pick a topic and dump text" tool has grown into a full content operations platform with at least 5 distinct subsystems:
+        <ol>
+          <li><strong>Content input</strong> -- topic picker + free-form dump</li>
+          <li><strong>Content storage & indexing</strong> -- structured database of raw + transformed content</li>
+          <li><strong>Publishing tracker</strong> -- visual status board</li>
+          <li><strong>Content calendar</strong> -- scheduling queue with LinkedIn + dxfferent.com integration</li>
+          <li><strong>Analytics</strong> -- page views, LinkedIn metrics, content performance steering</li>
+        </ol>
+        That's a real product. <strong>Can we build this in phases?</strong>
+        <ul>
+          <li><strong>Phase 1</strong> -- Content harvesting tool. Ship within days.</li>
+          <li><strong>Phase 2</strong> -- AI transformation + content calendar + publishing status</li>
+          <li><strong>Phase 3</strong> -- LinkedIn/dxfferent.com integrations + analytics</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        Yes makes total sense. The app will later be built into <code>github.com/Proxuma-Nova/claude-harness</code> so please take that into account, that the architecture is well designed, well described and can be ported over later. What I need right now is Phase 1 done by tomorrow.
+      </div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Explore claude-harness repo</span>
+        <br><br>
+        Claude-harness is a manifest-driven distribution system for Claude Code artifacts -- not a traditional app framework. So "port to claude-harness later" means packaging the content platform as a skill/module with its own manifest, not embedding it into a monolith.
+        <br><br>
+        <strong>Storage for Phase 1?</strong>
+        <ul>
+          <li><strong>A) JSON file</strong> -- dead simple but no querying</li>
+          <li><strong>B) SQLite</strong> -- single file, proper querying, easy to migrate</li>
+          <li><strong>C) Supabase</strong> -- proper backend but adds setup time</li>
+        </ul>
+        I recommend <strong>B (SQLite)</strong>.
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        B it is. You have SiteGround and WP access to dxfferent.com. Can you work it with just that?
+      </div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        Yes. SiteGround runs PHP with SQLite support (PDO) out of the box. A standalone app at <code>dxfferent.com/content/</code>, completely separate from WordPress. Three files: <code>index.html</code> (SPA), <code>api.php</code> (REST API), <code>data/content.db</code> (SQLite, protected by .htaccess).
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        Use a URL like content.dxfferent.com instead. All good on the simultaneous stuff that's not an issue.
+      </div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <code>content.dxfferent.com</code> it is. I'll set up the subdomain on SiteGround. That gets its own document root, completely separate from WordPress.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 5: Filter design + Excalidraw -->
+  <div class="convo-thread">
+    <div class="convo-section-label">5. UI Design -- Filter System</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>How should the 63 topics be organized on screen?</strong> The contentbibliotheek has two axes:
+        <ul>
+          <li><strong>Content category</strong> (6 types): Bewijs, Educatie, Markt, Contrair, Eigen verhaal, Tools</li>
+          <li><strong>MSP Journey domain</strong>: Data Driven, Technology, Organisation, etc.</li>
+        </ul>
+        Three options:
+        <ul>
+          <li><strong>A)</strong> Filter by content category, source shown per card</li>
+          <li><strong>B)</strong> Filter by MSP Journey domain, category as badge</li>
+          <li><strong>C)</strong> Both filters available, consultant toggles between them</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        Could we do an Excalidraw/HTML collab on this decision, that you show me a mockup of all three?
+      </div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Clear Excalidraw canvas</span>
+        <span class="convo-action tool">Create 102 elements</span>
+        <br><br>
+        All three options are on your Excalidraw canvas. Scroll down to see them stacked:
+        <ul>
+          <li><strong>Option A</strong> (red) -- category filters only</li>
+          <li><strong>Option B</strong> (blue) -- domain filters only</li>
+          <li><strong>Option C</strong> (green, recommended) -- two filter rows: DOMEIN on top, TYPE below</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mockup image -->
+  <h3>The Excalidraw Mockup</h3>
+  <img src="assets/content-platform-mockups.png" alt="Three filter options mockup from Excalidraw" class="mockup-img">
+
+  <div class="convo-thread">
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">Option C. Be sure to save what you drew for later.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Export Excalidraw scene</span>
+        <br>
+        Saved. Option C it is -- dual filter rows.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 6: Editor + WP concerns -->
+  <div class="convo-thread">
+    <div class="convo-section-label">6. Editor View &amp; WordPress Considerations</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>When a consultant clicks a topic card to write, should the card expand inline (accordion-style) or open a dedicated writing view (full-width editor)?</strong>
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">Full width.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        Full-width editor view. Got it. Here's the approach:
+        <br><br>
+        <strong>Single-page app with PHP REST API.</strong> Frontend: one HTML file, vanilla JS, no build step. Backend: one api.php, SQLite via PDO. Database: 3 tables (topics, submissions, authors). Deploy via SSH, drop files in, done. The API contract is the portability layer for Proxuma later.
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">For now you will be dealing with the dxfferent.com WordPress theme and quirks. Be sure your setup can handle that. If you want to circumvent it that's fine if you can do so without breaking anything.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        The cleanest path: <strong>the subdomain gets its own document root on SiteGround, completely separate from WordPress.</strong> SiteGround's Site Tools creates subdomains with their own directory, so WordPress never sees these requests at all. No theme interference, no .htaccess conflicts, no rewrite rules fighting each other.
+        <br><br>
+        WordPress stays untouched. The only thing to watch for is SiteGround's server-level caching. I'll add <code>Cache-Control: no-store</code> headers on API responses.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 7: Design sections -->
+  <div class="convo-thread">
+    <div class="convo-section-label">7. Detailed Design -- Four Sections</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>Design Section 1: Database Schema</strong><br>
+        Three tables: <code>topics</code> (63 pre-loaded items with id, title, hook, category, domain, subdomain, status, claimed_by), <code>submissions</code> (raw content linked to topic or standalone free-form), <code>authors</code> (just names). Topics seeded from a JSON file.
+      </div>
+    </div>
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">Good.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>Design Section 2: API Endpoints</strong><br>
+        GET/PATCH topics, GET/POST/PATCH/DELETE submissions, GET/POST authors, GET stats. All JSON, <code>Cache-Control: no-store</code>. Single <code>api.php</code> file with simple URL pattern matching.
+      </div>
+    </div>
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">Yes, will be perfected later though.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>Design Section 3: Frontend Views</strong><br>
+        View 1 (Topic Board): header with stats, two filter rows (DOMEIN + TYPE), card list with status badges, "Vrije tekst schrijven" button. View 2 (Full-width Editor): back arrow, left side writing area with auto-save, right side context panel with hook template + MSP Journey context. Mobile-responsive.
+      </div>
+    </div>
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">Good.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>Design Section 4: File Structure & Deployment</strong><br>
+        <code>index.html</code>, <code>api.php</code>, <code>seed.json</code>, <code>data/content.db</code> (auto-created), <code>.htaccess</code> files. Create subdomain in SiteGround, SSH in, drop files. Portability: seed.json feeds Laravel seeder, API maps to resource routes, schema translates to migration, frontend decoupled.
+      </div>
+    </div>
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">All good.</div>
+    </div>
+  </div>
+
+  <!-- TURN 8: Spec + handoff -->
+  <div class="convo-thread">
+    <div class="convo-section-label">8. Spec Written &amp; Handoff</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Write spec file</span>
+        <span class="convo-action tool">Self-review</span>
+        <br><br>
+        Spec written and committed to <code>docs/superpowers/specs/2026-04-29-content-platform-design.md</code>. Please review it and let me know if you want to make any changes before we start writing out the implementation plan.
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">Write superpower write plan prompt for next Claude to do that.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Copy handoff prompt to clipboard</span>
+        <span class="convo-action tool">Set up notes tab</span>
+        <span class="convo-action tool">Save to Open Brain</span>
+        <br><br>
+        Done. The handoff prompt is in your clipboard. It invokes <code>/superpowers:writing-plans</code>, points to the spec, all source files, SSH creds, and tells it to ship today.
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">Standby to assist if next Claude doesn't understand it.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">Standing by.</div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text"><em>[shares next Claude's output]</em> The next session read the spec, source files, mockups, and invoked writing-plans. No issues.</div>
+    </div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">Looks like it picked everything up cleanly. No issues so far. Let it run.</div>
+    </div>
+  </div>
+
+  <!-- =========================================== -->
+  <!-- SECTION: Design Summary                      -->
+  <!-- =========================================== -->
+
   <h2>The 6 Content Categories</h2>
-  <p>Each content idea is tagged with one of these categories. The colors carry through into the platform UI as filter pills and card badges.</p>
 
   <table class="matrix">
     <tr>
@@ -317,45 +729,7 @@ pre {
     </tr>
   </table>
 
-  <!-- SECTION: Design Decisions -->
-  <h2>Design Decisions</h2>
-  <p>The brainstorming session covered several key decisions. Here's how each one landed.</p>
-
-  <h3>Decision 1: Two entry paths</h3>
-  <div class="convo-block">
-    <div class="convo-role human">Max</div>
-    <div class="convo-text">"If they want to do free form they should be able to. Claude can then categorize. If they want to pick a topic this should also be available as an option."</div>
-  </div>
-  <p><strong>Result:</strong> Consultants can either browse the 63 topics and claim one, or hit "Vrije tekst schrijven" to dump raw text without picking a topic. Free-form submissions get categorized by Claude later.</p>
-
-  <h3>Decision 2: Dual filter system</h3>
-  <p>We explored three options for how consultants navigate the topic list. The question: do consultants think in domains ("I know about PSA") or content types ("I want to write a case study")?</p>
-
-  <div class="callout">
-    <span class="callout-label">Three Options Mocked Up in Excalidraw</span>
-    <strong>Option A:</strong> Filter by content category only (Bewijs, Educatie, Markt...)<br>
-    <strong>Option B:</strong> Filter by MSP Journey domain only (Data Driven, Technology...)<br>
-    <strong>Option C:</strong> Both filter rows, independently selectable
-  </div>
-
-  <img src="assets/content-platform-mockups.png" alt="Three filter options mockup from Excalidraw" class="mockup-img">
-
-  <p><strong>Result:</strong> Option C. Two filter rows: DOMEIN (grey pills) and TYPE (colored pills matching the contentbibliotheek palette). Consultants can combine filters or use either independently.</p>
-
-  <h3>Decision 3: Full-width editor</h3>
-  <p>When a consultant clicks a topic, we open a full-width editor view (not an inline accordion). The left side is the writing area with auto-save. The right side shows context: the hook template, category badge, and relevant MSP Journey problems/frustrations/questions for that domain.</p>
-
-  <h3>Decision 4: Storage and hosting</h3>
-  <div class="convo-block">
-    <div class="convo-role human">Max</div>
-    <div class="convo-text">"Use an URL like content.dxfferent.com instead. You have SiteGround and WP access to dxfferent.com."</div>
-  </div>
-  <p><strong>Result:</strong> Standalone app at <code>content.dxfferent.com</code> on a separate SiteGround subdomain. Completely isolated from WordPress. SQLite database via PHP PDO. No auth (5 internal users), noindex for search engines.</p>
-
-  <h3>Decision 5: Phased approach</h3>
-  <p>The full vision includes AI transformation, content calendar, LinkedIn integration, and analytics. We broke it into three phases to ship value fast.</p>
-
-  <!-- SECTION: Architecture -->
+  <!-- Architecture -->
   <h2>Architecture</h2>
 
   <h3>File Structure</h3>
@@ -384,7 +758,7 @@ authors (id, name, created_at)</pre>
     <tr><td>GET</td><td>/api/stats</td><td>Counts by status, category, domain</td></tr>
   </table>
 
-  <!-- SECTION: Phases -->
+  <!-- Phases -->
   <h2>Three Phases</h2>
 
   <div class="timeline">
@@ -402,14 +776,14 @@ authors (id, name, created_at)</pre>
     </div>
   </div>
 
-  <!-- SECTION: Portability -->
+  <!-- Portability -->
   <h2>Portability to Proxuma</h2>
-  <p>The architecture is designed for later integration into the Proxuma platform (Laravel + Nuxt 3) via the <code>claude-harness</code> manifest system.</p>
   <ul>
     <li><code>seed.json</code> feeds a Laravel database seeder directly</li>
     <li>API contract maps 1:1 to Laravel resource routes</li>
     <li>SQLite schema translates to a standard Laravel migration</li>
     <li>Frontend is decoupled via <code>/api/*</code>: swap the backend, keep the UI</li>
+    <li>Will be packaged as a <code>claude-harness</code> module with manifest.json</li>
   </ul>
 
   <div class="positioning">
@@ -427,7 +801,7 @@ authors (id, name, created_at)</pre>
 {
   "title": "Content Platform Design Journey",
   "date": "2026-04-29",
-  "summary": "Full design process walkthrough for the Proxuma Content Platform. From MSP Journey PDF to production spec in one brainstorming session. Phase 1 ships April 30 to content.dxfferent.com.",
+  "summary": "Full design process walkthrough with complete conversation history for the Proxuma Content Platform. From MSP Journey PDF to production spec in one brainstorming session. Phase 1 ships April 30 to content.dxfferent.com.",
   "sections": [
     {
       "heading": "Starting Point",
@@ -464,7 +838,8 @@ authors (id, name, created_at)</pre>
       "Brainstormed with dual filter mockups in Excalidraw",
       "Designed database schema, API, and frontend views",
       "Wrote full spec to docs/superpowers/specs/",
-      "Created handoff prompt for implementation session"
+      "Created handoff prompt for implementation session",
+      "Built presentation page with full conversation history"
     ],
     "blockers_hit": null,
     "uncommitted_changes": null,
@@ -505,14 +880,14 @@ authors (id, name, created_at)</pre>
     {
       "decision": "Standalone subdomain isolated from WordPress",
       "rejected_alternatives": ["WordPress plugin", "Subdirectory under WP"],
-      "rationale": "Clean separation avoids theme conflicts, .htaccess battles, and SG Optimizer interference. Easier to port later.",
+      "rationale": "Clean separation avoids theme conflicts, .htaccess battles, and SG Optimizer interference.",
       "trade_offs": "Requires subdomain setup in SiteGround Site Tools.",
       "contingencies": []
     },
     {
       "decision": "SQLite over hosted DB for Phase 1",
       "rejected_alternatives": ["JSON file on disk", "Supabase/hosted DB"],
-      "rationale": "Real querying and indexing without infrastructure. 5 concurrent users is well within SQLite's write-lock tolerance.",
+      "rationale": "Real querying and indexing without infrastructure. 5 concurrent users is well within SQLite write-lock tolerance.",
       "trade_offs": "Concurrent write locks possible but negligible at this scale.",
       "contingencies": [
         { "if_X_then_Y": "If concurrent write issues arise, migrate to MySQL on SiteGround", "probability": 0.05 }
