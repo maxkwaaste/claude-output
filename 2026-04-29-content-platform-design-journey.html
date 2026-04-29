@@ -270,6 +270,7 @@ pre {
   <!-- Tab Navigation -->
   <div class="tab-nav">
     <button class="tab-btn active" onclick="switchTab('design')">Design Journey</button>
+    <button class="tab-btn" onclick="switchTab('planning')">Planning Session</button>
     <button class="tab-btn" onclick="switchTab('plan')">Implementation Plan</button>
   </div>
 
@@ -823,7 +824,225 @@ authors (id, name, created_at)</pre>
 
   </div><!-- end tab-design -->
 
-  <!-- TAB 2: Implementation Plan -->
+  <!-- TAB 2: Planning Session -->
+  <div class="tab-content" id="tab-planning">
+
+  <div class="overline">IMPLEMENTATION PLANNING</div>
+  <h1>Planning Session</h1>
+  <p class="subtitle">The full conversation where we read all source material, extracted 64 topics with MSP Journey context into seed.json, and produced a 5-task implementation plan. From spec to deployment-ready plan in one session.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">64</div>
+      <div class="stat-label">Topics Extracted</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Impl. Tasks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Source Files Parsed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">758</div>
+      <div class="stat-label">Lines seed.json</div>
+    </div>
+  </div>
+
+  <h2>Full Planning Conversation</h2>
+
+  <!-- TURN 1: The brief -->
+  <div class="convo-thread">
+    <div class="convo-section-label">1. The Implementation Brief</div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        <strong>ultrathink /superpowers:writing-plans</strong><br><br>
+        Implement Phase 1 of the Proxuma Content Platform per the spec at <code>~/docs/superpowers/specs/2026-04-29-content-platform-design.md</code><br><br>
+        <strong>Context:</strong> This is a content harvesting tool for 5 Dxfferent consultants to contribute MSP expertise. They pick from 63 pre-defined topics or dump free-form text. Hosted at content.dxfferent.com on SiteGround (separate subdomain, isolated from WordPress).<br><br>
+        <strong>Source files to extract the 63 topics from:</strong>
+        <ul>
+          <li><code>proxuma_contentbibliotheek.html</code> &mdash; has all items as JS array with cat, title, hook, source fields</li>
+          <li><code>msp_journey_overzicht.pdf</code> &mdash; problems/frustrations/questions per domain to embed in seed.json context field</li>
+        </ul>
+        <strong>Excalidraw mockups</strong> of the chosen UI (Option C &mdash; dual filter rows): <code>content-platform-mockups.excalidraw</code><br><br>
+        <strong>Tech:</strong> single index.html (vanilla JS SPA), single api.php (REST, SQLite via PDO), seed.json (64 topics + MSP Journey context). No framework, no build step. Deploy via SSH to SiteGround subdomain.<br><br>
+        <strong>SSH:</strong> <code>ssh -i ~/.ssh/id_ed25519_siteground_dxfferent -p 18765 u110-srp2wn2ngthp@ssh.dxfferent.com</code><br><br>
+        Subdomain needs to be created first in SiteGround Site Tools. Ship today.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 2: Reading all source material -->
+  <div class="convo-thread">
+    <div class="convo-section-label">2. Reading All Source Material</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        I'll read the spec and source files before planning.
+        <br><br>
+        <span class="convo-action tool">Read spec (143 lines)</span>
+        <span class="convo-action tool">Read contentbibliotheek HTML (159 lines, 64 JS items)</span>
+        <span class="convo-action tool">Read MSP Journey PDF (9 pages)</span>
+        <br><br>
+        <strong>Spec analysis:</strong> Full Phase 1 spec covers database schema (topics, submissions, authors), REST API with 8 endpoint groups, two frontend views (Topic Board + Editor), dual filter rows (Option C), auto-seed from seed.json, deploy via SSH to SiteGround subdomain.<br><br>
+        <strong>Contentbibliotheek:</strong> 64 items in a JS array (not 63 as spec states &mdash; the HTML title says 63 but the actual array has 64 items). Each has: cat, title, hook, source. Six categories: bewijs (12), educatie (15), markt (9), contrair (15), eigen (7), tools (6).<br><br>
+        <strong>MSP Journey PDF (9 pages):</strong> Covers 8 MSP Journey domains with ~30 sub-topics. Each sub-topic has three columns:
+        <ul>
+          <li><strong>Problemen</strong> &mdash; concrete problems MSP directors face</li>
+          <li><strong>Frustraties</strong> &mdash; emotional frustrations and recurring complaints</li>
+          <li><strong>Vragen</strong> &mdash; questions they're trying to answer</li>
+        </ul>
+        Domains covered: Identity (Missie, Visie, Strategie, Cultuur), Organisation (Strategisch Plan, Organisatiestructuur, Employee Journey, Communicatie, Medewerkerstevredenheid, Taken &amp; Verantwoordelijkheden, Personeelsplanning, Beloning), GRC (7 sub-topics), Positioning (4 sub-topics), Portfolio (4 sub-topics), Technology (PSA, Automatisering, Contracten &amp; Billing, RMM, AI intern, Klantportaal), Blueprint (5 sub-topics), Data Driven (5 sub-topics).
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 3: Reading Excalidraw mockups -->
+  <div class="convo-thread">
+    <div class="convo-section-label">3. Reading Excalidraw Mockups</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Read Excalidraw file (500+ lines JSON)</span>
+        <br><br>
+        The Excalidraw file contains three mockup options:
+        <ul>
+          <li><strong>Option A:</strong> Filter by Content Category only &mdash; category pills top, source domain as label per card. Can't browse by domain.</li>
+          <li><strong>Option B:</strong> Filter by MSP Journey Domain only &mdash; domain pills top, category as label per card. Can't browse by category.</li>
+          <li><strong>Option C (selected):</strong> Dual filter rows &mdash; domain pills (row 1) + colored category pills (row 2). Both filters work independently. A card showing Technology / Automatisering with green "Markt &amp; visie" badge and "geschreven door Tom" status demonstrates the written state.</li>
+        </ul>
+        Enough context from the mockups. Option C is dual filter rows (domain + category).
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 4: Invoking writing-plans skill -->
+  <div class="convo-thread">
+    <div class="convo-section-label">4. Invoking the Writing-Plans Skill</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Invoke superpowers:writing-plans</span>
+        <br><br>
+        I'm using the writing-plans skill to create the implementation plan. I've read all source material: the spec, all 64 topics from the HTML, 9 pages of MSP Journey data from the PDF, and the Excalidraw mockups (Option C: dual filter rows). Let me set up the project directory and build the seed data first, then write the plan.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 5: Building seed.json -->
+  <div class="convo-thread">
+    <div class="convo-section-label">5. Building seed.json &mdash; 64 Topics with MSP Journey Context</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">mkdir ~/ClaudeCode/content-platform/data</span>
+        <span class="convo-action tool">Write seed.json (758 lines)</span>
+        <br><br>
+        Created <code>~/ClaudeCode/content-platform/seed.json</code> with all 64 topics. Each topic includes:
+        <ul>
+          <li><strong>title</strong> &mdash; the full content idea title from contentbibliotheek</li>
+          <li><strong>hook</strong> &mdash; the hook template (e.g., "Case study: 1 probleem, 1 oplossing, 1 resultaat")</li>
+          <li><strong>category</strong> &mdash; one of: bewijs, educatie, markt, contrair, eigen, tools</li>
+          <li><strong>domain</strong> &mdash; MSP Journey domain (Data Driven, Technology, Organisation, Algemeen, Markt)</li>
+          <li><strong>subdomain</strong> &mdash; specific area (Analyse, PSA, Personeelsplanning, etc.)</li>
+          <li><strong>context</strong> &mdash; JSON object with problemen[], frustraties[], vragen[] arrays extracted from the MSP Journey PDF. Null for topics in "Algemeen" and "Markt" domains that don't map to MSP Journey sub-topics.</li>
+        </ul>
+        <strong>Mapping logic:</strong> Each topic's <code>source</code> field (e.g., "Data Driven / Analyse") was split into domain + subdomain, then matched to the corresponding MSP Journey section. For example, a topic with source "Technology / PSA" gets the full Problemen/Frustraties/Vragen from the "PSA (Autotask)" section of the PDF.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 6: Validating seed.json -->
+  <div class="convo-thread">
+    <div class="convo-section-label">6. Validation</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">python3 validation script</span>
+        <br><br>
+        Validation results:
+        <ul>
+          <li><strong>Topics:</strong> 64 (not 63 &mdash; the source HTML contains 64 items despite the spec saying 63)</li>
+          <li><strong>Categories:</strong> bewijs (12), contrair (15), educatie (15), eigen (7), markt (9), tools (6)</li>
+          <li><strong>Domains:</strong> Algemeen (2), Data Driven (25), Markt (1), Organisation (12), Technology (24)</li>
+        </ul>
+        All topics have valid required fields. 61 of 64 topics have MSP Journey context (the 3 without context are in "Algemeen/Proxuma" and "Markt/MSP" domains which don't have corresponding MSP Journey sections).
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 7: Writing the plan -->
+  <div class="convo-thread">
+    <div class="convo-section-label">7. Writing the Implementation Plan</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <span class="convo-action tool">Write plan (~/docs/superpowers/plans/2026-04-29-content-platform.md)</span>
+        <br><br>
+        Wrote the complete implementation plan with 5 tasks:
+        <br><br>
+        <strong>Task 1: Verify seed.json + create .htaccess files</strong><br>
+        Root .htaccess with RewriteEngine for <code>/api/*</code> routing, noindex headers, SiteGround cache bypass. Data directory .htaccess with <code>Deny from all</code> to protect SQLite DB.
+        <br><br>
+        <strong>Task 2: Create api.php</strong><br>
+        Complete REST API (~180 lines PHP). Routes: GET/PATCH topics, GET/POST/PATCH/DELETE submissions, GET/POST authors, GET stats. Auto-creates SQLite DB and seeds from seed.json on first request. All responses include <code>Cache-Control: no-store</code>. CORS headers for local development.
+        <br><br>
+        <strong>Task 3: Create index.html</strong><br>
+        Full SPA (~400 lines). Two views: Topic Board (default) with dual filter rows matching the contentbibliotheek style, and full-width Editor with context panel showing MSP Journey problemen/frustraties/vragen. Features: localStorage author persistence, auto-save every 30s + on blur, "Markeer als geschreven" toggle, "Vrije tekst schrijven" for free-form dumps, mobile responsive grid.
+        <br><br>
+        <strong>Task 4: Deploy to SiteGround</strong><br>
+        SSH connectivity check, find document root, SCP all files, set permissions, verify with curl (stats endpoint, topic count, HTML load, noindex header).
+        <br><br>
+        <strong>Task 5: Browser verification</strong><br>
+        13-point manual verification checklist covering all spec requirements.
+      </div>
+    </div>
+  </div>
+
+  <!-- TURN 8: Self-review and handoff -->
+  <div class="convo-thread">
+    <div class="convo-section-label">8. Self-Review &amp; Execution Handoff</div>
+
+    <div class="convo-turn claude-turn">
+      <div class="convo-role claude">Claude</div>
+      <div class="convo-text">
+        <strong>Spec coverage check:</strong>
+        <ul>
+          <li>All API endpoints covered (topics, submissions, authors, stats with filters)</li>
+          <li>Topic Board with dual filter rows (Option C), stats bar, colored pills</li>
+          <li>Full-width Editor with context panel, auto-save, localStorage author</li>
+          <li>.htaccess for rewriting, noindex, cache bypass, data protection</li>
+          <li>Auto-seed DB from seed.json on first request</li>
+          <li>Mobile responsive grid layout</li>
+          <li>Deployment via SSH to SiteGround</li>
+        </ul>
+        <strong>Intentionally skipped:</strong> "Inline-editable fields on the board view" &mdash; minor UX polish, not blocking for ship.<br><br>
+        <strong>Offered two execution paths:</strong> Subagent-driven (recommended) or inline execution. Pre-requisite: create <code>content.dxfferent.com</code> subdomain in SiteGround Site Tools before Task 4.
+      </div>
+    </div>
+
+    <div class="convo-turn human-turn">
+      <div class="convo-role human">Max</div>
+      <div class="convo-text">
+        Two things to do before we start executing:<br><br>
+        1. Add your planning session history to the design journey page (this document &mdash; as a third tab).<br>
+        2. Output a prompt for the next Claude session to execute the plan inline. Copy to pbcopy.
+      </div>
+    </div>
+  </div>
+
+  </div><!-- end tab-planning -->
+
+  <!-- TAB 3: Implementation Plan -->
   <div class="tab-content" id="tab-plan">
 
   <div class="overline">IMPLEMENTATION PLAN</div>
@@ -971,7 +1190,7 @@ function switchTab(tab) {
 {
   "title": "Content Platform Design Journey",
   "date": "2026-04-29",
-  "summary": "Full design process walkthrough with complete conversation history for the Proxuma Content Platform. From MSP Journey PDF to production spec in one brainstorming session. Phase 1 ships April 30 to content.dxfferent.com.",
+  "summary": "Full design process walkthrough with complete conversation history for the Proxuma Content Platform. Three tabs: Design Journey (brainstorming), Planning Session (seed.json generation + plan writing), Implementation Plan (summary). From MSP Journey PDF to production spec to deployment-ready plan.",
   "sections": [
     {
       "heading": "Starting Point",
@@ -1000,16 +1219,17 @@ function switchTab(tab) {
   ],
   "next_steps": "Phase 1 implementation underway in parallel session. Deploy to content.dxfferent.com by April 30. Then share with consultant team for first content contributions.",
   "session_state": {
-    "phase": "spec complete, implementation started",
+    "phase": "plan complete, ready for execution",
     "phase_status": "in_progress",
-    "progress_pct": 40,
+    "progress_pct": 50,
     "work_done_this_session": [
       "Read MSP Journey PDF and contentbibliotheek HTML",
       "Brainstormed with dual filter mockups in Excalidraw",
       "Designed database schema, API, and frontend views",
       "Wrote full spec to docs/superpowers/specs/",
-      "Created handoff prompt for implementation session",
-      "Built presentation page with full conversation history"
+      "Built seed.json with 64 topics + MSP Journey context",
+      "Wrote 5-task implementation plan with complete code",
+      "Added Planning Session tab to design journey page"
     ],
     "blockers_hit": null,
     "uncommitted_changes": null,
