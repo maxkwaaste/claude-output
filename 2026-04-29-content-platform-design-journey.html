@@ -296,11 +296,11 @@ pre {
   display: flex; gap: 0; margin: -48px -52px 32px; border-bottom: 2px solid #e2e4e8;
 }
 .tab-btn {
-  flex: 1; padding: 16px 24px; text-align: center; cursor: pointer;
-  font: 600 13px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .06em; color: #6b7280; background: #f8f9fb;
+  flex: 1; padding: 14px 8px; text-align: center; cursor: pointer;
+  font: 600 10px/1.2 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #6b7280; background: #f8f9fb;
   border: none; border-bottom: 3px solid transparent;
-  transition: all .15s; margin-bottom: -2px;
+  transition: all .15s; margin-bottom: -2px; white-space: nowrap;
 }
 .tab-btn:first-child { border-radius: 2px 0 0 0; }
 .tab-btn:last-child { border-radius: 0 2px 0 0; }
@@ -334,13 +334,14 @@ pre {
 
   <!-- Tab Navigation -->
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('design')">Design Journey</button>
-    <button class="tab-btn" onclick="switchTab('planning')">Planning Session</button>
-    <button class="tab-btn" onclick="switchTab('plan')">Implementation Plan</button>
-    <button class="tab-btn" onclick="switchTab('implementation')">Build &amp; Deploy</button>
-    <button class="tab-btn" onclick="switchTab('codereview')">Code Review</button>
-    <button class="tab-btn" onclick="switchTab('darktheme')">V2 Dark Theme</button>
-    <button class="tab-btn" onclick="switchTab('phase25plan')">Phase 2.5 Plan</button>
+    <button class="tab-btn active" onclick="switchTab('design')">Design</button>
+    <button class="tab-btn" onclick="switchTab('planning')">Planning</button>
+    <button class="tab-btn" onclick="switchTab('plan')">Impl Plan</button>
+    <button class="tab-btn" onclick="switchTab('implementation')">Build</button>
+    <button class="tab-btn" onclick="switchTab('codereview')">Review</button>
+    <button class="tab-btn" onclick="switchTab('darktheme')">V2 Theme</button>
+    <button class="tab-btn" onclick="switchTab('phase25design')">2.5 Design</button>
+    <button class="tab-btn" onclick="switchTab('phase25plan')">2.5 Plan</button>
   </div>
 
   <!-- TAB 1: Design Journey -->
@@ -1756,6 +1757,112 @@ authors (id, name, created_at)</pre>
   </div>
 
   </div><!-- end tab-darktheme -->
+
+  <div class="tab-content" id="tab-phase25design">
+
+  <div class="overline">SESSION 6B -- PHASE 2.5 BRAINSTORMING</div>
+  <h2>Four Features, Eight Decisions</h2>
+  <p>Structured brainstorming session for Phase 2.5: kanban board, fake performance data, content derivatives, and CSV/Google Sheets export. Each feature went through clarifying questions before design. Then the spec was reviewed by Opus 4.7 against the V2 dark theme codebase, surfacing 12 conflicts that were all resolved.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Features</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Decisions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">V2 Review Fixes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">430</div>
+      <div class="stat-label">Spec Lines</div>
+    </div>
+  </div>
+
+  <h3>Design decisions</h3>
+
+  <table class="matrix">
+    <tr><th>Question</th><th>Options</th><th>Decision</th></tr>
+    <tr><td><strong>Kanban placement</strong></td><td>A) Replace Board, B) Toggle, C) 4th tab</td><td>B -- toggle within Board tab. Same data, two views.</td></tr>
+    <tr><td><strong>Kanban stages vs statuses</strong></td><td>A) Expand enum, B) Separate column</td><td>A -- add <code>review</code> status, derive Gepland/Gepost from calendar JOINs.</td></tr>
+    <tr><td><strong>Derivatives attach to</strong></td><td>A) Submissions, B) Topics</td><td>A -- submissions. Audit trail traces to human-written content.</td></tr>
+    <tr><td><strong>Fake metrics storage</strong></td><td>A) DB columns, B) Computed on fly</td><td>A -- 4 nullable columns. Architecture ready for real analytics.</td></tr>
+    <tr><td><strong>Export scope</strong></td><td>A) Week, B) Date range, C) Full dump</td><td>Apps Script webhook + CSV. Date range with month default.</td></tr>
+  </table>
+
+  <div class="card">
+    <div class="card-title">Architectural Principle: No Content Destruction</div>
+    <div class="card-buyer">User requirement</div>
+    <div class="card-desc">"No content should ever be destroyed, just archived. It's only text after all." All DELETE endpoints become soft deletes via <code>archived_at</code> column. Demo data wipe clears metrics and archives derivatives but never destroys submissions, calendar entries, or topics. Cross-cutting change affecting ~15 queries.</div>
+  </div>
+
+  <h3>Feature summaries</h3>
+
+  <div class="card">
+    <div class="card-title">1. Kanban Board</div>
+    <div class="card-buyer">Toggle within Board tab</div>
+    <div class="card-desc">Five columns: Idee (open) > Schrijven (claimed) > Review (new status) > Gepland (calendar planned) > Gepost (calendar posted). HTML5 drag-and-drop. Moving to Gepland opens calendar modal. One-to-many topic-to-calendar handled via GROUP_CONCAT subquery. Mobile: columns stack, drag replaced with dropdown.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. Fake Performance Data</div>
+    <div class="card-buyer">Deterministic, content-type aware</div>
+    <div class="card-desc">Case studies: 3K-7K impressions, 4-8% engagement. Polls: 4K-9K impressions, 8-16% engagement. Blog on Dxfferent: 200-800 impressions. Entry ID as deterministic seed, account name hashed for consultant variation. Dashboard gets aggregate performance cards + top-5 content.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Content Derivatives</div>
+    <div class="card-buyer">Submission-level tree</div>
+    <div class="card-desc">New derivatives table (FK to submissions). Bewijs topics get 4 formats (linkedin-post, blog, email, infographic). Contrair gets 2 (linkedin-post, newsletter). Nested JSON tree API: topic > submissions > derivatives. Inline tree view on board cards, format breakdown on dashboard.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. CSV + Google Sheets Export</div>
+    <div class="card-buyer">Inline panel on calendar</div>
+    <div class="card-desc">Date range picker defaulting to current month. CSV with UTF-8 BOM. Google Sheets sync via Apps Script webhook (~20 lines, no OAuth). Webhook URL in settings table. CSV endpoint uses early-exit pattern before JSON Content-Type header.</div>
+  </div>
+
+  <h3>V2 code review (Opus 4.7)</h3>
+  <p>The spec was written against V1. After the V2 dark theme landed, Opus 4.7 reviewed the spec and found 12 conflicts:</p>
+
+  <table class="matrix">
+    <tr><th>Severity</th><th>#</th><th>Issue</th><th>Resolution</th></tr>
+    <tr><td><strong>Critical</strong></td><td>1</td><td>CSV Content-Type conflict</td><td>Early route check before JSON header</td></tr>
+    <tr><td><strong>Critical</strong></td><td>2</td><td>Soft delete scope underestimated</td><td>Explicitly listed ~15 affected queries</td></tr>
+    <tr><td><strong>Critical</strong></td><td>3</td><td>One-to-many topic-calendar mapping</td><td>Switched JOIN to GROUP_CONCAT subquery</td></tr>
+    <tr><td><strong>Critical</strong></td><td>4</td><td>No schema migration for existing DBs</td><td>Added PRAGMA table_info + ALTER pattern</td></tr>
+    <tr><td><strong>Critical</strong></td><td>5</td><td>Derivatives tree needs nested JSON</td><td>Added PHP assembly + response shape</td></tr>
+    <tr><td><strong>Important</strong></td><td>6</td><td>No V2 design tokens referenced</td><td>Added full token table</td></tr>
+    <tr><td><strong>Important</strong></td><td>7</td><td>Toggle has no DOM insertion point</td><td>Between .header and .stats</td></tr>
+    <tr><td><strong>Important</strong></td><td>8</td><td>toggleDone() ignores review state</td><td>Added state machine for all transitions</td></tr>
+    <tr><td><strong>Important</strong></td><td>9</td><td>DELETE /demo-data route collision</td><td>Changed to POST /demo-data/clear</td></tr>
+    <tr><td><strong>Important</strong></td><td>10</td><td>Export panel needs DOM structure</td><td>Full-width div below .cal-header</td></tr>
+    <tr><td><strong>Minor</strong></td><td>11</td><td>Auto-planner + kanban interaction</td><td>Confirmed working correctly</td></tr>
+    <tr><td><strong>Minor</strong></td><td>12</td><td>Seed logic source</td><td>Confirmed api.php only, not seed.json</td></tr>
+  </table>
+
+  <h3>Schema changes</h3>
+  <table class="matrix">
+    <tr><th>Change</th><th>Type</th><th>Detail</th></tr>
+    <tr><td><strong>topics.status</strong></td><td>Enum expand</td><td>Add <code>review</code> to open/claimed/written</td></tr>
+    <tr><td><strong>calendar metrics</strong></td><td>4 new columns</td><td>impressions INT, clicks INT, engagement_rate REAL, comments INT</td></tr>
+    <tr><td><strong>*.archived_at</strong></td><td>New column</td><td>DATETIME on submissions, calendar, derivatives</td></tr>
+    <tr><td><strong>derivatives</strong></td><td>New table</td><td>id, submission_id FK, format, title, status, archived_at</td></tr>
+    <tr><td><strong>settings</strong></td><td>New table</td><td>key TEXT PK, value TEXT</td></tr>
+  </table>
+
+  <h3>Artifacts</h3>
+  <ul>
+    <li>Spec: <code>docs/superpowers/specs/2026-04-29-phase-2.5-design.md</code> (430 lines)</li>
+    <li>Commit: <code>b4b3b7a</code> on main branch</li>
+    <li>Repo: <code>github.com/maxkwaaste/content-dxfferent</code></li>
+  </ul>
+
+  </div><!-- end tab-phase25design -->
 
   <div class="tab-content" id="tab-phase25plan">
 
