@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dxfferent.com — Design System</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+
+/* Custom: color swatches */
+.swatch-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.swatch {
+  width: 72px; text-align: center;
+  font: 500 10px/1 -apple-system, sans-serif;
+}
+.swatch-color {
+  width: 72px; height: 48px; border-radius: 4px;
+  border: 1px solid rgba(0,0,0,.08); margin-bottom: 4px;
+}
+.swatch-label { color: #4a5568; margin-top: 2px; }
+.swatch-hex { color: #6b7280; font-size: 9px; font-family: "SF Mono", monospace; }
+
+/* Custom: gradient bar */
+.gradient-bar {
+  height: 40px; border-radius: 4px; margin: 10px 0;
+  background: linear-gradient(81deg, #ED4C35 0%, #FF6927 100%);
+}
+
+/* Custom: font specimen */
+.specimen { margin: 12px 0; }
+.specimen-heading {
+  font-family: "PPMonument", "Impact", "Arial Black", sans-serif;
+  font-weight: 900; text-transform: uppercase; font-size: 28px;
+  color: #1F1F1F; letter-spacing: 0.02em; line-height: 1.2;
+}
+.specimen-body {
+  font-family: "DM Sans", -apple-system, sans-serif;
+  font-size: 16px; color: #2c2c2c; line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* Custom: button demos */
+.btn-demo { display: flex; gap: 12px; margin: 14px 0; align-items: center; flex-wrap: wrap; }
+.btn-primary-demo {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(81deg, #ED4C35 0%, #FF6927 100%);
+  color: #fff; font-family: "Impact", "Arial Black", sans-serif;
+  font-size: 14px; line-height: 28px; text-transform: uppercase;
+  letter-spacing: 0.02em; padding: 10px 36px; border-radius: 2px;
+  border: 1px solid transparent; text-decoration: none;
+}
+.btn-ghost-demo {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #000; color: #fff;
+  font-family: "Impact", "Arial Black", sans-serif;
+  font-size: 14px; line-height: 28px; text-transform: uppercase;
+  letter-spacing: 0.02em; padding: 10px 36px; border-radius: 2px;
+  border: 2px solid #FF6927; text-decoration: none;
+}
+.btn-inline-demo {
+  color: #ED4C35; font-size: 14px; text-decoration: none;
+  font-family: -apple-system, sans-serif; font-weight: 500;
+}
+
+/* Custom: trapezoid demo */
+.trapezoid-demo {
+  margin: 14px 0; display: flex; gap: 12px; align-items: center;
+}
+.trapezoid-shape {
+  width: 160px; height: 80px;
+  background: linear-gradient(81deg, #ED4C35 0%, #FF6927 100%);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font: 700 11px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.trapezoid-shape-inactive {
+  width: 160px; height: 80px;
+  background: #303030;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #AFAFAF; font: 700 11px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+
+/* Custom: dark preview */
+.dark-preview {
+  background: #1F1F1F; border-radius: 4px; padding: 28px 32px; margin: 14px 0;
+  color: #fff;
+}
+.dark-preview h4 {
+  font-family: "Impact", "Arial Black", sans-serif;
+  font-weight: 900; text-transform: uppercase; font-size: 22px;
+  color: #fff; margin-bottom: 8px; letter-spacing: 0.02em;
+}
+.dark-preview p {
+  font-family: "DM Sans", -apple-system, sans-serif;
+  font-size: 15px; color: #AFAFAF; line-height: 1.5; margin-bottom: 12px;
+}
+.dark-preview .accent { color: #ED4C35; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">29 April 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-dxfferent-design-system.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Design System Reference</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 29, 2026<br>Style Guide<br>Dxfferent.com
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">DESIGN SYSTEM</div>
+  <h1>Dxfferent.com — Complete Style Guide</h1>
+  <p class="subtitle">Extracted from the live Interly child theme (Bootstrap 5.3.3). Every color, font, button, spacing value, component pattern, and animation used on dxfferent.com.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">17</div>
+      <div class="stat-label">Color Tokens</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Font Families</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">16</div>
+      <div class="stat-label">Spacing Steps</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Animations</div>
+    </div>
+  </div>
+
+  <!-- THEME STACK -->
+  <h2>Theme Stack</h2>
+  <p>WordPress site running the <strong>Interly</strong> parent theme (v1.2.2) with an <strong>interly-child</strong> theme (v1.0.0), built by Interly Digital Agency. Full Bootstrap 5.3.3 is loaded via the child theme (~427KB). SiteGround Optimizer combines all CSS into one file. The block system uses <code>data-blockname</code> attributes (header, footer, blog, timeline, trapezoid).</p>
+
+  <!-- COLORS -->
+  <h2>Color Palette</h2>
+
+  <h3>Brand Colors</h3>
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#ED4C35"></div>
+      <div class="swatch-label">Primary Red</div>
+      <div class="swatch-hex">#ED4C35</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#FF6927"></div>
+      <div class="swatch-label">Orange</div>
+      <div class="swatch-hex">#FF6927</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#522816"></div>
+      <div class="swatch-label">Brown Orange</div>
+      <div class="swatch-hex">#522816</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#371D1A"></div>
+      <div class="swatch-label">Orange Black</div>
+      <div class="swatch-hex">#371D1A</div>
+    </div>
+  </div>
+
+  <h3>Brand Gradient</h3>
+  <div class="gradient-bar"></div>
+  <p style="font-size:12px;color:#6b7280;margin-top:4px"><code>linear-gradient(81deg, #ED4C35 0%, #FF6927 100%)</code> &mdash; buttons, active trapezoid, hover fills</p>
+
+  <h3>Neutrals</h3>
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#000000"></div>
+      <div class="swatch-label">Full Black</div>
+      <div class="swatch-hex">#000000</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#030303"></div>
+      <div class="swatch-label">Lighter Black</div>
+      <div class="swatch-hex">#030303</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#141414"></div>
+      <div class="swatch-label">Dark Black</div>
+      <div class="swatch-hex">#141414</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#150101"></div>
+      <div class="swatch-label">Light Black</div>
+      <div class="swatch-hex">#150101</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#1F1F1F"></div>
+      <div class="swatch-label">Black</div>
+      <div class="swatch-hex">#1F1F1F</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#303030"></div>
+      <div class="swatch-label">Dark Grey</div>
+      <div class="swatch-hex">#303030</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#646464"></div>
+      <div class="swatch-label">Grey</div>
+      <div class="swatch-hex">#646464</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#AFAFAF"></div>
+      <div class="swatch-label">Light Grey</div>
+      <div class="swatch-hex">#AFAFAF</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#FFFFFF;border:1px solid #d0d3d8"></div>
+      <div class="swatch-label">White</div>
+      <div class="swatch-hex">#FFFFFF</div>
+    </div>
+  </div>
+
+  <h3>Overlays</h3>
+  <table class="matrix">
+    <tr><th>Variant</th><th>Value</th><th>Usage</th></tr>
+    <tr><td>Near-opaque</td><td><code>rgba(20, 20, 20, 0.95)</code></td><td>Popup/lightbox backdrops</td></tr>
+    <tr><td>Semi-transparent</td><td><code>rgba(20, 20, 20, 0.6)</code></td><td>Overlay panels</td></tr>
+    <tr><td>Transparent</td><td><code>rgba(20, 20, 20, 0)</code></td><td>Fade-out edges</td></tr>
+  </table>
+
+  <h3>Bootstrap Overrides</h3>
+  <table class="matrix">
+    <tr><th>Variable</th><th>Value</th><th>Note</th></tr>
+    <tr><td><code>--bs-link-color</code></td><td><strong>#ED4C35</strong></td><td>Replaces Bootstrap blue</td></tr>
+    <tr><td><code>--bs-link-hover-color</code></td><td><strong>#ED4C35</strong></td><td>Same as link color</td></tr>
+    <tr><td><code>--bs-border-color</code></td><td><strong>#646464</strong></td><td>Grey, not Bootstrap default</td></tr>
+    <tr><td><code>--bs-border-radius</code></td><td><strong>4px</strong></td><td>Smaller than BS default 8px</td></tr>
+    <tr><td><code>--bs-body-font-family</code></td><td><strong>"DMSans", sans-serif</strong></td><td>DM Sans for body</td></tr>
+  </table>
+
+  <!-- TYPOGRAPHY -->
+  <h2>Typography</h2>
+
+  <h3>Font Families</h3>
+  <table class="matrix">
+    <tr><th>Font</th><th>CSS Name</th><th>Weights</th><th>Format</th><th>Usage</th></tr>
+    <tr><td><strong>PP Monument Extended</strong></td><td><code>ppmonument</code></td><td>900</td><td>WOFF</td><td>Headings (uppercase by default)</td></tr>
+    <tr><td><strong>DM Sans</strong></td><td><code>dmsans</code></td><td>300, 400, 500, 600, 700</td><td>TTF</td><td>Body text, UI elements</td></tr>
+  </table>
+  <p>Font files hosted at <code>/wp-content/themes/interly-child/resources/</code></p>
+
+  <h3>Font Specimens</h3>
+  <div class="dark-preview">
+    <h4>PP Monument Extended</h4>
+    <p style="font-family:'Impact','Arial Black',sans-serif;font-size:28px;color:#fff;text-transform:uppercase;letter-spacing:0.02em;font-weight:900;margin-bottom:4px">YOUR GUIDE IN MSP ENTREPRENEURSHIP</p>
+    <p style="color:#646464;font-size:12px;margin-bottom:16px">weight 900 / uppercase / tracking 0.02em</p>
+    <p>DM Sans regular body text looks like this. Clean, modern, and highly readable at 16px with a 1.5 line-height. Available in weights from light (300) through bold (700).</p>
+    <p style="font-weight:600;color:#fff">DM Sans semibold (600) for emphasis.</p>
+    <p style="font-weight:300;color:#AFAFAF">DM Sans light (300) for subtle secondary text.</p>
+  </div>
+
+  <h3>Type Scale</h3>
+  <table class="matrix">
+    <tr><th>Element</th><th>Size</th><th>Font</th><th>Weight</th><th>Notes</th></tr>
+    <tr><td>h1-h6</td><td>Fluid: calc(1.375rem + 1.5vw)</td><td>PP Monument</td><td>500</td><td>Uppercase by default, color: white</td></tr>
+    <tr><td>Body text</td><td>16px / 1rem</td><td>DM Sans</td><td>400</td><td>Line-height: 1.5</td></tr>
+    <tr><td>Nav links</td><td>15px</td><td>DM Sans</td><td>400</td><td>Color: #AFAFAF</td></tr>
+    <tr><td>Submenu parents</td><td>14px</td><td>PP Monument</td><td>500</td><td>Uppercase, white</td></tr>
+    <tr><td>Submenu items</td><td>15px</td><td>DM Sans</td><td>400</td><td>Color: #AFAFAF</td></tr>
+    <tr><td>Deep submenu</td><td>15px</td><td>DM Sans</td><td>400</td><td>Color: #646464</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Important</span>
+    All headings (h1-h6) render <strong>UPPERCASE</strong> by default because the theme sets <code>text-transform: uppercase</code> on PP Monument. To get mixed-case headings, you must explicitly set <code>text-transform: none</code>.
+  </div>
+
+  <!-- BUTTONS -->
+  <h2>Buttons</h2>
+
+  <div class="btn-demo">
+    <span class="btn-primary-demo">BOOK A CALL</span>
+    <span class="btn-ghost-demo">HOW WE WORK</span>
+    <span class="btn-inline-demo">Learn more &rarr;</span>
+  </div>
+
+  <table class="matrix">
+    <tr><th>Variant</th><th>Class</th><th>Background</th><th>Border</th><th>Text</th><th>Radius</th></tr>
+    <tr><td><strong>Primary</strong></td><td><code>.interly-button</code></td><td>Brand gradient</td><td>1px transparent</td><td>White, PP Monument, uppercase 14px</td><td>2px</td></tr>
+    <tr><td><strong>Ghost</strong></td><td><code>.interly-button.transparent</code></td><td>#000 or transparent</td><td>2px solid #FF6927</td><td>White, PP Monument, uppercase 14px</td><td>2px</td></tr>
+    <tr><td><strong>Inline</strong></td><td><code>.interly-button[class*=inline]</code></td><td>None</td><td>None</td><td>#ED4C35</td><td>N/A</td></tr>
+  </table>
+  <p>Primary button padding: <code>10px 36px</code> (mobile: <code>10px</code>, full-width below 576px). Hover: opacity 0.8 + text slide animation (0.22s linear). Ghost hover: border clears, fills with brand gradient.</p>
+
+  <!-- SPACING -->
+  <h2>Spacing System</h2>
+  <p>Extended Bootstrap scale with custom half-steps. All available as <code>p/px/py/pt/pb/m/mx/my/mt/mb/gap</code> utilities with <code>!important</code>.</p>
+
+  <div class="two-col">
+    <div>
+      <table class="matrix">
+        <tr><th>Suffix</th><th>Value</th><th>Pixels</th></tr>
+        <tr><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>1</td><td>0.25rem</td><td>4px</td></tr>
+        <tr><td>2</td><td>0.5rem</td><td>8px</td></tr>
+        <tr><td>2_5</td><td>0.75rem</td><td>12px</td></tr>
+        <tr><td>3</td><td>1rem</td><td>16px</td></tr>
+        <tr><td>4</td><td>1.5rem</td><td>24px</td></tr>
+        <tr><td>4_5</td><td>2.25rem</td><td>36px</td></tr>
+        <tr><td>5</td><td>3rem</td><td>48px</td></tr>
+      </table>
+    </div>
+    <div>
+      <table class="matrix">
+        <tr><th>Suffix</th><th>Value</th><th>Pixels</th></tr>
+        <tr><td>6</td><td>4rem</td><td>64px</td></tr>
+        <tr><td>7</td><td>5.5rem</td><td>88px</td></tr>
+        <tr><td>7_5</td><td>6.375rem</td><td>102px</td></tr>
+        <tr><td>8</td><td>7rem</td><td>112px</td></tr>
+        <tr><td>9</td><td>8.5rem</td><td>136px</td></tr>
+        <tr><td>10</td><td>10rem</td><td>160px</td></tr>
+        <tr><td colspan="3" style="color:#6b7280"><em>Container: max-width 90% at all breakpoints</em></td></tr>
+        <tr><td colspan="3" style="color:#6b7280"><em>Gutters: --bs-gutter-x: 1.5rem</em></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <h2>Components</h2>
+
+  <h3>Header</h3>
+  <table class="matrix">
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Background</td><td><code>#030303</code> or <code>#1F1F1F</code></td></tr>
+    <tr><td>Logo width</td><td>230px (mobile: 44px, min-width: 32px)</td></tr>
+    <tr><td>Nav link style</td><td>15px, #AFAFAF, padding 6px 16px</td></tr>
+    <tr><td>Active state</td><td>Underline, color <code>#FF6927</code>, offset 4px</td></tr>
+    <tr><td>Submenu bg</td><td><code>#150101</code>, border-radius 2px, z-index 15</td></tr>
+    <tr><td>First submenu col</td><td><code>#1F1F1F</code>, width 50%</td></tr>
+    <tr><td>Mobile menu</td><td>Full-screen overlay, bg <code>#030303</code>, radius 0 0 8px 8px</td></tr>
+  </table>
+
+  <h3>Trapezoid (Signature Element)</h3>
+  <div class="trapezoid-demo">
+    <div class="trapezoid-shape">ACTIVE</div>
+    <div class="trapezoid-shape-inactive">DEFAULT</div>
+  </div>
+  <table class="matrix">
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Clip-path</td><td><code>polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%)</code></td></tr>
+    <tr><td>Border effect</td><td>2px via wrapper/inner offset</td></tr>
+    <tr><td>Title height</td><td>80px, default color <code>#AFAFAF</code></td></tr>
+    <tr><td>Hover</td><td>Background <code>#646464</code>, text white</td></tr>
+    <tr><td>Active</td><td>Brand gradient, white text, pulsing 16-18px dot</td></tr>
+    <tr><td>Mobile</td><td>Collapses to standard accordion with +/- toggle</td></tr>
+  </table>
+
+  <h3>Blog Cards</h3>
+  <ul>
+    <li>Arrow icon with brand-red CSS filter (<code>.filter-red</code>)</li>
+    <li>Mobile: horizontal scroll, 300px width, 8px margin</li>
+    <li>Desktop: Slick carousel</li>
+    <li>Loading spinner: 30px circle, 3px dashed <code>#ED4C35</code>, rotating</li>
+  </ul>
+
+  <h3>FAQ Accordion</h3>
+  <ul>
+    <li>SVG angle-down arrow, rotates 180deg on expand</li>
+    <li>Expanded class: <code>.uitgeklapt</code></li>
+    <li>Title padding-right: 20px for arrow space</li>
+  </ul>
+
+  <h3>Testimonials</h3>
+  <ul>
+    <li>Logo container: 155px x 30px</li>
+  </ul>
+
+  <h3>Popups / Lightboxes</h3>
+  <ul>
+    <li>Body gets <code>overflow: hidden</code> when active</li>
+    <li>Backdrop z-index: 9999999 (lightbox), 9997 (popup-menu)</li>
+    <li>Main content gets <code>pointer-events: none</code></li>
+  </ul>
+
+  <!-- ANIMATIONS -->
+  <h2>Animations</h2>
+
+  <h3>Entrance Animations</h3>
+  <p>Triggered via adding <code>.visible</code> class. Default duration: 1s.</p>
+  <table class="matrix">
+    <tr><th>Name</th><th>Effect</th><th>Transform</th></tr>
+    <tr><td><code>fadein-up</code></td><td>Slide up + fade in</td><td>translateY(100px) to 0, opacity 0 to 1</td></tr>
+    <tr><td><code>fadein-left</code></td><td>Slide from left + fade in</td><td>translateX(-100px) to 0, opacity 0 to 1</td></tr>
+    <tr><td><code>fadein-right</code></td><td>Slide from right + fade in</td><td>translateX(100px) to 0, opacity 0 to 1</td></tr>
+    <tr><td><code>scale-center</code></td><td>Scale from nothing</td><td>scale(0) to 1, origin center</td></tr>
+    <tr><td><code>scale-top</code></td><td>Scale from top</td><td>scale(0.8) to 1, origin top-center</td></tr>
+    <tr><td><code>scale-bottom</code></td><td>Scale from bottom</td><td>scale(0.8) to 1, origin bottom-center</td></tr>
+  </table>
+  <p>Duration utilities: <code>.duration-250</code> through <code>.duration-2250</code> (in 250ms steps).</p>
+
+  <h3>Transition Speeds</h3>
+  <table class="matrix">
+    <tr><th>Context</th><th>Value</th></tr>
+    <tr><td>Standard (buttons, links)</td><td><code>all 0.3s</code></td></tr>
+    <tr><td>Quick (Bootstrap default)</td><td><code>0.15s ease-in-out</code></td></tr>
+    <tr><td>Collapse</td><td><code>0.35s ease</code></td></tr>
+    <tr><td>FAQ arrow</td><td><code>all 0.4s</code></td></tr>
+    <tr><td>Trapezoid accordion</td><td><code>all 0.5s</code></td></tr>
+    <tr><td>Button text slide</td><td><code>0.22s linear</code></td></tr>
+  </table>
+
+  <h3>Pulse Animations</h3>
+  <ul>
+    <li><code>interly-timeline-pulse</code>: 2s infinite, on active timeline dots (rgba(237,76,53,0.6))</li>
+    <li><code>interly-trapezoid-pulse</code>: 2s infinite, on active trapezoid dots</li>
+    <li><code>interly-loading</code>: 2s infinite linear rotation, blog loading spinner</li>
+  </ul>
+
+  <!-- CSS UTILITIES -->
+  <h2>CSS Utility Filters</h2>
+  <table class="matrix">
+    <tr><th>Class</th><th>Filter Value</th><th>Effect</th></tr>
+    <tr><td><code>.filter-white</code></td><td><code>brightness(0) invert(1)</code></td><td>Makes any image/SVG white</td></tr>
+    <tr><td><code>.filter-red</code></td><td><code>invert(37%) sepia(18%) saturate(5875%) hue-rotate(341deg) brightness(97%) contrast(91%)</code></td><td>Matches brand red #ED4C35</td></tr>
+  </table>
+
+  <!-- ICONS -->
+  <h2>Icons</h2>
+  <p>SVG icons at <code>/wp-content/themes/interly-child/images/icons/</code>:</p>
+  <ul>
+    <li><code>cross.svg</code> &mdash; close / dismiss</li>
+    <li><code>arrow-right.svg</code> &mdash; CTAs, blog links</li>
+    <li><code>angle-down.svg</code> &mdash; FAQ accordion, dropdown toggles</li>
+  </ul>
+
+  <!-- RESPONSIVE -->
+  <h2>Responsive Breakpoints</h2>
+  <table class="matrix">
+    <tr><th>Breakpoint</th><th>Width</th><th>Key Behaviors</th></tr>
+    <tr><td>xs</td><td>0</td><td>Base mobile styles</td></tr>
+    <tr><td>sm</td><td>576px</td><td>Buttons go full-width below this</td></tr>
+    <tr><td>md</td><td>768px</td><td>Tablet layout adjustments</td></tr>
+    <tr><td><strong>lg</strong></td><td><strong>992px</strong></td><td><strong>Primary split: hamburger nav, blog horizontal scroll, trapezoid collapses to accordion</strong></td></tr>
+    <tr><td>xl</td><td>1200px</td><td>Wide desktop</td></tr>
+    <tr><td>xxl</td><td>1400px</td><td>Max desktop</td></tr>
+  </table>
+
+  <!-- BOOTSTRAP WARNINGS -->
+  <div class="callout" style="border-left-color:#c8402a;margin-top:28px">
+    <span class="callout-label" style="color:#c8402a">Bootstrap Collision Warning</span>
+    <p style="margin-bottom:8px">Bootstrap class names <code>.card</code>, <code>.card-header</code>, <code>.badge</code>, <code>.btn</code>, <code>.nav-*</code>, <code>.form-*</code>, <code>.modal-*</code>, <code>.alert-*</code>, <code>.table-*</code> all leak Bootstrap defaults into custom page content.</p>
+    <p style="margin-bottom:8px"><strong>Always prefix custom classes</strong> (e.g., <code>.dxf-card</code>, <code>.wl-card</code>) to avoid collisions. When overriding Bootstrap classes, explicitly reset: <code>padding:0; background:transparent; border:0; border-radius:0; color:inherit</code>.</p>
+    <p style="margin-bottom:0">For accurate eval/preview rendering, load both theme stylesheets:<br>
+    <code>https://dxfferent.com/wp-content/themes/interly-child/style.css</code><br>
+    <code>https://dxfferent.com/wp-content/themes/interly/style.css</code></p>
+  </div>
+
+  <!-- VISUAL IDENTITY -->
+  <div class="positioning" style="margin-top:28px">
+    <h2>Visual Identity</h2>
+    <p>Dark-themed, bold, high-contrast MSP consultancy. Dark backgrounds (#030303 to #1F1F1F) with white text. A single red-to-orange gradient (#ED4C35 to #FF6927) serves as the only accent. PP Monument uppercase headings feel blocky and authoritative. DM Sans body text is clean and modern. Minimal border-radius (2-4px) keeps everything sharp and professional. Trapezoid clip-paths are the signature visual element. Animations are subtle entrance effects, never flashy. The overall mood: serious, expert, no-nonsense.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Dxfferent.com Design System &mdash; Extracted April 29, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Dxfferent.com Design System",
+  "date": "2026-04-29",
+  "summary": "Complete style guide extracted from dxfferent.com backend: colors, typography, buttons, spacing, components, animations, responsive breakpoints, and Bootstrap collision warnings.",
+  "sections": [
+    {
+      "heading": "Color Palette",
+      "items": [
+        { "title": "Brand colors", "detail": "#ED4C35 (red), #FF6927 (orange), gradient 81deg between them. Warm darks: #522816, #371D1A.", "meta": {} },
+        { "title": "Neutrals", "detail": "9-shade dark-first scale from #000 to #FFF. Primary bg: #1F1F1F. Borders: #303030. Secondary text: #646464.", "meta": {} },
+        { "title": "Bootstrap overrides", "detail": "--bs-link-color: #ED4C35, --bs-border-color: #646464, --bs-border-radius: 4px.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Typography",
+      "items": [
+        { "title": "PP Monument Extended", "detail": "Headings. Weight 900, WOFF. All caps by default.", "meta": {} },
+        { "title": "DM Sans", "detail": "Body. Weights 300-700, TTF. Base 16px/1.5.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Buttons",
+      "items": [
+        { "title": "Primary", "detail": "Brand gradient bg, white PP Monument uppercase, 2px radius, 10px 36px padding.", "meta": {} },
+        { "title": "Ghost", "detail": "Black bg, 2px solid #FF6927 border. Hover fills gradient.", "meta": {} },
+        { "title": "Inline", "detail": "#ED4C35 text, no bg or border.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Spacing",
+      "items": [
+        { "title": "Scale", "detail": "Bootstrap + custom: 0-10 with half-steps 2_5, 4_5, 7_5. Max 10rem (160px).", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Components",
+      "items": [
+        { "title": "Trapezoid", "detail": "Signature element. clip-path polygon, brand gradient active state, collapses to accordion on mobile.", "meta": {} },
+        { "title": "Header", "detail": "Dark bg, 230px logo, orange underline active, full-screen mobile overlay.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Animations",
+      "items": [
+        { "title": "Entrance", "detail": "fadein-up/left/right, scale-center/top/bottom. Triggered via .visible class, 250-2250ms.", "meta": {} },
+        { "title": "Transitions", "detail": "Standard 0.3s, quick 0.15s, collapse 0.35s, FAQ 0.4s, trapezoid 0.5s.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Use this as reference when building pages for dxfferent.com. The .md version lives at ~/ClaudeCode/dxfferent/design-system/dxfferent-design-system.md on both machines. Also searchable in Open Brain as 'dxfferent design system'.",
+  "session_state": {
+    "phase": "complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Extracted full CSS from dxfferent.com combined stylesheet",
+      "Identified all color tokens, font-face declarations, button styles, spacing scale",
+      "Mapped all Interly-specific components and Bootstrap overrides",
+      "Saved to Open Brain as two parts",
+      "Created .md reference at ~/ClaudeCode/dxfferent/design-system/",
+      "Synced to M1 Pro",
+      "Generated HTML output page"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new HTML file + index entry to commit",
+    "next_action_required": "none"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-dxfferent-design-system.html", "relevance": "this document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Open Brain entries: a788ecee (Part 1: colors/typography/buttons) and 019be875 (Part 2: spacing/components/animations). Design system .md at ~/ClaudeCode/dxfferent/design-system/ on both M4 Air and M1 Pro."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial content"]
+  },
+  "decision_log": [
+    {
+      "decision": "Split Open Brain entry into two parts because single large thought timed out",
+      "rejected_alternatives": ["Single monolithic thought", "Three+ micro-thoughts"],
+      "rationale": "Open Brain server disconnected on the full ~4KB thought. Two parts of ~2KB each worked reliably.",
+      "trade_offs": "Need to search for both parts; but the semantic search finds them together anyway.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
