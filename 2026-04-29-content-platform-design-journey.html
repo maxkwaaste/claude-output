@@ -155,7 +155,7 @@ code {
 </head>
 <body>
 <div class="page-header">
-  <span class="date">2026-04-29</span>
+  <span class="date">2026-04-29 &mdash; 2026-04-30</span>
   <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html">View on GitHub</a></span>
 </div>
 <div class="page">
@@ -167,20 +167,269 @@ code {
       </div>
     </div>
     <div class="page-meta-right">
-      April 29, 2026<br>Dxfferent Content Platform<br>content.dxfferent.com
+      April 29-30, 2026<br>Dxfferent Content Platform<br>content.dxfferent.com
     </div>
   </div>
   <div class="brand-rule"></div>
 
   <h1>Dxfferent Content Platform</h1>
-  <p class="subtitle">Phase 2.5 build log for the internal content library powering the Dxfferent MSP Journey. Vanilla JS + PHP + SQLite, two files, no frameworks.</p>
+  <p class="subtitle">The complete design and build log for the Dxfferent content platform. Eight sessions, from brainstorming sketch to production app.</p>
 
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('phase25build')">Phase 2.5 Build</button>
+    <button class="tab-btn active" onclick="switchTab('design')">Design Session</button>
+    <button class="tab-btn" onclick="switchTab('phase1')">Phase 1 Build</button>
+    <button class="tab-btn" onclick="switchTab('codereview')">Code Review</button>
+    <button class="tab-btn" onclick="switchTab('v2theme')">V2 Dark Theme</button>
+    <button class="tab-btn" onclick="switchTab('phase25design')">Phase 2.5 Design</button>
+    <button class="tab-btn" onclick="switchTab('phase25build')">Phase 2.5 Build</button>
+    <button class="tab-btn" onclick="switchTab('phase3')">Phase 3 Design</button>
+    <button class="tab-btn" onclick="switchTab('phase2matrix')">Phase 2 Matrix</button>
   </div>
 
+  <!-- TAB: Design Session -->
+  <div class="tab-content active" id="tab-design">
+
+    <div class="overline">Session 1 &mdash; April 29, 2026 (morning)</div>
+    <h2>Design Session</h2>
+    <p>Max shared <code>msp_journey_overzicht.pdf</code> and <code>proxuma_contentbibliotheek.html</code>. Together we designed a content harvesting tool for 5 Dxfferent consultants. Claude used Excalidraw MCP to create 3 mockup options (A: category filters, B: domain filters, C: both). Max chose Option C (dual filter rows). Key decisions: SQLite backend, content.dxfferent.com subdomain, single HTML + PHP + JSON architecture, no auth, noindex. Spec written to <code>~/docs/superpowers/specs/2026-04-29-content-platform-design.md</code>.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">63</div>
+        <div class="stat-label">Topics Seeded</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Content Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Mockup Options</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Source Documents</div>
+      </div>
+    </div>
+
+    <h2>Decisions</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr><th>Decision</th><th>Options</th><th>Chosen</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Storage</strong></td><td>JSON / SQLite / Supabase</td><td>SQLite</td><td>Single file, proper querying, easy migration</td></tr>
+        <tr><td><strong>URL</strong></td><td>dxfferent.com/content/ / content.dxfferent.com</td><td>Subdomain</td><td>Separate document root, no WP interference</td></tr>
+        <tr><td><strong>Filters</strong></td><td>Category only / Domain only / Both</td><td>Both (Option C)</td><td>Consultants need both axes</td></tr>
+        <tr><td><strong>Editor</strong></td><td>Accordion / Full-width</td><td>Full-width</td><td>More writing space</td></tr>
+        <tr><td><strong>Auth</strong></td><td>None / Login</td><td>None</td><td>Only 5 consultants, noindex</td></tr>
+        <tr><td><strong>Phases</strong></td><td>Monolith / 3 phases</td><td>3 phases</td><td>Ship Phase 1 in 1 day</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="callout-label">Output</span>
+      Spec saved to <code>docs/superpowers/specs/2026-04-29-content-platform-design.md</code>. Excalidraw mockups exported to <code>~/Downloads/Autoriteit/content-platform-mockups.excalidraw</code>. Handoff prompt copied to clipboard for the next Claude session.
+    </div>
+
+  </div><!-- end tab-design -->
+
+  <!-- TAB: Phase 1 Build -->
+  <div class="tab-content" id="tab-phase1">
+
+    <div class="overline">Session 2 &mdash; April 29, 2026 (afternoon)</div>
+    <h2>Phase 1 Implementation</h2>
+    <p>A new session executed the spec. Built the REST API (<code>api.php</code>), SPA frontend (<code>index.html</code>), and seed data (<code>seed.json</code> + <code>.htaccess</code>). Three commits covered: seed data + htaccess, REST API with SQLite auto-seed and full CRUD, and the SPA frontend with topic board, dual filters, and editor. A fourth commit added the dashboard with progress tracking and a content calendar with auto-planner. Deployed to content.dxfferent.com via SCP.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Tables</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">14</div>
+        <div class="stat-label">API Endpoints</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1</div>
+        <div class="stat-label">SPA File</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Commits</div>
+      </div>
+    </div>
+
+    <h2>Features Shipped</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr><th>Feature</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Topic Board</strong></td><td>63 cards with domain + category dual filter pills</td></tr>
+        <tr><td><strong>Full-width Editor</strong></td><td>Consultant name (localStorage), textarea, auto-save (30s + blur), context panel with hook + MSP Journey context</td></tr>
+        <tr><td><strong>Free-form Dump</strong></td><td>"Vrije tekst schrijven" for unstructured content</td></tr>
+        <tr><td><strong>Dashboard</strong></td><td>Progress bars per domain/category, leaderboard, activity feed</td></tr>
+        <tr><td><strong>Calendar</strong></td><td>5-column Mon-Fri weekly view, drag-to-schedule, auto-planner</td></tr>
+        <tr><td><strong>Stats API</strong></td><td>Counts by status, category, domain</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout success">
+      <span class="callout-label">Shipped</span>
+      Phase 1 deployed same-day. Five consultants could claim topics, write submissions, and see status across 63 topics within 8 hours of the design session ending.
+    </div>
+
+  </div><!-- end tab-phase1 -->
+
+  <!-- TAB: Code Review -->
+  <div class="tab-content" id="tab-codereview">
+
+    <div class="overline">Session 3 &mdash; April 29, 2026</div>
+    <h2>Code Review &amp; Hardening</h2>
+    <p>22 fixes applied across <code>api.php</code> (8 fixes) and <code>index.html</code> (14 fixes). Key improvements: CORS lockdown (from <code>*</code> to <code>content.dxfferent.com</code>), <code>patchRecord</code> helper to DRY up PATCH endpoints, XSS fix in filter pills, auto-save guard against double-saves, event listener leak fix, UTC date bug fix. All 10 verification checklist items passed. Redeployed with DB reset for new schema (indexes, calendar table inside seed block).</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">22</div>
+        <div class="stat-label">Fixes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">8</div>
+        <div class="stat-label">API Fixes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">14</div>
+        <div class="stat-label">JS Fixes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">10/10</div>
+        <div class="stat-label">Verification</div>
+      </div>
+    </div>
+
+    <h2>Top Fixes</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr><th>#</th><th>Fix</th><th>Impact</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><strong>CORS lockdown</strong></td><td>Security: no cross-origin abuse</td></tr>
+        <tr><td>3-5</td><td><strong>patchRecord helper</strong></td><td>DRY: replaced 60 lines of duplicated PATCH logic</td></tr>
+        <tr><td>13</td><td><strong>XSS in renderFilters</strong></td><td>Security: filter pills no longer inject raw strings</td></tr>
+        <tr><td>14</td><td><strong>saveSubmission guard</strong></td><td>UX: prevents double-saves</td></tr>
+        <tr><td>16</td><td><strong>Event listener leak</strong></td><td>Performance: no stacking listeners on editor reopen</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="callout-label">Process</span>
+      Review walked the codebase line-by-line. Each fix logged in <code>CHANGELOG-code-review-fixes.md</code> with before/after rationale. Verification ran a 10-item checklist before redeploy.
+    </div>
+
+  </div><!-- end tab-codereview -->
+
+  <!-- TAB: V2 Dark Theme -->
+  <div class="tab-content" id="tab-v2theme">
+
+    <div class="overline">Session 4 &mdash; April 29, 2026</div>
+    <h2>V2 Dark Theme Redesign</h2>
+    <p>Complete visual redesign from the light contentbibliotheek style to a dark theme aligned with the dxfferent.com brand. New design system: PP Monument Extended (headings) + DM Sans (body), dark surfaces (<code>#030303</code> bg, <code>#1F1F1F</code> cards), red-to-orange gradient (<code>#ED4C35</code> to <code>#FF6927</code>). Signature elements: trapezoid clip-path on stat cards, gradient accent bars on hover, sharp 2-4px radius corners. Six category jewel tones. <code>CLAUDE.md</code> architecture doc created as the single source of truth for the design system.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Font Families</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Category Colors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">15+</div>
+        <div class="stat-label">CSS Tokens</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Architecture Doc</div>
+      </div>
+    </div>
+
+    <h2>Design Tokens</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>--bg</code></td><td>#030303</td><td>Page background</td></tr>
+        <tr><td><code>--surface</code></td><td>#1F1F1F</td><td>Card backgrounds</td></tr>
+        <tr><td><code>--gradient</code></td><td>#ED4C35 &rarr; #FF6927</td><td>Accent bars, buttons</td></tr>
+        <tr><td><code>--font-display</code></td><td>PP Monument Extended</td><td>Headings, labels</td></tr>
+        <tr><td><code>--font-body</code></td><td>DM Sans</td><td>Body text</td></tr>
+        <tr><td><strong>Category colors</strong></td><td>bewijs (blue), educatie (purple), markt (green), contrair (orange), eigen (pink), tools (gold)</td><td>Pills, badges</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="callout-label">Source of truth</span>
+      The repo <code>CLAUDE.md</code> now documents every token, every signature element, and the rules for adding new components. Future sessions consult it before touching the UI.
+    </div>
+
+  </div><!-- end tab-v2theme -->
+
+  <!-- TAB: Phase 2.5 Design -->
+  <div class="tab-content" id="tab-phase25design">
+
+    <div class="overline">Session 5 &mdash; April 29, 2026</div>
+    <h2>Phase 2.5 Design</h2>
+    <p>Designed 4 new features for Phase 2.5: kanban board (5-column drag-and-drop workflow), fake performance metrics (deterministic demo data), content derivatives (category-based format rules), and CSV/Google Sheets export. Added "review" status to the topic flow. Introduced soft deletes (<code>archived_at</code>) across submissions and calendar. Design spec revised to use V2 dark theme tokens.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Features Designed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1</div>
+        <div class="stat-label">New Status</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2</div>
+        <div class="stat-label">New Tables</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">Soft</div>
+        <div class="stat-label">Delete Pattern</div>
+      </div>
+    </div>
+
+    <h2>Feature Specs</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr><th>Feature</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Kanban board</strong></td><td>5-column drag-and-drop workflow (Idee &rarr; Schrijven &rarr; Review &rarr; Gepland &rarr; Gepost) with toggle from list view</td></tr>
+        <tr><td><strong>Fake performance metrics</strong></td><td>Deterministic demo data on calendar entries (impressions, clicks, engagement_rate, comments) so the dashboard can show realistic charts before real analytics land</td></tr>
+        <tr><td><strong>Content derivatives</strong></td><td>Category-based format rules: each submission spawns expected derivatives (LinkedIn post, blog, X thread, etc.) tracked separately</td></tr>
+        <tr><td><strong>CSV / Sheets export</strong></td><td>Inline export panel on the calendar tab with date range, CSV download, and Google Sheets webhook sync</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="callout-label">Spec</span>
+      Written to <code>docs/superpowers/specs/2026-04-29-phase-2.5-design.md</code>. Two commits: <code>ea25129</code> (initial spec) and <code>b4b3b7a</code> (V2 token alignment).
+    </div>
+
+  </div><!-- end tab-phase25design -->
+
   <!-- TAB: Phase 2.5 Build -->
-  <div class="tab-content active" id="tab-phase25build">
+  <div class="tab-content" id="tab-phase25build">
 
     <div class="overline">Build Session &mdash; April 29, 2026</div>
     <h2>Phase 2.5 Implementation</h2>
@@ -308,6 +557,107 @@ scp ... index.html ...:/public_html/index.html</pre>
 
   </div><!-- end tab-phase25build -->
 
+  <!-- TAB: Phase 3 Design -->
+  <div class="tab-content" id="tab-phase3">
+
+    <div class="overline">Session 7 &mdash; April 29-30, 2026</div>
+    <h2>Phase 3 Content Model Restructure</h2>
+    <p>Restructured the content model from a flat topic-centric design to three independent layers: Topics (the WHAT, pure content briefs), Formats (the HOW, 40 proven content formulas), and Submissions (the WORK, consultant writing linked to topic + format). This decoupled the domain/subdomain problem space from the content category/hook templates. Topics now show <code>context.problemen[0]</code> as card identity instead of pre-written headlines. Formats became a standalone library loaded from <code>seed.json</code>.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Data Layers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">40</div>
+        <div class="stat-label">Format Templates</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1</div>
+        <div class="stat-label">New seed.json</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Spec Iterations</div>
+      </div>
+    </div>
+
+    <h2>Old vs New Data Model</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr><th>Aspect</th><th>Old (flat)</th><th>New (3-layer)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Topic</strong></td><td>title + hook + category + domain + subdomain in one row</td><td>Pure content brief: domain + subdomain + context only</td></tr>
+        <tr><td><strong>Card identity</strong></td><td>Pre-written title</td><td><code>context.problemen[0]</code> from MSP Journey</td></tr>
+        <tr><td><strong>Hook / format</strong></td><td>Embedded on topic</td><td>Separate <code>formats</code> library, 40 templates</td></tr>
+        <tr><td><strong>Submission</strong></td><td>Linked to topic only</td><td>Linked to topic + format (the consultant chooses both)</td></tr>
+        <tr><td><strong>Category</strong></td><td>Topic property</td><td>Format property (a topic can be written in any category)</td></tr>
+        <tr><td><strong>Filter axes</strong></td><td>Domain, category</td><td>Domain (problem space) and format type (HOW), independent</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="callout-label">Why it matters</span>
+      The original model conflated "what to write about" with "how to write it". Decoupling let the same MSP topic feed multiple formats (case study + contrair take + tools list) without duplicating data. Spec at <code>docs/superpowers/specs/2026-04-29-phase-3-content-model.md</code>.
+    </div>
+
+  </div><!-- end tab-phase3 -->
+
+  <!-- TAB: Phase 2 Matrix -->
+  <div class="tab-content" id="tab-phase2matrix">
+
+    <div class="overline">Session 8 &mdash; April 30, 2026</div>
+    <h2>Phase 2 &mdash; MSP Journey Matrix</h2>
+    <p>Phase 2 added the MSP Journey matrix tab (visual grid of domains x journey levels), bibliotheek tab (format template browser), editor content-type tabs, and audit log. Designed via brainstorming session that produced a decisions document. Implementation included domain renaming (<em>Data Driven</em> &rarr; <em>Data driven</em>, <em>Algemeen</em> &rarr; <em>Identity</em>), priority defaults by category, matrix cell intensity grid, and hook-to-content_type classification. 5 vertical slices planned, orchestrator/agent execution model.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">New Features</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Vertical Slices</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Domain Rename</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">+1</div>
+        <div class="stat-label">Audit Log</div>
+      </div>
+    </div>
+
+    <h2>Features</h2>
+
+    <table class="matrix">
+      <thead>
+        <tr><th>Feature</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>MSP Journey Matrix</strong></td><td>Visual grid: domains &times; 5 journey levels (Reactive &rarr; Success), cell intensity from topic density</td></tr>
+        <tr><td><strong>Bibliotheek tab</strong></td><td>Browse 40 format templates by content type, search, pick for submissions</td></tr>
+        <tr><td><strong>Editor type-tabs</strong></td><td>Content type selector when writing, organizes submissions by format</td></tr>
+        <tr><td><strong>Audit log</strong></td><td>Activity feed visible to all 5 consultants</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="callout-label">Execution model</span>
+      Brainstorming session produced a decisions document. Orchestrator (Opus 4.6) wrote a 5-slice plan. Each slice was executed by an Opus 4.7 implementation agent and verified before the next slice started. Commits <code>886d6d6</code> and <code>bdd8836</code>, handoff at <code>HANDOFF-phase-2.txt</code>.
+    </div>
+
+  </div><!-- end tab-phase2matrix -->
+
+  <div class="positioning">
+    <h2>Eight Sessions, Two Days, One Production App</h2>
+    <p>Eight sessions over two days transformed a PDF of MSP topics and a content idea spreadsheet into a production content platform at content.dxfferent.com. Stack: vanilla JS + PHP + SQLite. No frameworks, no build tools, two files. The platform serves 5 Dxfferent consultants creating MSP expertise content across 63 topics in 6 categories.</p>
+  </div>
+
   <div class="page-footer">
     <span>Claude Code &mdash; Opus 4.6</span>
     <span>content.dxfferent.com</span>
@@ -328,29 +678,79 @@ function switchTab(name) {
 <!-- CLAUDE-DATA
 {
   "title": "Dxfferent Content Platform - Design Journey",
-  "date": "2026-04-29",
+  "date": "2026-04-29 to 2026-04-30",
   "project": "content-platform",
   "url": "https://content.dxfferent.com",
-  "session_state": {
-    "work_done_this_session": [
-      "Implemented Phase 2.5: kanban board, fake metrics, content derivatives, CSV/Sheets export",
-      "Modified api.php (502 -> 819 lines): CSV early exit, schema expansion, demo seed data, migration block, soft deletes, kanban view, 4 new route cases, dashboard expansion",
-      "Modified index.html (1721 -> 2090 lines): kanban board with drag-drop, board toggle, review button, export panel, webhook modal, calendar metrics, dashboard perf/deriv cards",
-      "Installed PHP 8.5.5 via Homebrew on M1 Pro, created router.php for local dev server",
-      "All 12 API endpoints verified locally against fresh-seeded database",
-      "Deploy commands provided to user (SSH key requires passphrase)"
-    ],
-    "next_steps": [
-      "Verify production deploy at content.dxfferent.com -- curl showed old API after user said done",
-      "Visual test: kanban board toggle, drag-drop workflow, export panel, dashboard performance cards",
-      "Test Google Sheets sync end-to-end with real Apps Script webhook",
-      "Consider Phase 3: real analytics integration to replace fake metrics"
-    ],
-    "files_modified": [
-      "api.php (819 lines)",
-      "index.html (2090 lines)",
-      "router.php (local dev only, not deployed)"
-    ]
+  "sessions": [
+    {
+      "id": "design",
+      "label": "Design Session",
+      "date": "2026-04-29 morning",
+      "summary": "Brainstorming session. Read msp_journey_overzicht.pdf and proxuma_contentbibliotheek.html. Created 3 Excalidraw mockups. Chose Option C (dual filter rows). Decisions: SQLite, content.dxfferent.com subdomain, no auth, noindex, 3-phase plan.",
+      "output": "docs/superpowers/specs/2026-04-29-content-platform-design.md"
+    },
+    {
+      "id": "phase1",
+      "label": "Phase 1 Build",
+      "date": "2026-04-29 afternoon",
+      "summary": "Executed the spec. Built api.php, index.html, seed.json, .htaccess. 4 commits (81c44fb to 75a55e4). Deployed to content.dxfferent.com via SCP.",
+      "features": ["topic board", "full-width editor", "free-form dump", "dashboard", "calendar", "stats API"]
+    },
+    {
+      "id": "codereview",
+      "label": "Code Review",
+      "date": "2026-04-29",
+      "summary": "22 fixes across api.php (8) and index.html (14). CORS lockdown, patchRecord helper, XSS fix, auto-save guard, event listener leak, UTC date bug. 10/10 verification passed.",
+      "output": "CHANGELOG-code-review-fixes.md"
+    },
+    {
+      "id": "v2theme",
+      "label": "V2 Dark Theme",
+      "date": "2026-04-29",
+      "summary": "Visual redesign aligned with dxfferent.com brand. PP Monument Extended + DM Sans, dark surfaces, red-to-orange gradient, trapezoid clip-paths, 6 category jewel tones.",
+      "commit": "ffa10d2"
+    },
+    {
+      "id": "phase25design",
+      "label": "Phase 2.5 Design",
+      "date": "2026-04-29",
+      "summary": "Designed kanban board, fake performance metrics, content derivatives, CSV/Sheets export. Added review status. Soft delete pattern via archived_at.",
+      "output": "docs/superpowers/specs/2026-04-29-phase-2.5-design.md"
+    },
+    {
+      "id": "phase25build",
+      "label": "Phase 2.5 Build",
+      "date": "2026-04-29",
+      "summary": "Implemented Phase 2.5 in two files. api.php 502 to 819 lines. index.html 1721 to 2090 lines. 12/12 API tests passed. Deployed via SCP."
+    },
+    {
+      "id": "phase3",
+      "label": "Phase 3 Design",
+      "date": "2026-04-29 to 2026-04-30",
+      "summary": "Restructured content model into 3 layers: Topics (WHAT), Formats (HOW, 40 templates), Submissions (WORK). Decoupled problem space from content category. Topics now use context.problemen[0] as card identity.",
+      "output": "docs/superpowers/specs/2026-04-29-phase-3-content-model.md"
+    },
+    {
+      "id": "phase2matrix",
+      "label": "Phase 2 Matrix",
+      "date": "2026-04-30",
+      "summary": "MSP Journey matrix tab, bibliotheek tab, editor content-type tabs, audit log. Domain rename (Data Driven, Identity). 5 vertical slices via orchestrator/agent model.",
+      "commits": ["886d6d6", "bdd8836"]
+    }
+  ],
+  "stack": {
+    "frontend": "vanilla JS, single HTML file",
+    "backend": "PHP + SQLite (PDO)",
+    "hosting": "SiteGround shared",
+    "files": ["api.php", "index.html", "seed.json", ".htaccess"]
+  },
+  "totals": {
+    "topics": 63,
+    "categories": 6,
+    "consultants": 5,
+    "format_templates": 40,
+    "sessions": 8,
+    "days": 2
   }
 }
 -->
