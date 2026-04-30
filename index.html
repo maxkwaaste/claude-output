@@ -84,13 +84,17 @@ body.dark {
   display: inline-flex; align-items: center; justify-content: center;
   width: 72px; height: 72px; border-radius: 50%;
   background: linear-gradient(145deg, var(--gold-400), var(--gold-600));
-  box-shadow: 0 2px 12px rgba(168, 132, 62, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow:
+    0 2px 8px rgba(168,132,62,.3),
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -2px 4px rgba(0,0,0,.15),
+    0 0 0 3px var(--cream), 0 0 0 5px var(--gold-500);
   margin-bottom: 20px;
 }
 .crest span {
   font-family: "Georgia", serif; font-size: 28px; font-weight: 700;
   color: #fff; letter-spacing: -2px;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.15));
 }
 .brand-name {
   font-family: "Cormorant Garamond", "Georgia", serif;
@@ -515,7 +519,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 <div class="page-wrap">
 
 <header class="header">
-  <div class="crest">
+  <div class="crest" id="crest-btn" title="How we work: NeXum Foundation">
     <span>CC</span>
   </div>
   <div class="brand-name">Claude Code</div>
@@ -628,6 +632,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
   Rebuild this block when adding/removing files.
 -->
 <script type="application/json" id="index-data">[
+  {
+    "file": "2026-04-30-content-platform-phase-2-decisions.html",
+    "title": "Content Platform Phase 2 — Brainstorm Decisions & Spec",
+    "date": "2026-04-30",
+    "summary": "5 grote veranderingen aan content.dxfferent.com beslist en uitgewerkt: titel weg, hook templates, MSP journey editable, vrije tekst metadata, matrix als library-interface, bibliotheek-overzicht.",
+    "tags": ["Dxfferent", "Content", "Phase 2", "Spec"],
+    "type": "product",
+    "detail": "Brainstorm met Max over evolutie van topic-board naar journey-matrix. 4 tabs ontworpen (Matrix/Bibliotheek/MSP Journey/Kalender), schema changes uitgewerkt (level + priority kolommen, derivatives, audit_log, revisions tabellen), 40 hook templates uit seed.json gemapped per type, domein-mismatch geidentificeerd (8 publiek vs 5 in seed), AI-pass migratie-plan, 5 open vragen voor Joshua. Klaar voor review en implementation."
+  },
   {
     "file": "2026-04-29-dxfferent-design-system.html",
     "title": "Dxfferent.com Design System",
@@ -1863,6 +1876,394 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
   // Boot
   loadState();
   render();
+})();
+</script>
+<!-- NeXum Foundation Explainer Modal -->
+<style>
+.nx-overlay{position:fixed;inset:0;z-index:9999;background:rgba(28,26,21,.65);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s}
+.nx-overlay.open{opacity:1;pointer-events:auto}
+.nx-modal{position:fixed;inset:24px;z-index:10000;background:var(--cream);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transform:translateY(20px) scale(.97);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .25s;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.nx-modal.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
+@media(min-width:800px){.nx-modal{inset:32px 10vw}}
+@media(min-width:1100px){.nx-modal{inset:32px 16vw}}
+.nx-topbar{display:flex;align-items:center;gap:12px;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--cream-dark);flex-shrink:0}
+.nx-topbar-logo{width:36px;height:36px;border-radius:50%;background:linear-gradient(145deg,var(--gold-400),var(--gold-600));display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:15px;font-weight:700;color:#fff;letter-spacing:-1px;flex-shrink:0}
+.nx-topbar h2{font-family:"Cormorant Garamond",Georgia,serif;font-size:22px;font-weight:700;color:var(--ink);flex:1}
+.nx-close{width:32px;height:32px;border:1px solid var(--border);border-radius:8px;background:var(--cream);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-muted);font-size:18px;transition:background .15s,border-color .15s}
+.nx-close:hover{background:var(--cream-dark);border-color:var(--gold-500);color:var(--ink)}
+.nx-body{flex:1;overflow-y:auto;padding:28px 32px 40px;scroll-behavior:smooth}
+.nx-body::-webkit-scrollbar{width:6px}
+.nx-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.nx-body::-webkit-scrollbar-thumb:hover{background:var(--gold-500)}
+
+.nx-nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--border-light)}
+.nx-nav a{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);text-decoration:none;padding:5px 12px;border-radius:5px;border:1px solid transparent;transition:all .15s}
+.nx-nav a:hover{background:var(--gold-50);color:var(--gold-700);border-color:var(--border)}
+.nx-nav a.active{background:var(--gold-500);color:#fff;border-color:var(--gold-500)}
+
+.nx-section{margin-bottom:32px}
+.nx-section h3{font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;font-weight:700;color:var(--ink);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border-light);scroll-margin-top:16px}
+.nx-section p,.nx-section li{font-size:13.5px;line-height:1.7;color:var(--ink-light)}
+.nx-section p{margin-bottom:10px}
+.nx-section ul{padding-left:18px;margin-bottom:12px}
+.nx-section li{margin-bottom:4px}
+.nx-section code{font-family:"JetBrains Mono",monospace;font-size:12px;background:var(--cream-dark);padding:2px 6px;border-radius:4px;color:var(--gold-700)}
+body.dark .nx-section code{background:var(--cream-dark);color:var(--gold-400)}
+.nx-section .nx-cmd{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--gold-700);font-weight:600}
+body.dark .nx-section .nx-cmd{color:var(--gold-400)}
+
+.nx-layer-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:16px}
+@media(min-width:700px){.nx-layer-grid{grid-template-columns:repeat(3,1fr)}}
+.nx-layer{border:1px solid var(--border);border-radius:10px;padding:16px;background:var(--cream-dark);transition:border-color .15s}
+.nx-layer:hover{border-color:var(--gold-500)}
+.nx-layer-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+.nx-layer:nth-child(1) .nx-layer-tag{color:var(--tag-guide)}
+.nx-layer:nth-child(2) .nx-layer-tag{color:var(--tag-evaluation)}
+.nx-layer:nth-child(3) .nx-layer-tag{color:var(--tag-overview)}
+.nx-layer h4{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.nx-layer p{font-size:12px;color:var(--ink-muted);margin:0}
+
+.nx-model-table{width:100%;border-collapse:collapse;margin:12px 0 16px;font-size:12.5px}
+.nx-model-table th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);padding:6px 10px;border-bottom:2px solid var(--border)}
+.nx-model-table td{padding:8px 10px;border-bottom:1px solid var(--border-light);color:var(--ink-light)}
+.nx-model-table tr:last-child td{border-bottom:none}
+.nx-model-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.nx-model-badge.opus46{background:#0f766e22;color:#0f766e}
+.nx-model-badge.opus47{background:#2563eb22;color:#2563eb}
+.nx-model-badge.sonnet{background:#6d28d922;color:#6d28d9}
+body.dark .nx-model-badge.opus46{background:#0f766e33;color:#5cc0b0}
+body.dark .nx-model-badge.opus47{background:#2563eb33;color:#7aa0e8}
+body.dark .nx-model-badge.sonnet{background:#6d28d933;color:#b090e0}
+
+.nx-cmd-card{border:1px solid var(--border-light);border-radius:8px;padding:14px 16px;margin-bottom:10px;background:var(--cream);transition:border-color .15s,background .15s}
+.nx-cmd-card:hover{border-color:var(--gold-400);background:var(--gold-50)}
+.nx-cmd-card h4{font-size:14px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.nx-cmd-card p{font-size:12.5px;color:var(--ink-muted);margin:0}
+.nx-cmd-card .nx-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:2px 7px;border-radius:3px}
+.nx-tag-skill{background:#0f766e18;color:#0f766e}
+.nx-tag-command{background:#b4530918;color:#b45309}
+.nx-tag-rule{background:#6d28d918;color:#6d28d9}
+body.dark .nx-tag-skill{background:#0f766e30;color:#5cc0b0}
+body.dark .nx-tag-command{background:#b4530930;color:#d4a050}
+body.dark .nx-tag-rule{background:#6d28d930;color:#b090e0}
+
+.nx-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0;padding:14px;background:var(--cream-dark);border-radius:8px;border:1px solid var(--border-light)}
+.nx-flow-step{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;background:var(--cream);border:1px solid var(--border);color:var(--ink-light)}
+.nx-flow-arrow{color:var(--gold-500);font-size:16px;font-weight:700}
+.nx-flow-step.active{background:var(--gold-500);color:#fff;border-color:var(--gold-500)}
+
+#crest-btn{cursor:pointer;transition:transform .15s,box-shadow .15s,filter .15s}
+#crest-btn:hover{transform:scale(1.06);box-shadow:0 4px 20px rgba(184,148,62,.45),inset 0 1px 0 rgba(255,255,255,.4);filter:brightness(1.08)}
+#crest-btn:active{transform:scale(.96);filter:brightness(.95)}
+</style>
+
+<div class="nx-overlay" id="nx-overlay"></div>
+<div class="nx-modal" id="nx-modal">
+  <div class="nx-topbar">
+    <div class="nx-topbar-logo">CC</div>
+    <h2>NeXum Foundation</h2>
+    <button class="nx-close" id="nx-close">&times;</button>
+  </div>
+  <div class="nx-body">
+
+    <nav class="nx-nav" id="nx-nav">
+      <a href="#nx-overview" class="active">Overview</a>
+      <a href="#nx-layers">3 Layers</a>
+      <a href="#nx-models">Models</a>
+      <a href="#nx-workflow">Workflow</a>
+      <a href="#nx-commands">Commands</a>
+      <a href="#nx-skills">Skills</a>
+      <a href="#nx-rules">Rules</a>
+      <a href="#nx-hooks">Hooks</a>
+    </nav>
+
+    <!-- Overview -->
+    <div class="nx-section" id="nx-overview">
+      <h3>What is this?</h3>
+      <p>The NeXum Claude Foundation is a shared configuration system so everyone on the team works with Claude Code in a consistent, quality-controlled way. It installs rules, hooks, skills, commands, and agents into your <code>~/.claude/</code> directory.</p>
+      <p>It's <strong>optional</strong> for you. When you work in <code>~/nexum/</code> projects, the foundation workflow applies. For Proxuma, Power BI, and personal projects, your normal setup continues.</p>
+      <p>The foundation lives at <a href="https://github.com/NeXum-co/claude-foundation" style="color:var(--gold-600)">github.com/NeXum-co/claude-foundation</a>. Installed on both M4 Air and M1 Pro.</p>
+    </div>
+
+    <!-- 3 Layers -->
+    <div class="nx-section" id="nx-layers">
+      <h3>Three Layers</h3>
+      <div class="nx-layer-grid">
+        <div class="nx-layer">
+          <div class="nx-layer-tag">L1 Foundation</div>
+          <h4>Team-wide</h4>
+          <p>Universal rules, hooks, skills, commands. Shared by everyone. Source: <code>claude-foundation</code> repo. Installed via <code>install.sh</code>.</p>
+        </div>
+        <div class="nx-layer">
+          <div class="nx-layer-tag">L2 Project</div>
+          <h4>Project-specific</h4>
+          <p>Frontend standards, backend architecture, deploy rules. Auto-loaded from each project's <code>.claude/</code> directory when you <code>cd</code> into it.</p>
+        </div>
+        <div class="nx-layer">
+          <div class="nx-layer-tag">L3 Personal</div>
+          <h4>Your setup</h4>
+          <p>Your own preferences, experiments, and memory in <code>~/.claude/</code>. Not shared. This is where your Proxuma skills, Power BI commands, and personal hooks live.</p>
+        </div>
+      </div>
+      <p>Direction matters: upward via PR (proven, reviewed), downward via pull/install (available, not mandatory). If something works well personally (L3), you can propose it to the project (L2) or the whole team (L1).</p>
+    </div>
+
+    <!-- Models -->
+    <div class="nx-section" id="nx-models">
+      <h3>Model Strategy</h3>
+      <p>The foundation uses a deliberate model hierarchy. Each model has different strengths.</p>
+      <table class="nx-model-table">
+        <tr><th>Role</th><th>Model</th><th>When</th></tr>
+        <tr>
+          <td><strong>Orchestrator</strong></td>
+          <td><span class="nx-model-badge opus46">Opus 4.6</span></td>
+          <td>Your main session. Planning, brainstorming, reviewing, verifying. High recall (MRCR 78%), good at inference and synthesis.</td>
+        </tr>
+        <tr>
+          <td><strong>Implementation</strong></td>
+          <td><span class="nx-model-badge opus47">Opus 4.7</span></td>
+          <td>Building and fixing code. One agent per phase from a prepared plan. Best at literal instruction-following (SWE-bench 87.6%), but low recall.</td>
+        </tr>
+        <tr>
+          <td><strong>Research</strong></td>
+          <td><span class="nx-model-badge sonnet">Sonnet</span></td>
+          <td>Code search, investigation, fact-finding via Explore agents. Fast and cheap for read-only work.</td>
+        </tr>
+      </table>
+      <p><strong>The rule:</strong> As long as there are open questions, use 4.6. Once the plan is done, hand off to 4.7. Opus 4.6 always verifies what agents produce. Agent output is never trusted blindly.</p>
+    </div>
+
+    <!-- Workflow -->
+    <div class="nx-section" id="nx-workflow">
+      <h3>Development Workflow</h3>
+      <p>For features and larger changes (>200 lines of code), the workflow is:</p>
+      <div class="nx-flow">
+        <span class="nx-flow-step">Brainstorm</span>
+        <span class="nx-flow-arrow">&rarr;</span>
+        <span class="nx-flow-step">Plan</span>
+        <span class="nx-flow-arrow">&rarr;</span>
+        <span class="nx-flow-step" style="border-color:var(--tag-evaluation);color:var(--tag-evaluation)">Gate 1</span>
+        <span class="nx-flow-arrow">&rarr;</span>
+        <span class="nx-flow-step active">Execute (4.7)</span>
+        <span class="nx-flow-arrow">&rarr;</span>
+        <span class="nx-flow-step" style="border-color:var(--tag-evaluation);color:var(--tag-evaluation)">Gate 2</span>
+        <span class="nx-flow-arrow">&rarr;</span>
+        <span class="nx-flow-step">Verify + PR</span>
+      </div>
+      <ul>
+        <li><strong>Gate 1 (Plan Quality):</strong> Is each step a vertical slice? Are assumptions verified? Does it fit one session?</li>
+        <li><strong>Gate 2 (Output Quality):</strong> Is every planned item actually done? Tests run with evidence? No debug clutter?</li>
+      </ul>
+      <p>For complex multi-step tasks, use <code>/crispy</code> to structure the work into CRISPY stages (Context, Research, Ideate, Structure, Plan, Yield, PR).</p>
+      <p>For small tasks (bug fixes, quick changes), just describe what you need. The loaded rules guide Claude automatically.</p>
+
+      <h3 style="margin-top:24px">Git Workflow</h3>
+      <ul>
+        <li>Always work on a feature branch (<code>feature/</code>, <code>fix/</code>, <code>docs/</code>, <code>chore/</code> prefix). Never commit to <code>main</code>.</li>
+        <li>Open a PR and get at least 1 review before merging. Squash-merge.</li>
+        <li>Use conventional commits: <code>feat:</code>, <code>fix:</code>, <code>docs:</code>, <code>refactor:</code></li>
+        <li>New features require tests. Bug fixes require a regression test.</li>
+      </ul>
+    </div>
+
+    <!-- Commands -->
+    <div class="nx-section" id="nx-commands">
+      <h3>Slash Commands</h3>
+      <p>Type these in Claude Code. They're installed at <code>~/.claude/commands/</code>.</p>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/crispy</span> <span class="nx-tag nx-tag-skill">skill</span></h4>
+        <p>Research-to-PR methodology in 7 stages (Context, Research, Ideate, Structure, Plan, Yield, PR). Use for features >200 LOC or when agent quality degrades from instruction overload. Each stage gets its own prompt with &lt;40 instructions.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/test</span> <span class="nx-tag nx-tag-skill">skill</span></h4>
+        <p>Test websites, APIs, and UI. Routes to Chrome DevTools MCP (interactive debugging), Playwright (headless E2E), PHPUnit (backend), or curl (API) based on what you ask. "Test dit in de browser" goes to Chrome DevTools, "draai de tests" goes to Playwright CLI.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/jira</span> <span class="nx-tag nx-tag-skill">skill</span></h4>
+        <p>Create, update, or query Jira issues. Enforces ticket writing standards scaled to complexity, correct issue type hierarchy (Improvement > Epic > Task, Bug standalone), and consistent formatting. All Jira content in English.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/externe-teksten</span> <span class="nx-tag nx-tag-skill">skill</span></h4>
+        <p>Write external-facing Dutch text: landing pages, sales copy, workshop descriptions. Enforces Voice of Customer, PAS structure, anti-AI-slop checklist. Includes forbidden words list and B2B IT-specific patterns to avoid.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/video-summarizer</span> <span class="nx-tag nx-tag-skill">skill</span></h4>
+        <p>Summarize video content with structured output. Extracts key topics, timestamps, and takeaways.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/deploy</span> <span class="nx-tag nx-tag-command">command</span></h4>
+        <p>Deploy projects to production. Auto-detects deploy method per project from a registry. <code>/deploy nexum</code> deploys all NeXum components via SSH. <code>/deploy nova</code> deploys via git push. Supports <code>--dry-run</code>.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/transcribe</span> <span class="nx-tag nx-tag-command">command</span></h4>
+        <p>Transcribe a screen recording (OBS, etc.) and generate a structured report with screenshots at key moments. Auto-finds most recent OBS recording if no path given.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/launch-local</span> <span class="nx-tag nx-tag-command">command</span></h4>
+        <p>Start local development environments. <code>/launch-local proxuma</code> starts the Proxuma stack, <code>/launch-local investment-portal</code> starts the IP stack. <code>/launch-local stop</code> stops everything.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/harness-list</span> <span class="nx-tag nx-tag-command">command</span></h4>
+        <p>Browse all available items in the shared Claude Code harness catalog. Filter by <code>--type</code> (skill, hook, rule, command) or <code>--tag</code>.</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/harness-pull</span> <span class="nx-tag nx-tag-command">command</span></h4>
+        <p>Install a specific item from the shared harness. Format: <code>/harness-pull type/name</code> (e.g. <code>/harness-pull skill/proxuma-i18n</code>).</p>
+      </div>
+
+      <div class="nx-cmd-card">
+        <h4><span class="nx-cmd">/harness-status</span> <span class="nx-tag nx-tag-command">command</span></h4>
+        <p>Compare your local install with the latest foundation. Shows what's pulled from the shared harness, what's personal, and what has updates available.</p>
+      </div>
+    </div>
+
+    <!-- Rules -->
+    <div class="nx-section" id="nx-rules">
+      <h3>Rules (10)</h3>
+      <p>Rules load automatically every session. They're behavioral constraints, not skills you invoke. Installed at <code>~/.claude/rules/</code>.</p>
+
+      <div class="nx-cmd-card">
+        <h4>code-quality <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>Scope discipline: no features, refactoring, or improvements outside the requested task. A bugfix doesn't need surrounding cleanup. Keep changes minimal and focused.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>compliance-zones <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>3-zone data model for AI usage. Green (free), Orange (careful), Red (never). Determines what data can go through which AI tools. Always active.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>crispy-principles <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>4 discipline principles on top of superpowers: research isolation, instruction budget (&lt;40 per prompt), vertical slices (not horizontal layers), artifacts over context (write to files).</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>git-workflow <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>Branch from main, use feature/fix/docs/chore prefixes, conventional commits, PRs with review, squash-merge, delete after merge.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>mcp-usage <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>Rules for using MCP servers. They process data locally but output goes to context window. Compliance zones apply to MCP tool output too.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>model-delegation <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>Opus 4.6 orchestrates, 4.7 implements, Sonnet explores. Never implement complex plans directly in orchestrator. Always verify agent output.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>output-quality <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>Quality checks between execution and finish (Gate 2). Every planned item actually implemented? Tests run with evidence? No console.logs, TODOs, or debug code?</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>plan-quality <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>Quality checks between plan and execution (Gate 1). Each step a vertical slice with concrete verification? Assumptions checked? Fits one session?</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>security <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>Never commit .env, credentials, API keys. Use .env.example as template. Ask when uncertain if file contains sensitive data.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>testing <span class="nx-tag nx-tag-rule">rule</span></h4>
+        <p>New features need tests before merge. Bug fixes need regression tests. Refactoring must keep existing tests passing. Config changes need smoke tests.</p>
+      </div>
+    </div>
+
+    <!-- Hooks -->
+    <div class="nx-section" id="nx-hooks">
+      <h3>Hooks (7)</h3>
+      <p>Hooks run automatically before/after tool calls. They're JS scripts in <code>~/.claude/hooks/</code>. No invocation needed.</p>
+
+      <div class="nx-cmd-card">
+        <h4>post-edit-format.js</h4>
+        <p>Auto-formats JS/TS files after every Edit/Write. Detects Biome or Prettier by looking for config files. Skips silently if no formatter found (safe for PHP, Python, etc.).</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>post-edit-typecheck.js</h4>
+        <p>Runs TypeScript check after editing .ts/.tsx files. Finds nearest tsconfig.json, runs <code>tsc --noEmit</code>, reports errors for the edited file only. Skips non-TS files.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>console-warn.js</h4>
+        <p>Warns about <code>console.log</code> statements after edits to JS/TS files. Reports line numbers so you can remove debug statements before committing.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>git-push-reminder.js</h4>
+        <p>Prints a reminder before <code>git push</code> to make sure changes are reviewed and tests pass. Non-blocking.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>cost-tracker.js</h4>
+        <p>Tracks token usage and estimated cost per session. Appends JSONL to <code>~/.claude/metrics/costs.jsonl</code>. Runs at session end.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>session-summary.js</h4>
+        <p>Writes a session summary (tasks, files modified, tools used) to <code>~/.claude/sessions/</code>. Next session can load the most recent summary for context.</p>
+      </div>
+      <div class="nx-cmd-card">
+        <h4>harness-staleness-check.js</h4>
+        <p>Checks at session start whether your foundation install is outdated (>7 days since last pull). Prints a one-line warning if so.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var overlay = document.getElementById('nx-overlay');
+  var modal = document.getElementById('nx-modal');
+  var crest = document.getElementById('crest-btn');
+  var closeBtn = document.getElementById('nx-close');
+  var navLinks = document.querySelectorAll('.nx-nav a');
+
+  function openModal() {
+    overlay.classList.add('open');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    overlay.classList.remove('open');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  crest.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  navLinks.forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      navLinks.forEach(function(n) { n.classList.remove('active'); });
+      a.classList.add('active');
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  var nxBody = modal.querySelector('.nx-body');
+  if (nxBody) {
+    var sections = nxBody.querySelectorAll('.nx-section');
+    nxBody.addEventListener('scroll', function() {
+      var scrollTop = nxBody.scrollTop;
+      var current = '';
+      sections.forEach(function(s) {
+        if (s.offsetTop - 60 <= scrollTop) current = '#' + s.id;
+      });
+      if (current) {
+        navLinks.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === current);
+        });
+      }
+    });
+  }
 })();
 </script>
 </body>

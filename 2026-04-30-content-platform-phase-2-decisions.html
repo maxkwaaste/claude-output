@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Platform Phase 2 — Brainstorm Decisions &amp; Spec</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Georgia", "Times New Roman", serif; color: #2c2c2c; background: #f8f9fa; line-height: 1.65; -webkit-font-smoothing: antialiased; padding: 0; }
+.page-header { max-width: 880px; margin: 0 auto; padding: 16px 24px 0; display: flex; justify-content: space-between; align-items: center; font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page { max-width: 880px; margin: 12px auto 60px; background: #fff; border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px; }
+.brand { margin-bottom: 6px; }
+.brand-name { font-family: "Georgia", "Times New Roman", serif; font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic; }
+.brand-tagline { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-top: 4px; }
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.page-meta-right { text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280; }
+h1 { font-family: "Georgia", "Times New Roman", serif; font-size: 28px; font-weight: 700; color: #1a2744; letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2; }
+h2 { font-family: "Georgia", "Times New Roman", serif; font-size: 20px; font-weight: 700; color: #1a2744; margin: 32px 0 12px; line-height: 1.25; }
+h2::after { content: ''; display: block; width: 100%; height: 2px; background: #1a2744; margin-top: 6px; }
+h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px; }
+.subtitle { font-family: "Georgia", "Times New Roman", serif; font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6; }
+.overline { font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; margin-bottom: 12px; }
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card { flex: 1; padding: 20px 24px; border-left: 2px solid #d0d3d8; }
+.stat-value { font-family: "Georgia", "Times New Roman", serif; font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1; }
+.stat-label { font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #6b7280; margin-top: 6px; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; background: #1a2744; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.matrix td { padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; vertical-align: top; }
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card { background: #fff; border: 1px solid #e2e4e8; border-radius: 4px; padding: 18px 22px; margin-bottom: 8px; position: relative; }
+.card::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: #1a2744; border-radius: 1px; }
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer { font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .05em; color: #6b7280; margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout { background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px; margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0; }
+.callout strong { color: #1a2744; }
+.callout-label { font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block; }
+.positioning { background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0; color: #fff; }
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+code { font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 12px; background: #f0f2f5; padding: 2px 5px; border-radius: 3px; }
+pre { background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0; overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 12px; line-height: 1.6; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; }
+.tag-bewijs { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-educatie { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-markt { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-contrair { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-eigen { background: #f4e8f0; color: #6a2a6a; border: 1px solid #c890c0; }
+.tag-tools { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+
+/* Wireframe boxes */
+.wireframe { background: #fafbfc; border: 1px solid #d0d3d8; border-radius: 4px; padding: 16px; margin: 16px 0; font-family: -apple-system, sans-serif; font-size: 12px; }
+.wf-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.wf-cell { flex: 1; background: #fff; border: 1px solid #d0d3d8; border-radius: 2px; padding: 8px 10px; font-size: 11px; line-height: 1.3; min-height: 50px; position: relative; }
+.wf-cell.priority-5 { background: #1a2744; color: #fff; border-color: #1a2744; }
+.wf-cell.priority-4 { background: #2a4a8a; color: #fff; border-color: #2a4a8a; }
+.wf-cell.priority-3 { background: #5a7ab8; color: #fff; border-color: #5a7ab8; }
+.wf-cell.priority-2 { background: #b0bdd0; color: #1a2744; border-color: #b0bdd0; }
+.wf-cell.priority-1 { background: #e8edf4; color: #6b7280; border-color: #d0d3d8; }
+.wf-count { position: absolute; top: 4px; right: 6px; font-size: 10px; font-weight: 700; opacity: 0.85; }
+.wf-domain { font: 600 10px/1.2 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 8px 10px; background: #1a2744; color: #fff; border-radius: 2px; min-width: 110px; display: flex; align-items: center; }
+.wf-header { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; padding: 8px 10px; text-align: center; }
+.wf-tabs { display: flex; gap: 0; border-bottom: 2px solid #1a2744; margin-bottom: 12px; }
+.wf-tab { padding: 8px 16px; font: 600 11px/1 -apple-system, sans-serif; background: #f0f2f5; border: 1px solid #d0d3d8; border-bottom: none; margin-right: 2px; color: #6b7280; }
+.wf-tab.active { background: #1a2744; color: #fff; border-color: #1a2744; }
+.wf-section { background: #fff; border: 1px solid #d0d3d8; border-radius: 2px; padding: 10px 14px; margin: 6px 0; font-size: 12px; }
+.wf-label { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; color: #6b7280; margin-bottom: 4px; }
+
+.legend { display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap; font-size: 11px; }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-swatch { width: 14px; height: 14px; border-radius: 2px; border: 1px solid #d0d3d8; }
+
+.page-footer { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 12px; border-top: 1px solid #d0d3d8; font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">2026-04-30</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-30-content-platform-phase-2-decisions.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Content Platform · Design Spec</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 30, 2026<br>Phase 2 Brainstorm<br>content.dxfferent.com
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">DESIGN SPEC · PHASE 2</div>
+  <h1>Content Platform — van topic-board naar journey-matrix</h1>
+  <p class="subtitle">Vijf veranderingen die de tool transformeren van "lijst topics" naar strategische content-map gekoppeld aan de Dxfferent MSP Journey. Beslissingen genomen, schema-impact in kaart, klaar voor implementatie.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Veranderingen</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Tabs in nieuwe UI</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">40</div>
+      <div class="stat-label">Cellen in matrix (8×5)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">40</div>
+      <div class="stat-label">Hook templates beschikbaar</div>
+    </div>
+  </div>
+
+  <h2>De vijf veranderingen</h2>
+  <p>Uit brainstorm 30 april 2026. Elke verandering met de bijbehorende beslissing erbij (zoals afgestemd in deze sessie).</p>
+
+  <div class="card">
+    <div class="card-title">1. Title-veld weg, hook templates erin</div>
+    <div class="card-buyer">EDITOR · OPENER</div>
+    <div class="card-desc">Het huidige title-veld voelt geforceerd. Vervangen door één "Opener" veld met een picker-knop ernaast die de 40 bestaande hook templates uit <code>seed.json</code> toont, gefilterd op het geselecteerde content-type. Klik op template = veld vult zich met starter-tekst die de consultant aanpast. Interne identifier wordt afgeleid uit de eerste 60 chars van de opener.</div>
+    <div class="tags"><span class="tag tag-tools">Beslissing: bestaande hook-templates uit seed.json</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. MSP Journey context editable + apart tab</div>
+    <div class="card-buyer">EDITOR + NIEUWE TAB</div>
+    <div class="card-desc">Topics in cellen mogen door alle 5 consultants worden toegevoegd/verwijderd. Twee toegangspunten: dedicated tab voor masterview en bulk-onderhoud, plus inline edit in de artikel-schrijver wanneer je een cel hebt aangeklikt. Open editing voor iedereen, met audit log voor accountability en undo-knop voor "oeps".</div>
+    <div class="tags"><span class="tag tag-tools">Beslissing: open voor iedereen + audit log + undo</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Vrije tekst krijgt metadata-velden</div>
+    <div class="card-buyer">EDITOR · SIDE PANEL</div>
+    <div class="card-desc">Bij vrije tekst (niet uit de matrix gestart) komen optionele velden: Onderwerp, Domein, MSP-niveau (multi-select, bv. "2 &amp; 3"), Type. Allemaal optioneel. Als consultant ze leeg laat, vult AI ze later in (Phase 2.5). Velden in een collapsible side panel rechts in de editor, niet boven het schrijfveld.</div>
+    <div class="tags"><span class="tag tag-tools">AI-fill: expliciete knop + auto-suggest op save</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. Matrix als primaire content-library interface</div>
+    <div class="card-buyer">DE KILLER · TAB 1</div>
+    <div class="card-desc">De huidige topic-list-with-filters wordt vervangen door een 8×5 matrix die de Dxfferent MSP Journey reflecteert. Cellen tonen twee dimensies tegelijk: kleur = Joshua's prioriteit (1-5 schaal), badge rechtsboven = aantal artikelen al geschreven. Klik op cel → modaal met content-type keuze → editor met domain+level+type prefilled, hook picker direct open. Voor MVP: priority-data is fake (2-3 = hoog), Joshua kan later admin-modus krijgen.</div>
+    <div class="tags"><span class="tag tag-tools">Klik-flow: tab-bar in editor (mijn voorkeur)</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5. Bibliotheek-overzicht (source posts + derivatives + status)</div>
+    <div class="card-buyer">NIEUWE TAB · OPERATIONEEL</div>
+    <div class="card-desc">Flat lijst van alle source posts (consultant ruwe input) met daaronder de afgeleide content (LinkedIn-versie, blog-versie, etc.), status per derivative (draft/scheduled/posted), live URL als gepost en performance-metrics (likes/views/comments + datum laatste update). Drie numerieke velden, handmatige invoer in MVP, LinkedIn API komt later.</div>
+    <div class="tags"><span class="tag tag-tools">Performance: handmatig MVP, 3 numerieke velden</span></div>
+  </div>
+
+  <h2>Domein-mismatch: kritiek punt</h2>
+  <p>De publieke MSP Journey op dxfferent.com gebruikt <strong>8 domeinen × 5 maturity-levels = 40 cellen</strong>. De huidige <code>seed.json</code> heeft maar 5 domeinen, geen level-veld, en verkeerde namen. Voor de matrix-UI moeten alle 64 bestaande topics opnieuw worden ingedeeld in dit grid.</p>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Bron</th><th>Domeinen</th><th>Levels</th><th>Topics</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Publieke Journey</strong> (target)</td><td>Identity, Organisation, GRC, Positioning, Portfolio, Technology, Blueprint, Data driven</td><td>Reactive, Proactive, Managed, Partner, Success</td><td>n/a (raamwerk)</td></tr>
+      <tr><td><strong>Huidige seed.json</strong></td><td>Data Driven, Technology, Organisation, Algemeen, Markt</td><td>geen</td><td>64</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Migratie-aanpak (aanbevolen)</span>
+    <strong>B: AI doet eerste pass, Joshua reviewt.</strong> Claude leest elk topic, mapt naar één van 40 cellen op basis van titel + context, levert CSV op. Joshua keurt goed in 30 min. Schaalt straks ook voor nieuwe topics. Alternatief A (Joshua handmatig) is fine maar duurt langer en moet hij zelf doen. Alternatief C (lege levels) blokkeert de matrix-UI tot iemand 'm vult.
+  </div>
+
+  <h2>Tab-structuur (nieuwe UI)</h2>
+
+  <div class="wireframe">
+    <div class="wf-tabs">
+      <div class="wf-tab active">📍 Matrix</div>
+      <div class="wf-tab">📚 Bibliotheek</div>
+      <div class="wf-tab">🗺️ MSP Journey</div>
+      <div class="wf-tab">📅 Kalender (later)</div>
+    </div>
+    <div class="wf-label">Hoofd-navigatie</div>
+  </div>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Tab</th><th>Doel</th><th>Antwoord op vraag</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Matrix</strong></td><td>Strategisch: waar willen we content?</td><td>"Wat moet ik schrijven dat strategisch waarde heeft?"</td></tr>
+      <tr><td><strong>Bibliotheek</strong></td><td>Operationeel: wat hebben we?</td><td>"Wat is de status van mijn input en hoe heeft 't gepresteerd?"</td></tr>
+      <tr><td><strong>MSP Journey</strong></td><td>Onderhoud: topics in cellen</td><td>"Welke topics horen bij welk level/domein?"</td></tr>
+      <tr><td><strong>Kalender</strong></td><td>Planning: wanneer gaat wat live</td><td>Out of scope deze ronde, Phase 2.5</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Tab 1 · Matrix (de killer view)</h2>
+  <p>De primaire interface waar consultants hun content kiezen. 8 domeinen × 5 levels. Visualisatie:</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-swatch" style="background:#1a2744"></div>Priority 5</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#2a4a8a"></div>Priority 4</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#5a7ab8"></div>Priority 3</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#b0bdd0"></div>Priority 2</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#e8edf4"></div>Priority 1</div>
+    <div class="legend-item">·</div>
+    <div class="legend-item"><strong>Badge rechtsboven</strong> = aantal artikelen al geschreven</div>
+  </div>
+
+  <div class="wireframe">
+    <div class="wf-row">
+      <div class="wf-domain"></div>
+      <div class="wf-header">L1 Reactive</div>
+      <div class="wf-header">L2 Proactive</div>
+      <div class="wf-header">L3 Managed</div>
+      <div class="wf-header">L4 Partner</div>
+      <div class="wf-header">L5 Success</div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-domain">Identity</div>
+      <div class="wf-cell priority-2">Documented<span class="wf-count">0</span></div>
+      <div class="wf-cell priority-3">Living<span class="wf-count">2</span></div>
+      <div class="wf-cell priority-3">Embraced<span class="wf-count">1</span></div>
+      <div class="wf-cell priority-1">Strategic<span class="wf-count">0</span></div>
+      <div class="wf-cell priority-1">Innovative<span class="wf-count">0</span></div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-domain">Organisation</div>
+      <div class="wf-cell priority-2">Reactive<span class="wf-count">1</span></div>
+      <div class="wf-cell priority-4">Proactive<span class="wf-count">3</span></div>
+      <div class="wf-cell priority-5">Managed<span class="wf-count">5</span></div>
+      <div class="wf-cell priority-2">Partner<span class="wf-count">0</span></div>
+      <div class="wf-cell priority-1">Success<span class="wf-count">0</span></div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-domain">Technology</div>
+      <div class="wf-cell priority-2">Basic tools<span class="wf-count">2</span></div>
+      <div class="wf-cell priority-4">Standard stack<span class="wf-count">4</span></div>
+      <div class="wf-cell priority-5">Automated<span class="wf-count">7</span></div>
+      <div class="wf-cell priority-3">Integrated<span class="wf-count">2</span></div>
+      <div class="wf-cell priority-1">AI-driven<span class="wf-count">1</span></div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-domain">Data driven</div>
+      <div class="wf-cell priority-2">Reporting<span class="wf-count">0</span></div>
+      <div class="wf-cell priority-3">Descriptive<span class="wf-count">3</span></div>
+      <div class="wf-cell priority-5">Diagnostic<span class="wf-count">8</span></div>
+      <div class="wf-cell priority-3">Predictive<span class="wf-count">1</span></div>
+      <div class="wf-cell priority-1">Prescriptive<span class="wf-count">0</span></div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-domain">+ 4 andere</div>
+      <div class="wf-cell priority-1" style="flex:5">GRC, Positioning, Portfolio, Blueprint — zelfde structuur</div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:#6b7280">Schermschets met fake priority-data zoals afgesproken. 2-3 = hoog (donkerblauw), 1 en 4-5 = gemiddeld/laag.</p>
+
+  <h3>Klik-flow vanuit een cel</h3>
+  <ol>
+    <li><strong>Klik cel</strong> → modaal "Welk type content?" met 6 opties (zie hieronder)</li>
+    <li><strong>Kies type</strong> → editor opent met: domain + level + type prefilled, hook-template-picker open en gefilterd op gekozen type</li>
+    <li><strong>In editor</strong>: tab-bar bovenin om type te wisselen zonder context-loss (hetzelfde verhaal naar LinkedIn én blog vertalen, sluit aan bij Phase 2.5 AI-transform)</li>
+    <li><strong>Bij type-wissel</strong>: hook-templates filteren mee, eerder ingevulde opener blijft staan met waarschuwing "deze hook past mogelijk niet bij het nieuwe type"</li>
+  </ol>
+
+  <h3>Content types (= "Type" uit punt 5)</h3>
+  <p>Bestaande zes categorieën uit de contentbibliotheek:</p>
+  <div class="tags">
+    <span class="tag tag-bewijs">Bewijs &amp; resultaat (12)</span>
+    <span class="tag tag-educatie">Educatie &amp; uitleg (15)</span>
+    <span class="tag tag-markt">Markt &amp; visie (9)</span>
+    <span class="tag tag-contrair">Contrair &amp; polariserend (15)</span>
+    <span class="tag tag-eigen">Eigen verhaal (7)</span>
+    <span class="tag tag-tools">Tools &amp; resources (6)</span>
+  </div>
+  <p style="font-size:12px;color:#6b7280;margin-top:10px">Aantallen tussen haakjes = huidige topics per type in seed.json (van de 64 totaal).</p>
+
+  <h2>Tab 2 · Bibliotheek (productie-overzicht)</h2>
+  <p>Operationele view: source posts (consultant input) → derivatives → status + performance.</p>
+
+  <div class="wireframe">
+    <div class="wf-section">
+      <div class="wf-label">Source Post · Hidde · 2026-04-22</div>
+      <strong>"Ik analyseerde de Autotask-inrichting van 20 MSP's en vond..."</strong> · Domain: Technology · Level: Managed · Type: Bewijs
+    </div>
+    <div class="wf-section" style="margin-left:24px;background:#f8f9fb">
+      <div class="wf-label">↳ Derivative · LinkedIn post</div>
+      Status: <strong style="color:#1a6b3a">Posted</strong> · 2026-04-25 · <a href="#" style="color:#2a4a8a">linkedin.com/posts/...</a> · 312 likes · 47 comments · 8.4k views
+    </div>
+    <div class="wf-section" style="margin-left:24px;background:#f8f9fb">
+      <div class="wf-label">↳ Derivative · Blog (dxfferent.com)</div>
+      Status: <strong style="color:#8a6a2a">Scheduled</strong> · 2026-05-02 · concept klaar · nog niet live
+    </div>
+    <div class="wf-section" style="margin-left:24px;background:#f8f9fb">
+      <div class="wf-label">↳ Derivative · Carousel</div>
+      Status: <strong style="color:#6b7280">Draft</strong> · in editor
+    </div>
+  </div>
+
+  <h3>Performance fields per derivative</h3>
+  <ul>
+    <li><code>likes</code> — integer, default 0</li>
+    <li><code>views</code> — integer, default 0</li>
+    <li><code>comments</code> — integer, default 0</li>
+    <li><code>last_updated</code> — datetime, gevuld bij elke handmatige update</li>
+    <li><code>live_url</code> — string, alleen ingevuld als status = posted</li>
+  </ul>
+
+  <h2>Tab 3 · MSP Journey (matrix-onderhoud)</h2>
+  <p>Master view voor het beheren van topics in cellen. Open editing voor alle 5 consultants. Audit log + undo voor veiligheid.</p>
+
+  <div class="wireframe">
+    <div class="wf-section">
+      <div class="wf-label">Cel: Technology × L3 Managed</div>
+      <strong>Topics in deze cel (7):</strong>
+      <ul style="margin-top:8px;font-size:12px">
+        <li>Hoe deze MSP met 80 FTE ontdekte... <span style="color:#8a8f96">[bewijs] · added by Andy 2026-04-12</span> <button style="font-size:10px">×</button></li>
+        <li>Ik analyseerde de Autotask-inrichting... <span style="color:#8a8f96">[bewijs] · added by Joshua 2026-04-15</span> <button style="font-size:10px">×</button></li>
+        <li>+ 5 meer ...</li>
+      </ul>
+      <div style="margin-top:12px;padding-top:8px;border-top:1px solid #d0d3d8">
+        <input type="text" style="width:60%;padding:4px 8px;font-size:12px" placeholder="Nieuw topic toevoegen..."> <button style="font-size:11px">+ Add</button>
+      </div>
+    </div>
+    <div class="wf-section">
+      <div class="wf-label">Audit log (laatste 10 wijzigingen)</div>
+      <div style="font-size:11px;color:#4a5568;font-family:monospace;line-height:1.6">
+        2026-04-30 14:22 · Hidde added topic to Data driven × L3<br>
+        2026-04-30 11:08 · Joshua removed topic from Identity × L4 <button style="font-size:10px">↶ Undo</button><br>
+        2026-04-29 16:45 · Andy renamed topic in Technology × L3 <button style="font-size:10px">↶ Undo</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>Editor changes (alle 5 punten samen in één scherm)</h2>
+
+  <div class="wireframe">
+    <div class="wf-tabs" style="border-bottom:none;margin-bottom:6px">
+      <div class="wf-tab active">📌 LinkedIn post</div>
+      <div class="wf-tab">📝 Blog</div>
+      <div class="wf-tab">🎬 Video script</div>
+      <div class="wf-tab">📊 Carousel</div>
+      <div class="wf-tab" style="margin-left:auto;background:transparent;border:none;color:#6b7280">+ ander type</div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:12px">
+      <div style="flex:2">
+        <div class="wf-section">
+          <div class="wf-label">Opener (was: titel)</div>
+          <input type="text" style="width:100%;padding:6px 10px;font-size:13px" value="Ik analyseerde [X] en vond [Y]">
+          <button style="margin-top:6px;font-size:11px">📌 Andere hook template</button>
+        </div>
+        <div class="wf-section" style="min-height:200px">
+          <div class="wf-label">Inhoud</div>
+          <em style="color:#6b7280;font-size:12px">[Schrijfveld met auto-save · 30s + on blur]</em>
+        </div>
+        <button style="font-size:11px;padding:6px 12px">Markeer als geschreven</button>
+      </div>
+      <div style="flex:1">
+        <div class="wf-section">
+          <div class="wf-label">▼ Metadata <span style="color:#8a8f96;font-weight:400;text-transform:none">collapsible</span></div>
+          <div style="font-size:11px;line-height:1.8">
+            <strong>Onderwerp:</strong> Autotask-inrichting<br>
+            <strong>Domein:</strong> Technology<br>
+            <strong>Level:</strong> ☐ L1 ☑ L2 ☑ L3 ☐ L4 ☐ L5<br>
+            <strong>Type:</strong> Bewijs &amp; resultaat<br>
+            <button style="margin-top:8px;font-size:10px">✨ Vul in voor mij</button>
+          </div>
+        </div>
+        <div class="wf-section">
+          <div class="wf-label">MSP Journey context</div>
+          <div style="font-size:11px;line-height:1.5">
+            <strong>Problemen:</strong> Autotask voor 30-40% ingericht, workarounds zijn de norm<br>
+            <strong>Frustraties:</strong> Half-ingerichte PSA kost meer dan het oplevert<br>
+            <strong>Vragen:</strong> In welke volgorde rollen we modules uit?<br>
+            <button style="margin-top:6px;font-size:10px">+ Inline edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Schema-changes</h2>
+  <p>Wijzigingen in <code>~/ClaudeCode/content-platform/data/db.sqlite</code>.</p>
+
+<pre>topics
+  + level             ENUM(1,2,3,4,5)        // NEW: maturity level
+  + priority          INTEGER DEFAULT 3      // NEW: 1-5 importance score (Joshua)
+  ~ domain            // RENAME values: Identity, Organisation, GRC,
+                      // Positioning, Portfolio, Technology, Blueprint, Data driven
+
+submissions  (= source posts)
+  // unchanged
+
+derivatives  (NEW table)
+  id, submission_id, type, status, live_url, likes, views, comments,
+  last_updated, scheduled_for, created_at
+
+audit_log  (NEW table)
+  id, actor, action, target_type, target_id, before_json, after_json,
+  created_at, undone_at
+
+revisions  (NEW table — for undo)
+  id, target_type, target_id, snapshot_json, created_by, created_at,
+  reverted INTEGER DEFAULT 0</pre>
+
+  <h2>Hook templates — bestaande set</h2>
+  <p>40 unieke hooks uit <code>seed.json</code>, gemapped per type. Alle 64 topics hebben er één. Gefilterd op type-tab in de editor.</p>
+
+  <table class="matrix">
+    <thead><tr><th style="width:80px">Type</th><th>Hook templates (aantal gebruikt)</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag tag-bewijs">Bewijs</span></td><td>Case study: 1 probleem, 1 oplossing, 1 resultaat (2×) · Hoe [klant] [resultaat] bereikte met behulp van [aanpak] (2×) · Ik analyseerde [X] en vond [Y] (2×) · Audit / analyse van concurrent, autoriteit of klant · Eigen experiment: ik deed [X] en dit gebeurde · Vertical onderzoek: zo werkt [sector] · Ik vroeg [X] experts over [onderwerp] · Anonieme case study · Nummer 1 reden dat bedrijven [resultaat] niet bereiken</td></tr>
+      <tr><td><span class="tag tag-educatie">Educatie</span></td><td>Complex ding makkelijk gemaakt (3×) · Probleem + oplossing: als je vastzit met [probleem] (3×) · Hoe je [resultaat] bereikt in [tijdsperiode] zonder [beperking] (2×) · Tool / template / stappenplan dat direct bruikbaar is (2×) · Kijk dit voordat je [actie] doet (2×) · Ontwikkel een eigen framework met een eigen naam · Dit zou ik doen als ik [resultaat] wil bereiken in [jaar] · [Aantal] manieren om [belofte] in [tijdsperiode]</td></tr>
+      <tr><td><span class="tag tag-markt">Markt</span></td><td>Bespreek een overtuiging die je zelf hebt ontwikkeld (2×) · Visie op markt / vertical / probleem / tool (2×) · Stop met [onderwerp] in 2026 (2×) · Start over: wat we zouden doen als we vandaag opnieuw beginnen · [X] waar je nog nooit van gehoord hebt · Toekomst van [markt / tool / vertical]</td></tr>
+      <tr><td><span class="tag tag-contrair">Contrair</span></td><td>Onpopulair mening: [mening] (2×) · Waarom [mythe] niet klopt over [onderwerp] (2×) · [X] dat sneller / beter / goedkoper werkt dan je denkt (2×) · Als je [X] doet, krijg je [Y] niet (2×) · [X] ontbreekt en je denkt dat [Y] de oorzaak is (2×) · Je hebt geen [X] nodig om [Y] te doen (2×) · Brutal truth: wat niemand je vertelt · Kunnen we eindelijk toegeven dat [onderwerp] niet werkt · Throw stones: wat anderen doen maar niet durven toegeven</td></tr>
+      <tr><td><span class="tag tag-eigen">Eigen</span></td><td>Als ik jouw [rol] was voor 90 dagen (2×) · Wat ik nooit meer zou doen (2×) · Interview met een autoriteit · Wat ik zou willen dat iemand mij had verteld over [onderwerp] · Associatie: wat [bekende naam] goed of fout doet</td></tr>
+      <tr><td><span class="tag tag-tools">Tools</span></td><td>Overzicht / lijst: [aantal] [onderwerpen] (3×) · Vergelijking: [X] vs [Y] — wat is beter voor [doelgroep] (2×) · Prijzen / kosten / eerlijk prijsoverzicht in jouw markt</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Migratie-plan</h2>
+  <ol>
+    <li><strong>Schema-uitbreiding</strong> — voeg <code>level</code> en <code>priority</code> kolommen toe aan <code>topics</code>, maak <code>derivatives</code>, <code>audit_log</code>, <code>revisions</code> tabellen. SQLite migration script.</li>
+    <li><strong>Domein-rename</strong> — map huidige seed-domeinen naar 8-domein structuur waar mogelijk. <code>Algemeen → Identity</code> (vermoedelijk), <code>Markt → Positioning</code> (vermoedelijk). Onzekerheid hier — Joshua moet bevestigen.</li>
+    <li><strong>AI-pass voor level + priority</strong> — Claude leest elk topic + context, stelt voor: domain, level (1-5), priority (1-5). CSV output: <code>topic_id, suggested_domain, suggested_level, suggested_priority, rationale</code>.</li>
+    <li><strong>Joshua-review</strong> — Joshua ontvangt CSV, accepteert/wijzigt in 30 min. Import script schrijft definitieve waarden naar DB.</li>
+    <li><strong>Front-end build</strong> — 4 tabs, editor changes, hook picker, audit log + undo flow.</li>
+    <li><strong>Test met 5 consultants</strong> — beta op huidige <code>content.dxfferent.com</code> URL, 1 week feedback.</li>
+  </ol>
+
+  <div class="positioning">
+    <span class="callout-label">BOTTOM LINE</span>
+    <h2>Van topic-board naar strategische content-map</h2>
+    <p>De grootste verandering is niet technisch maar conceptueel: de tool wordt een visuele weergave van Joshua's content-strategie, gekoppeld aan de Dxfferent MSP Journey. Consultants zien in één blik waar gaten zijn (lege cellen met hoge priority) en welke cellen al verzadigd zijn. Hook-templates per type houden het schrijfwerk consistent. Audit log + undo maakt open editing veilig genoeg voor 5 mensen.</p>
+  </div>
+
+  <h2>Open vragen voor Joshua</h2>
+  <div class="card">
+    <div class="card-title">1. Domein-mapping bestaande topics</div>
+    <div class="card-desc">Mappen "Algemeen → Identity" en "Markt → Positioning" — zijn deze aannames OK, of is een andere indeling beter? Het AI-mapping script geeft een voorstel, jij keurt af/aan.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">2. Priority-data nu fake — wanneer jouw input?</div>
+    <div class="card-desc">MVP draait met fake priority (2-3 = hoog). Wil je direct een admin-modus om per cel een score te zetten, of bouwen we 'm later? Mijn voorkeur: later, eerst valideren of de matrix-UI überhaupt werkt voor de consultants.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">3. Audit log: alleen admin-zichtbaar of voor iedereen?</div>
+    <div class="card-desc">Iedereen kan editen, dus iedereen zou moeten kunnen zien wie wat deed (transparantie). Of voorkeur dat alleen jij/Andy de log ziet?</div>
+  </div>
+  <div class="card">
+    <div class="card-title">4. "+ Andere type" knop in editor — wel of niet?</div>
+    <div class="card-desc">De zes content-types staan vast. Maar wat als een consultant een nieuwe format wil (bv. e-mail nieuwsbrief, podcast script)? Lock op 6, of "+ ander" met optionele uitbreiding?</div>
+  </div>
+  <div class="card">
+    <div class="card-title">5. LinkedIn API performance-sync</div>
+    <div class="card-desc">MVP is handmatig. LinkedIn API approval duurt 2-3 weken. Plannen we dat nu in als follow-up, of wachten we tot consultants vragen om automatisering?</div>
+  </div>
+
+  <h2>Volgende stappen</h2>
+  <ol>
+    <li><strong>Joshua reviewt deze spec</strong> — beantwoordt 5 open vragen hierboven</li>
+    <li><strong>Domein-mapping AI-pass uitvoeren</strong> — produceert CSV met voorstel per topic</li>
+    <li><strong>Joshua keurt CSV goed</strong> — 30 min werk</li>
+    <li><strong>Implementation kick-off</strong> — Phase 2 build start, geschat 1-2 weken op M1 Pro</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code · content.dxfferent.com Phase 2 spec</span>
+    <span>30 april 2026 · v1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Content Platform Phase 2 — Brainstorm Decisions & Spec",
+  "date": "2026-04-30",
+  "summary": "Brainstorm met Max op 30 april over 5 grote veranderingen aan content.dxfferent.com: titel weg, hook templates, MSP journey context editable, vrije tekst metadata, matrix als library-interface, en bibliotheek-overzicht. Beslissingen genomen, schema-impact in kaart, klaar voor Joshua-review en implementatie.",
+  "sections": [
+    { "heading": "Vijf veranderingen", "items": [
+      { "title": "Title-veld weg, hook templates erin", "detail": "Vervang title door 'Opener' veld met picker voor 40 bestaande hook templates uit seed.json, gefilterd per type", "meta": {"decision": "bestaande templates"} },
+      { "title": "MSP journey context editable + apart tab", "detail": "Open editing voor alle 5 consultants, dedicated tab + inline edit, audit log + undo", "meta": {"decision": "open + audit + undo"} },
+      { "title": "Vrije tekst metadata-velden", "detail": "Onderwerp, domein, level (multi), type — optioneel, AI-fill via expliciete knop", "meta": {} },
+      { "title": "Matrix als primaire library-interface", "detail": "8x5 matrix van Dxfferent MSP Journey, kleur=priority, badge=aantal artikelen, tab-bar in editor voor type-switch", "meta": {"decision": "tab-bar in editor"} },
+      { "title": "Bibliotheek-overzicht", "detail": "Source posts + derivatives + status + performance, handmatig MVP, 3 numerieke metrics + last_updated", "meta": {"decision": "handmatig MVP"} }
+    ]},
+    { "heading": "Domein-mismatch", "items": [
+      { "title": "Publieke matrix", "detail": "8 domeinen (Identity, Organisation, GRC, Positioning, Portfolio, Technology, Blueprint, Data driven) x 5 levels (Reactive-Success)" },
+      { "title": "Huidige seed.json", "detail": "5 domeinen, geen level-veld — moeten alle 64 topics hermappen" },
+      { "title": "Migratie-aanpak", "detail": "B: AI eerste pass, Joshua reviewt CSV in 30 min" }
+    ]},
+    { "heading": "Schema changes", "items": [
+      { "title": "topics", "detail": "+ level (1-5), + priority (1-5), domain values renamed" },
+      { "title": "derivatives (NEW)", "detail": "submission_id, type, status, live_url, likes, views, comments, last_updated, scheduled_for" },
+      { "title": "audit_log (NEW)", "detail": "actor, action, target_type, target_id, before_json, after_json" },
+      { "title": "revisions (NEW)", "detail": "snapshot_json voor undo functionaliteit" }
+    ]},
+    { "heading": "Open vragen voor Joshua", "items": [
+      { "title": "Domein-mapping aannames", "detail": "Algemeen->Identity, Markt->Positioning — bevestigen?" },
+      { "title": "Priority-data scoring", "detail": "MVP fake, admin-modus nu of later?" },
+      { "title": "Audit log zichtbaarheid", "detail": "iedereen of alleen admin?" },
+      { "title": "Type-uitbreiding", "detail": "Lock op 6 types of '+ ander' optie?" },
+      { "title": "LinkedIn API timing", "detail": "Plannen voor follow-up of wachten tot consultants vragen?" }
+    ]}
+  ],
+  "next_steps": "Joshua reviewt deze spec en beantwoordt 5 open vragen. Daarna AI-pass voor domain/level/priority migration, Joshua keurt CSV, implementation kick-off. Geschat 1-2 weken build-tijd op M1 Pro nadat alle vragen beantwoord zijn.",
+  "session_state": {
+    "phase": "phase 2 spec",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Brainstorm met Max over 5 grote veranderingen",
+      "Beslissingen voor alle 5 punten vastgesteld",
+      "Hook templates uit seed.json geanalyseerd (40 unique, 64 topics)",
+      "Domein-mismatch geidentificeerd (8 publiek vs 5 in seed)",
+      "Schema changes uitgewerkt (topics, derivatives, audit_log, revisions)",
+      "4 tab structuur ontworpen met wireframes",
+      "Migratie-plan in 6 stappen opgesteld",
+      "5 open vragen voor Joshua geformuleerd"
+    ],
+    "blockers_hit": "Domein-mapping van bestaande seed naar publieke 8-domein matrix vereist Joshua-input voor enkele aannames",
+    "uncommitted_changes": "claude-output repo: net commit met deze HTML + index.html update",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-30-content-platform-phase-2-decisions.html", "relevance": "deze spec" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-design-journey.html", "relevance": "phase 1 design journey + chat history" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-29-content-platform-phase-2.5-design.html", "relevance": "phase 2.5 vorige design" },
+      { "url": "https://github.com/maxkwaaste/content-dxfferent", "relevance": "live app code" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Live app draait op content.dxfferent.com (Phase 1). Code in ~/ClaudeCode/content-platform/. Public matrix referentie: https://dxfferent.com/services/guide-as-a-service/the-msp-journey/"
+  },
+  "project_context": {
+    "protected_resources": ["content.dxfferent.com Phase 1 live app", "5 consultants gebruiken het al"],
+    "conventions_applied": ["humanizer anti-slop", "Dutch MSP voice", "output-page voor substantial output", "open brain check eerst"]
+  },
+  "decision_log": [
+    { "decision": "Hook templates: bestaande 40 uit seed.json hergebruiken, gefilterd per type", "rejected_alternatives": ["nieuwe set vanaf nul schrijven", "AI laten genereren bij elke nieuwe post"], "rationale": "Bestaande set is al per type gemapped en heeft Joshua's stempel via 64 topics, wielen niet opnieuw uitvinden", "trade_offs": "40 templates kan beperkend voelen bij creatief werk, maar consultants kunnen altijd vrij schrijven zonder template" },
+    { "decision": "MSP Journey editing: open voor alle 5 consultants met audit log + undo", "rejected_alternatives": ["suggestion-flow met Joshua als gatekeeper", "alleen admin kan editen"], "rationale": "Max wil snelheid en vertrouwen in team, undo lost mistakes op zonder process-overhead", "trade_offs": "Risico op chaos bij 5 mensen tegelijk, opgelost door audit log + undo" },
+    { "decision": "Cel-klik flow: tab-bar in editor (niet modal eerst)", "rejected_alternatives": ["modal type-keuze voor editor opent", "type alleen vooraf instelbaar"], "rationale": "Sluit aan bij Phase 2.5 AI-transform waarbij hetzelfde verhaal naar meerdere formats gaat, type-wissel zonder context-loss is dan cruciaal", "trade_offs": "Hook-templates moeten dynamisch filteren op type-wissel, kleine extra implementatie" },
+    { "decision": "Performance metrics: handmatig MVP, 3 numerieke velden + last_updated", "rejected_alternatives": ["LinkedIn API integratie meteen", "vrij tekstveld 'performance notes'"], "rationale": "MVP sneller live (geen LI API approval wachttijd 2-3 weken), numerieke velden maken sortering/analyse mogelijk", "trade_offs": "Handmatige invoer kost consultant tijd, opgelost door LI API in fase 3" },
+    { "decision": "Domein-migratie: AI-pass + Joshua review (optie B)", "rejected_alternatives": ["A: Joshua handmatig 64 topics mappen", "C: lege levels en op-the-fly invullen"], "rationale": "Joshua's tijd kost geld, AI levert eerste voorstel met rationale, hij keurt af in 30 min", "trade_offs": "AI kan verkeerde inschattingen maken, opgelost door verplichte review-stap" }
+  ]
+}
+</script>
+</body>
+</html>
