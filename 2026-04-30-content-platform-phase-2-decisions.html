@@ -437,8 +437,7 @@ revisions  (NEW table — for undo)
   <ol>
     <li><strong>Schema-uitbreiding</strong> — voeg <code>level</code> en <code>priority</code> kolommen toe aan <code>topics</code>, maak <code>derivatives</code>, <code>audit_log</code>, <code>revisions</code> tabellen. SQLite migration script.</li>
     <li><strong>Domein-rename</strong> — map huidige seed-domeinen naar 8-domein structuur waar mogelijk. <code>Algemeen → Identity</code> (vermoedelijk), <code>Markt → Positioning</code> (vermoedelijk). Onzekerheid hier — Joshua moet bevestigen.</li>
-    <li><strong>AI-pass voor level + priority</strong> — Claude leest elk topic + context, stelt voor: domain, level (1-5), priority (1-5). CSV output: <code>topic_id, suggested_domain, suggested_level, suggested_priority, rationale</code>.</li>
-    <li><strong>Joshua-review</strong> — Joshua ontvangt CSV, accepteert/wijzigt in 30 min. Import script schrijft definitieve waarden naar DB.</li>
+    <li><strong>AI-pass voor level + priority</strong> — Claude leest elk topic + context, schrijft direct naar DB: domain (mapped), level (1-5 op basis van subdomain + content), priority (op basis van type-heuristiek). Geen review-stap.</li>
     <li><strong>Front-end build</strong> — 4 tabs, editor changes, hook picker, audit log + undo flow.</li>
     <li><strong>Test met 5 consultants</strong> — beta op huidige <code>content.dxfferent.com</code> URL, 1 week feedback.</li>
   </ol>
@@ -449,35 +448,42 @@ revisions  (NEW table — for undo)
     <p>De grootste verandering is niet technisch maar conceptueel: de tool wordt een visuele weergave van Joshua's content-strategie, gekoppeld aan de Dxfferent MSP Journey. Consultants zien in één blik waar gaten zijn (lege cellen met hoge priority) en welke cellen al verzadigd zijn. Hook-templates per type houden het schrijfwerk consistent. Audit log + undo maakt open editing veilig genoeg voor 5 mensen.</p>
   </div>
 
-  <h2>Open vragen voor Joshua</h2>
+  <h2>Beslissingen voor implementatie (Joshua niet betrokken)</h2>
+  <p>Defaults vastgesteld zodat de implementatie zonder externe review kan starten. Deze keuzes mag de volgende Claude direct overnemen in het plan — geen blockers.</p>
+
   <div class="card">
     <div class="card-title">1. Domein-mapping bestaande topics</div>
-    <div class="card-desc">Mappen "Algemeen → Identity" en "Markt → Positioning" — zijn deze aannames OK, of is een andere indeling beter? Het AI-mapping script geeft een voorstel, jij keurt af/aan.</div>
+    <div class="card-desc">AI doet mapping autonoom op basis van topic-titel + context. Voorlopige aannames: <code>Data Driven → Data driven</code>, <code>Technology → Technology</code>, <code>Organisation → Organisation</code>, <code>Algemeen → Identity</code>, <code>Markt → Positioning</code>. Subdomeinen geven extra signaal voor level-bepaling. Lege domeinen (GRC, Portfolio, Blueprint) blijven leeg in MVP.</div>
   </div>
   <div class="card">
-    <div class="card-title">2. Priority-data nu fake — wanneer jouw input?</div>
-    <div class="card-desc">MVP draait met fake priority (2-3 = hoog). Wil je direct een admin-modus om per cel een score te zetten, of bouwen we 'm later? Mijn voorkeur: later, eerst valideren of de matrix-UI überhaupt werkt voor de consultants.</div>
+    <div class="card-title">2. Priority-data: fake voor MVP</div>
+    <div class="card-desc">Geen admin-modus nu. Hardcoded fake data in front-end: cellen met content-type "bewijs" of "educatie" krijgen priority 4-5, "markt" of "contrair" krijgen 3, rest krijgt 2. Eerst valideren of de matrix-UI überhaupt werkt voor consultants. Admin-scoring komt in Phase 3.</div>
   </div>
   <div class="card">
-    <div class="card-title">3. Audit log: alleen admin-zichtbaar of voor iedereen?</div>
-    <div class="card-desc">Iedereen kan editen, dus iedereen zou moeten kunnen zien wie wat deed (transparantie). Of voorkeur dat alleen jij/Andy de log ziet?</div>
+    <div class="card-title">3. Audit log: zichtbaar voor iedereen</div>
+    <div class="card-desc">Transparantie wint. Alle 5 consultants zien wie wat heeft gewijzigd. Geen admin-only mode. Simpler te bouwen, meer trust in het team.</div>
   </div>
   <div class="card">
-    <div class="card-title">4. "+ Andere type" knop in editor — wel of niet?</div>
-    <div class="card-desc">De zes content-types staan vast. Maar wat als een consultant een nieuwe format wil (bv. e-mail nieuwsbrief, podcast script)? Lock op 6, of "+ ander" met optionele uitbreiding?</div>
+    <div class="card-title">4. Lock op 6 content-types</div>
+    <div class="card-desc">Geen "+ ander" knop. Zes types staan vast (bewijs, educatie, markt, contrair, eigen, tools). Als consultants nieuwe formats willen (nieuwsbrief, podcast), kan dat in Phase 3 worden uitgebreid. MVP simpel houden.</div>
   </div>
   <div class="card">
-    <div class="card-title">5. LinkedIn API performance-sync</div>
-    <div class="card-desc">MVP is handmatig. LinkedIn API approval duurt 2-3 weken. Plannen we dat nu in als follow-up, of wachten we tot consultants vragen om automatisering?</div>
+    <div class="card-title">5. LinkedIn API: niet nu</div>
+    <div class="card-desc">Handmatige metric-invoer in MVP. LinkedIn API integratie wordt gepland voor Phase 3 (2-3 weken approval-tijd). Eerst valideren dat consultants überhaupt metrics willen tracken.</div>
   </div>
 
   <h2>Volgende stappen</h2>
   <ol>
-    <li><strong>Joshua reviewt deze spec</strong> — beantwoordt 5 open vragen hierboven</li>
-    <li><strong>Domein-mapping AI-pass uitvoeren</strong> — produceert CSV met voorstel per topic</li>
-    <li><strong>Joshua keurt CSV goed</strong> — 30 min werk</li>
-    <li><strong>Implementation kick-off</strong> — Phase 2 build start, geschat 1-2 weken op M1 Pro</li>
+    <li><strong>Volgende Claude maakt implementation plan</strong> — verticale slices, concrete verificatiestappen, op basis van deze spec (zie handoff prompt in tab-status)</li>
+    <li><strong>AI-pass voor domein/level/priority migratie</strong> — script leest seed.json, schrijft naar nieuwe schema, geen review-stap</li>
+    <li><strong>Implementation kick-off</strong> — geschat 1-2 weken build-tijd op M1 Pro, in verticale slices per tab</li>
+    <li><strong>Live testen met 5 consultants</strong> — beta op huidige <code>content.dxfferent.com</code>, 1 week feedback-window</li>
   </ol>
+
+  <div class="callout">
+    <span class="callout-label">Voor de volgende Claude</span>
+    <strong>Maak een implementation plan</strong> voor deze spec. Volg <code>~/.claude/rules/plan-quality.md</code> en <code>~/.claude/rules/crispy-principles.md</code>: verticale slices (niet horizontale lagen), concrete verificatie per stap, AI-mapping van seed.json eerst zodat front-end met echte data kan worden gebouwd. Sliced aanpak voorstel: (a) schema-migratie + AI-pass, (b) Matrix tab + cel-klik flow, (c) Editor type-tabs + hook picker, (d) Bibliotheek tab + derivatives, (e) MSP Journey tab + audit log + undo.
+  </div>
 
   <div class="page-footer">
     <span>Claude Code · content.dxfferent.com Phase 2 spec</span>
@@ -509,15 +515,15 @@ revisions  (NEW table — for undo)
       { "title": "audit_log (NEW)", "detail": "actor, action, target_type, target_id, before_json, after_json" },
       { "title": "revisions (NEW)", "detail": "snapshot_json voor undo functionaliteit" }
     ]},
-    { "heading": "Open vragen voor Joshua", "items": [
-      { "title": "Domein-mapping aannames", "detail": "Algemeen->Identity, Markt->Positioning — bevestigen?" },
-      { "title": "Priority-data scoring", "detail": "MVP fake, admin-modus nu of later?" },
-      { "title": "Audit log zichtbaarheid", "detail": "iedereen of alleen admin?" },
-      { "title": "Type-uitbreiding", "detail": "Lock op 6 types of '+ ander' optie?" },
-      { "title": "LinkedIn API timing", "detail": "Plannen voor follow-up of wachten tot consultants vragen?" }
+    { "heading": "Beslissingen voor implementatie", "items": [
+      { "title": "Domein-mapping", "detail": "AI doet autonoom: Data Driven->Data driven, Technology->Technology, Organisation->Organisation, Algemeen->Identity, Markt->Positioning. GRC/Portfolio/Blueprint blijven leeg in MVP" },
+      { "title": "Priority data", "detail": "Hardcoded fake in front-end: bewijs/educatie types krijgen 4-5, markt/contrair krijgen 3, rest 2. Admin-scoring in Phase 3" },
+      { "title": "Audit log zichtbaar voor iedereen", "detail": "Transparantie wint, alle 5 consultants zien wijzigingshistorie" },
+      { "title": "Lock op 6 content-types", "detail": "Geen + ander knop in MVP, uitbreiding naar Phase 3" },
+      { "title": "LinkedIn API uitgesteld", "detail": "Handmatig MVP, API integratie naar Phase 3 (2-3 weken approval)" }
     ]}
   ],
-  "next_steps": "Joshua reviewt deze spec en beantwoordt 5 open vragen. Daarna AI-pass voor domain/level/priority migration, Joshua keurt CSV, implementation kick-off. Geschat 1-2 weken build-tijd op M1 Pro nadat alle vragen beantwoord zijn.",
+  "next_steps": "Volgende Claude maakt implementation plan op basis van deze spec. Verticale slices: (a) schema-migratie + AI-pass voor seed.json, (b) Matrix tab + cel-klik flow, (c) Editor type-tabs + hook picker, (d) Bibliotheek tab + derivatives, (e) MSP Journey tab + audit log + undo. Joshua wordt NIET betrokken — alle defaults zijn vastgelegd in de Beslissingen sectie.",
   "session_state": {
     "phase": "phase 2 spec",
     "phase_status": "complete",
@@ -532,9 +538,9 @@ revisions  (NEW table — for undo)
       "Migratie-plan in 6 stappen opgesteld",
       "5 open vragen voor Joshua geformuleerd"
     ],
-    "blockers_hit": "Domein-mapping van bestaande seed naar publieke 8-domein matrix vereist Joshua-input voor enkele aannames",
+    "blockers_hit": null,
     "uncommitted_changes": "claude-output repo: net commit met deze HTML + index.html update",
-    "next_action_required": "user-decision"
+    "next_action_required": "claude-continue"
   },
   "artifact_pointers": {
     "memory_files": [],
