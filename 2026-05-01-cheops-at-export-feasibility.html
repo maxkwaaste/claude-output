@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheops Calculator AT Export - Feasibility Analysis</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.pos-steps { display: flex; gap: 10px; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 1, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-01-cheops-at-export-feasibility.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Dxfferent Consulting &middot; Technical Analysis</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 1, 2026<br>Feasibility Study<br>Autotask Integration
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">CHEOPS TECHNOLOGY</div>
+  <h1>Calculator + Autotask Export: Feasibility Analysis</h1>
+  <p class="subtitle">Can we add an AT import tab to the Cheops presales calculator, making it the single source of truth? Three approaches evaluated with a working prototype.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Project Tables</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">20</div>
+      <div class="stat-label">AT Import Columns</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Gap Fields to Fill</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">34</div>
+      <div class="stat-label">Tasks in Template</div>
+    </div>
+  </div>
+
+  <h2>Source Data Structure</h2>
+
+  <p>The Cheops calculator (<code>REV9.34.xltx</code>) has a "Project Services." sheet with 7 structured tables. Each project table covers rows for up to 4+ phases, with a fixed "Documentatie &amp; Project" section at the end. The Managed Services onboarding table has a slightly different layout (adds a #Devices column).</p>
+
+  <table class="matrix">
+    <tr><th>Table</th><th>Range</th><th>Phases</th><th>Pre-filled Tasks</th></tr>
+    <tr><td><strong>tbl_Project_1</strong></td><td>E18:G44</td><td>Fase 1-3 + Doc</td><td>3 (Doc &amp; Project)</td></tr>
+    <tr><td><strong>tbl_Project_2</strong></td><td>E61:G79</td><td>Fase 1-4 + Doc</td><td>3</td></tr>
+    <tr><td><strong>tbl_Project_3</strong></td><td>E96:G114</td><td>Fase 1-4 + Doc</td><td>3</td></tr>
+    <tr><td><strong>tbl_Project_4</strong></td><td>E131:G149</td><td>Fase 1-4 + Doc</td><td>3</td></tr>
+    <tr><td><strong>tbl_Project_5</strong></td><td>E166:G184</td><td>Fase 1-4 + Doc</td><td>3</td></tr>
+    <tr><td><strong>tbl_Project_6</strong></td><td>E201:G219</td><td>Fase 1-4 + Doc</td><td>3</td></tr>
+    <tr><td><strong>tbl_Project_ManagedServices</strong></td><td>B231:G254</td><td>6 sections</td><td>16 (all named)</td></tr>
+  </table>
+
+  <h3>Column mapping: Calculator to AT Import</h3>
+
+  <table class="matrix">
+    <tr><th>Calculator Column</th><th>AT Import Column</th><th>Mapping Logic</th></tr>
+    <tr><td>B: Omschrijving</td><td>Task Title (part 1)</td><td>Combined with Deeltaak if both present</td></tr>
+    <tr><td>C: Deeltaak</td><td>Task Title (part 2)</td><td>Primary title if B is empty</td></tr>
+    <tr><td>D: Uitvoering</td><td>(not mapped)</td><td>Always "Cheops", not needed in AT</td></tr>
+    <tr><td>E: Hours 100%</td><td>Estimated Hours</td><td>Added to Hours 150%</td></tr>
+    <tr><td>F: Hours 150%</td><td>Estimated Hours</td><td>Added to Hours 100%</td></tr>
+    <tr><td>G: Rol-Rate (1/2/3)</td><td>Work Type</td><td>All map to "Consultancy/Projecten"</td></tr>
+    <tr><td>B: "Fase X" headers</td><td>Phase Name</td><td>Prefixed with project label</td></tr>
+  </table>
+
+  <h3>Auto-filled defaults (the 5 gap fields)</h3>
+
+  <table class="matrix">
+    <tr><th>AT Column</th><th>Default Value</th><th>Reason</th></tr>
+    <tr><td>Task: Start Time</td><td><strong>08:00</strong></td><td>Universal start of business</td></tr>
+    <tr><td>Task: Department</td><td><strong>Projects</strong></td><td>Standard for all project work</td></tr>
+    <tr><td>Task: Priority</td><td><strong>Standaard</strong></td><td>PM escalates at runtime</td></tr>
+    <tr><td>Task: Status</td><td><strong>Te plannen / New</strong></td><td>Te plannen if hours &gt; 0</td></tr>
+    <tr><td>Task: Task Type</td><td><strong>Fixed Work</strong></td><td>Effort-based, not calendar</td></tr>
+  </table>
+
+  <h2>Three Approaches Evaluated</h2>
+
+  <div class="scenario-row">
+    <div class="scenario-card">
+      <div class="scenario-label">Option A</div>
+      <div class="scenario-value" style="font-size: 20px;">Pure Formulas</div>
+      <div class="scenario-detail">Excel 365 dynamic arrays (FILTER, LET, LAMBDA)</div>
+    </div>
+    <div class="scenario-card highlighted">
+      <div class="scenario-label">Option B</div>
+      <div class="scenario-value" style="font-size: 20px;">VBA Macro</div>
+      <div class="scenario-detail">Button on new tab, regenerates on click</div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label">Option C</div>
+      <div class="scenario-value" style="font-size: 20px;">Python Script</div>
+      <div class="scenario-detail">External tool reads .xlsx, writes CSV</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Option A: Pure Excel Formulas</div>
+    <div class="card-buyer">FEASIBILITY: LOW</div>
+    <div class="card-desc">
+      The core problem is that this requires ETL logic, not spreadsheet math. You need to: (1) scan variable-length ranges for non-empty rows, (2) detect phase boundaries by matching text patterns in column B, (3) track which phase each task row belongs to, and (4) produce dynamic-length output. Excel 365 has FILTER/SEQUENCE/LET that can handle some of this, but phase tracking across sparse data with formula-based phase headers (<code>=IF(Global_Taal="NL",...)</code>) makes it extremely fragile. Any structural change to the Project Services sheet breaks the formulas. Estimated: 40+ complex formulas, undebuggable by Cheops staff.
+    </div>
+    <div class="tags">
+      <span class="tag tag-low">HIGH COMPLEXITY</span>
+      <span class="tag tag-diy">FRAGILE</span>
+      <span class="tag tag-diy">NOT RECOMMENDED</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Option B: VBA Macro Button</div>
+    <div class="card-buyer">FEASIBILITY: HIGH</div>
+    <div class="card-desc">
+      A VBA macro on a new "AT Import" sheet reads all 7 tables, detects phases, builds the 20-column output, and writes it to the sheet. User clicks a button, gets the AT import data, copies to CSV. Clean, debuggable, maintainable. The catch: the calculator is <code>.xltx</code> (no macros). It would need to become <code>.xltm</code> (macro-enabled template). This changes the file type but not the workflow. Estimated: 120-150 lines of VBA.
+    </div>
+    <div class="tags">
+      <span class="tag tag-high">RECOMMENDED</span>
+      <span class="tag tag-independent">CLEAN</span>
+      <span class="tag tag-acquired">REQUIRES .XLTM</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Option C: External Python Script</div>
+    <div class="card-buyer">FEASIBILITY: HIGH</div>
+    <div class="card-desc">
+      A standalone Python script (using openpyxl) reads the filled-in calculator and produces a CSV file. Easiest to build and most reliable. But it adds a dependency: Cheops needs Python installed, or someone runs the script for them. This breaks the "single file" promise. Better suited as a Dxfferent internal tool than as something delivered to Cheops.
+    </div>
+    <div class="tags">
+      <span class="tag tag-bundled">INTERNAL TOOL</span>
+      <span class="tag tag-high">RELIABLE</span>
+      <span class="tag tag-diy">EXTERNAL DEPENDENCY</span>
+    </div>
+  </div>
+
+  <h2>Tricky Parts</h2>
+
+  <ol>
+    <li><strong>Formula-based phase headers.</strong> The "Documentatie &amp; Project" text in column B is an <code>=IF(Global_Taal="NL",...)</code> formula, not plain text. Any solution must resolve these formulas or match on the formula pattern. VBA handles this natively (reads calculated values). Formulas and Python (with data_only) need workarounds.</li>
+    <li><strong>Empty template rows.</strong> Each project table has ~25 rows pre-allocated. When presales uses only 8 tasks, the other 17 rows are empty placeholders (just "Cheops" in column D and a role-rate in G). The solution must skip these cleanly.</li>
+    <li><strong>Hours 150% column.</strong> Some cells contain a space character (<code>' '</code>) instead of being truly empty. Must handle this as zero.</li>
+    <li><strong>Variable phase count.</strong> Project 1 has 3 phases + Doc. Projects 2-6 have 4 phases + Doc. The Managed Services table has 6 completely different sections. Can't hardcode phase counts.</li>
+    <li><strong>Date placeholders.</strong> The calculator has no date information. All dates in the AT export must be placeholders that the PM fills in manually. This is a workflow step that can't be automated away.</li>
+    <li><strong>Project naming.</strong> The calculator labels them "Project 1" through "Project 6". In practice, presales fills in a project name elsewhere (the BOM sheet). The AT export should ideally use that name, not "Project 1".</li>
+  </ol>
+
+  <div class="positioning">
+    <h2>Recommendation</h2>
+    <p><strong>Go with Option B (VBA macro)</strong>, but deliver it alongside the existing separate template approach. The VBA solution is the cleanest way to embed AT export directly into the calculator. The .xltx to .xltm change is minor and transparent to users. The macro reads live calculated values, handles formula cells natively, and produces clean output. Build time: half a day. Deliver the Python prototype (Option C) as a Dxfferent internal fallback for when the macro approach hits edge cases.</p>
+  </div>
+
+  <h2>Prototype Status</h2>
+
+  <p>A working prototype has been generated at:</p>
+  <pre>~/ClaudeCode/dxfferent/cheops-autotask-import/source-files/Calculator + AT Export Prototype.xlsx</pre>
+
+  <p>This prototype was built with Python/openpyxl and demonstrates the full mapping logic. It adds an "AT Import" tab to the calculator with:</p>
+  <ul>
+    <li>All 20 Autotask import columns with correct headers</li>
+    <li>34 tasks extracted from the template (only pre-filled rows, since the template is empty)</li>
+    <li>Proper phase detection including formula-based "Documentatie &amp; Project" headers</li>
+    <li>Empty placeholder row filtering</li>
+    <li>Role-rate to Work Type mapping</li>
+    <li>Status logic (Te plannen vs New based on hours)</li>
+    <li>Source row references in a notes column for traceability</li>
+  </ul>
+
+  <div class="callout">
+    <span class="callout-label">Next step</span>
+    To turn this into the VBA solution, the logic from the Python prototype needs to be rewritten as a VBA Sub attached to a button on the AT Import sheet. The template file type changes from .xltx to .xltm. The mapping logic stays identical. The VBA version will also pick up the actual project names from the BOM sheet and read calculated formula values directly.
+  </div>
+
+  <h2>Comparison: Embedded Tab vs Separate Template</h2>
+
+  <table class="matrix">
+    <tr><th>Aspect</th><th>Embedded Tab (Calculator)</th><th>Separate Template (Current)</th></tr>
+    <tr><td><strong>Single source of truth</strong></td><td>Yes, calculator is the master</td><td>No, data duplicated in template</td></tr>
+    <tr><td><strong>User workflow</strong></td><td>Fill calculator, click button, done</td><td>Fill calculator, copy to template, adjust</td></tr>
+    <tr><td><strong>Error risk</strong></td><td>Low, auto-generated from source</td><td>High, manual copy-paste errors</td></tr>
+    <tr><td><strong>Maintenance</strong></td><td>VBA code in calculator</td><td>Separate file to version/distribute</td></tr>
+    <tr><td><strong>Date handling</strong></td><td>Placeholders, PM fills in</td><td>Same</td></tr>
+    <tr><td><strong>Customization</strong></td><td>PM edits generated rows</td><td>PM edits template directly</td></tr>
+    <tr><td><strong>Dependency</strong></td><td>.xltm format (macro-enabled)</td><td>Standard .xlsx</td></tr>
+    <tr class="row-total"><td><strong>Verdict</strong></td><td><strong>Better for Cheops workflow</strong></td><td><strong>Better as Dxfferent generic</strong></td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Practical suggestion</span>
+    Deliver both. The embedded VBA tab as the primary for Cheops (optimized for their specific calculator). The separate Dxfferent template as the generic fallback for other clients who don't have this calculator structure.
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Cheops AT Export Feasibility &middot; Dxfferent Consulting</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Cheops Calculator AT Export - Feasibility Analysis",
+  "date": "2026-05-01",
+  "summary": "Analyzed feasibility of adding an Autotask import tab to the Cheops presales calculator. Recommended VBA macro approach (Option B) over pure formulas or external Python script. Built working prototype with full 20-column mapping.",
+  "sections": [
+    {
+      "heading": "Source Data Structure",
+      "items": [
+        { "title": "7 project tables in Project Services sheet", "detail": "6 standard project tables (tbl_Project_1-6) plus Managed Services onboarding table with different column layout", "meta": { "total_rows": 254 } },
+        { "title": "Phase detection via text matching", "detail": "Fase X in column B, but Documentatie & Project is an IF formula, not plain text", "meta": {} },
+        { "title": "Column mapping verified", "detail": "B/C combine for Task Title, E+F for hours, G role-rate maps to Work Type, 5 gap fields auto-filled", "meta": { "gap_fields": 5 } }
+      ]
+    },
+    {
+      "heading": "Approach Evaluation",
+      "items": [
+        { "title": "Option A: Pure formulas - NOT recommended", "detail": "Too complex, fragile, undebuggable. Phase tracking across sparse data with formula headers makes this near-impossible", "meta": { "feasibility": "low" } },
+        { "title": "Option B: VBA macro - RECOMMENDED", "detail": "Clean, debuggable, reads calculated values natively. Requires .xltx to .xltm change. 120-150 lines of VBA.", "meta": { "feasibility": "high", "build_time": "0.5 days" } },
+        { "title": "Option C: Python script - internal tool", "detail": "Most reliable but adds external dependency. Good as Dxfferent internal fallback.", "meta": { "feasibility": "high" } }
+      ]
+    },
+    {
+      "heading": "Prototype",
+      "items": [
+        { "title": "Working prototype built", "detail": "Python/openpyxl prototype adds AT Import tab to calculator. 34 tasks extracted from empty template. Full mapping logic demonstrated.", "meta": { "path": "~/ClaudeCode/dxfferent/cheops-autotask-import/source-files/Calculator + AT Export Prototype.xlsx", "tasks_generated": 34 } }
+      ]
+    },
+    {
+      "heading": "Tricky Parts",
+      "items": [
+        { "title": "Formula-based phase headers", "detail": "=IF(Global_Taal=\"NL\",...) in column B for Documentatie & Project", "meta": {} },
+        { "title": "Empty template rows", "detail": "Pre-allocated rows with only Cheops in D and role-rate in G must be filtered", "meta": {} },
+        { "title": "Space characters in Hours 150%", "detail": "Some cells contain ' ' instead of being empty", "meta": {} },
+        { "title": "Variable phase count per project", "detail": "Project 1 has 3 phases, others have 4, MS has 6 sections", "meta": {} },
+        { "title": "No date info in calculator", "detail": "All dates are placeholders, PM fills in manually", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Build the VBA version of the macro if Cheops approves the approach. Port the Python prototype logic to VBA Sub, add a button to the AT Import sheet, change file from .xltx to .xltm. Also consider pulling project names from the BOM sheet instead of generic 'Project 1' labels.",
+  "session_state": {
+    "phase": "feasibility complete, prototype built",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Analyzed Calculator REV9.34 Project Services sheet structure (7 tables, 254 rows)",
+      "Identified formula-based phase headers and empty row patterns",
+      "Mapped all 20 AT import columns with defaults and logic",
+      "Built working Python prototype with AT Import tab",
+      "Evaluated 3 approaches (formulas, VBA, Python)",
+      "Generated feasibility report"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "Prototype .xlsx in source-files/, not git-tracked",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": null,
+    "local_repo_path": "~/ClaudeCode/dxfferent/cheops-autotask-import/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-01-cheops-at-export-feasibility.html", "relevance": "this feasibility report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Prototype Excel file at ~/ClaudeCode/dxfferent/cheops-autotask-import/source-files/Calculator + AT Export Prototype.xlsx"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended VBA macro (Option B) as primary approach for Cheops",
+      "rejected_alternatives": ["Pure Excel formulas (too complex, fragile)", "Python-only (external dependency)"],
+      "rationale": "VBA reads calculated formula values natively, handles the dynamic phase detection cleanly, and keeps everything in one file. The .xltx to .xltm change is minor.",
+      "trade_offs": "Requires macro-enabled template format (.xltm), which some corporate environments restrict",
+      "contingencies": [
+        { "if_X_then_Y": "If Cheops IT blocks .xltm files, fall back to the Python script as a Dxfferent-operated service", "probability": 0.15 }
+      ]
+    },
+    {
+      "decision": "Deliver both embedded tab and separate template",
+      "rejected_alternatives": ["Embedded tab only", "Separate template only"],
+      "rationale": "Embedded tab is optimal for Cheops specifically. Separate template stays as Dxfferent generic for other clients.",
+      "trade_offs": "Two artifacts to maintain, but they serve different audiences",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
