@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheops Autotask Import - Reconciliation Analysis</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.pos-steps { display: flex; gap: 10px; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">April 30, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-04-30-cheops-autotask-import.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">MSP Consulting &amp; Autotask Advisory</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      April 30, 2026<br>Research Analysis<br>Cheops Technology
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">AUTOTASK PROJECT IMPORT</div>
+  <h1>Cheops: Sales Template to Autotask Project Reconciliation</h1>
+  <p class="subtitle">Analysis of three source files to define how Cheops can transition from their Excel-based sales/project workflow into native Autotask project creation, using the Dxfferent master template as best practice.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Source Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">22</div>
+      <div class="stat-label">Import Columns</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">47</div>
+      <div class="stat-label">Master Tasks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Project Phases</div>
+    </div>
+  </div>
+
+  <h2>What Each File Is</h2>
+
+  <div class="card">
+    <div class="card-title">1. Calculator & Presales Template (REV9.34)</div>
+    <div class="card-buyer">CHEOPS SALES TOOL - 22 SHEETS</div>
+    <div class="card-desc">
+      Cheops's internal presales calculator. Sales and presales fill in customer details, cloud requirements, managed services parameters, and security options. The template computes a BOM, pricing overview, and contract tables. The "Project Services" sheet defines hourly rates (Support Engineer: 115/h, System Engineer: 140/h, Senior/PM/Architect: 155/h) and project hours per role. This is where project scope gets born, but it has zero Autotask structure -- no phases, no task fields, no import format.
+    </div>
+    <div class="tags">
+      <span class="tag tag-acquired">Sales origin</span>
+      <span class="tag tag-diy">No AT structure</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. PIA - T&M - Migratie BFL - 202601.csv</div>
+    <div class="card-buyer">CHEOPS AUTOTASK EXPORT - SAMPLE PROJECT</div>
+    <div class="card-desc">
+      A CSV export from Cheops's own Autotask instance showing a real M365 migration project ("PIA - T&M - Migratie BFL"). Contains 3 phases, 13 tasks, columns for Alert, Issue Icon, Milestone Icon, Phase/Task/Issue, Task Category, Estimated Hours, Duration, Start Date, End Date, Work Type, Resource(s). This is Cheops's current Autotask import format. The structure is flat: phases as top-level rows, tasks indented. Hours use comma decimals (e.g., "16,00"). All dates are DD/MM/YYYY.
+    </div>
+    <div class="tags">
+      <span class="tag tag-independent">AT import format</span>
+      <span class="tag tag-bundled">Real data</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Dxfferent Master Template (May 2026)</div>
+    <div class="card-buyer">BEST PRACTICE - 47 TASKS, 8 PHASES</div>
+    <div class="card-desc">
+      Our master template for what a well-structured Autotask project looks like. 8 phases covering the full project lifecycle from preparation through finalization. 20 columns mapped to Autotask import fields: Phase Name, Phase Start/End, Task Title, Task Start/End/Time, Estimated Hours, Department, Work Type, Task Category, Primary Resource, Priority, Status, PO Number, Client Portal Access, Issue, Task Type, Start No Earlier Than. Column V has implementation notes (not imported). Every task has concrete scope and hour estimates.
+    </div>
+    <div class="tags">
+      <span class="tag tag-independent">Best practice</span>
+      <span class="tag tag-acquired">Import-ready</span>
+    </div>
+  </div>
+
+  <h2>Column Mapping: Cheops CSV vs Master Template</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>Master Template Column</th>
+      <th>Cheops CSV Equivalent</th>
+      <th>Gap</th>
+    </tr>
+    <tr><td><strong>[required] Phase: Name</strong></td><td>Phase/Task/Issue (top-level rows)</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td><strong>[required] Phase: Start Date</strong></td><td>Start Date</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td><strong>[required] Phase: End Date</strong></td><td>End Date</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td>Phase: Description</td><td>-</td><td style="color:#8a6a2a">Missing</td></tr>
+    <tr><td><strong>[required] Task: Title</strong></td><td>Phase/Task/Issue (indented rows)</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td><strong>[required] Task: Start Date</strong></td><td>Start Date</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td><strong>[required] Task: Start Time</strong></td><td>-</td><td style="color:#c8402a">Missing</td></tr>
+    <tr><td><strong>[required] Task: End Date</strong></td><td>End Date</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td>Task: Estimated Hours</td><td>Estimated Hours</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td>Task: Department</td><td>-</td><td style="color:#c8402a">Missing</td></tr>
+    <tr><td>Task: Work Type</td><td>Work Type</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td>Task: Task Category</td><td>Task Category</td><td style="color:#1a6b3a">Mapped</td></tr>
+    <tr><td>Task: Primary Resource</td><td>Resource(s)</td><td style="color:#8a6a2a">Partial</td></tr>
+    <tr><td>Task: Priority</td><td>-</td><td style="color:#c8402a">Missing</td></tr>
+    <tr><td>Task: Status</td><td>-</td><td style="color:#c8402a">Missing</td></tr>
+    <tr><td>Task: Purchase Order Number</td><td>-</td><td style="color:#8a6a2a">Optional</td></tr>
+    <tr><td>Task: Client Portal Access</td><td>-</td><td style="color:#8a6a2a">Optional</td></tr>
+    <tr><td>Task: Issue</td><td>-</td><td style="color:#8a6a2a">Optional</td></tr>
+    <tr><td>Task: Task Type</td><td>-</td><td style="color:#c8402a">Missing</td></tr>
+    <tr><td>Task: Start No Earlier Than</td><td>-</td><td style="color:#8a6a2a">Optional</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Key finding</span>
+    Cheops's CSV has 12 columns. The master template has 20 (+ 1 notes column). Five required fields are missing from Cheops's current format: <strong>Task Start Time</strong>, <strong>Department</strong>, <strong>Priority</strong>, <strong>Status</strong>, and <strong>Task Type</strong>. These all have safe defaults (08:00, Projects, Standaard, New/Te plannen, Fixed Work) that can be auto-filled.
+  </div>
+
+  <h2>Phase Structure Comparison</h2>
+
+  <div class="two-col">
+    <div>
+      <h3>Master Template (8 phases)</h3>
+      <ol>
+        <li><strong>Project preparation</strong> (8 tasks) -- Assessment, project plan, hardware orders, impact analysis, kick-offs</li>
+        <li><strong>Project Administration</strong> (3 tasks) -- PM, travel time, meetings (hours = 0, time tracking only)</li>
+        <li><strong>Additional work</strong> (1 task) -- Buffer for scope changes</li>
+        <li><strong>Design and PoC</strong> (3 tasks) -- Design, test, acceptance</li>
+        <li><strong>Implementation - Core/Cloud/Workstation/Security</strong> (4 sub-phases, 18 tasks) -- Configure, implement, accept, migrate per domain</li>
+        <li><strong>Location infrastructure</strong> (4 tasks) -- Network, onsite, acceptance, migration</li>
+        <li><strong>Final delivery and adoption</strong> (4 tasks) -- Testing, control, IT Glue docs, training</li>
+        <li><strong>Finalization and Support</strong> (5 tasks) -- Aftercare, transfer to support, contracts, evaluations</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Cheops Sample (3 phases)</h3>
+      <ol>
+        <li><strong>M365 migratie</strong> (3 tasks) -- Voorbereiding, presync, cutover</li>
+        <li><strong>Onsite Aftercare</strong> (1 task) -- OPTIONEEL</li>
+        <li><strong>Project Management & Documentation</strong> (6 tasks) -- Kick-off, onboarding, handover, meetings, docs, PM</li>
+      </ol>
+      <p style="margin-top:12px;font-size:13px;color:#6b7280;">Cheops uses a minimal phase structure focused on the specific delivery, while the master template covers the full lifecycle from assessment to aftercare. Both approaches are valid, but the master template gives much better visibility for resource planning and progress tracking.</p>
+    </div>
+  </div>
+
+  <h2>Sales-to-Project Data Flow</h2>
+  <p>The real gap is not the import format -- that's just column mapping. The real gap is that Cheops currently generates projects from their Calculator template, which means a human manually translates a sales quote into project tasks. The flow today:</p>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Presales</div>
+      <div class="pos-desc">Fill in Calculator template (cloud, MS, security)</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">Quote</div>
+      <div class="pos-desc">BOM-offerte tab generates pricing</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Manual</div>
+      <div class="pos-desc">PM manually creates project in AT or CSV</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">Plan</div>
+      <div class="pos-desc">PS planning-prognose spreadsheet for scheduling</div>
+    </div>
+  </div>
+
+  <h2>What We Can Do for Cheops</h2>
+
+  <h3>Option A: Template Mapping + Import Guide</h3>
+  <div class="card">
+    <div class="card-title">Low effort, immediate value</div>
+    <div class="card-buyer">EFFORT: 2-4 HOURS</div>
+    <div class="card-desc">
+      Create a Cheops-specific version of the master template pre-filled with their common project types (M365 migration, cloud hosting, managed services onboarding). Map their Calculator template's "Project Services" sheet outputs to the right Autotask import columns. Provide default values for the fields they don't currently fill in. Deliver as an Excel template they can copy-paste from, plus a step-by-step import guide.
+    </div>
+  </div>
+
+  <h3>Option B: Autotask Project Templates (Native)</h3>
+  <div class="card">
+    <div class="card-title">Medium effort, structural improvement</div>
+    <div class="card-buyer">EFFORT: 4-8 HOURS</div>
+    <div class="card-desc">
+      Set up project templates directly inside Autotask. Create 3-5 templates covering their main project types (M365 Migration, Cloud Hosting Setup, Managed Services Onboarding, Security Implementation, Full Infrastructure). Each template pre-configured with phases, tasks, default hours, work types, and departments. PMs then create projects from templates instead of spreadsheets, and only need to adjust dates and resources. Combined with Proxuma for visual planning after creation.
+    </div>
+  </div>
+
+  <h3>Option C: Sales-to-Project Automation</h3>
+  <div class="card">
+    <div class="card-title">High effort, maximum value</div>
+    <div class="card-buyer">EFFORT: 16-24 HOURS</div>
+    <div class="card-desc">
+      Build a workflow where the Calculator template's output (project type, hours per role, scope items) automatically generates an Autotask project via the API. The presales template already captures project type, hour estimates, and scope. Map those fields to the right Autotask project template. Could use Power Automate, a simple web form, or a custom script that reads the Calculator output and calls the Autotask REST API. This eliminates the manual translation step entirely.
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Recommendation</span>
+    <strong>Start with Option B.</strong> Autotask native templates are the right mid-ground. They give Cheops immediate structure without requiring them to change their sales process. Option A is a band-aid (still spreadsheet-based). Option C is the end goal but requires buy-in on the Calculator template format staying stable. Option B gets them operational in Autotask within a week, and Proxuma handles the visual planning layer on top.
+  </div>
+
+  <h2>PS Planning-Prognose: What It Tells Us</h2>
+  <p>This file is Cheops's resource planning spreadsheet. 20 system engineers, daily planning from Jan 2026 onward, 1241 rows (roughly 6 months of workdays). Each engineer gets two columns (AM/PM slots). Entries are project names + client names ("Studibo - data migratie Ingeo", "Digitopia - Migratie NFGD", "Prof Praxis - Redundante Server infra"). Also tracks leave ("Verlof"), sick days ("Ziek"), and holidays ("Nieuwjaar").</p>
+  <p>This is exactly what Proxuma replaces. Once projects live in Autotask with proper tasks and resources, Proxuma's capacity view gives them this same information without maintaining a separate Excel file. The planning-prognose spreadsheet is the strongest argument for why they need to move to Autotask-native project management.</p>
+
+  <h2>Concrete Deliverables for Cheops</h2>
+
+  <table class="matrix">
+    <tr>
+      <th>#</th>
+      <th>Deliverable</th>
+      <th>Format</th>
+      <th>Hours</th>
+    </tr>
+    <tr><td>1</td><td><strong>Cheops Master Template</strong> -- adapted from Dxfferent template with Cheops-specific phases for M365 migration, cloud, MS onboarding</td><td>Excel (.xlsx)</td><td>2</td></tr>
+    <tr><td>2</td><td><strong>Autotask Project Templates</strong> -- 3-5 native templates configured in their AT instance</td><td>AT config</td><td>4</td></tr>
+    <tr><td>3</td><td><strong>Field Default Reference</strong> -- mapping document showing which Calculator fields map to which AT fields, with defaults</td><td>One-pager</td><td>1</td></tr>
+    <tr><td>4</td><td><strong>Import Guide</strong> -- step-by-step for CSV import with screenshots, covering date format, hour format, phase hierarchy</td><td>Guide</td><td>1</td></tr>
+    <tr><td>5</td><td><strong>Migration Plan</strong> -- how to phase out PS planning-prognose in favor of Proxuma capacity view</td><td>Plan</td><td>2</td></tr>
+    <tr class="row-total"><td></td><td>Total</td><td></td><td>10</td></tr>
+  </table>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>Cheops has all the raw data in their Calculator template but no bridge to Autotask. The gap is structural, not technical: they need project templates with the right phases and tasks, not better spreadsheets. The master template gives us the blueprint. The Autotask import format is well-defined (they already use it). The real win is getting them off the planning-prognose spreadsheet and onto Proxuma's capacity view, which requires projects to actually exist in Autotask with proper task structures.</p>
+    <ul style="margin-top:12px;">
+      <li>5 missing import fields all have safe defaults -- no blockers</li>
+      <li>Start with native AT templates (Option B), graduate to API automation later</li>
+      <li>The planning spreadsheet is Proxuma's strongest sales argument here</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Cheops Autotask Import Analysis -- Confidential</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Cheops: Sales Template to Autotask Project Reconciliation",
+  "date": "2026-04-30",
+  "summary": "Analyzed 3 files: Cheops Calculator template (sales), PS planning-prognose (resource scheduling), and Dxfferent master template (AT import best practice). Identified 5 missing import fields with safe defaults, recommended starting with native AT project templates (Option B), and mapped the full sales-to-project data flow.",
+  "sections": [
+    {
+      "heading": "Source Files",
+      "items": [
+        { "title": "Calculator & Presales Template REV9.34", "detail": "22-sheet sales calculator with pricing, BOM, cloud/MS/security config. No AT structure.", "meta": { "sheets": 22, "origin": "Cheops presales" } },
+        { "title": "PIA - T&M - Migratie BFL CSV", "detail": "Sample AT export: 3 phases, 13 tasks, 12 columns. Shows current import format.", "meta": { "phases": 3, "tasks": 13, "columns": 12 } },
+        { "title": "Dxfferent Master Template May 2026", "detail": "Best practice: 8 phases, 47 tasks, 20 AT import columns + notes.", "meta": { "phases": 8, "tasks": 47, "columns": 20 } }
+      ]
+    },
+    {
+      "heading": "Column Gaps",
+      "items": [
+        { "title": "5 missing required fields", "detail": "Task Start Time, Department, Priority, Status, Task Type -- all have safe defaults (08:00, Projects, Standaard, New, Fixed Work).", "meta": { "severity": "low" } },
+        { "title": "Resource mapping partial", "detail": "Cheops uses Resource(s) plural, master uses Primary Resource singular. Need to verify AT import behavior.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Recommendation",
+      "items": [
+        { "title": "Option B: Native AT templates", "detail": "3-5 project templates configured directly in Autotask. 4-8 hours effort. Immediate structure without changing sales process.", "meta": { "effort_hours": "4-8", "priority": "recommended" } },
+        { "title": "Total deliverable estimate", "detail": "10 hours for full package: adapted template, AT config, mapping doc, import guide, migration plan.", "meta": { "total_hours": 10 } }
+      ]
+    }
+  ],
+  "next_steps": "Discuss with Cheops which project types to template first (likely M365 migration and managed services onboarding). Then configure the AT project templates in their instance and run a pilot import. The planning-prognose replacement pitch ties directly to Proxuma value prop.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Extracted and analyzed all 3 source files",
+      "Mapped columns between Cheops CSV and master template",
+      "Identified 5 missing fields with safe defaults",
+      "Created 3-option recommendation with effort estimates",
+      "Organized files on M4 Air and synced to M1 Pro"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/cheops-autotask-import/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-30-cheops-autotask-import.html", "relevance": "this analysis" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Source files copied to ~/ClaudeCode/cheops-autotask-import/source-files/ on both M4 Air and M1 Pro"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial analysis"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended Option B (native AT templates) over Option A (Excel mapping) and Option C (API automation)",
+      "rejected_alternatives": ["Option A: still spreadsheet-based, band-aid", "Option C: requires stable Calculator format, too much upfront investment"],
+      "rationale": "AT templates give immediate structure without requiring Cheops to change their sales process. Option C is the eventual goal but needs buy-in first.",
+      "trade_offs": "Templates need manual creation per project type; doesn't automate the sales-to-project handoff yet",
+      "contingencies": [
+        { "if_X_then_Y": "If Cheops wants to automate the Calculator-to-AT flow, escalate to Option C with API integration", "probability": 0.4 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
