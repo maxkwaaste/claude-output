@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDR Claw Forge Security -- Codebase Validation</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 2, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-forge-security-validation.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">NeXum Engineering Research</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 2, 2026<br>Security Research<br>SDR Claw / Forge
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">CODEBASE VALIDATION</div>
+  <h1>SDR Claw Forge Security: Spec vs. Reality</h1>
+  <p class="subtitle">Three Opus 4.7 agents validated the Forge security proposals (token scoping, anonymization, email pipeline) against the actual nexum-backend codebase. This report captures what exists, what is missing, and what needs to change in the spec.</p>
+
+  <div class="confidential">INTERNAL -- NEXUM ENGINEERING ONLY</div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">16</div>
+      <div class="stat-label">Forge Controllers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">19</div>
+      <div class="stat-label">Service Modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">13</div>
+      <div class="stat-label">Middleware Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Spec Gaps Found</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: TOKEN SCOPING -->
+  <h2>1. Token Scoping: Infrastructure Exists, Just Disabled</h2>
+
+  <div class="callout">
+    <span class="callout-label">Key finding</span>
+    <strong>The research spec proposed building token scope middleware from scratch. In reality, the nexum-backend already has <code>HasScopedApiTokens</code> and <code>TokenScopeIntersect</code> middleware built and wired up.</strong> They run in dry-run mode (log only, no deny). Flipping one env var activates enforcement.
+  </div>
+
+  <h3>What Exists</h3>
+  <table class="matrix">
+    <tr><th>Component</th><th>Location</th><th>Status</th></tr>
+    <tr><td><strong>Laravel Sanctum v4.3</strong></td><td>composer.json</td><td>Installed, configured</td></tr>
+    <tr><td><strong>HasScopedApiTokens</strong></td><td>app/Concerns/HasScopedApiTokens.php</td><td>Wraps HasApiTokens, intersects abilities with Spatie permissions</td></tr>
+    <tr><td><strong>TokenScopeIntersect</strong></td><td>app/Http/Middleware/TokenScopeIntersect.php</td><td>Aliased as <code>token.scope</code>, dry-run mode</td></tr>
+    <tr><td><strong>RefreshSanctumToken</strong></td><td>app/Http/Middleware/RefreshSanctumToken.php</td><td>Sliding expiry: extends 12h if token &gt;4h old</td></tr>
+    <tr><td><strong>EnsureUserActive</strong></td><td>app/Http/Middleware/EnsureUserActive.php</td><td>Blocks inactive users, deletes token</td></tr>
+    <tr><td><strong>PermissionFormat</strong></td><td>app/Support/PermissionFormat.php</td><td>Ability expansion and intersection logic</td></tr>
+  </table>
+
+  <h3>What is Missing</h3>
+  <table class="matrix">
+    <tr><th>Item</th><th>Spec Proposed</th><th>Actual State</th><th>Work Needed</th></tr>
+    <tr><td><strong>IP allowlisting</strong></td><td><code>allowed_ips</code> column + middleware</td><td>No column exists</td><td>1 migration + 10 lines in TokenScopeIntersect</td></tr>
+    <tr><td><strong>Per-token rate limiting</strong></td><td>Custom RateLimiter keyed by token ID</td><td>Only route-level throttle (120/min for all)</td><td>~15 lines in RouteServiceProvider</td></tr>
+    <tr><td><strong>Token expiry awareness</strong></td><td>90-day expiry with auto-rotation</td><td><code>expires_at</code> column exists (Sanctum default), tokens issued with 12h expiry</td><td>Issue Claw token with 90-day expiry instead of 12h</td></tr>
+    <tr><td><strong>Scoped token issuance</strong></td><td>Specific abilities per token</td><td>All tokens issued with <code>['*']</code> wildcard</td><td>Issue Claw token with exact abilities</td></tr>
+  </table>
+
+  <h3>Revised Estimate</h3>
+  <p>The spec estimated 30 minutes for Joshua. With the existing infrastructure, the actual work is closer to <strong>15 minutes</strong>:</p>
+  <ol>
+    <li>Set <code>PLATFORM_TOKEN_SCOPE_INTERSECT_ENABLED=true</code> in .env</li>
+    <li>Add <code>allowed_ips</code> migration + 10 lines in TokenScopeIntersect</li>
+    <li>Add per-token rate limiter in RouteServiceProvider</li>
+    <li>Issue the SDR Claw token with exact abilities (the <code>createToken()</code> call from the spec works as-is)</li>
+  </ol>
+
+  <div class="callout">
+    <span class="callout-label">Warning</span>
+    Enabling <code>PLATFORM_TOKEN_SCOPE_INTERSECT_ENABLED</code> affects ALL tokens, not just the Claw's. Every existing user token currently has <code>['*']</code> abilities, so the intersection logic will work fine. But if any token was issued with limited abilities, they would suddenly be enforced. Test in staging first.
+  </div>
+
+  <!-- SECTION 2: ANONYMIZATION -->
+  <h2>2. Forge-Level Anonymization: Clean Slate, Good Fit</h2>
+
+  <div class="callout">
+    <span class="callout-label">Key finding</span>
+    <strong>No anonymization exists in the codebase.</strong> The only PII handling is <code>LoggableContextProcessor</code> which redacts 28 sensitive keys in log output. The Forge controllers return raw Eloquent models with no API Resource transformation layer.
+  </div>
+
+  <h3>Infrastructure Ready</h3>
+  <table class="matrix">
+    <tr><th>Dependency</th><th>Status</th><th>Evidence</th></tr>
+    <tr><td><strong>Redis</strong></td><td class="tag-independent" style="padding:10px 14px">Ready</td><td>Session, cache, queue all on Redis. Horizon running 4 supervisors. docker-compose has redis:alpine with health check.</td></tr>
+    <tr><td><strong>Service layer</strong></td><td class="tag-independent" style="padding:10px 14px">Ready</td><td>19 modules in app/Services/. Constructor injection with readonly promoted properties. app/Services/Forge/ exists with 1 service.</td></tr>
+    <tr><td><strong>Cache facade</strong></td><td class="tag-independent" style="padding:10px 14px">Ready</td><td>Cache::remember() used throughout for Graph tokens, rate limiting. Redis-backed.</td></tr>
+  </table>
+
+  <h3>Architecture Decision: Where to Hook Anonymization</h3>
+  <p>The spec proposed a <code>?view=safe</code> query parameter on existing endpoints. Three options for implementation:</p>
+
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Option A: Middleware</div>
+        <div class="card-buyer">Recommended</div>
+        <div class="card-desc">Intercept JSON responses for tokens with <code>read:safe</code> ability. Transform PII fields before the response leaves the controller. No controller changes needed. Works with raw Eloquent returns.</div>
+        <div class="tags"><span class="tag tag-independent">Low invasion</span><span class="tag tag-bundled">Token-aware</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Option B: API Resources</div>
+        <div class="card-buyer">Cleaner but bigger scope</div>
+        <div class="card-desc">Add Forge API Resource classes for all 16 controllers. Resources check token scope and conditionally redact. Better long-term, but touches every controller return statement.</div>
+        <div class="tags"><span class="tag tag-acquired">High invasion</span><span class="tag tag-bundled">Better DX</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p><strong>Recommendation: Option A (middleware).</strong> The Forge controllers already return raw Eloquent without API Resources. Adding a response-transforming middleware is non-invasive and can be scoped to tokens with <code>read:safe</code> ability only. Regular tokens see no change.</p>
+
+  <h3>Presidio Sidecar: Hybrid Approach Confirmed</h3>
+  <p>The spec proposed a hybrid: PHP for structured fields, Python Presidio for free-text (transcripts, notes). This is the right call. The codebase already has Python in the stack (PostHog sync), and the powerbi-claude-skills repo has a working Presidio implementation to reference.</p>
+
+  <!-- SECTION 3: EMAIL PIPELINE -->
+  <h2>3. Email Campaign Pipeline: Mostly Accurate, 3 Gaps</h2>
+
+  <h3>Endpoints Verified</h3>
+  <table class="matrix">
+    <tr><th>Spec Endpoint</th><th>Actual</th><th>Match</th></tr>
+    <tr><td>POST /api/forge/crm/email/templates</td><td>ForgeEmailController::storeTemplate()</td><td>Exact</td></tr>
+    <tr><td>POST /api/forge/crm/email/campaigns</td><td>ForgeEmailController::storeCampaign()</td><td>Exact</td></tr>
+    <tr><td>POST /campaigns/{id}/recipients</td><td>ForgeEmailController::addRecipients()</td><td>Exact (draft only)</td></tr>
+    <tr><td>GET /campaigns/{id}/preview</td><td>ForgeEmailController::previewCampaign()</td><td>Renders first 5 recipients</td></tr>
+    <tr><td>POST /campaigns/{id}/send</td><td>ForgeEmailController::sendCampaign()</td><td>Dispatches SendCampaignJob (async, queued)</td></tr>
+    <tr><td>GET /email/sender-mailboxes</td><td>ForgeEmailController::senderMailboxes()</td><td>Exact, returns active only</td></tr>
+    <tr><td>GET /email/contacts/segment</td><td>ForgeEmailController::segmentContacts()</td><td>Filters by classification, account, unsubscribed</td></tr>
+  </table>
+
+  <h3>MS Graph Authentication</h3>
+  <p><strong>App-only (client_credentials)</strong>, not delegated. Credentials stored in <code>canonical.platform_credentials</code> table (tenant_id, client_id, client_secret). Token cached 3500 seconds via <code>GraphApiClient</code>. Sends via <code>POST /users/{fromMailbox}/sendMail</code> with <code>saveToSentItems: true</code>.</p>
+  <p>After each send, signal links are created in <code>canonical.signal_entity_links</code> for timeline tracking. This means sent emails automatically appear in contact/company timelines.</p>
+
+  <h3>Template Variables: 9 Supported</h3>
+  <table class="matrix">
+    <tr><th>Variable</th><th>Source</th><th>In Spec?</th></tr>
+    <tr><td><code>{{contact.first_name}}</code></td><td>$contact->first_name</td><td>Yes</td></tr>
+    <tr><td><code>{{contact.last_name}}</code></td><td>$contact->last_name</td><td>Yes</td></tr>
+    <tr><td><code>{{contact.email}}</code></td><td>$contact->email</td><td>Yes</td></tr>
+    <tr><td><code>{{contact.full_name}}</code></td><td>$contact->full_name</td><td>Yes</td></tr>
+    <tr><td><code>{{contact.job_title}}</code></td><td>$contact->job_title</td><td>Yes</td></tr>
+    <tr><td><code>{{company.name}}</code></td><td>$company->canonical_name</td><td>Yes</td></tr>
+    <tr><td><code>{{company.domain}}</code></td><td>$company->domain</td><td>Yes</td></tr>
+    <tr><td><code>{{sender.name}}</code></td><td>$sender->display_name</td><td>Yes</td></tr>
+    <tr><td><code>{{sender.email}}</code></td><td>$sender->email</td><td>Yes</td></tr>
+  </table>
+  <p>The rendering is a simple <code>str_replace()</code> in <code>GraphMailSendService::renderTemplate()</code>. No enrichment fields are available as template variables.</p>
+
+  <h3>Unsubscribe Handling: Confirmed</h3>
+  <p>Campaign send skips contacts where <code>unsubscribed_at IS NOT NULL</code>. Verified in <code>GraphMailSendService::sendCampaign()</code>. Unsubscribe endpoint uses HMAC-SHA256 signed tokens. The <code>segmentContacts()</code> method also filters out unsubscribed contacts.</p>
+
+  <!-- SECTION 4: GAPS -->
+  <h2>4. Spec Gaps: What the Research Got Wrong</h2>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title">Gap 1: PostHog Tenant Matching Does Not Exist</div>
+    <div class="card-desc">The spec assumes <code>company.domain -> posthog tenant_slug</code> matching. In reality, there is <strong>no mapping table or mechanism</strong> between PostHog tenant slugs and CustomerRegistry records. The tenant_slug lives only in analytics views. A new join/mapping needs to be built, or the Claw must do fuzzy domain matching locally.</div>
+    <div class="tags"><span class="tag tag-low">Spec incorrect</span><span class="tag tag-acquired">Needs new code</span></div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title">Gap 2: Enrichment Fields Not in Template Variables</div>
+    <div class="card-desc">The spec references <code>pain_points</code>, <code>buying_signals</code>, <code>decision_authority</code> in email context. These fields exist in <code>forge.contact_enrichments</code> and <code>forge.company_enrichments</code>, but they are <strong>not available as template variables</strong>. The SDR Claw cannot use them in email personalization without extending <code>renderTemplate()</code>.</div>
+    <div class="tags"><span class="tag tag-acquired">Needs extension</span></div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title">Gap 3: Token Scope Middleware Already Built</div>
+    <div class="card-desc">The spec proposed building <code>EnforceTokenAbilities</code> middleware from scratch. The codebase already has <code>TokenScopeIntersect</code> with wildcard support and Spatie permission integration. The spec's PHP code should be replaced with config changes to the existing middleware.</div>
+    <div class="tags"><span class="tag tag-independent">Spec overcomplicated</span></div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title">Gap 4: Campaign Send is Async (Queued)</div>
+    <div class="card-desc">The spec implies synchronous send. In reality, <code>sendCampaign()</code> dispatches <code>SendCampaignJob</code> to a Redis queue (10-min timeout, 3 retries, 60s/300s backoff). The Claw gets a 202 back, not confirmation that all emails sent. The Claw needs to poll campaign status or subscribe to a webhook for completion.</div>
+    <div class="tags"><span class="tag tag-acquired">Spec incorrect</span></div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title">Gap 5: No Forge API Resources</div>
+    <div class="card-desc">The anonymization proposal assumed API Resource classes exist for transformation. All 16 Forge controllers return raw Eloquent models. Anonymization must use response middleware instead of resource-level transforms.</div>
+    <div class="tags"><span class="tag tag-acquired">Architecture mismatch</span></div>
+  </div>
+
+  <!-- SECTION 5: ENRICHMENT DETAIL -->
+  <h2>5. Contact & Company Enrichment: Full Field Map</h2>
+
+  <div class="two-col">
+    <div>
+      <h3>Contact Enrichment</h3>
+      <table class="matrix">
+        <tr><th>Field</th><th>Type</th></tr>
+        <tr><td>demo_reason</td><td>text</td></tr>
+        <tr><td>pain_points</td><td>text</td></tr>
+        <tr><td>buying_signals</td><td>text</td></tr>
+        <tr><td>decision_authority</td><td>enum</td></tr>
+        <tr><td>lifecycle_stage</td><td>enum</td></tr>
+        <tr><td>last_contact_method</td><td>string</td></tr>
+        <tr><td>job_title</td><td>string</td></tr>
+        <tr><td>city</td><td>string</td></tr>
+        <tr><td>linkedin_url</td><td>url</td></tr>
+        <tr><td>enriched_by</td><td>FK user</td></tr>
+        <tr><td>enriched_at</td><td>datetime</td></tr>
+      </table>
+    </div>
+    <div>
+      <h3>Company Enrichment</h3>
+      <table class="matrix">
+        <tr><th>Field</th><th>Type</th></tr>
+        <tr><td>seat_count</td><td>integer</td></tr>
+        <tr><td>product_tier</td><td>string</td></tr>
+        <tr><td>discovery_channel</td><td>string</td></tr>
+        <tr><td>msp_size</td><td>string</td></tr>
+        <tr><td>country</td><td>string</td></tr>
+        <tr><td>autotask_account_owner</td><td>string</td></tr>
+        <tr><td>notes</td><td>text</td></tr>
+        <tr><td>arr_value_eur</td><td>decimal</td></tr>
+        <tr><td>arr_value_source</td><td>string</td></tr>
+        <tr><td>linkedin_url</td><td>url</td></tr>
+        <tr><td>enriched_by / enriched_at</td><td>FK / datetime</td></tr>
+      </table>
+    </div>
+  </div>
+  <p>All enrichment is manual (human-driven, no automated enrichment jobs). The <code>enriched_by</code> FK to User confirms this. <code>segmentContacts()</code> uses <code>product_tier</code> and <code>msp_size</code> from company enrichments as filter criteria.</p>
+
+  <!-- SECTION 6: REVISED IMPLEMENTATION -->
+  <h2>6. Revised Implementation Plan for Joshua</h2>
+
+  <h3>Phase 1: Token Scoping (15 minutes)</h3>
+  <ol>
+    <li>Migration: add <code>allowed_ips</code> JSON column to personal_access_tokens</li>
+    <li>Add IP check to existing <code>TokenScopeIntersect</code> middleware (10 lines)</li>
+    <li>Add per-token rate limiter in RouteServiceProvider (15 lines)</li>
+    <li>Set <code>PLATFORM_TOKEN_SCOPE_INTERSECT_ENABLED=true</code> in staging, test</li>
+    <li>Issue Claw token: <code>$user->createToken('sdr-claw', [...exact abilities...], now()->addDays(90))</code></li>
+  </ol>
+
+  <h3>Phase 2: Anonymization Middleware (2 days)</h3>
+  <ol>
+    <li><strong>Day 1:</strong> <code>ForgeAnonymizationMiddleware</code> that intercepts JSON responses for tokens with <code>read:safe</code> ability. Field-level rules for structured data (financials, email, phone). Redis session map with 24h TTL.</li>
+    <li><strong>Day 2:</strong> Presidio sidecar for free-text fields (transcripts, notes). Deanonymization in <code>GraphMailSendService::sendSingle()</code> before template rendering. Testing, edge cases.</li>
+  </ol>
+
+  <h3>Phase 3: Pipeline Extensions (1 day)</h3>
+  <ol>
+    <li>PostHog tenant-to-company mapping table or view</li>
+    <li>Extend <code>renderTemplate()</code> with enrichment variables</li>
+    <li>Add campaign completion webhook/status polling endpoint for async send tracking</li>
+  </ol>
+
+  <!-- BOTTOM LINE -->
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>The original spec overestimated the middleware work (it already exists) and underestimated the anonymization complexity (no API Resources to hook into). Token scoping is a config change + one migration. Anonymization is a response middleware pattern, not a controller-level transform. The biggest missing piece is PostHog tenant matching, which is not a security concern but blocks the upsell email category entirely. Total revised estimate: 3 days for Joshua instead of 3.5 days.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>SDR Claw Forge Security Validation / 3 Opus 4.7 Agents / nexum-backend repo</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "SDR Claw Forge Security: Spec vs. Reality",
+  "date": "2026-05-02",
+  "summary": "Validated Forge security proposals (token scoping, anonymization, email pipeline) against nexum-backend. Token scope middleware already exists but disabled. No anonymization in codebase. 5 spec gaps found.",
+  "sections": [
+    {
+      "heading": "Token Scoping",
+      "items": [
+        { "title": "HasScopedApiTokens + TokenScopeIntersect exist", "detail": "Built, aliased as token.scope, dry-run mode. Flip PLATFORM_TOKEN_SCOPE_INTERSECT_ENABLED=true to activate.", "meta": { "status": "exists_disabled" } },
+        { "title": "No allowed_ips column", "detail": "Needs 1 migration + 10 lines in existing middleware.", "meta": { "status": "missing" } },
+        { "title": "No per-token rate limiting", "detail": "All throttling is route-level 120/min. Need custom RateLimiter keyed by token ID.", "meta": { "status": "missing" } },
+        { "title": "All tokens issued with ['*']", "detail": "AuthService::issueToken() uses wildcard. Claw needs specific abilities.", "meta": { "status": "needs_change" } }
+      ]
+    },
+    {
+      "heading": "Anonymization Architecture",
+      "items": [
+        { "title": "Redis fully configured", "detail": "Session, cache, queue, Horizon all on Redis. Pseudonym maps with 24h TTL work out of the box.", "meta": { "status": "ready" } },
+        { "title": "Service layer pattern exists", "detail": "19 modules in app/Services/. Constructor injection with readonly promoted properties. ForgeAnonymizationService fits in app/Services/Forge/.", "meta": { "status": "ready" } },
+        { "title": "No API Resources on Forge controllers", "detail": "All 16 controllers return raw Eloquent. Anonymization needs response middleware, not resource transforms.", "meta": { "status": "architecture_constraint" } },
+        { "title": "No existing anonymization", "detail": "Only LoggableContextProcessor for log redaction (28 keys). Clean slate for new service.", "meta": { "status": "clean_slate" } }
+      ]
+    },
+    {
+      "heading": "Email Campaign Pipeline",
+      "items": [
+        { "title": "All endpoints verified", "detail": "Templates, campaigns, recipients, preview, send, sender-mailboxes, segment all exist as spec described.", "meta": { "status": "verified" } },
+        { "title": "MS Graph app-only auth", "detail": "client_credentials flow, credentials in platform_credentials table, token cached 3500s.", "meta": { "status": "verified" } },
+        { "title": "9 template variables confirmed", "detail": "contact.first_name/last_name/email/full_name/job_title, company.name/domain, sender.name/email. No enrichment vars.", "meta": { "status": "partial" } },
+        { "title": "Unsubscribe filtering confirmed", "detail": "sendCampaign() skips contacts with unsubscribed_at set. HMAC-SHA256 tokens.", "meta": { "status": "verified" } },
+        { "title": "Send is async (queued)", "detail": "SendCampaignJob dispatched to Redis queue, 10min timeout, 3 retries. Claw gets 202, not completion.", "meta": { "status": "spec_gap" } }
+      ]
+    },
+    {
+      "heading": "Spec Gaps",
+      "items": [
+        { "title": "PostHog tenant matching does not exist", "detail": "No mapping between PostHog tenant_slug and CustomerRegistry. Needs new join/mapping.", "meta": { "severity": "high" } },
+        { "title": "Enrichment fields not in template variables", "detail": "pain_points, buying_signals etc exist in DB but not available in renderTemplate().", "meta": { "severity": "medium" } },
+        { "title": "Token scope middleware already built", "detail": "Spec proposed building from scratch. Existing TokenScopeIntersect covers the use case.", "meta": { "severity": "low_positive" } },
+        { "title": "Campaign send is async", "detail": "Spec implies sync. Claw needs to poll or use webhook for completion.", "meta": { "severity": "medium" } },
+        { "title": "No API Resources for anonymization hook", "detail": "Need middleware pattern instead of resource transforms.", "meta": { "severity": "medium" } }
+      ]
+    }
+  ],
+  "next_steps": "Update the original spec (00-original-spec.md) with these findings. Key changes: remove custom middleware code (use existing TokenScopeIntersect), switch anonymization to response middleware pattern, add PostHog tenant mapping as a new Phase 1 prerequisite, note async campaign send in the review UX flow. Then brief Joshua on the revised 3-day plan.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Copied 4 research docs from M1 Pro",
+      "Spawned 3 Opus 4.7 agents against nexum-backend repo",
+      "Agent 1: validated anonymization architecture (Redis, services, controllers, email sending, PII handling)",
+      "Agent 2: validated Sanctum token scoping (HasScopedApiTokens, TokenScopeIntersect, rate limiting, routes)",
+      "Agent 3: mapped email campaign pipeline (endpoints, Graph auth, templates, unsubscribe, PostHog, enrichment)",
+      "Compiled consolidated validation report with 5 spec gaps"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new report HTML, not yet pushed",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-forge-security-validation.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Research source files at ~/ClaudeCode/sdr-claw/docs/research-forge-security/ (copied from M1 Pro)"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "output-page skill"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommend response middleware for anonymization instead of API Resources",
+      "rejected_alternatives": ["Adding API Resource classes to all 16 Forge controllers", "In-controller transforms"],
+      "rationale": "All Forge controllers return raw Eloquent. Adding API Resources would touch every return statement in 16 controllers. Middleware is non-invasive and can be scoped to tokens with read:safe ability.",
+      "trade_offs": "Middleware is less explicit than Resources. Future devs might not realize responses are being transformed. Mitigate with clear naming and documentation.",
+      "contingencies": [
+        { "if_X_then_Y": "If Forge moves to API Resources in a future refactor, migrate anonymization from middleware to resource layer", "probability": 0.3 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

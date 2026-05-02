@@ -633,6 +633,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-05-02-sdr-claw-forge-security-validation.html",
+    "title": "SDR Claw Forge Security: Spec vs. Reality",
+    "date": "2026-05-02",
+    "summary": "Validated Forge security proposals against nexum-backend codebase. Token scope middleware exists but disabled. 5 spec gaps found. Revised 3-day plan for Joshua.",
+    "tags": ["SDR Claw", "Forge", "Security", "NeXum", "Sanctum"],
+    "type": "evaluation",
+    "detail": "Three Opus 4.7 agents examined the nexum-backend repo to validate token scoping, anonymization architecture, and email pipeline proposals. Found HasScopedApiTokens and TokenScopeIntersect already built (dry-run mode). No anonymization or API Resources exist. PostHog tenant mapping missing entirely. Campaign send is async (queued), not sync as spec assumed."
+  },
+  {
     "file": "2026-05-02-sdr-claw-25-email-spec.html",
     "title": "SDR Claw: 25 Daily Emails Architecture Spec",
     "date": "2026-05-02",
