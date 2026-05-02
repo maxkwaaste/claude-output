@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Dxfferent — Proposal for Handled IT Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'PPMonument';
+  src: url('https://dxfferent.com/wp-content/themes/interly-child/fonts/PPMonumentExtended-Black.woff2') format('woff2'),
+       url('https://dxfferent.com/wp-content/themes/interly-child/fonts/PPMonumentExtended-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --frame: #0f0f0f;
+  --alt: #141414;
+  --accent: #ED4C35;
+  --success: #49C481;
+  --gold: #c8a040;
+  --card-light: #f8f7f5;
+  --text: #e0e0e0;
+  --text-dim: #888;
+  --text-dark: #1a1a1a;
+  --border: #222;
+  --mono: 'IBM Plex Mono', monospace;
+  --body: 'DM Sans', sans-serif;
+  --display: 'PPMonument', 'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Document Frame */
+.document-frame {
+  max-width: 900px;
+  margin: 40px auto;
+  background: var(--frame);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Bands */
+.band { padding: 64px 56px; }
+.band-alt { background: var(--alt); }
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 56px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.header-logo img { height: 28px; display: block; }
+.header-ref {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+/* Typography */
+h2 {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+h3 {
+  font-family: var(--body);
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.mono-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+p { margin-bottom: 16px; color: var(--text); }
+p:last-child { margin-bottom: 0; }
+
+/* Hero */
+.hero h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+/* Cover Letter */
+.cover-letter p { font-size: 15px; }
+.cover-letter .salutation {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.bullet-list li {
+  padding: 10px 0 10px 24px;
+  position: relative;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.bullet-list li:last-child { border-bottom: none; }
+.bullet-list li::before {
+  content: '\2014';
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+.sign-off {
+  margin-top: 28px;
+  font-style: italic;
+  color: var(--text-dim);
+}
+.sign-off strong {
+  display: block;
+  font-style: normal;
+  color: #fff;
+  margin-top: 4px;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.stat-card {
+  background: var(--alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.stat-number {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* Challenge Cards Grid */
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.challenge-card {
+  background: var(--card-light);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 28px 24px;
+  color: var(--text-dark);
+}
+.challenge-card h3 {
+  color: var(--text-dark);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.challenge-card p {
+  color: #444;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Approach Steps */
+.approach-steps { display: flex; flex-direction: column; gap: 24px; }
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.step-num {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  padding-top: 4px;
+}
+.step-title {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge-done {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--success);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.step-body p { font-size: 15px; color: var(--text-dim); margin: 0; }
+
+/* Sprint Roadmap Table */
+.roadmap-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+.roadmap-table th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.roadmap-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+}
+.roadmap-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+.roadmap-table .sprint-label {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.roadmap-table .focus-label { font-weight: 600; color: #fff; }
+
+.callout-box {
+  background: rgba(237, 76, 53, 0.06);
+  border: 1px solid rgba(237, 76, 53, 0.25);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 28px 24px;
+}
+.callout-box strong { color: #fff; }
+.callout-box p { font-size: 15px; margin: 0; }
+
+/* Pricing */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.pricing-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 36px 28px;
+  position: relative;
+  background: var(--alt);
+  display: flex;
+  flex-direction: column;
+}
+.pricing-card.recommended {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+.pricing-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: var(--gold);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 3px;
+}
+.pricing-name {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.pricing-tagline {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+}
+.pricing-amount {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.pricing-period {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+}
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 28px;
+  flex: 1;
+}
+.pricing-features li {
+  padding: 8px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: start;
+  gap: 10px;
+}
+.pricing-features li::before {
+  content: '\2713';
+  color: var(--success);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.pricing-features .upgrade-divider {
+  padding: 12px 0 8px;
+  margin-top: 4px;
+  border-top: 1px solid rgba(200,160,64,0.3);
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  display: block;
+}
+.pricing-features .upgrade-divider::before {
+  content: none;
+}
+.pricing-features .upgrade-item {
+  color: #fff;
+  font-weight: 500;
+}
+.pricing-features .upgrade-item::before {
+  content: '\2713';
+  color: var(--gold);
+}
+.btn-select {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-filled {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-filled:hover { background: #d9432d; }
+
+.onetime-box {
+  background: var(--alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px 24px;
+  margin-bottom: 20px;
+}
+.onetime-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 15px;
+}
+.onetime-row.discount { color: var(--success); }
+.onetime-row.total {
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  padding-top: 16px;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+}
+.validity {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* Q&A */
+.qa-list { display: flex; flex-direction: column; gap: 28px; }
+.qa-item {}
+.qa-q {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+.qa-a { font-size: 15px; color: var(--text-dim); margin: 0; }
+
+/* Terms */
+.terms-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px 28px;
+}
+.terms-box h2 { font-size: 20px; margin-bottom: 24px; }
+.terms-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: term;
+}
+.terms-list li {
+  padding: 10px 0;
+  font-size: 13px;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  line-height: 1.6;
+}
+.terms-list li:last-child { border-bottom: none; }
+
+/* Footer */
+.footer {
+  padding: 20px 56px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+}
+
+/* ---- PAGE 2 ---- */
+.back-link {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+
+/* Page 2 step banner */
+.step-banner {
+  background: var(--accent);
+  padding: 14px 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.step-banner-title {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.step-banner-steps {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.04em;
+}
+.step-banner-steps .current { color: #fff; font-weight: 600; }
+@media (max-width: 700px) {
+  .step-banner { padding: 12px 24px; flex-direction: column; gap: 4px; text-align: center; }
+}
+
+.selection-card {
+  background: var(--alt);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  padding: 32px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.selection-service {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+}
+.selection-price {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.philosophy-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+.philosophy-list li {
+  padding: 10px 0 10px 24px;
+  position: relative;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.philosophy-list li:last-child { border-bottom: none; }
+.philosophy-list li::before {
+  content: '\2014';
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+.included-list {
+  list-style: none;
+  padding: 0;
+}
+.included-list li {
+  padding: 12px 0;
+  font-size: 15px;
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.included-list li:last-child { border-bottom: none; }
+.included-list li::before {
+  content: '\2713';
+  color: var(--success);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 16px;
+  margin-top: 1px;
+}
+
+.sprint-recap {
+  list-style: none;
+  padding: 0;
+  counter-reset: sprint;
+}
+.sprint-recap li {
+  counter-increment: sprint;
+  padding: 12px 0 12px 40px;
+  position: relative;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sprint-recap li:last-child { border-bottom: none; }
+.sprint-recap li::before {
+  content: counter(sprint) '.';
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+}
+
+/* Acceptance Form */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.form-group input[type="text"],
+.form-group input[type="email"] {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: #fff;
+  font-family: var(--body);
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.form-group input::placeholder { color: #555; }
+
+.checkbox-group {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  margin: 28px 0;
+}
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.checkbox-group label {
+  font-size: 14px;
+  color: var(--text-dim);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  cursor: not-allowed;
+  transition: all 0.2s;
+  background: #333;
+  color: #666;
+}
+.btn-submit.enabled {
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.btn-submit.enabled:hover { background: #d9432d; }
+.form-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 16px;
+}
+
+/* Signature Block */
+.signature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+.sig-col h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.sig-field {
+  margin-bottom: 20px;
+}
+.sig-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.sig-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  padding-bottom: 4px;
+  min-height: 28px;
+}
+.sig-blank {
+  border-bottom: 1px solid var(--border);
+  min-height: 28px;
+}
+
+/* Success state */
+.success-message {
+  text-align: center;
+  padding: 48px 24px;
+}
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--success);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #fff;
+}
+.success-message h2 {
+  font-family: var(--display);
+  color: #fff;
+  margin-bottom: 16px;
+}
+.success-message p {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Hidden state */
+.hidden { display: none !important; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .document-frame { margin: 0; border: none; border-radius: 0; }
+  .band { padding: 40px 24px; }
+  .header { padding: 16px 24px; }
+  .footer { padding: 16px 24px; }
+  h2 { font-size: 22px; }
+  .hero h2 { font-size: 26px; }
+  .stats-row { grid-template-columns: 1fr; }
+  .challenge-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .signature-grid { grid-template-columns: 1fr; gap: 32px; }
+  .selection-card { flex-direction: column; text-align: center; }
+  .step { grid-template-columns: 40px 1fr; gap: 12px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .roadmap-table { font-size: 12px; }
+  .roadmap-table th, .roadmap-table td { padding: 10px 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1: THE QUOTE ==================== -->
+<div id="page-quote">
+<div class="document-frame">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+    </div>
+    <div class="header-ref">REF 2026-042 &middot; 2026-04-29 &middot; NET 30</div>
+  </div>
+
+  <!-- Band 1: Hero -->
+  <div class="band hero">
+    <div class="mono-label">Prepared For</div>
+    <h2>Handled IT Partners</h2>
+    <p class="hero-sub">A structured program to take your Autotask environment from reactive ticketing to a proactive service engine.</p>
+  </div>
+
+  <!-- Band 2: Cover Letter -->
+  <div class="band band-alt cover-letter">
+    <p class="salutation">Dear Andrew,</p>
+    <p>Thank you for the open conversation during our discovery session. We understand Handled IT Partners is at a turning point: a recent migration from ConnectWise, a growing team, and the need to build a service operation that runs on structure instead of guesswork. Our model is results-driven: a fixed monthly fee, no billable hours, no surprises. We work alongside you and your key stakeholders until the system works the way it should.</p>
+    <ul class="bullet-list">
+      <li>We work based on bi-weekly sprints.</li>
+      <li>In addition to our bi-weekly sessions, we are available for all relevant questions over Teams chat.</li>
+      <li>We have a shared responsibility, we will both have homework in between sessions. We do not implement customer-specific data.</li>
+      <li>We are a sparring partner for all MSP-related topics.</li>
+      <li>For Guide as a Service (GaaS): for the monthly price, our initial term is 3 months. Thereafter the contract is automatically renewed at a monthly commitment until written cancellation, with a one-month notice period.</li>
+      <li>We can normally start within one month after quote approval.</li>
+      <li>We have included best-practice MSP process mapping and optimization with a 50% discount.</li>
+    </ul>
+    <p>If there are any questions or concerns, please don't hesitate to contact us.</p>
+    <p class="sign-off">Kind regards,<strong>Max de Kwaasteniet</strong></p>
+  </div>
+
+  <!-- Band 3: Stats -->
+  <div class="band">
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-number">150+</span>
+        <span class="stat-label">MSP Implementations</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">2-WEEK</span>
+        <span class="stat-label">Sprint Cadence</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">3-PHASE</span>
+        <span class="stat-label">Programme</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 4: Discovery Findings -->
+  <div class="band band-alt">
+    <h2>Based on Our Discovery Session</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:20px">During our conversation we identified several areas where Dxfferent can help Handled IT Partners move forward. These are common challenges we see in MSPs at your stage of growth.</p>
+    <div class="challenge-grid">
+      <div class="challenge-card">
+        <h3>Ticket Processes</h3>
+        <p>Standardizing how tickets flow through the system, from intake to resolution.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>SLAs &amp; Contracts</h3>
+        <p>Configuring service level agreements and contract structures that reflect your business.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>Billing &amp; Invoicing</h3>
+        <p>Getting your Autotask configuration right so billing data flows correctly to your accounting system.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>KPIs &amp; Dashboards</h3>
+        <p>Defining the right metrics per role and making them visible in dashboards.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>Monitoring &amp; Alerts</h3>
+        <p>Reducing noise and ensuring alerts result in actionable, properly prioritized tickets.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>Process Documentation</h3>
+        <p>Building clear process flows so your team has a reference for how to handle each situation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 5: Our Approach -->
+  <div class="band">
+    <h2>Our Approach</h2>
+    <div class="approach-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <div class="step-title">Intake <span class="badge-done">Done</span></div>
+          <p>We started with a discovery session on your current way of working and how Autotask is set up. Based on that intake we have a good understanding of your current situation.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <div class="step-title">Kick-off</div>
+          <p>Once the quote is approved, we will host a kick-off with the project team. We go into the goals, project plan, first actions and will finalize the way we work together.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <div class="step-title">Execution</div>
+          <p>We work in sprints of 2 weeks. For each sprint we define the correct actions and who is responsible. Every sprint we review and course-correct.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <div class="step-title">Go-live</div>
+          <p>We decide on the go-live date together. Before go-live we double check everything. Dxfferent can provide custom training for your employees in one or two sessions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <div class="step-title">Optimize</div>
+          <p>If you are still happy with our services we can continue and touch all parts of your MSP: data-driven decision making, GRC, portfolio, automation, positioning, scalability.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 6: Sprint Roadmap -->
+  <div class="band band-alt">
+    <h2>Programme</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:20px">We work in a phased approach. The exact scope and timeline will be determined together during kick-off with our lead consultant. How fast we move depends on your team's capacity and how large you want the scope to be.</p>
+    <table class="roadmap-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Focus</th>
+          <th>What We Cover</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sprint-label">Phase 1</td>
+          <td class="focus-label">Foundation</td>
+          <td>The foundation for your billing, processes, and how that translates into Autotask. This covers your ticket processes and how they are configured, including SLA and contract setup. We start with the service offering (menu) and the critical processes, then work through all related topics within our programme.</td>
+        </tr>
+        <tr>
+          <td class="sprint-label">Phase 2</td>
+          <td class="focus-label">Dashboards &amp; Training</td>
+          <td>What we built in Phase 1, we translate into dashboards for your team. Role-specific views for technicians, service managers, and leadership. We help with training to get everyone on board with the new way of working.</td>
+        </tr>
+        <tr>
+          <td class="sprint-label">Phase 3</td>
+          <td class="focus-label">Continuous Improvement</td>
+          <td>Based on what we built in the previous phases, we continue to optimize and expand. This could include project management, a BI module, additional integrations, advanced automations, or any other area where your MSP can grow.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout-box">
+      <p><strong>Note:</strong> This is a collaboration. We guide, you implement. The pace depends on your team and the scope you want to cover. We determine this together during kick-off. Our goal is a lasting transformation, not a checkbox exercise.</p>
+    </div>
+  </div>
+
+  <!-- Band 7: Pricing -->
+  <div class="band">
+    <h2>Select Your Service</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card" id="card-gaas">
+        <div class="pricing-name">Guide as a Service</div>
+        <div class="pricing-tagline">You implement, we guide. Bi-weekly.</div>
+        <div class="pricing-amount">$2,500</div>
+        <div class="pricing-period">per month</div>
+        <ul class="pricing-features">
+          <li>Bi-weekly strategy sessions (approx. 2 hours)</li>
+          <li>Unlimited Teams chat support</li>
+          <li>Sprint-based delivery with clear deliverables</li>
+          <li>Access to framework from 150+ implementations</li>
+        </ul>
+        <button class="btn-select btn-outline" onclick="selectService('gaas')">Select &amp; Continue</button>
+      </div>
+      <div class="pricing-card recommended" id="card-baas">
+        <div class="pricing-badge">Recommended</div>
+        <div class="pricing-name">Buddy as a Service</div>
+        <div class="pricing-tagline">Everything in GaaS, plus we work alongside you.</div>
+        <div class="pricing-amount">$5,000</div>
+        <div class="pricing-period">per month</div>
+        <ul class="pricing-features">
+          <li>Bi-weekly strategy sessions (approx. 2 hours)</li>
+          <li>Unlimited Teams chat support</li>
+          <li>Sprint-based delivery with clear deliverables</li>
+          <li>Access to framework from 150+ implementations</li>
+          <li class="upgrade-divider">Buddy extras included</li>
+          <li class="upgrade-item">Upgraded to weekly meetings</li>
+          <li class="upgrade-item">Priority Teams support (faster response)</li>
+          <li class="upgrade-item">Consultant takes on more of the implementation work</li>
+          <li class="upgrade-item">Accelerated sprint delivery across all phases</li>
+        </ul>
+        <button class="btn-select btn-filled" onclick="selectService('baas')">Select &amp; Continue</button>
+      </div>
+    </div>
+    <div class="onetime-box">
+      <div class="onetime-row">
+        <span>Startup + Process Mapping</span>
+        <span>$6,000</span>
+      </div>
+      <div class="onetime-row discount">
+        <span>Discount (50%)</span>
+        <span>-$3,000</span>
+      </div>
+      <div class="onetime-row total">
+        <span>One-time fee</span>
+        <span>$3,000</span>
+      </div>
+    </div>
+    <p class="validity">Valid 30 days from April 29, 2026.</p>
+  </div>
+
+  <!-- Band 8: Q&A -->
+  <div class="band band-alt">
+    <h2>Questions &amp; Answers</h2>
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q">What if we need to move faster?</div>
+        <p class="qa-a">Buddy as a Service gives you weekly meetings and hands-on implementation. You can start with Guide as a Service and upgrade at any time.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Do you implement customer-specific data?</div>
+        <p class="qa-a">No. We do not implement customer-specific data. We guide and advise, you and your team handle the implementation. This ensures you own the knowledge.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">What happens after 3 months?</div>
+        <p class="qa-a">The contract continues monthly. Cancel with one month's written notice.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">How quickly can we start?</div>
+        <p class="qa-a">Within two weeks of approval. Kick-off first, Sprint 1 right after.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Can we add Power BI later?</div>
+        <p class="qa-a">Yes. $300/month add-on, best after Sprint 4.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 9: Terms -->
+  <div class="band">
+    <div class="terms-box">
+      <h2>Terms &amp; Conditions</h2>
+      <ul class="terms-list">
+        <li>This proposal is issued by Dxfferent B.V., Bataviastraat 5, 3531 XA Utrecht, The Netherlands (KVK 77524950, VAT NL861034843B01).</li>
+        <li>The initial term is 3 months from the kick-off date. After the initial term, the contract renews monthly until written cancellation with a one-month notice period.</li>
+        <li>The one-time startup fee of $3,000 (after discount) is invoiced upon approval.</li>
+        <li>Monthly fees are invoiced at the start of each month. Payment is due within 14 days. Late payment incurs statutory interest and collection costs.</li>
+        <li>All prices are in US Dollars and exclude VAT and applicable taxes. Travel costs and third-party expenses are excluded.</li>
+        <li>Dxfferent does not implement customer-specific data. The client is responsible for providing timely, complete, and accurate information.</li>
+        <li>Intellectual property of all deliverables remains with Dxfferent B.V. Reproduction is prohibited without written consent.</li>
+        <li>Complaints must be submitted within 15 working days. Complaints do not suspend payment obligations.</li>
+        <li>The full <a href="https://dxfferent.com/terms-and-conditions/" target="_blank" style="color:var(--accent)">Dxfferent General Terms and Conditions (v1.2)</a> apply to this engagement. By accepting this proposal, you agree to those terms.</li>
+        <li>Dutch law applies. Disputes are heard in the jurisdiction of Dxfferent B.V.'s registered office.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; VAT NL861034843B01 &nbsp;|&nbsp; IBAN NL67RABO0352104678
+  </div>
+
+</div>
+</div>
+
+<!-- ==================== PAGE 2: CONFIRMATION ==================== -->
+<div id="page-confirm" class="hidden">
+<div class="document-frame">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+    </div>
+    <a class="back-link" onclick="goBack()">&larr; Back to proposal</a>
+  </div>
+
+  <!-- Step Banner -->
+  <div class="step-banner">
+    <div class="step-banner-title">Step 2: Review &amp; Accept</div>
+    <div class="step-banner-steps">Proposal <span class="current">&rarr; Confirmation &rarr; Accept</span></div>
+  </div>
+
+  <!-- Band 1: Selection Summary -->
+  <div class="band">
+    <div class="selection-card">
+      <div>
+        <div class="mono-label">Your Selection</div>
+        <div class="selection-service" id="confirm-service-name">Guide as a Service</div>
+      </div>
+      <div class="selection-price" id="confirm-service-price">$2,500/month</div>
+    </div>
+  </div>
+
+  <!-- Band 2: This is Dxfferent -->
+  <div class="band band-alt">
+    <h2>This is Dxfferent</h2>
+    <p>Dxfferent is a consulting firm built by and for Managed Service Providers. We have worked with over 150 MSPs across Europe, North America, and Australia. Our consultants have lived the MSP life: running service desks, managing escalations, configuring PSA tools, and building the reports that drive daily standups. That hands-on experience is what separates advice from results.</p>
+    <ul class="philosophy-list">
+      <li>We charge a fixed monthly fee. No hourly billing, no scope creep surprises.</li>
+      <li>We work in sprints. Every two weeks there is a clear deliverable and a review.</li>
+      <li>We do not touch customer-specific data. Your team owns the knowledge.</li>
+      <li>We are a sparring partner, not a vendor. Autotask, contracts, hiring, positioning: ask us anything MSP.</li>
+      <li>We stay as long as we add value. After the initial term, cancel anytime with 30 days' notice.</li>
+    </ul>
+  </div>
+
+  <!-- Band 3: What is Included -->
+  <div class="band">
+    <h2>What is Included</h2>
+    <ul class="included-list" id="included-features">
+      <!-- Populated by JS -->
+    </ul>
+  </div>
+
+  <!-- Band 4: Process Mapping -->
+  <div class="band band-alt">
+    <h2>Process Mapping (Included)</h2>
+    <p>Included with your 3-month commitment: to maintain quality standards, you need to map out all the processes within your organization. We made a fully clickable process drawing of all mandatory procedures for ISO so that employees have clarity and auditors think: "They know what they're doing." We modify all processes in your business management software. All of our experience and best practices are included. If there are processes missing we will make them for you for free.</p>
+  </div>
+
+  <!-- Band 5: Sprint Roadmap Recap -->
+  <div class="band">
+    <h2>Sprint Roadmap</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px">Exact scope and timeline determined together during kick-off.</p>
+    <ol class="sprint-recap">
+      <li>Phase 1 - Foundation: Billing, processes, and Autotask configuration. Ticket processes, SLA and contract setup</li>
+      <li>Phase 2 - Dashboards &amp; Training: Translating Phase 1 into dashboards, team training</li>
+      <li>Phase 3 - Continuous Improvement: Optimization and expansion based on what was built</li>
+    </ol>
+  </div>
+
+  <!-- Band 6: Investment Summary -->
+  <div class="band band-alt">
+    <h2>Investment Summary</h2>
+    <div class="onetime-box">
+      <div class="onetime-row">
+        <span>Startup + Process Mapping</span>
+        <span>$6,000</span>
+      </div>
+      <div class="onetime-row discount">
+        <span>Discount (50%)</span>
+        <span>-$3,000</span>
+      </div>
+      <div class="onetime-row total">
+        <span>One-time fee</span>
+        <span>$3,000</span>
+      </div>
+    </div>
+    <div class="onetime-box" style="margin-top: 16px;">
+      <div class="onetime-row total" style="border: none; margin: 0; padding: 8px 0;">
+        <span>Monthly fee</span>
+        <span id="confirm-monthly-amount">$2,500/month</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 7: Terms -->
+  <div class="band">
+    <div class="terms-box">
+      <h2>Terms &amp; Conditions</h2>
+      <ul class="terms-list">
+        <li>This proposal is issued by Dxfferent B.V., Bataviastraat 5, 3531 XA Utrecht, The Netherlands (KVK 77524950, VAT NL861034843B01).</li>
+        <li>The initial term is 3 months from the kick-off date. After the initial term, the contract renews monthly until written cancellation with a one-month notice period.</li>
+        <li>The one-time startup fee of $3,000 (after discount) is invoiced upon approval.</li>
+        <li>Monthly fees are invoiced at the start of each month. Payment is due within 14 days. Late payment incurs statutory interest and collection costs.</li>
+        <li>All prices are in US Dollars and exclude VAT and applicable taxes. Travel costs and third-party expenses are excluded.</li>
+        <li>Dxfferent does not implement customer-specific data. The client is responsible for providing timely, complete, and accurate information.</li>
+        <li>Intellectual property of all deliverables remains with Dxfferent B.V. Reproduction is prohibited without written consent.</li>
+        <li>Complaints must be submitted within 15 working days. Complaints do not suspend payment obligations.</li>
+        <li>The full <a href="https://dxfferent.com/terms-and-conditions/" target="_blank" style="color:var(--accent)">Dxfferent General Terms and Conditions (v1.2)</a> apply to this engagement. By accepting this proposal, you agree to those terms.</li>
+        <li>Dutch law applies. Disputes are heard in the jurisdiction of Dxfferent B.V.'s registered office.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Band 8: Acceptance -->
+  <div class="band band-alt">
+
+    <!-- Form -->
+    <div id="acceptance-form-wrapper">
+      <h2>Accept This Proposal</h2>
+      <form id="acceptance-form" action="https://formsubmit.co/max@proxuma.com" method="POST">
+        <!-- Hidden fields -->
+        <input type="hidden" name="_subject" value="Proposal Accepted - Handled IT Partners">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" id="form-next" value="">
+        <input type="hidden" name="selected_service" id="hidden-service" value="">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="f-name">Full Name</label>
+            <input type="text" id="f-name" name="name" placeholder="Andrew Kedjierski" required>
+          </div>
+          <div class="form-group">
+            <label for="f-title">Title</label>
+            <input type="text" id="f-title" name="title" placeholder="Director of Service Delivery">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="f-email">Email</label>
+            <input type="email" id="f-email" name="email" placeholder="akedjierski@handled.tech" required>
+          </div>
+          <div class="form-group">
+            <label for="f-invoice">Invoice Email</label>
+            <input type="email" id="f-invoice" name="invoice_email" placeholder="billing email address">
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="accept-check" required>
+          <label for="accept-check">I accept this proposal on behalf of Handled IT Partners under the terms and conditions listed above.</label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-accept" disabled>Accept Proposal</button>
+        <p class="form-note">Your acceptance confirmation will be sent to max@proxuma.com</p>
+      </form>
+    </div>
+
+    <!-- Success (hidden by default) -->
+    <div id="acceptance-success" class="hidden">
+      <div class="success-message">
+        <div class="success-icon">&#10003;</div>
+        <h2>Proposal Accepted</h2>
+        <p>Thank you! Max will be in touch to schedule the kick-off meeting. We look forward to working with Handled IT Partners.</p>
+        <button onclick="downloadConfirmation()" style="margin-top:24px;padding:14px 28px;background:var(--accent);color:#fff;border:none;border-radius:4px;font-family:var(--mono);font-size:13px;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em">Download Signed Confirmation (PDF)</button>
+      </div>
+    </div>
+
+    <!-- Signature Block -->
+    <div style="margin-top: 48px;">
+      <h2>Approval</h2>
+      <div class="signature-grid">
+        <div class="sig-col">
+          <h3>Dxfferent B.V.</h3>
+          <div class="sig-field">
+            <div class="sig-label">Name:</div>
+            <div class="sig-value">Max de Kwaasteniet</div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Signature:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Date:</div>
+            <div class="sig-value">April 29, 2026</div>
+          </div>
+        </div>
+        <div class="sig-col">
+          <h3>Handled IT Partners</h3>
+          <div class="sig-field">
+            <div class="sig-label">Name:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Signature:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Date:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Invoice e-mail:</div>
+            <div class="sig-blank"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; VAT NL861034843B01 &nbsp;|&nbsp; IBAN NL67RABO0352104678
+  </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+  var SERVICES = {
+    gaas: {
+      name: 'Guide as a Service',
+      tagline: 'You implement, we guide. Bi-weekly meetings.',
+      price: '$2,500',
+      amount: '$2,500/month',
+      features: [
+        'Bi-weekly meetings (approx. 2 hours)',
+        'Unlimited Teams support',
+        'Sprint-based delivery with clear deliverables',
+        'Sparring partner for all MSP topics (Autotask, ISO, contracts, services)',
+        'Access to framework from 150+ implementations',
+        'Interactive best-practice process charts (IT Glue sidebar)',
+        'Custom training at go-live (one or two sessions)',
+        'Consultant interacts with one or few main contacts',
+        'Shared responsibility: we guide, you implement and own knowledge'
+      ]
+    },
+    baas: {
+      name: 'Buddy as a Service',
+      tagline: 'We implement alongside you. Weekly meetings.',
+      price: '$5,000',
+      amount: '$5,000/month',
+      features: [
+        'Weekly meetings for faster progress',
+        'Priority Teams support (faster response)',
+        'Consultant takes on more of the implementation work',
+        'Accelerated sprint delivery across all phases',
+        'Everything in Guide as a Service plus hands-on help',
+        'Access to framework from 150+ implementations',
+        'Interactive best-practice process charts (IT Glue sidebar)',
+        'Custom training at go-live (one or two sessions)',
+        'Ideal for fastest path to results'
+      ]
+    }
+  };
+
+  var pageQuote = document.getElementById('page-quote');
+  var pageConfirm = document.getElementById('page-confirm');
+  var checkbox = document.getElementById('accept-check');
+  var btnAccept = document.getElementById('btn-accept');
+  var form = document.getElementById('acceptance-form');
+  var formWrapper = document.getElementById('acceptance-form-wrapper');
+  var successEl = document.getElementById('acceptance-success');
+
+  // Set _next to current URL
+  document.getElementById('form-next').value = window.location.href.split('#')[0] + '#accepted';
+
+  var currentServiceType = 'gaas';
+
+  window.selectService = function(type) {
+    currentServiceType = type;
+    var svc = SERVICES[type];
+    if (!svc) return;
+
+    document.getElementById('confirm-service-name').textContent = svc.name;
+    document.getElementById('confirm-service-price').textContent = svc.price + '/month';
+    document.getElementById('confirm-monthly-amount').textContent = svc.amount;
+    document.getElementById('hidden-service').value = svc.name + ' (' + svc.price + ')';
+
+    var list = document.getElementById('included-features');
+    list.innerHTML = '';
+    svc.features.forEach(function(f) {
+      var li = document.createElement('li');
+      li.textContent = f;
+      list.appendChild(li);
+    });
+
+    pageQuote.classList.add('hidden');
+    pageConfirm.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.goBack = function() {
+    pageConfirm.classList.add('hidden');
+    pageQuote.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Checkbox toggles submit
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      btnAccept.disabled = false;
+      btnAccept.classList.add('enabled');
+    } else {
+      btnAccept.disabled = true;
+      btnAccept.classList.remove('enabled');
+    }
+  });
+
+  // Form submit via fetch
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    btnAccept.textContent = 'Sending...';
+    btnAccept.disabled = true;
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(r) {
+      if (r.ok) {
+        formWrapper.classList.add('hidden');
+        successEl.classList.remove('hidden');
+      } else {
+        form.submit();
+      }
+    }).catch(function() {
+      form.submit();
+    });
+  });
+
+  // Check for #accepted hash on load
+  if (window.location.hash === '#accepted') {
+    formWrapper.classList.add('hidden');
+    successEl.classList.remove('hidden');
+  }
+
+  window.downloadConfirmation = function() {
+    var svc = SERVICES[currentServiceType] || SERVICES.gaas;
+    var name = document.getElementById('f-name').value || 'Andrew Kedjierski';
+    var title = document.getElementById('f-title').value || 'Director of Service Delivery';
+    var email = document.getElementById('f-email').value || '';
+    var invoice = document.getElementById('f-invoice').value || '';
+    var date = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+
+    var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Signed Proposal - Handled IT Partners - Dxfferent</title>' +
+    '<style>' +
+    '@page{margin:40px 50px}' +
+    'body{font-family:Georgia,"Times New Roman",serif;color:#1a1a1a;line-height:1.7;max-width:700px;margin:0 auto;padding:40px}' +
+    '.header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a1a1a;padding-bottom:20px;margin-bottom:30px}' +
+    '.logo{font-size:22px;font-weight:700;letter-spacing:0.08em}' +
+    '.ref{font-family:monospace;font-size:11px;color:#666;text-align:right;line-height:1.8}' +
+    'h1{font-size:20px;margin-bottom:4px}' +
+    'h2{font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#ED4C35;margin:28px 0 12px;border-bottom:1px solid #ddd;padding-bottom:6px}' +
+    'p{margin-bottom:10px;font-size:14px}' +
+    'table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}' +
+    'th{text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#888;border-bottom:2px solid #1a1a1a}' +
+    'td{padding:8px 12px;border-bottom:1px solid #eee}' +
+    '.amt{text-align:right;font-weight:700}' +
+    '.disc{color:#1a8a3a}' +
+    '.total-row td{border-top:2px solid #1a1a1a;font-weight:700;font-size:14px}' +
+    '.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:32px}' +
+    '.sig-col h3{font-size:14px;margin-bottom:12px}' +
+    '.sig-field{margin-bottom:10px}' +
+    '.sig-label{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:2px}' +
+    '.sig-val{font-size:14px;padding-bottom:4px;border-bottom:1px solid #ccc;min-height:22px}' +
+    '.sig-filled{font-weight:600}' +
+    '.terms{font-size:11px;color:#888;margin-top:32px;padding-top:16px;border-top:1px solid #ddd;line-height:1.6}' +
+    '.footer{margin-top:32px;padding-top:12px;border-top:2px solid #1a1a1a;font-size:10px;color:#888;text-align:center}' +
+    '.stamp{display:inline-block;border:2px solid #1a8a3a;color:#1a8a3a;padding:6px 20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;border-radius:4px;margin-bottom:20px}' +
+    '</style></head><body>' +
+
+    '<div class="header"><div class="logo">DXFFERENT</div><div class="ref">REF 2026-042<br>April 29, 2026<br>NET 30</div></div>' +
+
+    '<div class="stamp">Accepted ' + date + '</div>' +
+    '<h1>Handled IT Partners</h1>' +
+    '<p style="color:#666">Guide as a Service Engagement</p>' +
+
+    '<h2>Selected Service</h2>' +
+    '<table>' +
+    '<tr><td><strong>' + svc.name + '</strong><br><span style="color:#888;font-size:12px">' + svc.tagline + '</span></td><td class="amt">' + svc.price + '/month</td></tr>' +
+    '</table>' +
+
+    '<h2>Investment</h2>' +
+    '<table>' +
+    '<tr><td>Monthly fee (' + svc.name + ')</td><td class="amt">' + svc.price + '</td></tr>' +
+    '<tr><td>Startup Fee + MSP Best-Practice Process Mapping</td><td class="amt">$6,000</td></tr>' +
+    '<tr><td class="disc">50% discount (3-month commitment)</td><td class="amt disc">-$3,000</td></tr>' +
+    '<tr class="total-row"><td>One-time total</td><td class="amt">$3,000</td></tr>' +
+    '</table>' +
+
+    '<h2>Programme</h2>' +
+    '<table>' +
+    '<tr><th>Phase</th><th>Focus</th></tr>' +
+    '<tr><td>Phase 1 (3-5 sprints)</td><td>Foundation: service offering, triage, SLAs, KPIs, billing config, process charts, RMM audit</td></tr>' +
+    '<tr><td>Phase 2</td><td>Dashboards and team training</td></tr>' +
+    '<tr><td>Phase 3</td><td>Optimization: ScalePad, CRM, automations, Power BI option</td></tr>' +
+    '</table>' +
+    '<p style="font-size:12px;color:#888;font-style:italic">Exact scope and timeline determined after kick-off intake with our lead consultant.</p>' +
+
+    '<h2>Terms</h2>' +
+    '<p style="font-size:12px;color:#666">Initial term: 3 months. Monthly renewal after, one month notice to cancel. Payment due within 14 days. All prices in USD excl. taxes. The full <a href="https://dxfferent.com/terms-and-conditions/">Dxfferent General Terms and Conditions (v1.2)</a> apply. Dutch law applies.</p>' +
+
+    '<h2>Approval</h2>' +
+    '<div class="sig-grid">' +
+    '<div class="sig-col"><h3>Dxfferent B.V.</h3>' +
+    '<div class="sig-field"><div class="sig-label">Name</div><div class="sig-val sig-filled">Max de Kwaasteniet</div></div>' +
+    '<div class="sig-field"><div class="sig-label">Date</div><div class="sig-val sig-filled">April 29, 2026</div></div>' +
+    '</div>' +
+    '<div class="sig-col"><h3>Handled IT Partners</h3>' +
+    '<div class="sig-field"><div class="sig-label">Name</div><div class="sig-val sig-filled">' + name + '</div></div>' +
+    '<div class="sig-field"><div class="sig-label">Title</div><div class="sig-val sig-filled">' + title + '</div></div>' +
+    '<div class="sig-field"><div class="sig-label">Email</div><div class="sig-val sig-filled">' + email + '</div></div>' +
+    '<div class="sig-field"><div class="sig-label">Invoice email</div><div class="sig-val sig-filled">' + invoice + '</div></div>' +
+    '<div class="sig-field"><div class="sig-label">Date of acceptance</div><div class="sig-val sig-filled">' + date + '</div></div>' +
+    '</div></div>' +
+
+    '<div class="footer"><strong>Dxfferent B.V.</strong> &mdash; Bataviastraat 5, 3531 XA Utrecht, The Netherlands<br>KVK 77524950 | VAT NL861034843B01 | IBAN NL67RABO0352104678</div>' +
+
+    '</body></html>';
+
+    var w = window.open('', '_blank');
+    w.document.write(html);
+    w.document.close();
+    w.onload = function() { w.print(); };
+  };
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote Variations - Handled IT Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============ VARIATION SWITCHER ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+.switcher{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:#1a1a1a;padding:12px 24px;
+  display:flex;gap:8px;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;border-bottom:2px solid #ED4C35;
+}
+.switcher span{color:#999;font-size:13px;margin-right:8px}
+.switcher button{
+  padding:8px 20px;border:1px solid #444;border-radius:4px;
+  background:transparent;color:#ccc;font-size:13px;font-weight:500;
+  cursor:pointer;transition:all 0.15s;font-family:inherit;
+}
+.switcher button:hover{border-color:#888;color:#fff}
+.switcher button.active{background:#ED4C35;border-color:#ED4C35;color:#fff}
+.variation{display:none;padding-top:52px}
+.variation.active{display:block}
+
+/* ============ SHARED STRUCTURE ============ */
+.q-container{max-width:700px;margin:0 auto;padding:0 24px}
+.q-row{display:flex;justify-content:space-between;align-items:baseline}
+.q-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.q-grid{grid-template-columns:1fr}}
+
+/* Sprint table shared */
+.q-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.q-tbl th{text-align:left;padding:8px 10px;font-size:10px;text-transform:uppercase;letter-spacing:0.08em}
+.q-tbl td{padding:8px 10px;vertical-align:top}
+.q-tbl td:first-child{font-weight:600;white-space:nowrap;width:80px}
+
+/* ======================================================
+   VARIATION A: "THE ENGAGEMENT LETTER"
+   Serif headings, warm paper, printed document feel
+   ====================================================== */
+.var-a{
+  --paper:#f7f5f2;--ink:#1a1a1a;--pencil:#7a7a7a;--rule:#d8d3cb;
+  --accent:#b5392a;--accent-light:#f3ebe7;--seal:#b5392a;
+  background:var(--paper);color:var(--ink);
+  font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;
+}
+.var-a .q-header{
+  padding:48px 0 32px;border-bottom:2px solid var(--ink);margin-bottom:32px;
+}
+.var-a .q-logo{height:22px;opacity:0.85}
+.var-a .q-meta{font-size:12px;color:var(--pencil);text-align:right;line-height:1.6}
+.var-a .q-to{margin-bottom:32px}
+.var-a .q-to-label{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--pencil);margin-bottom:4px}
+.var-a .q-to-name{font-family:'Libre Baskerville',serif;font-size:24px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.var-a .q-to-desc{color:var(--pencil);font-size:14px;max-width:480px}
+.var-a h2{
+  font-family:'Libre Baskerville',serif;font-size:14px;font-weight:700;
+  color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;
+  margin:36px 0 14px;padding-bottom:6px;border-bottom:1px solid var(--rule);
+}
+.var-a h3{font-family:'Libre Baskerville',serif;font-size:15px;font-weight:700;margin:16px 0 4px}
+.var-a p,.var-a li{color:#3a3a3a;font-size:14px}
+.var-a .q-challenges{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 20px;
+}
+.var-a .q-ch{padding:10px 14px;border-left:2px solid var(--accent);background:var(--accent-light);border-radius:0 4px 4px 0}
+.var-a .q-ch strong{display:block;font-size:12px;color:var(--ink)}
+.var-a .q-ch span{font-size:11px;color:var(--pencil)}
+.var-a .q-tbl th{color:var(--pencil);border-bottom:2px solid var(--ink)}
+.var-a .q-tbl td{border-bottom:1px solid var(--rule);color:#3a3a3a}
+.var-a .q-tbl td:nth-child(2){color:var(--accent);font-weight:600}
+
+/* Pricing - invoice style */
+.var-a .q-options{margin:16px 0}
+.var-a .q-opt{
+  border:1px solid var(--rule);padding:20px;margin-bottom:12px;
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;transition:border-color 0.15s,background 0.15s;border-radius:3px;
+}
+.var-a .q-opt:hover{border-color:var(--accent);background:var(--accent-light)}
+.var-a .q-opt-name{font-family:'Libre Baskerville',serif;font-size:16px;font-weight:700}
+.var-a .q-opt-sub{font-size:12px;color:var(--pencil);margin-top:2px}
+.var-a .q-opt-price{font-family:'Libre Baskerville',serif;font-size:22px;font-weight:700;color:var(--accent)}
+.var-a .q-opt-price span{font-size:12px;color:var(--pencil);font-weight:400;font-family:'DM Sans',sans-serif}
+.var-a .q-opt-rec{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:2px;margin-left:8px}
+.var-a .q-onetime{border-top:1px solid var(--rule);margin-top:16px;padding-top:12px;font-size:13px}
+.var-a .q-onetime-row{display:flex;justify-content:space-between;padding:4px 0}
+.var-a .q-onetime-row.disc{color:#2a7a3a}
+.var-a .q-onetime-total{display:flex;justify-content:space-between;padding:8px 0 0;margin-top:6px;border-top:2px solid var(--ink);font-weight:700}
+.var-a .q-validity{font-size:11px;color:var(--pencil);margin-top:8px}
+.var-a details summary{padding:10px 0;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;list-style:none;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between}
+.var-a details summary::-webkit-details-marker{display:none}
+.var-a details summary::after{content:'+';color:var(--accent);font-weight:700}
+.var-a details[open] summary::after{content:'\2212'}
+.var-a details p{padding:8px 0 12px;font-size:13px;color:var(--pencil)}
+.var-a .q-footer{
+  margin-top:48px;padding:20px 0;border-top:2px solid var(--ink);
+  font-size:11px;color:var(--pencil);text-align:center;
+}
+.var-a .q-select-btn{
+  display:inline-block;padding:8px 20px;border:1px solid var(--accent);color:var(--accent);
+  font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;
+  cursor:pointer;background:transparent;border-radius:2px;transition:all 0.15s;
+}
+.var-a .q-select-btn:hover{background:var(--accent);color:#fff}
+
+/* ======================================================
+   VARIATION B: "THE SWISS INVOICE"
+   IBM Plex, crisp white, strong grid, clinical precision
+   ====================================================== */
+.var-b{
+  --white:#ffffff;--offwhite:#fafafa;--ink:#111;--mid:#666;--light:#e0e0e0;
+  --accent:#ED4C35;--accent-bg:#fef6f5;
+  background:var(--offwhite);color:var(--ink);
+  font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.55;
+}
+.var-b .q-page{background:var(--white);max-width:700px;margin:24px auto;border:1px solid var(--light);padding:48px 48px 40px}
+.var-b .q-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px}
+.var-b .q-logo{height:20px}
+.var-b .q-meta{font-size:11px;color:var(--mid);text-align:right;line-height:1.7;font-family:'IBM Plex Mono',monospace}
+.var-b .q-to{margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid var(--light)}
+.var-b .q-to-label{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--mid);margin-bottom:6px;font-weight:600}
+.var-b .q-to-name{font-size:28px;font-weight:600;letter-spacing:-0.02em;color:var(--ink)}
+.var-b .q-to-desc{color:var(--mid);font-size:13px;margin-top:6px}
+.var-b h2{
+  font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;
+  color:var(--accent);margin:32px 0 12px;
+}
+.var-b h3{font-size:14px;font-weight:600;margin:16px 0 4px}
+.var-b p,.var-b li{color:#444;font-size:13px}
+.var-b .q-challenges{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 20px}
+.var-b .q-ch{padding:10px 12px;background:var(--offwhite);border:1px solid var(--light);border-radius:2px}
+.var-b .q-ch strong{display:block;font-size:12px;font-weight:600;color:var(--ink)}
+.var-b .q-ch span{font-size:11px;color:var(--mid)}
+.var-b .q-tbl th{color:var(--mid);border-bottom:2px solid var(--ink);font-weight:600}
+.var-b .q-tbl td{border-bottom:1px solid var(--light);color:#444}
+.var-b .q-tbl td:nth-child(2){color:var(--accent);font-weight:600}
+
+.var-b .q-options{margin:14px 0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.var-b .q-opt{
+  border:1px solid var(--light);padding:20px;cursor:pointer;
+  transition:border-color 0.15s;border-radius:2px;position:relative;
+}
+.var-b .q-opt:hover{border-color:var(--accent)}
+.var-b .q-opt-name{font-size:15px;font-weight:600}
+.var-b .q-opt-sub{font-size:11px;color:var(--mid);margin:2px 0 12px}
+.var-b .q-opt-price{font-size:26px;font-weight:600;color:var(--accent);font-family:'IBM Plex Mono',monospace}
+.var-b .q-opt-price span{font-size:11px;color:var(--mid);font-weight:400}
+.var-b .q-opt-rec{position:absolute;top:-9px;right:12px;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#fff;background:var(--accent);padding:2px 10px;border-radius:2px;font-weight:600}
+.var-b .q-select-btn{
+  display:block;width:100%;padding:8px;margin-top:14px;border:1px solid var(--accent);
+  color:var(--accent);background:transparent;font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;border-radius:2px;
+  transition:all 0.15s;font-family:inherit;
+}
+.var-b .q-select-btn:hover{background:var(--accent);color:#fff}
+.var-b .q-onetime{border-top:1px solid var(--light);margin-top:16px;padding-top:10px;font-size:13px}
+.var-b .q-onetime-row{display:flex;justify-content:space-between;padding:4px 0}
+.var-b .q-onetime-row .amt{font-family:'IBM Plex Mono',monospace;font-weight:500}
+.var-b .q-onetime-row.disc .amt{color:#1a8a3a}
+.var-b .q-onetime-total{display:flex;justify-content:space-between;padding:8px 0 0;margin-top:6px;border-top:2px solid var(--ink);font-weight:600}
+.var-b .q-onetime-total .amt{font-family:'IBM Plex Mono',monospace}
+.var-b .q-validity{font-size:11px;color:var(--mid);margin-top:8px}
+.var-b details summary{padding:10px 0;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;list-style:none;border-bottom:1px solid var(--light);display:flex;justify-content:space-between}
+.var-b details summary::-webkit-details-marker{display:none}
+.var-b details summary::after{content:'+';color:var(--accent);font-weight:700}
+.var-b details[open] summary::after{content:'\2212'}
+.var-b details p{padding:6px 0 10px;font-size:12px;color:var(--mid)}
+.var-b .q-footer{margin-top:36px;padding:16px 0;border-top:1px solid var(--light);font-size:10px;color:var(--mid);text-align:center}
+
+/* ======================================================
+   VARIATION C: "THE DXFFERENT DOCUMENT"
+   Dark header band, light body, brand-meets-document
+   ====================================================== */
+.var-c{
+  --paper:#faf9f7;--ink:#1a1a1a;--mid:#777;--rule:#e2e0dc;
+  --brand-dark:#0d0d0d;--accent:#ED4C35;--accent-soft:#fdf0ed;
+  background:var(--paper);color:var(--ink);
+  font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;
+}
+.var-c .q-brand-bar{
+  background:var(--brand-dark);padding:36px 0;color:#fff;
+}
+.var-c .q-brand-bar .q-container{display:flex;justify-content:space-between;align-items:flex-end}
+.var-c .q-brand-bar .q-logo{height:22px;filter:brightness(0) invert(1)}
+.var-c .q-brand-bar .q-meta{font-size:11px;color:rgba(255,255,255,0.5);text-align:right;line-height:1.7}
+.var-c .q-brand-bar .q-to-name{
+  font-size:20px;font-weight:700;color:#fff;margin-top:20px;
+}
+.var-c .q-brand-bar .q-to-desc{font-size:13px;color:rgba(255,255,255,0.55);margin-top:4px}
+.var-c .q-body{padding:36px 0 48px}
+.var-c .q-stats{
+  display:flex;gap:0;margin:0 0 28px;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:#fff;
+}
+.var-c .q-stat{flex:1;padding:14px;text-align:center;border-right:1px solid var(--rule)}
+.var-c .q-stat:last-child{border-right:none}
+.var-c .q-stat-val{font-size:18px;font-weight:700;color:var(--ink)}
+.var-c .q-stat-lbl{font-size:9px;color:var(--mid);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+.var-c h2{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--accent);margin:32px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule);
+}
+.var-c h3{font-size:15px;font-weight:700;margin:16px 0 4px}
+.var-c p,.var-c li{color:#444;font-size:14px}
+.var-c .q-challenges{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0 20px}
+@media(max-width:600px){.var-c .q-challenges{grid-template-columns:1fr 1fr}}
+.var-c .q-ch{padding:12px;background:#fff;border:1px solid var(--rule);border-radius:4px;border-top:2px solid var(--accent)}
+.var-c .q-ch strong{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.var-c .q-ch span{font-size:11px;color:var(--mid)}
+.var-c .q-tbl th{color:var(--mid);border-bottom:2px solid var(--ink)}
+.var-c .q-tbl td{border-bottom:1px solid var(--rule);color:#444}
+.var-c .q-tbl td:nth-child(2){color:var(--accent);font-weight:600}
+
+.var-c .q-options{margin:14px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.var-c .q-opt{
+  background:#fff;border:1px solid var(--rule);padding:22px;cursor:pointer;
+  border-radius:6px;transition:border-color 0.15s,box-shadow 0.15s;position:relative;
+}
+.var-c .q-opt:hover{border-color:var(--accent);box-shadow:0 2px 12px rgba(237,76,53,0.08)}
+.var-c .q-opt-name{font-size:16px;font-weight:700}
+.var-c .q-opt-sub{font-size:12px;color:var(--mid);margin:2px 0 12px}
+.var-c .q-opt-price{font-size:28px;font-weight:700;color:var(--accent)}
+.var-c .q-opt-price span{font-size:12px;color:var(--mid);font-weight:400}
+.var-c .q-opt-rec{position:absolute;top:-9px;left:16px;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;font-weight:700}
+.var-c .q-select-btn{
+  display:block;width:100%;padding:10px;margin-top:14px;border:none;
+  background:var(--accent);color:#fff;font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;border-radius:4px;
+  transition:all 0.15s;font-family:inherit;
+}
+.var-c .q-select-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(237,76,53,0.2)}
+.var-c .q-onetime{background:#fff;border:1px solid var(--rule);border-radius:6px;margin-top:16px;padding:16px 20px;font-size:13px}
+.var-c .q-onetime-row{display:flex;justify-content:space-between;padding:4px 0}
+.var-c .q-onetime-row .amt{font-weight:700}
+.var-c .q-onetime-row.disc .amt{color:#1a8a3a}
+.var-c .q-onetime-total{display:flex;justify-content:space-between;padding:8px 0 0;margin-top:6px;border-top:2px solid var(--ink);font-weight:700}
+.var-c .q-validity{font-size:11px;color:var(--mid);margin-top:8px}
+.var-c details summary{padding:10px 0;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;list-style:none;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between}
+.var-c details summary::-webkit-details-marker{display:none}
+.var-c details summary::after{content:'+';color:var(--accent);font-weight:700}
+.var-c details[open] summary::after{content:'\2212'}
+.var-c details p{padding:6px 0 12px;font-size:13px;color:var(--mid)}
+.var-c .q-footer{margin-top:40px;padding:16px 0;border-top:1px solid var(--rule);font-size:11px;color:var(--mid);text-align:center}
+</style>
+</head>
+<body>
+
+<div class="switcher">
+  <span>Variation:</span>
+  <button class="active" onclick="show('a',this)">A: Engagement Letter</button>
+  <button onclick="show('b',this)">B: Swiss Invoice</button>
+  <button onclick="show('c',this)">C: Dxfferent Document</button>
+</div>
+
+<!-- ===================== VARIATION A ===================== -->
+<div class="variation var-a active" id="var-a">
+<div class="q-container">
+  <div class="q-header">
+    <div class="q-row">
+      <img class="q-logo" src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent" style="filter:brightness(0)">
+      <div class="q-meta">Proposal #2026-042<br>April 29, 2026</div>
+    </div>
+  </div>
+  <div class="q-to">
+    <div class="q-to-label">Prepared for</div>
+    <div class="q-to-name">Handled IT Partners</div>
+    <div class="q-to-desc">A structured program to take your Autotask environment from reactive ticketing to a proactive service engine. Results within 8 weeks.</div>
+  </div>
+  <h2>Based on Our Discovery Session</h2>
+  <div class="q-challenges">
+    <div class="q-ch"><strong>No Ticket Triage</strong><span>All tickets come in the same. No categorization.</span></div>
+    <div class="q-ch"><strong>SLAs Not Configured</strong><span>False breaches eroding client trust.</span></div>
+    <div class="q-ch"><strong>Invoicing Problems</strong><span>QuickBooks not integrated. Manual adjustments.</span></div>
+    <div class="q-ch"><strong>No KPIs or Dashboards</strong><span>Unreliable data. No utilization tracking.</span></div>
+    <div class="q-ch"><strong>RMM Alert Noise</strong><span>One person checks. Too much noise.</span></div>
+    <div class="q-ch"><strong>No Process Docs</strong><span>Engineers have no reference for ticket types.</span></div>
+  </div>
+  <h2>How We Work</h2>
+  <p>Structured bi-weekly sprints. You learn, we guide. Fixed monthly fee, no hourly billing. Unlimited Teams support between sessions. Shared responsibility with homework on both sides.</p>
+  <h2>Sprint Roadmap</h2>
+  <table class="q-tbl">
+    <tr><th>Sprint</th><th>Focus</th><th>Deliverables</th></tr>
+    <tr><td>1 (Wk 1-2)</td><td>Service Desk Foundation</td><td>Ticket categories, triage, required fields, workflows, huddle dashboard.</td></tr>
+    <tr><td>2 (Wk 3-4)</td><td>SLAs, KPIs &amp; Processes</td><td>SLA rebuild, business hours, KPIs per role, IT Glue process charts, RMM audit.</td></tr>
+    <tr><td>3 (Wk 5-6)</td><td>Integrations &amp; Billing</td><td>QuickBooks integration, service simplification, time entry enforcement.</td></tr>
+    <tr><td>4 (Wk 7-8)</td><td>Dashboards</td><td>Technician, Manager, and Executive dashboards. Stale ticket automation.</td></tr>
+    <tr><td>5+ (Ongoing)</td><td>Optimization</td><td>ScalePad, CRM consolidation, automations, Power BI (add-on).</td></tr>
+  </table>
+  <h2>Select Your Service</h2>
+  <p style="font-size:13px;color:var(--pencil)">Both options cover the same roadmap. The difference is speed and how much our consultant takes on.</p>
+  <div class="q-options">
+    <div class="q-opt">
+      <div><div class="q-opt-name">Guide as a Service</div><div class="q-opt-sub">You implement, we guide. Bi-weekly meetings.</div></div>
+      <div style="text-align:right"><div class="q-opt-price">$2,500 <span>/month</span></div><button class="q-select-btn">Select &amp; Continue</button></div>
+    </div>
+    <div class="q-opt">
+      <div><div class="q-opt-name">Buddy as a Service <span class="q-opt-rec">Recommended</span></div><div class="q-opt-sub">We implement alongside you. Weekly meetings.</div></div>
+      <div style="text-align:right"><div class="q-opt-price">$5,000 <span>/month</span></div><button class="q-select-btn">Select &amp; Continue</button></div>
+    </div>
+  </div>
+  <div class="q-onetime">
+    <div class="q-onetime-row"><span>Startup Fee + MSP Best-Practice Process Mapping</span><span>$6,000</span></div>
+    <div class="q-onetime-row disc"><span>50% discount (with 3-month commitment)</span><span>-$3,000</span></div>
+    <div class="q-onetime-total"><span>One-time total</span><span>$3,000</span></div>
+  </div>
+  <div class="q-validity">Valid for 30 days from April 29, 2026. Initial commitment: 3 months, monthly after.</div>
+  <h2>Questions</h2>
+  <details><summary>What if we need to move faster?</summary><p>Buddy as a Service gives you weekly meetings and hands-on implementation. You can upgrade any time.</p></details>
+  <details><summary>Do you implement customer-specific data?</summary><p>No. We configure systems and build workflows. You handle customer-specific data so you own the knowledge.</p></details>
+  <details><summary>What happens after 3 months?</summary><p>Monthly renewal. Cancel with one month's written notice.</p></details>
+  <details><summary>How quickly can we start?</summary><p>Within two weeks of approval.</p></details>
+  <details><summary>Can we add Power BI later?</summary><p>Yes. Optional add-on at $300/month, best after Sprint 4.</p></details>
+  <div class="q-footer"><strong>Dxfferent B.V.</strong> &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; VAT NL861034843B01</div>
+</div>
+</div>
+
+<!-- ===================== VARIATION B ===================== -->
+<div class="variation var-b" id="var-b">
+<div class="q-page">
+  <div class="q-header">
+    <img class="q-logo" src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent" style="filter:brightness(0)">
+    <div class="q-meta">REF 2026-042<br>2026-04-29<br>NET 30</div>
+  </div>
+  <div class="q-to">
+    <div class="q-to-label">Client</div>
+    <div class="q-to-name">Handled IT Partners</div>
+    <div class="q-to-desc">Autotask Operational Excellence Program. Reactive to proactive service delivery within 8 weeks.</div>
+  </div>
+  <h2>Discovery Findings</h2>
+  <div class="q-challenges">
+    <div class="q-ch"><strong>No Ticket Triage</strong><span>No categorization or escalation paths.</span></div>
+    <div class="q-ch"><strong>SLAs Not Configured</strong><span>False breaches eroding client trust.</span></div>
+    <div class="q-ch"><strong>Invoicing Problems</strong><span>QuickBooks not integrated. Manual work.</span></div>
+    <div class="q-ch"><strong>No KPIs</strong><span>No utilization tracking or dashboards.</span></div>
+    <div class="q-ch"><strong>RMM Noise</strong><span>Alerts not creating proper tickets.</span></div>
+    <div class="q-ch"><strong>No Process Docs</strong><span>No flow charts or references.</span></div>
+  </div>
+  <h2>Method</h2>
+  <p>Bi-weekly sprints. Fixed monthly fee. Unlimited Teams support. Shared responsibility.</p>
+  <h2>Delivery Schedule</h2>
+  <table class="q-tbl">
+    <tr><th>Sprint</th><th>Focus</th><th>Deliverables</th></tr>
+    <tr><td>1 (Wk 1-2)</td><td>Foundation</td><td>Ticket categories, triage, required fields, workflows.</td></tr>
+    <tr><td>2 (Wk 3-4)</td><td>SLAs &amp; KPIs</td><td>SLA rebuild, KPIs per role, IT Glue process charts.</td></tr>
+    <tr><td>3 (Wk 5-6)</td><td>Billing</td><td>QuickBooks integration, time entry enforcement.</td></tr>
+    <tr><td>4 (Wk 7-8)</td><td>Dashboards</td><td>Technician, Manager, Executive views.</td></tr>
+    <tr><td>5+ (Ongoing)</td><td>Optimize</td><td>ScalePad, CRM, automations, Power BI option.</td></tr>
+  </table>
+  <h2>Service Selection</h2>
+  <div class="q-options">
+    <div class="q-opt">
+      <div class="q-opt-name">Guide as a Service</div>
+      <div class="q-opt-sub">You implement, we guide. Bi-weekly.</div>
+      <div class="q-opt-price">$2,500 <span>/mo</span></div>
+      <button class="q-select-btn">Select</button>
+    </div>
+    <div class="q-opt">
+      <div class="q-opt-rec">Recommended</div>
+      <div class="q-opt-name">Buddy as a Service</div>
+      <div class="q-opt-sub">We implement with you. Weekly.</div>
+      <div class="q-opt-price">$5,000 <span>/mo</span></div>
+      <button class="q-select-btn">Select</button>
+    </div>
+  </div>
+  <div class="q-onetime">
+    <div class="q-onetime-row"><span>Startup + Process Mapping</span><span class="amt">$6,000</span></div>
+    <div class="q-onetime-row disc"><span>50% discount (3-month term)</span><span class="amt">-$3,000</span></div>
+    <div class="q-onetime-total"><span>One-time</span><span class="amt">$3,000</span></div>
+  </div>
+  <div class="q-validity">Valid 30 days. 3-month initial term, monthly thereafter.</div>
+  <h2>FAQ</h2>
+  <details><summary>Can we move faster?</summary><p>Buddy as a Service: weekly meetings, hands-on implementation. Upgrade anytime.</p></details>
+  <details><summary>Customer data?</summary><p>We configure systems. You handle customer-specific data.</p></details>
+  <details><summary>After 3 months?</summary><p>Monthly renewal, one month notice to cancel.</p></details>
+  <details><summary>Start timeline?</summary><p>Within two weeks of approval.</p></details>
+  <details><summary>Power BI?</summary><p>$300/month add-on after Sprint 4.</p></details>
+  <div class="q-footer">Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &bull; KVK 77524950 &bull; NL861034843B01</div>
+</div>
+</div>
+
+<!-- ===================== VARIATION C ===================== -->
+<div class="variation var-c" id="var-c">
+<div class="q-brand-bar">
+  <div class="q-container">
+    <div class="q-row">
+      <img class="q-logo" src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+      <div class="q-meta">Proposal #2026-042<br>April 29, 2026</div>
+    </div>
+    <div class="q-to-name">Handled IT Partners</div>
+    <div class="q-to-desc">Autotask Operational Excellence. Reactive to proactive within 8 weeks.</div>
+  </div>
+</div>
+<div class="q-body">
+  <div class="q-container">
+    <div class="q-stats">
+      <div class="q-stat"><div class="q-stat-val">150+</div><div class="q-stat-lbl">MSP Implementations</div></div>
+      <div class="q-stat"><div class="q-stat-val">2-week</div><div class="q-stat-lbl">Sprint cadence</div></div>
+      <div class="q-stat"><div class="q-stat-val">8 weeks</div><div class="q-stat-lbl">To first results</div></div>
+    </div>
+    <h2>Discovery Findings</h2>
+    <div class="q-challenges">
+      <div class="q-ch"><strong>No Ticket Triage</strong><span>No categorization or escalation.</span></div>
+      <div class="q-ch"><strong>SLAs Missing</strong><span>False breaches, no targets.</span></div>
+      <div class="q-ch"><strong>Invoicing</strong><span>QuickBooks not integrated.</span></div>
+      <div class="q-ch"><strong>No KPIs</strong><span>No utilization or dashboards.</span></div>
+      <div class="q-ch"><strong>RMM Noise</strong><span>Alerts not actionable.</span></div>
+      <div class="q-ch"><strong>No Processes</strong><span>No documentation.</span></div>
+    </div>
+    <h2>Method</h2>
+    <p>Bi-weekly sprints. Fixed monthly fee. Unlimited Teams support. You learn, we guide. Shared homework between sessions.</p>
+    <h2>Sprint Roadmap</h2>
+    <table class="q-tbl">
+      <tr><th>Sprint</th><th>Focus</th><th>Deliverables</th></tr>
+      <tr><td>1 (Wk 1-2)</td><td>Foundation</td><td>Ticket categories, triage, required fields, workflows, huddle dashboard.</td></tr>
+      <tr><td>2 (Wk 3-4)</td><td>SLAs &amp; KPIs</td><td>SLA rebuild, KPIs per role, IT Glue process charts, RMM audit.</td></tr>
+      <tr><td>3 (Wk 5-6)</td><td>Billing</td><td>QuickBooks integration, service simplification, time entry enforcement.</td></tr>
+      <tr><td>4 (Wk 7-8)</td><td>Dashboards</td><td>Technician, Manager, Executive dashboards. Stale ticket alerts.</td></tr>
+      <tr><td>5+ (Ongoing)</td><td>Optimize</td><td>ScalePad, CRM, automations, Power BI option.</td></tr>
+    </table>
+    <h2>Select Your Service</h2>
+    <p style="font-size:13px;color:var(--mid)">Both cover the same roadmap. The difference is speed and how hands-on our consultant is.</p>
+    <div class="q-options">
+      <div class="q-opt">
+        <div class="q-opt-name">Guide as a Service</div>
+        <div class="q-opt-sub">You implement, we guide. Bi-weekly meetings.</div>
+        <div class="q-opt-price">$2,500 <span>/month</span></div>
+        <button class="q-select-btn">Select &amp; Continue</button>
+      </div>
+      <div class="q-opt">
+        <div class="q-opt-rec">Recommended</div>
+        <div class="q-opt-name">Buddy as a Service</div>
+        <div class="q-opt-sub">We implement alongside you. Weekly meetings.</div>
+        <div class="q-opt-price">$5,000 <span>/month</span></div>
+        <button class="q-select-btn">Select &amp; Continue</button>
+      </div>
+    </div>
+    <div class="q-onetime">
+      <div class="q-onetime-row"><span>Startup Fee + Process Mapping</span><span class="amt">$6,000</span></div>
+      <div class="q-onetime-row disc"><span>50% discount (3-month commitment)</span><span class="amt">-$3,000</span></div>
+      <div class="q-onetime-total"><span>One-time total</span><span>$3,000</span></div>
+    </div>
+    <div class="q-validity">Valid 30 days from April 29, 2026. Initial term: 3 months, monthly after.</div>
+    <h2>Questions</h2>
+    <details><summary>What if we need to move faster?</summary><p>Buddy as a Service: weekly meetings, hands-on implementation. You can upgrade any time.</p></details>
+    <details><summary>Do you implement customer-specific data?</summary><p>No. We configure systems and build workflows. You handle customer-specific data.</p></details>
+    <details><summary>What happens after 3 months?</summary><p>Monthly renewal. Cancel with one month's written notice.</p></details>
+    <details><summary>How quickly can we start?</summary><p>Within two weeks of approval.</p></details>
+    <details><summary>Power BI dashboards?</summary><p>Optional add-on at $300/month, best after Sprint 4.</p></details>
+    <div class="q-footer"><strong>Dxfferent B.V.</strong> &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; NL861034843B01</div>
+  </div>
+</div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.variation').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('active'));
+  document.getElementById('var-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>

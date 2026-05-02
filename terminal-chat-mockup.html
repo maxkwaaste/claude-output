@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Terminal Chat -- Mockup</title>
+<style>
+/*
+ * Based on claude-replay (github.com/es617/claude-replay) structure
+ * + actual Claude Code theme tokens from src/utils/theme.ts
+ * Theme: claude-code dark (real values from reverse-engineered source)
+ */
+:root {
+  /* Real Claude Code dark theme tokens */
+  --claude: rgb(215,119,87);
+  --claude-shimmer: rgb(235,159,127);
+  --text: rgb(255,255,255);
+  --text-dim: rgb(153,153,153);
+  --text-bright: rgb(255,255,255);
+  --inactive: rgb(153,153,153);
+  --subtle: rgb(80,80,80);
+  --success: rgb(78,186,101);
+  --error: rgb(255,107,128);
+  --warning: rgb(255,193,7);
+  --user-msg-bg: rgb(55,55,55);
+  --bash-border: rgb(253,93,177);
+  --permission: rgb(177,185,249);
+  --auto-accept: rgb(175,135,255);
+  --prompt-border: rgb(136,136,136);
+
+  /* claude-replay style vars (mapped to Claude Code palette) */
+  --bg: #000000;
+  --bg-surface: rgb(55,55,55);
+  --bg-hover: rgb(70,70,70);
+  --accent: rgb(215,119,87);
+  --accent-dim: rgb(160,80,55);
+  --green: rgb(78,186,101);
+  --blue: rgb(177,185,249);
+  --cyan: rgb(130,200,255);
+  --orange: rgb(215,119,87);
+  --red: rgb(255,107,128);
+  --border: rgb(80,80,80);
+  --tool-bg: rgb(30,30,30);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #111;
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 820px;
+  width: 100%;
+  background: var(--bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04);
+}
+
+/* macOS window chrome */
+.window-chrome {
+  background: #2a2a2a;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #1a1a1a;
+}
+.traffic-lights { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-close { background: #ff5f57; }
+.dot-min { background: #febc2e; }
+.dot-max { background: #28c840; }
+.window-title {
+  flex: 1;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Transcript area */
+.transcript {
+  padding: 16px 0;
+}
+
+/* Turn container */
+.turn {
+  margin-bottom: 0;
+}
+
+/* Turn header (collapsible, from claude-replay) */
+.turn-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.turn-header-chevron { font-size: 10px; }
+.turn-header-label { font-weight: 600; color: var(--text); }
+.turn-header-ts { margin-left: auto; font-size: 10px; }
+
+.turn-body { padding: 0; }
+
+/* Role sections (from claude-replay) */
+.role-section {
+  padding: 12px 16px;
+  margin: 0;
+}
+.role-section.role-user {
+  background: var(--bg-surface);
+  border-left: 3px solid var(--accent);
+  margin: 8px 16px;
+  border-radius: 4px;
+}
+.role-section.role-assistant {
+  border-left: 3px solid var(--cyan);
+  margin: 4px 16px 8px;
+  border-radius: 4px;
+}
+
+.role-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.role-label.role-user-label { color: var(--accent); }
+.role-label.role-assistant-label { color: var(--cyan); }
+
+/* User text */
+.user-text {
+  color: var(--text-bright);
+  word-break: break-word;
+}
+
+/* Assistant text */
+.assistant-text {
+  color: var(--text);
+  word-break: break-word;
+  margin: 6px 0;
+  line-height: 1.6;
+}
+.assistant-text strong { color: var(--text-bright); }
+.assistant-text ul, .assistant-text ol {
+  margin: 0.4em 0;
+  padding-left: 1.6em;
+}
+.assistant-text li { margin: 0.15em 0; }
+.assistant-text code {
+  background: var(--tool-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.92em;
+  color: var(--accent);
+}
+.assistant-text h4 {
+  color: var(--text-bright);
+  margin: 0.8em 0 0.3em;
+  font-size: 1.05em;
+}
+
+/* Tool blocks (from claude-replay -- exact structure) */
+.tool-block {
+  margin: 6px 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--tool-bg);
+}
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.tool-header:hover { background: var(--bg-hover); }
+.tool-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+  flex-shrink: 0;
+}
+.tool-indicator.done { background: var(--green); }
+.tool-name {
+  color: var(--cyan);
+  font-weight: 600;
+}
+.tool-args-preview {
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+.tool-chevron {
+  color: var(--text-dim);
+  font-size: 10px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.tool-block.open .tool-chevron { transform: rotate(90deg); }
+.tool-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+.tool-block.open .tool-body { display: block; }
+.tool-input, .tool-result {
+  padding: 8px 10px;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.tool-input {
+  color: var(--text-dim);
+  background: var(--tool-bg);
+}
+.tool-input-label, .tool-result-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.tool-result {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  color: var(--green);
+}
+
+/* Thinking block */
+.thinking-block {
+  margin: 6px 0;
+  border-left: 2px solid var(--text-dim);
+  padding-left: 10px;
+}
+.thinking-header {
+  font-size: 11px;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.thinking-chevron { font-size: 10px; transition: transform 0.2s; }
+.thinking-block.open .thinking-chevron { transform: rotate(90deg); }
+.thinking-body {
+  display: none;
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.thinking-block.open .thinking-body { display: block; }
+
+/* Cost/stats line */
+.turn-stats {
+  padding: 4px 16px 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  gap: 16px;
+}
+
+/* Bottom status bar (mimics Claude Code's status line) */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-dim);
+  background: var(--tool-bg);
+}
+.status-mode {
+  color: var(--auto-accept);
+  font-weight: 600;
+}
+.status-model { color: var(--text-dim); }
+
+/* Prompt input area */
+.prompt-area {
+  border-top: 1px solid var(--prompt-border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prompt-caret {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+}
+.prompt-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  background: var(--accent);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.prompt-hint {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--subtle);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Window chrome -->
+  <div class="window-chrome">
+    <div class="traffic-lights">
+      <div class="dot dot-close"></div>
+      <div class="dot dot-min"></div>
+      <div class="dot dot-max"></div>
+    </div>
+    <div class="window-title">claude &mdash; ~/ClaudeCode</div>
+  </div>
+
+  <div class="transcript">
+
+    <!-- TURN 1 -->
+    <div class="turn">
+      <div class="turn-header">
+        <span class="turn-header-chevron">&#9660;</span>
+        <span class="turn-header-label">#1</span>
+        <span class="turn-header-ts">14:32:01</span>
+      </div>
+      <div class="turn-body">
+
+        <!-- User -->
+        <div class="role-section role-user">
+          <div class="role-label role-user-label">User</div>
+          <div class="user-text">I need a tool where Dxfferent consultants can pick a topic from the MSP Journey and dump their expert text into it. We've got a PDF with 64 MSP problems organized by journey phase. The goal is to harvest raw consultant knowledge and turn it into content for LinkedIn and dxfferent.com.</div>
+        </div>
+
+        <!-- Assistant -->
+        <div class="role-section role-assistant">
+          <div class="role-label role-assistant-label">Claude</div>
+
+          <!-- Thinking -->
+          <div class="thinking-block" onclick="this.classList.toggle('open')">
+            <div class="thinking-header">
+              <span class="thinking-chevron">&#9654;</span> Thinking
+            </div>
+            <div class="thinking-body">The user wants a content harvesting tool for MSP consultants. Let me first check Open Brain for any prior context about Dxfferent content plans, then read the PDF to understand the topic structure.</div>
+          </div>
+
+          <!-- Tool calls -->
+          <div class="tool-block" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+              <span class="tool-indicator done"></span>
+              <span class="tool-name">Read</span>
+              <span class="tool-args-preview">MSP-Journey-Problems.pdf</span>
+              <span class="tool-chevron">&#9654;</span>
+            </div>
+            <div class="tool-body">
+              <div class="tool-input">
+                <div class="tool-input-label">Input</div>
+                file_path: "/Users/max/Documents/MSP-Journey-Problems.pdf"
+              </div>
+              <div class="tool-result">
+                <div class="tool-result-label">Result</div>
+                64 topics extracted across 8 journey phases: Awareness, Evaluation, Purchase, Onboarding, Adoption, Support, Renewal, Advocacy...
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-block" onclick="this.classList.toggle('open')">
+            <div class="tool-header">
+              <span class="tool-indicator done"></span>
+              <span class="tool-name">mcp__open-brain__search_thoughts</span>
+              <span class="tool-args-preview">"dxfferent content platform"</span>
+              <span class="tool-chevron">&#9654;</span>
+            </div>
+            <div class="tool-body">
+              <div class="tool-input">
+                <div class="tool-input-label">Input</div>
+                query: "dxfferent content platform linkedin"
+              </div>
+              <div class="tool-result">
+                <div class="tool-result-label">Result</div>
+                Found 3 related thoughts: content calendar planning, LinkedIn automation goal, dxfferent.com CMS access...
+              </div>
+            </div>
+          </div>
+
+          <!-- Response text -->
+          <div class="assistant-text">
+            <p>Good start. A few things I want to nail down before anything else.</p>
+
+            <h4>Who are the users?</h4>
+            <ul>
+              <li><strong>Primary:</strong> Dxfferent consultants (how many?) dumping raw expertise</li>
+              <li><strong>Secondary:</strong> You and Joshua reviewing, editing, scheduling</li>
+            </ul>
+
+            <p><strong>How do consultants pick a topic?</strong></p>
+            <ul>
+              <li><strong>A) Browse the full 64-topic list</strong> with journey phase grouping</li>
+              <li><strong>B) Get assigned topics</strong> from a queue you curate</li>
+              <li><strong>C) AI-suggested</strong> based on their expertise profile</li>
+            </ul>
+            <p>I'd start with A, it's the simplest and lets consultants gravitate to what they know.</p>
+          </div>
+        </div>
+
+        <div class="turn-stats">
+          <span>3.2s</span>
+          <span>1,247 tokens</span>
+          <span>$0.04</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TURN 2 -->
+    <div class="turn">
+      <div class="turn-header">
+        <span class="turn-header-chevron">&#9660;</span>
+        <span class="turn-header-label">#2</span>
+        <span class="turn-header-ts">14:32:48</span>
+      </div>
+      <div class="turn-body">
+
+        <div class="role-section role-user">
+          <div class="role-label role-user-label">User</div>
+          <div class="user-text">Let's do HTML, or even Excalidraw MCP that I've got setup. The consultants are Dxfferent consultants with all the MSP/Autotask knowledge. There's about 5 of them.</div>
+        </div>
+
+        <div class="role-section role-assistant">
+          <div class="role-label role-assistant-label">Claude</div>
+          <div class="assistant-text">
+            <p>Good. 5 internal Dxfferent consultants, so no auth needed for v1. I'll use Excalidraw for visual mockups when we get to interface design.</p>
+
+            <p><strong>What does "dump their text" look like in practice?</strong></p>
+            <ul>
+              <li><strong>A) Free-form text field</strong> -- just paste or type whatever, raw and unstructured</li>
+              <li><strong>B) Lightly guided</strong> -- topic card shows hook template and related problems/frustrations/questions</li>
+              <li><strong>C) Structured input</strong> -- specific fields like "key insight", "example from practice"</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="turn-stats">
+          <span>1.8s</span>
+          <span>842 tokens</span>
+          <span>$0.03</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TURN 3 -->
+    <div class="turn">
+      <div class="turn-header">
+        <span class="turn-header-chevron">&#9660;</span>
+        <span class="turn-header-label">#3</span>
+        <span class="turn-header-ts">14:33:15</span>
+      </div>
+      <div class="turn-body">
+
+        <div class="role-section role-user">
+          <div class="role-label role-user-label">User</div>
+          <div class="user-text">If they want to do free form they should be able to. Claude can then categorize. If they want to pick a topic this should also be available as an option. Also no auth, make sure it's also noindex for Google.</div>
+        </div>
+
+        <div class="role-section role-assistant">
+          <div class="role-label role-assistant-label">Claude</div>
+          <div class="assistant-text">
+            <p>Both entry paths: pick a topic from the list, or just dump raw text and let Claude sort it later. No auth, <code>noindex</code>. Got it.</p>
+
+            <p><strong>Where does the content go after a consultant submits it?</strong></p>
+            <ul>
+              <li><strong>A) Single-page app</strong> -- everything lives on one page. Topic list, submissions, status tracking.</li>
+              <li><strong>B) Separate flows</strong> -- browse/pick page and a separate writing/editing page per topic.</li>
+            </ul>
+            <p>I'm leaning toward A -- one page where they can see everything at a glance.</p>
+          </div>
+        </div>
+
+        <div class="turn-stats">
+          <span>2.1s</span>
+          <span>934 tokens</span>
+          <span>$0.03</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Prompt area -->
+  <div class="prompt-area">
+    <span class="prompt-caret">&gt;</span>
+    <span class="prompt-cursor"></span>
+    <span class="prompt-hint">Enter to send</span>
+  </div>
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span class="status-mode">&#9679; Auto-accept</span>
+    <span class="status-model">claude-opus-4-6 &middot; 14.8k tokens &middot; $0.10</span>
+  </div>
+</div>
+
+<script>
+// Toggle tool blocks and thinking blocks on click
+document.querySelectorAll('.tool-block').forEach(el => {
+  el.addEventListener('click', () => el.classList.toggle('open'));
+});
+document.querySelectorAll('.thinking-block').forEach(el => {
+  el.addEventListener('click', () => el.classList.toggle('open'));
+});
+</script>
+
+</body>
+</html>

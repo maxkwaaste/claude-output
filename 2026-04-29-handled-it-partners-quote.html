@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide as a Service - Handled IT Partners</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+@media print {
+  body { background: #fff; }
+  .page { border: none; box-shadow: none; margin: 0; }
+  .no-print { display: none; }
+  .page-break { page-break-before: always; }
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1a1a1a; background: #f0f0f0; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 780px; margin: 30px auto; background: #fff;
+  padding: 60px 64px; border: 1px solid #ddd;
+}
+
+/* Header */
+.header { display: flex; justify-content: space-between; margin-bottom: 40px; }
+.header-left { flex: 1; }
+.header-right { text-align: right; font-size: 13px; color: #555; line-height: 1.7; }
+.logo-text {
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -0.02em; margin-bottom: 2px;
+}
+.logo-tagline {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.15em; color: #6b7280;
+}
+.header-rule { height: 3px; background: #1a2744; margin-bottom: 36px; }
+
+/* Addresses */
+.addresses { display: flex; justify-content: space-between; margin-bottom: 32px; }
+.address-block { font-size: 13px; line-height: 1.7; }
+.address-block strong { font-weight: 600; color: #1a2744; }
+.address-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #6b7280; margin-bottom: 4px;
+}
+
+/* Content */
+h1 {
+  font-size: 24px; font-weight: 700; color: #1a2744;
+  margin-bottom: 8px; letter-spacing: -0.01em;
+}
+h2 {
+  font-size: 18px; font-weight: 700; color: #1a2744;
+  margin: 36px 0 14px; padding-bottom: 6px;
+  border-bottom: 2px solid #1a2744;
+}
+h3 {
+  font-size: 14px; font-weight: 700; color: #1a2744;
+  margin: 24px 0 8px;
+}
+p { margin-bottom: 12px; font-size: 14px; }
+ul { margin: 0 0 14px 20px; font-size: 14px; }
+li { margin-bottom: 6px; }
+.date-line { font-size: 13px; color: #555; margin-bottom: 24px; }
+
+/* Callout */
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744;
+  padding: 16px 20px; margin: 18px 0; font-size: 14px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Philosophy cards */
+.philosophy { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 24px; }
+.phil-card {
+  background: #f8f9fb; padding: 14px 16px; border-radius: 4px;
+  font-size: 13px; line-height: 1.55;
+}
+.phil-card strong { display: block; color: #1a2744; margin-bottom: 2px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+
+/* Steps */
+.step { margin-bottom: 18px; }
+.step-header {
+  font-weight: 700; font-size: 13px; color: #1a2744;
+  text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 4px;
+}
+.step-done {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  background: #d1fae5; color: #065f46; padding: 2px 8px;
+  border-radius: 10px; margin-left: 8px; text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Sprint roadmap */
+.sprint-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+.sprint-table th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  background: #1a2744; color: #fff;
+}
+.sprint-table td {
+  padding: 12px 14px; border-bottom: 1px solid #eef0f2; vertical-align: top;
+}
+.sprint-table tr:nth-child(even) td { background: #f8f9fb; }
+.sprint-table td strong { font-weight: 700; color: #1a2744; }
+.sprint-label {
+  font-weight: 700; color: #1a2744; white-space: nowrap;
+}
+.sprint-sub { font-size: 11px; color: #6b7280; }
+
+/* Pricing table */
+.pricing { margin: 20px 0; }
+.price-section {
+  border: 1px solid #e2e4e8; border-radius: 6px; margin-bottom: 16px; overflow: hidden;
+}
+.price-header {
+  background: #f5f7fa; padding: 14px 20px;
+  border-bottom: 1px solid #e2e4e8;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.price-header h3 { margin: 0; font-size: 15px; }
+.price-tag {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; color: #6b7280;
+}
+.price-body { padding: 16px 20px; }
+.price-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 8px 0; border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+.price-row:last-child { border-bottom: none; }
+.price-row .label { flex: 1; }
+.price-row .desc { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.price-row .amount { font-weight: 700; color: #1a2744; white-space: nowrap; text-align: right; }
+.price-row .discount { color: #059669; }
+.price-total {
+  display: flex; justify-content: space-between;
+  padding: 14px 20px; background: #1a2744; color: #fff;
+  font-weight: 700; font-size: 15px;
+}
+
+/* Premium option */
+.premium-option {
+  border: 2px solid #c8a040; border-radius: 6px; margin: 24px 0; overflow: hidden;
+}
+.premium-badge {
+  background: #c8a040; color: #fff; padding: 10px 20px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.premium-body { padding: 20px; }
+.premium-body p { font-size: 14px; }
+.premium-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;
+}
+.compare-col {
+  background: #f8f9fb; padding: 16px; border-radius: 4px;
+}
+.compare-col h4 {
+  font-size: 13px; font-weight: 700; color: #1a2744;
+  margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.compare-col ul { margin: 0 0 0 16px; font-size: 13px; }
+.compare-col .price-highlight {
+  font-size: 22px; font-weight: 700; color: #1a2744; margin-top: 12px;
+}
+.compare-col .price-note { font-size: 11px; color: #6b7280; }
+
+/* Signature */
+.signature-block {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  margin: 36px 0 24px; padding-top: 20px;
+}
+.sig-col { font-size: 13px; line-height: 1.8; }
+.sig-col .sig-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #6b7280;
+}
+.sig-line { border-bottom: 1px solid #ccc; min-height: 28px; margin-bottom: 4px; }
+.sig-filled { font-weight: 600; color: #1a2744; }
+
+/* Footer */
+.doc-footer {
+  margin-top: 40px; padding-top: 16px;
+  border-top: 1px solid #ddd; font-size: 11px; color: #888; line-height: 1.7;
+}
+
+/* Copy button */
+.copy-btn {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #1a2744; color: #fff; border: none;
+  padding: 12px 20px; border-radius: 6px; cursor: pointer;
+  font: 600 13px/1 'Inter', sans-serif; letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.copy-btn:hover { background: #2a3a5c; }
+</style>
+</head>
+<body>
+
+<button class="copy-btn no-print" onclick="copyToClipboard()">Copy to Clipboard</button>
+
+<div class="page" id="quote-content">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-text">Dxfferent</div>
+      <div class="logo-tagline">MSP Consulting</div>
+    </div>
+    <div class="header-right">
+      Guide as a Service<br>
+      Handled IT Partners
+    </div>
+  </div>
+  <div class="header-rule"></div>
+
+  <div class="addresses">
+    <div class="address-block">
+      <div class="address-label">To</div>
+      <strong>Handled IT Partners</strong><br>
+      Attention Andrew Kedjierski<br>
+      Director of Service Delivery<br>
+      handled.tech
+    </div>
+    <div class="address-block" style="text-align: right;">
+      <div class="address-label">From</div>
+      <strong>Dxfferent B.V.</strong><br>
+      KVK 77524950<br>
+      Bataviastraat 5<br>
+      3531 XA Utrecht
+    </div>
+  </div>
+
+  <p class="date-line">Concerning: Guide as a Service &mdash; Utrecht, April 29, 2026</p>
+
+  <p>Dear Andrew,</p>
+
+  <p>Here's the proposal as discussed. This concerns the proposal where Dxfferent will guide Handled IT Partners to improve their Autotask configuration, along with adjacent MSP optimizations. We are a results-driven organization and don't want to hold back on help, information or support. Therefore we work for a fixed monthly fee, not a fixed amount of hours. So you and our consultants don't have to worry about hours, we instead deliver results.</p>
+
+  <ul>
+    <li>We work based on bi-weekly sprints.</li>
+    <li>In addition to our bi-weekly sessions, we are available for all relevant questions over Teams chat.</li>
+    <li>We have a shared responsibility, we will both have homework in between sessions. We do not implement customer-specific data.</li>
+    <li>We are a sparring partner for all MSP-related topics.</li>
+    <li>For Guide as a Service (GaaS): for the monthly price, our initial term is 3 months. Thereafter the contract is automatically renewed at a monthly commitment until written cancellation, with a one-month notice period.</li>
+    <li>We can normally start within two weeks after quote approval.</li>
+    <li>We have included best-practice MSP process mapping and optimization with a 50% discount.</li>
+  </ul>
+
+  <p>If there are any questions or concerns, please don't hesitate to contact us.</p>
+
+  <p>Kind regards,</p>
+  <p><strong>Max de Kwaasteniet</strong></p>
+
+  <h2>This is Dxfferent</h2>
+
+  <p>Dxfferent was founded by Jasper van Horssen and originated from the ambition that MSPs too often have to look for specialized IT support. The goal is that you, as an MSP, can focus on where your strength lies and we take care of the rest.</p>
+
+  <p>What is central here is that we help you, as an MSP, to become even better. If we don't know something, we make sure we do know it and get advice from experts. So you can focus on business and we take care of the rest!</p>
+
+  <h3>Are we the best party for you?</h3>
+  <p>Do we have the best approach? That's for you to decide! This is how we think about business management:</p>
+
+  <div class="philosophy">
+    <div class="phil-card"><strong>Quality through process</strong>We work with professionals and trust their judgment. Processes, procedures and checks help professionals guarantee quality and make results predictable.</div>
+    <div class="phil-card"><strong>People are the real assets</strong>We facilitate our people with properly configured tools so that everyone can contribute, take responsibility, and excel in their work.</div>
+    <div class="phil-card"><strong>Customer is the starting point</strong>With everything we do, we focus on creating added value for your customers, the end goal being a happy customer and a high Net Promoter Score.</div>
+    <div class="phil-card"><strong>Ownership is the foundation</strong>Your professionals are self-directed, proactive, and take responsibility. Leaders are there to coach, facilitate and support, not to police.</div>
+  </div>
+
+  <h2>Our Approach</h2>
+
+  <div class="step">
+    <div class="step-header">Step 1: Intake session <span class="step-done">Done</span></div>
+    <p>We started with a discovery session on your current way of working and how Autotask is set up. Based on that intake we have a good understanding of your current situation: the migration from ConnectWise, the gaps in SLA configuration, ticket categorization, and integration challenges. Using our experience across 150+ MSP implementations, we can already point to several quick wins.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-header">Step 2: Kick-off</div>
+    <p>Once the quote is approved, we will host a kick-off with the project team. Within the kick-off we brief the project team. We go into the goals, project plan, first actions and will finalize the way we're going to work together.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-header">Step 3: Execution</div>
+    <p>Based on the intake, we will follow our structured method for optimizing Autotask and related topics. We start with the service offering (menu) and the processes, then move through integrations, enforcement, and KPI dashboards. We do this in sprints of 2 weeks. For each sprint we define the correct actions and who is responsible. Every sprint we review what was done, course-correcting along the way.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-header">Step 4: Go-live</div>
+    <p>We decide on the go-live date together. Before the go-live date we double check everything to make sure it is working as intended. Dxfferent can provide a custom training for your employees in one or two sessions, getting everyone on board with the new way of working.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-header">Step 5: Optimize</div>
+    <p>If you are still happy with our services we can continue and touch all parts of your MSP. The areas we could work on include: data-driven decision making, Governance, Risk &amp; Compliance (GRC), Identity, Professionalism, Portfolio, Automation, Positioning, Scalability and Technology.</p>
+  </div>
+
+  <h2>Sprint Roadmap</h2>
+
+  <p>Based on our discovery session, here is how we see the first 8 weeks playing out. This is a starting point; we will finalize the exact scope together during kick-off.</p>
+
+  <table class="sprint-table">
+    <tr><th style="width:120px">Sprint</th><th>Focus</th><th>Expected Deliverables</th></tr>
+    <tr>
+      <td><span class="sprint-label">Sprint 1</span><br><span class="sprint-sub">Weeks 1-2</span></td>
+      <td><strong>Service Desk Foundation</strong></td>
+      <td>Ticket categories and triage rules. Required fields enforcement (Issue Type, Sub-Issue Type, Work Type). Status definitions aligned with SLA clocks. Escalation paths. Basic workflow rules preventing incomplete ticket closure. Morning huddle dashboard improvements.</td>
+    </tr>
+    <tr>
+      <td><span class="sprint-label">Sprint 2</span><br><span class="sprint-sub">Weeks 3-4</span></td>
+      <td><strong>SLAs, KPIs &amp; Process Charts</strong></td>
+      <td>SLA configuration rebuild (Response, Resolution Plan, Resolution targets). Business hours and holiday calendars. KPI definitions per role (Technician, Service Manager, Executive). IT Glue sidebar process charts for top 5 ticket types. RMM alert audit and noise reduction on the monitors board.</td>
+    </tr>
+    <tr>
+      <td><span class="sprint-label">Sprint 3</span><br><span class="sprint-sub">Weeks 5-6</span></td>
+      <td><strong>Integrations &amp; Billing</strong></td>
+      <td>QuickBooks integration: Work Types mapped to Service Items, "Ready to Bill" flow verified. Service offering review and simplification. Time entry enforcement rules. Utilization target configuration (75%). DattoRMM alert-to-ticket priority mapping review.</td>
+    </tr>
+    <tr>
+      <td><span class="sprint-label">Sprint 4</span><br><span class="sprint-sub">Weeks 7-8</span></td>
+      <td><strong>Dashboards &amp; Accountability</strong></td>
+      <td>Technician dashboard ("My Work" view: daily time entry, SLA performance, utilization). Service Manager dashboard (SLA breaches, uncategorized tickets, resource utilization). Executive dashboard for leadership (contract profitability, CSAT overview). Stale ticket automation. Daily time summary alerts.</td>
+    </tr>
+    <tr>
+      <td><span class="sprint-label">Sprint 5+</span><br><span class="sprint-sub">Ongoing</span></td>
+      <td><strong>Optimization</strong></td>
+      <td>ScalePad/Lifecycle Manager X integration. CRM consolidation (HubSpot to Autotask opportunities). Duplicate company/contact cleanup. Advanced automations. Checklist libraries for Onboarding, Offboarding, Desktop Setup. Power BI dashboards (optional add-on).</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <strong>Your 6-8 week target:</strong> Sprints 1 through 4 are designed to deliver standardized processes, enforced KPIs, and accurate dashboards within your stated timeline. By week 8, your morning huddle dashboard will be built on reliable data because the system enforces proper data entry.
+  </div>
+
+  <h2>Our Services</h2>
+
+  <h3>Guide as a Service (GaaS)</h3>
+  <p>With GaaS, you always have an MSP guide by your side. This MSP consultant is available once every two weeks to help your business, and serves as a sparring partner for all MSP-related issues. This could be in the area of Autotask, ISO, contracts, services or other strategic issues. Our consultants come from the MSP field and have years of experience in various positions. They have helped dozens of other MSPs transform their business through Dxfferent.</p>
+  <p>In addition to the biweekly consultations, your consultant is available on an unlimited basis via Teams for fair-use questions about related topics. The consultant interacts with either one or a few main contacts, but will not act as a point of contact for your entire organization.</p>
+
+  <h3>Buddy as a Service (BaaS) &mdash; Premium Option</h3>
+  <p>Want to move faster? Buddy as a Service is our hands-on acceleration package. Everything in GaaS, plus your consultant meets with you weekly instead of biweekly, takes on more of the configuration and implementation work directly, and provides priority response on Teams. This is for MSPs who want the fastest possible path to results without having to do all the homework themselves.</p>
+
+  <h3>Process Mapping</h3>
+  <p>To maintain quality standards, you need to map out all the processes within your organization. We made a fully clickable process drawing of all mandatory procedures for ISO so that employees have clarity and auditors think: "They know what they're doing." We modify all processes in your business management software. All of our experience and best practices are included, and we make these process drawings organization-specific as part of the engagement. If there are processes missing we will make them for you for free.</p>
+
+  <div class="page-break"></div>
+
+  <h2>Investment Overview</h2>
+
+  <p>The following is your investment overview in US Dollars.</p>
+
+  <!-- Standard Option -->
+  <div class="price-section">
+    <div class="price-header">
+      <h3>Guide as a Service (3-month commitment, monthly after)</h3>
+      <span class="price-tag">Monthly</span>
+    </div>
+    <div class="price-body">
+      <div class="price-row">
+        <div class="label">
+          <strong>Guide as a Service</strong>
+          <div class="desc">Bi-weekly meetings. Unlimited support through Teams between meetings.</div>
+        </div>
+        <div class="amount">$2,500</div>
+      </div>
+    </div>
+    <div class="price-total">
+      <span>Monthly</span>
+      <span>$2,500</span>
+    </div>
+  </div>
+
+  <div class="price-section">
+    <div class="price-header">
+      <h3>Startup Fee + MSP Best-Practice Processes</h3>
+      <span class="price-tag">One-time</span>
+    </div>
+    <div class="price-body">
+      <div class="price-row">
+        <div class="label">
+          <strong>Startup Fee + Process Mapping</strong>
+          <div class="desc">Included with 3-month GaaS commitment. Based on our best practices we will realize a full interactive process overview. This is the foundation for the configuration and optimization.</div>
+        </div>
+        <div class="amount">$6,000</div>
+      </div>
+      <div class="price-row">
+        <div class="label"><strong>Discount</strong></div>
+        <div class="amount discount">-$3,000</div>
+      </div>
+    </div>
+    <div class="price-total">
+      <span>One-time</span>
+      <span>$3,000</span>
+    </div>
+  </div>
+
+  <!-- Premium Option -->
+  <div class="premium-option">
+    <div class="premium-badge">Premium Option</div>
+    <div class="premium-body">
+      <h3 style="margin-top: 0;">Upgrade to Buddy as a Service</h3>
+      <p>If you want to accelerate the timeline and have our consultant take on more of the implementation work directly, consider upgrading to BaaS.</p>
+
+      <div class="premium-compare">
+        <div class="compare-col">
+          <h4>Guide as a Service</h4>
+          <ul>
+            <li>Bi-weekly meetings (2 hrs)</li>
+            <li>You implement, we guide</li>
+            <li>Unlimited Teams support</li>
+            <li>Sparring on all MSP topics</li>
+            <li>Sprint-based delivery</li>
+          </ul>
+          <div class="price-highlight">$2,500<span class="price-note"> / month</span></div>
+        </div>
+        <div class="compare-col" style="border: 2px solid #c8a040; border-radius: 4px;">
+          <h4>Buddy as a Service</h4>
+          <ul>
+            <li>Weekly meetings</li>
+            <li>Consultant implements alongside you</li>
+            <li>Priority Teams support</li>
+            <li>Sparring on all MSP topics</li>
+            <li>Accelerated sprint delivery</li>
+          </ul>
+          <div class="price-highlight">$5,000<span class="price-note"> / month</span></div>
+        </div>
+      </div>
+
+      <p style="font-size: 13px; color: #555;">The BaaS upgrade applies to the monthly fee only. The one-time startup fee remains the same. You can start with GaaS and upgrade at any time.</p>
+    </div>
+  </div>
+
+  <h2>Approval</h2>
+
+  <div class="signature-block">
+    <div class="sig-col">
+      <strong>Dxfferent B.V.</strong><br><br>
+      <div class="sig-label">Name</div>
+      <div class="sig-line"><span class="sig-filled">Max de Kwaasteniet</span></div>
+      <div class="sig-label">Signature</div>
+      <div class="sig-line"></div>
+      <div class="sig-label">Date</div>
+      <div class="sig-line"><span class="sig-filled">April 29, 2026</span></div>
+    </div>
+    <div class="sig-col">
+      <strong>Handled IT Partners</strong><br><br>
+      <div class="sig-label">Name</div>
+      <div class="sig-line"></div>
+      <div class="sig-label">Signature</div>
+      <div class="sig-line"></div>
+      <div class="sig-label">Date</div>
+      <div class="sig-line"></div>
+      <div class="sig-label">Invoice e-mail</div>
+      <div class="sig-line"></div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <strong>Dxfferent B.V.</strong><br>
+    Address: Bataviastraat 5, 3531 XA in Utrecht<br>
+    Chamber of Commerce: 77524950 &nbsp;|&nbsp; VAT: NL861034843B01 &nbsp;|&nbsp; IBAN: NL67RABO0352104678
+  </div>
+
+</div>
+
+<script>
+function copyToClipboard() {
+  const content = document.getElementById('quote-content');
+  const range = document.createRange();
+  range.selectNodeContents(content);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  document.execCommand('copy');
+  sel.removeAllRanges();
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+}
+</script>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Dxfferent GaaS Quote - Handled IT Partners",
+  "date": "2026-04-29",
+  "summary": "Guide as a Service proposal for Andrew Kedjierski at Handled IT Partners. GaaS $2,500/mo + $3,000 one-time startup. BaaS premium option at $5,000/mo. Includes 4-sprint roadmap matching Andy's 6-8 week deadline.",
+  "session_state": {
+    "phase": "quote generation",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "next_action_required": "Max to review, convert to docx if needed, send to Andrew"
+  }
+}
+</script>
+
+</body>
+</html>

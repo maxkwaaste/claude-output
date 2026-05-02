@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote Variations Round 2 - Handled IT Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family:'PPMonument';
+  src:url('https://dxfferent.com/wp-content/themes/interly-child/fonts/PPMonumentExtended-Black.woff2') format('woff2'),
+      url('https://dxfferent.com/wp-content/themes/interly-child/fonts/PPMonumentExtended-Black.woff') format('woff');
+  font-weight:900;font-display:swap;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* Switcher */
+.switcher{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:#111;padding:10px 24px;
+  display:flex;gap:8px;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;border-bottom:2px solid #ED4C35;
+}
+.switcher span{color:#888;font-size:12px;margin-right:8px}
+.switcher button{
+  padding:7px 18px;border:1px solid #333;border-radius:3px;
+  background:transparent;color:#aaa;font-size:12px;font-weight:500;
+  cursor:pointer;transition:all 0.15s;font-family:inherit;
+}
+.switcher button:hover{border-color:#666;color:#fff}
+.switcher button.active{background:#ED4C35;border-color:#ED4C35;color:#fff}
+.variation{display:none;padding-top:46px}
+.variation.active{display:block}
+
+/* ============================================================
+   SHARED: token base
+   ============================================================ */
+:root{
+  --dxf-bg:#030303;
+  --dxf-surface:#0d0d0d;
+  --dxf-surface2:#161616;
+  --dxf-surface3:#1e1e1e;
+  --dxf-text:#fff;
+  --dxf-body:rgba(255,255,255,0.72);
+  --dxf-muted:rgba(255,255,255,0.42);
+  --dxf-faint:rgba(255,255,255,0.28);
+  --dxf-border:rgba(255,255,255,0.09);
+  --dxf-accent:#ED4C35;
+  --dxf-accent-soft:rgba(237,76,53,0.08);
+  --dxf-success:#49C481;
+  --dxf-gold:#c8a040;
+  --page-border:#222;
+}
+
+/* ============================================================
+   VARIATION A: "SWISS DARK"
+   Dark Dxfferent page sitting inside a lighter gray frame.
+   All text visible, no accordions.
+   ============================================================ */
+.var-a{background:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;color:var(--dxf-body)}
+.var-a .frame{
+  max-width:760px;margin:28px auto;
+  background:var(--dxf-bg);
+  border:1px solid var(--page-border);
+  box-shadow:0 4px 40px rgba(0,0,0,0.5);
+}
+
+/* Header */
+.var-a .q-head{padding:36px 44px 28px;border-bottom:1px solid var(--dxf-border);display:flex;justify-content:space-between;align-items:flex-start}
+.var-a .q-logo{height:22px}
+.var-a .q-ref{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--dxf-muted);text-align:right;line-height:1.7}
+
+/* Body */
+.var-a .q-body{padding:32px 44px 44px}
+.var-a .q-to-label{font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dxf-muted);margin-bottom:4px}
+.var-a .q-to-name{font-family:'PPMonument','DM Sans',sans-serif;font-size:22px;font-weight:900;text-transform:uppercase;color:var(--dxf-text);letter-spacing:0.02em;margin-bottom:4px}
+.var-a .q-to-desc{font-size:13px;color:var(--dxf-muted);margin-bottom:32px;max-width:480px}
+.var-a .q-stats{display:flex;gap:0;margin:0 0 32px;border:1px solid var(--dxf-border);border-radius:6px;overflow:hidden}
+.var-a .q-stat{flex:1;padding:14px;text-align:center;border-right:1px solid var(--dxf-border)}
+.var-a .q-stat:last-child{border-right:none}
+.var-a .q-stat-val{font-size:17px;font-weight:700;color:var(--dxf-text)}
+.var-a .q-stat-lbl{font-size:9px;color:var(--dxf-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:3px}
+.var-a h2{font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dxf-accent);margin:32px 0 12px;font-weight:700}
+.var-a h2::after{content:'';display:block;height:1px;background:var(--dxf-border);margin-top:8px}
+.var-a p{margin-bottom:10px;font-size:14px}
+
+/* Challenges - white block */
+.var-a .q-challenges{
+  background:#fff;border-radius:6px;padding:20px;margin:12px 0 24px;
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.var-a .q-ch{padding:10px 12px;border-left:2px solid var(--dxf-accent);background:#fafafa;border-radius:0 4px 4px 0}
+.var-a .q-ch strong{display:block;font-size:12px;color:#1a1a1a;font-weight:700}
+.var-a .q-ch span{font-size:11px;color:#777}
+
+/* Sprint table */
+.var-a .q-tbl{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+.var-a .q-tbl th{text-align:left;padding:8px 10px;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--dxf-muted);border-bottom:1px solid rgba(255,255,255,0.15)}
+.var-a .q-tbl td{padding:8px 10px;border-bottom:1px solid var(--dxf-border);color:var(--dxf-body);vertical-align:top}
+.var-a .q-tbl td:first-child{color:var(--dxf-text);font-weight:600;white-space:nowrap;width:85px}
+.var-a .q-tbl td:nth-child(2){color:var(--dxf-accent);font-weight:600;width:130px}
+
+/* Pricing */
+.var-a .q-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.var-a .q-opt{
+  background:var(--dxf-surface2);border:1px solid var(--dxf-border);border-radius:8px;
+  padding:22px;position:relative;cursor:pointer;transition:border-color 0.2s;
+}
+.var-a .q-opt:hover{border-color:rgba(255,255,255,0.2)}
+.var-a .q-opt.rec{border-color:var(--dxf-gold)}
+.var-a .q-opt-badge{position:absolute;top:-8px;right:14px;font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#fff;background:var(--dxf-gold);padding:2px 10px;border-radius:2px;font-weight:700}
+.var-a .q-opt h3{font-size:15px;color:var(--dxf-text);font-weight:700;margin-bottom:2px}
+.var-a .q-opt-sub{font-size:12px;color:var(--dxf-muted);margin-bottom:12px}
+.var-a .q-opt-price{font-size:26px;font-weight:700;color:var(--dxf-accent)}
+.var-a .q-opt-price span{font-size:12px;color:var(--dxf-muted);font-weight:400}
+.var-a .q-opt-features{list-style:none;padding:0;margin:12px 0 16px}
+.var-a .q-opt-features li{font-size:12px;color:var(--dxf-body);padding:4px 0;display:flex;gap:6px}
+.var-a .q-opt-features .ck{color:var(--dxf-success);font-weight:700;flex-shrink:0}
+.var-a .q-select-btn{
+  display:block;width:100%;padding:10px;border-radius:4px;border:none;
+  font-family:inherit;font-size:12px;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.04em;cursor:pointer;transition:all 0.15s;
+}
+.var-a .q-opt .q-select-btn{background:transparent;border:1px solid var(--dxf-accent);color:var(--dxf-accent)}
+.var-a .q-opt .q-select-btn:hover{background:var(--dxf-accent);color:#fff}
+.var-a .q-opt.rec .q-select-btn{background:var(--dxf-accent);color:#fff;border:none}
+.var-a .q-opt.rec .q-select-btn:hover{box-shadow:0 4px 16px rgba(237,76,53,0.25)}
+
+/* One-time */
+.var-a .q-onetime{background:var(--dxf-surface2);border:1px solid var(--dxf-border);border-radius:8px;padding:16px 20px;margin-top:16px;font-size:13px}
+.var-a .q-onetime-row{display:flex;justify-content:space-between;padding:4px 0}
+.var-a .q-onetime-row .amt{font-weight:700;color:var(--dxf-text)}
+.var-a .q-onetime-row.disc .amt{color:var(--dxf-success)}
+.var-a .q-onetime-total{display:flex;justify-content:space-between;padding:10px 0 0;margin-top:6px;border-top:1px solid rgba(255,255,255,0.15);font-weight:700;color:var(--dxf-text)}
+.var-a .q-validity{font-size:11px;color:var(--dxf-muted);margin-top:10px}
+
+/* FAQ - flat, no accordions */
+.var-a .q-faq{margin:12px 0}
+.var-a .q-faq-item{padding:10px 0;border-bottom:1px solid var(--dxf-border)}
+.var-a .q-faq-item:last-child{border-bottom:none}
+.var-a .q-faq-q{font-size:13px;font-weight:700;color:var(--dxf-text);margin-bottom:3px}
+.var-a .q-faq-a{font-size:13px;color:var(--dxf-muted)}
+
+/* Footer */
+.var-a .q-foot{padding:20px 44px;border-top:1px solid var(--dxf-border);font-size:10px;color:var(--dxf-muted);text-align:center}
+
+
+/* ============================================================
+   VARIATION B: "SWISS DARK TIGHT"
+   Same frame concept but tighter typography, monospace accents,
+   white pricing block for contrast pop.
+   ============================================================ */
+.var-b{background:#111;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;color:var(--dxf-body)}
+.var-b .frame{
+  max-width:720px;margin:24px auto;
+  background:var(--dxf-bg);
+  border:1px solid #2a2a2a;
+}
+
+.var-b .q-head{padding:32px 40px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--dxf-accent)}
+.var-b .q-logo{height:20px}
+.var-b .q-ref{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dxf-muted);text-align:right;line-height:1.8}
+
+.var-b .q-body{padding:28px 40px 40px}
+.var-b .q-to-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--dxf-border)}
+.var-b .q-to-label{font-size:9px;text-transform:uppercase;letter-spacing:0.16em;color:var(--dxf-muted);margin-bottom:2px}
+.var-b .q-to-name{font-family:'PPMonument','DM Sans',sans-serif;font-size:18px;font-weight:900;text-transform:uppercase;color:var(--dxf-text);letter-spacing:0.02em}
+.var-b .q-to-desc{font-size:12px;color:var(--dxf-muted);max-width:280px;text-align:right}
+.var-b h2{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--dxf-accent);margin:28px 0 10px;font-weight:500}
+.var-b p{margin-bottom:10px;font-size:13px}
+
+/* Challenges - inline grid */
+.var-b .q-challenges{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:8px 0 20px}
+@media(max-width:600px){.var-b .q-challenges{grid-template-columns:1fr 1fr}}
+.var-b .q-ch{padding:10px;background:var(--dxf-surface2);border:1px solid var(--dxf-border);border-radius:3px;border-top:2px solid var(--dxf-accent)}
+.var-b .q-ch strong{display:block;font-size:11px;color:var(--dxf-text);font-weight:700}
+.var-b .q-ch span{font-size:10px;color:var(--dxf-muted)}
+
+/* Sprint table */
+.var-b .q-tbl{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+.var-b .q-tbl th{text-align:left;padding:6px 8px;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--dxf-muted);border-bottom:1px solid rgba(255,255,255,0.15)}
+.var-b .q-tbl td{padding:7px 8px;border-bottom:1px solid var(--dxf-border);color:var(--dxf-body);vertical-align:top}
+.var-b .q-tbl td:first-child{font-family:'IBM Plex Mono',monospace;color:var(--dxf-text);font-weight:500;width:80px}
+.var-b .q-tbl td:nth-child(2){color:var(--dxf-accent);font-weight:600;width:110px}
+
+/* Pricing - WHITE block for contrast */
+.var-b .q-pricing-block{background:#fff;border-radius:6px;padding:24px;margin:12px 0}
+.var-b .q-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.var-b .q-opt{
+  border:1px solid #e0e0e0;padding:18px;border-radius:4px;
+  cursor:pointer;transition:border-color 0.15s;position:relative;
+}
+.var-b .q-opt:hover{border-color:var(--dxf-accent)}
+.var-b .q-opt.rec{border:2px solid var(--dxf-accent)}
+.var-b .q-opt-badge{position:absolute;top:-8px;left:14px;font-size:8px;text-transform:uppercase;letter-spacing:0.12em;color:#fff;background:var(--dxf-accent);padding:2px 10px;border-radius:2px;font-weight:700}
+.var-b .q-opt h3{font-size:14px;color:#1a1a1a;font-weight:700;margin-bottom:2px}
+.var-b .q-opt-sub{font-size:11px;color:#888;margin-bottom:10px}
+.var-b .q-opt-price{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:500;color:var(--dxf-accent)}
+.var-b .q-opt-price span{font-size:11px;color:#999;font-weight:400;font-family:'DM Sans',sans-serif}
+.var-b .q-opt-features{list-style:none;padding:0;margin:10px 0 14px}
+.var-b .q-opt-features li{font-size:11px;color:#555;padding:3px 0;display:flex;gap:6px}
+.var-b .q-opt-features .ck{color:#2a8a4a;font-weight:700}
+.var-b .q-select-btn{
+  display:block;width:100%;padding:8px;border-radius:3px;border:1px solid var(--dxf-accent);
+  background:transparent;color:var(--dxf-accent);font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;font-family:inherit;transition:all 0.15s;
+}
+.var-b .q-select-btn:hover{background:var(--dxf-accent);color:#fff}
+.var-b .q-opt.rec .q-select-btn{background:var(--dxf-accent);color:#fff;border-color:var(--dxf-accent)}
+
+/* One-time inside white block */
+.var-b .q-onetime-white{border-top:1px solid #e0e0e0;margin-top:16px;padding-top:12px;font-size:13px;color:#333}
+.var-b .q-onetime-row{display:flex;justify-content:space-between;padding:4px 0}
+.var-b .q-onetime-row .amt{font-family:'IBM Plex Mono',monospace;font-weight:500;color:#1a1a1a}
+.var-b .q-onetime-row.disc .amt{color:#1a8a3a}
+.var-b .q-onetime-total{display:flex;justify-content:space-between;padding:8px 0 0;margin-top:6px;border-top:2px solid #1a1a1a;font-weight:700;color:#1a1a1a}
+.var-b .q-onetime-total .amt{font-family:'IBM Plex Mono',monospace}
+.var-b .q-validity{font-size:10px;color:#999;margin-top:8px}
+
+/* FAQ flat */
+.var-b .q-faq-item{padding:8px 0;border-bottom:1px solid var(--dxf-border)}
+.var-b .q-faq-item:last-child{border-bottom:none}
+.var-b .q-faq-q{font-size:12px;font-weight:700;color:var(--dxf-text);margin-bottom:2px}
+.var-b .q-faq-a{font-size:12px;color:var(--dxf-muted)}
+
+.var-b .q-foot{padding:16px 40px;border-top:1px solid var(--dxf-border);font-size:10px;color:var(--dxf-muted);text-align:center}
+
+
+/* ============================================================
+   VARIATION C: "SWISS DARK OPEN"
+   Wider breathing room, alternating dark/darker bands,
+   challenge cards in a single row strip, open layout.
+   ============================================================ */
+.var-c{background:#0a0a0a;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;color:var(--dxf-body)}
+.var-c .frame{
+  max-width:780px;margin:20px auto;
+  background:var(--dxf-bg);
+  border:1px solid #1a1a1a;
+  box-shadow:0 2px 30px rgba(0,0,0,0.4);
+  overflow:hidden;
+}
+
+.var-c .q-head{padding:28px 44px;background:var(--dxf-surface);display:flex;justify-content:space-between;align-items:center}
+.var-c .q-logo{height:22px}
+.var-c .q-ref{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dxf-muted);text-align:right;line-height:1.8}
+
+.var-c .q-hero{padding:36px 44px;border-bottom:1px solid var(--dxf-border)}
+.var-c .q-to-label{font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dxf-muted);margin-bottom:4px}
+.var-c .q-to-name{font-family:'PPMonument','DM Sans',sans-serif;font-size:24px;font-weight:900;text-transform:uppercase;color:var(--dxf-text);letter-spacing:0.02em;margin-bottom:6px}
+.var-c .q-to-desc{font-size:13px;color:var(--dxf-muted);max-width:480px}
+
+/* Alternating bands */
+.var-c .band{padding:28px 44px}
+.var-c .band-alt{background:var(--dxf-surface)}
+.var-c h2{font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dxf-accent);margin-bottom:12px;font-weight:700}
+.var-c p{margin-bottom:10px;font-size:13px}
+
+/* Challenges as horizontal strip */
+.var-c .q-challenge-strip{display:flex;gap:8px;margin:8px 0;overflow-x:auto;padding-bottom:4px}
+.var-c .q-ch{
+  flex:0 0 auto;min-width:120px;padding:10px 14px;
+  background:var(--dxf-surface2);border:1px solid var(--dxf-border);border-radius:6px;
+  border-left:2px solid var(--dxf-accent);
+}
+.var-c .q-ch strong{display:block;font-size:11px;color:var(--dxf-text);font-weight:700;margin-bottom:2px}
+.var-c .q-ch span{font-size:10px;color:var(--dxf-muted)}
+
+/* Stats row */
+.var-c .q-stats{display:flex;gap:0;margin:0 0 4px;border:1px solid var(--dxf-border);border-radius:6px;overflow:hidden}
+.var-c .q-stat{flex:1;padding:12px;text-align:center;border-right:1px solid var(--dxf-border)}
+.var-c .q-stat:last-child{border-right:none}
+.var-c .q-stat-val{font-size:16px;font-weight:700;color:var(--dxf-text)}
+.var-c .q-stat-lbl{font-size:9px;color:var(--dxf-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+
+/* Sprint table */
+.var-c .q-tbl{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+.var-c .q-tbl th{text-align:left;padding:7px 10px;font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:var(--dxf-muted);border-bottom:1px solid rgba(255,255,255,0.15)}
+.var-c .q-tbl td{padding:8px 10px;border-bottom:1px solid var(--dxf-border);color:var(--dxf-body);vertical-align:top}
+.var-c .q-tbl td:first-child{color:var(--dxf-text);font-weight:600;width:85px}
+.var-c .q-tbl td:nth-child(2){color:var(--dxf-accent);font-weight:600;width:120px}
+
+/* Pricing - cards with subtle glow */
+.var-c .q-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:600px){.var-c .q-options,.var-b .q-options,.var-a .q-options{grid-template-columns:1fr}}
+.var-c .q-opt{
+  background:var(--dxf-surface2);border:1px solid var(--dxf-border);border-radius:10px;
+  padding:24px;position:relative;cursor:pointer;transition:all 0.2s;
+}
+.var-c .q-opt:hover{border-color:rgba(255,255,255,0.18)}
+.var-c .q-opt.rec{border-color:var(--dxf-accent);box-shadow:0 0 24px rgba(237,76,53,0.1)}
+.var-c .q-opt-badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#fff;background:var(--dxf-accent);padding:3px 14px;border-radius:100px;font-weight:700}
+.var-c .q-opt h3{font-size:16px;color:var(--dxf-text);font-weight:700;margin-bottom:2px}
+.var-c .q-opt-sub{font-size:12px;color:var(--dxf-muted);margin-bottom:12px}
+.var-c .q-opt-price{font-size:28px;font-weight:700;color:var(--dxf-accent)}
+.var-c .q-opt-price span{font-size:12px;color:var(--dxf-muted);font-weight:400}
+.var-c .q-opt-features{list-style:none;padding:0;margin:12px 0 16px}
+.var-c .q-opt-features li{font-size:12px;color:var(--dxf-body);padding:4px 0;display:flex;gap:7px}
+.var-c .q-opt-features .ck{color:var(--dxf-success);font-weight:700;flex-shrink:0}
+.var-c .q-select-btn{
+  display:block;width:100%;padding:10px;border-radius:6px;border:none;
+  font-family:inherit;font-size:12px;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.04em;cursor:pointer;transition:all 0.15s;
+}
+.var-c .q-opt .q-select-btn{background:var(--dxf-surface3);border:1px solid var(--dxf-border);color:var(--dxf-body)}
+.var-c .q-opt .q-select-btn:hover{border-color:var(--dxf-accent);color:var(--dxf-accent)}
+.var-c .q-opt.rec .q-select-btn{background:var(--dxf-accent);color:#fff}
+.var-c .q-opt.rec .q-select-btn:hover{box-shadow:0 4px 16px rgba(237,76,53,0.25)}
+
+/* One-time */
+.var-c .q-onetime{background:var(--dxf-surface2);border:1px solid var(--dxf-border);border-radius:8px;padding:16px 20px;margin-top:14px;font-size:13px}
+.var-c .q-onetime-row{display:flex;justify-content:space-between;padding:4px 0}
+.var-c .q-onetime-row .amt{font-weight:700;color:var(--dxf-text)}
+.var-c .q-onetime-row.disc .amt{color:var(--dxf-success)}
+.var-c .q-onetime-total{display:flex;justify-content:space-between;padding:10px 0 0;margin-top:6px;border-top:1px solid rgba(255,255,255,0.15);font-weight:700;color:var(--dxf-text)}
+.var-c .q-validity{font-size:11px;color:var(--dxf-muted);margin-top:8px}
+
+/* FAQ flat */
+.var-c .q-faq-item{padding:8px 0;border-bottom:1px solid var(--dxf-border)}
+.var-c .q-faq-item:last-child{border-bottom:none}
+.var-c .q-faq-q{font-size:12px;font-weight:700;color:var(--dxf-text);margin-bottom:2px}
+.var-c .q-faq-a{font-size:12px;color:var(--dxf-muted)}
+
+.var-c .q-foot{padding:18px 44px;background:var(--dxf-surface);font-size:10px;color:var(--dxf-muted);text-align:center}
+</style>
+</head>
+<body>
+
+<div class="switcher">
+  <span>Round 2:</span>
+  <button class="active" onclick="show('a',this)">A: Swiss Dark</button>
+  <button onclick="show('b',this)">B: Swiss Dark Tight</button>
+  <button onclick="show('c',this)">C: Swiss Dark Open</button>
+</div>
+
+<!-- ==================== A: SWISS DARK ==================== -->
+<div class="variation var-a active" id="var-a">
+<div class="frame">
+  <div class="q-head">
+    <img class="q-logo" src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+    <div class="q-ref">REF 2026-042<br>2026-04-29<br>NET 30</div>
+  </div>
+  <div class="q-body">
+    <div class="q-to-label">Prepared for</div>
+    <div class="q-to-name">Handled IT Partners</div>
+    <div class="q-to-desc">Autotask Operational Excellence program. From reactive ticketing to proactive service delivery within 8 weeks.</div>
+
+    <div class="q-stats">
+      <div class="q-stat"><div class="q-stat-val">150+</div><div class="q-stat-lbl">MSP Implementations</div></div>
+      <div class="q-stat"><div class="q-stat-val">2-week</div><div class="q-stat-lbl">Sprint cadence</div></div>
+      <div class="q-stat"><div class="q-stat-val">8 weeks</div><div class="q-stat-lbl">To first results</div></div>
+    </div>
+
+    <h2>Discovery Findings</h2>
+    <div class="q-challenges">
+      <div class="q-ch"><strong>No Ticket Triage</strong><span>All tickets arrive the same way. No categorization or escalation.</span></div>
+      <div class="q-ch"><strong>SLAs Not Configured</strong><span>No targets set. Clocks not pausing. False breaches.</span></div>
+      <div class="q-ch"><strong>Invoicing Problems</strong><span>QuickBooks not integrated. Manual adjustments monthly.</span></div>
+      <div class="q-ch"><strong>No KPIs or Dashboards</strong><span>No utilization tracking. Data going into dashboards is unreliable.</span></div>
+      <div class="q-ch"><strong>RMM Alert Noise</strong><span>One person checks monitors. Too much noise, no signal.</span></div>
+      <div class="q-ch"><strong>No Process Documentation</strong><span>No flow charts. Engineers have no reference for ticket types.</span></div>
+    </div>
+
+    <h2>Method</h2>
+    <p>Structured bi-weekly sprints. Fixed monthly fee, no hourly billing. Unlimited Microsoft Teams support between sessions. Shared responsibility with homework on both sides. We do not implement customer-specific data.</p>
+
+    <h2>Sprint Roadmap</h2>
+    <table class="q-tbl">
+      <tr><th>Sprint</th><th>Focus</th><th>Deliverables</th></tr>
+      <tr><td>1 (Wk 1-2)</td><td>Foundation</td><td>Ticket categories, triage rules, required fields, status/SLA alignment, escalation paths, workflows, huddle dashboard.</td></tr>
+      <tr><td>2 (Wk 3-4)</td><td>SLAs &amp; KPIs</td><td>SLA rebuild (response, plan, resolution). Business hours/holidays. KPI definitions per role. IT Glue process charts. RMM alert audit.</td></tr>
+      <tr><td>3 (Wk 5-6)</td><td>Billing</td><td>QuickBooks integration and Work Type mapping. Service offering simplification. Time entry enforcement. Utilization config.</td></tr>
+      <tr><td>4 (Wk 7-8)</td><td>Dashboards</td><td>Technician, Service Manager, and Executive dashboards. Stale ticket automation. Daily time summary alerts.</td></tr>
+      <tr><td>5+ (Ongoing)</td><td>Optimize</td><td>ScalePad integration. CRM consolidation. Duplicate cleanup. Checklist libraries. Power BI (optional $300/mo add-on).</td></tr>
+    </table>
+
+    <h2>Select Your Service</h2>
+    <p style="font-size:13px;color:var(--dxf-muted)">Both options cover the same roadmap. The difference is speed and how much our consultant takes on directly.</p>
+    <div class="q-options">
+      <div class="q-opt">
+        <h3>Guide as a Service</h3>
+        <div class="q-opt-sub">You implement, we guide. Bi-weekly meetings.</div>
+        <div class="q-opt-price">$2,500 <span>/month</span></div>
+        <ul class="q-opt-features">
+          <li><span class="ck">&#10003;</span> Bi-weekly meetings (approx. 2 hours)</li>
+          <li><span class="ck">&#10003;</span> Unlimited Teams support</li>
+          <li><span class="ck">&#10003;</span> Sprint-based delivery</li>
+          <li><span class="ck">&#10003;</span> MSP sparring partner</li>
+        </ul>
+        <button class="q-select-btn">Select &amp; Continue</button>
+      </div>
+      <div class="q-opt rec">
+        <div class="q-opt-badge">Recommended</div>
+        <h3>Buddy as a Service</h3>
+        <div class="q-opt-sub">We implement alongside you. Weekly meetings.</div>
+        <div class="q-opt-price">$5,000 <span>/month</span></div>
+        <ul class="q-opt-features">
+          <li><span class="ck">&#10003;</span> Weekly meetings</li>
+          <li><span class="ck">&#10003;</span> Priority Teams support</li>
+          <li><span class="ck">&#10003;</span> Hands-on configuration</li>
+          <li><span class="ck">&#10003;</span> Accelerated delivery</li>
+        </ul>
+        <button class="q-select-btn">Select &amp; Continue</button>
+      </div>
+    </div>
+
+    <div class="q-onetime">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--dxf-muted);margin-bottom:6px">One-time (applies to both)</div>
+      <div class="q-onetime-row"><span>Startup Fee + MSP Best-Practice Process Mapping</span><span class="amt">$6,000</span></div>
+      <div class="q-onetime-row disc"><span>50% discount (with 3-month commitment)</span><span class="amt">-$3,000</span></div>
+      <div class="q-onetime-total"><span>One-time total</span><span>$3,000</span></div>
+    </div>
+    <div class="q-validity">Valid 30 days from April 29, 2026. Initial term: 3 months, monthly renewal after. One month notice to cancel.</div>
+
+    <h2>Questions &amp; Answers</h2>
+    <div class="q-faq">
+      <div class="q-faq-item"><div class="q-faq-q">What if we need to move faster?</div><div class="q-faq-a">Buddy as a Service gives you weekly meetings and hands-on implementation. You can start with GaaS and upgrade at any time.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">Do you implement customer-specific data?</div><div class="q-faq-a">No. We configure systems and build workflows. You handle customer-specific data so you own the knowledge going forward.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">What happens after 3 months?</div><div class="q-faq-a">Monthly renewal. Cancel with one month's written notice.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">How quickly can we start?</div><div class="q-faq-a">Within two weeks of approval. Kick-off sets the stage, Sprint 1 begins right after.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">Can we add Power BI dashboards later?</div><div class="q-faq-a">Yes. Optional add-on at $300/month, best added after Sprint 4 when the foundation is in place.</div></div>
+    </div>
+  </div>
+  <div class="q-foot">Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; VAT NL861034843B01 &nbsp;|&nbsp; IBAN NL67RABO0352104678</div>
+</div>
+</div>
+
+<!-- ==================== B: SWISS DARK TIGHT ==================== -->
+<div class="variation var-b" id="var-b">
+<div class="frame">
+  <div class="q-head">
+    <img class="q-logo" src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+    <div class="q-ref">REF 2026-042<br>2026-04-29<br>NET 30</div>
+  </div>
+  <div class="q-body">
+    <div class="q-to-row">
+      <div>
+        <div class="q-to-label">Client</div>
+        <div class="q-to-name">Handled IT Partners</div>
+      </div>
+      <div class="q-to-desc">Autotask Operational Excellence.<br>Reactive to proactive within 8 weeks.</div>
+    </div>
+
+    <h2>// Discovery Findings</h2>
+    <div class="q-challenges">
+      <div class="q-ch"><strong>No Triage</strong><span>No categorization</span></div>
+      <div class="q-ch"><strong>No SLAs</strong><span>False breaches</span></div>
+      <div class="q-ch"><strong>Invoicing</strong><span>QB not integrated</span></div>
+      <div class="q-ch"><strong>No KPIs</strong><span>Unreliable data</span></div>
+      <div class="q-ch"><strong>RMM Noise</strong><span>No signal</span></div>
+      <div class="q-ch"><strong>No Docs</strong><span>No flow charts</span></div>
+    </div>
+
+    <h2>// Method</h2>
+    <p>Bi-weekly sprints. Fixed fee. Unlimited Teams. Shared homework. We configure, you own.</p>
+
+    <h2>// Delivery Schedule</h2>
+    <table class="q-tbl">
+      <tr><th>Sprint</th><th>Focus</th><th>Deliverables</th></tr>
+      <tr><td>01 wk1-2</td><td>Foundation</td><td>Triage, categories, required fields, workflows, dashboard.</td></tr>
+      <tr><td>02 wk3-4</td><td>SLAs/KPIs</td><td>SLA rebuild, business hours, KPIs, IT Glue charts, RMM audit.</td></tr>
+      <tr><td>03 wk5-6</td><td>Billing</td><td>QuickBooks integration, time entry enforcement.</td></tr>
+      <tr><td>04 wk7-8</td><td>Dashboards</td><td>Tech/Manager/Executive views. Stale ticket automation.</td></tr>
+      <tr><td>05+ ongoing</td><td>Optimize</td><td>ScalePad, CRM, automations, Power BI option.</td></tr>
+    </table>
+
+    <h2>// Select Service</h2>
+    <div class="q-pricing-block">
+      <div class="q-options">
+        <div class="q-opt">
+          <h3>Guide as a Service</h3>
+          <div class="q-opt-sub">You implement, we guide</div>
+          <div class="q-opt-price">$2,500 <span>/mo</span></div>
+          <ul class="q-opt-features">
+            <li><span class="ck">&#10003;</span> Bi-weekly meetings (2 hrs)</li>
+            <li><span class="ck">&#10003;</span> Unlimited Teams</li>
+            <li><span class="ck">&#10003;</span> Sprint delivery</li>
+            <li><span class="ck">&#10003;</span> MSP sparring</li>
+          </ul>
+          <button class="q-select-btn">Select</button>
+        </div>
+        <div class="q-opt rec">
+          <div class="q-opt-badge">Recommended</div>
+          <h3>Buddy as a Service</h3>
+          <div class="q-opt-sub">We implement with you</div>
+          <div class="q-opt-price">$5,000 <span>/mo</span></div>
+          <ul class="q-opt-features">
+            <li><span class="ck">&#10003;</span> Weekly meetings</li>
+            <li><span class="ck">&#10003;</span> Priority Teams</li>
+            <li><span class="ck">&#10003;</span> Hands-on config</li>
+            <li><span class="ck">&#10003;</span> Accelerated delivery</li>
+          </ul>
+          <button class="q-select-btn">Select</button>
+        </div>
+      </div>
+      <div class="q-onetime-white">
+        <div class="q-onetime-row"><span>Startup + Process Mapping</span><span class="amt">$6,000</span></div>
+        <div class="q-onetime-row disc"><span>50% discount (3-month term)</span><span class="amt">-$3,000</span></div>
+        <div class="q-onetime-total"><span>One-time</span><span class="amt">$3,000</span></div>
+      </div>
+      <div class="q-validity">Valid 30 days. 3-month initial, monthly after. 1 month notice.</div>
+    </div>
+
+    <h2>// Q&amp;A</h2>
+    <div>
+      <div class="q-faq-item"><div class="q-faq-q">Move faster?</div><div class="q-faq-a">BaaS: weekly meetings, hands-on. Upgrade anytime.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">Customer data?</div><div class="q-faq-a">We configure. You implement customer-specific data.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">After 3 months?</div><div class="q-faq-a">Monthly. One month notice to cancel.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">Start timeline?</div><div class="q-faq-a">Two weeks from approval.</div></div>
+      <div class="q-faq-item"><div class="q-faq-q">Power BI?</div><div class="q-faq-a">$300/mo add-on after Sprint 4.</div></div>
+    </div>
+  </div>
+  <div class="q-foot">Dxfferent B.V. &bull; Bataviastraat 5, Utrecht &bull; KVK 77524950 &bull; NL861034843B01</div>
+</div>
+</div>
+
+<!-- ==================== C: SWISS DARK OPEN ==================== -->
+<div class="variation var-c" id="var-c">
+<div class="frame">
+  <div class="q-head">
+    <img class="q-logo" src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+    <div class="q-ref">REF 2026-042<br>2026-04-29<br>NET 30</div>
+  </div>
+  <div class="q-hero">
+    <div class="q-to-label">Prepared for</div>
+    <div class="q-to-name">Handled IT Partners</div>
+    <div class="q-to-desc">Autotask Operational Excellence. Reactive ticketing to proactive service engine within 8 weeks.</div>
+  </div>
+
+  <div class="band band-alt">
+    <div class="q-stats">
+      <div class="q-stat"><div class="q-stat-val">150+</div><div class="q-stat-lbl">MSP Implementations</div></div>
+      <div class="q-stat"><div class="q-stat-val">2-week</div><div class="q-stat-lbl">Sprint cadence</div></div>
+      <div class="q-stat"><div class="q-stat-val">8 weeks</div><div class="q-stat-lbl">To first results</div></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <h2>Discovery Findings</h2>
+    <div class="q-challenge-strip">
+      <div class="q-ch"><strong>No Triage</strong><span>No categorization or escalation paths.</span></div>
+      <div class="q-ch"><strong>No SLAs</strong><span>False breaches eroding trust.</span></div>
+      <div class="q-ch"><strong>Invoicing</strong><span>QuickBooks not integrated.</span></div>
+      <div class="q-ch"><strong>No KPIs</strong><span>Unreliable dashboard data.</span></div>
+      <div class="q-ch"><strong>RMM Noise</strong><span>Alerts not actionable.</span></div>
+      <div class="q-ch"><strong>No Docs</strong><span>No process references.</span></div>
+    </div>
+  </div>
+
+  <div class="band band-alt">
+    <h2>Method</h2>
+    <p>Structured bi-weekly sprints. Fixed monthly fee, no hourly billing. Unlimited Teams support between sessions. Shared responsibility with homework on both sides. We configure systems; you handle customer-specific data and own the knowledge.</p>
+  </div>
+
+  <div class="band">
+    <h2>Sprint Roadmap</h2>
+    <table class="q-tbl">
+      <tr><th>Sprint</th><th>Focus</th><th>Deliverables</th></tr>
+      <tr><td>1 (Wk 1-2)</td><td>Foundation</td><td>Ticket categories, triage rules, required fields, status/SLA alignment, escalation paths, workflows, huddle dashboard.</td></tr>
+      <tr><td>2 (Wk 3-4)</td><td>SLAs &amp; KPIs</td><td>SLA rebuild. Business hours/holidays. KPI definitions per role. IT Glue process charts. RMM alert audit and noise reduction.</td></tr>
+      <tr><td>3 (Wk 5-6)</td><td>Billing</td><td>QuickBooks integration. Service offering simplification. Time entry enforcement. Utilization target configuration.</td></tr>
+      <tr><td>4 (Wk 7-8)</td><td>Dashboards</td><td>Technician, Service Manager, and Executive dashboards. Stale ticket automation. Daily time summary alerts.</td></tr>
+      <tr><td>5+ (Ongoing)</td><td>Optimize</td><td>ScalePad integration. CRM consolidation. Duplicate cleanup. Checklist libraries. Power BI dashboards (optional $300/mo).</td></tr>
+    </table>
+  </div>
+
+  <div class="band band-alt">
+    <h2>Select Your Service</h2>
+    <p style="font-size:13px;color:var(--dxf-muted);margin-bottom:8px">Both options cover the same roadmap. The difference is speed and how hands-on our consultant is.</p>
+    <div class="q-options">
+      <div class="q-opt">
+        <h3>Guide as a Service</h3>
+        <div class="q-opt-sub">You implement, we guide. Bi-weekly meetings.</div>
+        <div class="q-opt-price">$2,500 <span>/month</span></div>
+        <ul class="q-opt-features">
+          <li><span class="ck">&#10003;</span> Bi-weekly meetings (approx. 2 hours)</li>
+          <li><span class="ck">&#10003;</span> Unlimited Teams support between sessions</li>
+          <li><span class="ck">&#10003;</span> Sprint-based delivery with clear deliverables</li>
+          <li><span class="ck">&#10003;</span> Sparring partner for all MSP topics</li>
+        </ul>
+        <button class="q-select-btn">Select &amp; Continue</button>
+      </div>
+      <div class="q-opt rec">
+        <div class="q-opt-badge">Recommended</div>
+        <h3>Buddy as a Service</h3>
+        <div class="q-opt-sub">We implement alongside you. Weekly meetings.</div>
+        <div class="q-opt-price">$5,000 <span>/month</span></div>
+        <ul class="q-opt-features">
+          <li><span class="ck">&#10003;</span> Weekly meetings for faster progress</li>
+          <li><span class="ck">&#10003;</span> Priority Teams support</li>
+          <li><span class="ck">&#10003;</span> Consultant handles configuration directly</li>
+          <li><span class="ck">&#10003;</span> Accelerated sprint delivery</li>
+        </ul>
+        <button class="q-select-btn">Select &amp; Continue</button>
+      </div>
+    </div>
+
+    <div class="q-onetime">
+      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--dxf-muted);margin-bottom:6px">One-time (applies to both options)</div>
+      <div class="q-onetime-row"><span>Startup Fee + MSP Best-Practice Process Mapping</span><span class="amt">$6,000</span></div>
+      <div class="q-onetime-row disc"><span>50% discount (with 3-month commitment)</span><span class="amt">-$3,000</span></div>
+      <div class="q-onetime-total"><span>One-time total</span><span>$3,000</span></div>
+    </div>
+    <div class="q-validity">Valid 30 days from April 29, 2026. Initial term: 3 months, monthly renewal after. One month notice to cancel.</div>
+  </div>
+
+  <div class="band">
+    <h2>Questions &amp; Answers</h2>
+    <div class="q-faq-item"><div class="q-faq-q">What if we need to move faster?</div><div class="q-faq-a">Buddy as a Service gives you weekly meetings and hands-on implementation from our consultant. You can start with Guide as a Service and upgrade at any time.</div></div>
+    <div class="q-faq-item"><div class="q-faq-q">Do you implement customer-specific data?</div><div class="q-faq-a">No. We configure systems, build workflows, set up integrations, and create process documentation. You and your team handle customer-specific data entry. This ensures you own the knowledge and can maintain it going forward.</div></div>
+    <div class="q-faq-item"><div class="q-faq-q">What happens after the 3-month commitment?</div><div class="q-faq-a">The contract continues on a monthly basis. You can cancel with one month's written notice. Most of our clients continue because the ongoing optimization keeps delivering value.</div></div>
+    <div class="q-faq-item"><div class="q-faq-q">How quickly can we start?</div><div class="q-faq-a">Within two weeks of approval. The kick-off meeting sets the stage, and Sprint 1 begins immediately after.</div></div>
+    <div class="q-faq-item"><div class="q-faq-q">Can we add Power BI dashboards later?</div><div class="q-faq-a">Yes. We offer Power BI as an optional add-on at $300/month that connects to your Autotask data and provides AI-powered reporting. Best added after Sprint 4 when the foundation is in place.</div></div>
+  </div>
+
+  <div class="q-foot">Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; VAT NL861034843B01 &nbsp;|&nbsp; IBAN NL67RABO0352104678</div>
+</div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.variation').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('active'));
+  document.getElementById('var-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>

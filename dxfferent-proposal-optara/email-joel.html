@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<style>
+body { margin: 0; padding: 32px; background: #f4f4f4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.copy-bar { max-width: 600px; margin: 0 auto 12px; display: flex; justify-content: space-between; align-items: center; }
+.copy-bar span { font-size: 12px; color: #888; font-family: monospace; letter-spacing: 0.04em; }
+.copy-btn {
+  background: #ED4C35; color: #fff; border: none; border-radius: 4px; padding: 8px 20px;
+  font-family: 'Segoe UI', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+  letter-spacing: 0.04em; text-transform: uppercase; transition: background 0.2s;
+}
+.copy-btn:hover { background: #d9432d; }
+.copy-btn.copied { background: #49C481; }
+</style>
+</head>
+<body>
+
+<!-- Copy bar (not part of email) -->
+<div class="copy-bar">
+  <span>TO: jgarcia@optara.com &middot; SUBJECT: Dxfferent — IT Glue Proposal for Optara</span>
+  <button class="copy-btn" onclick="copyEmail()">Copy to Clipboard</button>
+</div>
+
+<!-- === EMAIL CONTENT START === -->
+<div id="email-content">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:4px;overflow:hidden;border:1px solid #e2e2e2;">
+
+  <!-- Header -->
+  <tr><td style="padding:24px 40px;border-bottom:1px solid #eee;background:#fafafa;">
+    <img src="https://dxfferent.com/wp-content/themes/interly-child/images/logo-dark.svg" alt="Dxfferent" height="24" style="display:block;" onerror="this.src='https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg';this.style.filter='invert(1)';">
+  </td></tr>
+
+  <!-- Accent bar -->
+  <tr><td style="background:#ED4C35;height:3px;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+  <!-- Body -->
+  <tr><td style="padding:40px 40px 20px;color:#1a1a1a;font-size:15px;line-height:1.7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
+    <p style="margin:0 0 20px;color:#1a1a1a;font-size:18px;font-weight:600;">Hi Joel,</p>
+
+    <p style="margin:0 0 16px;color:#333;">Thank you for the conversation with Melissa earlier. As promised, she reviewed your IT Glue environment and we have put together a proposal based on her findings.</p>
+
+    <p style="margin:0 0 16px;color:#333;">The short version: your IT Glue needs a full reimplementation. Integrations like Lifecycle are pulling incorrect data, your documentation is spread across multiple systems, and the platform is not structured to support the automations you want to build. We have mapped out what needs to happen to fix it.</p>
+
+    <p style="margin:0 0 24px;color:#333;">The proposal covers the full scope, timeline, and investment. You can review and accept it online:</p>
+  </td></tr>
+
+  <!-- CTA -->
+  <tr><td style="padding:0 40px 32px;" align="center">
+    <table cellpadding="0" cellspacing="0"><tr>
+      <td style="background:#ED4C35;border-radius:4px;padding:14px 32px;">
+        <a href="https://dxfferent.com/proposal/optara-itglue/" style="color:#fff;text-decoration:none;font-family:'Segoe UI',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;">View Proposal</a>
+      </td>
+    </tr></table>
+  </td></tr>
+
+  <!-- Closing -->
+  <tr><td style="padding:0 40px 40px;color:#333;font-size:15px;line-height:1.7;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
+    <p style="margin:0 0 16px;">If you have any questions or want to walk through it together, happy to jump on a call. Otherwise, you can accept directly from the proposal page.</p>
+
+    <p style="margin:0 0 16px;color:#333;">If you would like to speak with someone who has worked with us, feel free to reach out to Chad Miles or Kevin Miles at IT Partners (<a href="mailto:chad@itpartners.com" style="color:#ED4C35">chad@itpartners.com</a>, <a href="mailto:kmiles@itpartners.com" style="color:#ED4C35">kmiles@itpartners.com</a>). They can speak to what it is like working with Dxfferent.</p>
+
+    <p style="margin:0 0 4px;color:#888;font-style:italic;">Kind regards,</p>
+    <p style="margin:0;color:#1a1a1a;font-weight:600;">Max de Kwaasteniet</p>
+    <p style="margin:4px 0 0;color:#888;font-size:13px;">Dxfferent B.V.</p>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td style="padding:16px 40px;border-top:1px solid #eee;text-align:center;background:#fafafa;">
+    <p style="margin:0;font-family:monospace;font-size:11px;color:#999;letter-spacing:0.02em;">
+      Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950
+    </p>
+  </td></tr>
+
+</table>
+</div>
+<!-- === EMAIL CONTENT END === -->
+
+<script>
+function copyEmail() {
+  var content = document.getElementById('email-content');
+  var range = document.createRange();
+  range.selectNodeContents(content);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  // Copy as rich text (HTML)
+  var html = content.innerHTML;
+  var blob = new Blob([html], { type: 'text/html' });
+  var plainBlob = new Blob([content.innerText], { type: 'text/plain' });
+
+  navigator.clipboard.write([
+    new ClipboardItem({
+      'text/html': blob,
+      'text/plain': plainBlob
+    })
+  ]).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = 'Copy to Clipboard';
+      btn.classList.remove('copied');
+      sel.removeAllRanges();
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

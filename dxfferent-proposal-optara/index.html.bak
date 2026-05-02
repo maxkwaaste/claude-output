@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Dxfferent — Proposal for Optara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'PPMonument';
+  src: url('https://dxfferent.com/wp-content/themes/interly-child/fonts/PPMonumentExtended-Black.woff2') format('woff2'),
+       url('https://dxfferent.com/wp-content/themes/interly-child/fonts/PPMonumentExtended-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --frame: #0f0f0f;
+  --alt: #141414;
+  --accent: #ED4C35;
+  --success: #49C481;
+  --gold: #c8a040;
+  --card-light: #f8f7f5;
+  --text: #e0e0e0;
+  --text-dim: #888;
+  --text-dark: #1a1a1a;
+  --border: #222;
+  --mono: 'IBM Plex Mono', monospace;
+  --body: 'DM Sans', sans-serif;
+  --display: 'PPMonument', 'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-frame {
+  max-width: 900px;
+  margin: 40px auto;
+  background: var(--frame);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.band { padding: 64px 56px; }
+.band-alt { background: var(--alt); }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 56px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.header-logo img { height: 28px; display: block; }
+.header-ref {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+h2 {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 32px;
+  line-height: 1.2;
+}
+h3 {
+  font-family: var(--body);
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.mono-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+p { margin-bottom: 16px; color: var(--text); }
+p:last-child { margin-bottom: 0; }
+
+.hero h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+.cover-letter p { font-size: 15px; }
+.cover-letter .salutation {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.bullet-list li {
+  padding: 10px 0 10px 24px;
+  position: relative;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.bullet-list li:last-child { border-bottom: none; }
+.bullet-list li::before {
+  content: '\2014';
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+.sign-off {
+  margin-top: 28px;
+  font-style: italic;
+  color: var(--text-dim);
+}
+.sign-off strong {
+  display: block;
+  font-style: normal;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.stat-card {
+  background: var(--alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.stat-number {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.challenge-card {
+  background: var(--card-light);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 28px 24px;
+  color: var(--text-dark);
+}
+.challenge-card h3 {
+  color: var(--text-dark);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.challenge-card p {
+  color: #444;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.approach-steps { display: flex; flex-direction: column; gap: 24px; }
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.step-num {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  padding-top: 4px;
+}
+.step-title {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge-done {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--success);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.step-body p { font-size: 15px; color: var(--text-dim); margin: 0; }
+
+.roadmap-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+.roadmap-table th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.roadmap-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+}
+.roadmap-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+.roadmap-table .sprint-label {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.roadmap-table .focus-label { font-weight: 600; color: #fff; }
+
+.callout-box {
+  background: rgba(237, 76, 53, 0.06);
+  border: 1px solid rgba(237, 76, 53, 0.25);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 28px 24px;
+}
+.callout-box strong { color: #fff; }
+.callout-box p { font-size: 15px; margin: 0; }
+
+/* Single pricing card - centered */
+.pricing-single {
+  max-width: 480px;
+  margin: 0 auto 32px;
+}
+.pricing-card {
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 0 1px var(--gold);
+  border-radius: 6px;
+  padding: 36px 28px;
+  position: relative;
+  background: var(--alt);
+  display: flex;
+  flex-direction: column;
+}
+.pricing-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: var(--gold);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 3px;
+}
+.pricing-name {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.pricing-tagline {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+}
+.pricing-amount {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.pricing-period {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+}
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 28px;
+  flex: 1;
+}
+.pricing-features li {
+  padding: 8px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: start;
+  gap: 10px;
+}
+.pricing-features li::before {
+  content: '\2713';
+  color: var(--success);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.btn-select {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--accent);
+  color: #fff;
+}
+.btn-select:hover { background: #d9432d; }
+
+.onetime-box {
+  background: var(--alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px 24px;
+  margin-bottom: 20px;
+}
+.onetime-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 15px;
+}
+.onetime-row.total {
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  padding-top: 16px;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+}
+.validity {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.qa-list { display: flex; flex-direction: column; gap: 28px; }
+.qa-q {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+.qa-a { font-size: 15px; color: var(--text-dim); margin: 0; }
+
+.terms-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px 28px;
+}
+.terms-box h2 { font-size: 20px; margin-bottom: 24px; }
+.terms-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: term;
+}
+.terms-list li {
+  padding: 10px 0;
+  font-size: 13px;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  line-height: 1.6;
+}
+.terms-list li:last-child { border-bottom: none; }
+
+.footer {
+  padding: 20px 56px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+}
+
+/* ---- PAGE 2 ---- */
+.back-link {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+
+.step-banner {
+  background: var(--accent);
+  padding: 14px 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.step-banner-title {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.step-banner-steps {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.04em;
+}
+.step-banner-steps .current { color: #fff; font-weight: 600; }
+@media (max-width: 700px) {
+  .step-banner { padding: 12px 24px; flex-direction: column; gap: 4px; text-align: center; }
+}
+
+.selection-card {
+  background: var(--alt);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  padding: 32px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.selection-service {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+}
+.selection-price {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.philosophy-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+.philosophy-list li {
+  padding: 10px 0 10px 24px;
+  position: relative;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.philosophy-list li:last-child { border-bottom: none; }
+.philosophy-list li::before {
+  content: '\2014';
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+.included-list {
+  list-style: none;
+  padding: 0;
+}
+.included-list li {
+  padding: 12px 0;
+  font-size: 15px;
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.included-list li:last-child { border-bottom: none; }
+.included-list li::before {
+  content: '\2713';
+  color: var(--success);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 16px;
+  margin-top: 1px;
+}
+
+.sprint-recap {
+  list-style: none;
+  padding: 0;
+  counter-reset: sprint;
+}
+.sprint-recap li {
+  counter-increment: sprint;
+  padding: 12px 0 12px 40px;
+  position: relative;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sprint-recap li:last-child { border-bottom: none; }
+.sprint-recap li::before {
+  content: counter(sprint) '.';
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.form-group input[type="text"],
+.form-group input[type="email"] {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: #fff;
+  font-family: var(--body);
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.form-group input::placeholder { color: #555; }
+
+.checkbox-group {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  margin: 28px 0;
+}
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.checkbox-group label {
+  font-size: 14px;
+  color: var(--text-dim);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  cursor: not-allowed;
+  transition: all 0.2s;
+  background: #333;
+  color: #666;
+}
+.btn-submit.enabled {
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.btn-submit.enabled:hover { background: #d9432d; }
+.form-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 16px;
+}
+
+.signature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+.sig-col h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.sig-field { margin-bottom: 20px; }
+.sig-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.sig-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  padding-bottom: 4px;
+  min-height: 28px;
+}
+.sig-blank {
+  border-bottom: 1px solid var(--border);
+  min-height: 28px;
+}
+
+.success-message {
+  text-align: center;
+  padding: 48px 24px;
+}
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--success);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #fff;
+}
+.success-message h2 {
+  font-family: var(--display);
+  color: #fff;
+  margin-bottom: 16px;
+}
+.success-message p {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 700px) {
+  .document-frame { margin: 0; border: none; border-radius: 0; }
+  .band { padding: 40px 24px; }
+  .header { padding: 16px 24px; }
+  .footer { padding: 16px 24px; }
+  h2 { font-size: 22px; }
+  .hero h2 { font-size: 26px; }
+  .stats-row { grid-template-columns: 1fr; }
+  .challenge-grid { grid-template-columns: 1fr; }
+  .pricing-single { max-width: 100%; }
+  .signature-grid { grid-template-columns: 1fr; gap: 32px; }
+  .selection-card { flex-direction: column; text-align: center; }
+  .step { grid-template-columns: 40px 1fr; gap: 12px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .roadmap-table { font-size: 12px; }
+  .roadmap-table th, .roadmap-table td { padding: 10px 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1: THE QUOTE ==================== -->
+<div id="page-quote">
+<div class="document-frame">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+    </div>
+    <div class="header-ref">REF 2026-043 &middot; 2026-04-30 &middot; NET 14</div>
+  </div>
+
+  <!-- Band 1: Hero -->
+  <div class="band hero">
+    <div class="mono-label">Prepared For</div>
+    <h2>Optara</h2>
+    <p class="hero-sub">A complete IT Glue reimplementation to turn your documentation platform into a structured, scalable foundation for automation and growth.</p>
+  </div>
+
+  <!-- Band 2: Cover Letter -->
+  <div class="band band-alt cover-letter">
+    <p class="salutation">Dear Joel,</p>
+    <p>Thank you for the open conversation during our deep dive session. You were clear about the situation: IT Glue is not working the way it should, other tools that depend on it are pulling data incorrectly, and your team does not have time to figure out how to fix it. We understand that completely.</p>
+    <p>After reviewing your IT Glue environment, Melissa confirmed what you described: the platform needs a full reimplementation. Integrations are not pulling correctly, asset types and site summaries are not structured for how your business operates, and there is no consistent documentation architecture. The good news is that the fix is not switching platforms. It is rebuilding what you have so it actually works for you.</p>
+    <p>What we are proposing is straightforward: we come in, rebuild your IT Glue from the ground up, and hand it back to you in a state where your team trusts the data, your integrations work, and the platform is ready for the automations you want to build on top of it.</p>
+    <ul class="bullet-list">
+      <li>We start with a one-time implementation project to rebuild the foundation.</li>
+      <li>After go-live, we continue with monthly guidance to keep the system healthy, train new hires, and expand into automation.</li>
+      <li>We work in bi-weekly sprints with clear deliverables per sprint.</li>
+      <li>In addition to our sessions, we are available for all relevant questions over Teams chat.</li>
+      <li>We have a shared responsibility: we guide and advise on best practices, your team handles the day-to-day data entry and adoption.</li>
+      <li>We are a sparring partner for all MSP-related topics, not just IT Glue.</li>
+      <li>We can normally start within one month after quote approval.</li>
+    </ul>
+    <p>If there are any questions or concerns, please do not hesitate to contact us.</p>
+    <p class="sign-off">Kind regards,<strong>Max de Kwaasteniet</strong></p>
+  </div>
+
+  <!-- Band 3: Stats -->
+  <div class="band">
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-number">150+</span>
+        <span class="stat-label">MSP Implementations</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">2-WEEK</span>
+        <span class="stat-label">Sprint Cadence</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">3-PHASE</span>
+        <span class="stat-label">Programme</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 4: Discovery Findings -->
+  <div class="band band-alt">
+    <h2>What We Found</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:20px">During our review of your IT Glue environment, we identified several areas that need attention. These are common challenges we see in MSPs that have set up IT Glue but never fully implemented it.</p>
+    <div class="challenge-grid">
+      <div class="challenge-card">
+        <h3>Integrations Pulling Incorrectly</h3>
+        <p>Tools that depend on IT Glue are not getting the right data. Lifecycle cannot identify hardware refresh and warranty opportunities because configurations are not structured correctly. Other integrations have the same problem: bad data in, bad data out.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>Assets &amp; Configurations</h3>
+        <p>Asset types are not structured for how your business operates. The question "are we using assets the right way?" applies across the board: configurations, flexible assets, and how data is categorized.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>Site Summaries &amp; Topologies</h3>
+        <p>Site summaries and network topologies are not set up to give your team the quick overview they need per client. These are the first things a technician should see when opening a customer record.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>Documentation Spread Across Systems</h3>
+        <p>Critical information lives in IT Glue, SharePoint, Teams, and other places. Without a clear decision on what goes where, your team wastes time searching and still does not trust what they find.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>SOPs &amp; Checklists</h3>
+        <p>IT Glue has built-in SOPs and checklists, but they are not being used. Standard procedures live in people's heads instead of being documented and linked to the right assets and organizations.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>AI &amp; Automation Readiness</h3>
+        <p>The end goal is running AI and automations on top of IT Glue data: employee onboarding, role changes, standard procedures. That requires clean, structured, and consistently formatted data as the foundation. The current state does not support it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 4b: Business Impact -->
+  <div class="band">
+    <h2>What This Can Do For Your Business</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:24px">The technical work is necessary, but what matters is what it can unlock. Based on what we have seen across 25+ IT Glue implementations, these are the areas where MSPs typically see the biggest returns.</p>
+
+    <div class="challenge-grid">
+      <div class="challenge-card" style="border-left-color:var(--success)">
+        <h3>Lifecycle &amp; Dependent Tools</h3>
+        <p>Lifecycle depends on accurate configuration data in IT Glue. When that data is structured correctly, it can surface hardware refresh opportunities, warranty expirations, and end-of-life alerts that would otherwise go unnoticed. The same applies to other tools in your stack that pull from IT Glue.</p>
+      </div>
+      <div class="challenge-card" style="border-left-color:var(--success)">
+        <h3>Return On Existing Investments</h3>
+        <p>You are already paying for IT Glue, Lifecycle, and a range of integrations. When the underlying data is unreliable, those tools cannot deliver their full value. This project does not add tools. It is designed to make the tools you already own work the way they should.</p>
+      </div>
+      <div class="challenge-card" style="border-left-color:var(--success)">
+        <h3>Technician Efficiency</h3>
+        <p>When documentation lives in one trusted place instead of spread across IT Glue, SharePoint, and Teams, technicians typically spend less time searching and more time resolving. A clean single source of truth can significantly reduce the "let me ask someone" bottleneck.</p>
+      </div>
+      <div class="challenge-card" style="border-left-color:var(--success)">
+        <h3>Automation &amp; AI Readiness</h3>
+        <p>With clean, structured, and consistently formatted data, you create the foundation to run AI across your documentation and build automations for repeatable workflows like onboarding, role changes, and standard procedures. That potential is only available when the data underneath supports it.</p>
+      </div>
+    </div>
+
+    <div class="callout-box" style="margin-top:24px;border-left-color:var(--success)">
+      <p><strong>In short:</strong> You told us the biggest enemy is time, and that you would rather pay someone than have your team spend 40 or 80 hours trying to figure this out. That is what this project is designed to do. We bring the experience from 25+ IT Glue implementations, rebuild the platform, and hand it back in a state where your team can trust the data and your business tools can rely on it.</p>
+    </div>
+
+    <p style="font-size:13px;color:var(--text-dim);margin-top:16px;text-align:center;">Our lead consultant has completed 25+ IT Glue implementations across MSPs of varying sizes. References available on request.</p>
+
+    <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06)">
+      <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#555;text-align:center;margin-bottom:16px">Selected clients our consultants have worked with</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:36px;flex-wrap:wrap;opacity:0.5">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAkFBMVEX///8kJCIdHhgfIBsAAAC4uLhfX18REwxzc3MKDACBgYE2NzUZGhRCQkDZ2dltbW2Dg4Orq6zMzMwFCACVlZWbm5ujo6L19fWMjIzQ0M+vsKvr6+vn5+e/v79ub2pbW1pPUE1NTU34+PgtLDAgIB8zMzM5OT1ZWVlXVlo3ODQrKykYGBgdHhodHRsSEhAWFhOwKTrvAAACoklEQVR42u3d21biMBSA4ZjZUGgLag8cLChUHZ2hKe//drNcBqWKdwOY7f/dlcXNv1oKSWhrAAAAAAAAAAAAAAAAAAAAAADAd/BwcXIPa3NKbWpPLR2ZU9raX6dGIYUUUkhhwIVyZNG5C+VmeVy30bkLK3NcZX7uwoU5roJCCimkkEIKKaSQQgoppJBCCinUUSjRq2GitLB3OfBijYVdFFJIIYUU/ojCalkO+s/rp358ndX6Cqvyt4gMoxdDkbzfq1UVjgciW2f3tOImUzWF9SwfWts425FKkikpXIzE2UO2UqoozPLINfYwiRUUzvPUfk3i4AurqBvo0s62rOvQC1eRfReJtG6TS+4rnVzWJvDCiTjruVb6vZf3T7PZX3Evr8tV8Gea6mLTWE9Gc7MznUlqGylM8IUTsV7z4YDM8q1MTPiFj+nbIXpnusbSM+EXjsUHNm5TmQ8qo6CwlMYXykzn6OmpdbvCSmehTe2rbWJUFta59fJYZ2Elb4WlzsKFWE8m2vehKN2HtTin+3NonHO6z6XmubWe1u/DUqyXFzoL57vCZpMq/F3aHVtEn8cW18ZoGh86ue2OD9utFAoKqwtnvUZG4+4Y30oceqHfiZ5rcz9PM5/di5+ICr/QrD/Ntbn9ubbVNPjCytd4jXNuf0sep6EXmkzxnLeXSfR14EDH2tMfsQelUmhZP7ySof3ESbJUtAZ8KZLafZGeNWBvUTyK5G/r+PKkah3fWyyLwd1qverHk6zm/zQUUkghhRT+N/U7pYXlw723VlpY7NZYI66ZoZBCCimkkEIKKaSQQgoppJBCCsO492VypsKb3lHt3b80UXsP2rMVngqFFFJIIYVHKNT7jJJE/XNmRjzeBwAAAAAAAAAAAAAAAAAAAACA7+Af5VCD5a0yOFAAAAAASUVORK5CYII=" alt="Cubics" style="height:28px;filter:brightness(0) invert(1)">
+        <img src="data:image/png;base64,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" alt="IT Synergy" style="height:28px;filter:brightness(0) invert(1)">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAABLCAMAAADTRTyqAAAC/VBMVEX///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////9SksSbAAAA/nRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamxtbm9wcXJzdHV2d3h5ent8fX5/gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2+v8DBwsPExcbHyMnKy8zNzs/Q0dLT1NXW19jZ2tvc3d7f4OHi4+Tl5ufo6err7O3u7/Dx8vP09fb3+Pn6+/z9/qGXjPUAAA4TSURBVHjazZkHeE1XusD/J08JkScZ0pagJIGKUkxQ01sQLTOpVAtFqNYwuJ22Rm+197Z1hdGplCaiAy3VSgpBTYciWqUEoWkwIq+z9vufd05yTnJOzjfr7LXPK9l7XL3zzZzf9+Wz19pbvp/1+P/XfwFVNHFTN5+9VXNt/9JB4RDEREw+ZjSzNM0I1uo/9ICgpetq1kYjyg3SNZX2hyAlfKXZqKVkEGM5ngxBiWYSayCeBNpY2AWCkZ7HbG5PJEFhBOopCEJCZug4RCHaYDGbzU0Ccg/prohg3EkFNiwnoKuV1dXVFdUsjRtVfSH46F7apqUQxbw/MmvCY1O+4/Hc8/WPQfARe7gFMfzBgnNzAaKLTuxqpCm+9olgFC3DoqYdPV5tfPeZr6+OmieJTgrKEbVpGdPeKE3eyUv7MuEFRFNC3UQIPmI+a21kTPuSAdKfiAdY4hatHQzBR+RaC01zNz4tLCrYsrW46BSiKO54TEi0StAPC/Wh6fCbojpDfk1ktMKbSJBxN6Lgnmgy6/SIYgSdTifiHw5pWeOFzcWf7Nr23rJ06EBuaekBH/v3FG1YOQ5kXj1UdqQTZcf+NzH29RNKb75akwiYjO1lZUfKjhaPgXsRnW/Ho8jI4I1ltwm8DqOnrxZlBi6T/S5Xux9Oh91CfftimLTW612KMJPSG5TfUCMAc9QhNRxHk+BepJ5pQRQBIdHmcBoolsGwnCDc/n00+Ig/7FLAciQNAJIalXV0Mwczym8Ed7TO0sst7tdwT8ZeaaaJJ2VsczhNlBeGN2xP9hM96FKi/dJQLFqnrCPOSKeU37AjAWBTm+eXFMI90TxyzGhgaZpGBqezzYgoP1jrrgQ1UR9fJf1M0eQKb/PKYLg3cSu+0ZrNgsHRauURFYhlYxc1UR/LQxNVRPWqoiKe+lkm37z8Fu5FCA40MVOWLFpfb+YQ1RGam9VR1GHUSZjaXDJ/S46XRdsMol7nx5UBj8iidr0YwPG+oNnj8ImXdv/Hp6f+E5+Z/VSme8+tQizxZAWR9Zkaynt2EL09bWhmZubwzOxtnEsmO6ZWnsHJaSMyfQzvDWNk0VOjBwzykZYWD5CqdfmgJ4E6mqGb6iwGg9l0Zk7MoO/lbcSL9Y2i5Ey0dXkdRK94Q8kUrCfxbvRd8vBNx+LQK1oaCx35vdXlx1uh6p7TLrfxNIM3UrP5vTX1OiSJ1W/Kzv0zp9eJNDE17+0SKFqZCh5WtJKufR7R8j5qokeSOmXFc2S1iA7yV1NBjfE3m3Ei0usNYiNvlAtRmskHgITd5opqgZF6uOpBHUT7+izukK6j8TXk4UwvNdHDidCBJwUSUN8i82JQDaUxJ5oohr599rO79ZyWbzdppdhZLaWjzNdGP31aR8ZUP05V9JEbpKssTjYu7xsW4SUyzE/0y0jowIdtZCXFHSBfvK9WAs0XKVp3fOrQ7k9vwHG0tdW9LpGBmQAyy/QCco+xOFlV9Dk5vuyNlkcUFb230cvmN/v5RC89m/20h5kz0kMg5TKZ+fXwO/LFj+mgzEGOZr98HCARHtxaa7C5REQh8W7JkyAz8qyZkUSfUhMdeNZFWNO11qXEGz7RNr3Bi7HpixSYbyApeBQ8KpBPFqjEzx84RlgDAz4unQ7jqq02l55CfPXc3t70HjrqqMioiYbExfWf973s4xgZqyjqKJBEFagaAnucUqC/EAWJ8iHiQDwo0eUCy10b1uXt8m3He8XvMLe5DBRq+gT8yWMFLKpTmPqYDV99dd7skimLTlDMTPaNaqIV/VKqSEZaBxCaRzoNY0GJyAsc+9OkiNevHTgSl1pibHWLmsqiwY/VPI9FlTbTQLvLh3GcJklZdJOa6OXEl1qkB+mXD6NJ79pIxSh6kWO4VyDlveKxML7K0oSnnmK0WyZljcdMeGLykxN/e1mgVcLTUJvLx2uhaocS1an/Ydh+8vCtO0h330Ua53qDErt5mvtrNl5tMGCPltM7RYStmJs/SVTfulndyGNPyrI3qrPoEIvLy4YY8IratbUNXrTXctVEj86/TWb+TRKASG/LdFBiKsfQYvmCCfFLP9KzDUITK8VRUUfAf/JSh5AH/0iUWtIVfKLXpg8e6eWxjCifaNXaFSs9rFoxOt9BVs0AcNOvkny0KRoUCN9poWiu7sfyBi3PGG58r6UR1RnDmURQmHpZtGVj/1AgovfITAd7hnkJDxtwnvS2Vri5VGkkzVvEm9Ct/5CMFHAz6BszojlWNFptjnZ9rdEiUJ1Uaf4ZUBDtZ5WPkcsB/EXLH1RNoQngx/NG5WphtgYIoeP+dPT81YrT+1cl41ZaiZGhdHZnu9NppLR6p6NZ6HRwzu+iJJpw0UWomxgo+tD/6VDSdbdLmS/jQOIXf2w06QWe15n0PzwTAdD9hYu2NkdbazOPEIVLkfaOpUjzrnhQEoVsh2dbpKiOqLroozdURFtIRfLwUSvrnk73jyCuxmPV81OzwHMMQnJx53Sa/aZdMBX1AGXRqHednnNkpJ/o6QciIgPQjFYSfcWlxn9FAEDyIRuiWQ6PqNuNMywO6VZspZBkSRBaHO1mUuWzLC9W43+Liij0+dZFMM/0E0XbN/zRjz9tenxEfWfRHkdURS8nAISvtdO0nq74+lDZmVuigPS3hy2yMJQ/iDbaWkVWJ+LghK59OAxAVRSmeDLoxX5EVJGLMys7i2br5JRWV+/hrl6e+2kA6bdFWjz/ymD3Yp5aVCcg8+4bAhUIwqoNH23d+fG2/GX9AaMuGvmWZ5l+GK0uemXelU6i4evlPb4qLWMwIaPvajPp3BIBK6yUcBhrEhbe5pFFRFIxx/MC69tA1WMhDDyoi0LySW9QgUQ10ctzOoumX5MjRjL46F1OOmsehFJBqBgGiWNylyzIxgfXtRTbKpVJnOCGQhhyP/KhexmNmjx9+n8Mi/UXPdShZpooyDZ302Nq7yVa5hXVzJUrrQ8C8tAmeXfOhkqO2wxZ+27evHy15oc/9Oh12dCqRxSHPl6+cuWKfVanzWYXpdLjJCQv+uJvVpvNWFk4PcYnelwul/sCIXSNZ/JLHmJURG8srCYPf/HGj6TPXYTAK/jpohw44C7XuDTyr67vxj88EIeHeXDK7DQgSt8oFdQZB8pP/OVYNYXhz077tMmpZ/HONznRZo8WdClobrFam1sOekNrwlbW1mxtsrTczDhptTY1NVkDwR8fHldmx2+aWwpiQKbvyTZ3j7U0sNxL3GVqacL9DXCLo9/QvFv+MgAM+PTM+MhzZiceUV2jVP1pEnv36pVUQFOY2us2nRaRvWVuLvGaDpo7b86cufPSwEvsrxfOzsmZ9VwWDF6wGLPg+Tn+4I+Hw4iX8IsXXxyoAZnoJ5fjnqV5HSvr1PnSlzPgG148kRiV2tWt1bMP5NaYnDosqv0NeFlH0xTi7RZaS8kgrnl3NwgkLDw8PNTbeHB41piMVA2oEAL3zXozzW4M96a285zByVMoQPQdmka01cEhiiFgb1a/FAjTdmwvxBRhij+aJa3S7PyTlTWN9TcvHFiWAdBtwc6iwkCKdi2PhfvkcZER2GK5rogssyBTK/bQNz4FXt7GokK7ncEDbTFjLAY8puJFspgi9gTcNUYAjP4cedvWays1D1x1daZ6JNwn3fbZtYL++v51y1YWF035ROD0HE3hqc8B0BBgPe4wu2wUq925dDVm2QeIoWhqNjnyfOHy41QXyL0TYGTdPPCiguidLLhfRt8xaxm9gdUinenqWWTf8qUOh03qWP77HxA2XaApxu40acXa50MiMKETEE/R/FayCfa7/DgGk7kOSuYSpUPRzTFwv4Tk0E0UoliepxlBbCnr9ZzASNd3ggcWJyZHK4dFZ4HEWMRRtPg5CU9fBEz9w993ruNtCqI1WXDfhE6vsJsphOGajdsfgK5fmxAeU9YLjUWdFkSJtc+CxDhJdD/JKKvu3GqQkoqTul25dpmcSc6/MX/pBzXkubmhDhd1dy3kfNGAaeQPpMD9E5L635fM9habHR2cHedOgvUc1QG+jcWijbLoGJb3ikJUYuKvpFRpnZWY8BA5qtnWJESEhEb1P0WmOSspOTk5aS+pn37RMxnTXQM/h/A+k3Kfnz1zTGyI1HqZF1CgZ20VS9Hs2eUzczE5eedwS9jpW+bSPWjTDIAB5KbH858R6UI75s4vpUYxWRzw/0SD8abFlbSR9mmyxus571uRvua5rr1T3MTOq2VptAI8jK2VRHEyG1EnVZGLPXM19Z031/3PHHIFsINk9xD4JxKWe9HAM7QbhuV1B0dpZppwnD9bWPwxZsdH5QzNVvVXEB3ZKD3NAgX+2aKEvuuuahnefdCrP/1SPECPwzaKEi2EJhHR4npQF332XyNKSMrJ/6ykZM9bv4oGjGZyvRn5oM3lDwSBqBKhLzEmhiJ1KcWarv4SglCU8MJ1k0EU8HIQjcLXYyF4RWFUYSUnioJIffd2bwhWUULW0v9c89rvFqUDBKGoOuqiueCha3R0VDCKjpJELTlAiHht7549e1+NDz7R4VJmansZCD3b3U1ufLCIDq+RRCcDPHRdsjkul6RLSIE/IShEo4ekzdFKp7kV6YN6kNOpbVcaAGiebSAXOAnBIBrxTnVVHTmPan+qKljuIPc5VaVbik9z5LkAgkE0/ljAXc2QEs+j0/Pw46DgED3oL3qpx9CbrkC4mRAUogmHAu4T+8CjZwI8f8wOA8KfpfZJDfx76Fbir1WRBJDyeo23TecP8I7gNnLRCP8uHslbvEgmb+EY93iF9coprKBMplufL04PBy+pc/CHCzPg5/F3UZfGf7wK/W8AAAAASUVORK5CYII=" alt="Refa ICT" style="height:28px;filter:brightness(0) invert(1)">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAABKCAMAAADHe1dVAAAAqFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAs30iGAAAAN3RSTlMAi6zwc7zeROL6ZMyOw8g251b31S8JuBPZgLFtXEka65l7YQ2zomkelpJNJFBAOyiHd0IXcCzPhsKfwwAAAtlJREFUSMftl+1yqkAMhlMRP6oIFRRQUCz129a2ts3939lJsuxheqbYhenM+dP3Bwnqs2BYdt/AX23nLSeyKtVxWvMt/KvuCA006n6CFlM01HRRUkEPjeW5mnLHKBqPZq1KzUb6VwW39dR9nyZwVZPTQF1P3afDef8WDLTpI8nh9CTUIxjpVbgDZT4n92CoeyT5AIG6rLFsJAUQc3g0x16RFAvtfVG2sIpbEmBDRMcHEIUP3lAlQ37+AynuamprrWVOPtBXEVh03CnsuSjSkSFUw6UctWZAyiixgE9vFNaitE3xA7ViSFBLV+6Gsy+wLpI6sx6POslHJWWl1Zj6fACQdyg+AYuzrmTVmIQXOh1STMyxKQUu4ori3ByzC+yNY33saOFyUR+DyyGE2pjoF/sRzJ0HDTAXsf9eH2tT3NTHZCo3ewM29d63mE539d63mELnAsclxcAcc2VT6PBq3wND7I3iDEXl1hDxwl2JvRRrTugU1DMorenqYSUG8bQYPplFnp+5UChc2ylUYAb6UezsW20oUvcIhSaBu72KtdDq55zMPS5+ItBuTLmfXsE+ekNcSEXL8ttFfqUkztjvcd1o/L4/lt1yzzuGT4eoGtupp32Qx3emWeLyE+vkslsdK7ENDuACMEdcKgdxx54lA5jwXVZiPlrvZGvaai6O+M8NEIeUIw1RhaXooY+pYOqWAxNshXsP+7nG4C4AM+xug1aoMJER9oR9qnpcF4N2NNgPzzUxrf+DBXZWH5Plcl8fk1nSDEvooLHTd1iCNFfEN6a89tnK4bqfMW0MSx3Zy7WnBMuMwfVLxKYNzs7oXRvD0oaWIkK0BgiX5ZLZoh9qGypv/fIzdlFtgp3zjPP0CGzdMm16v7bYh5vsuavSSTLMVq5kqzjXFru2oXfE0NdtH26lfWjcrOjWaFOzNYKFKtZg/10jtteNWLO2r3mT2bylbd5A63a9Y9qu/wGLDEHBJ+H12AAAAABJRU5ErkJggg==" alt="ICT&CO" style="height:28px;filter:brightness(0) invert(1)">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAACWCAMAAADHTy5XAAADAFBMVEVHcEwbL1IbL1IbL1IaL1IbL1IbL1IaL1Iord8etOkftenqWQzqWQwetOkftegftegetOgetOnrWQwetOketOketekftegftegftegdtuofteketOketenqWQzqWQwetOgftegftegftegetOketuketOkftegetOgftekftegetOkftegdtOoetOghteUftejqWQwgtejrWAsftegetOkftegftegctusftecdtOofteghteYftegetOgeteketOlKkrYetOketOketOkhteUetOketOgetOggtOcetOgftegftejqWQzpWQ0etersVwvqWAsetOnqWQzqWQwftejqWQwetOnqWQzqWQzqWQzqWQwdlcIhteWkgmXqWQwYQGXgYBwII0rqWQwdcZrqWQwAHU/rWQschrIdd6AbZo4cWH9ymZwBIUsbUXgYjLoJKlYeptUOOV8EK1IXSW4bL1IDX5CdhW1snaYbL1KycksYMVPqkE0UhLMWga8KRW4aV34etOkbL1IhteXqWQwZL1IcL1IgtecVLlTrWQvzWwnuWgvwWgoSLVXxWgketOgULlQAIk0IJ06xTR8CJU7yWwrMUhbtWQogt+fvWgtiPT/mWA8AJE1CN0YKJUkYLlIbKkuTRykXLlLrWg8huusRK1EKKVEtL0XyVQMNKU89MkCCQzEhuelSOT8VLVEbLE4buOz1WwgTKUzuVwfJUhrBUB3hVxEhMFG1TiIEJ1K8Tx/dVhNwPTMwfVLxKYNzs7oXRvD0oaWIkK0BgiX5ZLZoh9qGypv/fIzdlFtgp3zjPP0CGzdMm16v7bYh5vsuavSSTLMVq5kqzjXFru2oXfE0NdtH26lfWjcrOjWaFOzNYKFKtZg/10jtteNWLO2r3mT2bylbd5A63a9Y9qu/wGLDEHBJ+H12AAAAABJRU5ErkJggg==" alt="Aspect ICT" style="height:28px;filter:brightness(0) invert(1)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 5: Our Approach -->
+  <div class="band">
+    <h2>Our Approach</h2>
+    <div class="approach-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <div class="step-title">Review <span class="badge-done">Done</span></div>
+          <p>We reviewed your IT Glue environment and identified the gaps. Based on that review, we have a clear picture of the current state and what needs to change.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <div class="step-title">Kick-off</div>
+          <p>Once the quote is approved, we host a kick-off with your project team. We go into the goals, define the documentation architecture, and align on the sprint plan.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <div class="step-title">Implementation</div>
+          <p>We work through the reimplementation in bi-weekly sprints. Each sprint has a clear focus area: integrations, templates, data cleanup, or documentation structure. Every sprint we review and course-correct.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <div class="step-title">Go-live</div>
+          <p>We decide on the go-live date together. Before go-live we validate everything end-to-end. Training sessions for your team to make sure everyone knows the new way of working.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <div class="step-title">Optimize &amp; Automate</div>
+          <p>After go-live, we continue with monthly guidance. This is where the real value compounds: building automations on top of the clean data, expanding documentation coverage, and training new hires on the system.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 6: Programme -->
+  <div class="band band-alt">
+    <h2>Programme</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:20px">We work in a phased approach. The exact scope and timeline will be determined together during kick-off with our lead consultant. How fast we move depends on your team's capacity and the complexity of your environment.</p>
+    <table class="roadmap-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Focus</th>
+          <th>What We Cover</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sprint-label">Phase 1</td>
+          <td class="focus-label">Foundation</td>
+          <td>We activate and configure all relevant integrations so information flows into IT Glue automatically. We go through every Flexible Asset Template and determine per template which fields are needed and which are not, so your team captures exactly the right information. We establish the full documentation architecture: what you document in IT Glue, what lives elsewhere, naming conventions, and at what level of detail. Everything is set up to be scalable and structured from the start.</td>
+        </tr>
+        <tr>
+          <td class="sprint-label">Phase 2</td>
+          <td class="focus-label">Build &amp; Clean</td>
+          <td>We roll out the new structure across your client base. Outdated configurations get flagged and cleaned. Documentation templates get applied per organization. We work through the data quality backlog systematically, prioritizing active clients first. Your team starts working in the new structure under our guidance.</td>
+        </tr>
+        <tr>
+          <td class="sprint-label">Phase 3</td>
+          <td class="focus-label">Adoption &amp; Automation</td>
+          <td>With the foundation in place, we focus on adoption and expansion. SOPs and runbooks get centralized in IT Glue. We identify opportunities for automation: onboarding flows, role changes, standard procedures. Training sessions bring the full team up to speed. The platform becomes the single source of truth it was designed to be.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout-box">
+      <p><strong>Why this matters:</strong> When IT Glue is properly structured and consistently maintained, everything downstream changes. Technicians find answers faster. New hires ramp up in days instead of weeks. And because the data is clean and structured, you can run AI across it and build automations on top of it: employee onboarding, role changes, standard procedures, offboarding. Those workflows that currently eat hours of your team's time can be standardized and automated. That is where the real operational leverage sits.</p>
+    </div>
+  </div>
+
+  <!-- Band 7: Pricing -->
+  <div class="band">
+    <h2>Investment</h2>
+    <div class="onetime-box">
+      <div class="onetime-row">
+        <span>IT Glue Reimplementation Project</span>
+        <span style="font-weight:600;color:#fff">&euro;30,000</span>
+      </div>
+      <div class="onetime-row" style="color:var(--text-dim);font-size:13px;">
+        <span>Covers Phase 1 through go-live (3-6 months). Bi-weekly sprints, all integration setup, template design per asset type, documentation architecture, cleanup guidance, and training.</span>
+      </div>
+      <div class="onetime-row total">
+        <span>One-time implementation fee</span>
+        <span>&euro;30,000</span>
+      </div>
+    </div>
+
+    <div class="pricing-single">
+      <div class="pricing-card">
+        <div class="pricing-badge">After Go-Live</div>
+        <div class="pricing-name">Guide as a Service</div>
+        <div class="pricing-tagline">Continuous optimization, automation, and support after go-live.</div>
+        <div class="pricing-amount">&euro;2,500</div>
+        <div class="pricing-period">per month</div>
+        <ul class="pricing-features">
+          <li>Bi-weekly sessions (approx. 2 hours)</li>
+          <li>Unlimited Teams chat support</li>
+          <li>Sprint-based delivery with clear deliverables</li>
+          <li>Automation development on top of IT Glue data</li>
+          <li>Ongoing template and structure optimization</li>
+          <li>New hire documentation training</li>
+          <li>Sparring partner for all MSP topics</li>
+          <li>Access to framework from 150+ implementations</li>
+        </ul>
+        <button class="btn-select" onclick="selectService()">Accept &amp; Continue</button>
+      </div>
+    </div>
+    <p class="validity">Valid 30 days from April 30, 2026.</p>
+  </div>
+
+  <!-- Band 8: Q&A -->
+  <div class="band band-alt">
+    <h2>Questions &amp; Answers</h2>
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q">How long does the reimplementation take?</div>
+        <p class="qa-a">This depends on the size of your client base and your team's capacity. Most reimplementations take between 3 and 6 months. We determine the pace together during kick-off.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Do you configure everything for us?</div>
+        <p class="qa-a">We design the architecture, build the templates, and configure the integrations. Your team handles the client-specific data entry. We guide and advise throughout, but you own the knowledge.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">What if we already have data in IT Glue?</div>
+        <p class="qa-a">We work with what is there. Clean data gets migrated into the new structure. Outdated data gets flagged for review. We do not delete anything without your approval.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">What happens after the implementation project?</div>
+        <p class="qa-a">Guide as a Service continues with monthly guidance: optimization, automation, training, and ongoing support. The initial GaaS term is 3 months, then it renews monthly until written cancellation with a one-month notice period.</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">Can we add Power BI dashboards later?</div>
+        <p class="qa-a">Yes. Once the data is clean and structured, we can connect Power BI for operational dashboards. This is a separate add-on at &euro;300/month, typically added after the foundation is in place.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 9: Terms -->
+  <div class="band">
+    <div class="terms-box">
+      <h2>Terms &amp; Conditions</h2>
+      <ul class="terms-list">
+        <li>This proposal is issued by Dxfferent B.V., Bataviastraat 5, 3531 XA Utrecht, The Netherlands (KVK 77524950, VAT NL861034843B01).</li>
+        <li>The one-time implementation fee of &euro;30,000 is invoiced in two installments: 50% at kick-off, 50% at go-live.</li>
+        <li>Guide as a Service starts after go-live. The initial term is 3 months. After the initial term, the contract renews monthly until written cancellation with a one-month notice period.</li>
+        <li>Monthly fees are invoiced at the start of each month. Payment is due within 14 days. Late payment incurs statutory interest and collection costs.</li>
+        <li>All prices are in Euros and exclude VAT. Travel costs and third-party expenses are excluded.</li>
+        <li>Dxfferent does not enter or manage client-specific data. The client is responsible for providing timely, complete, and accurate information.</li>
+        <li>Intellectual property of all deliverables remains with Dxfferent B.V. Reproduction is prohibited without written consent.</li>
+        <li>Complaints must be submitted within 15 working days. Complaints do not suspend payment obligations.</li>
+        <li>The full <a href="https://dxfferent.com/terms-and-conditions/" target="_blank" style="color:var(--accent)">Dxfferent General Terms and Conditions (v1.2)</a> apply to this engagement. By accepting this proposal, you agree to those terms.</li>
+        <li>Dutch law applies. Disputes are heard in the jurisdiction of Dxfferent B.V.'s registered office.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; VAT NL861034843B01 &nbsp;|&nbsp; IBAN NL67RABO0352104678
+  </div>
+
+</div>
+</div>
+
+<!-- ==================== PAGE 2: CONFIRMATION ==================== -->
+<div id="page-confirm" class="hidden">
+<div class="document-frame">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="https://dxfferent.com/wp-content/themes/interly-child/images/logo.svg" alt="Dxfferent">
+    </div>
+    <a class="back-link" onclick="goBack()">&larr; Back to proposal</a>
+  </div>
+
+  <!-- Step Banner -->
+  <div class="step-banner">
+    <div class="step-banner-title">Step 2: Review &amp; Accept</div>
+    <div class="step-banner-steps">Proposal <span class="current">&rarr; Confirmation &rarr; Accept</span></div>
+  </div>
+
+  <!-- Band 1: Selection Summary -->
+  <div class="band">
+    <div class="selection-card">
+      <div>
+        <div class="mono-label">Your Selection</div>
+        <div class="selection-service">IT Glue Reimplementation + GaaS</div>
+      </div>
+      <div class="selection-price">&euro;30,000 + &euro;2,500/mo</div>
+    </div>
+  </div>
+
+  <!-- Band 1b: note -->
+  <div class="band band-alt" style="padding-top:0;padding-bottom:32px">
+    <p style="font-size:13px;color:var(--text-dim);margin:0;text-align:center;">Implementation: 3-6 months depending on team capacity. GaaS starts after go-live.</p>
+    </div>
+  </div>
+
+  <!-- Band 2: This is Dxfferent -->
+  <div class="band band-alt">
+    <h2>This is Dxfferent</h2>
+    <p>Dxfferent is a consulting firm built by and for Managed Service Providers. We have worked with over 150 MSPs across Europe, North America, and Australia. Our consultants have lived the MSP life: running service desks, managing escalations, configuring PSA tools, building documentation systems, and designing the workflows that keep operations running. That hands-on experience is what separates advice from results.</p>
+    <ul class="philosophy-list">
+      <li>We charge a fixed fee. No hourly billing, no scope creep surprises.</li>
+      <li>We work in sprints. Every two weeks there is a clear deliverable and a review.</li>
+      <li>We do not enter or manage client-specific data. Your team owns the knowledge.</li>
+      <li>We are a sparring partner, not a vendor. IT Glue, Autotask, contracts, hiring, positioning: ask us anything MSP.</li>
+      <li>After the implementation project, we stay as long as we add value. Cancel GaaS anytime with 30 days' notice after the initial term.</li>
+    </ul>
+  </div>
+
+  <!-- Band 3: What is Included -->
+  <div class="band">
+    <h2>What is Included</h2>
+    <ul class="included-list">
+      <li>Full IT Glue environment review and architecture design</li>
+      <li>Integration activation and configuration (PSA, RMM, networking tools)</li>
+      <li>Custom Flexible Asset Template design and deployment</li>
+      <li>Documentation hierarchy and naming convention framework</li>
+      <li>Data quality assessment and cleanup guidance</li>
+      <li>SOP and runbook centralization in IT Glue</li>
+      <li>Team training sessions at go-live</li>
+      <li>Bi-weekly sprint sessions throughout implementation</li>
+      <li>Unlimited Teams chat support</li>
+      <li>Post go-live: monthly optimization, automation development, and ongoing guidance</li>
+      <li>Access to framework from 150+ MSP implementations</li>
+    </ul>
+  </div>
+
+  <!-- Band 4: Programme Recap -->
+  <div class="band band-alt">
+    <h2>Programme</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px">Exact scope and timeline determined together during kick-off.</p>
+    <ol class="sprint-recap">
+      <li>Phase 1 - Foundation: Integration architecture, Flexible Asset Template design, documentation hierarchy</li>
+      <li>Phase 2 - Build &amp; Clean: Structure rollout across clients, data cleanup, team onboarding to new workflows</li>
+      <li>Phase 3 - Adoption &amp; Automation: SOP centralization, automation development, full team training, go-live</li>
+    </ol>
+  </div>
+
+  <!-- Band 5: Investment Summary -->
+  <div class="band">
+    <h2>Investment Summary</h2>
+    <div class="onetime-box">
+      <div class="onetime-row">
+        <span>IT Glue Reimplementation Project</span>
+        <span>&euro;30,000</span>
+      </div>
+      <div class="onetime-row" style="font-size:13px;color:var(--text-dim)">
+        <span>50% at kick-off, 50% at go-live</span>
+      </div>
+      <div class="onetime-row total">
+        <span>One-time implementation fee</span>
+        <span>&euro;30,000</span>
+      </div>
+    </div>
+    <div class="onetime-box" style="margin-top: 16px;">
+      <div class="onetime-row total" style="border: none; margin: 0; padding: 8px 0;">
+        <span>Monthly fee (after go-live)</span>
+        <span>&euro;2,500/month</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Band 6: Terms -->
+  <div class="band band-alt">
+    <div class="terms-box">
+      <h2>Terms &amp; Conditions</h2>
+      <ul class="terms-list">
+        <li>This proposal is issued by Dxfferent B.V., Bataviastraat 5, 3531 XA Utrecht, The Netherlands (KVK 77524950, VAT NL861034843B01).</li>
+        <li>The one-time implementation fee of &euro;30,000 is invoiced in two installments: 50% at kick-off, 50% at go-live.</li>
+        <li>Guide as a Service starts after go-live. The initial term is 3 months. After the initial term, the contract renews monthly until written cancellation with a one-month notice period.</li>
+        <li>Monthly fees are invoiced at the start of each month. Payment is due within 14 days. Late payment incurs statutory interest and collection costs.</li>
+        <li>All prices are in Euros and exclude VAT. Travel costs and third-party expenses are excluded.</li>
+        <li>Dxfferent does not enter or manage client-specific data. The client is responsible for providing timely, complete, and accurate information.</li>
+        <li>Intellectual property of all deliverables remains with Dxfferent B.V. Reproduction is prohibited without written consent.</li>
+        <li>Complaints must be submitted within 15 working days. Complaints do not suspend payment obligations.</li>
+        <li>The full <a href="https://dxfferent.com/terms-and-conditions/" target="_blank" style="color:var(--accent)">Dxfferent General Terms and Conditions (v1.2)</a> apply to this engagement. By accepting this proposal, you agree to those terms.</li>
+        <li>Dutch law applies. Disputes are heard in the jurisdiction of Dxfferent B.V.'s registered office.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Band 7: Acceptance -->
+  <div class="band">
+
+    <!-- Form -->
+    <div id="acceptance-form-wrapper">
+      <h2>Accept This Proposal</h2>
+      <form id="acceptance-form" action="https://formsubmit.co/max@proxuma.com" method="POST">
+        <input type="hidden" name="_subject" value="Proposal Accepted - Optara (IT Glue Reimplementation)">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" id="form-next" value="">
+        <input type="hidden" name="selected_service" value="IT Glue Reimplementation (EUR 30,000) + Guide as a Service (EUR 2,500/mo)">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="f-name">Full Name</label>
+            <input type="text" id="f-name" name="name" placeholder="Joel Garcia" required>
+          </div>
+          <div class="form-group">
+            <label for="f-title">Title</label>
+            <input type="text" id="f-title" name="title" placeholder="Your title">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="f-email">Email</label>
+            <input type="email" id="f-email" name="email" placeholder="jgarcia@optara.com" required>
+          </div>
+          <div class="form-group">
+            <label for="f-invoice">Invoice Email</label>
+            <input type="email" id="f-invoice" name="invoice_email" placeholder="billing email address">
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="accept-check" required>
+          <label for="accept-check">I accept this proposal on behalf of Optara under the terms and conditions listed above.</label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-accept" disabled>Accept Proposal</button>
+        <p class="form-note">Your acceptance confirmation will be sent to max@proxuma.com</p>
+      </form>
+    </div>
+
+    <!-- Success -->
+    <div id="acceptance-success" class="hidden">
+      <div class="success-message">
+        <div class="success-icon">&#10003;</div>
+        <h2>Proposal Accepted</h2>
+        <p>Thank you! Max will be in touch to schedule the kick-off meeting. We look forward to working with Optara.</p>
+      </div>
+    </div>
+
+    <!-- Signature Block -->
+    <div style="margin-top: 48px;">
+      <h2>Approval</h2>
+      <div class="signature-grid">
+        <div class="sig-col">
+          <h3>Dxfferent B.V.</h3>
+          <div class="sig-field">
+            <div class="sig-label">Name:</div>
+            <div class="sig-value">Max de Kwaasteniet</div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Signature:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Date:</div>
+            <div class="sig-value">April 30, 2026</div>
+          </div>
+        </div>
+        <div class="sig-col">
+          <h3>Optara</h3>
+          <div class="sig-field">
+            <div class="sig-label">Name:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Signature:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Date:</div>
+            <div class="sig-blank"></div>
+          </div>
+          <div class="sig-field">
+            <div class="sig-label">Invoice e-mail:</div>
+            <div class="sig-blank"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Dxfferent B.V. &mdash; Bataviastraat 5, 3531 XA Utrecht &nbsp;|&nbsp; KVK 77524950 &nbsp;|&nbsp; VAT NL861034843B01 &nbsp;|&nbsp; IBAN NL67RABO0352104678
+  </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+  var pageQuote = document.getElementById('page-quote');
+  var pageConfirm = document.getElementById('page-confirm');
+  var checkbox = document.getElementById('accept-check');
+  var btnAccept = document.getElementById('btn-accept');
+  var form = document.getElementById('acceptance-form');
+  var formWrapper = document.getElementById('acceptance-form-wrapper');
+  var successEl = document.getElementById('acceptance-success');
+
+  document.getElementById('form-next').value = window.location.href.split('#')[0] + '#accepted';
+
+  window.selectService = function() {
+    pageQuote.classList.add('hidden');
+    pageConfirm.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.goBack = function() {
+    pageConfirm.classList.add('hidden');
+    pageQuote.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      btnAccept.disabled = false;
+      btnAccept.classList.add('enabled');
+    } else {
+      btnAccept.disabled = true;
+      btnAccept.classList.remove('enabled');
+    }
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    btnAccept.textContent = 'Sending...';
+    btnAccept.disabled = true;
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(r) {
+      if (r.ok) {
+        formWrapper.classList.add('hidden');
+        successEl.classList.remove('hidden');
+      } else {
+        form.submit();
+      }
+    }).catch(function() {
+      form.submit();
+    });
+  });
+
+  if (window.location.hash === '#accepted') {
+    formWrapper.classList.add('hidden');
+    successEl.classList.remove('hidden');
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amsterdam Hotels — €170 HotelTonight Budget</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; }
+  #map { width: 100%; height: 60vh; min-height: 400px; }
+  .header { padding: 20px 24px 12px; }
+  .header h1 { font-size: 22px; color: #fff; margin-bottom: 4px; }
+  .header p { font-size: 14px; color: #999; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; padding: 16px 24px 32px; }
+  .card { background: #16213e; border-radius: 12px; padding: 20px; border: 1px solid #2a2a4a; transition: border-color 0.2s; cursor: pointer; }
+  .card:hover { border-color: #e94560; }
+  .card h3 { font-size: 16px; color: #fff; margin-bottom: 6px; }
+  .card .stars { color: #f0c040; font-size: 13px; margin-bottom: 8px; }
+  .card .meta { font-size: 13px; color: #aaa; line-height: 1.6; }
+  .card .meta strong { color: #e0e0e0; }
+  .card .links { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .card .links a { display: inline-block; padding: 6px 14px; border-radius: 6px; font-size: 13px; text-decoration: none; font-weight: 600; }
+  .btn-ht { background: #e94560; color: #fff; }
+  .btn-ht:hover { background: #c73650; }
+  .btn-book { background: #0a3d62; color: #fff; }
+  .btn-book:hover { background: #0c4b78; }
+  .btn-maps { background: #2d6a4f; color: #fff; }
+  .btn-maps:hover { background: #1b4332; }
+  .legend { padding: 8px 24px 4px; font-size: 13px; color: #777; }
+  .legend span { margin-right: 16px; }
+  .legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+  .dot-station { background: #3b82f6; }
+  .dot-hotel { background: #e94560; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Amsterdam Hotels for HotelTonight — €170 budget</h1>
+  <p>Click a marker on the map or a card below. All links go to the actual booking sites so you can check live rates.</p>
+</div>
+<div class="legend">
+  <span><span class="dot dot-station"></span> Centraal Station</span>
+  <span><span class="dot dot-hotel"></span> Hotels</span>
+</div>
+
+<div id="map"></div>
+
+<div class="cards" id="cards"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const CENTRAL = [52.3791, 4.9003];
+
+const hotels = [
+  {
+    name: "DoubleTree by Hilton Amsterdam Centraal Station",
+    stars: 4,
+    lat: 52.3803, lng: 4.8985,
+    walk: "5 min walk from CS",
+    breakfast: "Available (not always included, check rate)",
+    note: "Warm cookie at check-in. Reliable Hilton quality.",
+    ht: "https://www.hoteltonight.com/s/amsterdam-nl",
+    booking: "https://www.booking.com/hotel/nl/doubletree-by-hilton-amsterdam-centraal-station.html",
+    maps: "https://maps.apple.com/?q=DoubleTree+Hilton+Amsterdam+Centraal+Station"
+  },
+  {
+    name: "Renaissance Amsterdam Hotel",
+    stars: 5,
+    lat: 52.3756, lng: 4.8948,
+    walk: "8 min walk from CS",
+    breakfast: "Excellent buffet (sweet, savory, vegetarian options)",
+    note: "Fully renovated Dec 2025. Marriott property near Dam Square.",
+    ht: "https://www.hoteltonight.com/s/amsterdam-nl",
+    booking: "https://www.booking.com/hotel/nl/renaissance-amsterdam.html",
+    maps: "https://maps.apple.com/?q=Renaissance+Amsterdam+Hotel"
+  },
+  {
+    name: "NH Collection Amsterdam Barbizon Palace",
+    stars: 5,
+    lat: 52.3779, lng: 4.9008,
+    walk: "2 min walk from CS (directly opposite)",
+    breakfast: "Full buffet available",
+    note: "Best location on this list. Historic building, modern rooms.",
+    ht: "https://www.hoteltonight.com/s/amsterdam-nl",
+    booking: "https://www.booking.com/hotel/nl/nh-barbizon-palace.html",
+    maps: "https://maps.apple.com/?q=NH+Collection+Barbizon+Palace+Amsterdam"
+  },
+  {
+    name: "ibis Amsterdam Centre",
+    stars: 3,
+    lat: 52.3782, lng: 4.8955,
+    walk: "3 min walk from CS",
+    breakfast: "Buffet breakfast included in most rates",
+    note: "Budget-friendly, leaves room in your €170 for extras. Clean, no frills.",
+    ht: "https://www.hoteltonight.com/s/amsterdam-nl",
+    booking: "https://www.booking.com/hotel/nl/ibis-amsterdam-centre.html",
+    maps: "https://maps.apple.com/?q=ibis+Amsterdam+Centre"
+  },
+  {
+    name: "Hotel V Nesplein",
+    stars: 4,
+    lat: 52.3727, lng: 4.8912,
+    walk: "12 min walk from CS (near Spui)",
+    breakfast: "Included — well-regarded",
+    note: "Boutique feel. Great design, popular with locals for brunch too.",
+    ht: "https://www.hoteltonight.com/s/amsterdam-nl",
+    booking: "https://www.booking.com/hotel/nl/v-nesplein.html",
+    maps: "https://maps.apple.com/?q=Hotel+V+Nesplein+Amsterdam"
+  },
+  {
+    name: "Hotel Mai Amsterdam",
+    stars: 4,
+    lat: 52.3749, lng: 4.8979,
+    walk: "7 min walk from CS",
+    breakfast: "Buffet breakfast included",
+    note: "Central location, 24h front desk, good value at this tier.",
+    ht: "https://www.hoteltonight.com/s/amsterdam-nl",
+    booking: "https://www.booking.com/hotel/nl/mai-amsterdam.html",
+    maps: "https://maps.apple.com/?q=Hotel+Mai+Amsterdam"
+  },
+  {
+    name: "CityHub Amsterdam",
+    stars: 3,
+    lat: 52.3762, lng: 4.8935,
+    walk: "6 min walk from CS",
+    breakfast: "Light breakfast available",
+    note: "Ultra-modern capsule-style pods. Fun experience, very affordable — leaves budget for dinner.",
+    ht: "https://www.hoteltonight.com/s/amsterdam-nl",
+    booking: "https://www.booking.com/hotel/nl/cityhub-amsterdam.html",
+    maps: "https://maps.apple.com/?q=CityHub+Amsterdam"
+  }
+];
+
+// Map
+const map = L.map('map').setView([52.3765, 4.8970], 15);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap &copy; CARTO',
+  maxZoom: 19
+}).addTo(map);
+
+// Station marker
+L.circleMarker(CENTRAL, { radius: 10, color: '#3b82f6', fillColor: '#3b82f6', fillOpacity: 0.9, weight: 2 })
+  .addTo(map)
+  .bindPopup('<strong>Amsterdam Centraal Station</strong>');
+
+// Hotel markers
+hotels.forEach((h, i) => {
+  const marker = L.circleMarker([h.lat, h.lng], {
+    radius: 8, color: '#e94560', fillColor: '#e94560', fillOpacity: 0.85, weight: 2
+  }).addTo(map);
+
+  marker.bindPopup(`
+    <div style="min-width:200px">
+      <strong>${h.name}</strong><br>
+      ${'★'.repeat(h.stars)} · ${h.walk}<br>
+      <small>${h.breakfast}</small><br>
+      <div style="margin-top:8px">
+        <a href="${h.booking}" target="_blank" style="color:#0a3d62;font-weight:600">Booking.com</a> ·
+        <a href="${h.ht}" target="_blank" style="color:#e94560;font-weight:600">HotelTonight</a>
+      </div>
+    </div>
+  `);
+
+  marker.on('click', () => {
+    document.getElementById('card-' + i)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+});
+
+// Cards
+const cardsEl = document.getElementById('cards');
+hotels.forEach((h, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.id = 'card-' + i;
+  card.innerHTML = `
+    <h3>${h.name}</h3>
+    <div class="stars">${'★'.repeat(h.stars)}${'☆'.repeat(5 - h.stars)}</div>
+    <div class="meta">
+      <strong>Distance:</strong> ${h.walk}<br>
+      <strong>Breakfast:</strong> ${h.breakfast}<br>
+      ${h.note}
+    </div>
+    <div class="links">
+      <a href="${h.ht}" target="_blank" class="btn-ht">HotelTonight</a>
+      <a href="${h.booking}" target="_blank" class="btn-book">Booking.com</a>
+      <a href="${h.maps}" target="_blank" class="btn-maps">Apple Maps</a>
+    </div>
+  `;
+  card.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'A') map.setView([h.lat, h.lng], 17);
+  });
+  cardsEl.appendChild(card);
+});
+</script>
+
+<!-- CLAUDE-DATA
+{
+  "type": "hotel-research",
+  "budget": 170,
+  "currency": "EUR",
+  "city": "Amsterdam",
+  "booking_app": "HotelTonight",
+  "hotels": [
+    {"name": "DoubleTree by Hilton Amsterdam Centraal Station", "stars": 4, "walk_from_cs": "5 min"},
+    {"name": "Renaissance Amsterdam Hotel", "stars": 5, "walk_from_cs": "8 min"},
+    {"name": "NH Collection Amsterdam Barbizon Palace", "stars": 5, "walk_from_cs": "2 min"},
+    {"name": "ibis Amsterdam Centre", "stars": 3, "walk_from_cs": "3 min"},
+    {"name": "Hotel V Nesplein", "stars": 4, "walk_from_cs": "12 min"},
+    {"name": "Hotel Mai Amsterdam", "stars": 4, "walk_from_cs": "7 min"},
+    {"name": "CityHub Amsterdam", "stars": 3, "walk_from_cs": "6 min"}
+  ]
+}
+-->
+</body>
+</html>
