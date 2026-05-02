@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semen Analysis Interpretation</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 36px 0 16px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.disclosure {
+  margin-top: 32px; padding-top: 16px; border-top: 1px solid #d0d3d8;
+}
+.disclosure h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 0 0 8px;
+}
+.disclosure p { font-size: 11px; color: #8a8f96; line-height: 1.5; }
+
+/* Scale meter */
+.meter-block {
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  background: #fff;
+  border: 1px solid #e2e4e8;
+  border-radius: 4px;
+}
+.meter-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 4px;
+}
+.meter-name {
+  font-family: "Georgia", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.meter-result {
+  font-family: -apple-system, sans-serif;
+  font-size: 14px; font-weight: 600; color: #1a2744;
+}
+.meter-what {
+  font: 400 13px/1.5 -apple-system, sans-serif;
+  color: #6b7280; margin-bottom: 12px;
+}
+.meter-track {
+  position: relative;
+  height: 28px;
+  background: linear-gradient(to right, #fde8e8 0%, #fef3e2 25%, #e6f4ea 50%, #e6f4ea 100%);
+  border-radius: 14px;
+  margin-bottom: 6px;
+  overflow: visible;
+}
+.meter-track-simple {
+  background: linear-gradient(to right, #fde8e8 0%, #fef3e2 20%, #e6f4ea 40%, #e6f4ea 100%);
+}
+.meter-marker {
+  position: absolute;
+  top: -2px;
+  width: 4px; height: 32px;
+  background: #1a2744;
+  border-radius: 2px;
+  z-index: 2;
+}
+.meter-marker-ref {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: #c87a2a;
+  z-index: 1;
+}
+.meter-marker-ref::after {
+  content: attr(data-label);
+  position: absolute;
+  top: -16px; left: 50%;
+  transform: translateX(-50%);
+  font: 600 9px/1 -apple-system, sans-serif;
+  color: #c87a2a;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.meter-dot {
+  position: absolute;
+  top: 50%; transform: translate(-50%, -50%);
+  width: 20px; height: 20px;
+  background: #1a2744;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  z-index: 3;
+}
+.meter-dot::after {
+  content: attr(data-val);
+  position: absolute;
+  top: -18px; left: 50%;
+  transform: translateX(-50%);
+  font: 700 12px/1 -apple-system, sans-serif;
+  color: #1a2744;
+  white-space: nowrap;
+}
+.meter-labels {
+  display: flex; justify-content: space-between;
+  font: 400 10px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.meter-verdict {
+  display: inline-block;
+  font: 600 11px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 3px 8px; border-radius: 3px; margin-top: 8px;
+}
+.verdict-ok { background: #e6f4ea; color: #1a6b3a; }
+.verdict-warn { background: #fef3e2; color: #8a6a2a; }
+.verdict-flag { background: #fde8e8; color: #8a2a2a; }
+.meter-explain {
+  font: 400 13px/1.55 "Georgia", serif;
+  color: #4a5568; margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 2, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-semen-analysis-interpretation.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Health &amp; Fertility Analysis</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 2, 2026<br>Lab Interpretation<br>Semen Analysis
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">FERTILITY ASSESSMENT</div>
+  <h1>Semen Analysis Report</h1>
+  <p class="subtitle">Plain-language interpretation of test results from 24 April 2026, compared to the WHO 2021 reference values (the international standard for semen analysis).</p>
+
+  <div class="confidential">Personal medical data. Not for distribution.</div>
+
+  <!-- QUICK SUMMARY -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">8/11</div>
+      <div class="stat-label">Tests Normal</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">46.9M</div>
+      <div class="stat-label">Swimming Sperm</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2.3x</div>
+      <div class="stat-label">Above Fertility Line</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <span class="callout-label">Bottom Line</span>
+    <h2>Good news overall</h2>
+    <p>Most results are normal or above average. The only flag is that sperm motility (swimming ability) is slightly below the reference range. But the sample was unusually thick (high viscosity), which can make the swimming score look worse than it really is. The total number of swimming sperm is still well within the range needed for natural conception. No male fertility problem indicated by these results.</p>
+  </div>
+
+  <!-- EACH PARAMETER WITH SCALE -->
+  <h2>Your Results, One by One</h2>
+  <p>Each section below shows what was measured, where the result falls on the scale, and what it means in plain language. The orange line marks the minimum for healthy fertility. The dark dot is the actual result.</p>
+
+  <!-- 1. VOLUME -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">1. Volume</span>
+      <span class="meter-result">5.0 ml</span>
+    </div>
+    <div class="meter-what">How much fluid was produced in the sample.</div>
+    <div class="meter-track" style="position: relative;">
+      <div class="meter-marker-ref" style="left: 18.7%;" data-label="Min 1.4 ml"></div>
+      <div class="meter-dot" style="left: 66.7%;" data-val="5.0 ml"></div>
+    </div>
+    <div class="meter-labels">
+      <span>0 ml</span>
+      <span>7.5 ml</span>
+    </div>
+    <span class="meter-verdict verdict-ok">Normal</span>
+    <p class="meter-explain">Well above the minimum. More volume means more sperm per ejaculation, which helps fertility. This is a strong result.</p>
+  </div>
+
+  <!-- 2. CONCENTRATION -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">2. Sperm Count (per ml)</span>
+      <span class="meter-result">34.8 million/ml</span>
+    </div>
+    <div class="meter-what">How many sperm cells are in each milliliter of the sample.</div>
+    <div class="meter-track" style="position: relative;">
+      <div class="meter-marker-ref" style="left: 16%;" data-label="Min 16 M/ml"></div>
+      <div class="meter-dot" style="left: 34.8%;" data-val="34.8 M/ml"></div>
+    </div>
+    <div class="meter-labels">
+      <span>0</span>
+      <span>100 million/ml</span>
+    </div>
+    <span class="meter-verdict verdict-ok">Normal</span>
+    <p class="meter-explain">More than double the minimum. Combined with the high volume, the total sperm count is about 174 million, which is 4.5 times the minimum of 39 million. A strong result.</p>
+  </div>
+
+  <!-- 3. PROGRESSIVE MOTILITY -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">3. Swimming Ability (Progressive Motility)</span>
+      <span class="meter-result">27%</span>
+    </div>
+    <div class="meter-what">What percentage of sperm swim forward in a useful direction (grades A + B combined).</div>
+    <div class="meter-track" style="position: relative;">
+      <div class="meter-marker-ref" style="left: 30%;" data-label="Min 30%"></div>
+      <div class="meter-dot" style="left: 27%;" data-val="27%"></div>
+    </div>
+    <div class="meter-labels">
+      <span>0%</span>
+      <span>100%</span>
+    </div>
+    <span class="meter-verdict verdict-warn">Slightly below reference</span>
+    <p class="meter-explain">3 percentage points below the WHO minimum. This is the main flag in the report. Technically called "mild asthenozoospermia" (reduced swimming). But see the viscosity result below: thick semen can trap sperm during testing and make this number appear lower than it actually is. A retest may show a different picture.</p>
+  </div>
+
+  <!-- 4. TOTAL MOTILITY -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">4. Total Motility (any movement)</span>
+      <span class="meter-result">39%</span>
+    </div>
+    <div class="meter-what">Percentage of sperm showing any movement at all, including non-directional wiggling (grades A + B + C).</div>
+    <div class="meter-track" style="position: relative;">
+      <div class="meter-marker-ref" style="left: 42%;" data-label="Min 42%"></div>
+      <div class="meter-dot" style="left: 39%;" data-val="39%"></div>
+    </div>
+    <div class="meter-labels">
+      <span>0%</span>
+      <span>100%</span>
+    </div>
+    <span class="meter-verdict verdict-warn">Slightly below reference</span>
+    <p class="meter-explain">Also slightly below the minimum, by 3 points. 61% of sperm were completely still during testing. Same caveat applies: high viscosity can artificially inflate the "not moving" count.</p>
+  </div>
+
+  <!-- 5. VCM -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">5. VCM (Total Swimming Sperm)</span>
+      <span class="meter-result">46.9 million</span>
+    </div>
+    <div class="meter-what">The total number of forward-swimming sperm in the whole sample. This is the most important single number for predicting natural fertility. Calculated as: volume &times; concentration &times; motility.</div>
+    <div class="meter-track" style="position: relative;">
+      <div class="meter-marker-ref" style="left: 20%;" data-label="Min 20M (natural)"></div>
+      <div class="meter-dot" style="left: 46.9%;" data-val="46.9M"></div>
+    </div>
+    <div class="meter-labels">
+      <span>0</span>
+      <span>&lt; 5M: IVF needed</span>
+      <span>5-20M: IUI range</span>
+      <span>100 million</span>
+    </div>
+    <span class="meter-verdict verdict-ok">Good</span>
+    <p class="meter-explain">Well above the 20 million threshold for natural conception. Even though the motility percentage is slightly low, the high volume and sperm count compensate. There are still nearly 47 million sperm swimming in the right direction. This is the number that matters most, and it looks good.</p>
+  </div>
+
+  <!-- 6. VISCOSITY -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">6. Viscosity (Thickness)</span>
+      <span class="meter-result">High</span>
+    </div>
+    <div class="meter-what">How thick or "sticky" the semen is after liquefying. Tested by dropping it from a pipette and measuring the thread length.</div>
+    <div style="display: flex; gap: 8px; margin: 12px 0;">
+      <div style="flex: 1; text-align: center; padding: 12px; background: #e6f4ea; border-radius: 4px; font: 500 13px/1.2 -apple-system, sans-serif; color: #1a6b3a;">Normal<br><span style="font-size: 11px; font-weight: 400;">drops freely</span></div>
+      <div style="flex: 1; text-align: center; padding: 12px; background: #1a2744; border-radius: 4px; font: 700 13px/1.2 -apple-system, sans-serif; color: #fff;">High &larr; Result<br><span style="font-size: 11px; font-weight: 400;">forms threads</span></div>
+    </div>
+    <span class="meter-verdict verdict-warn">Abnormal (usually benign)</span>
+    <p class="meter-explain">This is actually important context for the motility result. When the sample is too thick, sperm physically cannot swim through it during the lab test. This means the 27% swimming score may be artificially low. The real number could be higher. Common causes: not drinking enough water, longer time between ejaculations, or mild prostate congestion. Usually nothing serious, but worth mentioning to a doctor.</p>
+  </div>
+
+  <!-- 7. pH -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">7. pH (Acidity Level)</span>
+      <span class="meter-result">8.0</span>
+    </div>
+    <div class="meter-what">How acidic or alkaline the semen is. Semen should be slightly alkaline to protect sperm from the acidic environment in the vagina.</div>
+    <div class="meter-track" style="position: relative;">
+      <div class="meter-marker-ref" style="left: 34.3%;" data-label="Min 7.2"></div>
+      <div class="meter-dot" style="left: 57.1%;" data-val="8.0"></div>
+    </div>
+    <div class="meter-labels">
+      <span>6.0 (acidic)</span>
+      <span>9.5 (alkaline)</span>
+    </div>
+    <span class="meter-verdict verdict-ok">Normal</span>
+    <p class="meter-explain">Within the healthy range. Shows that the prostate and seminal vesicles are producing fluid correctly.</p>
+  </div>
+
+  <!-- 8. AGGLUTINATION -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">8. Agglutination (Clumping)</span>
+      <span class="meter-result">Negative</span>
+    </div>
+    <div class="meter-what">Whether sperm are sticking to each other. This can happen when the immune system produces antibodies against its own sperm.</div>
+    <div style="display: flex; gap: 8px; margin: 12px 0;">
+      <div style="flex: 1; text-align: center; padding: 12px; background: #1a2744; border-radius: 4px; font: 700 13px/1.2 -apple-system, sans-serif; color: #fff;">Negative &larr; Result<br><span style="font-size: 11px; font-weight: 400;">no clumping</span></div>
+      <div style="flex: 1; text-align: center; padding: 12px; background: #fde8e8; border-radius: 4px; font: 500 13px/1.2 -apple-system, sans-serif; color: #8a2a2a;">Positive<br><span style="font-size: 11px; font-weight: 400;">sperm sticking together</span></div>
+    </div>
+    <span class="meter-verdict verdict-ok">Normal</span>
+    <p class="meter-explain">No clumping. This rules out immune-related fertility problems (antisperm antibodies). Good news.</p>
+  </div>
+
+  <!-- 9. LEUKOCYTES -->
+  <div class="meter-block">
+    <div class="meter-header">
+      <span class="meter-name">9. White Blood Cells (Leukocytes)</span>
+      <span class="meter-result">&lt; 1 million/ml</span>
+    </div>
+    <div class="meter-what">White blood cells in the semen. Too many would signal an infection or inflammation in the reproductive tract.</div>
+    <div class="meter-track" style="position: relative;">
+      <div class="meter-marker-ref" style="left: 33.3%;" data-label="Max 1 M/ml"></div>
+      <div class="meter-dot" style="left: 20%;" data-val="< 1"></div>
+    </div>
+    <div class="meter-labels">
+      <span>0</span>
+      <span>3 million/ml</span>
+    </div>
+    <span class="meter-verdict verdict-ok">Normal</span>
+    <p class="meter-explain">Below the threshold. No sign of infection or inflammation. This also helps explain the viscosity: since there is no infection, the high thickness is likely just dehydration or abstinence-related.</p>
+  </div>
+
+  <!-- MOTILITY BREAKDOWN -->
+  <h2>Motility Breakdown</h2>
+  <p>Sperm motility is graded A through D. Only A and B matter for fertility, because they swim forward.</p>
+
+  <div style="display: flex; gap: 2px; height: 36px; border-radius: 4px; overflow: hidden; margin: 16px 0;">
+    <div style="width: 16%; background: #1a6b3a; display: flex; align-items: center; justify-content: center; color: #fff; font: 700 12px/1 -apple-system, sans-serif;">A: 16%</div>
+    <div style="width: 11%; background: #2a8a4a; display: flex; align-items: center; justify-content: center; color: #fff; font: 700 11px/1 -apple-system, sans-serif;">B: 11%</div>
+    <div style="width: 12%; background: #c8a040; display: flex; align-items: center; justify-content: center; color: #fff; font: 700 11px/1 -apple-system, sans-serif;">C: 12%</div>
+    <div style="width: 61%; background: #8a8f96; display: flex; align-items: center; justify-content: center; color: #fff; font: 700 13px/1 -apple-system, sans-serif;">D: 61% (not moving)</div>
+  </div>
+
+  <div style="font: 400 13px/1.5 -apple-system, sans-serif; color: #4a5568; margin-bottom: 20px;">
+    <strong style="color: #1a6b3a;">A = fast, straight swimmers</strong> &nbsp;|&nbsp;
+    <strong style="color: #2a8a4a;">B = slower forward swimmers</strong> &nbsp;|&nbsp;
+    <strong style="color: #c8a040;">C = moving but going nowhere</strong> &nbsp;|&nbsp;
+    <strong style="color: #8a8f96;">D = completely still</strong>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Why 61% not moving is less alarming than it sounds</span>
+    The percentage of immotile sperm looks high, but two things matter more: (1) the <strong>total number</strong> of swimming sperm (46.9 million, which is plenty), and (2) the <strong>high viscosity</strong> likely trapped some sperm that would otherwise have been swimming during the test. A retest with thinner semen may show a better picture.
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <h2>What to Do Next</h2>
+  <ul>
+    <li><strong>Mention the high viscosity to a doctor.</strong> It is usually harmless but easy to address (drink more water, maintain regular ejaculation frequency before the test).</li>
+    <li><strong>Retest in 2-3 months.</strong> Sperm quality varies from sample to sample. The WHO recommends at least two tests before drawing conclusions. Staying well-hydrated before the next test may resolve the viscosity issue and likely improve the motility score.</li>
+    <li><strong>No urgent steps needed.</strong> The total swimming sperm count (46.9 million) is comfortably in the range for natural conception. These results do not suggest a fertility problem on the male side.</li>
+  </ul>
+
+  <div class="disclosure">
+    <h3>Disclaimer</h3>
+    <p>This report interprets lab values against WHO 2021 reference ranges (6th Edition). It is not a medical diagnosis. WHO reference values represent the 5th percentile of men who achieved pregnancy within 12 months. Falling below reference does not equal infertility; it means the value is lower than what most fertile men show. Always consult a doctor for clinical assessment. Fertility depends on both partners.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Semen Analysis Interpretation | May 2, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Semen Analysis Interpretation",
+  "date": "2026-05-02",
+  "summary": "Plain-language interpretation of semen analysis (24 April 2026) against WHO 2021 reference values. 8 of 11 parameters normal. Mild asthenozoospermia (27% vs 30% ref), likely affected by high viscosity. VCM 46.9M well above natural conception threshold.",
+  "sections": [
+    {
+      "heading": "Results Summary",
+      "items": [
+        { "title": "Volume", "detail": "5.0 ml, normal", "meta": { "status": "normal" } },
+        { "title": "Concentration", "detail": "34.8 M/ml, normal", "meta": { "status": "normal" } },
+        { "title": "Progressive motility", "detail": "27%, slightly below 30% ref", "meta": { "status": "below_reference" } },
+        { "title": "VCM", "detail": "46.9M, above 20M natural conception line", "meta": { "status": "normal" } },
+        { "title": "Viscosity", "detail": "High, may affect motility reading", "meta": { "status": "abnormal" } }
+      ]
+    }
+  ],
+  "next_steps": "Share with friend. Recommend discussing viscosity with doctor and retesting in 2-3 months.",
+  "session_state": {
+    "phase": "complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Researched WHO 2021 semen analysis reference values",
+      "Analyzed 11 parameters with visual scales",
+      "Generated plain-language HTML report"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "none"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-semen-analysis-interpretation.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "output-page skill"]
+  },
+  "decision_log": [
+    {
+      "decision": "Rewrote report with visual meter scales and plain language per user feedback",
+      "rejected_alternatives": ["Medical jargon heavy report", "Table-only format"],
+      "rationale": "User requested brief, normal-people language, visual scales showing where each measurement falls",
+      "trade_offs": "Less detailed than clinical version, but much more accessible",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
