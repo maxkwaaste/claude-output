@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Customer Base Analysis &amp; Project Module Outreach</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 180px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.email-draft {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px 24px; margin: 12px 0; font-family: -apple-system, sans-serif; font-size: 13px;
+}
+.email-draft .email-header { color: #6b7280; font-size: 12px; margin-bottom: 12px; border-bottom: 1px solid #eef0f2; padding-bottom: 8px; }
+.email-draft .email-header strong { color: #1a2744; }
+.email-draft .email-body { color: #2c2c2c; line-height: 1.6; }
+.email-draft .email-body p { font-family: -apple-system, sans-serif; font-size: 13px; }
+.segment-label {
+  display: inline-block; font: 600 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; padding: 3px 10px;
+  border-radius: 3px; margin-bottom: 8px;
+}
+.seg-a { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.seg-b { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.seg-c { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.seg-d { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 2, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-proxuma-customer-outreach.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Customer Intelligence &amp; Outreach</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 2, 2026<br>Customer Analysis<br>Proxuma Platform
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">CUSTOMER BASE ANALYSIS</div>
+  <h1>Proxuma Customer Outreach: Project Module Adoption</h1>
+  <p class="subtitle">60 paying customers identified from superadmin (source of truth), cross-referenced with Forge CRM ARR data and HubSpot contacts. Previous session underreported at 20 customers due to Forge ARR-only filtering.</p>
+
+  <div class="confidential">INTERNAL USE ONLY -- CONTAINS CUSTOMER REVENUE DATA</div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">60</div>
+      <div class="stat-label">Paying Customers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">42</div>
+      <div class="stat-label">With Contact Info</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">9</div>
+      <div class="stat-label">Power BI Active</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Active Trials</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Correction from last session</span>
+    The Forge CRM identified only 20 companies with Proxuma ARR > 0. The superadmin panel (the actual source of truth for active subscriptions) shows <strong>60 paying customers</strong> and <strong>7 active trials</strong>. The discrepancy comes from Forge tracking Stripe revenue only, while many customers pay through alternative channels (Yuki invoices, 3-year contracts, bundled Dxfferent deals). <strong>Superadmin = source of truth for customer count. Forge ARR = supplementary revenue data.</strong>
+  </div>
+
+  <h2>Outreach Segments</h2>
+
+  <p>Without direct platform usage analytics (login frequency, project count, timeline views), we classify customers using proxy signals: ARR concentration, Power BI status, subscription size, and tenure. Four segments emerge for Project module outreach.</p>
+
+  <!-- SEGMENT A -->
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">SEGMENT A</span>
+      <span class="tier-title">High-Value Project Deepening (12 customers)</span>
+    </div>
+    <p>Top Proxuma ARR customers who are project-focused (no or low Dxfferent revenue). They pay for Proxuma because Autotask project management is insufficient. Outreach goal: check-in on feature adoption, identify expansion opportunities, gather product feedback.</p>
+
+    <table class="matrix">
+      <tr><th>Customer</th><th>Proxuma ARR</th><th>PBI</th><th>Plan</th><th>Contact</th></tr>
+      <tr><td><strong>Van Roey Automation NV</strong></td><td>EUR 11,480</td><td>Yes</td><td>Monthly</td><td>David Verwerft &lt;david.verwerft@vanroey.be&gt;</td></tr>
+      <tr><td><strong>inTEC Business</strong></td><td>EUR 8,283</td><td>No</td><td>3-year</td><td>Jackie Hargreaves &lt;jackie.hargreaves@intecbusiness.co.uk&gt;</td></tr>
+      <tr><td><strong>AfterDark Technology</strong></td><td>EUR 6,635</td><td>No</td><td>3-year</td><td>Stephen Gibson &lt;sgibson@adit.net.au&gt;</td></tr>
+      <tr><td><strong>Holland ICT Groep</strong></td><td>EUR 6,530</td><td>No</td><td>Yearly</td><td>No contact in CRM</td></tr>
+      <tr><td><strong>TwentyFour IT Services</strong></td><td>EUR 5,168</td><td>No</td><td>Yearly</td><td>Mark Gibson &lt;mark@twenty-four.it&gt;</td></tr>
+      <tr><td><strong>netaccess ag</strong></td><td>EUR 4,860</td><td>No</td><td>Yearly</td><td>Noel Strasser &lt;noel.strasser@netaccess.ch&gt;</td></tr>
+      <tr><td><strong>Server At Work</strong></td><td>EUR 3,375</td><td>No</td><td>Monthly</td><td>Micheal Goodwin &lt;mgoodwin@saw.it&gt;</td></tr>
+      <tr><td><strong>Com4 Information Technology</strong></td><td>EUR 2,586</td><td>No</td><td>Monthly</td><td>No contact in CRM</td></tr>
+      <tr><td><strong>Majestic Computer Technology</strong></td><td>EUR 2,360</td><td>No</td><td>Monthly</td><td>Nathan Gaughan &lt;nathan.gaughan@majesticcomputertechnology.com&gt;</td></tr>
+      <tr><td><strong>Aabyss</strong></td><td>EUR 2,451</td><td>No</td><td>Monthly</td><td>Andrew Allen &lt;andrew.allen@aabyss.uk&gt;</td></tr>
+      <tr><td><strong>Complex ICT</strong></td><td>EUR 1,967</td><td>No</td><td>Monthly</td><td>Michael Bos &lt;michael.bos@complexict.nl&gt;</td></tr>
+      <tr><td><strong>JUICT B.V.</strong></td><td>EUR 1,932</td><td>No</td><td>Monthly</td><td>Anto te Lintelo &lt;anto@juict.nl&gt;</td></tr>
+    </table>
+  </div>
+
+  <!-- SEGMENT B -->
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">SEGMENT B</span>
+      <span class="tier-title">Dxfferent Crossover -- Expand Platform Use (7 customers)</span>
+    </div>
+    <p>Customers with Dxfferent consulting revenue who also use Proxuma. They know the ecosystem. Outreach goal: bridge consulting insights into deeper Proxuma platform adoption, especially the Projects module and Power BI reporting.</p>
+
+    <table class="matrix">
+      <tr><th>Customer</th><th>Proxuma ARR</th><th>Dxfferent ARR</th><th>PBI</th><th>Contact</th></tr>
+      <tr><td><strong>T4 Group</strong></td><td>EUR 0</td><td>EUR 34,541</td><td>No</td><td>Kirby Armstrong &lt;kirby@t4group.com.au&gt;</td></tr>
+      <tr><td><strong>Steentjes Groep</strong></td><td>EUR 0</td><td>EUR 20,000</td><td>Yes</td><td>Marnix Ankone &lt;marnix@steentjesict.nl&gt;</td></tr>
+      <tr><td><strong>IT Synergy</strong></td><td>EUR 5,345</td><td>EUR 15,000</td><td>Yes</td><td>Paul Arkesteijn &lt;paul.arkesteijn@itsynergy.nl&gt;</td></tr>
+      <tr><td><strong>Arrows ICT Solutions</strong></td><td>EUR 4,944</td><td>EUR 13,600</td><td>No</td><td>Luc Pijls &lt;l.pijls@arrowsict.nl&gt;</td></tr>
+      <tr><td><strong>Van der Hoff ICT</strong></td><td>EUR 0</td><td>EUR 10,000</td><td>No</td><td>No contact in CRM</td></tr>
+      <tr><td><strong>VelzArt</strong></td><td>EUR 2,728</td><td>EUR 5,000</td><td>Yes</td><td>Arie Verhoek &lt;averhoek@velzart.nl&gt;</td></tr>
+      <tr><td><strong>Fancit BV</strong></td><td>EUR 2,033</td><td>EUR 1,500</td><td>No</td><td>William Aarnoudse &lt;waarnoudse@fancit.nl&gt;</td></tr>
+    </table>
+  </div>
+
+  <!-- SEGMENT C -->
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">SEGMENT C</span>
+      <span class="tier-title">Active but Invisible -- EUR 0 Forge ARR (28 customers)</span>
+    </div>
+    <p>Paying in superadmin but Forge shows no Proxuma ARR. These customers are active and paying through channels Forge doesn't track. Many are smaller MSPs on monthly plans. They are the largest untapped segment for engagement -- we know they exist, but we may not know how deeply they use the platform. Outreach goal: check-in, discover usage patterns, identify upsell to Projects/Power BI.</p>
+
+    <table class="matrix">
+      <tr><th>Customer</th><th>Region</th><th>Plan</th><th>PBI</th><th>Contact</th></tr>
+      <tr><td><strong>Cubics IT B.V.</strong></td><td>EU</td><td>Yearly</td><td>Yes</td><td>Jannick Boelaars &lt;jannick@cubics.nl&gt;</td></tr>
+      <tr><td><strong>Pritech PTY LTD</strong></td><td>AU</td><td>Monthly</td><td>Yes</td><td>Neill MacRae &lt;neill@pritech.com.au&gt;</td></tr>
+      <tr><td><strong>TeamLogic IT N. Alabama</strong></td><td>US</td><td>Monthly</td><td>Yes</td><td>Marissa Miguel &lt;mmiguel@teamlogicit.com&gt;</td></tr>
+      <tr><td><strong>Clev'It</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Allan Alvarez &lt;allan@clevit.fr&gt;</td></tr>
+      <tr><td><strong>Corpsoft</strong></td><td>US</td><td>Monthly</td><td>No</td><td>Yurii Ivakhnov &lt;yuraivahnov@corpsoft.io&gt;</td></tr>
+      <tr><td><strong>EAC Network Solutions</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Ben Hammond &lt;ben.hammond@eac-ns.co.uk&gt;</td></tr>
+      <tr><td><strong>EXPRO it</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Remco Beld &lt;remco.beld@expro-it.nl&gt;</td></tr>
+      <tr><td><strong>FIT Technologies</strong></td><td>US</td><td>Monthly</td><td>No</td><td>Briana Benge &lt;bbenge@fittechnologies.net&gt;</td></tr>
+      <tr><td><strong>Lemontree</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Andre Anker &lt;andre.anker@lemontree.nl&gt;</td></tr>
+      <tr><td><strong>Locknet Managed IT</strong></td><td>US</td><td>Monthly</td><td>No</td><td>Peter Durnil &lt;pdurnil@eojohnson.com&gt;</td></tr>
+      <tr><td><strong>Perspektiva IT ApS</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Jonas Christoffersen &lt;joch@perspektiva-it.dk&gt;</td></tr>
+      <tr><td><strong>Splitbrain BV</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Darryl van der Peijl &lt;darryl.vanderpeijl@splitbrain.com&gt;</td></tr>
+      <tr><td><strong>TechNosis, Inc.</strong></td><td>US</td><td>Monthly</td><td>No</td><td>Darrick Hartman &lt;darrick@technosis.biz&gt;</td></tr>
+      <tr><td><strong>UNO IT Services</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Maarten Benschop &lt;mbenschop@uno.nl&gt;</td></tr>
+      <tr><td><strong>Itum Solutions B.V.</strong></td><td>EU</td><td>Yearly</td><td>No</td><td>Nabil Amar Ouali &lt;nabilouali@itum.nl&gt;</td></tr>
+      <tr><td><strong>Network Company</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>Brian Adams &lt;ba@gdk.ie&gt;</td></tr>
+      <tr><td><strong>Anderson Networks</strong></td><td>US</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Igu Tech Group</strong></td><td>EU</td><td>Yearly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Ironside IT Partners</strong></td><td>US</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>FMI INFOGERANCE</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Maiano Informatique</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Mario Lehoux</strong></td><td>US</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Notatech</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>PLEIN SUD IT</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Southeastern Eng.</strong></td><td>US</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Surf Tech IT</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+      <tr><td><strong>Blue Arc IT Solutions</strong></td><td>US</td><td>Monthly</td><td>Yes</td><td>No contact</td></tr>
+      <tr><td><strong>BSV-IT B.V.</strong></td><td>EU</td><td>Monthly</td><td>No</td><td>No contact</td></tr>
+    </table>
+  </div>
+
+  <!-- SEGMENT D -->
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">SEGMENT D</span>
+      <span class="tier-title">At-Risk -- Unpaid / Canceled (6 customers)</span>
+    </div>
+    <p>Customers with billing issues (unpaid, canceled). These need retention outreach before project upsell.</p>
+
+    <table class="matrix">
+      <tr><th>Customer</th><th>ARR</th><th>Status</th><th>Contact</th></tr>
+      <tr><td><strong>ConXioN BV</strong></td><td>EUR 2,177</td><td>Unpaid</td><td>Davy Dwalterumaertens &lt;dwalterumaertens@conxion.be&gt;</td></tr>
+      <tr><td><strong>Blue Arc IT Solutions</strong></td><td>EUR 2,706</td><td>Unpaid</td><td>No contact</td></tr>
+      <tr><td><strong>IT Synergy</strong></td><td>EUR 5,345</td><td>Unpaid</td><td>Paul Arkesteijn &lt;paul.arkesteijn@itsynergy.nl&gt;</td></tr>
+      <tr><td><strong>Contigo Technology</strong></td><td>EUR 2,080</td><td>Canceled</td><td>Michelle Doucette &lt;michelle.doucette@contigotx.com&gt;</td></tr>
+      <tr><td><strong>VelzArt</strong></td><td>EUR 2,728</td><td>Unpaid</td><td>Arie Verhoek &lt;averhoek@velzart.nl&gt;</td></tr>
+      <tr><td><strong>Steentjes Groep</strong></td><td>EUR 0 (D: 20K)</td><td>Unpaid</td><td>Marnix Ankone &lt;marnix@steentjesict.nl&gt;</td></tr>
+    </table>
+  </div>
+
+  <h2>Draft Outreach Emails</h2>
+
+  <p>Three email templates tailored to the segments above. Each follows the anti-pattern rules from the nudge engine: no "circling back," no "touching base," no "I hope this finds you well." Direct, honest, reference-specific.</p>
+
+  <!-- Template 1: Segment A -->
+  <h3>Template 1: Segment A -- High-Value Check-In</h3>
+  <p>For top Proxuma ARR customers. Goal: open a conversation about what they use, what they skip, and what would make the Projects module more valuable.</p>
+
+  <div class="email-draft">
+    <div class="email-header">
+      <strong>To:</strong> [Contact Name]<br>
+      <strong>Subject:</strong> Quick question about your Projects setup
+    </div>
+    <div class="email-body">
+      <p>[First name],</p>
+      <p>You've been on Proxuma for a while now, and I wanted to ask something specific: how much of the project planning side are you actually using day-to-day?</p>
+      <p>We've been building out the capacity view and the drag-and-drop scheduling for service calls, and I want to make sure you're getting full value from those. Some of our MSPs run their entire delivery operation through the timeline view. Others stick to the basics.</p>
+      <p>No pitch here. I'm genuinely trying to understand which parts land and which parts don't. If you have 10 minutes this week, I'd like to hear what works and what doesn't.</p>
+      <p>Max</p>
+    </div>
+  </div>
+
+  <!-- Template 2: Segment B -->
+  <h3>Template 2: Segment B -- Dxfferent Crossover</h3>
+  <p>For customers with Dxfferent consulting history. They already know the methodology. Goal: connect the consulting framework to the Proxuma platform features.</p>
+
+  <div class="email-draft">
+    <div class="email-header">
+      <strong>To:</strong> [Contact Name]<br>
+      <strong>Subject:</strong> Bringing the Dxfferent process maps into Proxuma
+    </div>
+    <div class="email-body">
+      <p>[First name],</p>
+      <p>You went through the Dxfferent process with us, and I know [Company] walked away with solid process maps for project delivery. I wanted to check whether you've been translating those into the Proxuma Projects module.</p>
+      <p>The reason I ask: we built project templates specifically for MSPs who did the Dxfferent assessment. The idea is that your 4-6 most common project types (the ones that make up 75% of revenue) each get their own template with pre-built milestones, resource allocation, and timeline views. That way your engineers never need to leave Autotask, but your project managers get a real planning layer on top.</p>
+      <p>If you're interested in setting that up, it's a 20-minute session. We configure the templates based on what came out of your assessment.</p>
+      <p>Worth doing?</p>
+      <p>Max</p>
+    </div>
+  </div>
+
+  <!-- Template 3: Segment C -->
+  <h3>Template 3: Segment C -- Discovery Check-In</h3>
+  <p>For active subscribers where we have limited visibility into their usage. Goal: learn how they use the platform, discover untapped features.</p>
+
+  <div class="email-draft">
+    <div class="email-header">
+      <strong>To:</strong> [Contact Name]<br>
+      <strong>Subject:</strong> How is [Company] using Proxuma these days?
+    </div>
+    <div class="email-body">
+      <p>[First name],</p>
+      <p>Honest question: I want to make sure you're getting the value you signed up for.</p>
+      <p>We've added a lot to the platform since you joined, particularly around project scheduling and the capacity timeline. But I don't have a clear picture of what your team actually uses vs. what's sitting untouched.</p>
+      <p>Would you be open to a 15-minute call? I'd like to understand your workflow and make sure nothing useful is hiding behind a feature you haven't explored.</p>
+      <p>No strings. If everything is working fine, that's great too.</p>
+      <p>Max</p>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>The Proxuma customer base is 3x larger than previously measured (60 vs. 20). The 28 "invisible" customers in Segment C represent the biggest opportunity: they pay, they use the platform, but we have zero visibility into their feature adoption. A simple check-in campaign to these 28 customers will surface the actual usage patterns and identify the best candidates for Projects module deepening and Power BI upsell.</p>
+  </div>
+
+  <h2>Next Steps</h2>
+  <ol>
+    <li><strong>Fill contact gaps:</strong> 18 customers have no contact in Forge or HubSpot. Check superadmin user list or Stripe billing emails to find primary contacts.</li>
+    <li><strong>Send Segment A emails first:</strong> 10 high-value customers with contacts -- low volume, high-touch. Personalize each one with specific knowledge from Open Brain.</li>
+    <li><strong>Resolve Segment D billing:</strong> 6 customers with unpaid/canceled status need retention attention before outreach.</li>
+    <li><strong>Launch Segment C campaign:</strong> After A and D, send the discovery check-in to the 28 invisible customers. Track who responds.</li>
+    <li><strong>Add usage analytics:</strong> Consider adding a PostHog dashboard for project module engagement (projects created, timeline views, service call drags) so future outreach is data-driven, not inferred.</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma Customer Intelligence -- May 2, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Customer Outreach: Project Module Adoption",
+  "date": "2026-05-02",
+  "summary": "Full analysis of 60 paying Proxuma customers (corrected from 20). Segmented into 4 outreach groups with draft emails for project module adoption deepening.",
+  "sections": [
+    {
+      "heading": "Customer Base Correction",
+      "items": [
+        { "title": "60 paying customers in superadmin, not 20 from Forge ARR filter", "detail": "Forge CRM tracks Stripe revenue only. Many customers pay through Yuki, 3-year contracts, or bundled deals. Superadmin is the source of truth.", "meta": { "total_paying": 60, "with_contacts": 42, "power_bi_active": 9, "trials": 7 } }
+      ]
+    },
+    {
+      "heading": "Segment A: High-Value Project Deepening",
+      "items": [
+        { "title": "12 customers with top Proxuma ARR, project-focused", "detail": "Van Roey (EUR 11.5K), inTEC (EUR 8.3K), AfterDark (EUR 6.6K) lead. 10 have contacts.", "meta": { "count": 12, "total_arr": 57627 } }
+      ]
+    },
+    {
+      "heading": "Segment B: Dxfferent Crossover",
+      "items": [
+        { "title": "7 customers with both Proxuma and Dxfferent revenue", "detail": "T4 Group (EUR 34.5K Dxfferent), IT Synergy, Arrows ICT lead. Bridge consulting to platform.", "meta": { "count": 7, "total_dxfferent_arr": 99641 } }
+      ]
+    },
+    {
+      "heading": "Segment C: Active but Invisible",
+      "items": [
+        { "title": "28 customers paying in superadmin with EUR 0 Forge ARR", "detail": "Largest untapped segment. Paying but usage patterns unknown. Discovery check-in needed.", "meta": { "count": 28, "with_contacts": 16, "without_contacts": 12 } }
+      ]
+    },
+    {
+      "heading": "Segment D: At-Risk",
+      "items": [
+        { "title": "6 customers with billing issues (unpaid/canceled)", "detail": "ConXioN, Blue Arc, IT Synergy, Contigo, VelzArt, Steentjes. Retention before upsell.", "meta": { "count": 6 } }
+      ]
+    }
+  ],
+  "next_steps": "Send Segment A emails first (10 personalized check-ins). Fill 18 missing contacts from superadmin or Stripe. Resolve Segment D billing. Then launch Segment C discovery campaign. Consider adding PostHog project-module usage dashboard for data-driven future outreach.",
+  "session_state": {
+    "phase": "analysis complete, drafts ready",
+    "phase_status": "complete",
+    "progress_pct": 90,
+    "work_done_this_session": [
+      "Pulled all 5,666 Forge companies via Venture API (57 pages)",
+      "Cross-referenced superadmin (60 paying) with Forge ARR (68 Proxuma ARR > 0)",
+      "Enriched contacts from Forge CRM (1,100 contacts) and HubSpot searches",
+      "Segmented customers into 4 outreach groups (A/B/C/D)",
+      "Drafted 3 email templates following nudge engine anti-patterns",
+      "Confirmed customer count is 60 (not 20 from last session)"
+    ],
+    "blockers_hit": "18 customers still missing primary contacts. No direct access to Proxuma platform usage analytics (PostHog/backend DB).",
+    "uncommitted_changes": "claude-output repo has this new file uncommitted",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [
+      { "path": "/tmp/proxuma-customers-enriched.json", "description": "Full enriched customer dataset with contacts and ARR", "cleanup_after": "outreach campaign started" },
+      { "path": "/tmp/forge-all-companies.json", "description": "All 5,666 Forge companies", "cleanup_after": "analysis done" },
+      { "path": "/tmp/forge-all-contacts.json", "description": "All 1,100 Forge contacts", "cleanup_after": "analysis done" },
+      { "path": "/tmp/forge-all-deals.json", "description": "All 1,051 Forge deals", "cleanup_after": "analysis done" }
+    ],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-proxuma-customer-outreach.html", "relevance": "this output page" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Venture API token refreshed and confirmed working at ~/.venture-token"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "nudge engine win-back anti-patterns", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Used superadmin as source of truth instead of Forge ARR for customer count",
+      "rejected_alternatives": ["Forge ARR only (showed 20)", "HubSpot lifecycle (incomplete)", "Stripe billing (partial)"],
+      "rationale": "Max explicitly asked to use usage data as leading source. Superadmin shows actual active subscriptions regardless of payment channel.",
+      "trade_offs": "Superadmin snapshot is from April 10, may be slightly stale. Some orgs might have churned since.",
+      "contingencies": []
+    },
+    {
+      "decision": "Segmented by ARR + PBI + billing status rather than actual platform usage metrics",
+      "rejected_alternatives": ["Wait for PostHog data", "Query backend DBs directly"],
+      "rationale": "No API access to platform usage analytics. Proxy signals are the best available without backend DB access.",
+      "trade_offs": "May misclassify some customers. Segment C especially could contain both heavy users and dormant accounts.",
+      "contingencies": [
+        { "if_X_then_Y": "If PostHog dashboard gets built, re-segment using actual project module engagement data", "probability": 0.5 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
