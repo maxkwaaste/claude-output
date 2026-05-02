@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDR Claw: 25 Daily Emails Architecture Spec</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 180px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 12px; line-height: 1.6;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.pos-steps { display: flex; gap: 10px; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 2, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-25-email-spec.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Sales Automation Architecture</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 2, 2026<br>Architecture Spec<br>SDR Claw
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SDR AUTOMATION</div>
+  <h1>SDR Claw: 25 Daily Emails Architecture</h1>
+  <p class="subtitle">OpenClaw skill on M1 Pro. Forge API as sole data source, DeepSeek runtime, Presidio anonymization, Telegram+Canvas review UX, edit-diff learning loop.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">25</div>
+      <div class="stat-label">Emails / Day</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$4</div>
+      <div class="stat-label">Monthly Cost</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">60</div>
+      <div class="stat-label">API Calls / Run</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Build Phases</div>
+    </div>
+  </div>
+
+  <h2>1. System Architecture</h2>
+
+  <p>The SDR Claw skill runs as an OpenClaw cron job on M1 Pro (always-on, Tailscale-accessible). It queries Forge for all contact/deal/usage data, scores and selects the top 25 contacts, generates personalized drafts via DeepSeek, and delivers them to Max for review via Telegram inline buttons and a Canvas batch UI.</p>
+
+  <pre>
+OpenClaw Gateway (:18789)
+  |-- Cron: 07:00 Morning batch (session:sdr-claw)
+  |-- Cron: 11:00 Follow-up check
+  |-- Cron: 17:00 Learning extraction
+  |
+  v
+SDR Claw Skill
+  |-- 1. Query Forge API (contacts, deals, companies, PostHog)
+  |-- 2. Score all contacts (8 weighted signals)
+  |-- 3. Pick top 25, fetch deep timeline context
+  |-- 4. Presidio anonymize (financial data encrypted)
+  |-- 5. DeepSeek V4 Flash generates 25 drafts
+  |-- 6. Presidio deanonymize
+  |-- 7. Push to Telegram + Canvas review queue
+  |-- 8. Max reviews: Approve / Edit / Skip / Snooze
+  |-- 9. Approved emails sent via Forge campaign API (MS Graph)
+  |-- 10. Edit diffs captured for learning loop
+  </pre>
+
+  <h2>2. Model Routing</h2>
+
+  <table class="matrix">
+    <tr><th>Task</th><th>Model</th><th>Cost / 25 Emails</th></tr>
+    <tr><td>Draft generation</td><td><strong>DeepSeek V4 Flash</strong></td><td>~$0.02</td></tr>
+    <tr><td>Contact scoring</td><td><strong>DeepSeek V4 Pro</strong></td><td>~$0.05</td></tr>
+    <tr><td>Learning extraction</td><td><strong>DeepSeek V4 Flash</strong></td><td>~$0.01</td></tr>
+    <tr><td>Skill code changes</td><td><strong>Claude Opus 4.7</strong></td><td>Via Claude Code only</td></tr>
+  </table>
+
+  <h2>3. Forge API Mapping</h2>
+
+  <p>Forge (NeXum-co/nexum-backend) is a Laravel 12 app with Sanctum auth. All data the SDR needs comes through its REST API. Rate limit: 120 req/min. Auth: Bearer token (personal access token with <code>forge.read</code> + <code>forge.crm.update</code>).</p>
+
+  <h3>Key Endpoints</h3>
+  <table class="matrix">
+    <tr><th>Purpose</th><th>Endpoint</th><th>Key Fields</th></tr>
+    <tr><td>Contact list</td><td><code>GET /api/forge/crm/contacts</code></td><td>enrichment (decision_authority, buying_signals, pain_points)</td></tr>
+    <tr><td>Contact timeline</td><td><code>GET /api/forge/crm/contacts/{id}/timeline</code></td><td>mail, calendar, transcript signals with dates</td></tr>
+    <tr><td>Deals</td><td><code>GET /api/forge/crm/deals</code></td><td>stage, amount, last_signal_date, close_date</td></tr>
+    <tr><td>Companies</td><td><code>GET /api/forge/crm/companies</code></td><td>arr_value, contact_count, deal_count, domain</td></tr>
+    <tr><td>PostHog usage</td><td><code>GET /api/forge/analytics/posthog/tenants</code></td><td>active_users_30d, avg_events_per_workday</td></tr>
+    <tr><td>Contact segment</td><td><code>GET /api/forge/crm/email/contacts/segment</code></td><td>classification, product_tier, msp_size, account filter</td></tr>
+    <tr><td>Transcripts</td><td><code>GET /api/forge/crm/transcripts/{id}</code></td><td>VTT transcript_content, attendees, duration</td></tr>
+    <tr><td>Send email</td><td><code>POST /api/forge/crm/email/campaigns/{id}/send</code></td><td>Dispatches via MS Graph, auto-unsubscribe enforcement</td></tr>
+    <tr><td>Sender mailboxes</td><td><code>GET /api/forge/crm/email/sender-mailboxes</code></td><td>Active FROM addresses</td></tr>
+    <tr><td>Sync status</td><td><code>GET /api/forge/crm/last-sync</code></td><td>Per-connector last sync timestamp</td></tr>
+  </table>
+
+  <h3>API Call Budget Per Morning Run</h3>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="bar-label">Bulk fetch (contacts/deals/co)</span>
+      <div class="bar"><div class="bar-fill" style="width:7%">4</div></div>
+      <span class="bar-amount">4 calls</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Timeline per contact</span>
+      <div class="bar"><div class="bar-fill" style="width:42%">25</div></div>
+      <span class="bar-amount">25 calls</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">PostHog detail</span>
+      <div class="bar"><div class="bar-fill accent" style="width:8%">5</div></div>
+      <span class="bar-amount">~5 calls</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Transcripts</span>
+      <div class="bar"><div class="bar-fill accent" style="width:5%">3</div></div>
+      <span class="bar-amount">~3 calls</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Campaign send</span>
+      <div class="bar"><div class="bar-fill muted" style="width:5%">4</div></div>
+      <span class="bar-amount">~4 calls</span>
+    </div>
+  </div>
+
+  <h2>4. Email Categories</h2>
+
+  <div class="card">
+    <div class="card-title">1. Post-Demo Follow-Up (highest priority)</div>
+    <div class="card-buyer">Trigger: meeting transcript &lt;5 days, no follow-up sent</div>
+    <div class="card-desc">Pull transcript summary, extract topics discussed, reference specific conversation moments. Warm tone, confirm next step from the call.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">2. New Inbound Response</div>
+    <div class="card-buyer">Trigger: inbound mail_signal &lt;48h, no reply sent</div>
+    <div class="card-desc">Prompt response to form submissions or intro emails. Propose 15-minute call with 2 time slots.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">3. Stale Deal Nudge</div>
+    <div class="card-buyer">Trigger: active deal stage, last_signal_date &gt;7 days</div>
+    <div class="card-desc">Add value (share relevant insight), ask specific question about their evaluation. Never "just checking in".</div>
+  </div>
+  <div class="card">
+    <div class="card-title">4. Customer Upsell</div>
+    <div class="card-buyer">Trigger: PostHog usage signal (feature adoption / usage drop)</div>
+    <div class="card-desc">Helpful tone. "Noticed you're using X heavily, Y might help." Offer 10-minute walkthrough.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">5. Win-Back</div>
+    <div class="card-buyer">Trigger: closed_lost deal, 30-180 days ago</div>
+    <div class="card-desc">No pressure, lead with what's changed since they evaluated. "Worth a fresh look?"</div>
+  </div>
+
+  <h2>5. Scoring Algorithm</h2>
+
+  <p>8 weighted signals from Forge API, scored 0-10 each:</p>
+
+  <table class="matrix">
+    <tr><th>Signal</th><th>Weight</th><th>Forge Source</th></tr>
+    <tr><td>Days since last email</td><td><strong>20%</strong></td><td><code>/contacts/{id}/timeline?types=mail</code></td></tr>
+    <tr><td>Deal stage urgency</td><td><strong>20%</strong></td><td><code>/deals/{id}</code></td></tr>
+    <tr><td>Days since last meeting</td><td><strong>15%</strong></td><td><code>/contacts/{id}/timeline?types=calendar</code></td></tr>
+    <tr><td>Deal value (log-scaled)</td><td><strong>15%</strong></td><td><code>/deals/{id}</code></td></tr>
+    <tr><td>Contact responsiveness</td><td><strong>10%</strong></td><td>Reply rate from timeline</td></tr>
+    <tr><td>Product usage signal</td><td><strong>10%</strong></td><td><code>/analytics/posthog/tenant/{slug}</code></td></tr>
+    <tr><td>Decision authority</td><td><strong>5%</strong></td><td>Contact enrichment</td></tr>
+    <tr><td>Enrichment completeness</td><td><strong>5%</strong></td><td>Contact enrichment fields filled</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Selection Rule</span>
+    Post-demo follow-ups and new inbound responses are <strong>always included</strong> regardless of score. Remaining slots filled by highest-scored contacts from categories 3-5. Max 1 email per company per day.
+  </div>
+
+  <h2>6. Presidio Anonymization</h2>
+
+  <p>Presidio runs locally on M1 Pro. Financial data is encrypted before reaching DeepSeek. Company names, contact names, and email subjects pass through for personalization.</p>
+
+  <table class="matrix">
+    <tr><th>Data Type</th><th>Action</th><th>Reason</th></tr>
+    <tr><td>Invoice amounts, ARR, Stripe data</td><td><strong>Encrypt</strong></td><td>Financial PII</td></tr>
+    <tr><td>IBAN, BSN, credit cards</td><td><strong>Encrypt</strong></td><td>Identity/payment PII</td></tr>
+    <tr><td>Phone numbers</td><td><strong>Encrypt</strong></td><td>Contact PII</td></tr>
+    <tr><td>Company names, contact names</td><td><strong>Keep</strong></td><td>Needed for personalization</td></tr>
+    <tr><td>Email addresses, subjects</td><td><strong>Keep</strong></td><td>Context for drafting</td></tr>
+    <tr><td>Deal stages, usage metrics</td><td><strong>Keep</strong></td><td>Business context</td></tr>
+    <tr><td>Transcript text, notes</td><td><strong>Scan</strong></td><td>Free-text gets NER scanning</td></tr>
+  </table>
+
+  <p>Custom recognizers needed: Dutch BSN (11-proof checksum), financial amounts (EUR/USD patterns), IBAN (NL + international).</p>
+
+  <h2>7. Review UX</h2>
+
+  <h3>Telegram (Primary)</h3>
+  <p>Each draft arrives as a message with inline keyboard buttons: <strong>Send</strong>, <strong>Edit</strong>, <strong>Skip</strong>, <strong>Snooze</strong>. Edit: reply with modified text. Snooze: defer to tomorrow (+5 score bonus). Batch summary sent first with category breakdown and "Open in Canvas" link.</p>
+
+  <h3>Canvas (Batch Mode)</h3>
+  <p>HTML page at <code>http://&lt;tailscale-host&gt;:18793/__openclaw__/canvas/review-queue.html</code>. All 25 drafts as scrollable cards with editable text areas. Keyboard-driven: <strong>A</strong>=approve, <strong>E</strong>=edit, <strong>S</strong>=skip, <strong>Z</strong>=snooze, <strong>J/K</strong>=navigate, <strong>Shift+A</strong>=approve all remaining. Target: 25 drafts in under 10 minutes.</p>
+
+  <h2>8. Learning Loop</h2>
+
+  <h3>Three Channels</h3>
+  <div class="card">
+    <div class="card-title">Channel 1: Edit Diffs (passive, highest signal)</div>
+    <div class="card-desc">When Max edits a draft before sending, compute diff. After 20+ pairs, extract patterns: deleted phrases become "never use" rules, insertions become style preferences. Stored in SQLite <code>learning.db</code>.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Channel 2: Approve/Reject Patterns (passive)</div>
+    <div class="card-desc">Track correlations between actions and email attributes. After 50+ decisions: "win-back emails have 60% reject rate" informs quota allocation and template improvements.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Channel 3: Explicit Feedback (active)</div>
+    <div class="card-desc">When Max rejects, optionally add a reason via Telegram reply. Highest quality signal, lowest volume. Stored as labeled training data.</div>
+  </div>
+
+  <p>Daily 17:00 extraction run compiles patterns into "Max's Writing Rules" in <code>MEMORY.md</code>, injected into DeepSeek system prompt. Rules have confidence scores (5+ examples = low, 10+ = medium, 20+ = high). Max can view/correct via <code>/learnings</code> Telegram command or Canvas dashboard.</p>
+
+  <h2>9. Build Plan</h2>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Foundation</div>
+      <div class="pos-desc">Forge token, Presidio install, test email send</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">Core Skill</div>
+      <div class="pos-desc">OpenClaw skill, cron jobs, 25 drafts to Telegram</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Review UX</div>
+      <div class="pos-desc">Canvas batch UI, keyboard shortcuts</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">Learning</div>
+      <div class="pos-desc">Edit diffs, pattern extraction, dashboard</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">5</div>
+      <div class="pos-label">Polish</div>
+      <div class="pos-desc">Follow-up sequences, A/B testing, weekly reports</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>25 personalized sales emails per day for $4/month. Forge as sole data source (contacts, deals, usage, transcripts). DeepSeek for generation, Presidio for privacy, OpenClaw for orchestration. The learning loop is the differentiator: every edit Max makes teaches the system to draft better. Full spec with code-level detail at <code>~/ClaudeCode/sdr-claw/docs/2026-05-02-25-email-architecture-spec.md</code>.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>SDR Claw Architecture Spec &mdash; May 2, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "SDR Claw: 25 Daily Emails Architecture Spec",
+  "date": "2026-05-02",
+  "summary": "Complete architecture spec for SDR Claw -- an OpenClaw skill generating 25 personalized sales emails/day for Proxuma and Dxfferent. Forge API as sole data source, DeepSeek runtime, Presidio anonymization, Telegram+Canvas review UX, edit-diff learning loop.",
+  "sections": [
+    {
+      "heading": "System Architecture",
+      "items": [
+        {
+          "title": "OpenClaw skill on M1 Pro (sdr-claw-25)",
+          "detail": "Cron-driven: 07:00 morning batch, 11:00 follow-up check, 17:00 learning extraction. Uses persistent session:sdr-claw for context continuity across runs.",
+          "meta": { "runtime": "OpenClaw Gateway :18789", "canvas_port": 18793 }
+        },
+        {
+          "title": "Data flow: Forge -> Presidio -> DeepSeek -> Telegram/Canvas",
+          "detail": "Query Forge (60 API calls), score contacts, pick 25, fetch timelines, anonymize financial data, generate drafts via DeepSeek V4 Flash, deanonymize, push to review queue.",
+          "meta": { "api_calls_per_run": 60, "rate_limit": "120/min" }
+        }
+      ]
+    },
+    {
+      "heading": "Model Routing",
+      "items": [
+        {
+          "title": "DeepSeek V4 Flash for drafts ($0.14/M input)",
+          "detail": "25 email drafts cost ~$0.02/day. OpenAI-compatible API, tool calling supported, 1M token context.",
+          "meta": { "model_id": "deepseek-v4-flash", "cost_input": "$0.14/M", "cost_output": "$0.28/M" }
+        },
+        {
+          "title": "DeepSeek V4 Pro for scoring ($0.435/M input)",
+          "detail": "Chain-of-thought reasoning for contact prioritization and weekly analysis.",
+          "meta": { "model_id": "deepseek-v4-pro", "cost_input": "$0.435/M", "cost_output": "$0.87/M" }
+        },
+        {
+          "title": "Claude Opus 4.7 for code only",
+          "detail": "Skill development and debugging via Claude Code. Never in the production email loop.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Forge API Mapping",
+      "items": [
+        {
+          "title": "Forge is the sole CRM (NeXum-co/nexum-backend, Laravel 12)",
+          "detail": "Sanctum auth, personal access tokens. Syncs from MS Graph (mail, calendar, transcripts), PostHog (usage), Stripe (payments), Yuki (invoices). SDR never queries upstream sources directly.",
+          "meta": { "auth": "Bearer token (Sanctum)", "permissions": "forge.read + forge.crm.update" }
+        },
+        {
+          "title": "Contact endpoints with enrichment",
+          "detail": "GET /api/forge/crm/contacts returns enrichment: decision_authority (DecisionMaker/Influencer/EndUser/Champion), lifecycle_stage, buying_signals, pain_points, demo_reason, last_contact_method.",
+          "meta": { "endpoint": "GET /api/forge/crm/contacts/{id}" }
+        },
+        {
+          "title": "Timeline API for deep context",
+          "detail": "GET /contacts/{id}/timeline returns mail, calendar, transcript signals with dates. Types filter supported. Max 100 per request.",
+          "meta": { "endpoint": "GET /api/forge/crm/contacts/{id}/timeline" }
+        },
+        {
+          "title": "Email sending via campaigns",
+          "detail": "Create template -> create campaign -> add recipients -> preview -> send. Forge dispatches via MS Graph. Template variables: {{contact.first_name}}, {{company.name}}, etc. Unsubscribe enforced automatically.",
+          "meta": {
+            "send_endpoint": "POST /api/forge/crm/email/campaigns/{id}/send",
+            "template_vars": ["contact.first_name", "contact.last_name", "contact.email", "contact.full_name", "contact.job_title", "company.name", "company.domain", "sender.name", "sender.email"]
+          }
+        },
+        {
+          "title": "PostHog usage signals",
+          "detail": "GET /analytics/posthog/tenants for tenant list, /tenant/{slug} for deep usage. Match to CRM via domain. Signals: active_users_30d, avg_events_per_workday, modules used, rage_clicks.",
+          "meta": { "caveat": "No direct FK between PostHog tenant_slug and customer_registry.id -- match by domain" }
+        },
+        {
+          "title": "Silver tables (canonical schema)",
+          "detail": "customer_registry (companies), contacts (people), deals, mail_signals, calendar_events, meeting_transcripts, invoices, stripe_charges/subscriptions. All with UUID PKs.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Email Categories (priority order)",
+      "items": [
+        {
+          "title": "1. Post-demo follow-up",
+          "detail": "Trigger: meeting transcript <5 days, no follow-up. Always included in batch.",
+          "meta": { "priority": "mandatory" }
+        },
+        {
+          "title": "2. New inbound response",
+          "detail": "Trigger: inbound mail <48h, no reply. Always included.",
+          "meta": { "priority": "mandatory" }
+        },
+        {
+          "title": "3. Stale deal nudge",
+          "detail": "Trigger: active deal, last_signal >7 days. Scored, fills remaining slots.",
+          "meta": { "priority": "scored" }
+        },
+        {
+          "title": "4. Customer upsell",
+          "detail": "Trigger: PostHog usage signal. For existing customers only.",
+          "meta": { "priority": "scored" }
+        },
+        {
+          "title": "5. Win-back",
+          "detail": "Trigger: closed_lost 30-180 days ago. Not >180 days.",
+          "meta": { "priority": "scored" }
+        }
+      ]
+    },
+    {
+      "heading": "Scoring Algorithm",
+      "items": [
+        {
+          "title": "8 weighted signals, 0-10 each",
+          "detail": "Email recency (20%), deal stage (20%), meeting recency (15%), deal value (15%), responsiveness (10%), usage (10%), authority (5%), enrichment (5%). Post-demo and inbound mandatory regardless of score. Max 1 email/company/day. Snoozed contacts get +5 bonus next day.",
+          "meta": {
+            "weights": {
+              "email_recency": 0.20,
+              "deal_stage": 0.20,
+              "meeting_recency": 0.15,
+              "deal_value": 0.15,
+              "responsiveness": 0.10,
+              "usage_signal": 0.10,
+              "decision_authority": 0.05,
+              "enrichment_completeness": 0.05
+            }
+          }
+        }
+      ]
+    },
+    {
+      "heading": "Presidio Anonymization",
+      "items": [
+        {
+          "title": "Encrypt: financial amounts, IBAN, BSN, credit cards, phone numbers",
+          "detail": "AES encrypt operator (reversible). Custom recognizers needed: Dutch BSN (11-proof checksum), financial amounts (EUR/USD patterns), IBAN (NL + international).",
+          "meta": { "operator": "encrypt/decrypt", "key_env": "PRESIDIO_KEY" }
+        },
+        {
+          "title": "Keep: company names, contact names, emails, subjects, deal stages, usage metrics",
+          "detail": "Needed for personalization. Apply Keep operator to these entity types.",
+          "meta": {}
+        },
+        {
+          "title": "Hybrid approach: field-level rules + Presidio NER on free text",
+          "detail": "Structured Forge fields get deterministic always_anonymize/always_keep rules. Free-text fields (transcripts, notes) get Presidio NER scanning. Config in presidio-config.yaml.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "Review UX",
+      "items": [
+        {
+          "title": "Telegram inline buttons (primary)",
+          "detail": "Each draft as message with Send/Edit/Skip/Snooze buttons. Edit: reply with modified text. Batch summary sent first. Bot: @Kwaastenietbot, allowlist Max only (8764211796).",
+          "meta": { "telegram_config": { "dmPolicy": "allowlist", "inlineButtons": "dm", "streaming_mode": "off" } }
+        },
+        {
+          "title": "Canvas batch UI (keyboard-driven)",
+          "detail": "HTML at canvas :18793. All 25 as scrollable cards, editable textareas. A=approve, E=edit, S=skip, Z=snooze, J/K=navigate, Shift+A=approve all. Target: <10 min for 25 drafts. Tailscale bind for M4 Air access.",
+          "meta": { "canvas_port": 18793, "bind": "tailnet" }
+        }
+      ]
+    },
+    {
+      "heading": "Learning Loop",
+      "items": [
+        {
+          "title": "Edit diffs (passive, highest signal)",
+          "detail": "Capture diff between original draft and what Max actually sent. After 20+ pairs, extract patterns: deleted phrases become 'never use' rules, insertions become style preferences.",
+          "meta": { "storage": "learning.db (SQLite)", "threshold": "5+ examples = rule candidate" }
+        },
+        {
+          "title": "Approve/reject patterns (passive)",
+          "detail": "Track correlations after 50+ decisions. E.g. 'win-back emails have 60% reject rate' informs quota allocation.",
+          "meta": {}
+        },
+        {
+          "title": "Explicit feedback (active)",
+          "detail": "Max optionally adds reason when rejecting. Highest quality, lowest volume.",
+          "meta": {}
+        },
+        {
+          "title": "Writing rules output",
+          "detail": "Extracted rules compiled into MEMORY.md, injected into DeepSeek system prompt. Confidence scores: low (5-9 examples), medium (10-19), high (20+). Max can view/correct via /learnings command or Canvas dashboard.",
+          "meta": {}
+        }
+      ]
+    },
+    {
+      "heading": "OpenClaw Skill Structure",
+      "items": [
+        {
+          "title": "Skill: sdr-claw-25",
+          "detail": "7 reference files (IDENTITY, SOUL, AGENTS, USER, HEARTBEAT, TOOLS, MEMORY), scripts (presidio-anonymize.py, score-contacts.py, extract-learnings.py), Canvas templates (review-queue.html, learning-dashboard.html).",
+          "meta": { "path": "~/.openclaw/workspace/skills/sdr-claw-25/" }
+        },
+        {
+          "title": "Cron jobs (4 total)",
+          "detail": "07:00 Mon-Fri morning batch (session:sdr-claw), 11:00 follow-up check (session:sdr-claw), 17:00 learning extraction (session:sdr-claw), Monday 09:00 weekly summary (isolated, DeepSeek V4 Pro).",
+          "meta": { "timezone": "Europe/Amsterdam", "session": "session:sdr-claw" }
+        }
+      ]
+    },
+    {
+      "heading": "Build Plan (5 phases)",
+      "items": [
+        {
+          "title": "Phase 1: Foundation (Week 1)",
+          "detail": "Forge personal access token, install Presidio on M1 Pro, write presidio-anonymize.py with custom recognizers, write score-contacts.py, test Forge email campaign send.",
+          "meta": { "phase": 1 }
+        },
+        {
+          "title": "Phase 2: Core Skill (Week 2)",
+          "detail": "Create skill directory with 7 reference files, configure OpenClaw (DeepSeek provider, Telegram, cron), implement morning batch pipeline, wire approve/edit/reject to Forge API, test with 5 real contacts.",
+          "meta": { "phase": 2 }
+        },
+        {
+          "title": "Phase 3: Review UX (Week 3)",
+          "detail": "Build review-queue.html Canvas page, implement keyboard shortcuts, wire Canvas actions to OpenClaw agent, add batch summary Telegram message.",
+          "meta": { "phase": 3 }
+        },
+        {
+          "title": "Phase 4: Learning Loop (Week 4)",
+          "detail": "Create learning.db SQLite schema, capture edit diffs, capture approve/reject log, run extract-learnings.py, inject rules into prompts, build /learnings command and Canvas dashboard.",
+          "meta": { "phase": 4 }
+        },
+        {
+          "title": "Phase 5: Polish (Week 5+)",
+          "detail": "Follow-up sequences (Day 3/7), snooze queue, weekly summary, PostHog domain matching cache, stale connector alerting, A/B testing.",
+          "meta": { "phase": 5 }
+        }
+      ]
+    },
+    {
+      "heading": "Research Sources",
+      "items": [
+        {
+          "title": "NeXum-co/nexum-backend (Forge)",
+          "detail": "Full API route inventory: CRM contacts/companies/deals/email/campaigns, PostHog analytics, Sanctum auth, GraphMailSendService for MS Graph email sending, Silver tables (canonical schema).",
+          "meta": {}
+        },
+        {
+          "title": "iPythoning/b2b-sdr-agent-template",
+          "detail": "7-layer context system (IDENTITY/SOUL/AGENTS/USER/HEARTBEAT/MEMORY/TOOLS), 10-stage pipeline, 14-item heartbeat, 4-layer anti-amnesia memory, sub-skills (sdr-humanizer, delivery-queue, lead-discovery).",
+          "meta": {}
+        },
+        {
+          "title": "openclaw/openclaw",
+          "detail": "Cron system (croner, session modes, retry), skills system (SKILL.md frontmatter), memory (SQLite + daily .md), Canvas UI (WKWebView, A2UI, exec-approvals), multi-model routing, Telegram (inline buttons, reactions, custom commands).",
+          "meta": {}
+        },
+        {
+          "title": "DeepSeek API",
+          "detail": "V4 Flash $0.14/M input, V4 Pro $0.435/M input (75% discount until 2026-05-31). OpenAI-compatible, tool calling, 1M context, strict JSON mode beta.",
+          "meta": {}
+        },
+        {
+          "title": "Microsoft Presidio",
+          "detail": "Encrypt/decrypt operators for reversible anonymization, custom recognizers (regex + code), Keep operator for allow-listing, no built-in Dutch BSN (need custom 11-proof recognizer).",
+          "meta": {}
+        }
+      ]
+    }
+  ],
+  "next_steps": "Phase 1 starts with Max creating a Forge personal access token (step 1.1). Then install Presidio on M1 Pro and write the anonymization script. Test the full pipeline with one email before scaling to 25. Run Phase 1 on M1 Pro via SSH (ccc alias).",
+  "session_state": {
+    "phase": "spec complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read research brief (2026-05-02-research-brief-25-emails.md)",
+      "Researched NeXum-co/nexum-backend: full API route inventory, Silver tables, Sanctum auth, email campaign system",
+      "Researched iPythoning/b2b-sdr-agent-template: 7-layer context system, AGENTS.md pipeline, HEARTBEAT.md, all sub-skills",
+      "Researched openclaw/openclaw: cron system, skills, memory, Canvas UI, multi-model routing, Telegram integration",
+      "Fetched OpenClaw docs (cron, skills, Canvas, DeepSeek provider), DeepSeek API docs (models, pricing, tool calling), Presidio docs (custom recognizers, reversible anonymization)",
+      "Wrote architecture spec with 8 deliverables + 4 appendices (OpenClaw config, cron definitions, DeepSeek system prompt, cost estimate)",
+      "Created output-page HTML with CLAUDE-DATA JSON block",
+      "Saved to Open Brain"
+    ],
+    "blockers_hit": "Forge API token pending -- Max needs to create it (Phase 1, step 1.1)",
+    "uncommitted_changes": "claude-output repo has new HTML file to commit+push",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/sdr-claw/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-25-email-spec.html", "relevance": "This output page with CLAUDE-DATA" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null,
+    "key_files": [
+      { "path": "~/ClaudeCode/sdr-claw/docs/2026-05-02-25-email-architecture-spec.md", "description": "Full architecture spec (800+ lines) with code-level detail, scoring algorithm, Presidio config, OpenClaw config, cron definitions, DeepSeek system prompt template" },
+      { "path": "~/ClaudeCode/sdr-claw/docs/2026-05-02-research-brief-25-emails.md", "description": "Input research brief with business context, constraints, and research questions" }
+    ]
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Open Brain thought captured (id: dcbe6d5b-c3d0-47c1-88be-a07e8277736f) with full architecture summary"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "Forge as sole CRM (no direct upstream queries)", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Use Forge campaign API for email sending rather than MS365 MCP directly",
+      "rejected_alternatives": ["MS365 MCP direct send", "Custom SMTP"],
+      "rationale": "Forge already has GraphMailSendService with template variables, unsubscribe enforcement, and signal_entity_links creation. Using it keeps the single-data-source constraint clean.",
+      "trade_offs": "Less flexibility than direct MS Graph calls, but gains unsubscribe compliance and CRM audit trail for free",
+      "contingencies": []
+    },
+    {
+      "decision": "Use session:sdr-claw (persistent named session) for all weekday cron jobs, isolated for weekly summary",
+      "rejected_alternatives": ["All isolated sessions", "All main session"],
+      "rationale": "Persistent session preserves context across morning/midday/evening runs within the same day. Weekly summary gets isolated to avoid polluting the daily context.",
+      "trade_offs": "Session history grows over the week -- may need compaction strategy",
+      "contingencies": []
+    },
+    {
+      "decision": "Hybrid Presidio approach: field-level rules for structured data, NER for free text",
+      "rejected_alternatives": ["Presidio NER on everything", "No anonymization (trust DeepSeek)"],
+      "rationale": "Structured Forge fields have known types -- deterministic rules are faster and more reliable than NER for these. Free-text fields (transcripts, notes) need NER to catch embedded financial data.",
+      "trade_offs": "Two code paths to maintain, but each is simpler than a single universal approach",
+      "contingencies": []
+    },
+    {
+      "decision": "Telegram inline buttons as primary review, Canvas as secondary batch mode",
+      "rejected_alternatives": ["Canvas only", "Email-based review", "Telegram only"],
+      "rationale": "Telegram is always accessible (phone, desktop). Canvas is faster for bulk review but requires a browser. Hybrid gives Max flexibility.",
+      "trade_offs": "Need to build and maintain two review interfaces",
+      "contingencies": [
+        { "if_X_then_Y": "If Canvas proves faster and Max uses it exclusively, deprecate individual Telegram draft messages and keep only the batch summary notification", "probability": 0.4 }
+      ]
+    },
+    {
+      "decision": "SQLite for learning storage rather than OpenClaw built-in memory",
+      "rejected_alternatives": ["OpenClaw MEMORY.md only", "ChromaDB/LanceDB vector store", "PostgreSQL on Forge"],
+      "rationale": "Edit diffs and approve/reject logs are structured tabular data with SQL query patterns (aggregations, correlations). SQLite is local, fast, zero-config. Writing rules output goes to MEMORY.md for prompt injection.",
+      "trade_offs": "Extra dependency (sqlite3), but Python has it built in",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
