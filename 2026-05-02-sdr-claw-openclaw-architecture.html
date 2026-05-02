@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDR Claw on OpenClaw: Multi-Model Sales Agent Architecture</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 140px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.disclosure {
+  margin-top: 32px; padding-top: 16px; border-top: 1px solid #d0d3d8;
+}
+.disclosure h3 { margin-top: 0; }
+.disclosure p { font-size: 11px; color: #8a8f96; line-height: 1.5; }
+.arch-diagram {
+  background: #f5f7fa; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 28px; margin: 20px 0; font-family: "JetBrains Mono", "SF Mono", monospace;
+  font-size: 12px; line-height: 1.8; white-space: pre; overflow-x: auto;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 2, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-openclaw-architecture.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Sales Intelligence Architecture Research</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 2, 2026<br>Architecture Research<br>Proxuma / Dxfferent
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SDR CLAW EVOLUTION</div>
+  <h1>SDR Claw on OpenClaw: Multi-Model Sales Agent</h1>
+  <p class="subtitle">Research into rebuilding the Sales Claw as an OpenClaw skill with DeepSeek for reasoning, ChatGPT for computer use, and Claude reserved for code. A proactive sales assistant for Max's role at Proxuma and Dxfferent.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">20-50x</div>
+      <div class="stat-label">DeepSeek cost reduction vs Opus</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">100K+</div>
+      <div class="stat-label">OpenClaw GitHub stars</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Models, one agent</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$&lt;50</div>
+      <div class="stat-label">Target monthly cost</div>
+    </div>
+  </div>
+
+  <h2>1. What Exists Today (and What Didn't Work)</h2>
+
+  <p>Three iterations of the sales agent have been built since March 2026. Each solved part of the problem but none became the daily-use tool Max needs.</p>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Version</th><th>Stack</th><th>Status</th><th>Lesson</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Nudge Engine</strong></td><td>Python scripts, HubSpot MCP, Outlook polling, LaunchAgents</td><td>Partially working</td><td>Learning loop design was right. HubSpot was the bottleneck (marketing contact billing, read-only fields). Fragmented scripts, no single entry point.</td></tr>
+      <tr><td><strong>NemoClaw</strong></td><td>Node.js daemon, Telegram bot, Twenty CRM, multi-model router, 61 tests</td><td>Deployed on M1 Pro but incomplete</td><td>Architecture was solid (6 subsystems, MCP tools, model routing). Failed on execution: MS365 auth still pending, no email access, no learning loop running. Telegram UX too thin for draft review.</td></tr>
+      <tr><td><strong>Sales Claw Spec</strong></td><td>Four-pillar system (Transcripts, AI Extraction, Playbook, Sales Claw)</td><td>Specced, not built</td><td>Scope was right. Build order defined (Phase 1-4 over 12 weeks). Never started because NemoClaw wasn't finished and Twenty CRM adapter wasn't production-ready.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Core insight from three iterations</span>
+    The design keeps getting better. The execution keeps stalling. The common failure mode: building custom infrastructure (daemon processes, MCP servers, CRM adapters) when the real job is "draft 5 good emails a day and learn from my edits." OpenClaw is the answer because it's the infrastructure layer that already exists.
+  </div>
+
+  <h2>2. Why OpenClaw Changes the Equation</h2>
+
+  <p>OpenClaw hit 100K GitHub stars in February 2026 and has become the default open-source personal AI agent. It runs as a daemon on macOS, integrates natively with Telegram/WhatsApp/Discord, and has a mature skill/cron system. The things NemoClaw tried to build from scratch, OpenClaw ships out of the box.</p>
+
+  <h3>What OpenClaw gives you for free</h3>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Capability</th><th>NemoClaw (custom)</th><th>OpenClaw (built-in)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Telegram bot</td><td>Custom grammy daemon</td><td>Native, 2 lines of config</td></tr>
+      <tr><td>WhatsApp</td><td>Adapter with missing deps</td><td>Native integration</td></tr>
+      <tr><td>Model routing</td><td>Custom config.yaml + router</td><td>Multi-model routing with fallbacks, per-task model assignment</td></tr>
+      <tr><td>Cron/scheduling</td><td>macOS LaunchAgents</td><td>Built-in cron with retry, backfill, timezone, concurrency</td></tr>
+      <tr><td>MCP tools</td><td>Custom MCP server (13 tools)</td><td>ClawHub skills + Composio connectors for Fathom, CRM, email</td></tr>
+      <tr><td>Heartbeat / always-on</td><td>KeepAlive plist</td><td>Native daemon with heartbeat</td></tr>
+      <tr><td>Memory</td><td>Open Brain (separate)</td><td>Built-in persistent memory + can connect Open Brain via MCP</td></tr>
+      <tr><td>Canvas / review UI</td><td>None (Telegram only)</td><td>Live Canvas for draft review, web-based</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Key advantage: Canvas for draft review</span>
+    The April spec identified "review interface in Forge CRM, not Outlook" as a critical decision. OpenClaw's Canvas is a better fit. It renders in-browser, supports approve/edit/reject workflows, and doesn't require building a custom UI. The NemoClaw plan needed a "Nudge Dashboard in Forge" that doesn't exist yet. Canvas exists today.
+  </div>
+
+  <h2>3. The Multi-Model Architecture</h2>
+
+  <p>Your instinct from earlier today: DeepSeek for thinking, ChatGPT for computer use, Claude for coding. Applied to the SDR Claw, each model gets a specific job based on its strength.</p>
+
+  <div class="arch-diagram">
+                        OpenClaw (orchestrator)
+                               |
+              +----------------+----------------+
+              |                |                |
+        DeepSeek R2       ChatGPT Agent    Claude Code
+        (reasoning)       (computer use)    (build only)
+              |                |                |
+    - Deal scoring         - Browser tasks    - Skill code
+    - Email drafting       - Web research     - MCP adapters
+    - Call analysis        - CRM GUI ops      - Bug fixes
+    - Pattern learning     - LinkedIn actions
+    - Classification       - Calendar mgmt
+              |                |
+              +-------+--------+
+                      |
+              Twenty CRM / HubSpot
+              MS365 (email, calendar)
+              Open Brain (memory)
+              Fathom (transcripts)
+  </div>
+
+  <h3>Model routing by task type</h3>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Task</th><th>Model</th><th>Why</th><th>Est. Cost/Month</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Deal scoring (0-100)</strong></td><td>DeepSeek R2</td><td>Multi-step reasoning over CRM data, email history, call notes. Needs chain-of-thought. R2 is 20-50x cheaper than Opus for this.</td><td>~$3</td></tr>
+      <tr><td><strong>Email draft generation</strong></td><td>DeepSeek V4 Pro</td><td>Natural writing quality, personalized context. V4 Pro has strong instruction following at low cost. 5-10 drafts/day.</td><td>~$5</td></tr>
+      <tr><td><strong>Call transcript analysis</strong></td><td>DeepSeek R2</td><td>Structured extraction (pain points, objections, buying signals) from long transcripts. Reasoning model handles this well.</td><td>~$2</td></tr>
+      <tr><td><strong>CRM enrichment writes</strong></td><td>DeepSeek V4 Flash</td><td>Simple field updates, classification. Cheapest model, no reasoning needed. $0.14/M input tokens.</td><td>~$1</td></tr>
+      <tr><td><strong>Web research on prospects</strong></td><td>ChatGPT Agent</td><td>Browse company websites, LinkedIn profiles, news. Computer use for anything that needs a browser.</td><td>~$15 (ChatGPT Pro share)</td></tr>
+      <tr><td><strong>Draft review follow-up</strong></td><td>DeepSeek V4 Pro</td><td>Edit diff analysis, pattern extraction from Max's changes. Learning loop.</td><td>~$3</td></tr>
+      <tr><td><strong>Building/fixing skill code</strong></td><td>Claude Opus 4.7</td><td>Only triggered when Max asks Claude Code to modify the SDR Claw skills or fix bugs. Not part of the runtime loop.</td><td>$0 (part of existing CC usage)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">~$29</div>
+      <div class="stat-label">Monthly DeepSeek cost</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~$15</div>
+      <div class="stat-label">ChatGPT Pro allocation</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~$44</div>
+      <div class="stat-label">Total runtime cost</div>
+    </div>
+  </div>
+
+  <p>Compare this to running the same workload on Claude Opus: roughly $600-900/month at current token volumes. DeepSeek R2 handles the heavy reasoning at a fraction of the cost. ChatGPT handles the parts that need a browser. Claude stays out of the runtime entirely.</p>
+
+  <h2>4. What the Industry Says (May 2026)</h2>
+
+  <p>The AI SDR market has matured. The "fully autonomous SDR" hype from 2024-2025 has given way to a clear consensus: hybrid human-AI works, full autonomy doesn't. Key findings from current research:</p>
+
+  <div class="card">
+    <div class="card-title">Human-in-the-loop is the winning pattern</div>
+    <div class="card-buyer">Amplemarket, SellScale, Monday.com analysis</div>
+    <div class="card-desc">The top-performing AI SDR platforms in 2026 all use a hybrid model. Multiple specialized agents prepare campaigns, but a human approves in one click. Amplemarket's "Duo Copilot" (three agents, human approval) scored highest in independent evaluations. This matches your existing design: AI drafts, Max sends.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Multi-agent beats monolithic</div>
+    <div class="card-buyer">SellScale architecture</div>
+    <div class="card-desc">SellScale uses Worker, Supervisor, and Secretary roles. Specialized agents outperform a single agent trying to do everything. Your scoring loop / action loop / learning loop separation maps to this pattern naturally.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">CRM hygiene before automation</div>
+    <div class="card-buyer">MarketBetter, Monday.com, Salesforce consensus</div>
+    <div class="card-desc">Automation amplifies whatever you feed it. Bad data means bad drafts. Twenty CRM has 7,603 companies and 369 deals. The data quality there will determine draft quality. The "data hygiene first" principle is repeatedly emphasized across all 2026 evaluations.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Learning from edits is the differentiator</div>
+    <div class="card-buyer">Original Sales Claw spec insight</div>
+    <div class="card-desc">Commercial AI SDR platforms don't learn from your edit patterns. They use pre-trained models with static personas. Your learning loop (draft > Max edits > diff > pattern extraction > next draft improves) is genuinely differentiated. This was always the most valuable part of the spec.</div>
+  </div>
+
+  <h2>5. Proposed Architecture: Sales Claw as OpenClaw Skill</h2>
+
+  <p>Instead of building another custom daemon, build Sales Claw as an OpenClaw skill with three cron jobs. OpenClaw handles the infrastructure. Your code handles the sales logic.</p>
+
+  <h3>Component 1: Scoring Cron (3x daily: 07:00, 12:00, 16:30)</h3>
+
+  <ul>
+    <li>Pulls all open deals from Twenty CRM via MCP</li>
+    <li>Cross-references with MS365 email activity (last touch date, response patterns)</li>
+    <li>Scores each deal 0-100 on: staleness vs stage norms, broken promises (next steps from call notes), momentum, inbound urgency</li>
+    <li>Model: <strong>DeepSeek R2</strong> for scoring logic, <strong>V4 Flash</strong> for CRM reads</li>
+    <li>Output: ranked deal list stored in OpenClaw memory + pushed to Canvas</li>
+  </ul>
+
+  <h3>Component 2: Draft Cron (follows scoring, same 3x cadence)</h3>
+
+  <ul>
+    <li>Takes top N deals from scoring (adaptive cap, starts at 5/day)</li>
+    <li>For each: pulls email thread, CRM notes, Open Brain profile, call transcript excerpts</li>
+    <li>Generates personalized email draft referencing actual conversation context</li>
+    <li>Model: <strong>DeepSeek V4 Pro</strong> for drafting (good writing quality at low cost)</li>
+    <li>Output: drafts appear in OpenClaw Canvas for review. Actions: Approve (A), Edit (E), Reject (R), Feedback (F), Snooze (S). Approved drafts sent via MS365 MCP.</li>
+  </ul>
+
+  <h3>Component 3: Learning Cron (every 15 min during business hours)</h3>
+
+  <ul>
+    <li>Polls MS365 Sent folder for emails matching pending drafts</li>
+    <li>Computes edit diff (Levenshtein + semantic) between original draft and what Max actually sent</li>
+    <li>Extracts patterns: tone shifts, structural changes, added/removed phrases</li>
+    <li>After 20+ edit pairs: generates "Max's writing rules" document</li>
+    <li>Model: <strong>DeepSeek V4 Pro</strong> for diff analysis, <strong>R2</strong> for pattern synthesis</li>
+    <li>Output: updated style rules in OpenClaw memory, fed into draft prompt next cycle</li>
+  </ul>
+
+  <h3>Component 4: Transcript Pipeline (event-driven)</h3>
+
+  <ul>
+    <li>Fathom MCP integration via Composio connector (already available in ClawHub)</li>
+    <li>Or: Power Automate triggers on Teams recording > OneDrive folder > OpenClaw watches folder</li>
+    <li>New transcripts auto-classified (sales/consulting/internal) and processed</li>
+    <li>Model: <strong>DeepSeek R2</strong> for extraction, <strong>V4 Flash</strong> for classification</li>
+    <li>Output: structured data written to Twenty CRM, Open Brain enriched</li>
+  </ul>
+
+  <h2>6. Migration Path from Current State</h2>
+
+  <div class="callout">
+    <span class="callout-label">What to keep</span>
+    <strong>Open Brain data</strong> (140+ transcript profiles, contact intelligence). <strong>Twenty CRM</strong> (7,603 companies, 369 deals). <strong>Sales Claw spec</strong> (scoring, action, learning loop design). <strong>NemoClaw's 61 tests</strong> (port the test logic as validation for OpenClaw skill). <strong>Edit diff engine</strong> (Levenshtein pattern extraction from learning/ subsystem). <strong>MS365 MCP</strong> (already configured on both machines).
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">What to drop</span>
+    <strong>NemoClaw daemon</strong> (replaced by OpenClaw's native daemon). <strong>Custom Telegram bot</strong> (OpenClaw has native Telegram). <strong>Custom model router</strong> (OpenClaw multi-model routing). <strong>LaunchAgent plists</strong> (OpenClaw cron). <strong>Custom MCP server for Twenty</strong> (use Composio connector or port as OpenClaw MCP). <strong>Forge CRM dependency</strong> (stick with Twenty CRM, it has the data).
+  </div>
+
+  <h3>Phase plan</h3>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Phase</th><th>Duration</th><th>Deliverable</th><th>Verification</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>0. OpenClaw Setup</strong></td><td>1 day</td><td>OpenClaw installed on M1 Pro, DeepSeek API connected, Telegram linked, basic cron working</td><td>Send "hello" via Telegram, get DeepSeek response</td></tr>
+      <tr><td><strong>1. CRM Read Skill</strong></td><td>2-3 days</td><td>OpenClaw skill that reads Twenty CRM deals, companies, people. Responds to "show pipeline" on Telegram.</td><td>Ask "what deals are stale?" and get accurate answer</td></tr>
+      <tr><td><strong>2. Scoring + Draft MVP</strong></td><td>1 week</td><td>Scoring cron runs 3x daily, drafts top 5 deals, shows in Canvas. Draft quality doesn't matter yet.</td><td>5 drafts appear in Canvas, all reference real deal context</td></tr>
+      <tr><td><strong>3. MS365 Integration</strong></td><td>2-3 days</td><td>Email send via MS365 MCP. Sent folder polling. Draft > Edit > Send flow works end-to-end.</td><td>Approve a draft in Canvas, verify it appears in Outlook Sent</td></tr>
+      <tr><td><strong>4. Learning Loop</strong></td><td>1 week</td><td>Edit diff engine ported from NemoClaw. Style rules generated after 20+ pairs. Drafts improve measurably.</td><td>Compare draft quality before/after 20 edits</td></tr>
+      <tr><td><strong>5. Transcript Pipeline</strong></td><td>1-2 weeks</td><td>Fathom or OneDrive watcher. Auto-classification. CRM enrichment. Open Brain updates.</td><td>Record a test call, verify extraction appears in Twenty CRM</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. The ChatGPT Computer Use Question</h2>
+
+  <p>OpenAI's computer use (Operator) and ChatGPT Agent mode are strong at browser-based tasks: navigating websites, filling forms, researching prospects on LinkedIn. OpenClaw can route specific tasks to ChatGPT when a browser is needed.</p>
+
+  <p>For the SDR Claw specifically, computer use is useful for:</p>
+
+  <ul>
+    <li><strong>Prospect research:</strong> browsing a prospect's website, reading their blog, checking their tech stack on BuiltWith</li>
+    <li><strong>LinkedIn intelligence:</strong> checking a prospect's recent posts, company updates, hiring signals</li>
+    <li><strong>Competitive intel:</strong> monitoring competitor websites for pricing changes, new features</li>
+  </ul>
+
+  <p>It is not needed for the core loop (scoring, drafting, learning). Those tasks work entirely through APIs and MCP tools. Computer use is an enrichment layer, not a dependency. Start without it, add it when the core loop is running.</p>
+
+  <h2>8. Claude's Role: Build and Fix, Not Run</h2>
+
+  <p>Claude stays out of the SDR Claw runtime entirely. No Claude API calls in the cron jobs. No Claude as a fallback model. Claude's job is:</p>
+
+  <ul>
+    <li>Build the OpenClaw skills (Claude Code with Opus 4.7 implementation agents)</li>
+    <li>Fix bugs when something breaks</li>
+    <li>Review and improve the scoring logic, draft prompts, learning patterns</li>
+    <li>The daily scheduled review agent (Opus auditing draft quality, architecture, methodology)</li>
+  </ul>
+
+  <p>This is a clean separation. DeepSeek pays for the high-volume runtime. Claude pays for the occasional build session. You're not burning $15/M tokens on email drafts that a $0.14/M model handles just as well.</p>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>OpenClaw is the daemon/messaging/cron infrastructure you tried to build from scratch with NemoClaw. DeepSeek R2 is the reasoning engine at 1/50th the cost of Claude. The Sales Claw spec from April 24 is still the right design. What changes is the runtime: from custom Node.js daemon to OpenClaw skill, from Claude/Opus to DeepSeek, from Forge CRM to Twenty CRM (where the data actually lives). The learning loop, the scoring logic, the draft review workflow, the transcript pipeline -- all of that carries forward. You're rebuilding the runtime, not the product.</p>
+  </div>
+
+  <h2>9. Open Questions to Decide</h2>
+
+  <ul>
+    <li><strong>OpenClaw on M1 Pro or M4 Air?</strong> M1 Pro is the automation server, but you type on the M4 Air. OpenClaw daemon should run on M1 Pro (always-on), but Canvas review happens wherever you are. Telegram/WhatsApp works from your phone regardless.</li>
+    <li><strong>Twenty CRM vs starting fresh?</strong> Twenty has 7,603 companies but the data quality is unverified at scale. Worth running a hygiene pass before connecting the scoring loop.</li>
+    <li><strong>Fathom vs raw Teams transcripts?</strong> Fathom has a Composio MCP connector ready for OpenClaw. But it's another subscription. Raw Teams transcripts via Graph API are free but require the MS365 auth that's been blocking NemoClaw.</li>
+    <li><strong>ChatGPT Pro allocation:</strong> Do you already have ChatGPT Pro ($200/mo)? If yes, the computer use tasks are essentially free to add. If not, prospect research can start with DeepSeek web search until the volume justifies it.</li>
+    <li><strong>HubSpot or Twenty?</strong> HubSpot is still the active CRM with real pipeline data. Twenty was set up as a replacement but the migration may not be complete. Need to decide which is source of truth for the scoring loop.</li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>SDR Claw Architecture Research / May 2, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "SDR Claw on OpenClaw: Multi-Model Sales Agent Architecture",
+  "date": "2026-05-02",
+  "summary": "Research into rebuilding Sales Claw as an OpenClaw skill with DeepSeek R2 for reasoning, ChatGPT for computer use, and Claude reserved for code. Covers existing iteration lessons, multi-model cost analysis, industry AI SDR patterns, proposed architecture with 4 components (scoring, drafting, learning, transcripts), and migration path from NemoClaw.",
+  "sections": [
+    {
+      "heading": "What Exists Today",
+      "items": [
+        { "title": "Three iterations built since March 2026", "detail": "Nudge Engine (Python/HubSpot), NemoClaw (Node.js daemon/Twenty CRM/61 tests), Sales Claw Spec (4-pillar system). All partially working. Common failure: building custom infrastructure instead of using existing platforms.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Why OpenClaw",
+      "items": [
+        { "title": "OpenClaw replaces NemoClaw's infrastructure", "detail": "Native Telegram/WhatsApp, multi-model routing, cron with retry/backfill, Canvas for draft review UI. 100K+ GitHub stars, mature ecosystem. Everything NemoClaw built from scratch ships out of the box.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Multi-Model Architecture",
+      "items": [
+        { "title": "DeepSeek R2 for reasoning tasks", "detail": "Deal scoring, transcript analysis, pattern synthesis. 20-50x cheaper than Opus. ~$14/month for scoring + analysis.", "meta": {"cost": "$14/mo"} },
+        { "title": "DeepSeek V4 Pro for drafting", "detail": "Email generation, edit diff analysis. Good writing quality at low cost. ~$8/month for 5-10 drafts/day.", "meta": {"cost": "$8/mo"} },
+        { "title": "DeepSeek V4 Flash for classification", "detail": "CRM reads, simple field updates. $0.14/M input tokens. ~$1/month.", "meta": {"cost": "$1/mo"} },
+        { "title": "ChatGPT Agent for browser tasks", "detail": "Prospect research, LinkedIn intel, competitive monitoring. Enrichment layer, not core dependency.", "meta": {"cost": "$15/mo allocation"} },
+        { "title": "Claude Code for build/fix only", "detail": "Not in runtime loop. Builds skills, fixes bugs, runs daily quality audit.", "meta": {"cost": "$0 incremental"} }
+      ]
+    },
+    {
+      "heading": "Industry Consensus (May 2026)",
+      "items": [
+        { "title": "Human-in-the-loop wins", "detail": "Fully autonomous SDRs failed at scale. Hybrid model (AI drafts, human approves) is the clear winner.", "meta": {} },
+        { "title": "Multi-agent beats monolithic", "detail": "Specialized roles (scorer, drafter, learner) outperform single-agent approaches.", "meta": {} },
+        { "title": "CRM hygiene is prerequisite", "detail": "Automation amplifies data quality. Bad CRM data = bad drafts regardless of model quality.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Migration Path",
+      "items": [
+        { "title": "6-phase rollout over ~4 weeks", "detail": "Phase 0: OpenClaw setup (1 day). Phase 1: CRM read skill (2-3 days). Phase 2: Scoring + draft MVP (1 week). Phase 3: MS365 integration (2-3 days). Phase 4: Learning loop (1 week). Phase 5: Transcript pipeline (1-2 weeks).", "meta": {"duration": "4 weeks"} }
+      ]
+    },
+    {
+      "heading": "Open Questions",
+      "items": [
+        { "title": "5 decisions needed before building", "detail": "OpenClaw on M1 Pro or M4 Air? Twenty CRM data quality pass first? Fathom vs raw Teams transcripts? ChatGPT Pro subscription status? HubSpot or Twenty as source of truth?", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Decide the 5 open questions (especially HubSpot vs Twenty as CRM source of truth and whether to get Fathom). Then install OpenClaw on M1 Pro and connect DeepSeek API. Phase 0 is a 1-day task once decisions are made.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Searched Open Brain for all existing SDR/sales context (NemoClaw, Sales Claw spec, Nudge Engine, CRM project)",
+      "Researched OpenClaw capabilities, DeepSeek R2 pricing and efficiency, AI SDR industry patterns",
+      "Researched OpenClaw multi-model routing and DeepSeek integration",
+      "Synthesized into architecture proposal with cost estimates and migration path"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo: new file 2026-05-02-sdr-claw-openclaw-architecture.html",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-openclaw-architecture.html", "relevance": "this document" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-04-24-sales-intelligence-system-spec.html", "relevance": "previous Sales Claw spec" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Existing SDR code at ~/ClaudeCode/proxuma-crm/ on M1 Pro (not accessible from M4 Air). Spec at ~/ClaudeCode/sdr-claw/docs/2026-04-24-sales-intelligence-system-spec.md on M4 Air."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Proposed OpenClaw as runtime platform instead of custom NemoClaw daemon",
+      "rejected_alternatives": ["Continue building NemoClaw", "Use commercial AI SDR platform (AiSDR, Amplemarket)", "Build on Claude Code scheduled agents"],
+      "rationale": "OpenClaw provides all infrastructure NemoClaw was building from scratch (daemon, messaging, cron, model routing, Canvas UI). Commercial platforms lack the learning loop and customization. Claude scheduled agents lack the always-on daemon model and messaging integration.",
+      "trade_offs": "Dependency on OpenClaw ecosystem (open-source, large community, low risk). Need to learn OpenClaw skill authoring. Lose the 61 existing NemoClaw tests (can port logic).",
+      "contingencies": [
+        { "if_X_then_Y": "If OpenClaw Canvas proves too limited for draft review, fall back to Telegram with inline approve/reject buttons", "probability": 0.2 },
+        { "if_X_then_Y": "If DeepSeek R2 draft quality is too low for sales emails, switch drafting to Claude Haiku as a middle-ground cost option", "probability": 0.15 }
+      ]
+    },
+    {
+      "decision": "Proposed DeepSeek as primary runtime model, Claude excluded from runtime loop",
+      "rejected_alternatives": ["Claude as primary with DeepSeek fallback", "Mixed Claude + DeepSeek per task", "Local Qwen models for everything"],
+      "rationale": "20-50x cost reduction. At 5-10 drafts/day + scoring + transcript analysis, Claude would cost $600-900/month. DeepSeek does the same for ~$29/month. Local models lack quality for customer-facing drafts.",
+      "trade_offs": "DeepSeek writing quality may be lower than Claude for English sales emails. Mitigation: the learning loop corrects for this over time as Max's edit patterns are absorbed.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
