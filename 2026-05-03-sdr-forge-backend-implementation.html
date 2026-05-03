@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDR Module Backend Implementation</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-pay { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 3, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-backend-implementation.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">NeXum Backend &middot; Implementation Report</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 3, 2026<br>Implementation Report<br>SDR Module
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SDR CLAW / FORGE BACKEND</div>
+  <h1>SDR Module: Backend Implementation Complete</h1>
+  <p class="subtitle">Full backend for the SDR email drafting pipeline. Two Claude scheduled agents will talk to these endpoints to generate, review, and learn from daily email batches. Branch <code>feature/sdr-module</code> on <code>NeXum-co/nexum-backend</code>, ready for Joshua's review.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">18</div>
+      <div class="stat-label">New Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10</div>
+      <div class="stat-label">Commits</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">DB Tables</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">API Endpoints</div>
+    </div>
+  </div>
+
+  <!-- WHAT WAS BUILT (HUMAN EXPLANATION) -->
+  <h2>What is this?</h2>
+
+  <p>The SDR module adds an automated sales email pipeline to Forge. Every weekday morning at 07:00, a Claude scheduled agent will read CRM data through these API endpoints, draft 25 personalized emails, and push them into a batch. Max gets a Telegram notification with a link to the review page. He approves, edits, or skips each draft. Approved emails go out via MS Graph. Every evening, a second Claude agent reads the day's feedback (which drafts were edited, which rejected) and updates a set of "writing rules" that improve future drafts.</p>
+
+  <p>This implementation covers the backend only: database tables, API endpoints, artisan commands, and tests. The review UI is being built separately in Claude Design.</p>
+
+  <h2>What does Joshua need to review?</h2>
+
+  <div class="callout">
+    <span class="callout-label">Review scope</span>
+    The branch is <code>feature/sdr-module</code> on the local clone at <code>~/nexum/nexum-backend/</code>. It has 10 commits, each covering one logical unit. The branch has <strong>not been pushed</strong> yet because the <code>maxkwaaste</code> GitHub account only has read access to the NeXum-co org. Joshua (or someone with write access) needs to push it, or grant push access first.
+  </div>
+
+  <p>Key things to check:</p>
+  <ul>
+    <li><strong>Migration:</strong> Creates a new <code>sdr</code> PostgreSQL schema with 5 tables. Uses <code>bigint</code> auto-increment IDs (not UUIDs), matching the spec.</li>
+    <li><strong>Sanctum middleware:</strong> Routes use <code>ability:sdr.read,sdr.write</code> for token-based auth. This relies on Sanctum 4.x auto-registering the <code>ability</code> middleware alias. Verify this works on the M1 Pro.</li>
+    <li><strong>GraphMailSendService integration:</strong> The review controller calls <code>sendSingle()</code> with the same signature as the existing <code>ForgeEmailController</code>. Sends from <code>max@proxuma.com</code>.</li>
+    <li><strong>Telegram notification:</strong> Uses <code>config('services.telegram.bot_token')</code> and <code>config('services.telegram.chat_id')</code>. These need to be added to <code>config/services.php</code> and <code>.env</code>.</li>
+    <li><strong>Raw SQL queries:</strong> The candidate service uses raw SQL against <code>canonical.*</code>, <code>forge.*</code>, and <code>sdr.*</code> schemas. The column names need validation against the actual DB.</li>
+  </ul>
+
+  <!-- FILE INVENTORY -->
+  <h2>File Inventory</h2>
+
+  <h3>Migration</h3>
+  <table class="matrix">
+    <tr><th>File</th><th>Purpose</th></tr>
+    <tr><td><code>database/migrations/2026_05_03_100000_create_sdr_schema_and_tables.php</code></td><td>Creates <code>sdr</code> schema + 5 tables: batches, drafts, feedback, writing_rules, sequences</td></tr>
+  </table>
+
+  <h3>Models (app/Models/Sdr/)</h3>
+  <table class="matrix">
+    <tr><th>File</th><th>Table</th><th>Key Relations</th></tr>
+    <tr><td><code>SdrBatch.php</code></td><td><code>sdr.batches</code></td><td>hasMany drafts</td></tr>
+    <tr><td><code>SdrDraft.php</code></td><td><code>sdr.drafts</code></td><td>belongsTo batch, contact, deal; hasMany feedback; hasOne sequence</td></tr>
+    <tr><td><code>SdrFeedback.php</code></td><td><code>sdr.feedback</code></td><td>belongsTo draft</td></tr>
+    <tr><td><code>SdrWritingRule.php</code></td><td><code>sdr.writing_rules</code></td><td>scopeActive query scope</td></tr>
+    <tr><td><code>SdrSequence.php</code></td><td><code>sdr.sequences</code></td><td>belongsTo contact, deal, originalDraft</td></tr>
+  </table>
+
+  <h3>Services (app/Services/Sdr/)</h3>
+  <table class="matrix">
+    <tr><th>File</th><th>Purpose</th></tr>
+    <tr><td><code>SdrCandidateService.php</code></td><td>Queries CRM for top candidates with pre-ranking SQL. Returns deep context per contact (emails, meetings, deals, enrichments).</td></tr>
+    <tr><td><code>SdrFeedbackService.php</code></td><td>Handles approve/edit/reject/snooze. Computes edit distance (levenshtein). Sends email via GraphMailSendService. Creates follow-up sequences.</td></tr>
+  </table>
+
+  <h3>Controllers (app/Http/Controllers/Api/Sdr/)</h3>
+  <table class="matrix">
+    <tr><th>File</th><th>Endpoints</th></tr>
+    <tr><td><code>SdrCandidateController.php</code></td><td><code>GET /candidates</code>, <code>GET /candidates/{id}/deep-context</code></td></tr>
+    <tr><td><code>SdrBatchController.php</code></td><td><code>POST /batches</code>, <code>GET /batches</code>, <code>GET /batches/{date}</code> + Telegram notify</td></tr>
+    <tr><td><code>SdrReviewController.php</code></td><td><code>POST /drafts/{id}/approve</code>, <code>POST /drafts/{id}/reject</code>, <code>POST /drafts/{id}/snooze</code></td></tr>
+    <tr><td><code>SdrLearningController.php</code></td><td><code>GET /learnings</code>, <code>PUT /writing-rules</code>, <code>GET /feedback-stats</code></td></tr>
+    <tr><td><code>SdrSequenceController.php</code></td><td><code>GET /sequences</code></td></tr>
+  </table>
+
+  <h3>Routes &amp; Commands</h3>
+  <table class="matrix">
+    <tr><th>File</th><th>Change</th></tr>
+    <tr><td><code>routes/sdr.php</code></td><td>New file: all SDR route definitions under <code>/api/sdr/</code> prefix</td></tr>
+    <tr><td><code>routes/api.php</code></td><td>Added SDR include inside <code>auth:sanctum</code> group with <code>ability:sdr.read,sdr.write</code></td></tr>
+    <tr><td><code>app/Console/Commands/Sdr/CheckSequencesCommand.php</code></td><td><code>sdr:check-sequences</code> -- moves pending sequences to queued when due</td></tr>
+    <tr><td><code>app/Console/Commands/Sdr/AlertMissingBatchCommand.php</code></td><td><code>sdr:alert-missing-batch</code> -- Telegram alert if no batch by 07:30</td></tr>
+    <tr><td><code>routes/console.php</code></td><td>Added schedule entries: check-sequences at 06:00, alert-missing-batch at 07:30 (weekdays)</td></tr>
+  </table>
+
+  <h3>Tests (tests/Feature/Sdr/)</h3>
+  <table class="matrix">
+    <tr><th>File</th><th>Tests</th></tr>
+    <tr><td><code>SdrBatchTest.php</code></td><td>3 tests: create batch with drafts, retrieve by date, reject invalid category</td></tr>
+    <tr><td><code>SdrReviewTest.php</code></td><td>4 tests: approve, edit detection, reject, snooze (mocks GraphMailSendService)</td></tr>
+  </table>
+
+  <!-- API ENDPOINTS -->
+  <h2>API Endpoints</h2>
+
+  <p>All endpoints live under <code>/api/sdr/</code> and require a Sanctum token with <code>sdr.read</code> + <code>sdr.write</code> abilities.</p>
+
+  <h3>Agent Reads (morning agent calls these)</h3>
+  <div class="card">
+    <div class="card-title">GET /api/sdr/candidates?limit=50</div>
+    <div class="card-buyer">SdrCandidateController@index</div>
+    <div class="card-desc">Returns top contacts pre-ranked by deal value and recency. Excludes contacts already emailed today, unsubscribed contacts, contacts without email. Includes last 3 email subjects, days since last email/meeting.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">GET /api/sdr/candidates/{contactId}/deep-context</div>
+    <div class="card-buyer">SdrCandidateController@deepContext</div>
+    <div class="card-desc">Full context for one contact: profile + enrichments, last 5 deals, last 10 emails, last 5 meetings. The agent calls this 25 times per run.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">GET /api/sdr/learnings</div>
+    <div class="card-buyer">SdrLearningController@rules</div>
+    <div class="card-desc">Active writing rules ordered by confidence + approval rates per category over last 7 days. The agent uses these to shape draft tone and content.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">GET /api/sdr/sequences</div>
+    <div class="card-buyer">SdrSequenceController@queued</div>
+    <div class="card-desc">Contacts with follow-up sequences due today (day 3 or day 7 after initial email). Includes original draft context.</div>
+  </div>
+
+  <h3>Agent Writes (morning + learning agents)</h3>
+  <div class="card">
+    <div class="card-title">POST /api/sdr/batches</div>
+    <div class="card-buyer">SdrBatchController@store</div>
+    <div class="card-desc">Push a batch of up to 30 drafts. Validates category, score, contact_id (UUID). Fires Telegram notification on success. Accepts: date, complete flag, array of drafts with contact_id, category, score, subject, body, reasoning, context_used.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">PUT /api/sdr/writing-rules</div>
+    <div class="card-buyer">SdrLearningController@updateRules</div>
+    <div class="card-desc">Full replace of writing rules. Learning agent calls this after analyzing the day's feedback. Each rule has confidence score, example count, source (edit_diff/approve_reject/explicit).</div>
+  </div>
+
+  <h3>Review Actions (called from UI)</h3>
+  <div class="card">
+    <div class="card-title">POST /api/sdr/drafts/{id}/approve</div>
+    <div class="card-buyer">SdrReviewController@approve</div>
+    <div class="card-desc">Approve or approve-with-edit. If subject/body differs from original, records as "edit" with levenshtein distance. Sends email via MS Graph. Creates day-3 follow-up sequence.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">POST /api/sdr/drafts/{id}/reject</div>
+    <div class="card-buyer">SdrReviewController@reject</div>
+    <div class="card-desc">Reject a draft. Optional feedback text stored for learning agent analysis.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">POST /api/sdr/drafts/{id}/snooze</div>
+    <div class="card-buyer">SdrReviewController@snooze</div>
+    <div class="card-desc">Snooze to next batch. Contact gets +5 score bonus next day (handled by morning agent, not this endpoint).</div>
+  </div>
+
+  <!-- COMMIT LOG -->
+  <h2>Commit Log</h2>
+  <table class="matrix">
+    <tr><th>#</th><th>Commit</th><th>Files</th></tr>
+    <tr><td>1</td><td><code>feat: add SDR schema and tables migration</code></td><td>1</td></tr>
+    <tr><td>2</td><td><code>feat: add SDR Eloquent models</code></td><td>5</td></tr>
+    <tr><td>3</td><td><code>feat: add SDR candidate service and controller</code></td><td>2</td></tr>
+    <tr><td>4</td><td><code>feat: add SDR batch controller with Telegram notification</code></td><td>1</td></tr>
+    <tr><td>5</td><td><code>feat: add SDR review controller with approve/reject/snooze and MS Graph send</code></td><td>2</td></tr>
+    <tr><td>6</td><td><code>feat: add SDR learning controller for writing rules and feedback stats</code></td><td>1</td></tr>
+    <tr><td>7</td><td><code>feat: add SDR sequence controller for queued follow-ups</code></td><td>1</td></tr>
+    <tr><td>8</td><td><code>feat: add SDR route group with Sanctum ability middleware</code></td><td>2</td></tr>
+    <tr><td>9</td><td><code>feat: add SDR artisan commands for sequences and batch alerts</code></td><td>3</td></tr>
+    <tr><td>10</td><td><code>test: add SDR batch and review feature tests</code></td><td>2</td></tr>
+  </table>
+
+  <!-- DEPLOYMENT STEPS -->
+  <h2>What's Left Before This Can Run</h2>
+
+  <ol>
+    <li><strong>Push the branch.</strong> The <code>maxkwaaste</code> GitHub account has pull-only access to NeXum-co. Either grant push or push from Joshua's machine.</li>
+    <li><strong>Run migration on M1 Pro.</strong> <code>php artisan migrate</code> creates the <code>sdr</code> schema and 5 tables.</li>
+    <li><strong>Create Sanctum token.</strong> In tinker: <code>User::where('email','max@proxuma.com')->first()->createToken('sdr-agent', ['sdr.read','sdr.write'])->plainTextToken</code></li>
+    <li><strong>Add Telegram config.</strong> Add <code>TELEGRAM_BOT_TOKEN</code> and <code>TELEGRAM_CHAT_ID</code> to <code>.env</code>. Add matching entries to <code>config/services.php</code>.</li>
+    <li><strong>Configure Claude scheduled agents.</strong> Two agents: <code>sdr-morning</code> (07:00 Mon-Fri) and <code>sdr-learning</code> (17:00 Mon-Fri). Agent prompts not yet written.</li>
+    <li><strong>Run tests.</strong> <code>php artisan test tests/Feature/Sdr/</code> on M1 Pro (needs DB).</li>
+    <li><strong>Run PHPStan.</strong> <code>composer lint:phpstan</code> on new files to verify level 3 compliance.</li>
+    <li><strong>Build review UI.</strong> Separate track via Claude Design.</li>
+  </ol>
+
+  <div class="positioning">
+    <h2>Not Yet Built</h2>
+    <p>Review UI (Claude Design track). Agent prompt templates (docs/agents/). Sanctum token creation (deployment step). config/services.php Telegram entries.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>SDR Forge Backend &middot; NeXum-co/nexum-backend</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "SDR Module Backend Implementation",
+  "date": "2026-05-03",
+  "summary": "Full SDR backend implemented on feature/sdr-module branch. 18 new files, 10 commits. Migration (5 tables in sdr schema), 5 models, 2 services, 5 controllers, routes, 2 artisan commands, 7 tests. Not yet pushed (maxkwaaste lacks write access).",
+  "sections": [
+    {
+      "heading": "Database",
+      "items": [
+        { "title": "sdr.batches", "detail": "One row per day. Tracks draft/approved/edited/rejected/snoozed counts.", "meta": {} },
+        { "title": "sdr.drafts", "detail": "Email drafts with contact_id, category, score, subject, body, reasoning. Status tracks lifecycle.", "meta": {} },
+        { "title": "sdr.feedback", "detail": "One row per review action. Captures edit distance and explicit feedback text.", "meta": {} },
+        { "title": "sdr.writing_rules", "detail": "Learned rules with confidence scores. Updated daily by learning agent.", "meta": {} },
+        { "title": "sdr.sequences", "detail": "Follow-up timers (day_3, day_7). Queued by artisan command at 06:00.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "API Endpoints",
+      "items": [
+        { "title": "GET /api/sdr/candidates", "detail": "Pre-ranked CRM contacts for morning agent. Raw SQL against canonical + forge schemas.", "meta": {} },
+        { "title": "GET /api/sdr/candidates/{id}/deep-context", "detail": "Full context per contact: deals, emails, meetings, enrichments.", "meta": {} },
+        { "title": "POST /api/sdr/batches", "detail": "Agent pushes up to 30 drafts. Telegram notification on success.", "meta": {} },
+        { "title": "POST /api/sdr/drafts/{id}/approve", "detail": "Approve or edit. Sends via MS Graph. Creates follow-up sequence.", "meta": {} },
+        { "title": "POST /api/sdr/drafts/{id}/reject", "detail": "Reject with optional feedback.", "meta": {} },
+        { "title": "POST /api/sdr/drafts/{id}/snooze", "detail": "Snooze to next batch.", "meta": {} },
+        { "title": "GET /api/sdr/learnings", "detail": "Active writing rules + 7-day approval stats.", "meta": {} },
+        { "title": "PUT /api/sdr/writing-rules", "detail": "Full replace of writing rules from learning agent.", "meta": {} },
+        { "title": "GET /api/sdr/sequences", "detail": "Queued follow-ups due today.", "meta": {} },
+        { "title": "GET /api/sdr/feedback-stats", "detail": "Recent edits with distances + daily stats for learning dashboard.", "meta": {} },
+        { "title": "GET /api/sdr/batches", "detail": "Last 14 batches summary.", "meta": {} },
+        { "title": "GET /api/sdr/batches/{date}", "detail": "Single batch with all drafts and feedback.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Artisan Commands",
+      "items": [
+        { "title": "sdr:check-sequences", "detail": "06:00 weekdays. Moves pending sequences to queued when due_date <= today.", "meta": {} },
+        { "title": "sdr:alert-missing-batch", "detail": "07:30 weekdays. Telegram alert if no batch exists for today.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Tests",
+      "items": [
+        { "title": "SdrBatchTest", "detail": "3 tests: create batch, retrieve by date, invalid category validation.", "meta": {} },
+        { "title": "SdrReviewTest", "detail": "4 tests: approve, edit detection, reject, snooze. Mocks GraphMailSendService.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Joshua reviews the branch. Someone with write access pushes feature/sdr-module to GitHub. Then: run migration on M1 Pro, create Sanctum token, add Telegram config to .env + config/services.php, run tests + PHPStan. Agent prompts and review UI are separate tracks.",
+  "session_state": {
+    "phase": "implementation complete, pending review + push",
+    "phase_status": "complete",
+    "progress_pct": 85,
+    "work_done_this_session": [
+      "Read plan + design spec",
+      "Verified codebase patterns (GraphMailSendService, route structure, console.php, middleware)",
+      "Created feature/sdr-module branch from main",
+      "Spawned 3 parallel Opus 4.7 agents to create all files",
+      "Copied files from worktrees, verified content",
+      "PHP syntax check passed on all 18 files",
+      "Created 10 task-by-task commits"
+    ],
+    "blockers_hit": "maxkwaaste GitHub account has pull-only access to NeXum-co/nexum-backend. Cannot push branch.",
+    "uncommitted_changes": "feature/sdr-module branch has 10 commits ahead of main, not pushed to remote",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "feature/sdr-module",
+    "local_repo_path": "~/nexum/nexum-backend/",
+    "temp_files": [],
+    "github_links": [],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Branch exists only locally. Not pushed to GitHub."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["Pint PSR-12 formatting", "PHPStan level 3 for new code", "file size gates (warn 300 / block 600)", "conventional commits"]
+  },
+  "decision_log": [
+    {
+      "decision": "Used Sanctum ability middleware instead of existing can:forge.* Gates pattern",
+      "rejected_alternatives": ["can: Gates (existing pattern)", "token.scope middleware (custom)"],
+      "rationale": "SDR endpoints are for machine tokens (Claude scheduled agent), not user sessions. Sanctum ability middleware is the correct approach for token-scoped access. The existing can: pattern is for Gate-based user permissions.",
+      "trade_offs": "Introduces a second auth pattern alongside can:forge.*. Consistent with Sanctum's intended usage for API tokens.",
+      "contingencies": [
+        { "if_X_then_Y": "If Sanctum 4.x does not auto-register ability middleware alias, register it manually in bootstrap/app.php", "probability": 0.2 }
+      ]
+    },
+    {
+      "decision": "Merged Task 10 (Telegram notification) into Task 4 (SdrBatchController) instead of separate commit",
+      "rejected_alternatives": ["Separate commit for Telegram notification"],
+      "rationale": "The notification is 8 lines at the end of the store method. A separate commit for this would be noise.",
+      "trade_offs": "None meaningful.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>

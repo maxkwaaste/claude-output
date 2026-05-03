@@ -633,11 +633,32 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-05-03-sdr-forge-backend-implementation.html",
+    "title": "SDR Module: Backend Implementation Complete",
+    "date": "2026-05-03",
+    "summary": "Full SDR backend on feature/sdr-module. 18 files, 10 commits: migration, models, services, controllers, routes, artisan commands, tests. Ready for Joshua review.",
+    "tags": [
+      "SDR Claw",
+      "Forge",
+      "NeXum",
+      "Laravel",
+      "Backend"
+    ],
+    "type": "guide",
+    "detail": "Complete backend implementation for the SDR email pipeline. Creates sdr PostgreSQL schema with 5 tables, 12 API endpoints behind Sanctum ability middleware, 2 services (candidate ranking + feedback/send), 2 scheduled artisan commands, 7 Pest tests. Uses existing GraphMailSendService for MS Graph email delivery. Branch not yet pushed (write access needed)."
+  },
+  {
     "file": "2026-05-02-sdr-claw-forge-security-validation.html",
     "title": "SDR Claw Forge Security: Spec vs. Reality",
     "date": "2026-05-02",
     "summary": "Validated Forge security proposals against nexum-backend codebase. Token scope middleware exists but disabled. 5 spec gaps found. Revised 3-day plan for Joshua.",
-    "tags": ["SDR Claw", "Forge", "Security", "NeXum", "Sanctum"],
+    "tags": [
+      "SDR Claw",
+      "Forge",
+      "Security",
+      "NeXum",
+      "Sanctum"
+    ],
     "type": "evaluation",
     "detail": "Three Opus 4.7 agents examined the nexum-backend repo to validate token scoping, anonymization architecture, and email pipeline proposals. Found HasScopedApiTokens and TokenScopeIntersect already built (dry-run mode). No anonymization or API Resources exist. PostHog tenant mapping missing entirely. Campaign send is async (queued), not sync as spec assumed."
   },
@@ -646,7 +667,14 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "SDR Claw: 25 Daily Emails Architecture Spec",
     "date": "2026-05-02",
     "summary": "Complete architecture spec for SDR Claw -- 25 personalized sales emails/day via OpenClaw, Forge API, DeepSeek, Presidio anonymization.",
-    "tags": ["SDR Claw", "OpenClaw", "Forge", "DeepSeek", "Presidio", "Sales"],
+    "tags": [
+      "SDR Claw",
+      "OpenClaw",
+      "Forge",
+      "DeepSeek",
+      "Presidio",
+      "Sales"
+    ],
     "type": "strategy",
     "detail": "Full 8-deliverable spec: architecture diagram, OpenClaw skill structure (sdr-claw-25), Forge API mapping (60 calls/run), Presidio config, Telegram+Canvas review UX, 8-signal scoring algorithm, edit-diff learning loop, 5-phase build plan. Researched 3 GitHub repos + 6 web sources. Cost: $4/month. CLAUDE-DATA JSON block contains full structured context for handoff."
   },
@@ -655,7 +683,13 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Proxuma Customer Outreach: Project Module Adoption",
     "date": "2026-05-02",
     "summary": "Full analysis of 60 paying customers (corrected from 20). Four outreach segments with draft emails for project module deepening.",
-    "tags": ["Proxuma", "Customers", "Outreach", "Projects", "Sales"],
+    "tags": [
+      "Proxuma",
+      "Customers",
+      "Outreach",
+      "Projects",
+      "Sales"
+    ],
     "type": "strategy",
     "detail": "Cross-referenced superadmin (source of truth) with Forge CRM ARR and HubSpot contacts. Identified 4 segments: high-value project deepening (12), Dxfferent crossover (7), active but invisible (28), at-risk billing (6). 42/60 customers enriched with contact info. Three email templates drafted following nudge engine anti-patterns."
   },
@@ -664,7 +698,13 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "SDR Claw on OpenClaw: Multi-Model Sales Agent Architecture",
     "date": "2026-05-02",
     "summary": "Research into rebuilding Sales Claw as an OpenClaw skill with DeepSeek R2 for reasoning, ChatGPT for computer use, and Claude for code only. Multi-model cost analysis, industry patterns, migration path.",
-    "tags": ["SDR Claw", "OpenClaw", "DeepSeek", "Sales", "Proxuma"],
+    "tags": [
+      "SDR Claw",
+      "OpenClaw",
+      "DeepSeek",
+      "Sales",
+      "Proxuma"
+    ],
     "type": "strategy",
     "detail": "Synthesizes lessons from three prior SDR iterations (Nudge Engine, NemoClaw, Sales Claw spec). Proposes OpenClaw as runtime platform replacing custom daemon, DeepSeek R2 at 20-50x cost savings, 4-component architecture (scoring, drafting, learning, transcripts), and 6-phase migration plan over 4 weeks. Includes industry consensus on human-in-the-loop AI SDR patterns."
   },
@@ -673,7 +713,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Cheops Calculator AT Export: Feasibility Analysis",
     "date": "2026-05-01",
     "summary": "Can we add an AT import tab to the Cheops presales calculator? Evaluated 3 approaches, recommended VBA macro. Built working prototype.",
-    "tags": ["Cheops", "Autotask", "Dxfferent", "VBA"],
+    "tags": [
+      "Cheops",
+      "Autotask",
+      "Dxfferent",
+      "VBA"
+    ],
     "type": "evaluation",
     "detail": "Deep analysis of the Calculator REV9.34 Project Services sheet (7 tables, 254 rows). Evaluated pure formulas (too complex), VBA macro (recommended), and Python script (internal fallback). Built prototype with full 20-column AT import mapping. Key finding: formula-based phase headers and empty placeholder rows are the main technical challenges."
   },
@@ -682,7 +727,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Cheops: Sales Template to Autotask Project Reconciliation",
     "date": "2026-04-30",
     "summary": "Analyzed Cheops Calculator template, PS planning-prognose, and Dxfferent master template. Mapped import columns, identified 5 missing fields with safe defaults, recommended native AT project templates.",
-    "tags": ["Cheops", "Autotask", "Dxfferent", "Project Templates"],
+    "tags": [
+      "Cheops",
+      "Autotask",
+      "Dxfferent",
+      "Project Templates"
+    ],
     "type": "evaluation",
     "detail": "Three-file reconciliation: Cheops's 22-sheet presales calculator, their current AT import CSV (3 phases, 13 tasks), and our master template (8 phases, 47 tasks, 20 columns). Recommended Option B (native AT templates) with 10-hour delivery package. Planning-prognose spreadsheet identified as strongest Proxuma sales argument."
   },
@@ -691,16 +741,26 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Rijksdocumenten: wat zit erin?",
     "date": "2026-04-30",
     "summary": "Twee rijksdocumenten van Rijkslogistiek/IPKD onderzocht. Alles uitgesloten (UK visa, CJIB, belasting, VOG, CBR, IND, OM). Meest waarschijnlijk: CJIB-invordering Oostenrijkse boete BH Leibnitz (EUR 50 restbedrag). EUR 50 betaald, mail verstuurd.",
-    "tags": ["Persoonlijk", "CJIB", "Boete", "Onderzoek"],
+    "tags": [
+      "Persoonlijk",
+      "CJIB",
+      "Boete",
+      "Onderzoek"
+    ],
     "type": "overview",
     "detail": "Gecombineerd onderzoek via Gmail, MijnOverheid, CJIB digitaal loket, Belastingdienst en web. 11 mogelijkheden uitgesloten. Conclusie: openstaande EUR 50 van Oostenrijkse verkeersboete (Steiermark, ref 610250035421) heeft na 2 maanden geleid tot Vollstreckungsersuchen via EU Kaderbesluit 2005/214/JBZ. Twee documenten: originele Oostenrijkse strafbeschikking + CJIB-beschikking. Risico dubbele betaling als Oostenrijk EUR 300 niet had verwerkt. Bezorging ingepland 26 mei."
   },
   {
     "file": "2026-04-30-content-platform-phase-2-decisions.html",
-    "title": "Content Platform Phase 2 — Brainstorm Decisions & Spec",
+    "title": "Content Platform Phase 2 \u2014 Brainstorm Decisions & Spec",
     "date": "2026-04-30",
     "summary": "5 grote veranderingen aan content.dxfferent.com beslist en uitgewerkt: titel weg, hook templates, MSP journey editable, vrije tekst metadata, matrix als library-interface, bibliotheek-overzicht.",
-    "tags": ["Dxfferent", "Content", "Phase 2", "Spec"],
+    "tags": [
+      "Dxfferent",
+      "Content",
+      "Phase 2",
+      "Spec"
+    ],
     "type": "product",
     "detail": "Brainstorm met Max over evolutie van topic-board naar journey-matrix. 4 tabs ontworpen (Matrix/Bibliotheek/MSP Journey/Kalender), schema changes uitgewerkt (level + priority kolommen, derivatives, audit_log, revisions tabellen), 40 hook templates uit seed.json gemapped per type, domein-mismatch geidentificeerd (8 publiek vs 5 in seed), AI-pass migratie-plan, 5 open vragen voor Joshua. Klaar voor review en implementation."
   },
@@ -709,7 +769,11 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Dxfferent.com Design System",
     "date": "2026-04-29",
     "summary": "Complete style guide extracted from dxfferent.com backend. Colors, typography, buttons, spacing, components, animations, responsive breakpoints.",
-    "tags": ["Dxfferent", "Design System", "CSS"],
+    "tags": [
+      "Dxfferent",
+      "Design System",
+      "CSS"
+    ],
     "type": "guide",
     "detail": "Pulled every design token from the Interly child theme: 17 color tokens, PP Monument + DM Sans fonts, brand gradient buttons, 16-step spacing scale, trapezoid signature element, 6 entrance animations, Bootstrap collision warnings. Live swatches and visual demos included."
   },
@@ -718,7 +782,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Content Platform Phase 2.5 Design",
     "date": "2026-04-29",
     "summary": "Brainstorming session for Phase 2.5: kanban board, fake performance metrics, content derivatives, CSV/Sheets export. 8 decisions, 12 V2 review fixes.",
-    "tags": ["Dxfferent", "Proxuma", "Content", "Phase 2.5"],
+    "tags": [
+      "Dxfferent",
+      "Proxuma",
+      "Content",
+      "Phase 2.5"
+    ],
     "type": "product",
     "detail": "Four features designed for content.dxfferent.com through structured Q&A. Kanban toggle in Board tab, deterministic fake metrics, submission-level derivative trees, Google Sheets webhook export. Spec reviewed by Opus 4.7 against V2 dark theme, 12 conflicts resolved. Ready for implementation plan."
   },
@@ -727,7 +796,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Content Platform Phase 1 Design Journey",
     "date": "2026-04-29",
     "summary": "Full design walkthrough from MSP Journey PDF to production spec. Phase 1 build, deploy, code review, V2 dark theme.",
-    "tags": ["Dxfferent", "Proxuma", "Content", "Design"],
+    "tags": [
+      "Dxfferent",
+      "Proxuma",
+      "Content",
+      "Design"
+    ],
     "type": "product",
     "detail": "Shows how we went from a PDF of MSP problems to a complete product spec with Excalidraw mockups, database schema, API design, and phased rollout plan. Includes build log, deploy to SiteGround, code review fixes, and V2 dark theme redesign."
   },
@@ -736,16 +810,24 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Eurostar Cancellation Compensation Playbook",
     "date": "2026-04-28",
     "summary": "Full compensation playbook for cancelled Eurostar (QQT7FD, Amsterdam-London). EU rights, expense caps, real passenger experiences, step-by-step action plan.",
-    "tags": ["Travel", "Compensation", "Eurostar"],
+    "tags": [
+      "Travel",
+      "Compensation",
+      "Eurostar"
+    ],
     "type": "guide",
-    "detail": "Train cancelled 28 April 2026. Researched EU Regulation 2021/782, Eurostar Customer Charter, and station flyer caps (hotel €170, taxi €60, food €60). Compiled 6 real passenger experiences from forums. Total claimable: full ticket refund + up to €290 in expenses."
+    "detail": "Train cancelled 28 April 2026. Researched EU Regulation 2021/782, Eurostar Customer Charter, and station flyer caps (hotel \u20ac170, taxi \u20ac60, food \u20ac60). Compiled 6 real passenger experiences from forums. Total claimable: full ticket refund + up to \u20ac290 in expenses."
   },
   {
     "file": "2026-04-28-powerbi-reports-wp-push-plan.html",
     "title": "Power BI Reports -- WordPress Push Plan",
     "date": "2026-04-28",
     "summary": "Plan to push 872 local report HTML files to proxuma.io. Fixes 3 question-box texts, syncs all files to WP, verifies DAX toggles live.",
-    "tags": ["Power BI", "WordPress", "Reports"],
+    "tags": [
+      "Power BI",
+      "WordPress",
+      "Reports"
+    ],
     "type": "strategy",
     "detail": "Audited 872 local files vs 480 WP pages. Found 3 reports with statements instead of questions, two different template generations (teal vs blue hero), and ~392 pages that need creating. 7-step plan: fix questions, build slug mapping, rsync, push via $wpdb->update + wp post create, cache flush, Chrome verification, gallery update. Estimated 80-95 min total."
   },
@@ -754,7 +836,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Dxfferent Discovery Call -- Clip Brief for Joshua",
     "date": "2026-04-28",
     "summary": "10 embedded video clips from the April 24 discovery call with Andy Kedjierski. Each clip plays inline with context and action items. Sprint plan included.",
-    "tags": ["Dxfferent", "Consulting", "Video Clips", "Joshua"],
+    "tags": [
+      "Dxfferent",
+      "Consulting",
+      "Video Clips",
+      "Joshua"
+    ],
     "type": "guide",
     "detail": "Extracted 10 trimmed MP4 clips (14.6MB total) from the discovery call via ffmpeg. Each clip is embedded inline in the page with context summary, key quotes, and action items for Joshua. Covers: situation overview, RMM noise, AI adoption gap, ticket triage, pricing, invoicing, Power BI demo, competitive intel, 6-8 week deadline, and AI-connected Autotask. Includes 4-sprint proposal plan."
   },
@@ -763,7 +850,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Mozambique Trip Plan v2 -- Vilanculos, Bazaruto & Tofo",
     "date": "2026-04-25",
     "summary": "Revised 8-day itinerary: 2N Vilanculos, 2N Bazaruto/Benguerra, 3N Tofo, Monday transfer to Windhoek. Budget $4,780-6,940 for 2.",
-    "tags": ["Travel", "Mozambique", "Diving", "Personal"],
+    "tags": [
+      "Travel",
+      "Mozambique",
+      "Diving",
+      "Personal"
+    ],
     "type": "guide",
     "detail": "Wife's amendment: added Bazaruto Archipelago island stay and extended Tofo to 3 nights. Key logistics: LAM VNX-INH flight (45 min, 4-5x/week) for island-to-Tofo transfer. Monday departure constraint: LAM INH-MPM leaves 15:30 not morning. Open decisions: Bazaruto/Pestana ($465/night) vs Benguerra/andBeyond ($1,050+pp), Sep 7 drive vs push to Sep 8."
   },
@@ -772,7 +864,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Sales Claw -- Build Order & Refined Spec",
     "date": "2026-04-25",
     "summary": "Refined spec with 10 decisions locked in. 4-phase build order starting with Sales Claw against Twenty CRM's 369 open deals.",
-    "tags": ["Sales Claw", "Build Plan", "Twenty CRM", "Automation"],
+    "tags": [
+      "Sales Claw",
+      "Build Plan",
+      "Twenty CRM",
+      "Automation"
+    ],
     "type": "strategy",
     "detail": "Incorporated Max's refinement answers into the Sales Intelligence spec. Key pivot: build against Twenty CRM (7,603 companies, 161+ call notes) instead of waiting for Forge. Sales Claw first for direct revenue impact. 12 steps across 4 phases: MVP scoring+drafting (weeks 1-3), learning loop (4-5), transcript pipeline (6-8), playbook+Forge migration (9-12). Done = 10+ useful drafts/day resulting in sales."
   },
@@ -781,7 +878,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Sales Intel Spec -- Review Questions",
     "date": "2026-04-25",
     "summary": "Interactive review page for the Sales Intelligence System spec. 11 questions with comment fields and handoff prompt generator.",
-    "tags": ["Sales Intelligence", "Spec Review", "Forge CRM", "Sales Claw"],
+    "tags": [
+      "Sales Intelligence",
+      "Spec Review",
+      "Forge CRM",
+      "Sales Claw"
+    ],
     "type": "evaluation",
     "detail": "11 questions across 3 categories (blockers, workflow, priorities) with per-question text areas persisted to localStorage. Progress bar tracks completion. Generates a structured handoff prompt containing Max's answers for a new Claude session to continue refining the spec and start building."
   },
@@ -790,7 +892,12 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Consultant Brief: Dxfferent / Andy Kedjierski",
     "date": "2026-04-24",
     "summary": "Internal brief for Joshua from discovery call with Andy Kedjierski at Dxfferent, a ~$3M US MSP needing operational streamlining. Tech stack, pain points, buying signals, competitive intel.",
-    "tags": ["Dxfferent", "Consulting", "Guide-as-a-Service", "Autotask"],
+    "tags": [
+      "Dxfferent",
+      "Consulting",
+      "Guide-as-a-Service",
+      "Autotask"
+    ],
     "type": "guide",
     "detail": "Structured intelligence from the discovery call: Andy (COO role, not decision maker) brought in by owner to scale a 13-person MSP from ConnectWise to Autotask. Core issues: no KPIs, no process charts, billing chaos, noisy RMM, no client reports. Comparing us with 2+ vendors this week. Quoted $2,500/mo Guide-as-a-Service. Joshua needs to help build month-by-month roadmap for the proposal."
   },
@@ -799,13 +906,19 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
     "title": "Proxuma Sales Intelligence System Spec",
     "date": "2026-04-24",
     "summary": "Zero-touch AI sales intelligence: auto-capture all Dxfferent Teams calls, extract structured data into Forge CRM, build a living sales playbook from 140+ transcripts.",
-    "tags": ["Proxuma", "Sales", "CRM", "Dxfferent", "Automation"],
+    "tags": [
+      "Proxuma",
+      "Sales",
+      "CRM",
+      "Dxfferent",
+      "Automation"
+    ],
     "type": "strategy",
     "detail": "Full spec covering three pillars: (1) transcript pipeline with three approach options for getting Copilot transcripts from Teams into the system automatically, (2) AI extraction that classifies calls and writes pain points, objections, deal stages into Forge CRM, (3) sales playbook reverse-engineered from 140+ existing demo transcripts. Modeled after Leonard/Unfungeible's OpenClaw sales coaching system."
   },
   {
     "file": "2026-04-23-arrow-bupa-pcos-coverage.html",
-    "title": "Arrow Global Bupa + PCOS TTC — What's Actually Covered",
+    "title": "Arrow Global Bupa + PCOS TTC \u2014 What's Actually Covered",
     "date": "2026-04-23",
     "summary": "Bupa Select excludes IVF, IUI, fertility investigations, AMH, HSG, semen analysis, letrozole. NHS is the real anchor; Bupa is a symptom-framed side door. Three questions for HR.",
     "tags": [
