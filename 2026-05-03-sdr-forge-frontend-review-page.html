@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDR Module: Frontend Review Page Implementation</title>
+<style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 3, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-frontend-review-page.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">NeXum Platform Engineering</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 3, 2026<br>Implementation Note<br>SDR Module / Forge
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SDR MODULE -- FRONTEND</div>
+  <h1>Outreach Review Page: Full Implementation</h1>
+  <p class="subtitle">Converts Claude Design React prototype to production Vue/Nuxt. 13 files, 1185 lines. Branch <code>feature/sdr-review-page</code> on nexum-frontend, commit <code>c02f22a</code>. Ready for Joshua's review alongside the backend PR.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">13</div>
+      <div class="stat-label">Files created</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1,185</div>
+      <div class="stat-label">Lines added</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Vue components</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">49</div>
+      <div class="stat-label">i18n keys (EN+NL)</div>
+    </div>
+  </div>
+
+  <h2>What was built</h2>
+
+  <p>The SDR Outreach Review page lets a reviewer work through a daily batch of AI-generated email drafts. Each draft can be approved (sends via MS Graph), skipped (with optional feedback for AI tuning), or snoozed. The reviewer can edit subject and body before sending, coach the AI with free-text feedback, and see the AI's reasoning for each draft.</p>
+
+  <p>The page lives at <code>/forge/sdr/review</code> inside the existing Forge section of the NeXum frontend. It uses the standard <code>app</code> layout (sidebar provided by the platform) and follows all project conventions: Tailwind utility classes, semantic design tokens, VCard/VButton/VIcon primitives, i18n via vue-i18n, and WCAG AA compliance.</p>
+
+  <h2>File inventory</h2>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Purpose</th>
+        <th>Lines</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>app/types/sdr.ts</strong></td><td>TypeScript interfaces + SDR_CATEGORIES constant</td><td>67</td></tr>
+      <tr><td><strong>app/composables/useSdrApi.ts</strong></td><td>Axios composable for all 6 SDR endpoints</td><td>48</td></tr>
+      <tr><td><strong>app/pages/forge/sdr/index.vue</strong></td><td>Redirect /forge/sdr -> /forge/sdr/review</td><td>9</td></tr>
+      <tr><td><strong>app/pages/forge/sdr/review.vue</strong></td><td>Main page: state management, keyboard shortcuts, API orchestration</td><td>274</td></tr>
+      <tr><td><strong>SdrReviewHeader.vue</strong></td><td>Title, date, progress bar, "Approve all" CTA</td><td>84</td></tr>
+      <tr><td><strong>SdrCategoryKpi.vue</strong></td><td>Clickable KPI card per category (filter toggle)</td><td>57</td></tr>
+      <tr><td><strong>SdrActiveCard.vue</strong></td><td>Expanded editor: subject/body inputs, AI coaching, skip feedback panel</td><td>255</td></tr>
+      <tr><td><strong>SdrCompletedCard.vue</strong></td><td>Collapsed row for sent/skipped/snoozed drafts + undo</td><td>77</td></tr>
+      <tr><td><strong>SdrPendingCard.vue</strong></td><td>Queue preview card (click to activate)</td><td>68</td></tr>
+      <tr><td><strong>SdrFilterBar.vue</strong></td><td>Category, status, sort, score, search filters</td><td>98</td></tr>
+      <tr><td><strong>SdrKeyboardFooter.vue</strong></td><td>Fixed bottom bar showing keyboard shortcuts + progress</td><td>50</td></tr>
+      <tr><td><strong>lang/en.json</strong></td><td>+49 English i18n keys under <code>sdr.*</code></td><td>49</td></tr>
+      <tr><td><strong>lang/nl.json</strong></td><td>+49 Dutch i18n keys under <code>sdr.*</code></td><td>49</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Architecture decisions</h2>
+
+  <h3>State management</h3>
+  <p>All state lives in the page component (<code>review.vue</code>) using <code>ref</code> and <code>computed</code>. No Pinia store was added. The batch is fetched once via <code>useAsyncData</code>, then draft statuses are mutated locally on approve/skip/snooze (optimistic update). The API call fires in parallel. If the API fails, the <code>finally</code> block resets the busy flag but the local status stays (acceptable for a review workflow where retries are manual).</p>
+
+  <h3>No sidebar</h3>
+  <p>The Claude Design prototype included a full sidebar. That was stripped. The NeXum <code>app</code> layout already provides a sidebar via <code>AppSidebar</code>. The page only renders the main content area.</p>
+
+  <h3>No custom fonts</h3>
+  <p>The prototype bundled Inter woff2 files. Those were not copied. Inter is already loaded via Google Fonts in <code>nuxt.config.ts</code>.</p>
+
+  <h3>Category colors via inline styles</h3>
+  <p>The 5 category colors (green, blue, yellow, purple, red) are defined in <code>SDR_CATEGORIES</code> and applied via <code>:style</code> bindings. This is intentional: category colors are domain data, not theme tokens, and they need to work in both light and dark themes without Tailwind class proliferation.</p>
+
+  <h3>Keyboard shortcuts</h3>
+  <p>Handled in the page's <code>onMounted</code> with a global keydown listener. Skips when focus is in an input/textarea/select. Shortcuts: A=send, S=skip, Z=snooze, J/K=navigate, Shift+A=approve all.</p>
+
+  <h2>Backend API mapping</h2>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Frontend action</th>
+        <th>Backend endpoint</th>
+        <th>Composable method</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Load today's batch</td><td><code>GET /sdr/batches/{date}</code></td><td><code>getBatchByDate()</code></td></tr>
+      <tr><td>Approve/send draft</td><td><code>POST /sdr/drafts/{id}/approve</code></td><td><code>approveDraft()</code></td></tr>
+      <tr><td>Skip/reject draft</td><td><code>POST /sdr/drafts/{id}/reject</code></td><td><code>rejectDraft()</code></td></tr>
+      <tr><td>Snooze draft</td><td><code>POST /sdr/drafts/{id}/snooze</code></td><td><code>snoozeDraft()</code></td></tr>
+      <tr><td>List recent batches</td><td><code>GET /sdr/batches</code></td><td><code>getBatches()</code></td></tr>
+      <tr><td>Learning stats</td><td><code>GET /sdr/feedback-stats</code></td><td><code>getFeedbackStats()</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Push access</span>
+    The branch could not be pushed from this machine (M4 Air has no write access to the NeXum-co org). Commit <code>c02f22a</code> is ready locally on <code>feature/sdr-review-page</code>. Push from a machine with org access, or add a fork remote.
+  </div>
+
+  <h2>What was NOT built (by design)</h2>
+
+  <ul>
+    <li><strong>Toast component</strong> -- uses Nuxt UI's built-in <code>useToast()</code> composable instead of a custom toast stack</li>
+    <li><strong>Navigation registration</strong> -- the page is accessed via URL; nav entries are configured in <code>config/nexum-modules.php</code> on the backend</li>
+    <li><strong>"Regenerate batch" action</strong> -- button is rendered but not wired (no backend endpoint for regeneration yet)</li>
+    <li><strong>Undo via API</strong> -- undo is local-only (resets the draft status in the reactive array); backend doesn't have a revert endpoint</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Render prompt for visual preview</h2>
+    <p>Copy the prompt below into a new Claude session to get a standalone HTML file that renders the SDR review interface with mock data, matching the original Claude Design prototype's visual output. No dev server needed.</p>
+  </div>
+
+  <pre>Build me a single self-contained HTML file that renders the SDR Outreach Review page from the NeXum Forge app. This is for visual preview only -- not production code.
+
+Use React 18 via CDN (unpkg) + Babel standalone for JSX. No build step.
+
+The page should show:
+1. A header: "Outreach Review" title, date "Saturday, May 3, 2026", "25 drafts generated at 06:42 by Forge AI, est. 9 min to clear", progress pill "7 / 25 done" with a thin progress bar
+2. Two header buttons: "Regenerate batch" (outline) and "Approve all remaining" (solid blue, with Shift+A kbd hint)
+3. A row of 5 KPI cards for categories: Post-demo (#41AA70), Inbound (#164387), Stale (#F4C755), Upsell (#844BE5), Win-back (#F1416C). Each shows an icon, label, count remaining, done/total, and a mini segment meter
+4. A filter bar with: Category dropdown, Status dropdown, Sort dropdown, Score minimum input, search input, "Saved views" button
+5. A "Completed today" section with 7 collapsed completed cards showing action icon (green check for sent, gray X for skipped, amber clock for snoozed), category mini-badge, contact name + company, action label, and undo button
+6. An "Up next" active card for "Reuben Ortega" at "Halcyon Cloud", category "Stale deal nudge", deal value EUR 118,000, stage "Negotiation, stalled 14 days", AI score 71. The card has: editable subject input, editable body textarea (pre-filled with a real email about closing the deal), a "Coach the AI" textarea, a collapsible "Show AI reasoning" section, and action buttons: Send (green), Skip (outline), Snooze (ghost)
+7. A "Queued" section with ~10 pending preview cards showing icon, name, company, category pill, deal value, AI score, and subject line
+8. A fixed dark footer bar at the bottom showing keyboard shortcuts: A=Send, S=Skip, Z=Snooze, J/K=Navigate, Shift+A=Approve all, plus "7/25 processed, est. 8 min remaining"
+
+Make the keyboard shortcuts functional. A/S/Z act on the active card, J/K navigate the queue. Shift+A approves all. Show toast notifications (bottom-right) on each action.
+
+Design tokens:
+- Font: Inter (Google Fonts CDN)
+- Brand: #164387 (dark blue)
+- Text: #181833 primary, #5C5C71 secondary, #A4A6AA muted
+- Surfaces: #FFFFFF cards, #F8F8F8 page bg
+- Borders: #DEE1E8 default, #EBEDF2 subtle
+- Success: #49C481, Warning: #F4C755, Error: #F1416C
+- Card radius: 12px, button radius: 8px
+- JetBrains Mono for scores and kbd hints
+
+NO sidebar -- this is the main content area only, full-width on a light gray background. Make it pixel-perfect and polished.
+
+Save the file to ~/ClaudeCode/sdr-review-preview.html and open it in my browser.</pre>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>SDR Module / Forge Frontend / NeXum</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "SDR Module: Frontend Review Page Implementation",
+  "date": "2026-05-03",
+  "summary": "Full SDR frontend on feature/sdr-review-page. 13 files, 1185 lines: types, API composable, page, 7 Vue components, i18n EN+NL. Converts Claude Design React prototype to Vue/Nuxt. Ready for Joshua review.",
+  "sections": [
+    {
+      "heading": "File inventory",
+      "items": [
+        { "title": "app/types/sdr.ts", "detail": "TypeScript interfaces for SdrDraft, SdrBatch, SdrContact, SdrDeal + SDR_CATEGORIES const with colors and icons", "meta": { "lines": 67 } },
+        { "title": "app/composables/useSdrApi.ts", "detail": "Axios composable wrapping 6 SDR backend endpoints", "meta": { "lines": 48 } },
+        { "title": "app/pages/forge/sdr/review.vue", "detail": "Main page with state, filters, keyboard shortcuts, API calls, toast notifications", "meta": { "lines": 274 } },
+        { "title": "7 Vue components in app/components/forge/sdr/", "detail": "SdrReviewHeader, SdrCategoryKpi, SdrActiveCard, SdrCompletedCard, SdrPendingCard, SdrFilterBar, SdrKeyboardFooter", "meta": { "lines": 689 } },
+        { "title": "lang/en.json + lang/nl.json", "detail": "49 i18n keys each under sdr.* namespace", "meta": { "lines": 98 } }
+      ]
+    },
+    {
+      "heading": "Architecture decisions",
+      "items": [
+        { "title": "Local state, no Pinia store", "detail": "Batch fetched once via useAsyncData, optimistic local updates on approve/skip/snooze", "meta": {} },
+        { "title": "No sidebar, no custom fonts", "detail": "Uses app layout sidebar and existing Inter from nuxt.config", "meta": {} },
+        { "title": "Category colors via inline styles", "detail": "Domain data, not theme tokens. Works across light/dark themes without Tailwind class proliferation", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Not built (by design)",
+      "items": [
+        { "title": "Regenerate batch", "detail": "Button rendered but not wired (no backend endpoint yet)", "meta": {} },
+        { "title": "Undo via API", "detail": "Undo is local-only, backend has no revert endpoint", "meta": {} },
+        { "title": "Nav registration", "detail": "Done in config/nexum-modules.php on backend, not frontend", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Push the branch from a machine with NeXum-co org write access. Create PR targeting main. Backend PR (feature/sdr-module on nexum-backend) should be merged first or in parallel. After both merge, register the SDR page in nexum-modules.php nav config.",
+  "session_state": {
+    "phase": "implementation complete",
+    "phase_status": "complete",
+    "progress_pct": 95,
+    "work_done_this_session": [
+      "Extracted and analyzed Claude Design handoff ZIP (React prototype, 15 files)",
+      "Read existing backend SDR module on feature/sdr-module (routes, controllers, models)",
+      "Created feature/sdr-review-page branch on nexum-frontend",
+      "Built types, API composable, 7 components, page, i18n (EN+NL)",
+      "Fixed API response types to match backend (SdrBatch not wrapped in data envelope)",
+      "Committed c02f22a (13 files, 1185 lines)"
+    ],
+    "blockers_hit": "No write access to NeXum-co org from M4 Air. Branch is local only.",
+    "uncommitted_changes": null,
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "feature/sdr-review-page",
+    "local_repo_path": "~/nexum/nexum-frontend/",
+    "temp_files": [
+      { "path": "/tmp/25-email-interface-forge/", "description": "Extracted Claude Design handoff ZIP", "cleanup_after": "PR merged" }
+    ],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-backend-implementation.html", "relevance": "Backend implementation write-up (companion doc)" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-frontend-review-page.html", "relevance": "This document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": "c02f22a"
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Claude Design handoff ZIP at ~/Downloads/25 email interface forge-handoff.zip"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Local state in page component instead of Pinia store",
+      "rejected_alternatives": ["New sdrStore.ts Pinia store"],
+      "rationale": "Single-page workflow with one batch loaded at a time. No cross-page state sharing needed. Pinia would add complexity without benefit.",
+      "trade_offs": "If a batch history page is added later, state would need to be lifted to Pinia. Acceptable for now.",
+      "contingencies": []
+    },
+    {
+      "decision": "Stripped sidebar from Claude Design prototype",
+      "rejected_alternatives": ["Keep prototype sidebar as custom component"],
+      "rationale": "User explicitly said Claude Design assumed too much about the CRM layout. The app layout already provides a sidebar.",
+      "trade_offs": "None. The prototype sidebar was wrong.",
+      "contingencies": []
+    },
+    {
+      "decision": "Used useToast() instead of custom SdrToastStack component",
+      "rejected_alternatives": ["Custom fixed-position toast stack matching the prototype"],
+      "rationale": "Nuxt UI provides useToast() with consistent styling. No reason to build a second toast system.",
+      "trade_offs": "Toasts won't have the exact category-colored left border from the prototype. Acceptable.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
