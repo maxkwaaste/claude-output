@@ -408,105 +408,280 @@ li::marker { color: #1a2744; }
     </div>
   </div>
 
-  <!-- NETWORK DIAGRAM -->
-  <h2>Network: Where They First Connected</h2>
-  <p>Ellis Sher is the central node. Every other person in this group connects to the network through him. The Cheval Property Finance era (2005-2008) is where the core relationships formed.</p>
+  <!-- GENEALOGY TIMELINE DIAGRAM -->
+  <h2>Genealogy: From Childhood to Arrow Global</h2>
+  <p>A vertical timeline tracing where these four individuals grew up, how their paths crossed, and where the connections formed. Solid lines are confirmed; dashed lines are inferred from community overlap.</p>
 
-  <svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin:20px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-    <!-- Timeline bands -->
-    <rect x="0" y="0" width="680" height="420" rx="4" fill="#f8f9fb" stroke="#e2e4e8"/>
-    <text x="16" y="24" font-size="9" font-weight="600" fill="#6b7280" letter-spacing=".08em" text-transform="uppercase">NETWORK CONNECTIONS</text>
+  <svg viewBox="0 0 680 880" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin:20px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+    <rect x="0" y="0" width="680" height="880" rx="4" fill="#f8f9fb" stroke="#e2e4e8"/>
 
-    <!-- Company nodes -->
-    <rect x="40" y="80" width="140" height="50" rx="4" fill="#1a2744"/>
-    <text x="110" y="101" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Investec London</text>
-    <text x="110" y="116" font-size="9" fill="rgba(255,255,255,.7)" text-anchor="middle">~2000-2006</text>
+    <!-- TIMELINE AXIS -->
+    <line x1="40" y1="50" x2="40" y2="830" stroke="#d0d3d8" stroke-width="2"/>
+    <!-- Era labels -->
+    <text x="14" y="82" font-size="8" font-weight="700" fill="#1a2744" letter-spacing=".06em" transform="rotate(-90,14,82)">ORIGINS</text>
+    <text x="14" y="230" font-size="8" font-weight="700" fill="#1a2744" letter-spacing=".06em" transform="rotate(-90,14,230)">EDUCATION</text>
+    <text x="14" y="385" font-size="8" font-weight="700" fill="#1a2744" letter-spacing=".06em" transform="rotate(-90,14,385)">EARLY CAREER</text>
+    <text x="14" y="540" font-size="8" font-weight="700" fill="#1a2744" letter-spacing=".06em" transform="rotate(-90,14,540)">CHEVAL ERA</text>
+    <text x="14" y="660" font-size="8" font-weight="700" fill="#1a2744" letter-spacing=".06em" transform="rotate(-90,14,660)">DIVERGENCE</text>
+    <text x="14" y="800" font-size="8" font-weight="700" fill="#1a2744" letter-spacing=".06em" transform="rotate(-90,14,800)">ARROW</text>
 
-    <rect x="260" y="80" width="160" height="50" rx="4" fill="#1a2744"/>
-    <text x="340" y="101" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Cheval Property Finance</text>
-    <text x="340" y="116" font-size="9" fill="rgba(255,255,255,.7)" text-anchor="middle">2005-2008</text>
+    <!-- Timeline ticks -->
+    <line x1="35" y1="65" x2="45" y2="65" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="69" font-size="8" fill="#6b7280" text-anchor="end">1974</text>
+    <line x1="35" y1="155" x2="45" y2="155" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="159" font-size="8" fill="#6b7280" text-anchor="end">1983</text>
+    <line x1="35" y1="260" x2="45" y2="260" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="264" font-size="8" fill="#6b7280" text-anchor="end">1992</text>
+    <line x1="35" y1="350" x2="45" y2="350" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="354" font-size="8" fill="#6b7280" text-anchor="end">2000</text>
+    <line x1="35" y1="470" x2="45" y2="470" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="474" font-size="8" fill="#6b7280" text-anchor="end">2005</text>
+    <line x1="35" y1="580" x2="45" y2="580" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="584" font-size="8" fill="#6b7280" text-anchor="end">2009</text>
+    <line x1="35" y1="700" x2="45" y2="700" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="704" font-size="8" fill="#6b7280" text-anchor="end">2017</text>
+    <line x1="35" y1="780" x2="45" y2="780" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="30" y="784" font-size="8" fill="#6b7280" text-anchor="end">2023</text>
 
-    <rect x="500" y="80" width="140" height="50" rx="4" fill="#1a2744"/>
-    <text x="570" y="101" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Maslow Capital</text>
-    <text x="570" y="116" font-size="9" fill="rgba(255,255,255,.7)" text-anchor="middle">2009-2023</text>
+    <!-- PERSON COLUMNS -->
+    <!-- Column positions: Sher=150, Posniak=300, Steele=450, Lewy=580 -->
 
-    <rect x="260" y="300" width="160" height="50" rx="4" fill="#1a2744"/>
-    <text x="340" y="321" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Arrow Global</text>
-    <text x="340" y="336" font-size="9" fill="rgba(255,255,255,.7)" text-anchor="middle">2023-present</text>
+    <!-- Column headers -->
+    <text x="150" y="42" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Ellis Sher</text>
+    <text x="300" y="42" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Mark Posniak</text>
+    <text x="450" y="42" font-size="10" font-weight="700" fill="#6b7280" text-anchor="middle">Ryan Steele</text>
+    <text x="580" y="42" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Zach Lewy</text>
 
-    <!-- Person nodes -->
-    <!-- Sher -->
-    <circle cx="340" cy="195" r="28" fill="#fff" stroke="#1a2744" stroke-width="2.5"/>
-    <text x="340" y="192" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Ellis</text>
-    <text x="340" y="204" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Sher</text>
+    <!-- Vertical life lines -->
+    <line x1="150" y1="55" x2="150" y2="830" stroke="#1a2744" stroke-width="1" stroke-opacity=".2"/>
+    <line x1="300" y1="55" x2="300" y2="830" stroke="#1a2744" stroke-width="1" stroke-opacity=".2"/>
+    <line x1="450" y1="55" x2="450" y2="830" stroke="#6b7280" stroke-width="1" stroke-opacity=".2"/>
+    <line x1="580" y1="55" x2="580" y2="830" stroke="#1a2744" stroke-width="1" stroke-opacity=".2"/>
 
-    <!-- Halpern -->
-    <circle cx="180" cy="195" r="24" fill="#fff" stroke="#8a6a2a" stroke-width="2" stroke-dasharray="4,3"/>
-    <text x="180" y="192" font-size="9" font-weight="600" fill="#8a6a2a" text-anchor="middle">Colin</text>
-    <text x="180" y="203" font-size="9" font-weight="600" fill="#8a6a2a" text-anchor="middle">Halpern</text>
+    <!-- === LAYER 1: ORIGINS (1974-1982) === -->
+    <!-- Birth markers -->
+    <circle cx="150" cy="65" r="5" fill="#1a2744"/>
+    <text x="150" y="85" font-size="8" fill="#2c2c2c" text-anchor="middle">b. ~1974</text>
+    <text x="150" y="95" font-size="8" fill="#6b7280" text-anchor="middle">Cape Town, SA</text>
 
-    <!-- Posniak -->
-    <circle cx="480" cy="195" r="28" fill="#fff" stroke="#1a2744" stroke-width="2.5"/>
-    <text x="480" y="192" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Mark</text>
-    <text x="480" y="204" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Posniak</text>
+    <circle cx="300" cy="75" r="5" fill="#1a2744"/>
+    <text x="300" y="85" font-size="8" fill="#2c2c2c" text-anchor="middle">b. Jul 1977</text>
+    <text x="300" y="95" font-size="8" fill="#6b7280" text-anchor="middle">Cape Town, SA?</text>
 
-    <!-- Steele -->
-    <circle cx="570" cy="240" r="24" fill="#fff" stroke="#6b7280" stroke-width="2"/>
-    <text x="570" y="237" font-size="9" font-weight="600" fill="#6b7280" text-anchor="middle">Ryan</text>
-    <text x="570" y="248" font-size="9" font-weight="600" fill="#6b7280" text-anchor="middle">Steele</text>
+    <circle cx="450" cy="65" r="5" fill="#6b7280"/>
+    <text x="450" y="85" font-size="8" fill="#2c2c2c" text-anchor="middle">b. Jul 1974</text>
+    <text x="450" y="95" font-size="8" fill="#6b7280" text-anchor="middle">Johannesburg, SA</text>
 
-    <!-- Lewy -->
-    <circle cx="180" cy="325" r="28" fill="#fff" stroke="#1a2744" stroke-width="2.5"/>
-    <text x="180" y="322" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Zach</text>
-    <text x="180" y="334" font-size="10" font-weight="700" fill="#1a2744" text-anchor="middle">Lewy</text>
+    <circle cx="580" cy="65" r="5" fill="#1a2744"/>
+    <text x="580" y="85" font-size="8" fill="#2c2c2c" text-anchor="middle">b. Oct 1974</text>
+    <text x="580" y="95" font-size="8" fill="#6b7280" text-anchor="middle">New York, USA</text>
 
-    <!-- Connection lines -->
-    <!-- Sher to Investec -->
-    <line x1="312" y1="185" x2="180" y2="130" stroke="#1a2744" stroke-width="1.5"/>
-    <!-- Sher to Cheval -->
-    <line x1="340" y1="167" x2="340" y2="130" stroke="#1a2744" stroke-width="1.5"/>
-    <!-- Sher to Maslow -->
-    <line x1="368" y1="185" x2="530" y2="130" stroke="#1a2744" stroke-width="1.5"/>
-    <!-- Sher to Arrow -->
-    <line x1="340" y1="223" x2="340" y2="300" stroke="#1a2744" stroke-width="1.5"/>
+    <!-- === LAYER 2: SCHOOL / COMMUNITY (1983-1995) === -->
+    <!-- Cape Town Jewish community box -->
+    <rect x="80" y="115" width="290" height="85" rx="4" fill="none" stroke="#8a6a2a" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="225" y="130" font-size="9" font-weight="600" fill="#8a6a2a" text-anchor="middle">CAPE TOWN JEWISH COMMUNITY (~15,000)</text>
 
-    <!-- Halpern to Investec -->
-    <line x1="165" y1="172" x2="130" y2="130" stroke="#8a6a2a" stroke-width="1" stroke-dasharray="4,3"/>
-    <!-- Halpern to Cheval -->
-    <line x1="200" y1="180" x2="280" y2="130" stroke="#8a6a2a" stroke-width="1" stroke-dasharray="4,3"/>
+    <!-- Herzlia school -->
+    <rect x="95" y="140" width="260" height="48" rx="3" fill="#fef3e2" stroke="#e8c87a"/>
+    <text x="225" y="155" font-size="9" font-weight="700" fill="#8a6a2a" text-anchor="middle">Herzlia School (probable)</text>
+    <text x="150" y="172" font-size="8" fill="#2c2c2c" text-anchor="middle">~1980-1992</text>
+    <text x="300" y="172" font-size="8" fill="#2c2c2c" text-anchor="middle">~1983-1995</text>
+    <text x="225" y="183" font-size="7" fill="#8a6a2a" text-anchor="middle">9-year overlap if both attended</text>
 
-    <!-- Posniak to Cheval -->
-    <line x1="460" y1="175" x2="400" y2="130" stroke="#1a2744" stroke-width="1.5"/>
-    <!-- Posniak to Arrow -->
-    <line x1="450" y1="210" x2="400" y2="300" stroke="#1a2744" stroke-width="1.5"/>
+    <!-- Maccabi / community note -->
+    <rect x="95" y="200" width="390" height="28" rx="3" fill="none" stroke="#d0d3d8" stroke-dasharray="4,3"/>
+    <text x="290" y="218" font-size="8" fill="#6b7280" text-anchor="middle">Maccabi sports, Habonim youth movement, synagogue -- SA Jewish kids meet nationally</text>
 
-    <!-- Steele to Maslow -->
-    <line x1="570" y1="216" x2="570" y2="130" stroke="#6b7280" stroke-width="1.5"/>
+    <!-- King David for Steele -->
+    <rect x="395" y="140" width="110" height="35" rx="3" fill="#eef0f2" stroke="#c0c4ca"/>
+    <text x="450" y="155" font-size="8" font-weight="600" fill="#4a5568" text-anchor="middle">School (non-Jewish?)</text>
+    <text x="450" y="168" font-size="7" fill="#6b7280" text-anchor="middle">Johannesburg</text>
 
-    <!-- Lewy to Arrow -->
-    <line x1="208" y1="325" x2="260" y2="325" stroke="#1a2744" stroke-width="1.5"/>
+    <!-- Princeton for Lewy -->
+    <rect x="530" y="140" width="100" height="35" rx="3" fill="#e8edf4" stroke="#8aa8d8"/>
+    <text x="580" y="155" font-size="8" font-weight="600" fill="#2a4a8a" text-anchor="middle">US schooling</text>
+    <text x="580" y="168" font-size="7" fill="#6b7280" text-anchor="middle">New York area</text>
 
-    <!-- Labels on connections -->
-    <text x="230" y="160" font-size="8" fill="#6b7280" text-anchor="middle" transform="rotate(-25,230,160)">met Halpern</text>
-    <text x="456" y="145" font-size="8" fill="#6b7280" text-anchor="middle" transform="rotate(25,456,145)">2005: first overlap</text>
-    <text x="470" y="130" font-size="8" fill="#6b7280" text-anchor="middle" transform="rotate(65,585,175)">2017: joined</text>
-    <text x="380" y="260" font-size="8" fill="#6b7280" text-anchor="middle">all converge 2023</text>
-    <text x="230" y="310" font-size="8" fill="#6b7280" text-anchor="middle">acquired Maslow</text>
+    <!-- === LAYER 3: UNIVERSITY / EARLY CAREER (1992-2000) === -->
+    <!-- Sher: UCT + Grant Thornton -->
+    <rect x="95" y="248" width="110" height="45" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="150" y="263" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">UCT (likely)</text>
+    <text x="150" y="275" font-size="7" fill="#6b7280" text-anchor="middle">then Grant Thornton</text>
+    <text x="150" y="285" font-size="7" fill="#6b7280" text-anchor="middle">Cape Town, CA articles</text>
 
-    <!-- Legend -->
-    <rect x="16" y="375" width="648" height="35" rx="3" fill="#fff" stroke="#e2e4e8"/>
-    <circle cx="40" cy="392" r="6" fill="#fff" stroke="#1a2744" stroke-width="2"/>
-    <text x="52" y="396" font-size="9" fill="#2c2c2c">Profiled (inferred Jewish)</text>
-    <circle cx="200" cy="392" r="6" fill="#fff" stroke="#6b7280" stroke-width="2"/>
-    <text x="212" y="396" font-size="9" fill="#2c2c2c">Profiled (probably not Jewish)</text>
-    <circle cx="400" cy="392" r="5" fill="#fff" stroke="#8a6a2a" stroke-width="1.5" stroke-dasharray="3,2"/>
-    <text x="412" y="396" font-size="9" fill="#2c2c2c">Not profiled (mentioned in research)</text>
+    <!-- Posniak: Australia -->
+    <rect x="245" y="248" width="110" height="45" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="300" y="263" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">Australia</text>
+    <text x="300" y="275" font-size="7" fill="#6b7280" text-anchor="middle">7 years (~1996-2003)</text>
+    <text x="300" y="285" font-size="7" fill="#6b7280" text-anchor="middle">mobile phone CS</text>
+
+    <!-- Steele: Wits -->
+    <rect x="395" y="248" width="110" height="45" rx="3" fill="#fff" stroke="#6b7280"/>
+    <text x="450" y="263" font-size="8" font-weight="600" fill="#6b7280" text-anchor="middle">Wits University</text>
+    <text x="450" y="275" font-size="7" fill="#6b7280" text-anchor="middle">BSc + MSc Eng</text>
+    <text x="450" y="285" font-size="7" fill="#6b7280" text-anchor="middle">then ISCOR steel</text>
+
+    <!-- Lewy: Princeton -->
+    <rect x="525" y="248" width="110" height="45" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="580" y="263" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">Princeton</text>
+    <text x="580" y="275" font-size="7" fill="#6b7280" text-anchor="middle">BA Economics</text>
+    <text x="580" y="285" font-size="7" fill="#6b7280" text-anchor="middle">then Sallie Mae</text>
+
+    <!-- === LAYER 4: LONDON MIGRATION (2000-2005) === -->
+    <!-- Sher: Investec -->
+    <rect x="95" y="335" width="110" height="45" rx="3" fill="#1a2744"/>
+    <text x="150" y="352" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">Investec</text>
+    <text x="150" y="365" font-size="7" fill="rgba(255,255,255,.7)" text-anchor="middle">London, ~2000-2006</text>
+    <text x="150" y="375" font-size="7" fill="rgba(255,255,255,.7)" text-anchor="middle">structured finance</text>
+
+    <!-- Posniak arrives London -->
+    <rect x="245" y="345" width="110" height="30" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="300" y="360" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">Arrives London</text>
+    <text x="300" y="370" font-size="7" fill="#6b7280" text-anchor="middle">from Australia, ~2003</text>
+
+    <!-- Steele still in SA -->
+    <text x="450" y="355" font-size="8" fill="#6b7280" text-anchor="middle">Still in SA</text>
+    <text x="450" y="367" font-size="7" fill="#6b7280" text-anchor="middle">(ISCOR / banking)</text>
+
+    <!-- Lewy: 7C, Vertex, Arrow -->
+    <rect x="525" y="335" width="110" height="45" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="580" y="352" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">7C / Vertex</text>
+    <text x="580" y="365" font-size="7" fill="#6b7280" text-anchor="middle">UK BPO sector</text>
+    <text x="580" y="375" font-size="7" fill="#6b7280" text-anchor="middle">Manchester area</text>
+
+    <!-- Halpern note -->
+    <rect x="95" y="390" width="180" height="22" rx="2" fill="#fef3e2" stroke="#e8c87a"/>
+    <text x="185" y="405" font-size="7" fill="#8a6a2a" text-anchor="middle">Colin Halpern (American, FL) = Investec client. Meets Sher.</text>
+
+    <!-- === LAYER 5: CHEVAL ERA (2005-2008) === -->
+    <rect x="70" y="430" width="280" height="70" rx="4" fill="#1a2744"/>
+    <text x="210" y="448" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Cheval Property Finance</text>
+    <text x="210" y="462" font-size="8" fill="rgba(255,255,255,.7)" text-anchor="middle">Acquired May 2006 by Sher + Halpern for 6M</text>
+
+    <!-- People at Cheval -->
+    <circle cx="150" cy="486" r="12" fill="#fff" stroke="#1a2744" stroke-width="2"/>
+    <text x="150" y="490" font-size="7" font-weight="700" fill="#1a2744" text-anchor="middle">ES</text>
+    <text x="150" y="510" font-size="7" fill="#fff" text-anchor="middle">MD</text>
+
+    <circle cx="270" cy="486" r="12" fill="#fff" stroke="#1a2744" stroke-width="2"/>
+    <text x="270" y="490" font-size="7" font-weight="700" fill="#1a2744" text-anchor="middle">MP</text>
+    <text x="270" y="510" font-size="7" fill="#fff" text-anchor="middle">Sales Dir</text>
+
+    <!-- Connection line: FIRST CONFIRMED -->
+    <line x1="162" y1="486" x2="258" y2="486" stroke="#fff" stroke-width="2"/>
+    <text x="210" y="510" font-size="7" font-weight="700" fill="rgba(255,255,255,.9)" text-anchor="middle">First confirmed overlap</text>
+
+    <!-- Arrow founding separate -->
+    <rect x="525" y="440" width="110" height="50" rx="3" fill="#1a2744"/>
+    <text x="580" y="460" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">Arrow Global</text>
+    <text x="580" y="474" font-size="7" fill="rgba(255,255,255,.7)" text-anchor="middle">Founded 2005</text>
+    <text x="580" y="484" font-size="7" fill="rgba(255,255,255,.7)" text-anchor="middle">Manchester</text>
+
+    <!-- Steele: INSEAD -->
+    <rect x="395" y="440" width="110" height="35" rx="3" fill="#fff" stroke="#6b7280"/>
+    <text x="450" y="457" font-size="8" font-weight="600" fill="#6b7280" text-anchor="middle">INSEAD MBA</text>
+    <text x="450" y="469" font-size="7" fill="#6b7280" text-anchor="middle">~2005-2006</text>
+
+    <!-- === LAYER 6: DIVERGENCE (2009-2016) === -->
+    <!-- Maslow -->
+    <rect x="95" y="560" width="110" height="50" rx="3" fill="#1a2744"/>
+    <text x="150" y="580" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">Maslow Capital</text>
+    <text x="150" y="594" font-size="7" fill="rgba(255,255,255,.7)" text-anchor="middle">Founded Mar 2009</text>
+    <circle cx="150" cy="620" r="8" fill="#fff" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="150" y="623" font-size="6" font-weight="700" fill="#1a2744" text-anchor="middle">ES</text>
+
+    <!-- Dragonfly / Octopus -->
+    <rect x="230" y="560" width="140" height="50" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="300" y="578" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">Dragonfly / Octopus</text>
+    <text x="300" y="592" font-size="7" fill="#6b7280" text-anchor="middle">Property, 2009-2016</text>
+    <text x="300" y="604" font-size="7" fill="#6b7280" text-anchor="middle">with Jonathan Samuels (British)</text>
+    <circle cx="300" cy="620" r="8" fill="#fff" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="300" y="623" font-size="6" font-weight="700" fill="#1a2744" text-anchor="middle">MP</text>
+
+    <!-- Prodigy Finance -->
+    <rect x="395" y="560" width="110" height="50" rx="3" fill="#fff" stroke="#6b7280"/>
+    <text x="450" y="578" font-size="8" font-weight="600" fill="#6b7280" text-anchor="middle">Prodigy Finance</text>
+    <text x="450" y="592" font-size="7" fill="#6b7280" text-anchor="middle">Co-founded 2007</text>
+    <text x="450" y="604" font-size="7" fill="#6b7280" text-anchor="middle">student loans fintech</text>
+    <circle cx="450" cy="620" r="8" fill="#fff" stroke="#6b7280" stroke-width="1.5"/>
+    <text x="450" y="623" font-size="6" font-weight="700" fill="#6b7280" text-anchor="middle">RS</text>
+
+    <!-- Arrow grows -->
+    <rect x="525" y="560" width="110" height="50" rx="3" fill="#1a2744"/>
+    <text x="580" y="578" font-size="8" font-weight="600" fill="#fff" text-anchor="middle">Arrow IPO 2013</text>
+    <text x="580" y="592" font-size="7" fill="rgba(255,255,255,.7)" text-anchor="middle">LSE listed</text>
+    <circle cx="580" cy="620" r="8" fill="#fff" stroke="#1a2744" stroke-width="1.5"/>
+    <text x="580" y="623" font-size="6" font-weight="700" fill="#1a2744" text-anchor="middle">ZL</text>
+
+    <!-- === LAYER 7: RECONVERGENCE (2017-2022) === -->
+    <!-- Steele joins Maslow -->
+    <line x1="450" y1="628" x2="150" y2="680" stroke="#6b7280" stroke-width="1.5"/>
+    <text x="300" y="655" font-size="7" fill="#6b7280" text-anchor="middle">Steele joins Maslow as COO, 2017</text>
+
+    <!-- Maslow with both -->
+    <rect x="95" y="680" width="130" height="40" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="160" y="698" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">Maslow Capital</text>
+    <text x="160" y="710" font-size="7" fill="#6b7280" text-anchor="middle">Sher (CEO) + Steele (COO)</text>
+
+    <!-- Octane Capital -->
+    <rect x="245" y="680" width="130" height="40" rx="3" fill="#fff" stroke="#1a2744"/>
+    <text x="310" y="698" font-size="8" font-weight="600" fill="#1a2744" text-anchor="middle">Octane Capital</text>
+    <text x="310" y="710" font-size="7" fill="#6b7280" text-anchor="middle">Posniak + Samuels, 2017</text>
+
+    <!-- Arrow private -->
+    <rect x="525" y="680" width="110" height="40" rx="3" fill="#1a2744"/>
+    <text x="580" y="698" font-size="8" font-weight="600" fill="#fff" text-anchor="middle">Arrow grows</text>
+    <text x="580" y="712" font-size="7" fill="rgba(255,255,255,.7)" text-anchor="middle">pan-European</text>
+
+    <!-- === LAYER 8: ARROW ACQUIRES ALL (2023) === -->
+    <rect x="70" y="755" width="580" height="60" rx="6" fill="#1a2744"/>
+    <text x="360" y="775" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Arrow Global acquires Maslow Capital (Aug 2023)</text>
+    <text x="360" y="795" font-size="9" fill="rgba(255,255,255,.7)" text-anchor="middle">All four converge under one roof</text>
+
+    <!-- Final person dots -->
+    <circle cx="150" cy="800" r="10" fill="#fff" stroke="#c8a040" stroke-width="2"/>
+    <text x="150" y="804" font-size="7" font-weight="700" fill="#1a2744" text-anchor="middle">ES</text>
+    <circle cx="280" cy="800" r="10" fill="#fff" stroke="#c8a040" stroke-width="2"/>
+    <text x="280" y="804" font-size="7" font-weight="700" fill="#1a2744" text-anchor="middle">MP</text>
+    <circle cx="410" cy="800" r="10" fill="#fff" stroke="#c8a040" stroke-width="2"/>
+    <text x="410" y="804" font-size="7" font-weight="700" fill="#6b7280" text-anchor="middle">RS</text>
+    <circle cx="540" cy="800" r="10" fill="#fff" stroke="#c8a040" stroke-width="2"/>
+    <text x="540" y="804" font-size="7" font-weight="700" fill="#1a2744" text-anchor="middle">ZL</text>
+
+    <!-- Convergence arrows -->
+    <line x1="150" y1="720" x2="150" y2="755" stroke="#c8a040" stroke-width="1.5"/>
+    <line x1="310" y1="720" x2="280" y2="755" stroke="#c8a040" stroke-width="1.5"/>
+    <line x1="160" y1="720" x2="410" y2="755" stroke="#6b7280" stroke-width="1" stroke-dasharray="4,3"/>
+    <line x1="580" y1="720" x2="540" y2="755" stroke="#c8a040" stroke-width="1.5"/>
+
+    <!-- LEGEND -->
+    <rect x="60" y="835" width="570" height="35" rx="3" fill="#fff" stroke="#e2e4e8"/>
+    <line x1="80" y1="852" x2="110" y2="852" stroke="#1a2744" stroke-width="2"/>
+    <text x="116" y="856" font-size="8" fill="#2c2c2c">Confirmed connection</text>
+    <line x1="220" y1="852" x2="250" y2="852" stroke="#8a6a2a" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="256" y="856" font-size="8" fill="#2c2c2c">Inferred (community overlap)</text>
+    <circle cx="400" cy="852" r="5" fill="#1a2744"/>
+    <text x="410" y="856" font-size="8" fill="#2c2c2c">Inferred Jewish</text>
+    <circle cx="490" cy="852" r="5" fill="#6b7280"/>
+    <text x="500" y="856" font-size="8" fill="#2c2c2c">Probably not Jewish</text>
   </svg>
 
   <div class="callout">
-    <span class="callout-label">Network analysis</span>
-    <strong>Sher is the hub.</strong> He connects to every other person in the group through direct working relationships. The Cheval era (2005-2008) is the key formation period: Sher and Halpern came from Investec together, Posniak joined them at Cheval. Sher then founded Maslow (2009), where Steele joined as COO (2017). When Arrow acquired Maslow in 2023, Sher brought both Posniak and the Maslow team into Lewy's orbit. Lewy and Sher had no confirmed prior connection before the acquisition.
+    <span class="callout-label">Analysis: did they know each other before London?</span>
+    <strong>Sher and Posniak: almost certainly yes.</strong> Both are South African Jewish, born 3 years apart. A "Posniak" business is listed in Sea Point, Cape Town -- the heart of the Cape Town Jewish community. If both grew up in Cape Town, the community of ~15,000 people makes it nearly impossible they didn't cross paths. If both attended Herzlia (THE Jewish school in Cape Town), they overlapped for up to 9 years (1983-1992). Both are cricketers: Sher plays for the Green Mambas (SA expats in London), Posniak "almost became a professional cricketer." Jewish Maccabi cricket in Cape Town would have been a likely shared activity.<br><br>
+    <strong>Steele and Sher: no pre-London evidence.</strong> Steele is from Johannesburg (Wits-educated), Sher from Cape Town. Different cities, and Steele is probably not Jewish, so no community overlap through schools, synagogues, or youth movements. They first met at Maslow in 2017.<br><br>
+    <strong>Lewy and all others: no pre-Arrow evidence.</strong> Lewy is American. His world (Princeton, New York, Manchester BPO) didn't intersect with the South African property finance circuit until Arrow acquired Maslow in 2023.
   </div>
+
+  <h3>The SA Jewish Pipeline to London Property Finance</h3>
+  <p>Research by the Kaplan Centre at UCT documents a South African Jewish community of 10,000-15,000 in London, concentrated in NW London (Camden, Barnet, Harrow). A Jewish Chronicle article describes a "South African mafia" in London business. The pipeline runs: Herzlia (Cape Town) or King David (Johannesburg) to Investec (the SA Jewish bank) to London specialist finance. Sher's career follows this pipeline precisely. The community is tight enough that school connections persist across decades and continents.</p>
+
+  <h3>Corrections from Deep Research</h3>
+  <ul>
+    <li><strong>Colin Halpern is American, not South African.</strong> Born ~1940, Palm Beach Gardens, Florida. He was an Investec London client, not an employee. Met Sher through banker-client relationship. Together they bought Cheval for 6M in May 2006. He's the man who brought Domino's Pizza to the UK (1993).</li>
+    <li><strong>Jonathan Samuels is British, not South African.</strong> Born Feb 1978. Oxford PPE, McKinsey, Standard Chartered. His connection to Posniak is a London professional relationship (Dragonfly 2009+), not an SA community one.</li>
+    <li><strong>Posniak family likely from Cape Town.</strong> SA Yellow Pages lists "Posniak" at Sea Point, Cape Town -- the historic Jewish neighborhood. This supports the hypothesis that Posniak and Sher grew up in the same Cape Town Jewish community.</li>
+  </ul>
 
   <!-- SOURCES -->
   <h2>Sources</h2>
@@ -523,6 +698,12 @@ li::marker { color: #1a2744; }
     <li>Forebears / iGenea: Lewy surname distribution and Ashkenazi origin</li>
     <li>Prodigy Finance: Wikipedia, Grokipedia, INSEAD partnership announcement</li>
     <li>Bloomberg: executive profiles</li>
+    <li>Spring Finance Ltd v HS Real Company LLC: court judgment confirming Sher-Halpern relationship origin (CaseMine)</li>
+    <li>Companies House: Colin Halpern (American, Palm Beach Gardens FL); Jonathan Samuels (British, b. Feb 1978)</li>
+    <li>Jewish Chronicle: "Britain's quietest immigration story" -- SA Jewish community in London</li>
+    <li>Kaplan Centre / UCT: research on SA Jews in London (314 interviews)</li>
+    <li>SA Yellow Pages: "Posniak" listing at Sea Point, Cape Town</li>
+    <li>United Herzlia Schools: alumni network (7,000+ across 43 countries)</li>
   </ul>
 
   <div class="disclosure">
