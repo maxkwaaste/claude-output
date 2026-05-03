@@ -207,7 +207,7 @@ pre {
 </head>
 <body>
 <div class="page-header">
-  <span class="date">May 3, 2026</span>
+  <span class="date">May 3, 2026 (v2)</span>
   <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-claw-go-live-plan.html">View on GitHub</a></span>
 </div>
 <div class="page">
@@ -219,175 +219,61 @@ pre {
       </div>
     </div>
     <div class="page-meta-right">
-      May 3, 2026<br>Go-Live Plan<br>SDR Module
+      May 3, 2026<br>Go-Live Plan v2<br>SDR Module
     </div>
   </div>
   <div class="brand-rule"></div>
 
-  <div class="overline">DEPLOYMENT PLAN</div>
+  <div class="overline">CO-DEVELOPMENT PLAN</div>
   <h1>SDR Claw Go-Live</h1>
-  <p class="subtitle">Deploy the locally built SDR module to the live Forge server, validate it works end-to-end with real CRM data, use it daily for a few days, then open the PR for Joshua's review.</p>
+  <p class="subtitle">Follow Joshua's NeXum co-development workflow: get everything working locally on M1 Pro first, comply with architecture and quality rules, then deliver a clean PR. No deploy-first shortcuts.</p>
 
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-value">18</div>
-      <div class="stat-label">Files Built</div>
+      <div class="stat-label">Backend Files</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">12</div>
-      <div class="stat-label">API Endpoints</div>
+      <div class="stat-value">13</div>
+      <div class="stat-label">Frontend Files</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">5</div>
-      <div class="stat-label">DB Tables</div>
+      <div class="stat-value">16GB</div>
+      <div class="stat-label">M1 Pro RAM</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">$0</div>
-      <div class="stat-label">Incremental Cost</div>
+      <div class="stat-value">4</div>
+      <div class="stat-label">Phases</div>
     </div>
   </div>
 
   <div class="callout">
-    <span class="callout-label">Context</span>
-    SDR Claw is an AI-powered email outreach pipeline built into NeXum Forge. Two Claude scheduled agents (morning drafts + evening learning) talk to Forge via REST API. Forge owns the review UI, email sending, storage, and sequence timers. No external dependencies beyond the existing Claude Max subscription and MS Graph connector. Backend is 10 commits on <code>feature/sdr-module</code> (nexum-backend). Frontend is on <code>feature/sdr-review-page</code> (nexum-frontend). Both are local only, not pushed yet. Joshua's review preview is at the sdr-review-preview.html output page.
+    <span class="callout-label">Joshua's instruction</span>
+    "Wil je aub mijn gewenste flow volgen zoals beschreven in mijn githubs? Dus je moet eerst lokaal alles werkend krijgen, complien aan mijn architectuur, regels, etc. dan een clean PR opleveren. Dat scheelt mij een hoop werk, leert jou mee co developen op de juiste kwaliteit en is een goede test case voor co developen in NeXum."
   </div>
 
-  <h2>Hosting Decision: Hetzner vs M1 Pro</h2>
-
-  <div class="callout">
-    <span class="callout-label">Key clarification</span>
-    NeXum/Forge production runs on <strong>Hetzner</strong> (at /var/www/nexum/), not M1 Pro. The Hetzner server runs PHP-FPM (backend) + PM2 (frontend) and serves forge.proxuma.io, venture.proxuma.io, and my.dxfferent.nl. M1 Pro is Max's home server for automation services (PostgreSQL, Ollama, Open Brain, LaunchAgents), not for hosting NeXum.
-  </div>
-
-  <p>Two options for go-live:</p>
-
-  <div class="scenario-row">
-    <div class="scenario-card highlighted">
-      <div class="scenario-label">Option A: Deploy to Hetzner (recommended)</div>
-      <div class="scenario-value" style="font-size: 20px;">Standard NeXum workflow</div>
-      <div class="scenario-detail">
-        Pull feature branches on the Hetzner server. Migration runs against the production PostgreSQL. Email sending works immediately (Azure AD credentials + sender mailbox already exist). All CRM data is already there. No extra infrastructure. Joshua's standard deploy-first, commit-after workflow.
-      </div>
-    </div>
-    <div class="scenario-card">
-      <div class="scenario-label">Option B: Full Copy on M1 Pro</div>
-      <div class="scenario-value" style="font-size: 20px;">Isolated test environment</div>
-      <div class="scenario-detail">
-        Clone the entire NeXum stack locally. Requires: PostgreSQL 16 with full DB dump, Redis, PHP-FPM, PM2, Azure AD credentials replicated or new app registration, sender mailbox seeded. Safer for testing (no production risk) but more setup work and RAM-constrained.
-      </div>
-    </div>
-  </div>
-
-  <h3>If Option B (M1 Pro): System Requirements</h3>
-
-  <table class="matrix">
-    <tr><th>Component</th><th>RAM Estimate</th><th>Status on M1 Pro</th></tr>
-    <tr><td><strong>PostgreSQL 16</strong> (NeXum DB with canonical, forge, sdr schemas)</td><td>2-4 GB</td><td>PostgreSQL 17 already running (Open Brain). Would need a second cluster or shared instance with the NeXum DB imported.</td></tr>
-    <tr><td><strong>Redis</strong> (session, cache, queue, Horizon)</td><td>100-300 MB</td><td>Not currently running. <code>brew install redis && brew services start redis</code></td></tr>
-    <tr><td><strong>PHP-FPM</strong> (Laravel 12, PHP 8.4)</td><td>200-500 MB</td><td>PHP not installed. Need <code>brew install php@8.4</code> + extensions (pgsql, redis, bcmath, etc.)</td></tr>
-    <tr><td><strong>PM2 + Nuxt</strong> (frontend SSR/SPA)</td><td>300-600 MB</td><td>Node.js available. Need <code>npm install</code> + <code>npm run build</code></td></tr>
-    <tr><td><strong>Ollama</strong> (existing, Qwen/Gemma models)</td><td>0-8 GB (on demand)</td><td>Already running. Uses RAM only when a model is loaded.</td></tr>
-    <tr><td><strong>Open Brain</strong> (PostgreSQL + pgvector + HTTP API)</td><td>300-500 MB</td><td>Already running (port 9876)</td></tr>
-    <tr><td><strong>Other LaunchAgents</strong> (cold-migrate, CRM search API, etc.)</td><td>200-400 MB</td><td>Already running</td></tr>
-    <tr class="row-total"><td><strong>Total estimated</strong></td><td><strong>3.5-14 GB</strong></td><td>16 GB available. Tight when Ollama loads a model. Feasible if Ollama uses <code>keep_alive=0</code> (unload after use).</td></tr>
-  </table>
-
-  <div class="callout">
-    <span class="callout-label">RAM verdict</span>
-    M1 Pro with 16 GB can run a full local NeXum copy, but only if Ollama models are not loaded simultaneously. With <code>keep_alive=0</code> (models unload after inference), the base footprint is ~4-6 GB for NeXum + existing services, leaving 10-12 GB for macOS and occasional Ollama loads. If an Ollama model is resident (7-10 GB for Gemma/Qwen), you're at 14-16 GB total and will hit swap pressure.
-  </div>
-
-  <h3>Extra Setup for M1 Pro (Option B only)</h3>
-
-  <ul>
-    <li>Import production DB dump (or minimal seed): <code>pg_dump</code> from Hetzner, <code>pg_restore</code> locally. Includes canonical.*, forge.*, admin.* schemas. Sensitive data (Stripe IDs, payment details) comes along -- acceptable for local dev, but be aware.</li>
-    <li>Clone Azure AD app credentials into <code>canonical.platform_credentials</code> (platform='graph', account='proxuma'). Or register a separate Azure AD app for local testing.</li>
-    <li>Seed <code>forge.email_sender_mailboxes</code> with max@proxuma.com (is_active=true).</li>
-    <li>PHP 8.4 + extensions: <code>brew install php@8.4 php@8.4-pgsql php@8.4-redis</code>. Install Composer. Run <code>composer install</code>.</li>
-    <li>Copy <code>.env</code> from Hetzner (adjust DB host, Redis host, APP_URL to localhost).</li>
-    <li>Configure nginx or use <code>php artisan serve</code> for quick testing (not production-grade).</li>
-  </ul>
-
-  <h2>Outlook Integration: Prerequisites</h2>
-
-  <p>SDR Claw sends emails via <code>GraphMailSendService</code>, which uses Microsoft Graph API with app-only (client_credentials) auth. This is the same service the existing Forge email campaigns use. It sends from Max's mailbox and saves to Sent Items.</p>
-
-  <table class="matrix">
-    <tr><th>Prerequisite</th><th>What It Is</th><th>Status</th></tr>
-    <tr><td><strong>Azure AD App Registration</strong></td><td>App with <code>Mail.Send</code> permission (application type, not delegated). Grants ability to send as any user in the Dxfferent/Proxuma tenant.</td><td>Already exists (used by Forge email campaigns on Hetzner). Credentials encrypted in <code>canonical.platform_credentials</code>.</td></tr>
-    <tr><td><strong>PlatformCredential row</strong></td><td>Row in <code>canonical.platform_credentials</code> where platform='graph', account='proxuma'. Contains encrypted tenant_id, client_id, client_secret.</td><td>Exists on Hetzner production DB. If running locally on M1 Pro, needs to be imported or recreated.</td></tr>
-    <tr><td><strong>EmailSenderMailbox row</strong></td><td>Row in <code>forge.email_sender_mailboxes</code> with email='max@proxuma.com', is_active=true. GraphMailSendService validates this before sending.</td><td>Exists on Hetzner. If local, needs seeding.</td></tr>
-    <tr><td><strong>APP_KEY match</strong></td><td>The <code>PlatformCredential</code> model decrypts credentials using Laravel's <code>Crypt::decryptString</code>, which depends on the <code>APP_KEY</code> in <code>.env</code>. If you use a different APP_KEY locally, existing encrypted credentials won't decrypt.</td><td>Must copy the same APP_KEY from Hetzner's .env if importing the DB dump.</td></tr>
-  </table>
-
-  <div class="callout">
-    <span class="callout-label">How email sending works</span>
-    <ol style="margin-top: 8px;">
-      <li>Max approves a draft in the review UI (clicks Send or presses A)</li>
-      <li>Frontend calls <code>POST /api/sdr/drafts/{id}/approve</code> with optional edited subject/body</li>
-      <li><code>SdrReviewController</code> calls <code>SdrFeedbackService::approveDraft()</code></li>
-      <li>Service records feedback, then calls <code>GraphMailSendService::sendSingle('max@proxuma.com', contact_email, subject, body)</code></li>
-      <li>GraphMailSendService loads Azure AD token from PlatformCredential, validates sender mailbox, calls Graph API <code>/users/max@proxuma.com/sendMail</code></li>
-      <li>Email appears in Max's Outlook Sent folder. Graph API response confirms success.</li>
-      <li>Service creates signal_entity_links in canonical schema (contact/deal association for the sent email)</li>
-    </ol>
-    <p style="margin-top: 8px;">No MCP, no delegated auth, no browser login. Fully server-side. The same pipe that Forge email campaigns already use.</p>
-  </div>
-
-  <h2>What Exists Right Now</h2>
-
-  <h3>Backend (nexum-backend, feature/sdr-module)</h3>
-  <table class="matrix">
-    <tr><th>Component</th><th>Files</th><th>Status</th></tr>
-    <tr><td><strong>Migration</strong> (5 tables in sdr schema)</td><td>1</td><td>Committed, not run on server</td></tr>
-    <tr><td><strong>Models</strong> (Batch, Draft, Feedback, WritingRule, Sequence)</td><td>5</td><td>Committed</td></tr>
-    <tr><td><strong>Services</strong> (CandidateService, FeedbackService)</td><td>2</td><td>Committed</td></tr>
-    <tr><td><strong>Controllers</strong> (Candidate, Batch, Review, Learning, Sequence)</td><td>5</td><td>Committed</td></tr>
-    <tr><td><strong>Routes</strong> (routes/sdr.php + api.php include)</td><td>2</td><td>Committed</td></tr>
-    <tr><td><strong>Artisan commands</strong> (check-sequences, alert-missing-batch)</td><td>2</td><td>Committed</td></tr>
-    <tr><td><strong>Tests</strong> (SdrBatchTest, SdrReviewTest)</td><td>2</td><td>Committed</td></tr>
-  </table>
-
-  <h3>Frontend (nexum-frontend, feature/sdr-review-page)</h3>
-  <table class="matrix">
-    <tr><th>Component</th><th>Files</th><th>Status</th></tr>
-    <tr><td><strong>Pages</strong> (index.vue, review.vue)</td><td>2</td><td>Committed</td></tr>
-    <tr><td><strong>Components</strong> (ActiveCard, PendingCard, CompletedCard, ReviewHeader, CategoryKpi, FilterBar, KeyboardFooter)</td><td>7</td><td>Committed</td></tr>
-    <tr><td><strong>Types</strong> (sdr.ts)</td><td>1</td><td>Committed</td></tr>
-  </table>
-
-  <h3>Not Built Yet</h3>
-  <ul>
-    <li>Learning dashboard page (/sdr/learnings)</li>
-    <li>Scheduled agent prompts (sdr-morning, sdr-learning)</li>
-    <li>Telegram config in services.php</li>
-    <li>Sanctum token for the SDR agent</li>
-  </ul>
-
-  <h2>Go-Live Plan: 4 Phases</h2>
-
-  <p>The approach: deploy first, test on the live server, use it for real for 3-5 days, then open the PR. This matches the NeXum workflow (deploy first, commit after).</p>
+  <h2>Plan Overview: 4 Phases</h2>
 
   <div class="pos-steps">
     <div class="pos-step">
       <div class="pos-num">1</div>
-      <div class="pos-label">Deploy</div>
-      <div class="pos-desc">Push to server, run migration, configure</div>
+      <div class="pos-label">Local Dev Env</div>
+      <div class="pos-desc">Set up M1 Pro with PHP, Composer, Redis, DB</div>
     </div>
     <div class="pos-step">
       <div class="pos-num">2</div>
-      <div class="pos-label">Validate</div>
-      <div class="pos-desc">Test each endpoint, review UI, send test email</div>
+      <div class="pos-label">Comply</div>
+      <div class="pos-desc">Pass Pint, PHPStan, tests, file size gates</div>
     </div>
     <div class="pos-step">
       <div class="pos-num">3</div>
-      <div class="pos-label">Use It</div>
-      <div class="pos-desc">3-5 days of real daily batches</div>
+      <div class="pos-label">Test Locally</div>
+      <div class="pos-desc">End-to-end on M1 Pro with real/seeded data</div>
     </div>
     <div class="pos-step">
       <div class="pos-num">4</div>
-      <div class="pos-label">PR</div>
-      <div class="pos-desc">Push branches, open PR for Joshua</div>
+      <div class="pos-label">Clean PR</div>
+      <div class="pos-desc">Push branches, PR for Joshua's review</div>
     </div>
   </div>
 
@@ -395,307 +281,237 @@ pre {
   <div class="phase-header">
     <div class="phase-num">1</div>
     <div>
-      <div class="phase-title">Deploy to Server</div>
-      <div class="phase-est">Option A (Hetzner): 1-2 hours | Option B (M1 Pro): 3-5 hours</div>
+      <div class="phase-title">Set Up Local Dev Environment on M1 Pro</div>
+      <div class="phase-est">Estimated: 2-3 hours</div>
     </div>
   </div>
 
-  <h3>Option A: Deploy to Hetzner (recommended)</h3>
+  <p>M1 Pro (100.85.64.20 via Tailscale) is the dev server. It already runs PostgreSQL 17 (for Open Brain, 171MB) and has the nexum clones at <code>/Volumes/Sandisk/nexum/</code>. Needs: Composer, Redis, and a local NeXum database.</p>
 
-  <p>Deploy directly to the production Hetzner server at /var/www/nexum/. The SDR schema is fully isolated, email sending works out of the box, and all CRM data is already there.</p>
+  <h3>M1 Pro System Requirements</h3>
 
-  <ul class="checklist">
-    <li><div class="check-box"></div><div class="check-label"><strong>Push feature branches to forks</strong> -- push <code>feature/sdr-module</code> on maxkwaaste/nexum-backend and <code>feature/sdr-review-page</code> on maxkwaaste/nexum-frontend to GitHub. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>SSH into Hetzner and pull backend branch</strong><br><code>ssh hetzner</code><br><code>cd /var/www/nexum/backend && git remote add maxfork https://github.com/maxkwaaste/nexum-backend.git && git fetch maxfork && git checkout -b feature/sdr-module maxfork/feature/sdr-module</code><br>Or merge into the branch the server currently tracks. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Run the migration</strong><br><code>php artisan migrate</code><br>Creates sdr schema + 5 tables. Isolated from all other schemas (canonical, forge, admin). Verify: <code>php artisan tinker --execute="echo count(DB::select(\"SELECT tablename FROM pg_tables WHERE schemaname='sdr'\"));"</code> should return 5. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Pull frontend branch and rebuild</strong><br><code>cd /var/www/nexum/frontend && git fetch maxfork && git checkout -b feature/sdr-review-page maxfork/feature/sdr-review-page && npm run build && pm2 restart nexum-frontend</code> <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Verify email prerequisites exist on Hetzner DB</strong><br><code>php artisan tinker --execute="echo App\Models\Sync\PlatformCredential::where('platform','graph')->where('account','proxuma')->exists() ? 'Graph creds OK' : 'MISSING';"</code><br><code>php artisan tinker --execute="echo App\Models\Forge\EmailSenderMailbox::where('email','max@proxuma.com')->where('is_active',true)->exists() ? 'Sender OK' : 'MISSING';"</code><br>Both should return OK. If not, email sending will fail until fixed. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Create SDR Sanctum token</strong><br><code>php artisan tinker</code> then: <code>$user = User::where('email', 'max@proxuma.com')->first(); echo $user->createToken('sdr-agent', ['sdr.read', 'sdr.write'])->plainTextToken;</code><br>Store the token securely. Goes in the Claude scheduled agent config. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Add Telegram config to .env</strong><br><code>TELEGRAM_BOT_TOKEN=your-bot-token</code> and <code>TELEGRAM_CHAT_ID=your-chat-id</code>.<br>Add to <code>config/services.php</code>: <code>'telegram' => ['bot_token' => env('TELEGRAM_BOT_TOKEN'), 'chat_id' => env('TELEGRAM_CHAT_ID')]</code> <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Clear caches and verify</strong><br><code>php artisan config:clear && php artisan route:clear && php artisan cache:clear</code><br>Check schedules: <code>php artisan schedule:list | grep sdr</code> <span class="who who-claude">Claude</span></div></li>
-  </ul>
-
-  <h3>Option B: Full Local Copy on M1 Pro</h3>
-
-  <p>Stand up a complete NeXum instance on M1 Pro. More setup work, but zero production risk during testing. Only choose this if you want to keep Hetzner completely untouched until after Joshua approves.</p>
+  <table class="matrix">
+    <tr><th>Component</th><th>RAM</th><th>Current Status</th><th>Action</th></tr>
+    <tr><td><strong>PostgreSQL 17</strong></td><td>2-4 GB (with NeXum data)</td><td>Running (Open Brain only, 171MB)</td><td>Create nexum_local DB, import schema + seed data from Hetzner</td></tr>
+    <tr><td><strong>Redis</strong></td><td>100-300 MB</td><td>Not installed</td><td><code>brew install redis && brew services start redis</code></td></tr>
+    <tr><td><strong>PHP 8.5</strong> (installed) + Composer</td><td>200-500 MB</td><td>PHP 8.5.5 present, no Composer</td><td><code>brew install composer</code> then <code>composer install</code> in nexum-backend</td></tr>
+    <tr><td><strong>Node.js 25</strong></td><td>300-600 MB (npm run dev)</td><td>v25.6.1 present</td><td><code>cd nexum-frontend && npm install && npm run dev</code></td></tr>
+    <tr><td><strong>Existing services</strong> (Ollama, Open Brain, LaunchAgents)</td><td>0.5-8 GB</td><td>Running</td><td>Set Ollama <code>keep_alive=0</code> to free RAM when not in use</td></tr>
+    <tr class="row-total"><td><strong>Total</strong></td><td><strong>3-13 GB</strong></td><td>16 GB available</td><td>Feasible with Ollama models unloaded. Swap pressure if model loaded.</td></tr>
+  </table>
 
   <ul class="checklist">
-    <li><div class="check-box"></div><div class="check-label"><strong>Install PHP 8.4 + extensions</strong><br><code>brew install php@8.4</code> + ensure pgsql, redis, bcmath, mbstring extensions. Install Composer globally. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Install and start Redis</strong><br><code>brew install redis && brew services start redis</code> <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Import production DB from Hetzner</strong><br><code>ssh hetzner "pg_dump -Fc investment_portal" > /tmp/nexum-dump.sql</code><br><code>createdb nexum_local && pg_restore -d nexum_local /tmp/nexum-dump.sql</code><br>The DB is called <code>investment_portal</code> (historical name). Contains canonical, forge, admin, sdr schemas. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Copy .env from Hetzner and adjust</strong><br>Critical: keep the same <code>APP_KEY</code> (PlatformCredential decryption depends on it). Change <code>DB_HOST</code> to localhost, <code>DB_DATABASE</code> to nexum_local, <code>APP_URL</code> to http://localhost:8000. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Run composer install + migrations</strong><br><code>cd ~/nexum/nexum-backend && composer install && php artisan migrate</code> <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Build and serve frontend</strong><br><code>cd ~/nexum/nexum-frontend && npm install && npm run build && npx pm2 start ecosystem.config.cjs</code><br>Or <code>npm run dev</code> for dev mode. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Serve backend</strong><br><code>php artisan serve --port=8000</code> for quick testing. For proper setup: nginx + php-fpm. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>RAM check</strong><br>After everything is running: <code>vm_stat | head -5</code> and check free memory. If under 2 GB free, set Ollama <code>keep_alive=0</code> to unload models after use. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Install Composer</strong><br><code>brew install composer</code> <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Install Redis</strong><br><code>brew install redis && brew services start redis</code> <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Create local NeXum database</strong><br>Option A (full dump): <code>ssh hetzner "pg_dump -Fc investment_portal" > /tmp/nexum.dump && pg_restore -d nexum_local /tmp/nexum.dump</code><br>Option B (schema only + seeds): <code>createdb nexum_local</code> then <code>php artisan migrate && php artisan db:seed</code><br>The DB is called <code>investment_portal</code> on Hetzner (historical name). <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Copy .env from Hetzner and adjust</strong><br>Critical: keep the same <code>APP_KEY</code> (PlatformCredential encryption depends on it). Change <code>DB_HOST=127.0.0.1</code>, <code>DB_DATABASE=nexum_local</code>, <code>REDIS_HOST=127.0.0.1</code>, <code>APP_URL=http://localhost:8000</code>. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Install PHP dependencies</strong><br><code>cd /Volumes/Sandisk/nexum/nexum-backend && composer install</code> <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Install frontend dependencies</strong><br><code>cd /Volumes/Sandisk/nexum/nexum-frontend && npm install</code> <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Run the SDR migration</strong><br><code>php artisan migrate</code> -- creates isolated <code>sdr</code> schema with 5 tables. Verify with <code>php artisan tinker --execute="echo count(DB::select(\"SELECT tablename FROM pg_tables WHERE schemaname='sdr'\"));"</code> (expect 5). <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Start the backend</strong><br><code>php artisan serve --port=8000</code> (quick test) or set up nginx + php-fpm for proper testing. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Start the frontend</strong><br><code>npm run dev</code> for dev mode with hot reload. <span class="who who-claude">Claude</span></div></li>
   </ul>
-
-  <div class="callout">
-    <span class="callout-label">Recommendation</span>
-    Go with Option A (Hetzner). The SDR migration creates an isolated <code>sdr</code> schema that cannot affect existing tables. Email sending is already configured. All CRM data is already there. The only risk is a broken query in <code>SdrCandidateService</code> (which would return a 500 error, not corrupt data). Option B adds 2-4 hours of PHP/Redis/DB setup for safety you probably don't need.
-  </div>
 
   <!-- PHASE 2 -->
   <div class="phase-header">
     <div class="phase-num">2</div>
     <div>
-      <div class="phase-title">Validate End-to-End</div>
-      <div class="phase-est">Estimated: 1-2 hours</div>
+      <div class="phase-title">Comply with NeXum Architecture and Quality Gates</div>
+      <div class="phase-est">Estimated: 2-4 hours (fix any failures)</div>
     </div>
   </div>
 
-  <p>Test every endpoint and UI flow against real Forge CRM data. Nothing gets sent to real contacts until Phase 3.</p>
+  <p>NeXum has strict quality gates. Every new file must pass clean. The backend CLAUDE.md defines these rules.</p>
 
-  <h3>API Smoke Tests (curl with SDR token)</h3>
+  <h3>Quality Gates (from nexum-backend CLAUDE.md)</h3>
 
-  <ul class="checklist">
-    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/candidates</strong> -- should return up to 50 pre-ranked contacts from the CRM. Check that it excludes unsubscribed contacts and contacts already emailed today. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/candidates/{id}/deep-context</strong> -- pick one contact ID from the candidates response. Should return contact details, deals, recent emails, recent meetings. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/learnings</strong> -- should return empty rules (fresh install) and empty approval stats. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>POST /api/sdr/batches</strong> -- push a test batch with 2-3 drafts using real contact IDs from the candidates response. Use category <code>stale_deal_nudge</code>. Verify Telegram notification arrives. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/batches/{today's date}</strong> -- should return the batch with drafts. <span class="who who-claude">Claude</span></div></li>
-  </ul>
-
-  <h3>Review UI Tests (browser)</h3>
-
-  <ul class="checklist">
-    <li><div class="check-box"></div><div class="check-label"><strong>Navigate to forge.proxuma.io/sdr/review</strong> -- should load the review page with the test batch. Check: category KPI cards show, draft cards render with subject/body/score. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Test keyboard shortcuts</strong> -- J/K to navigate, A to approve (send), S to skip, Z to snooze. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Test edit flow</strong> -- modify subject and body text in one card, then press A. Verify the sent email (check Outlook sent folder) has the edited text, not the original. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Verify email actually sends</strong> -- approve one draft for a test contact (test@proxuma.com or Max's own email). Check Outlook sent folder. If it doesn't send, check GraphMailSendService config and MS Graph token. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Verify feedback recording</strong> -- after approving/editing/rejecting a few drafts, check <code>GET /api/sdr/feedback-stats</code>. Edit diffs should show non-zero edit_distance for edited drafts. <span class="who who-claude">Claude</span></div></li>
-  </ul>
-
-  <h3>Candidate Query Validation</h3>
+  <table class="matrix">
+    <tr><th>Gate</th><th>Tool</th><th>Rule</th><th>Blocking?</th></tr>
+    <tr><td><strong>Code style</strong></td><td><code>composer lint:php</code> (Pint PSR-12)</td><td>Strict, zero warnings</td><td>Yes (CI blocks)</td></tr>
+    <tr><td><strong>Static analysis</strong></td><td><code>composer lint:phpstan</code> (Level 3)</td><td>New files must be clean (no baseline allowed)</td><td>Yes (CI blocks)</td></tr>
+    <tr><td><strong>File size</strong></td><td><code>scripts/ci/check-file-sizes.sh</code></td><td>PHP class: warn 300 LOC / block 600. Method: warn 50 / block 100</td><td>Soft-warn</td></tr>
+    <tr><td><strong>Tests</strong></td><td><code>php artisan test</code> (Pest)</td><td>Feature tests hit real DB. No mocks for DB where applicable.</td><td>Yes</td></tr>
+    <tr><td><strong>Security</strong></td><td><code>composer audit</code></td><td>No HIGH+ vulnerabilities in prod deps</td><td>Yes (CI blocks)</td></tr>
+    <tr><td><strong>Architecture</strong></td><td>Manual review</td><td>Controllers: no business logic. Services: all domain logic. Models: no global scopes without docs.</td><td>Joshua reviews</td></tr>
+  </table>
 
   <ul class="checklist">
-    <li><div class="check-box"></div><div class="check-label"><strong>Check the SQL</strong> -- the candidate service queries canonical.contacts, canonical.deals, canonical.mail_signals, canonical.calendar_events, forge.contact_enrichments. Verify these tables exist and have data on the production DB. If table names differ, fix SdrCandidateService.php. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Verify payment data exclusion</strong> -- run a test query and confirm no Stripe IDs, IBAN, or invoice amounts appear in the response. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Run Pint on SDR files</strong><br><code>./vendor/bin/pint --test app/Models/Sdr app/Http/Controllers/Api/Sdr app/Services/Sdr app/Console/Commands/Sdr routes/sdr.php</code><br>Fix any violations with <code>./vendor/bin/pint</code> (no --test). <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Run PHPStan Level 3 on SDR files</strong><br><code>./vendor/bin/phpstan analyse app/Models/Sdr app/Http/Controllers/Api/Sdr app/Services/Sdr app/Console/Commands/Sdr --level=3</code><br>Must be zero errors (new files don't get baseline). <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Check file sizes</strong><br><code>wc -l app/Services/Sdr/SdrCandidateService.php app/Services/Sdr/SdrFeedbackService.php</code><br>SdrFeedbackService is ~120 lines, SdrCandidateService ~100. Both under 300 limit. Check longest methods individually. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Run SDR tests</strong><br><code>php artisan test tests/Feature/Sdr/</code><br>Requires a running DB with the sdr schema. Tests use real DB (no mocks for DB, as per NeXum rules). GraphMailSendService is mocked (external dependency). <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Run full test suite</strong><br><code>php artisan test</code><br>Ensure SDR code doesn't break existing tests. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Architecture review</strong><br>Verify: controllers have no business logic (delegated to services), models are clean Eloquent, services handle domain logic. SDR follows the same patterns as existing Forge modules (Billing, Marketing, etc.). <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Token scope check</strong><br>SDR routes use <code>ability:sdr.read,sdr.write</code> middleware. Verify this follows the <code>TokenScopeIntersect</code> pattern described in the backend CLAUDE.md. Never use <code>['*']</code> scope. <span class="who who-claude">Claude</span></div></li>
   </ul>
 
   <!-- PHASE 3 -->
   <div class="phase-header">
     <div class="phase-num">3</div>
     <div>
-      <div class="phase-title">Daily Use (3-5 Business Days)</div>
-      <div class="phase-est">Estimated: Mon May 5 through Thu May 8</div>
+      <div class="phase-title">Test End-to-End Locally</div>
+      <div class="phase-est">Estimated: 2-3 hours</div>
     </div>
   </div>
 
-  <p>Run the full loop every workday. Start manually (Claude posts a batch at 07:00), review in the UI, send/skip/snooze. The learning agent runs at 17:00 to pick up edit patterns.</p>
+  <p>With the app running locally on M1 Pro, test the full flow: API endpoints, review UI, email sending, feedback loop.</p>
 
-  <div class="timeline">
-    <div class="day-marker">
-      <div class="day-label">Day 1 (Mon May 5) -- Manual Batch</div>
-      <div class="day-tasks">
-        <ul>
-          <li>Run <code>sdr-morning</code> agent manually (not scheduled yet). Have Claude fetch candidates from the API, draft 10-15 emails (not 25, start small), and POST the batch.</li>
-          <li>Review all drafts in the UI. Edit freely. Pay attention to what you change: this feeds the learning loop.</li>
-          <li>Send 5-8 emails to real contacts (low-risk: stale deals, win-backs older than 90 days).</li>
-          <li>Run <code>sdr-learning</code> agent manually at end of day. Check that writing rules appear.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="day-marker">
-      <div class="day-label">Day 2 (Tue May 6) -- Expand + First Learnings</div>
-      <div class="day-tasks">
-        <ul>
-          <li>Run morning agent again. It now has Day 1's writing rules. Check if drafts improved.</li>
-          <li>Expand to 20 drafts. Include post-demo and inbound categories.</li>
-          <li>Check Outlook for any replies to Day 1 emails. Note response rate.</li>
-          <li>Run learning agent. Rules should grow from Day 1+2 combined feedback.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="day-marker">
-      <div class="day-label">Day 3-4 (Wed-Thu May 7-8) -- Full Volume</div>
-      <div class="day-tasks">
-        <ul>
-          <li>Full 25-draft batches. All 5 categories active.</li>
-          <li>Track: approval rate, edit rate, rejection rate per category.</li>
-          <li>Configure the scheduled agents for real (cron via <code>claude schedule create</code>) if manual runs are working reliably.</li>
-          <li>Test the sequence flow: Day 3 follow-ups should appear for contacts approved on Day 1.</li>
-          <li>Verify <code>sdr:check-sequences</code> artisan command moves pending to queued at 06:00.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="day-marker">
-      <div class="day-label">Day 5 (Fri May 9) -- Assessment</div>
-      <div class="day-tasks">
-        <ul>
-          <li>Review the week's stats: total drafts, approval rate, edit ratio, emails sent, replies received.</li>
-          <li>Check writing rules: do they make sense? Are any wrong?</li>
-          <li>Fix any bugs found during the week.</li>
-          <li>Decision: ready for PR or need another week?</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <h3>Outlook / MS Graph Integration</h3>
 
   <div class="callout">
-    <span class="callout-label">Success Criteria for Phase 3</span>
-    <ul style="margin-top: 8px;">
-      <li>Approval rate above 50% by Day 3 (approved + edited, not rejected/snoozed)</li>
-      <li>At least 5 writing rules with confidence above 0.6</li>
-      <li>Email send via MS Graph works reliably (no send failures)</li>
-      <li>Sequence follow-ups appear correctly on Day 3</li>
-      <li>No data leaks (payment/accounting data never surfaces in SDR endpoints)</li>
-      <li>Review UI works smoothly with keyboard shortcuts</li>
-    </ul>
+    <span class="callout-label">How email sending works</span>
+    <code>GraphMailSendService</code> uses Azure AD app-only auth (client_credentials) via encrypted credentials stored in <code>canonical.platform_credentials</code>. It sends from <code>max@proxuma.com</code> via the Graph API <code>/users/max@proxuma.com/sendMail</code> endpoint. Emails appear in Max's Outlook Sent folder. This is the same service Forge email campaigns already use on Hetzner.
   </div>
+
+  <table class="matrix">
+    <tr><th>Prerequisite</th><th>What</th><th>For Local Dev</th></tr>
+    <tr><td><strong>PlatformCredential</strong></td><td>Row in <code>canonical.platform_credentials</code> with platform='graph', account='proxuma'. Contains encrypted tenant_id, client_id, client_secret.</td><td>Must import from Hetzner DB dump. Uses APP_KEY for decryption, so .env must have the same APP_KEY as production.</td></tr>
+    <tr><td><strong>EmailSenderMailbox</strong></td><td>Row in <code>forge.email_sender_mailboxes</code> with email='max@proxuma.com', is_active=true.</td><td>Must exist in local DB. Either imported via dump or manually seeded.</td></tr>
+    <tr><td><strong>APP_KEY</strong></td><td>Laravel encryption key. PlatformCredential uses <code>Crypt::decryptString</code> which depends on this.</td><td>Must match Hetzner's APP_KEY exactly. Different key = credentials won't decrypt = emails fail silently.</td></tr>
+  </table>
+
+  <h3>API Smoke Tests</h3>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>Create a Sanctum token locally</strong><br><code>php artisan tinker</code> then <code>$u = User::where('email','max@proxuma.com')->first(); echo $u->createToken('sdr-test',['sdr.read','sdr.write'])->plainTextToken;</code> <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/candidates</strong> -- returns pre-ranked contacts from local DB. If schema-only install, may need CRM seed data. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>POST /api/sdr/batches</strong> -- push a test batch of 2-3 drafts. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>POST /api/sdr/drafts/{id}/approve</strong> -- approve a draft. If Graph credentials are configured, this sends a real email. Test with Max's own email first. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/feedback-stats</strong> -- verify feedback was recorded. <span class="who who-claude">Claude</span></div></li>
+  </ul>
+
+  <h3>Review UI Tests</h3>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>Open localhost:3000/forge/sdr/review</strong> in browser (or whatever port the frontend dev server uses). Check: category KPI cards render, draft cards show subject/body/score. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Keyboard shortcuts</strong> -- J/K navigate, A sends, S skips, Z snoozes. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Edit flow</strong> -- modify body, press A. Verify the sent email has the edited text. Check feedback-stats shows non-zero edit_distance. <span class="who who-max">Max</span></div></li>
+  </ul>
+
+  <h3>Frontend Compliance</h3>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>Check Nuxt UI v3 primitives</strong> -- SDR components should use VCard, VButton, VIcon from the NeXum design system, not raw HTML buttons. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Semantic CSS tokens</strong> -- no hardcoded colors. Uses Tailwind with NeXum theme tokens. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>i18n</strong> -- all user-facing strings in NL + EN locale files. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>TypeScript</strong> -- types defined in <code>app/types/sdr.ts</code>. No implicit any. <span class="who who-claude">Claude</span></div></li>
+  </ul>
 
   <!-- PHASE 4 -->
   <div class="phase-header">
     <div class="phase-num">4</div>
     <div>
-      <div class="phase-title">Push Branches and Open PR</div>
-      <div class="phase-est">Estimated: 1 hour, after Day 5 assessment</div>
+      <div class="phase-title">Clean PR for Joshua</div>
+      <div class="phase-est">Estimated: 1-2 hours</div>
     </div>
   </div>
 
   <ul class="checklist">
-    <li><div class="check-box"></div><div class="check-label"><strong>Clean up commits if needed</strong> -- the 10 backend commits are already clean (one per task). Frontend may need cleanup. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Push backend branch</strong> -- <code>git push origin feature/sdr-module</code> on maxkwaaste/nexum-backend. Then open PR against NeXum-co/nexum-backend main. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Push frontend branch</strong> -- same for nexum-frontend. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Write PR description</strong> -- include: what SDR Claw does, architecture diagram, daily usage stats from the test week, link to sdr-review-preview.html for Joshua's reference, and the Claude Design screenshots. <span class="who who-claude">Claude</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Tag Joshua for review</strong> -- link the PR in the existing communication channel. Reference the review preview page he already has. <span class="who who-max">Max</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Address review feedback</strong> -- Joshua reviews, Max/Claude fix anything flagged. <span class="who who-both">Both</span></div></li>
-    <li><div class="check-box"></div><div class="check-label"><strong>Merge</strong> -- squash-merge both PRs to main after approval. <span class="who who-joshua">Joshua</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Clean up commit history</strong> -- the 10 backend commits are already clean (one per task). Frontend may need cleanup. Squash WIP commits. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Push backend branch</strong> -- <code>git push origin feature/sdr-module</code> on maxkwaaste/nexum-backend fork. Then open PR against NeXum-co/nexum-backend <code>main</code>. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Push frontend branch</strong> -- same pattern for nexum-frontend. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>PR description</strong> -- include: what SDR Claw does, architecture diagram from the spec, which quality gates pass, test results, link to sdr-review-preview.html. Use the NeXum PR template if one exists. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Tag Joshua for review</strong> -- reference his original instruction and the review preview he already has. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Address review feedback</strong> -- Joshua reviews, Max/Claude fix. <span class="who who-both">Both</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>After merge: deploy to Hetzner</strong> -- Joshua deploys to production using the standard NeXum deploy flow (<code>ssh hetzner</code>, pull main, migrate, build frontend, restart). <span class="who who-joshua">Joshua</span></div></li>
   </ul>
 
   <h2>Blockers and Open Questions</h2>
 
   <table class="matrix">
     <tr><th>Item</th><th>Status</th><th>Impact</th><th>Owner</th></tr>
-    <tr><td><strong>Write-scoped API token</strong> -- current token (969|fpv...) is read-only</td><td>Pending from Joshua</td><td>Blocks CRM enrichment writeback (PATCH contacts). Does NOT block SDR read/write (that uses a new Sanctum token).</td><td>Joshua</td></tr>
-    <tr><td><strong>GraphMailSendService on Hetzner</strong> -- requires PlatformCredential (graph/proxuma) + EmailSenderMailbox (max@proxuma.com) + valid Azure AD token</td><td>Likely works (used by Forge email campaigns already)</td><td>Blocks email sending. Phase 2 tinker check confirms. If creds expired, Joshua needs to refresh the Azure AD client secret.</td><td>Phase 2 test</td></tr>
-    <tr><td><strong>APP_KEY for M1 Pro (Option B only)</strong> -- PlatformCredential decryption depends on matching APP_KEY</td><td>Not applicable if using Hetzner</td><td>Without the right key, Graph API credentials won't decrypt and emails won't send.</td><td>Max</td></tr>
-    <tr><td><strong>Telegram bot setup</strong> -- need bot token and chat ID</td><td>Not configured</td><td>Non-blocking (nice-to-have notification). Can use Outlook notification as fallback.</td><td>Max</td></tr>
-    <tr><td><strong>Canonical schema match</strong> -- SdrCandidateService SQL assumes canonical.* table names</td><td>Needs verification</td><td>Blocks candidate endpoint. Easy fix if table names differ.</td><td>Phase 2 test</td></tr>
-    <tr><td><strong>Claude Scheduled Agents</strong> -- need to configure via <code>claude schedule create</code></td><td>Not done</td><td>Blocks automated daily batches. Manual runs work as fallback during test period.</td><td>Max</td></tr>
-    <tr><td><strong>Frontend write access</strong> -- can Max push to maxkwaaste/nexum-frontend?</td><td>Fork exists, push untested</td><td>Blocks Phase 1 deployment via git pull from server.</td><td>Max</td></tr>
+    <tr><td><strong>Composer not installed on M1 Pro</strong></td><td>Not installed</td><td>Blocks everything. 2-minute fix.</td><td>Max</td></tr>
+    <tr><td><strong>Redis not installed on M1 Pro</strong></td><td>Not installed</td><td>Blocks Laravel queue/cache. 2-minute fix.</td><td>Max</td></tr>
+    <tr><td><strong>NeXum DB on M1 Pro</strong></td><td>Does not exist locally</td><td>Blocks all testing. Need either full dump from Hetzner or schema + seeds.</td><td>Max (needs SSH access to Hetzner)</td></tr>
+    <tr><td><strong>.env with matching APP_KEY</strong></td><td>Not copied</td><td>Blocks MS Graph credential decryption. Without it, email sending fails.</td><td>Max (copy from Hetzner)</td></tr>
+    <tr><td><strong>PHP 8.5 vs 8.4</strong></td><td>M1 Pro has 8.5.5, NeXum targets 8.4</td><td>Should be backward compatible. Watch for deprecation warnings in tests.</td><td>Verify in Phase 2</td></tr>
+    <tr><td><strong>Canonical schema table names</strong></td><td>SdrCandidateService uses raw SQL against canonical.*</td><td>If table names differ from what's in the code, candidate endpoint returns errors.</td><td>Phase 3 test</td></tr>
+    <tr><td><strong>Frontend write access</strong></td><td>Fork exists, push untested</td><td>Blocks Phase 4.</td><td>Max</td></tr>
   </table>
-
-  <h2>Risk Mitigation</h2>
-
-  <div class="card">
-    <div class="card-title">Wrong emails go out</div>
-    <div class="card-desc">Every email requires manual approval in the review UI. Nothing sends automatically. The agent drafts, Max reviews. Worst case: Max approves something he shouldn't have. Mitigation: start with low-risk categories (stale deals, win-backs) before touching post-demo and inbound.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">SQL query hits wrong tables</div>
-    <div class="card-desc">The candidate service uses raw SQL against canonical.* and forge.* schemas. If table names differ on the production DB, the endpoint returns errors. Mitigation: Phase 2 smoke test catches this immediately. Fix is a 5-minute SQL edit.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Migration conflicts with other work</div>
-    <div class="card-desc">The SDR migration creates its own schema (<code>sdr.*</code>), completely isolated from existing tables. Zero risk of conflicting with ongoing WBSO, marketing, or CRM migrations.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Joshua rejects the PR</div>
-    <div class="card-desc">The 3-5 day test period produces real usage data. The PR includes actual approval rates, edit patterns, and response metrics. This is stronger evidence than code review alone. If Joshua wants architectural changes, the sdr schema isolation makes refactoring contained.</div>
-  </div>
 
   <div class="positioning">
     <h2>Bottom Line</h2>
-    <p>The code is written. Deploy to Hetzner (Option A) unless you specifically want a local sandbox. Risk is low: manual approval before any email sends, isolated sdr schema, and the existing GraphMailSendService handles Outlook integration with zero new configuration needed on Hetzner. M1 Pro (Option B) is feasible at 16 GB RAM but adds setup overhead for PHP, Redis, DB import, and APP_KEY synchronization. Start Monday May 5, test through Thursday May 8, open PR on Friday May 9.</p>
+    <p>Joshua wants proper co-development: local dev, quality compliance, clean PR. The main setup work is on M1 Pro: install Composer + Redis (5 min), get the NeXum database locally (either dump or schema+seed), copy .env with matching APP_KEY. After that, the SDR code is already written -- it needs to pass quality gates and be tested end-to-end locally. RAM at 16GB is tight but workable if Ollama stays unloaded during dev. The PR should demonstrate that Pint, PHPStan, and tests all pass clean.</p>
   </div>
 
   <div class="page-footer">
     <span>Claude Code</span>
-    <span>SDR Claw Go-Live Plan / May 2026</span>
+    <span>SDR Claw Go-Live Plan v2 / May 2026</span>
   </div>
 </div>
 
 <script type="application/json" id="claude-data">
 {
-  "title": "SDR Claw Go-Live Plan",
+  "title": "SDR Claw Go-Live Plan v2",
   "date": "2026-05-03",
-  "summary": "4-phase deployment plan with hosting decision (Hetzner recommended vs M1 Pro local copy). Includes Outlook/MS Graph integration prerequisites, M1 Pro RAM analysis (16GB, tight but feasible), and email sending flow documentation. Backend on feature/sdr-module (10 commits, 18 files), frontend on feature/sdr-review-page (13 files).",
+  "summary": "Revised plan following Joshua's co-dev workflow: local dev on M1 Pro, comply with NeXum architecture (Pint PSR-12, PHPStan Level 3, Pest tests, file size gates), then clean PR. M1 Pro (16GB RAM) needs Composer, Redis, and NeXum DB import. Outlook integration via GraphMailSendService requires matching APP_KEY for credential decryption.",
   "sections": [
     {
-      "heading": "Hosting Decision",
+      "heading": "Phase 1: Local Dev Environment on M1 Pro",
       "items": [
-        { "title": "Option A: Hetzner (recommended)", "detail": "Standard NeXum workflow. SDR schema isolated, email sending already configured, all CRM data present.", "meta": { "setup_time": "1-2h" } },
-        { "title": "Option B: M1 Pro local copy", "detail": "Requires PHP 8.4, Redis, DB import from Hetzner, APP_KEY sync for credential decryption. 16GB RAM is tight with Ollama.", "meta": { "setup_time": "3-5h", "ram_total": "16GB", "ram_nexum_est": "4-6GB" } }
+        { "title": "Install Composer + Redis", "detail": "brew install composer redis. Redis needs brew services start.", "meta": { "est": "5min" } },
+        { "title": "Create local NeXum DB", "detail": "Either full pg_dump from Hetzner or schema-only with seeds. DB is called investment_portal on production.", "meta": { "est": "30min" } },
+        { "title": "Copy .env with matching APP_KEY", "detail": "Critical for PlatformCredential decryption. Without matching key, MS Graph credentials won't work.", "meta": {} },
+        { "title": "composer install + npm install", "detail": "Install deps for both backend and frontend.", "meta": { "est": "10min" } },
+        { "title": "Run SDR migration", "detail": "Creates isolated sdr schema with 5 tables.", "meta": {} }
       ]
     },
     {
-      "heading": "Outlook Integration Prerequisites",
+      "heading": "Phase 2: Quality Compliance",
       "items": [
-        { "title": "PlatformCredential (graph/proxuma)", "detail": "Encrypted Azure AD client_credentials in canonical.platform_credentials. Already exists on Hetzner. Must import or recreate for M1 Pro.", "meta": {} },
-        { "title": "EmailSenderMailbox (max@proxuma.com)", "detail": "Active sender row in forge.email_sender_mailboxes. GraphMailSendService validates before sending.", "meta": {} },
-        { "title": "APP_KEY match", "detail": "PlatformCredential decryption uses Laravel Crypt which depends on APP_KEY. Local .env must use same key as Hetzner.", "meta": {} }
+        { "title": "Pint PSR-12", "detail": "composer lint:php must pass with zero warnings on all SDR files.", "meta": { "blocking": true } },
+        { "title": "PHPStan Level 3", "detail": "New files must be clean, no baseline. composer lint:phpstan.", "meta": { "blocking": true } },
+        { "title": "File size gates", "detail": "PHP class warn 300 LOC / block 600. Method warn 50 / block 100.", "meta": { "blocking": "soft" } },
+        { "title": "Pest tests", "detail": "Feature tests hit real DB. GraphMailSendService mocked. All tests pass.", "meta": { "blocking": true } },
+        { "title": "Architecture patterns", "detail": "Controllers have no business logic. Services handle domain. Models clean Eloquent.", "meta": {} }
       ]
     },
     {
-      "heading": "Phase 1: Deploy to Server",
+      "heading": "Phase 3: Local End-to-End Testing",
       "items": [
-        { "title": "Push feature branches to forks", "detail": "Both backend and frontend need to be pushed to maxkwaaste forks so server can pull.", "meta": { "owner": "Max", "est": "30min" } },
-        { "title": "Run migration on server", "detail": "Creates sdr schema with 5 tables. Verify with pg_tables query.", "meta": { "owner": "Claude" } },
-        { "title": "Verify email prerequisites", "detail": "Check PlatformCredential (graph/proxuma) and EmailSenderMailbox (max@proxuma.com) exist.", "meta": { "owner": "Claude" } },
-        { "title": "Create Sanctum token for SDR agent", "detail": "Personal access token with sdr.read + sdr.write abilities.", "meta": { "owner": "Max" } },
-        { "title": "Configure Telegram and services.php", "detail": "Bot token + chat ID in .env, telegram config in services.php.", "meta": { "owner": "Claude" } }
+        { "title": "API smoke tests", "detail": "Test all 12 SDR endpoints with curl + Sanctum token.", "meta": {} },
+        { "title": "Email sending test", "detail": "Requires PlatformCredential + EmailSenderMailbox in local DB + matching APP_KEY. Send test email to self.", "meta": {} },
+        { "title": "Review UI", "detail": "Test at localhost:3000/forge/sdr/review. Keyboard shortcuts, edit flow, category filters.", "meta": {} },
+        { "title": "Frontend compliance", "detail": "Nuxt UI v3 primitives, semantic CSS tokens, i18n NL+EN, TypeScript types.", "meta": {} }
       ]
     },
     {
-      "heading": "Phase 2: Validate End-to-End",
+      "heading": "Phase 4: Clean PR",
       "items": [
-        { "title": "API smoke tests", "detail": "Test all 12 SDR endpoints with curl using the new Sanctum token.", "meta": { "owner": "Claude" } },
-        { "title": "Review UI tests", "detail": "Navigate to forge.proxuma.io/sdr/review, test keyboard shortcuts, edit flow, email send.", "meta": { "owner": "Max" } },
-        { "title": "Candidate query validation", "detail": "Verify SQL matches production schema (canonical.* tables). Fix if different.", "meta": { "owner": "Claude" } }
-      ]
-    },
-    {
-      "heading": "Phase 3: Daily Use (3-5 days)",
-      "items": [
-        { "title": "Day 1: Manual batch, 10-15 drafts, low-risk contacts", "detail": "Start small. Run agents manually. Send 5-8 emails.", "meta": { "target": "Mon May 5" } },
-        { "title": "Day 2: Expand to 20 drafts, check learning", "detail": "Writing rules from Day 1 should improve drafts.", "meta": { "target": "Tue May 6" } },
-        { "title": "Day 3-4: Full 25-draft batches, all categories", "detail": "Test sequences, configure scheduled agents.", "meta": { "target": "Wed-Thu May 7-8" } },
-        { "title": "Day 5: Assessment", "detail": "Review stats, decide if ready for PR.", "meta": { "target": "Fri May 9" } }
-      ]
-    },
-    {
-      "heading": "Phase 4: Push and PR",
-      "items": [
-        { "title": "Push both branches, open PRs", "detail": "Backend PR against NeXum-co/nexum-backend main, frontend against nexum-frontend main.", "meta": { "owner": "Max" } },
-        { "title": "PR description with usage stats", "detail": "Include approval rate, edit ratio, response metrics from test week.", "meta": { "owner": "Claude" } },
-        { "title": "Joshua review and merge", "detail": "Squash-merge after approval.", "meta": { "owner": "Joshua" } }
+        { "title": "Push both branches", "detail": "Backend feature/sdr-module, frontend feature/sdr-review-page to maxkwaaste forks.", "meta": {} },
+        { "title": "Open PRs against NeXum-co main", "detail": "Include architecture diagram, quality gate results, test output.", "meta": {} },
+        { "title": "Joshua reviews and deploys", "detail": "After approval, Joshua deploys to Hetzner production.", "meta": {} }
       ]
     }
   ],
-  "next_steps": "Phase 1 starts when Max is ready to push branches and SSH into the server. First action: push feature/sdr-module and feature/sdr-review-page to the maxkwaaste forks on GitHub. Then pull from server and run migration. Target: start Phase 3 on Monday May 5.",
+  "next_steps": "Phase 1 starts on M1 Pro. First actions: brew install composer redis, get .env from Hetzner (needs SSH access), import or create local DB. Then composer install, run migration, start backend+frontend, run quality gates.",
   "session_state": {
     "phase": "go-live planning",
     "phase_status": "complete",
     "progress_pct": 100,
     "work_done_this_session": [
       "Read full SDR Claw spec and implementation plan",
-      "Verified all 18 backend files exist on feature/sdr-module (10 commits)",
-      "Verified all 13 frontend files exist on feature/sdr-review-page",
-      "Read routes/sdr.php to confirm API surface",
-      "Checked Open Brain for Forge/NeXum context",
-      "Created 4-phase go-live plan with checklists"
+      "Verified all 18 backend files on feature/sdr-module (10 commits)",
+      "Verified all 13 frontend files on feature/sdr-review-page",
+      "Read GraphMailSendService to understand Outlook integration",
+      "Checked M1 Pro: PHP 8.5 present, no Composer/Redis/NeXum DB",
+      "Checked Hetzner is production, M1 Pro is dev (not the other way around)",
+      "Revised plan to follow Joshua's co-dev workflow",
+      "Documented M1 Pro RAM constraints (16GB, tight with Ollama)"
     ],
-    "blockers_hit": null,
-    "uncommitted_changes": "claude-output repo has new go-live plan HTML (about to push)",
+    "blockers_hit": "M1 Pro dev env not set up yet (no Composer, no Redis, no local NeXum DB)",
+    "uncommitted_changes": "claude-output repo has updated go-live plan",
     "next_action_required": "user-exec"
   },
   "artifact_pointers": {
     "memory_files": [],
     "git_branch": "feature/sdr-module (backend), feature/sdr-review-page (frontend)",
-    "local_repo_path": "~/nexum/nexum-backend/ and ~/nexum/nexum-frontend/",
+    "local_repo_path": "/Volumes/Sandisk/nexum/nexum-backend/ and /Volumes/Sandisk/nexum/nexum-frontend/ (M1 Pro)",
     "temp_files": [],
     "github_links": [
-      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-claw-go-live-plan.html", "relevance": "this go-live plan" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-claw-go-live-plan.html", "relevance": "this go-live plan (v2)" },
       { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-backend-implementation.html", "relevance": "backend implementation details" },
       { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-frontend-review-page.html", "relevance": "frontend implementation details" },
-      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-openclaw-architecture.html", "relevance": "original architecture (superseded by Claude Native design)" },
       { "url": "https://github.com/maxkwaaste/claude-output/blob/main/sdr-review-preview.html", "relevance": "Joshua's review preview" }
     ],
     "wordpress_ids": [],
@@ -705,28 +521,28 @@ pre {
     "wp_cache_flushed": null,
     "drafts_pending": [],
     "screenshots": [],
-    "other": ""
+    "other": "NeXum production runs on Hetzner at /var/www/nexum/. M1 Pro is local dev only."
   },
   "project_context": {
     "protected_resources": [],
-    "conventions_applied": ["humanizer anti-slop", "NeXum deploy-first workflow", "pbcopy on terminal output"]
+    "conventions_applied": ["humanizer anti-slop", "NeXum co-dev workflow (local first, PR second)", "pbcopy on terminal output", "Joshua's quality gates"]
   },
   "decision_log": [
     {
-      "decision": "Deploy first, PR after 3-5 days of real use",
-      "rejected_alternatives": ["PR first then deploy", "Deploy and PR simultaneously"],
-      "rationale": "NeXum standard workflow is deploy-first. Real usage data makes the PR stronger and catches issues before review. Joshua specifically expects to see it working before reviewing code.",
-      "trade_offs": "Code is on production before review. Mitigated by isolated sdr schema and manual-approval-only email sending.",
+      "decision": "Follow Joshua's co-dev workflow: local dev then clean PR (not deploy-first)",
+      "rejected_alternatives": ["Deploy to Hetzner first, test on production, PR after"],
+      "rationale": "Joshua explicitly requested this flow. It teaches co-development at the right quality level and serves as a test case for future NeXum collaboration.",
+      "trade_offs": "More setup work (local dev env on M1 Pro). Slower to get first real emails out. But results in cleaner code and proper review.",
       "contingencies": [
-        { "if_X_then_Y": "If GraphMailSendService doesn't work on server, keep SDR as draft-only review tool (still useful for prioritization) and fix send separately", "probability": 0.2 },
-        { "if_X_then_Y": "If canonical schema doesn't match SQL, fix the SdrCandidateService queries on the server before proceeding", "probability": 0.3 }
+        { "if_X_then_Y": "If DB dump from Hetzner is too large or contains data Max shouldn't have locally, use schema-only + seed data instead", "probability": 0.3 },
+        { "if_X_then_Y": "If email sending can't be tested locally (APP_KEY mismatch or missing credentials), test everything except email, note it in PR, let Joshua verify on Hetzner after merge", "probability": 0.2 }
       ]
     },
     {
-      "decision": "Start with manual agent runs, not scheduled",
-      "rejected_alternatives": ["Configure scheduled agents from Day 1"],
-      "rationale": "Manual runs let Max control batch size and timing during validation. Scheduled agents are configured after 2-3 successful manual days.",
-      "trade_offs": "Requires Max to trigger the morning agent manually for the first few days.",
+      "decision": "Dev on M1 Pro (not M4 Air)",
+      "rejected_alternatives": ["Dev on M4 Air"],
+      "rationale": "M1 Pro is the server machine with PostgreSQL already running. M4 Air is thin client. M1 Pro has the Sandisk with nexum clones.",
+      "trade_offs": "Max works via SSH/Tailscale from M4 Air to M1 Pro. Claude Code runs on M4 Air but executes on M1 Pro.",
       "contingencies": []
     }
   ]
