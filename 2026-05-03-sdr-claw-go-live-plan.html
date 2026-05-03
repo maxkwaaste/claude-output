@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDR Claw Go-Live Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.pos-steps { display: flex; gap: 10px; margin: 20px 0; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+.checklist { list-style: none; margin-left: 0; }
+.checklist li { padding: 8px 0; border-bottom: 1px solid #eef0f2; display: flex; align-items: flex-start; gap: 10px; }
+.checklist li:last-child { border-bottom: none; }
+.check-box { width: 18px; height: 18px; border: 2px solid #1a2744; border-radius: 3px; flex-shrink: 0; margin-top: 1px; }
+.check-label { font-size: 14px; }
+.check-label .who { font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .04em; padding: 2px 6px; border-radius: 3px; margin-left: 6px; }
+.who-max { background: #e8edf4; color: #2a4a8a; }
+.who-joshua { background: #e6f4ea; color: #1a6b3a; }
+.who-claude { background: #fef3e2; color: #8a6a2a; }
+.who-both { background: #eef0f2; color: #4a5568; }
+.phase-header { display: flex; align-items: center; gap: 12px; margin: 28px 0 14px; }
+.phase-num {
+  background: #1a2744; color: #fff; width: 32px; height: 32px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font: 700 14px/1 -apple-system, sans-serif; flex-shrink: 0;
+}
+.phase-title { font: 700 16px/1.2 "Georgia", serif; color: #1a2744; }
+.phase-est { font: 400 12px/1 -apple-system, sans-serif; color: #6b7280; }
+.timeline { position: relative; margin-left: 16px; padding-left: 24px; border-left: 2px solid #e2e4e8; }
+.timeline::before { content: none; }
+.day-marker {
+  position: relative; margin-bottom: 20px;
+}
+.day-marker::before {
+  content: ''; position: absolute; left: -31px; top: 6px;
+  width: 12px; height: 12px; background: #1a2744; border-radius: 50%;
+  border: 2px solid #fff; box-shadow: 0 0 0 2px #e2e4e8;
+}
+.day-label {
+  font: 700 12px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin-bottom: 6px;
+}
+.day-tasks { font-size: 14px; color: #4a5568; line-height: 1.6; }
+.day-tasks ul { margin: 4px 0 0 16px; }
+.day-tasks li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 3, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-claw-go-live-plan.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">SDR Claw / NeXum Forge</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 3, 2026<br>Go-Live Plan<br>SDR Module
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">DEPLOYMENT PLAN</div>
+  <h1>SDR Claw Go-Live</h1>
+  <p class="subtitle">Deploy the locally built SDR module to the live Forge server, validate it works end-to-end with real CRM data, use it daily for a few days, then open the PR for Joshua's review.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">18</div>
+      <div class="stat-label">Files Built</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12</div>
+      <div class="stat-label">API Endpoints</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">DB Tables</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$0</div>
+      <div class="stat-label">Incremental Cost</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Context</span>
+    SDR Claw is an AI-powered email outreach pipeline built into NeXum Forge. Two Claude scheduled agents (morning drafts + evening learning) talk to Forge via REST API. Forge owns the review UI, email sending, storage, and sequence timers. No external dependencies beyond the existing Claude Max subscription and MS Graph connector. Backend is 10 commits on <code>feature/sdr-module</code> (nexum-backend). Frontend is on <code>feature/sdr-review-page</code> (nexum-frontend). Both are local only, not pushed yet. Joshua's review preview is at the sdr-review-preview.html output page.
+  </div>
+
+  <h2>What Exists Right Now</h2>
+
+  <h3>Backend (nexum-backend, feature/sdr-module)</h3>
+  <table class="matrix">
+    <tr><th>Component</th><th>Files</th><th>Status</th></tr>
+    <tr><td><strong>Migration</strong> (5 tables in sdr schema)</td><td>1</td><td>Committed, not run on server</td></tr>
+    <tr><td><strong>Models</strong> (Batch, Draft, Feedback, WritingRule, Sequence)</td><td>5</td><td>Committed</td></tr>
+    <tr><td><strong>Services</strong> (CandidateService, FeedbackService)</td><td>2</td><td>Committed</td></tr>
+    <tr><td><strong>Controllers</strong> (Candidate, Batch, Review, Learning, Sequence)</td><td>5</td><td>Committed</td></tr>
+    <tr><td><strong>Routes</strong> (routes/sdr.php + api.php include)</td><td>2</td><td>Committed</td></tr>
+    <tr><td><strong>Artisan commands</strong> (check-sequences, alert-missing-batch)</td><td>2</td><td>Committed</td></tr>
+    <tr><td><strong>Tests</strong> (SdrBatchTest, SdrReviewTest)</td><td>2</td><td>Committed</td></tr>
+  </table>
+
+  <h3>Frontend (nexum-frontend, feature/sdr-review-page)</h3>
+  <table class="matrix">
+    <tr><th>Component</th><th>Files</th><th>Status</th></tr>
+    <tr><td><strong>Pages</strong> (index.vue, review.vue)</td><td>2</td><td>Committed</td></tr>
+    <tr><td><strong>Components</strong> (ActiveCard, PendingCard, CompletedCard, ReviewHeader, CategoryKpi, FilterBar, KeyboardFooter)</td><td>7</td><td>Committed</td></tr>
+    <tr><td><strong>Types</strong> (sdr.ts)</td><td>1</td><td>Committed</td></tr>
+  </table>
+
+  <h3>Not Built Yet</h3>
+  <ul>
+    <li>Learning dashboard page (/sdr/learnings)</li>
+    <li>Scheduled agent prompts (sdr-morning, sdr-learning)</li>
+    <li>Telegram config in services.php</li>
+    <li>Sanctum token for the SDR agent</li>
+  </ul>
+
+  <h2>Go-Live Plan: 4 Phases</h2>
+
+  <p>The approach: deploy first, test on the live server, use it for real for 3-5 days, then open the PR. This matches the NeXum workflow (deploy first, commit after).</p>
+
+  <div class="pos-steps">
+    <div class="pos-step">
+      <div class="pos-num">1</div>
+      <div class="pos-label">Deploy</div>
+      <div class="pos-desc">Push to server, run migration, configure</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">2</div>
+      <div class="pos-label">Validate</div>
+      <div class="pos-desc">Test each endpoint, review UI, send test email</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">3</div>
+      <div class="pos-label">Use It</div>
+      <div class="pos-desc">3-5 days of real daily batches</div>
+    </div>
+    <div class="pos-step">
+      <div class="pos-num">4</div>
+      <div class="pos-label">PR</div>
+      <div class="pos-desc">Push branches, open PR for Joshua</div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase-header">
+    <div class="phase-num">1</div>
+    <div>
+      <div class="phase-title">Deploy to M1 Pro</div>
+      <div class="phase-est">Estimated: 1-2 hours</div>
+    </div>
+  </div>
+
+  <p>Deploy backend and frontend to the live Forge server on M1 Pro. The server runs at /var/www/nexum/ (accessible via <code>ssh hetzner</code> or direct Tailscale SSH to M1 Pro depending on your deploy setup).</p>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>Push feature branches to forks</strong> -- push <code>feature/sdr-module</code> on maxkwaaste/nexum-backend and <code>feature/sdr-review-page</code> on maxkwaaste/nexum-frontend to GitHub. Needed to pull from server. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>SSH into server and pull backend branch</strong><br><code>cd /var/www/nexum/backend && git remote add maxfork https://github.com/maxkwaaste/nexum-backend.git && git fetch maxfork && git checkout -b feature/sdr-module maxfork/feature/sdr-module</code><br>Or if deploying from local clone: merge feature branch into whatever branch the server tracks. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Run the migration</strong><br><code>php artisan migrate</code><br>Creates sdr schema + 5 tables (batches, drafts, feedback, writing_rules, sequences). Verify: <code>php artisan tinker --execute="echo count(DB::select(\"SELECT tablename FROM pg_tables WHERE schemaname='sdr'\"));"</code> should return 5. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Pull frontend branch</strong> -- same pattern as backend. Rebuild: <code>cd /var/www/nexum/frontend && npm run build</code> <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Create SDR Sanctum token</strong><br><code>php artisan tinker</code> then: <code>$user = User::where('email', 'max@proxuma.com')->first(); echo $user->createToken('sdr-agent', ['sdr.read', 'sdr.write'])->plainTextToken;</code><br>Store the token. It goes in the Claude scheduled agent config and in .env as <code>SDR_AGENT_TOKEN</code>. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Add Telegram config to .env</strong><br><code>TELEGRAM_BOT_TOKEN=your-bot-token</code><br><code>TELEGRAM_CHAT_ID=your-chat-id</code><br>Add to <code>config/services.php</code>: <code>'telegram' => ['bot_token' => env('TELEGRAM_BOT_TOKEN'), 'chat_id' => env('TELEGRAM_CHAT_ID')]</code> <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Register artisan schedules</strong> -- verify <code>sdr:check-sequences</code> and <code>sdr:alert-missing-batch</code> appear in <code>php artisan schedule:list</code>. Confirm Laravel scheduler cron is running on the server. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Clear caches</strong><br><code>php artisan config:clear && php artisan route:clear && php artisan cache:clear</code> <span class="who who-claude">Claude</span></div></li>
+  </ul>
+
+  <!-- PHASE 2 -->
+  <div class="phase-header">
+    <div class="phase-num">2</div>
+    <div>
+      <div class="phase-title">Validate End-to-End</div>
+      <div class="phase-est">Estimated: 1-2 hours</div>
+    </div>
+  </div>
+
+  <p>Test every endpoint and UI flow against real Forge CRM data. Nothing gets sent to real contacts until Phase 3.</p>
+
+  <h3>API Smoke Tests (curl with SDR token)</h3>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/candidates</strong> -- should return up to 50 pre-ranked contacts from the CRM. Check that it excludes unsubscribed contacts and contacts already emailed today. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/candidates/{id}/deep-context</strong> -- pick one contact ID from the candidates response. Should return contact details, deals, recent emails, recent meetings. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/learnings</strong> -- should return empty rules (fresh install) and empty approval stats. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>POST /api/sdr/batches</strong> -- push a test batch with 2-3 drafts using real contact IDs from the candidates response. Use category <code>stale_deal_nudge</code>. Verify Telegram notification arrives. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>GET /api/sdr/batches/{today's date}</strong> -- should return the batch with drafts. <span class="who who-claude">Claude</span></div></li>
+  </ul>
+
+  <h3>Review UI Tests (browser)</h3>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>Navigate to forge.proxuma.io/sdr/review</strong> -- should load the review page with the test batch. Check: category KPI cards show, draft cards render with subject/body/score. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Test keyboard shortcuts</strong> -- J/K to navigate, A to approve (send), S to skip, Z to snooze. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Test edit flow</strong> -- modify subject and body text in one card, then press A. Verify the sent email (check Outlook sent folder) has the edited text, not the original. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Verify email actually sends</strong> -- approve one draft for a test contact (test@proxuma.com or Max's own email). Check Outlook sent folder. If it doesn't send, check GraphMailSendService config and MS Graph token. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Verify feedback recording</strong> -- after approving/editing/rejecting a few drafts, check <code>GET /api/sdr/feedback-stats</code>. Edit diffs should show non-zero edit_distance for edited drafts. <span class="who who-claude">Claude</span></div></li>
+  </ul>
+
+  <h3>Candidate Query Validation</h3>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>Check the SQL</strong> -- the candidate service queries canonical.contacts, canonical.deals, canonical.mail_signals, canonical.calendar_events, forge.contact_enrichments. Verify these tables exist and have data on the production DB. If table names differ, fix SdrCandidateService.php. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Verify payment data exclusion</strong> -- run a test query and confirm no Stripe IDs, IBAN, or invoice amounts appear in the response. <span class="who who-claude">Claude</span></div></li>
+  </ul>
+
+  <!-- PHASE 3 -->
+  <div class="phase-header">
+    <div class="phase-num">3</div>
+    <div>
+      <div class="phase-title">Daily Use (3-5 Business Days)</div>
+      <div class="phase-est">Estimated: Mon May 5 through Thu May 8</div>
+    </div>
+  </div>
+
+  <p>Run the full loop every workday. Start manually (Claude posts a batch at 07:00), review in the UI, send/skip/snooze. The learning agent runs at 17:00 to pick up edit patterns.</p>
+
+  <div class="timeline">
+    <div class="day-marker">
+      <div class="day-label">Day 1 (Mon May 5) -- Manual Batch</div>
+      <div class="day-tasks">
+        <ul>
+          <li>Run <code>sdr-morning</code> agent manually (not scheduled yet). Have Claude fetch candidates from the API, draft 10-15 emails (not 25, start small), and POST the batch.</li>
+          <li>Review all drafts in the UI. Edit freely. Pay attention to what you change: this feeds the learning loop.</li>
+          <li>Send 5-8 emails to real contacts (low-risk: stale deals, win-backs older than 90 days).</li>
+          <li>Run <code>sdr-learning</code> agent manually at end of day. Check that writing rules appear.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-marker">
+      <div class="day-label">Day 2 (Tue May 6) -- Expand + First Learnings</div>
+      <div class="day-tasks">
+        <ul>
+          <li>Run morning agent again. It now has Day 1's writing rules. Check if drafts improved.</li>
+          <li>Expand to 20 drafts. Include post-demo and inbound categories.</li>
+          <li>Check Outlook for any replies to Day 1 emails. Note response rate.</li>
+          <li>Run learning agent. Rules should grow from Day 1+2 combined feedback.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-marker">
+      <div class="day-label">Day 3-4 (Wed-Thu May 7-8) -- Full Volume</div>
+      <div class="day-tasks">
+        <ul>
+          <li>Full 25-draft batches. All 5 categories active.</li>
+          <li>Track: approval rate, edit rate, rejection rate per category.</li>
+          <li>Configure the scheduled agents for real (cron via <code>claude schedule create</code>) if manual runs are working reliably.</li>
+          <li>Test the sequence flow: Day 3 follow-ups should appear for contacts approved on Day 1.</li>
+          <li>Verify <code>sdr:check-sequences</code> artisan command moves pending to queued at 06:00.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day-marker">
+      <div class="day-label">Day 5 (Fri May 9) -- Assessment</div>
+      <div class="day-tasks">
+        <ul>
+          <li>Review the week's stats: total drafts, approval rate, edit ratio, emails sent, replies received.</li>
+          <li>Check writing rules: do they make sense? Are any wrong?</li>
+          <li>Fix any bugs found during the week.</li>
+          <li>Decision: ready for PR or need another week?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Success Criteria for Phase 3</span>
+    <ul style="margin-top: 8px;">
+      <li>Approval rate above 50% by Day 3 (approved + edited, not rejected/snoozed)</li>
+      <li>At least 5 writing rules with confidence above 0.6</li>
+      <li>Email send via MS Graph works reliably (no send failures)</li>
+      <li>Sequence follow-ups appear correctly on Day 3</li>
+      <li>No data leaks (payment/accounting data never surfaces in SDR endpoints)</li>
+      <li>Review UI works smoothly with keyboard shortcuts</li>
+    </ul>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-header">
+    <div class="phase-num">4</div>
+    <div>
+      <div class="phase-title">Push Branches and Open PR</div>
+      <div class="phase-est">Estimated: 1 hour, after Day 5 assessment</div>
+    </div>
+  </div>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><div class="check-label"><strong>Clean up commits if needed</strong> -- the 10 backend commits are already clean (one per task). Frontend may need cleanup. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Push backend branch</strong> -- <code>git push origin feature/sdr-module</code> on maxkwaaste/nexum-backend. Then open PR against NeXum-co/nexum-backend main. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Push frontend branch</strong> -- same for nexum-frontend. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Write PR description</strong> -- include: what SDR Claw does, architecture diagram, daily usage stats from the test week, link to sdr-review-preview.html for Joshua's reference, and the Claude Design screenshots. <span class="who who-claude">Claude</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Tag Joshua for review</strong> -- link the PR in the existing communication channel. Reference the review preview page he already has. <span class="who who-max">Max</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Address review feedback</strong> -- Joshua reviews, Max/Claude fix anything flagged. <span class="who who-both">Both</span></div></li>
+    <li><div class="check-box"></div><div class="check-label"><strong>Merge</strong> -- squash-merge both PRs to main after approval. <span class="who who-joshua">Joshua</span></div></li>
+  </ul>
+
+  <h2>Blockers and Open Questions</h2>
+
+  <table class="matrix">
+    <tr><th>Item</th><th>Status</th><th>Impact</th><th>Owner</th></tr>
+    <tr><td><strong>Write-scoped API token</strong> -- current token (969|fpv...) is read-only</td><td>Pending from Joshua</td><td>Blocks CRM enrichment writeback (PATCH contacts). Does NOT block SDR read/write (that uses a new Sanctum token).</td><td>Joshua</td></tr>
+    <tr><td><strong>GraphMailSendService availability</strong> -- does it work on the current server?</td><td>Unknown, needs test</td><td>Blocks email sending. If broken, emails stay as drafts (still useful for review).</td><td>Phase 2 test</td></tr>
+    <tr><td><strong>Telegram bot setup</strong> -- need bot token and chat ID</td><td>Not configured</td><td>Non-blocking (nice-to-have notification). Can use Outlook notification as fallback.</td><td>Max</td></tr>
+    <tr><td><strong>Canonical schema match</strong> -- SdrCandidateService SQL assumes canonical.* table names</td><td>Needs verification</td><td>Blocks candidate endpoint. Easy fix if table names differ.</td><td>Phase 2 test</td></tr>
+    <tr><td><strong>Claude Scheduled Agents</strong> -- need to configure via <code>claude schedule create</code></td><td>Not done</td><td>Blocks automated daily batches. Manual runs work as fallback during test period.</td><td>Max</td></tr>
+    <tr><td><strong>Frontend write access</strong> -- can Max push to maxkwaaste/nexum-frontend?</td><td>Fork exists, push untested</td><td>Blocks Phase 1 deployment via git pull from server.</td><td>Max</td></tr>
+  </table>
+
+  <h2>Risk Mitigation</h2>
+
+  <div class="card">
+    <div class="card-title">Wrong emails go out</div>
+    <div class="card-desc">Every email requires manual approval in the review UI. Nothing sends automatically. The agent drafts, Max reviews. Worst case: Max approves something he shouldn't have. Mitigation: start with low-risk categories (stale deals, win-backs) before touching post-demo and inbound.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SQL query hits wrong tables</div>
+    <div class="card-desc">The candidate service uses raw SQL against canonical.* and forge.* schemas. If table names differ on the production DB, the endpoint returns errors. Mitigation: Phase 2 smoke test catches this immediately. Fix is a 5-minute SQL edit.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Migration conflicts with other work</div>
+    <div class="card-desc">The SDR migration creates its own schema (<code>sdr.*</code>), completely isolated from existing tables. Zero risk of conflicting with ongoing WBSO, marketing, or CRM migrations.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Joshua rejects the PR</div>
+    <div class="card-desc">The 3-5 day test period produces real usage data. The PR includes actual approval rates, edit patterns, and response metrics. This is stronger evidence than code review alone. If Joshua wants architectural changes, the sdr schema isolation makes refactoring contained.</div>
+  </div>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>The code is written. The risk is low because everything requires manual approval before sending, the SDR schema is fully isolated, and the NeXum deploy-first workflow means you validate on real data before committing. Start Monday May 5, test through Thursday May 8, open PR on Friday May 9.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>SDR Claw Go-Live Plan / May 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "SDR Claw Go-Live Plan",
+  "date": "2026-05-03",
+  "summary": "4-phase deployment plan: deploy to M1 Pro, validate end-to-end, use daily for 3-5 days, then open PR for Joshua. Backend on feature/sdr-module (10 commits, 18 files), frontend on feature/sdr-review-page (13 files).",
+  "sections": [
+    {
+      "heading": "Phase 1: Deploy to M1 Pro",
+      "items": [
+        { "title": "Push feature branches to forks", "detail": "Both backend and frontend need to be pushed to maxkwaaste forks so server can pull.", "meta": { "owner": "Max", "est": "30min" } },
+        { "title": "Run migration on server", "detail": "Creates sdr schema with 5 tables. Verify with pg_tables query.", "meta": { "owner": "Claude" } },
+        { "title": "Create Sanctum token for SDR agent", "detail": "Personal access token with sdr.read + sdr.write abilities.", "meta": { "owner": "Max" } },
+        { "title": "Configure Telegram and services.php", "detail": "Bot token + chat ID in .env, telegram config in services.php.", "meta": { "owner": "Claude" } }
+      ]
+    },
+    {
+      "heading": "Phase 2: Validate End-to-End",
+      "items": [
+        { "title": "API smoke tests", "detail": "Test all 12 SDR endpoints with curl using the new Sanctum token.", "meta": { "owner": "Claude" } },
+        { "title": "Review UI tests", "detail": "Navigate to forge.proxuma.io/sdr/review, test keyboard shortcuts, edit flow, email send.", "meta": { "owner": "Max" } },
+        { "title": "Candidate query validation", "detail": "Verify SQL matches production schema (canonical.* tables). Fix if different.", "meta": { "owner": "Claude" } }
+      ]
+    },
+    {
+      "heading": "Phase 3: Daily Use (3-5 days)",
+      "items": [
+        { "title": "Day 1: Manual batch, 10-15 drafts, low-risk contacts", "detail": "Start small. Run agents manually. Send 5-8 emails.", "meta": { "target": "Mon May 5" } },
+        { "title": "Day 2: Expand to 20 drafts, check learning", "detail": "Writing rules from Day 1 should improve drafts.", "meta": { "target": "Tue May 6" } },
+        { "title": "Day 3-4: Full 25-draft batches, all categories", "detail": "Test sequences, configure scheduled agents.", "meta": { "target": "Wed-Thu May 7-8" } },
+        { "title": "Day 5: Assessment", "detail": "Review stats, decide if ready for PR.", "meta": { "target": "Fri May 9" } }
+      ]
+    },
+    {
+      "heading": "Phase 4: Push and PR",
+      "items": [
+        { "title": "Push both branches, open PRs", "detail": "Backend PR against NeXum-co/nexum-backend main, frontend against nexum-frontend main.", "meta": { "owner": "Max" } },
+        { "title": "PR description with usage stats", "detail": "Include approval rate, edit ratio, response metrics from test week.", "meta": { "owner": "Claude" } },
+        { "title": "Joshua review and merge", "detail": "Squash-merge after approval.", "meta": { "owner": "Joshua" } }
+      ]
+    }
+  ],
+  "next_steps": "Phase 1 starts when Max is ready to push branches and SSH into the server. First action: push feature/sdr-module and feature/sdr-review-page to the maxkwaaste forks on GitHub. Then pull from server and run migration. Target: start Phase 3 on Monday May 5.",
+  "session_state": {
+    "phase": "go-live planning",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read full SDR Claw spec and implementation plan",
+      "Verified all 18 backend files exist on feature/sdr-module (10 commits)",
+      "Verified all 13 frontend files exist on feature/sdr-review-page",
+      "Read routes/sdr.php to confirm API surface",
+      "Checked Open Brain for Forge/NeXum context",
+      "Created 4-phase go-live plan with checklists"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new go-live plan HTML (about to push)",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "feature/sdr-module (backend), feature/sdr-review-page (frontend)",
+    "local_repo_path": "~/nexum/nexum-backend/ and ~/nexum/nexum-frontend/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-claw-go-live-plan.html", "relevance": "this go-live plan" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-backend-implementation.html", "relevance": "backend implementation details" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-03-sdr-forge-frontend-review-page.html", "relevance": "frontend implementation details" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-02-sdr-claw-openclaw-architecture.html", "relevance": "original architecture (superseded by Claude Native design)" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/sdr-review-preview.html", "relevance": "Joshua's review preview" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "NeXum deploy-first workflow", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Deploy first, PR after 3-5 days of real use",
+      "rejected_alternatives": ["PR first then deploy", "Deploy and PR simultaneously"],
+      "rationale": "NeXum standard workflow is deploy-first. Real usage data makes the PR stronger and catches issues before review. Joshua specifically expects to see it working before reviewing code.",
+      "trade_offs": "Code is on production before review. Mitigated by isolated sdr schema and manual-approval-only email sending.",
+      "contingencies": [
+        { "if_X_then_Y": "If GraphMailSendService doesn't work on server, keep SDR as draft-only review tool (still useful for prioritization) and fix send separately", "probability": 0.2 },
+        { "if_X_then_Y": "If canonical schema doesn't match SQL, fix the SdrCandidateService queries on the server before proceeding", "probability": 0.3 }
+      ]
+    },
+    {
+      "decision": "Start with manual agent runs, not scheduled",
+      "rejected_alternatives": ["Configure scheduled agents from Day 1"],
+      "rationale": "Manual runs let Max control batch size and timing during validation. Scheduled agents are configured after 2-3 successful manual days.",
+      "trade_offs": "Requires Max to trigger the morning agent manually for the first few days.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
