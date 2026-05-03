@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDR Outreach Review — NeXum Forge</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #F8F8F8; color: #181833; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+:root {
+  --brand: #164387;
+  --text-primary: #181833;
+  --text-secondary: #5C5C71;
+  --text-muted: #A4A6AA;
+  --surface: #FFFFFF;
+  --page-bg: #F8F8F8;
+  --border: #DEE1E8;
+  --border-subtle: #EBEDF2;
+  --success: #49C481;
+  --warning: #F4C755;
+  --error: #F1416C;
+  --radius-card: 12px;
+  --radius-btn: 8px;
+}
+kbd { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; background: #F0F1F4; border: 1px solid var(--border); border-radius: 4px; padding: 2px 5px; color: var(--text-secondary); }
+.mono { font-family: 'JetBrains Mono', monospace; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+// Data
+const categories = [
+  { id: 'post-demo', label: 'Post-demo', color: '#41AA70', icon: '🎯', total: 6, done: 2 },
+  { id: 'inbound', label: 'Inbound', color: '#164387', icon: '📥', total: 5, done: 1 },
+  { id: 'stale', label: 'Stale', color: '#F4C755', icon: '⏳', total: 6, done: 2 },
+  { id: 'upsell', label: 'Upsell', color: '#844BE5', icon: '📈', total: 4, done: 1 },
+  { id: 'win-back', label: 'Win-back', color: '#F1416C', icon: '🔄', total: 4, done: 1 },
+];
+
+const completedData = [
+  { id: 'c1', name: 'Sadie Mercer', company: 'Apex Labs', category: 'post-demo', action: 'sent', subject: 'Following up on your demo session' },
+  { id: 'c2', name: 'Jordan Patel', company: 'Nimbus.io', category: 'inbound', action: 'sent', subject: 'Re: Your pricing inquiry' },
+  { id: 'c3', name: 'Kenji Yamamoto', company: 'Stratosphere', category: 'stale', action: 'skipped', subject: 'Checking in on the proposal' },
+  { id: 'c4', name: 'Lara Fontaine', company: 'Evergreen SaaS', category: 'upsell', action: 'sent', subject: 'New features that match your growth' },
+  { id: 'c5', name: 'Marcus Chen', company: 'BlueRock Capital', category: 'post-demo', action: 'snoozed', subject: 'Demo follow-up — next steps' },
+  { id: 'c6', name: 'Priya Sharma', company: 'Volta Energy', category: 'win-back', action: 'sent', subject: 'We miss you at Volta' },
+  { id: 'c7', name: 'Oliver Dubois', company: 'Canopy Health', category: 'stale', action: 'sent', subject: 'Still interested in the platform?' },
+];
+
+const queueData = [
+  { id: 'q1', name: 'Amara Obi', company: 'Zenith AI', category: 'inbound', value: 45000, score: 84, subject: 'Re: Enterprise plan details' },
+  { id: 'q2', name: 'Viktor Petrov', company: 'Atlas Dynamics', category: 'post-demo', value: 92000, score: 79, subject: 'Your custom integration roadmap' },
+  { id: 'q3', name: 'Camille Laurent', company: 'Orbis Finance', category: 'upsell', value: 156000, score: 76, subject: 'Scaling to 200+ users — your options' },
+  { id: 'q4', name: 'Declan Murphy', company: 'NovaTech', category: 'stale', value: 67000, score: 68, subject: 'Circling back on the pilot' },
+  { id: 'q5', name: 'Elena Vasquez', company: 'Coral Therapeutics', category: 'win-back', value: 83000, score: 65, subject: 'New pricing that fits your budget' },
+  { id: 'q6', name: 'Theo Andersson', company: 'FrostByte', category: 'inbound', value: 38000, score: 63, subject: 'Quick question about SSO support' },
+  { id: 'q7', name: 'Nadia Khoury', company: 'Luminar Labs', category: 'post-demo', value: 110000, score: 61, subject: 'Security review documentation' },
+  { id: 'q8', name: 'Javier Reyes', company: 'Summit HR', category: 'upsell', value: 74000, score: 58, subject: 'Your team grew — time to upgrade?' },
+  { id: 'q9', name: 'Ingrid Holm', company: 'Tidal Commerce', category: 'stale', value: 51000, score: 55, subject: 'The proposal is still valid' },
+  { id: 'q10', name: 'Rashid Al-Farsi', company: 'Oasis Digital', category: 'win-back', value: 62000, score: 52, subject: 'A fresh start with better terms' },
+];
+
+// Toast Component
+function Toast({ toasts }) {
+  return (
+    <div style={{ position: 'fixed', bottom: 80, right: 24, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {toasts.map(t => (
+        <div key={t.id} style={{
+          background: t.type === 'success' ? '#49C481' : t.type === 'warning' ? '#F4C755' : t.type === 'skip' ? '#5C5C71' : '#164387',
+          color: t.type === 'warning' ? '#181833' : '#fff',
+          padding: '10px 16px', borderRadius: 8, fontSize: 13, fontWeight: 500,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)', animation: 'slideIn 0.2s ease'
+        }}>
+          {t.message}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// KPI Card
+function KpiCard({ cat }) {
+  const remaining = cat.total - cat.done;
+  const pct = (cat.done / cat.total) * 100;
+  return (
+    <div style={{ flex: 1, background: 'var(--surface)', borderRadius: 'var(--radius-card)', padding: '16px 18px', border: '1px solid var(--border-subtle)', minWidth: 160 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+        <span style={{ fontSize: 18 }}>{cat.icon}</span>
+        <span style={{ fontSize: 13, fontWeight: 600, color: cat.color }}>{cat.label}</span>
+      </div>
+      <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1 }}>{remaining}</div>
+      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>remaining</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
+        <span className="mono" style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{cat.done}/{cat.total}</span>
+        <div style={{ flex: 1, height: 4, background: '#EBEDF2', borderRadius: 2, overflow: 'hidden' }}>
+          <div style={{ width: `${pct}%`, height: '100%', background: cat.color, borderRadius: 2, transition: 'width 0.3s' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Completed Card
+function CompletedCard({ item, onUndo }) {
+  const actionIcon = item.action === 'sent' ? '✓' : item.action === 'skipped' ? '✕' : '⏰';
+  const actionColor = item.action === 'sent' ? '#49C481' : item.action === 'skipped' ? '#A4A6AA' : '#F4C755';
+  const cat = categories.find(c => c.id === item.category);
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: 'var(--surface)', borderRadius: 8, border: '1px solid var(--border-subtle)' }}>
+      <div style={{ width: 28, height: 28, borderRadius: '50%', background: `${actionColor}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: actionColor, fontWeight: 700 }}>{actionIcon}</div>
+      <div style={{ width: 6, height: 6, borderRadius: '50%', background: cat?.color }} />
+      <div style={{ flex: 1 }}>
+        <span style={{ fontSize: 13, fontWeight: 600 }}>{item.name}</span>
+        <span style={{ fontSize: 12, color: 'var(--text-muted)', marginLeft: 6 }}>{item.company}</span>
+      </div>
+      <span style={{ fontSize: 12, color: 'var(--text-secondary)', textTransform: 'capitalize' }}>{item.action}</span>
+      <button onClick={() => onUndo(item.id)} style={{ fontSize: 11, color: 'var(--brand)', background: 'none', border: '1px solid var(--brand)', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', fontWeight: 500 }}>Undo</button>
+    </div>
+  );
+}
+
+// Queue Card
+function QueueCard({ item, isHighlighted, onClick }) {
+  const cat = categories.find(c => c.id === item.category);
+  return (
+    <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--surface)', borderRadius: 'var(--radius-card)', border: isHighlighted ? '2px solid var(--brand)' : '1px solid var(--border-subtle)', cursor: 'pointer', transition: 'border-color 0.15s' }}>
+      <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#F0F1F4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)' }}>{item.name.split(' ').map(n=>n[0]).join('')}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 13, fontWeight: 600 }}>{item.name}</span>
+          <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{item.company}</span>
+          <span style={{ fontSize: 10, fontWeight: 600, color: cat?.color, background: `${cat?.color}15`, padding: '2px 6px', borderRadius: 4 }}>{cat?.label}</span>
+        </div>
+        <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.subject}</div>
+      </div>
+      <div style={{ textAlign: 'right' }}>
+        <div className="mono" style={{ fontSize: 12, color: 'var(--text-secondary)' }}>€{(item.value/1000).toFixed(0)}k</div>
+        <div className="mono" style={{ fontSize: 11, color: item.score >= 70 ? '#49C481' : item.score >= 60 ? '#F4C755' : 'var(--text-muted)' }}>{item.score}</div>
+      </div>
+    </div>
+  );
+}
+
+// Main App
+function App() {
+  const [completed, setCompleted] = useState(completedData);
+  const [queue, setQueue] = useState(queueData);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [toasts, setToasts] = useState([]);
+  const [showReasoning, setShowReasoning] = useState(false);
+  const [subject, setSubject] = useState("Re: Closing the loop on your proposal");
+  const [body, setBody] = useState(`Hi Reuben,
+
+I wanted to circle back on our conversation from two weeks ago. I know things can get busy, especially during negotiation phases, but I wanted to make sure we don't lose momentum on this.
+
+Your team mentioned the integration timeline was the main concern. We've since accelerated our onboarding process — most enterprise clients are live within 10 business days now.
+
+The proposal we discussed (€118k annual) is still valid through end of May. Happy to jump on a 15-minute call this week to address any remaining questions.
+
+Would Thursday or Friday afternoon work?
+
+Best,
+Sarah`);
+  const [coachText, setCoachText] = useState('');
+  const toastId = useRef(0);
+
+  const processed = completed.length;
+  const total = 25;
+
+  const addToast = useCallback((message, type = 'success') => {
+    const id = ++toastId.current;
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000);
+  }, []);
+
+  const handleSend = useCallback(() => {
+    addToast('Sent to Reuben Ortega', 'success');
+    setCompleted(prev => [{ id: `new-${Date.now()}`, name: 'Reuben Ortega', company: 'Halcyon Cloud', category: 'stale', action: 'sent', subject }, ...prev]);
+  }, [addToast, subject]);
+
+  const handleSkip = useCallback(() => {
+    addToast('Skipped — Reuben Ortega', 'skip');
+    setCompleted(prev => [{ id: `new-${Date.now()}`, name: 'Reuben Ortega', company: 'Halcyon Cloud', category: 'stale', action: 'skipped', subject }, ...prev]);
+  }, [addToast, subject]);
+
+  const handleSnooze = useCallback(() => {
+    addToast('Snoozed 2 days — Reuben Ortega', 'warning');
+    setCompleted(prev => [{ id: `new-${Date.now()}`, name: 'Reuben Ortega', company: 'Halcyon Cloud', category: 'stale', action: 'snoozed', subject }, ...prev]);
+  }, [addToast, subject]);
+
+  const handleApproveAll = useCallback(() => {
+    addToast(`Approved all ${queue.length + 1} remaining drafts`, 'success');
+  }, [queue.length]);
+
+  const handleUndo = useCallback((id) => {
+    setCompleted(prev => prev.filter(c => c.id !== id));
+    addToast('Action undone', 'skip');
+  }, [addToast]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.shiftKey && e.key === 'A') { e.preventDefault(); handleApproveAll(); return; }
+      switch(e.key.toLowerCase()) {
+        case 'a': e.preventDefault(); handleSend(); break;
+        case 's': e.preventDefault(); handleSkip(); break;
+        case 'z': e.preventDefault(); handleSnooze(); break;
+        case 'j': e.preventDefault(); setActiveIndex(prev => Math.min(prev + 1, queue.length - 1)); break;
+        case 'k': e.preventDefault(); setActiveIndex(prev => Math.max(prev - 1, 0)); break;
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [handleSend, handleSkip, handleSnooze, handleApproveAll, queue.length]);
+
+  return (
+    <div style={{ maxWidth: 1080, margin: '0 auto', padding: '32px 24px 100px' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24 }}>
+        <div>
+          <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }}>Outreach Review</h1>
+          <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Saturday, May 3, 2026</div>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>25 drafts generated at 06:42 by Forge AI, est. 9 min to clear</div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#EEF2FF', borderRadius: 20, padding: '6px 14px' }}>
+            <span className="mono" style={{ fontSize: 13, fontWeight: 600, color: 'var(--brand)' }}>{processed} / {total} done</span>
+            <div style={{ width: 60, height: 4, background: '#D4DDEE', borderRadius: 2, overflow: 'hidden' }}>
+              <div style={{ width: `${(processed/total)*100}%`, height: '100%', background: 'var(--brand)', borderRadius: 2 }} />
+            </div>
+          </div>
+          <button style={{ fontSize: 13, fontWeight: 500, color: 'var(--brand)', background: 'none', border: '1px solid var(--brand)', borderRadius: 'var(--radius-btn)', padding: '8px 14px', cursor: 'pointer' }}>Regenerate batch</button>
+          <button style={{ fontSize: 13, fontWeight: 500, color: '#fff', background: 'var(--brand)', border: 'none', borderRadius: 'var(--radius-btn)', padding: '8px 14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>Approve all remaining <kbd style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff' }}>⇧A</kbd></button>
+        </div>
+      </div>
+
+      {/* KPI Cards */}
+      <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
+        {categories.map(cat => <KpiCard key={cat.id} cat={cat} />)}
+      </div>
+
+      {/* Filter Bar */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, padding: '12px 16px', background: 'var(--surface)', borderRadius: 'var(--radius-card)', border: '1px solid var(--border-subtle)' }}>
+        <select style={{ fontSize: 12, padding: '6px 10px', borderRadius: 6, border: '1px solid var(--border)', color: 'var(--text-secondary)', background: '#fff' }}>
+          <option>All categories</option>
+          {categories.map(c => <option key={c.id}>{c.label}</option>)}
+        </select>
+        <select style={{ fontSize: 12, padding: '6px 10px', borderRadius: 6, border: '1px solid var(--border)', color: 'var(--text-secondary)', background: '#fff' }}>
+          <option>All statuses</option>
+          <option>Pending</option><option>Sent</option><option>Skipped</option><option>Snoozed</option>
+        </select>
+        <select style={{ fontSize: 12, padding: '6px 10px', borderRadius: 6, border: '1px solid var(--border)', color: 'var(--text-secondary)', background: '#fff' }}>
+          <option>Score (high → low)</option>
+          <option>Deal value</option><option>Category</option><option>Alphabetical</option>
+        </select>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Min score</span>
+          <input type="number" defaultValue={50} style={{ width: 48, fontSize: 12, padding: '5px 6px', borderRadius: 6, border: '1px solid var(--border)', fontFamily: "'JetBrains Mono', monospace" }} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <input placeholder="Search contacts..." style={{ width: '100%', fontSize: 12, padding: '6px 10px', borderRadius: 6, border: '1px solid var(--border)' }} />
+        </div>
+        <button style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', background: '#F0F1F4', border: 'none', borderRadius: 6, padding: '6px 12px', cursor: 'pointer' }}>Saved views</button>
+      </div>
+
+      {/* Completed Section */}
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Completed today ({completed.length})</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {completed.map(item => <CompletedCard key={item.id} item={item} onUndo={handleUndo} />)}
+        </div>
+      </div>
+
+      {/* Active Card */}
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Up next</div>
+        <div style={{ background: 'var(--surface)', borderRadius: 'var(--radius-card)', border: '2px solid var(--brand)', padding: 24, boxShadow: '0 4px 16px rgba(22,67,135,0.08)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#F4C75520', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, color: '#F4C755' }}>RO</div>
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 700 }}>Reuben Ortega</div>
+                <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Halcyon Cloud</div>
+              </div>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#F4C755', background: '#F4C75515', padding: '3px 8px', borderRadius: 4, marginLeft: 8 }}>Stale deal nudge</span>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div className="mono" style={{ fontSize: 14, fontWeight: 600 }}>€118,000</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Negotiation, stalled 14 days</div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>AI Score</span>
+            <span className="mono" style={{ fontSize: 14, fontWeight: 600, color: '#49C481' }}>71</span>
+            <div style={{ width: 80, height: 4, background: '#EBEDF2', borderRadius: 2, overflow: 'hidden' }}>
+              <div style={{ width: '71%', height: '100%', background: '#49C481', borderRadius: 2 }} />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 4 }}>Subject</label>
+            <input value={subject} onChange={e => setSubject(e.target.value)} style={{ width: '100%', fontSize: 14, padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', fontWeight: 500 }} />
+          </div>
+
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 4 }}>Body</label>
+            <textarea value={body} onChange={e => setBody(e.target.value)} rows={12} style={{ width: '100%', fontSize: 13, padding: '12px', borderRadius: 8, border: '1px solid var(--border)', lineHeight: 1.6, resize: 'vertical', fontFamily: 'Inter, sans-serif' }} />
+          </div>
+
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 4 }}>Coach the AI</label>
+            <textarea value={coachText} onChange={e => setCoachText(e.target.value)} placeholder="e.g. Make it shorter, add urgency about the May deadline..." rows={2} style={{ width: '100%', fontSize: 13, padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', resize: 'vertical', fontFamily: 'Inter, sans-serif' }} />
+          </div>
+
+          <div style={{ marginBottom: 20 }}>
+            <button onClick={() => setShowReasoning(!showReasoning)} style={{ fontSize: 12, color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
+              <span style={{ transform: showReasoning ? 'rotate(90deg)' : 'rotate(0)', transition: 'transform 0.15s', display: 'inline-block' }}>▶</span>
+              Show AI reasoning
+            </button>
+            {showReasoning && (
+              <div style={{ marginTop: 8, padding: 12, background: '#F8F8F8', borderRadius: 8, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                <strong>Why this draft:</strong> Deal stalled 14 days in negotiation. Contact previously responded well to time-bound offers (2/3 replies in last quarter). Integration timeline was flagged as primary blocker in last call notes. Score factors: deal size (+18), engagement history (+12), stage urgency (+22), days stalled penalty (-8), persona fit (+11). Recommended tone: professional urgency without pressure.
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button onClick={handleSend} style={{ fontSize: 14, fontWeight: 600, color: '#fff', background: '#49C481', border: 'none', borderRadius: 'var(--radius-btn)', padding: '10px 24px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>Send <kbd style={{ background: 'rgba(255,255,255,0.25)', border: '1px solid rgba(255,255,255,0.3)', color: '#fff' }}>A</kbd></button>
+            <button onClick={handleSkip} style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-secondary)', background: 'none', border: '1px solid var(--border)', borderRadius: 'var(--radius-btn)', padding: '10px 20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>Skip <kbd>S</kbd></button>
+            <button onClick={handleSnooze} style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-secondary)', background: 'none', border: 'none', borderRadius: 'var(--radius-btn)', padding: '10px 20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>Snooze <kbd>Z</kbd></button>
+          </div>
+        </div>
+      </div>
+
+      {/* Queue */}
+      <div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Queued ({queue.length})</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {queue.map((item, i) => <QueueCard key={item.id} item={item} isHighlighted={i === activeIndex} onClick={() => setActiveIndex(i)} />)}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#1a1a2e', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, zIndex: 1000 }}>
+        <div style={{ display: 'flex', gap: 16, fontSize: 12, color: '#a0a0b8' }}>
+          <span><kbd style={{ background: '#2a2a42', border: '1px solid #3a3a52', color: '#d0d0e0' }}>A</kbd> Send</span>
+          <span><kbd style={{ background: '#2a2a42', border: '1px solid #3a3a52', color: '#d0d0e0' }}>S</kbd> Skip</span>
+          <span><kbd style={{ background: '#2a2a42', border: '1px solid #3a3a52', color: '#d0d0e0' }}>Z</kbd> Snooze</span>
+          <span><kbd style={{ background: '#2a2a42', border: '1px solid #3a3a52', color: '#d0d0e0' }}>J</kbd>/<kbd style={{ background: '#2a2a42', border: '1px solid #3a3a52', color: '#d0d0e0' }}>K</kbd> Navigate</span>
+          <span><kbd style={{ background: '#2a2a42', border: '1px solid #3a3a52', color: '#d0d0e0' }}>⇧A</kbd> Approve all</span>
+        </div>
+        <div style={{ fontSize: 12, color: '#7a7a98', marginLeft: 24 }} className="mono">{processed}/25 processed, est. 8 min remaining</div>
+      </div>
+
+      <Toast toasts={toasts} />
+
+      <style>{`
+        @keyframes slideIn {
+          from { transform: translateX(20px); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
