@@ -2,14 +2,14 @@
 
 A comprehensive guide based on insights from bio-optimization experts, merged with Weston A. Price Foundation traditional-foods wisdom. No grains.
 
-**Conception date:** April 30, 2026
-**Estimated due date:** December 26, 2026
+**Conception date:** April 12, 2026
+**Estimated due date:** January 3, 2027 (266 days)
 
 | Phase | Dates | Weeks |
 |-------|-------|-------|
-| 1st Trimester | Mar 21 - Jun 12, 2026 | 1-12 |
-| 2nd Trimester | Jun 13 - Sep 25, 2026 | 13-27 |
-| 3rd Trimester | Sep 26 - Dec 26, 2026 | 28-40 |
+| 1st Trimester | Apr 12 - Jul 4, 2026 | 1-12 |
+| 2nd Trimester | Jul 5 - Oct 17, 2026 | 13-27 |
+| 3rd Trimester | Oct 18, 2026 - Jan 3, 2027 | 28-38 |
 
 ### Trimester-Specific Focus
 
