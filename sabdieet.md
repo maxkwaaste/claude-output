@@ -1,19 +1,19 @@
 # Optimizing Maternal & Fetal Health
 
-A comprehensive guide based on insights from trusted bio-optimization experts.
+A comprehensive guide based on insights from bio-optimization experts, merged with Weston A. Price Foundation traditional-foods wisdom. No grains.
 
-**Conception date:** April 13, 2026
-**Estimated due date:** January 18, 2027
+**Conception date:** April 30, 2026
+**Estimated due date:** January 21, 2027
 
 | Phase | Dates | Weeks |
 |-------|-------|-------|
-| 1st Trimester | Apr 13 - Jul 5, 2026 | 1-12 |
-| 2nd Trimester | Jul 6 - Oct 4, 2026 | 13-27 |
-| 3rd Trimester | Oct 5, 2026 - Jan 18, 2027 | 28-40 |
+| 1st Trimester | Apr 30 - Jul 8, 2026 | 1-12 |
+| 2nd Trimester | Jul 9 - Oct 21, 2026 | 13-27 |
+| 3rd Trimester | Oct 22, 2026 - Jan 21, 2027 | 28-40 |
 
 ### Trimester-Specific Focus
 
-**1st Trimester** - Key nutrients: Choline, Methylfolate, B12. If nauseous: raw dairy, egg yolks, bone broth. Full Brecka supplement stack active.
+**1st Trimester** - Key nutrients: Retinol (Vitamin A), Choline, Methylfolate, B12. If nauseous: raw dairy, egg yolks, bone broth. Full Brecka supplement stack active.
 
 **2nd Trimester** - Key nutrients: Calcium, K2, heme iron, saturated fats. Start CGM monitoring. Movement: HIT 2x + Pilates 3-4x/week.
 
@@ -32,6 +32,7 @@ A comprehensive guide based on insights from trusted bio-optimization experts.
 | Bryony Deery | Pilates for Pregnancy |
 | Dr. Paul Saladino | Animal-Based Nutrition |
 | Dr. Casey Means | Metabolic Health |
+| Weston A. Price Foundation | Traditional Foods & Ancestral Nutrition |
 
 ---
 
@@ -88,8 +89,14 @@ The most nutrient-dense human diet centres on ruminant meat, organs, raw dairy, 
 
 - **Grass-Fed Meat** - Heme iron, complete protein, B12, zinc, creatine
 - **Organ Meats** - 0.5 oz fresh liver per day, the original prenatal multivitamin
-- **Raw Dairy** - Calcium, K2, A, intact enzymes if tolerated
+- **Raw Dairy** - 1 quart (1L) daily from pasture-fed cows. Calcium, K2, A, intact enzymes
 - **Fruit & Honey** - Clean carbohydrate, polyphenols, ready energy
+- **Pasture-Raised Eggs** *(WAPF)* - 2-4 whole eggs daily + extra yolks. Choline, biotin, ARA
+- **Grass-Fed Butter** *(WAPF)* - 4 tbsp daily. K2, retinol, butyrate. Balances EPA with ARA
+- **Shellfish & Roe** *(WAPF)* - Oysters, mussels 2-4x/week. Fish roe 2-3x/week. Sacred fertility foods
+- **Lacto-Fermented Foods** *(WAPF)* - Sauerkraut, kimchi, kvass with every meal. Probiotics, K2
+- **Aged Cheese** *(WAPF)* - Daily. Gouda, Emmental, Brie for vitamin K2. Goat cheese preferred
+- **Bone Broth** *(WAPF)* - Daily. Glycine is conditionally essential in pregnancy
 
 ### ELIMINATE: Industrial Seed Oils
 
@@ -130,7 +137,7 @@ Between 44 and 60 percent of people carry a MTHFR mutation that prevents convers
 | **AVOID: Folic Acid** | Synthetic, often added to fortified flour and standard prenatals |
 | **TAKE: Methylfolate (5-MTHF)** | Bioavailable form, no conversion required |
 
-### Brecka's Core Stack
+### Core Stack (Brecka + WAPF)
 
 | Supplement | Purpose |
 |-----------|---------|
@@ -138,12 +145,20 @@ Between 44 and 60 percent of people carry a MTHFR mutation that prevents convers
 | Methylcobalamin B12 | Active B12 for methylation |
 | P-5-P (B6) | Active B6 for nervous system |
 | Magnesium Glycinate | Sleep, muscle, anti-cramp |
-| Vitamin D3 + K2 | Bone health, calcium routing |
-| Marine Omega-3 EPA/DHA | Brain and eye development |
+| High-Vitamin Cod Liver Oil *(WAPF)* | 2 tsp/day. 20K IU retinol + 2K IU D3 + 2g omega-3. Replaces separate D3, vit A, fish oil |
+| Desiccated Beef Organs | Capsules for days without fresh liver. Retinol, choline, heme iron backup |
 
 ### Iron Caution
 
 Avoid blanket synthetic iron prescriptions like ferrous sulfate. Get heme iron from red meat and liver first. Supplement only if labs confirm deficiency, and even then use a gentler form like iron bisglycinate.
+
+### EPA/ARA Balance Warning *(WAPF)*
+
+Cod liver oil contains EPA which can cause hemorrhaging during birth if not balanced by arachidonic acid (ARA). ARA comes from liver, egg yolks, and meat fats. This is why the protocol includes 4 tbsp butter, 2+ eggs, and meat with fat daily. Do not take cod liver oil on a low-fat or plant-based diet.
+
+### Standard Prenatals *(WAPF)*
+
+Avoid standard prenatal vitamins. They contain synthetic folic acid (blocks folate receptors in MTHFR carriers) and synthetic vitamin A (linked to birth defects). The cod liver oil + food protocol above replaces them entirely.
 
 ---
 
@@ -284,9 +299,9 @@ A practical synthesis. Print this and stick it on the fridge.
 |-----------|------|
 | Methylfolate (5-MTHF) | 800-1000 mcg, morning |
 | Desiccated Beef Organs | 6 capsules daily, with food |
-| Vitamin D3 + K2 (MK-7) | 5000 IU D3 / 100 mcg K2, with fat |
+| High-Vitamin Cod Liver Oil | 2 tsp/day, with butter. 20K IU retinol + 2K IU D3 + 2g omega-3 |
 | Magnesium Glycinate | 300-400 mg, evening |
-| Marine Omega-3 (EPA/DHA) | 2 g combined, with meal |
+| Desiccated Beef Organs | 6 capsules daily, with food (backup for days without fresh liver) |
 | Methylcobalamin B12 + P-5-P | Active forms, morning |
 
 ---
