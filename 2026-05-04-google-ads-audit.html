@@ -76,12 +76,12 @@ li::marker { color: #1a2744; }
   flex: 1; padding: 20px 24px;
   border-left: 2px solid #d0d3d8;
 }
-.stat-card:first-child { border-left: 2px solid #d0d3d8; }
 .stat-value {
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
 }
 .stat-value.critical { color: #dc2626; }
+.stat-value.good { color: #16a34a; }
 .stat-label {
   font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
   letter-spacing: .1em; color: #6b7280; margin-top: 6px;
@@ -110,17 +110,11 @@ li::marker { color: #1a2744; }
   font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
   letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
 }
-.callout.critical {
-  background: #fef2f2; border-left-color: #dc2626;
-}
+.callout.critical { background: #fef2f2; border-left-color: #dc2626; }
 .callout.critical .callout-label { color: #dc2626; }
-.callout.warning {
-  background: #fffbeb; border-left-color: #d97706;
-}
+.callout.warning { background: #fffbeb; border-left-color: #d97706; }
 .callout.warning .callout-label { color: #d97706; }
-.callout.good {
-  background: #f0fdf4; border-left-color: #16a34a;
-}
+.callout.good { background: #f0fdf4; border-left-color: #16a34a; }
 .callout.good .callout-label { color: #16a34a; }
 .positioning {
   background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
@@ -129,7 +123,6 @@ li::marker { color: #1a2744; }
 .positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
 .positioning h2::after { display: none; }
 .positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
-.positioning .callout-label { color: #c8a87a; }
 .positioning ol, .positioning li { color: rgba(255,255,255,.88); }
 .positioning li { margin-bottom: 10px; }
 .bar-chart { margin: 16px 0; }
@@ -137,7 +130,7 @@ li::marker { color: #1a2744; }
   display: flex; align-items: center; margin-bottom: 8px;
   font: 400 13px/1 -apple-system, sans-serif;
 }
-.bar-label { width: 200px; color: #2c2c2c; flex-shrink: 0; }
+.bar-label { width: 120px; color: #2c2c2c; flex-shrink: 0; }
 .bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
 .bar-fill {
   height: 100%; border-radius: 2px; background: #1a2744;
@@ -148,6 +141,7 @@ li::marker { color: #1a2744; }
 .bar-fill.muted { background: #8a8f96; }
 .bar-fill.red { background: #dc2626; }
 .bar-fill.green { background: #16a34a; }
+.bar-fill.gold { background: #d97706; }
 .bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
 .section-title {
   font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -179,14 +173,35 @@ li::marker { color: #1a2744; }
 }
 .tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
 .tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
-.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
-.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
 .tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
 .neg-kw-list {
   columns: 2; column-gap: 24px; font: 400 13px/1.6 -apple-system, sans-serif;
   margin: 12px 0 18px; color: #2c2c2c;
 }
 .neg-kw-list li { break-inside: avoid; }
+.timeline {
+  border-left: 3px solid #1a2744; margin: 20px 0 20px 16px; padding-left: 24px;
+}
+.timeline-event {
+  position: relative; margin-bottom: 20px;
+}
+.timeline-event::before {
+  content: ''; position: absolute; left: -31px; top: 4px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #1a2744; border: 2px solid #fff;
+}
+.timeline-event.gold::before { background: #d97706; }
+.timeline-event.red::before { background: #dc2626; }
+.timeline-event.green::before { background: #16a34a; }
+.timeline-date {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #6b7280; margin-bottom: 4px;
+}
+.timeline-title {
+  font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.timeline-desc { font-size: 13px; color: #4a5568; line-height: 1.5; }
 .page-footer {
   display: flex; justify-content: space-between; margin-top: 40px;
   padding-top: 12px; border-top: 1px solid #d0d3d8;
@@ -212,494 +227,397 @@ code {
       </div>
     </div>
     <div class="page-meta-right">
-      May 4, 2026<br>Account Audit<br>Google Ads
+      May 4, 2026<br>Full Account Audit<br>Google Ads
     </div>
   </div>
   <div class="brand-rule"></div>
 
-  <div class="overline">GOOGLE ADS PERFORMANCE AUDIT</div>
-  <h1>Proxuma Google Ads: 30-Day Audit</h1>
-  <p class="subtitle">Account 215-278-2474. Period: April 4 to May 4, 2026. Two enabled campaigns, two paused campaigns with trailing spend. Zero conversions.</p>
+  <div class="overline">GOOGLE ADS FULL HISTORY AUDIT</div>
+  <h1>Proxuma Google Ads: From Golden Period to Today</h1>
+  <p class="subtitle">Account 215-278-2474. Full history Jan 2024 to May 2026. Campaigns re-enabled today (May 4). This audit covers what worked, what broke, and what to do now.</p>
 
+  <!-- LIFETIME STATS -->
   <div class="stats-row">
     <div class="stat-card">
-      <div class="stat-value">&euro;125</div>
-      <div class="stat-label">Total Spend (30d)</div>
+      <div class="stat-value">&euro;6,542</div>
+      <div class="stat-label">Lifetime Spend</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">29</div>
-      <div class="stat-label">Total Clicks</div>
+      <div class="stat-value good">30.5</div>
+      <div class="stat-label">Lifetime Conversions</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value critical">0</div>
-      <div class="stat-label">Conversions</div>
+      <div class="stat-value">&euro;214</div>
+      <div class="stat-label">Cost per Conversion</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">&euro;4.31</div>
-      <div class="stat-label">Avg. CPC</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">645</div>
-      <div class="stat-label">Impressions</div>
+      <div class="stat-value good">Nov '25</div>
+      <div class="stat-label">Best Month</div>
     </div>
   </div>
 
-  <div class="callout critical">
-    <span class="callout-label">Critical Finding</span>
-    <strong>Zero conversions across all campaigns.</strong> Either conversion tracking is not set up, or no conversion actions are defined. Without this, every euro spent is unattributed. This is the single highest-priority fix.
+  <!-- TIMELINE -->
+  <h2>Account Timeline</h2>
+  <p>The account has three distinct phases. Understanding what changed between them is the key to fixing it.</p>
+
+  <div class="timeline">
+    <div class="timeline-event">
+      <div class="timeline-date">Jan 2024 - May 2025</div>
+      <div class="timeline-title">Brand-only period</div>
+      <div class="timeline-desc">Only "Proxuma Brand" running. Low spend (EUR 2-8/month), small volumes, occasional conversions. The brand campaign has been steady and reliable throughout the entire account history.</div>
+    </div>
+    <div class="timeline-event gold">
+      <div class="timeline-date">June - November 2025</div>
+      <div class="timeline-title">Golden period: 3 campaigns, real conversions</div>
+      <div class="timeline-desc"><strong>NEW1-Search-WebsiteTraffic</strong> launched alongside the existing <strong>Targeted campaign autotask</strong>. Together with Brand, these three campaigns produced 22.5 conversions in 6 months. NEW1 was the star performer: 4.5 conversions on EUR 379 spend. The Autotask campaign peaked at 4 conversions in November alone.</div>
+    </div>
+    <div class="timeline-event red">
+      <div class="timeline-date">December 2025 - January 2026</div>
+      <div class="timeline-title">Autotask campaign stops converting</div>
+      <div class="timeline-desc">NEW1 was paused. Autotask campaign kept running but conversions dropped to zero despite EUR 602 spend across Dec-Jan. CPC climbed from EUR 9 to EUR 17. Something changed -- either the landing page, the conversion tracking, or the competitive landscape.</div>
+    </div>
+    <div class="timeline-event red">
+      <div class="timeline-date">February - April 2026</div>
+      <div class="timeline-title">John (b2bleads.nl) takeover: EUR 810 wasted</div>
+      <div class="timeline-desc">John made 614 changes. Launched "Search | Leads | USA" and "Search | Leads | AUS" with generic MSP keywords, Maximize Clicks bidding, and EUR 198/day budget. Zero conversions. Original campaigns stayed running in parallel, also producing nothing. Total waste: ~EUR 1,400 across all campaigns in this period.</div>
+    </div>
+    <div class="timeline-event green">
+      <div class="timeline-date">May 4, 2026</div>
+      <div class="timeline-title">Today: campaigns re-enabled</div>
+      <div class="timeline-desc">Max re-enabled the two original campaigns (Brand + Autotask). John's campaigns remain paused. This audit provides the roadmap for what to do next.</div>
+    </div>
   </div>
 
-  <!-- CAMPAIGN HEALTH -->
-  <h2>Campaign Health</h2>
+  <!-- GOLDEN PERIOD DEEP DIVE -->
+  <h2>What Worked: The Golden Period (Jun-Nov 2025)</h2>
 
+  <div class="callout good">
+    <span class="callout-label">Peak month: November 2025</span>
+    9 conversions total. Brand: 5 conversions (EUR 56). Autotask: 4 conversions (EUR 886). Combined cost per conversion: EUR 105. This is what the account can do when it's running right.
+  </div>
+
+  <h3>Monthly Performance (Full History)</h3>
   <table class="matrix">
     <thead>
       <tr>
-        <th>Campaign</th>
-        <th>Status</th>
+        <th>Month</th>
+        <th>Campaigns Active</th>
         <th>Spend</th>
         <th>Clicks</th>
-        <th>Impr.</th>
-        <th>CTR</th>
-        <th>Avg CPC</th>
-        <th>Verdict</th>
+        <th>Conv.</th>
+        <th>Cost/Conv.</th>
+        <th>Phase</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><strong>Proxuma Brand</strong></td>
-        <td>Enabled</td>
-        <td>&euro;8.75</td>
-        <td>13</td>
-        <td>38</td>
-        <td>34.2%</td>
-        <td>&euro;0.67</td>
-        <td style="color:#16a34a; font-weight:700">Keep</td>
-      </tr>
-      <tr>
-        <td><strong>Targeted campaign autotask</strong></td>
-        <td>Enabled</td>
-        <td>&euro;26.48</td>
-        <td>3</td>
-        <td>92</td>
-        <td>3.3%</td>
-        <td>&euro;8.83</td>
-        <td style="color:#dc2626; font-weight:700">Pause</td>
-      </tr>
-      <tr>
-        <td><strong>Search | Leads | USA</strong></td>
-        <td>Paused</td>
-        <td>&euro;62.51</td>
-        <td>9</td>
-        <td>412</td>
-        <td>2.2%</td>
-        <td>&euro;6.95</td>
-        <td style="color:#d97706; font-weight:700">Fix first</td>
-      </tr>
-      <tr>
-        <td><strong>Search | Leads | AUS (new)</strong></td>
-        <td>Paused</td>
-        <td>&euro;27.37</td>
-        <td>4</td>
-        <td>103</td>
-        <td>3.9%</td>
-        <td>&euro;6.84</td>
-        <td style="color:#d97706; font-weight:700">Fix first</td>
-      </tr>
-      <tr class="row-total">
-        <td>Total</td>
-        <td></td>
-        <td>&euro;125.11</td>
-        <td>29</td>
-        <td>645</td>
-        <td>4.5%</td>
-        <td>&euro;4.31</td>
-        <td></td>
-      </tr>
+      <tr><td>Jan-Apr 2024</td><td>Brand only</td><td>&euro;9</td><td>4</td><td>0</td><td>--</td><td style="color:#6b7280">Dormant</td></tr>
+      <tr><td>May 2024</td><td>Brand only</td><td>&euro;2</td><td>2</td><td>0</td><td>--</td><td style="color:#6b7280">Dormant</td></tr>
+      <tr><td>Jun-Sep 2024</td><td>Brand only</td><td>&euro;12</td><td>10</td><td>3</td><td>&euro;4</td><td style="color:#6b7280">Dormant</td></tr>
+      <tr><td>Oct-Dec 2024</td><td>Brand only</td><td>&euro;12</td><td>14</td><td>1</td><td>&euro;12</td><td style="color:#6b7280">Dormant</td></tr>
+      <tr><td>Jan-Apr 2025</td><td>Brand only</td><td>&euro;16</td><td>20</td><td>0</td><td>--</td><td style="color:#6b7280">Dormant</td></tr>
+      <tr><td><strong>May 2025</strong></td><td>Brand only</td><td>&euro;9</td><td>8</td><td><strong>3</strong></td><td>&euro;3</td><td style="color:#d97706">Warming up</td></tr>
+      <tr><td><strong>Jun 2025</strong></td><td>Brand + NEW1 + Autotask</td><td>&euro;274</td><td>47</td><td><strong>4</strong></td><td>&euro;69</td><td style="color:#16a34a">Golden</td></tr>
+      <tr><td><strong>Jul 2025</strong></td><td>Brand + NEW1 + Autotask + Thijs trial</td><td>&euro;558</td><td>143</td><td><strong>3</strong></td><td>&euro;186</td><td style="color:#16a34a">Golden</td></tr>
+      <tr><td><strong>Aug 2025</strong></td><td>Brand + Autotask</td><td>&euro;609</td><td>106</td><td><strong>2</strong></td><td>&euro;305</td><td style="color:#16a34a">Golden</td></tr>
+      <tr><td><strong>Sep 2025</strong></td><td>Brand + Autotask</td><td>&euro;1,018</td><td>136</td><td><strong>3</strong></td><td>&euro;339</td><td style="color:#16a34a">Golden</td></tr>
+      <tr><td><strong>Oct 2025</strong></td><td>Brand + Autotask</td><td>&euro;955</td><td>124</td><td><strong>3</strong></td><td>&euro;318</td><td style="color:#16a34a">Golden</td></tr>
+      <tr><td><strong>Nov 2025</strong></td><td>Brand + Autotask</td><td>&euro;942</td><td>131</td><td><strong>9</strong></td><td><strong>&euro;105</strong></td><td style="color:#16a34a">Golden peak</td></tr>
+      <tr><td>Dec 2025</td><td>Brand + Autotask</td><td>&euro;353</td><td>81</td><td>2</td><td>&euro;177</td><td style="color:#dc2626">Decline</td></tr>
+      <tr><td>Jan 2026</td><td>Brand + Autotask</td><td>&euro;379</td><td>95</td><td>2</td><td>&euro;190</td><td style="color:#dc2626">Decline</td></tr>
+      <tr><td>Feb 2026</td><td>Brand + Autotask</td><td>&euro;338</td><td>78</td><td>0</td><td>--</td><td style="color:#dc2626">Dead</td></tr>
+      <tr><td>Mar 2026</td><td>All 5 campaigns</td><td>&euro;954</td><td>176</td><td>3</td><td>&euro;318</td><td style="color:#dc2626">John era</td></tr>
+      <tr><td>Apr 2026</td><td>Brand + Autotask + John's</td><td>&euro;222</td><td>47</td><td>0</td><td>--</td><td style="color:#dc2626">John era</td></tr>
+    </tbody>
+  </table>
+
+  <!-- WHAT MADE THE GOLDEN PERIOD WORK -->
+  <h2>The Winning Keywords</h2>
+  <p>During the golden period, two campaigns carried the conversions. Here are the exact keywords that converted.</p>
+
+  <h3>NEW1-Search-WebsiteTraffic (Jun-Jul 2025)</h3>
+  <p>This campaign ran for just 2 months and was the most efficient converter in the account's history.</p>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Keyword</th><th>Match</th><th>Clicks</th><th>Conv.</th><th>Spend</th><th>Cost/Conv.</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>"Autotask Project Management"</strong></td><td>Phrase</td><td>21</td><td>2.0</td><td>&euro;104</td><td><strong>&euro;52</strong></td></tr>
+      <tr><td><strong>"Autotask Project"</strong></td><td>Phrase</td><td>19</td><td>1.5</td><td>&euro;170</td><td>&euro;113</td></tr>
+      <tr><td><strong>"Autotask Planning"</strong></td><td>Phrase</td><td>12</td><td>1.0</td><td>&euro;81</td><td>&euro;81</td></tr>
+      <tr><td>"Autotask Outlook"</td><td>Phrase</td><td>3</td><td>0</td><td>&euro;16</td><td>--</td></tr>
+      <tr><td>"Autotask Outlook integration"</td><td>Phrase</td><td>2</td><td>0</td><td>&euro;7</td><td>--</td></tr>
+      <tr class="row-total"><td>Total</td><td></td><td>57</td><td>4.5</td><td>&euro;379</td><td>&euro;84</td></tr>
     </tbody>
   </table>
 
   <div class="callout good">
-    <span class="callout-label">Brand Campaign</span>
-    Proxuma Brand is working as intended: 34.2% CTR at &euro;0.67 CPC. This protects your brand name from competitors bidding on "proxuma." Keep it running. The search terms confirm it catches misspellings too ("proxma", "prozkm").
+    <span class="callout-label">Key insight</span>
+    <strong>"Autotask Project Management" in phrase match at EUR 52/conversion was the best-performing keyword in the entire account.</strong> All converting keywords were Autotask-specific, phrase match, and project/planning related. This is Proxuma's sweet spot: MSPs searching for Autotask project management solutions.
   </div>
 
-  <div class="callout warning">
-    <span class="callout-label">Autotask Campaign Problem</span>
-    "Targeted campaign autotask" is spending &euro;8.83 per click on people searching for <em>free Autotask downloads</em> ("download autotask outlook plugin" cost &euro;8.01 alone). These searchers want Datto's native plugin, not a third-party add-on. This campaign should be paused immediately.
+  <h3>Targeted Campaign Autotask - Project Management Group (Oct-Nov 2025)</h3>
+  <table class="matrix">
+    <thead>
+      <tr><th>Keyword</th><th>Match</th><th>Clicks</th><th>Conv.</th><th>Spend</th><th>Cost/Conv.</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>"Autotask Project Management"</strong></td><td>Phrase</td><td>45</td><td>3.0</td><td>&euro;678</td><td><strong>&euro;226</strong></td></tr>
+      <tr><td><strong>"Autotask Projects"</strong></td><td>Phrase</td><td>24</td><td>1.0</td><td>&euro;283</td><td>&euro;283</td></tr>
+      <tr><td><strong>"autotask project management addon"</strong></td><td>Phrase</td><td>1</td><td>1.0</td><td>&euro;11</td><td><strong>&euro;11</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Pattern</span>
+    The same keyword ("Autotask Project Management", phrase match) converted in both campaigns. It cost less in NEW1 (EUR 52/conv) than in the Autotask campaign (EUR 226/conv) because NEW1 was running Maximize Conversions at a lower budget, while the Autotask campaign ran wider targeting that diluted performance.
   </div>
 
-  <!-- SPEND BREAKDOWN -->
-  <h2>Spend Breakdown by Campaign</h2>
+  <!-- WHY IT BROKE -->
+  <h2>Why Conversions Stopped</h2>
+
+  <p>Three things happened roughly at the same time:</p>
+
+  <div class="card">
+    <div class="card-title">1. NEW1 was paused (the best converter)</div>
+    <div class="card-buyer">PAUSED AFTER JULY 2025</div>
+    <div class="card-desc">NEW1 was producing conversions at EUR 84/each. It was paused, and the account lost its most efficient campaign. The Autotask campaign alone couldn't sustain the conversion rate because it was spending most of its budget on non-converting keywords (Planning, Outlook, Email groups).</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. Autotask campaign CPC climbed from EUR 6 to EUR 17</div>
+    <div class="card-buyer">PRICE DOUBLED IN 4 MONTHS</div>
+    <div class="card-desc">Average CPC went from EUR 6 (Jun 2025) to EUR 13 (Oct), EUR 13.4 (Dec), EUR 15 (Feb), EUR 17 (Jan). The market got more competitive for Autotask terms, or the Quality Score degraded. The "Planning" ad group alone spent EUR 235 in Oct-Nov on "Autotask planning" and "Autotask scheduling" with zero conversions.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. John's takeover destroyed algorithm learning</div>
+    <div class="card-buyer">614 CHANGES IN 3 MONTHS</div>
+    <div class="card-desc">John (b2bleads.nl) made 614 changes starting Feb 2026. Added generic MSP keywords, switched to Maximize Clicks bidding, launched 3 new campaigns at EUR 198/day budget. 228 status toggling changes reset the algorithm's learning. Zero conversions from any of John's campaigns.</div>
+  </div>
+
+  <!-- THE BLEEDING: AUTOTASK NON-CONVERTING SPEND -->
+  <h2>Where the Autotask Budget Actually Went</h2>
+  <p>The Autotask campaign had 3 ad groups. Only "Project management" converted. The other two ate most of the budget.</p>
 
   <div class="bar-chart">
     <div class="bar-row">
-      <span class="bar-label">Search | Leads | USA</span>
-      <div class="bar"><div class="bar-fill" style="width:50%">&euro;62.51</div></div>
-      <span class="bar-amount">50%</span>
+      <span class="bar-label">Planning</span>
+      <div class="bar"><div class="bar-fill red" style="width:50%">&euro;235 | 0 conv</div></div>
+      <span class="bar-amount">24 clicks</span>
     </div>
     <div class="bar-row">
-      <span class="bar-label">Search | Leads | AUS</span>
-      <div class="bar"><div class="bar-fill accent" style="width:22%">&euro;27.37</div></div>
-      <span class="bar-amount">22%</span>
+      <span class="bar-label">Project mgmt</span>
+      <div class="bar"><div class="bar-fill green" style="width:45%">&euro;678 | 5 conv</div></div>
+      <span class="bar-amount">70 clicks</span>
     </div>
     <div class="bar-row">
-      <span class="bar-label">Targeted autotask</span>
-      <div class="bar"><div class="bar-fill red" style="width:21%">&euro;26.48</div></div>
-      <span class="bar-amount">21%</span>
-    </div>
-    <div class="bar-row">
-      <span class="bar-label">Proxuma Brand</span>
-      <div class="bar"><div class="bar-fill green" style="width:7%">&euro;8.75</div></div>
-      <span class="bar-amount">7%</span>
+      <span class="bar-label">Outlook</span>
+      <div class="bar"><div class="bar-fill red" style="width:15%">&euro;58 | 0 conv</div></div>
+      <span class="bar-amount">8 clicks</span>
     </div>
   </div>
 
-  <!-- SEARCH TERM ANALYSIS -->
-  <h2>Search Term Waste</h2>
+  <p>The "Planning" group spent EUR 235 on terms like "Autotask scheduling" (14 clicks, 0 conv), "Autotask planning" (20 clicks, 0 conv), and "Autotask email" (2 clicks, 0 conv). These are people looking for how to use Autotask's built-in features, not looking for add-on products.</p>
 
-  <p>Out of 90+ unique search terms in the last 30 days, the majority are irrelevant to Proxuma. The "MSP Projectmanagement Software" ad group alone attracted 40+ terms for generic project management tools (ProjectLibre, GanttPro, Basecamp, Wrike, MS Planner) that have nothing to do with Autotask add-ons.</p>
+  <p>The "Outlook" group caught searches for "Autotask outlook plugin download" -- people wanting Datto's free plugin, not a third-party tool.</p>
 
-  <h3>Waste Categories</h3>
-
-  <div class="card">
-    <div class="card-title">Generic PM Tools (Not MSP-specific)</div>
-    <div class="card-buyer">40+ IMPRESSIONS WASTED</div>
-    <div class="card-desc">People searching for Basecamp, Wrike, Smartsheet, GanttPro, ProjectLibre, MS Planner, SharePoint PM, Azure DevOps boards. These are general project management searches, not MSP-specific. Proxuma's broad match "project management" keywords pull these in.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Competitor Brand Searches</div>
-    <div class="card-buyer">15+ IMPRESSIONS WASTED</div>
-    <div class="card-desc">Atera Inc (&euro;6.97 wasted on 1 click), ConnectWise alternatives, ClearPath MSP, Titan MSP, SoftMSP, Thread MSP, MSPilot. People searching for these competitor brands are not looking for Proxuma.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Autotask Feature Lookups (Not Buying Intent)</div>
-    <div class="card-buyer">20+ IMPRESSIONS WASTED</div>
-    <div class="card-desc">"Download autotask outlook plugin" (&euro;8.01 wasted), "autotask teams integration", "autotask ms outlook extension download", "autotask workflow", "autotask change management". These people want Datto's native tools or are looking for how-to help, not third-party add-ons.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Wrong Industry / Language</div>
-    <div class="card-buyer">10+ IMPRESSIONS WASTED</div>
-    <div class="card-desc">"Pronamics expert estimation" (construction), "recursos de project" (Spanish), "what is msp software" (informational), "n able dashboard login" (product support), "ms projects" (Microsoft Project).</div>
-  </div>
-
-  <!-- NEGATIVE KEYWORDS -->
-  <h2>Recommended Negative Keywords</h2>
-
-  <p>Add all of these as exact or phrase match negatives to all campaigns. This list comes directly from the search terms that triggered ads in the last 30 days.</p>
-
-  <h3>Competitor Brands (Exact Match Negatives)</h3>
-  <ul class="neg-kw-list">
-    <li>atera</li>
-    <li>connectwise</li>
-    <li>clearpath msp</li>
-    <li>titan msp</li>
-    <li>softmsp</li>
-    <li>thread msp</li>
-    <li>mspilot</li>
-    <li>manageengine</li>
-    <li>alga psa</li>
-    <li>n-able</li>
-    <li>n able</li>
-  </ul>
-
-  <h3>Generic PM Tools (Phrase Match Negatives)</h3>
-  <ul class="neg-kw-list">
-    <li>basecamp</li>
-    <li>wrike</li>
-    <li>smartsheet</li>
-    <li>ganttpro</li>
-    <li>gantt chart</li>
-    <li>projectlibre</li>
-    <li>ms planner</li>
-    <li>ms projects</li>
-    <li>microsoft project</li>
-    <li>sharepoint</li>
-    <li>azure devops</li>
-    <li>jira</li>
-    <li>planview</li>
-    <li>moovila</li>
-    <li>katana mavenlink</li>
-    <li>newforma</li>
-    <li>housatonic</li>
-    <li>pronamics</li>
-    <li>tfs</li>
-  </ul>
-
-  <h3>Non-Intent Terms (Phrase Match Negatives)</h3>
-  <ul class="neg-kw-list">
-    <li>download</li>
-    <li>free</li>
-    <li>login</li>
-    <li>what is</li>
-    <li>how to use</li>
-    <li>open source</li>
-    <li>viewer</li>
-    <li>mpp viewer</li>
-    <li>real estate</li>
-    <li>construction</li>
-    <li>recursos</li>
-  </ul>
-
-  <!-- AD PERFORMANCE -->
-  <h2>Ad Copy Effectiveness</h2>
+  <!-- CURRENT STATE (today) -->
+  <h2>Current State (May 4, 2026)</h2>
+  <p>You re-enabled Brand and Autotask today. Here's what the last 30 days looked like (mostly pre-today, trailing data from when they were running in April).</p>
 
   <table class="matrix">
     <thead>
-      <tr>
-        <th>Ad Group</th>
-        <th>Campaign</th>
-        <th>Impr.</th>
-        <th>Clicks</th>
-        <th>CTR</th>
-        <th>Spend</th>
-        <th>Flag</th>
-      </tr>
+      <tr><th>Campaign</th><th>Status</th><th>30d Spend</th><th>Clicks</th><th>Impr.</th><th>Conv.</th><th>Verdict</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Branded</strong></td>
-        <td>Proxuma Brand</td>
-        <td>38</td>
-        <td>13</td>
-        <td>34.2%</td>
-        <td>&euro;8.75</td>
-        <td style="color:#16a34a">Good</td>
+        <td><strong>Proxuma Brand</strong></td><td>Enabled</td><td>&euro;8.75</td><td>13</td><td>38</td><td>0</td>
+        <td style="color:#16a34a; font-weight:700">Keep</td>
       </tr>
       <tr>
-        <td><strong>MSP PM Software (P)</strong></td>
-        <td>USA Leads</td>
-        <td>174</td>
-        <td>3</td>
-        <td>1.7%</td>
-        <td>&euro;20.78</td>
-        <td style="color:#d97706">Low CTR</td>
+        <td><strong>Targeted campaign autotask</strong></td><td>Enabled</td><td>&euro;26.48</td><td>3</td><td>92</td><td>0</td>
+        <td style="color:#d97706; font-weight:700">Needs surgery</td>
       </tr>
       <tr>
-        <td><strong>MSP Automation (P)</strong></td>
-        <td>USA Leads</td>
-        <td>84</td>
-        <td>2</td>
-        <td>2.4%</td>
-        <td>&euro;13.89</td>
-        <td style="color:#d97706">Low CTR</td>
+        <td><strong>Search | Leads | USA</strong></td><td>Paused</td><td>&euro;62.51</td><td>9</td><td>412</td><td>0</td>
+        <td style="color:#dc2626; font-weight:700">Leave paused</td>
       </tr>
       <tr>
-        <td><strong>MSP Software (P)</strong></td>
-        <td>USA Leads</td>
-        <td>74</td>
-        <td>0</td>
-        <td>0%</td>
-        <td>&euro;0</td>
-        <td style="color:#dc2626">Zero CTR</td>
-      </tr>
-      <tr>
-        <td><strong>Planning</strong></td>
-        <td>Autotask</td>
-        <td>42</td>
-        <td>2</td>
-        <td>4.8%</td>
-        <td>&euro;18.47</td>
-        <td style="color:#d97706">Expensive</td>
-      </tr>
-      <tr>
-        <td><strong>Project management</strong></td>
-        <td>Autotask</td>
-        <td>37</td>
-        <td>0</td>
-        <td>0%</td>
-        <td>&euro;0</td>
-        <td style="color:#dc2626">Zero CTR</td>
-      </tr>
-      <tr>
-        <td><strong>MSP PM Software</strong></td>
-        <td>AUS Leads</td>
-        <td>36</td>
-        <td>2</td>
-        <td>5.6%</td>
-        <td>&euro;13.91</td>
-        <td style="color:#d97706">Low vol</td>
+        <td><strong>Search | Leads | AUS</strong></td><td>Paused</td><td>&euro;27.37</td><td>4</td><td>103</td><td>0</td>
+        <td style="color:#dc2626; font-weight:700">Leave paused</td>
       </tr>
     </tbody>
   </table>
-
-  <p>Two ad groups have zero clicks despite dozens of impressions: "MSP Software" (USA, 74 impressions) and "Project management" (Autotask, 37 impressions). These ad groups either have poor ad copy or are targeting the wrong audience. With the negative keywords above, irrelevant impressions will drop and CTR should improve for the remaining groups.</p>
-
-  <!-- MATCH TYPE -->
-  <h2>Keyword Match Type Analysis</h2>
-
-  <p>The quality scores data shows a major issue: the removed campaigns (now inactive) have dozens of BROAD match keywords like "Autotask Kanban", "Autotask planner", "Autotask Service Call" that were pulling in generic Autotask how-to searches.</p>
-
-  <div class="callout warning">
-    <span class="callout-label">Broad Match Risk</span>
-    The "Projects &amp; Planning" ad group (removed campaign) had BROAD match keywords like "best expense management software", "real estate portfolio management software usa", "construction project management software". These have zero relevance to Proxuma's Autotask add-ons. If these campaigns are re-enabled, all broad match keywords must be converted to phrase or exact match first.
-  </div>
-
-  <p>The currently active campaigns use mostly PHRASE (P) and ADDED keywords, which is better. But the broad net on generic terms like "msp software" and "msp project management" still catches too many irrelevant searches.</p>
 
   <!-- DEVICE SPLIT -->
-  <h2>Device Performance</h2>
-
+  <h2>Device Split (Last 30 Days)</h2>
   <table class="matrix">
-    <thead>
-      <tr>
-        <th>Campaign</th>
-        <th>Device</th>
-        <th>Clicks</th>
-        <th>Impr.</th>
-        <th>CTR</th>
-        <th>Spend</th>
-        <th>CPC</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Campaign</th><th>Device</th><th>Clicks</th><th>CTR</th><th>Spend</th><th>CPC</th></tr></thead>
     <tbody>
-      <tr>
-        <td><strong>Proxuma Brand</strong></td>
-        <td>Desktop</td>
-        <td>12</td>
-        <td>28</td>
-        <td>42.9%</td>
-        <td>&euro;8.74</td>
-        <td>&euro;0.73</td>
-      </tr>
-      <tr>
-        <td><strong>Proxuma Brand</strong></td>
-        <td>Mobile</td>
-        <td>1</td>
-        <td>9</td>
-        <td>11.1%</td>
-        <td>&euro;0.01</td>
-        <td>&euro;0.01</td>
-      </tr>
-      <tr>
-        <td><strong>Targeted autotask</strong></td>
-        <td>Desktop</td>
-        <td>2</td>
-        <td>84</td>
-        <td>2.4%</td>
-        <td>&euro;15.48</td>
-        <td>&euro;7.74</td>
-      </tr>
-      <tr>
-        <td><strong>Targeted autotask</strong></td>
-        <td>Mobile</td>
-        <td>1</td>
-        <td>8</td>
-        <td>12.5%</td>
-        <td>&euro;11.00</td>
-        <td>&euro;11.00</td>
-      </tr>
+      <tr><td><strong>Brand</strong></td><td>Desktop</td><td>12</td><td>42.9%</td><td>&euro;8.74</td><td>&euro;0.73</td></tr>
+      <tr><td><strong>Brand</strong></td><td>Mobile</td><td>1</td><td>11.1%</td><td>&euro;0.01</td><td>&euro;0.01</td></tr>
+      <tr><td><strong>Autotask</strong></td><td>Desktop</td><td>2</td><td>2.4%</td><td>&euro;15.48</td><td>&euro;7.74</td></tr>
+      <tr><td><strong>Autotask</strong></td><td>Mobile</td><td>1</td><td>12.5%</td><td>&euro;11.00</td><td>&euro;11.00</td></tr>
     </tbody>
   </table>
+  <p>B2B pattern holds: desktop dominates. Brand desktop CTR at 42.9% is excellent. Autotask mobile at EUR 11/click for 1 click is not worth it.</p>
 
-  <p>As expected for B2B SaaS: desktop dominates. Brand campaign desktop CTR is 42.9%, which is strong. The Autotask campaign's single mobile click at &euro;11 CPC is a red flag. For a B2B product like Proxuma, consider adding a mobile bid adjustment of -50% or more on non-brand campaigns to stop expensive mobile clicks from buyers who won't convert on a phone.</p>
+  <!-- SEARCH TERM WASTE -->
+  <h2>Recent Search Term Waste (Last 30 Days)</h2>
+  <p>Out of 90+ unique search terms, the majority are irrelevant. The "MSP Projectmanagement Software" ad group in John's USA campaign alone attracted 40+ generic PM tool searches.</p>
+
+  <h3>Categories of Waste</h3>
+  <div class="card">
+    <div class="card-title">Generic PM tools (not MSP-specific)</div>
+    <div class="card-desc">Basecamp, Wrike, Smartsheet, GanttPro, ProjectLibre, MS Planner, SharePoint PM, Azure DevOps boards, Jira, Planview, Moovila. People searching for these tools are not Proxuma's audience.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Competitor brand searches</div>
+    <div class="card-desc">Atera Inc (EUR 6.97 wasted, 1 click), ConnectWise, ClearPath MSP, Titan MSP, SoftMSP, Thread MSP, MSPilot. These people are looking for specific competing products.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Autotask how-to/download searches</div>
+    <div class="card-desc">"Download autotask outlook plugin" (EUR 8.01 wasted), "autotask teams integration", "autotask workflow", "autotask change management". They want Datto's native features, not add-ons.</div>
+  </div>
+
+  <h3>Recommended Negative Keywords</h3>
+
+  <h3>Competitor Brands (Exact Match)</h3>
+  <ul class="neg-kw-list">
+    <li>atera</li><li>connectwise</li><li>clearpath msp</li><li>titan msp</li>
+    <li>softmsp</li><li>thread msp</li><li>mspilot</li><li>manageengine</li>
+    <li>alga psa</li><li>n-able</li><li>n able</li>
+  </ul>
+
+  <h3>Generic PM Tools (Phrase Match)</h3>
+  <ul class="neg-kw-list">
+    <li>basecamp</li><li>wrike</li><li>smartsheet</li><li>ganttpro</li>
+    <li>gantt chart</li><li>projectlibre</li><li>ms planner</li><li>ms projects</li>
+    <li>microsoft project</li><li>sharepoint</li><li>azure devops</li><li>jira</li>
+    <li>planview</li><li>moovila</li><li>newforma</li><li>pronamics</li><li>tfs</li>
+  </ul>
+
+  <h3>Non-Intent Terms (Phrase Match)</h3>
+  <ul class="neg-kw-list">
+    <li>download</li><li>free</li><li>login</li><li>what is</li>
+    <li>how to use</li><li>open source</li><li>viewer</li><li>mpp viewer</li>
+    <li>real estate</li><li>construction</li><li>recursos</li>
+  </ul>
 
   <!-- TOP 5 ACTIONS -->
   <div class="positioning">
-    <h2>Top 5 Immediate Actions</h2>
+    <h2>Top 5 Actions (Ranked by Impact)</h2>
     <ol>
-      <li><strong>Set up conversion tracking.</strong> Define conversion actions in Google Ads: form submissions, demo requests, trial signups. Without this, every optimization decision is a guess. Do this before spending another euro.</li>
-      <li><strong>Pause "Targeted campaign autotask" today.</strong> It is spending &euro;8.83/click on people looking for free Autotask plugin downloads. Zero commercial intent for Proxuma's products.</li>
-      <li><strong>Add the 40+ negative keywords listed above.</strong> Apply to all campaigns at account level. This stops the worst search term bleed immediately.</li>
-      <li><strong>Do not re-enable USA/AUS campaigns</strong> until conversion tracking is live and negative keywords are in place. Right now they would burn budget on the same irrelevant terms.</li>
-      <li><strong>Add mobile bid adjustment -50%</strong> on non-brand campaigns. B2B MSP buyers do not convert on phones. Desktop CTR is 4x higher than mobile for the brand campaign, and the one mobile click on the Autotask campaign cost &euro;11.</li>
+      <li><strong>Set up conversion tracking.</strong> It may have broken or never been properly set up. During the golden period there WERE conversions recorded, so something was tracking them. Check if the conversion action still exists in Google Ads and if the tag is still on proxuma.io. If it's gone, recreate it. Use the setup prompt provided separately.</li>
+      <li><strong>Rebuild the golden formula as a new campaign.</strong> Create a new campaign with ONLY the three keywords that converted: "Autotask Project Management" [phrase], "Autotask Project" [phrase], "Autotask Planning" [phrase]. Maximize Conversions bidding. EUR 10/day budget. One ad group. This is what NEW1 was, and it cost EUR 84/conversion.</li>
+      <li><strong>Pause or gut the Autotask campaign.</strong> Right now it's spending on Planning (0 conversions, EUR 235 in Oct-Nov), Outlook (0 conversions), and diluting the Project Management group's budget. Either pause the Planning and Outlook ad groups entirely, or pause the whole campaign and let the rebuilt campaign from action #2 replace it.</li>
+      <li><strong>Add negative keywords at account level.</strong> The full list above. This protects all campaigns, including any new ones you create.</li>
+      <li><strong>Mobile bid -50% on non-brand campaigns.</strong> Desktop is where B2B MSP buyers convert. The one mobile click on Autotask cost EUR 11 with nothing to show for it.</li>
     </ol>
   </div>
 
-  <!-- VERDICT -->
+  <!-- CAMPAIGN VERDICTS -->
   <h2>Campaign Verdicts</h2>
 
   <div class="card">
-    <div class="card-title">Proxuma Brand: KEEP</div>
-    <div class="card-buyer">PERFORMING WELL</div>
-    <div class="card-desc">Low cost (&euro;8.75/month), high CTR (34.2%), protects brand name. Worth the &euro;105/year for brand protection alone. Only improvement: lower the max CPC bid slightly if you're paying &euro;0.73 average, to see if you can maintain volume at &euro;0.50.</div>
+    <div class="card-title">Proxuma Brand: KEEP AS-IS</div>
+    <div class="card-buyer">LIFETIME: 24 CONVERSIONS | EUR 498 SPEND | EUR 21/CONV</div>
+    <div class="card-desc">The most consistent performer in the account. EUR 21/conversion lifetime. 34% CTR on brand searches. Protects against competitor bidding on "proxuma". Worth every cent at EUR 50-60/month.</div>
     <div class="tags"><span class="tag tag-independent">Keep Running</span></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Targeted Campaign Autotask: PAUSE</div>
-    <div class="card-buyer">WASTING BUDGET</div>
-    <div class="card-desc">&euro;26.48 for 3 clicks, zero conversions. Catching "download autotask outlook plugin" and Autotask how-to searches. People are looking for Datto's native features, not Proxuma. Pause today.</div>
-    <div class="tags"><span class="tag tag-low">Pause Immediately</span></div>
+    <div class="card-title">Targeted Campaign Autotask: SURGERY NEEDED</div>
+    <div class="card-buyer">LIFETIME: 6.5 CONVERSIONS | EUR 4,583 SPEND | EUR 705/CONV</div>
+    <div class="card-desc">The Project Management ad group produced all 5 conversions (Oct-Nov). The Planning and Outlook groups produced zero, ever. Pause Planning and Outlook ad groups immediately. Keep only Project Management running, or replace with the rebuilt campaign from Action #2.</div>
+    <div class="tags"><span class="tag tag-acquired">Needs Surgery</span></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Search | Leads | USA: REBUILD</div>
-    <div class="card-buyer">NEEDS NEGATIVE KEYWORDS + CONVERSION TRACKING</div>
-    <div class="card-desc">This was the biggest spender (&euro;62.51) and attracted some relevant terms (autotask project management, msp report, autotask reports, autotask hubspot integration). With negative keywords and conversion tracking, this campaign could work. Do not re-enable until both are in place.</div>
-    <div class="tags"><span class="tag tag-acquired">Fix Then Re-enable</span></div>
+    <div class="card-title">NEW1-Search-WebsiteTraffic: RESURRECT</div>
+    <div class="card-buyer">LIFETIME: 4.5 CONVERSIONS | EUR 379 SPEND | EUR 84/CONV</div>
+    <div class="card-desc">The best cost-per-conversion in the account. Ran for only 2 months (Jun-Jul 2025) then was paused. It used the same winning keywords as the Autotask campaign's Project Management group, but with tighter focus and better efficiency. This is the model for Action #2.</div>
+    <div class="tags"><span class="tag tag-independent">Resurrect or Rebuild</span></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Search | Leads | AUS: REBUILD</div>
-    <div class="card-buyer">SAME ISSUES AS USA, SMALLER MARKET</div>
-    <div class="card-desc">&euro;27.37 for 4 clicks. Australia is a smaller MSP market. Same fixes needed. Consider whether AUS deserves its own campaign or whether the budget would be better concentrated on USA where the MSP market is 10x larger.</div>
-    <div class="tags"><span class="tag tag-acquired">Fix Then Re-enable</span></div>
+    <div class="card-title">John's Campaigns (USA, AUS): LEAVE PAUSED</div>
+    <div class="card-buyer">LIFETIME: 0 CONVERSIONS | EUR 810+ SPEND</div>
+    <div class="card-desc">Generic MSP keywords, Maximize Clicks bidding, no negatives. Zero conversions. Leave paused permanently. The Autotask Hubspot/Datto/N-able ad groups may be worth salvaging into a separate campaign later if Proxuma's integration pages improve.</div>
+    <div class="tags"><span class="tag tag-low">Leave Paused</span></div>
   </div>
 
   <!-- SUMMARY -->
-  <h2>Summary</h2>
+  <h2>The Playbook</h2>
 
-  <p>This account is spending &euro;125/month with nothing to show for it. The root cause is structural: no conversion tracking means no optimization data, and broad/phrase match keywords without proper negatives attract the wrong searches.</p>
+  <p>The golden period proved that Google Ads can work for Proxuma. The formula was simple: phrase-match Autotask keywords, Maximize Conversions bidding, modest budget. "Autotask Project Management" as a phrase match keyword produced the best conversions in both campaigns that tried it.</p>
 
-  <p>The good news: the Brand campaign works fine, and some search terms in the USA campaign show real buying intent for Autotask add-ons. The path forward is simple: fix tracking, add negatives, pause the Autotask campaign, then carefully re-enable USA leads with tighter targeting.</p>
+  <p>What killed it was a combination of pausing the best campaign (NEW1), CPC inflation on the Autotask campaign, and then John's takeover making everything worse.</p>
 
-  <p>Expected impact of these changes: same brand protection at &euro;9/month, elimination of &euro;26/month Autotask waste, and a cleaner USA campaign that, once re-enabled with conversion tracking, will finally show whether Google Ads can produce leads for Proxuma at a viable cost.</p>
+  <p>The path back is clear: verify conversion tracking still works, rebuild the NEW1 formula, cut the dead weight from the Autotask campaign, and protect everything with negatives. Expected result: 3-5 conversions/month at EUR 80-120 each, on a total budget of EUR 15-20/day across Brand + one focused Autotask Project Management campaign.</p>
 
   <div class="page-footer">
     <span>Claude Code</span>
-    <span>Google Ads Audit &mdash; Proxuma &mdash; May 4, 2026</span>
+    <span>Google Ads Full History Audit &mdash; Proxuma &mdash; May 4, 2026</span>
   </div>
 </div>
 
 <script type="application/json" id="claude-data">
 {
-  "title": "Google Ads 30-Day Audit: Proxuma Account 215-278-2474",
+  "title": "Google Ads Full History Audit: Proxuma Account 215-278-2474",
   "date": "2026-05-04",
-  "summary": "Full audit of Proxuma Google Ads. 30 days, EUR 125 spent, 29 clicks, zero conversions. Brand campaign is fine (EUR 8.75, 34% CTR). Autotask campaign is waste (EUR 26, catching free download searches). USA/AUS leads paused but need negative keywords before re-enabling.",
+  "summary": "Full history audit of Proxuma Google Ads (Jan 2024 - May 2026). Golden period Jun-Nov 2025 produced 22.5 conversions, driven by phrase-match Autotask project management keywords. NEW1 campaign was the star at EUR 84/conv. Autotask campaign Project Management group converted at EUR 226/conv. Conversions stopped when NEW1 was paused and John's takeover wasted EUR 810. Campaigns re-enabled today. Action plan: verify conversion tracking, rebuild NEW1 formula, gut Autotask campaign, add 40+ negatives.",
   "sections": [
     {
-      "heading": "Campaign Health",
+      "heading": "Golden Period Analysis",
       "items": [
-        { "title": "Proxuma Brand", "detail": "Keep. EUR 8.75, 13 clicks, 34.2% CTR, EUR 0.67 CPC. Brand protection working.", "meta": { "status": "enabled", "verdict": "keep" } },
-        { "title": "Targeted campaign autotask", "detail": "Pause. EUR 26.48, 3 clicks, EUR 8.83 CPC. Catching free download searches.", "meta": { "status": "enabled", "verdict": "pause" } },
-        { "title": "Search | Leads | USA", "detail": "Fix then re-enable. EUR 62.51, 9 clicks. Some good terms but flooded with generic PM tool searches.", "meta": { "status": "paused", "verdict": "fix-first" } },
-        { "title": "Search | Leads | AUS", "detail": "Fix then re-enable. EUR 27.37, 4 clicks. Same issues, smaller market.", "meta": { "status": "paused", "verdict": "fix-first" } }
+        { "title": "Best month: Nov 2025", "detail": "9 conversions, EUR 942 spend, EUR 105/conversion. Brand: 5 conv, Autotask: 4 conv.", "meta": { "period": "2025-11" } },
+        { "title": "Best campaign: NEW1-Search-WebsiteTraffic", "detail": "4.5 conversions in 2 months (Jun-Jul 2025) at EUR 84/conv. Three phrase-match Autotask keywords.", "meta": { "campaign_id": "22663401758", "cost_per_conv": 84 } },
+        { "title": "Best keyword: Autotask Project Management [phrase]", "detail": "Converted in both campaigns. EUR 52/conv in NEW1, EUR 226/conv in Autotask campaign.", "meta": {} }
       ]
     },
     {
-      "heading": "Critical Issues",
+      "heading": "Why It Broke",
       "items": [
-        { "title": "Zero conversion tracking", "detail": "No conversion actions defined. Every euro is unattributed. Top priority fix.", "meta": { "severity": "critical" } },
-        { "title": "40+ irrelevant search terms", "detail": "Generic PM tools, competitor brands, Autotask how-to queries eating budget.", "meta": { "severity": "high" } },
-        { "title": "Broad match exposure", "detail": "Removed campaigns had broad match keywords for real estate, construction, expense management.", "meta": { "severity": "medium" } }
+        { "title": "NEW1 paused after Jul 2025", "detail": "Account lost its most efficient campaign." },
+        { "title": "Autotask CPC inflation", "detail": "EUR 6 (Jun 2025) to EUR 17 (Jan 2026). Planning/Outlook groups wasted budget." },
+        { "title": "John's takeover (Feb 2026)", "detail": "614 changes, generic keywords, Maximize Clicks, EUR 810 wasted, 0 conversions." }
       ]
     },
     {
       "heading": "Top 5 Actions",
       "items": [
-        { "title": "Set up conversion tracking", "detail": "Form submissions, demo requests, trial signups.", "meta": { "priority": 1 } },
-        { "title": "Pause autotask campaign", "detail": "EUR 8.83/click on free download searches.", "meta": { "priority": 2 } },
-        { "title": "Add 40+ negative keywords", "detail": "Competitor brands, generic PM tools, non-intent terms.", "meta": { "priority": 3 } },
-        { "title": "Do not re-enable USA/AUS until tracking works", "detail": "Would burn budget on same irrelevant terms.", "meta": { "priority": 4 } },
-        { "title": "Mobile bid adjustment -50%", "detail": "B2B MSP buyers do not convert on phones.", "meta": { "priority": 5 } }
+        { "title": "Verify/fix conversion tracking", "detail": "Conversions existed in golden period, may have broken. Check and fix.", "meta": { "priority": 1 } },
+        { "title": "Rebuild NEW1 formula", "detail": "New campaign: 3 phrase-match Autotask keywords, Maximize Conversions, EUR 10/day.", "meta": { "priority": 2 } },
+        { "title": "Gut Autotask campaign", "detail": "Pause Planning and Outlook ad groups, keep only Project Management.", "meta": { "priority": 3 } },
+        { "title": "Add 40+ negative keywords", "detail": "Competitors, generic PM tools, non-intent terms. Account level.", "meta": { "priority": 4 } },
+        { "title": "Mobile bid -50%", "detail": "Non-brand campaigns. B2B desktop converts, mobile does not.", "meta": { "priority": 5 } }
+      ]
+    },
+    {
+      "heading": "Campaign Verdicts",
+      "items": [
+        { "title": "Proxuma Brand", "detail": "Keep. EUR 21/conv lifetime, 24 conversions. Best ROI.", "meta": { "verdict": "keep" } },
+        { "title": "Targeted campaign autotask", "detail": "Surgery. Pause Planning+Outlook groups. Keep Project Management only.", "meta": { "verdict": "surgery" } },
+        { "title": "NEW1-Search-WebsiteTraffic", "detail": "Resurrect or rebuild. EUR 84/conv was the best in the account.", "meta": { "verdict": "resurrect" } },
+        { "title": "John's campaigns", "detail": "Leave paused. Zero conversions, generic keywords.", "meta": { "verdict": "leave-paused" } }
       ]
     }
   ],
-  "next_steps": "Pause the Autotask campaign immediately. Set up conversion tracking in Google Ads. Then add the negative keyword list at account level. Once tracking shows data for 2 weeks, re-enable USA leads campaign and evaluate.",
+  "next_steps": "Verify conversion tracking (setup prompt already written). Then rebuild NEW1 as a new campaign with 3 phrase-match Autotask keywords. Pause Planning + Outlook ad groups in the Autotask campaign. Add negative keywords at account level. Expected outcome: 3-5 conversions/month at EUR 80-120 each.",
   "session_state": {
-    "phase": "audit complete",
+    "phase": "full audit complete",
     "phase_status": "complete",
     "progress_pct": 100,
     "work_done_this_session": [
-      "Pulled 5 Google Ads reports (campaigns, search terms, ads, quality scores, devices)",
-      "Identified zero conversion tracking as critical issue",
-      "Catalogued 40+ irrelevant search terms for negative keywords",
-      "Analyzed device split showing desktop dominance",
-      "Produced verdicts for all 4 campaigns with spend"
+      "Pulled 30-day campaign performance, search terms, ad performance, quality scores, device split (5 API calls)",
+      "Pulled full monthly history Jan 2024 - May 2026 via GAQL (1 API call)",
+      "Pulled converting keywords for NEW1 Jun-Jul 2025 (1 API call)",
+      "Pulled converting keywords for Autotask Oct-Nov 2025 (1 API call)",
+      "Read earlier forensics report for John takeover context",
+      "Identified golden period (Jun-Nov 2025) and winning keyword formula",
+      "Produced updated audit with full historical analysis"
     ],
     "blockers_hit": null,
     "uncommitted_changes": null,
@@ -711,8 +629,8 @@ code {
     "local_repo_path": "~/ClaudeCode/claude-output/",
     "temp_files": [],
     "github_links": [
-      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-audit.html", "relevance": "this audit report" },
-      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-forensics.html", "relevance": "earlier forensics report from same day" }
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-audit.html", "relevance": "this audit report (updated)" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-forensics.html", "relevance": "earlier forensics report with John's change history detail" }
     ],
     "wordpress_ids": [],
     "commit_sha": null
@@ -721,7 +639,7 @@ code {
     "wp_cache_flushed": null,
     "drafts_pending": [],
     "screenshots": [],
-    "other": "Google Ads account 215-278-2474. Explorer API access, 2880 ops/day limit. Used 6 API calls this session."
+    "other": "Google Ads account 215-278-2474. Explorer API access. Used 9 API calls total this session. Conversion tracking setup prompt already in clipboard from earlier in this conversation."
   },
   "project_context": {
     "protected_resources": [],
@@ -729,13 +647,20 @@ code {
   },
   "decision_log": [
     {
-      "decision": "Recommended pausing Autotask campaign rather than adding negatives and keeping it",
-      "rejected_alternatives": ["Add negatives and keep running", "Lower bids and keep running"],
-      "rationale": "The campaign targets people looking for Autotask native features (outlook plugin downloads, teams integration). These are Datto product searches, not add-on product searches. Negatives would eliminate most volume, leaving almost nothing.",
-      "trade_offs": "Loses the 2.4% CTR desktop impressions, but those clicks cost EUR 7.74 each with zero conversions",
+      "decision": "Recommended rebuilding NEW1 rather than just re-enabling it",
+      "rejected_alternatives": ["Simply unpause NEW1", "Add NEW1 keywords to existing Autotask campaign"],
+      "rationale": "NEW1 has been paused for 10 months. Google's algorithm will have lost all learning. A fresh campaign with the same 3 keywords starts clean. Adding to the Autotask campaign would dilute budget across the non-converting Planning/Outlook groups.",
+      "trade_offs": "New campaign needs 2-4 weeks of learning period. Could also try unpausing NEW1 first as a quicker test.",
       "contingencies": [
-        { "if_X_then_Y": "If Proxuma launches an actual Outlook plugin product, revisit this campaign with product-specific landing page", "probability": 0.2 }
+        { "if_X_then_Y": "If NEW1 unpause shows immediate learning recovery, skip the rebuild and just use it", "probability": 0.3 }
       ]
+    },
+    {
+      "decision": "Recommended surgery on Autotask campaign rather than full pause",
+      "rejected_alternatives": ["Pause entire Autotask campaign", "Keep all ad groups running"],
+      "rationale": "The Project Management ad group has algorithm learning from 5 conversions. Pausing it loses that history. The Planning and Outlook groups have never converted and drain budget. Keeping only PM preserves what works.",
+      "trade_offs": "Planning keywords like 'Autotask scheduling' and 'Autotask resource planning' could theoretically convert with better landing pages, but 20+ clicks at EUR 15/click with zero conversions is a strong signal.",
+      "contingencies": []
     }
   ]
 }
