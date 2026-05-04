@@ -2180,8 +2180,7 @@ body.dark .nx-tag-rule{background:#6d28d930;color:#b090e0}
       <a href="#nx-layers">3 Layers</a>
       <a href="#nx-models">Models</a>
       <a href="#nx-workflow">Workflow</a>
-      <a href="#nx-commands">Commands</a>
-      <a href="#nx-skills">Skills</a>
+      <a href="#nx-commands">Commands &amp; Skills</a>
       <a href="#nx-rules">Rules</a>
       <a href="#nx-hooks">Hooks</a>
     </nav>
@@ -2263,6 +2262,7 @@ body.dark .nx-tag-rule{background:#6d28d930;color:#b090e0}
         <li><strong>Gate 1 (Plan Quality):</strong> Is each step a vertical slice? Are assumptions verified? Does it fit one session?</li>
         <li><strong>Gate 2 (Output Quality):</strong> Is every planned item actually done? Tests run with evidence? No debug clutter?</li>
       </ul>
+      <p>The <code>/build-feature</code> command orchestrates this entire flow automatically: brainstorm, plan, gate 1, multi-agent build, test, gate 2, audit, commit. Use <code>/build-feature new "description"</code> to start, <code>/build-feature resume latest</code> to continue where you left off.</p>
       <p>For complex multi-step tasks, use <code>/crispy</code> to structure the work into CRISPY stages (Context, Research, Ideate, Structure, Plan, Yield, PR).</p>
       <p>For small tasks (bug fixes, quick changes), just describe what you need. The loaded rules guide Claude automatically.</p>
 
@@ -2279,6 +2279,21 @@ body.dark .nx-tag-rule{background:#6d28d930;color:#b090e0}
     <div class="nx-section" id="nx-commands">
       <h3>Slash Commands</h3>
       <p>Type these in Claude Code. They're installed at <code>~/.claude/commands/</code>.</p>
+
+      <div class="nx-cmd-card" style="border-color:var(--gold-400);background:var(--gold-50)">
+        <h4><span class="nx-cmd">/build-feature</span> <span class="nx-tag nx-tag-command">command</span> <span class="nx-tag" style="background:#0f766e18;color:#0f766e">new</span></h4>
+        <p>Full feature lifecycle: brainstorm, plan, 3 quality gates, multi-agent build (4.7), test, 6-agent audit, commit. Modes: <code>new</code> (full flow), <code>resume</code> (continue from handoff), <code>status</code> (overview), <code>pr</code> (create PR), <code>jira</code> (create tickets from spec). THE main command for building features.</p>
+      </div>
+
+      <div class="nx-cmd-card" style="border-color:var(--gold-400);background:var(--gold-50)">
+        <h4><span class="nx-cmd">/handover</span> <span class="nx-tag nx-tag-command">command</span> <span class="nx-tag" style="background:#0f766e18;color:#0f766e">new</span></h4>
+        <p>Generate structured handoff documents for session continuity. Auto-gathers git state, decisions, and open items into a machine-readable file at <code>docs/superpowers/handoffs/</code>. Use at end of session, context switch, or when context window is filling up. Next session can parse and resume.</p>
+      </div>
+
+      <div class="nx-cmd-card" style="border-color:var(--gold-400);background:var(--gold-50)">
+        <h4><span class="nx-cmd">/audit</span> <span class="nx-tag nx-tag-command">command</span> <span class="nx-tag" style="background:#0f766e18;color:#0f766e">new</span></h4>
+        <p>6-agent parallel code audit: Code Quality, Security, Architecture, Performance, Compatibility, Standards. Max 10 findings shown (rest in backlog). Severity levels: critical (must fix), important (discuss), minor (info). Modes: default (session diff), path, commit-range, quick (single-agent), report (HTML).</p>
+      </div>
 
       <div class="nx-cmd-card">
         <h4><span class="nx-cmd">/crispy</span> <span class="nx-tag nx-tag-skill">skill</span></h4>
