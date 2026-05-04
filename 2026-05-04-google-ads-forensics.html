@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Ads Forensics: What Happened & Recovery Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning ul { color: rgba(255,255,255,.88); }
+.positioning li { color: rgba(255,255,255,.88); }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 100px; color: #2c2c2c; flex-shrink: 0; font-size: 12px; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #c0392b; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-fill.green { background: #1a6b3a; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; font-size: 12px; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-good { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bad { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-neutral { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-warning { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.timeline-chart { margin: 20px 0; }
+.timeline-row { display: flex; align-items: flex-end; gap: 2px; height: 120px; }
+.timeline-bar {
+  flex: 1; background: #1a2744; border-radius: 2px 2px 0 0; min-height: 2px;
+  position: relative;
+}
+.timeline-bar.john { background: #c0392b; }
+.timeline-bar-label {
+  position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+  font: 400 8px/1 -apple-system, sans-serif; color: #6b7280; white-space: nowrap;
+}
+.timeline-bar-value {
+  position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+  font: 600 9px/1 -apple-system, sans-serif; color: #2c2c2c; white-space: nowrap;
+}
+.legend { display: flex; gap: 16px; margin: 28px 0 8px; font: 400 12px/1 -apple-system, sans-serif; color: #6b7280; }
+.legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.step-grid { display: flex; gap: 12px; margin: 16px 0; }
+.step-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px; padding: 16px;
+}
+.step-num {
+  font: 700 24px/1 "Georgia", serif; color: #1a2744; margin-bottom: 6px;
+}
+.step-title {
+  font: 700 13px/1.3 -apple-system, sans-serif; color: #1a2744; margin-bottom: 6px;
+}
+.step-desc { font-size: 12px; color: #4a5568; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 4, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-forensics.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Google Ads Campaign Forensics</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 4, 2026<br>Campaign Audit<br>Proxuma
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">GOOGLE ADS FORENSICS</div>
+  <h1>What Happened to Your Ads & How to Get Back</h1>
+  <p class="subtitle">Full analysis of your Google Ads account from the golden period (Jun-Nov 2025) through John's takeover (Feb-Apr 2026) and the shutdown on April 9.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">3,492</div>
+      <div class="stat-label">Peak Monthly Impr. (Oct '25)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">614</div>
+      <div class="stat-label">Changes by John</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">57</div>
+      <div class="stat-label">New Ad Groups (John)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Apr 9</div>
+      <div class="stat-label">All Campaigns Paused</div>
+    </div>
+  </div>
+
+  <h2>Timeline: Impressions by Month</h2>
+
+  <div class="legend">
+    <span><span class="legend-dot" style="background:#1a2744"></span> Your period</span>
+    <span><span class="legend-dot" style="background:#c0392b"></span> John's period</span>
+    <span><span class="legend-dot" style="background:#8a8f96"></span> Transition / off</span>
+  </div>
+  <div class="timeline-chart">
+    <div class="timeline-row">
+      <div class="timeline-bar" style="height: 38%"><div class="timeline-bar-value">1,326</div><div class="timeline-bar-label">Jun 25</div></div>
+      <div class="timeline-bar" style="height: 100%"><div class="timeline-bar-value">3,775</div><div class="timeline-bar-label">Jul 25</div></div>
+      <div class="timeline-bar" style="height: 74%"><div class="timeline-bar-value">2,780</div><div class="timeline-bar-label">Aug 25</div></div>
+      <div class="timeline-bar" style="height: 87%"><div class="timeline-bar-value">3,292</div><div class="timeline-bar-label">Sep 25</div></div>
+      <div class="timeline-bar" style="height: 93%"><div class="timeline-bar-value">3,492</div><div class="timeline-bar-label">Oct 25</div></div>
+      <div class="timeline-bar" style="height: 86%"><div class="timeline-bar-value">3,255</div><div class="timeline-bar-label">Nov 25</div></div>
+      <div class="timeline-bar muted" style="height: 23%"><div class="timeline-bar-value">860</div><div class="timeline-bar-label">Dec 25</div></div>
+      <div class="timeline-bar john" style="height: 32%"><div class="timeline-bar-value">1,200</div><div class="timeline-bar-label">Jan 26</div></div>
+      <div class="timeline-bar john" style="height: 28%"><div class="timeline-bar-value">1,043</div><div class="timeline-bar-label">Feb 26</div></div>
+      <div class="timeline-bar john" style="height: 100%"><div class="timeline-bar-value">4,608</div><div class="timeline-bar-label">Mar 26</div></div>
+      <div class="timeline-bar john" style="height: 29%"><div class="timeline-bar-value">1,093</div><div class="timeline-bar-label">Apr 26</div></div>
+      <div class="timeline-bar muted" style="height: 1%"><div class="timeline-bar-value">0</div><div class="timeline-bar-label">May 26</div></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Key Pattern</span>
+    Your campaigns held steady at 2,700-3,500 impressions/month from Jul-Nov 2025 on a tight budget. After John's takeover in Feb 2026, March spiked to 4,608 impressions but on dramatically higher budgets (3 campaigns at $66/day vs your $10/day). More impressions, but far less efficient.
+  </div>
+
+  <h2>Your Original Setup (The Golden Period)</h2>
+  <p>Your approach from June to November 2025 was disciplined and effective. Here's what you built:</p>
+
+  <div class="card" style="margin-top: 16px">
+    <div class="card-title">Campaign: Targeted campaign autotask</div>
+    <div class="card-buyer">YOUR MAIN CAMPAIGN &middot; $10/DAY &middot; MAXIMIZE CONVERSIONS</div>
+    <div class="card-desc">
+      <strong>Ad groups:</strong> Outlook, Planning, Project management, Proxuma generic<br>
+      <strong>Strategy:</strong> Long-tail Autotask-specific keywords (not generic MSP terms)<br>
+      <strong>Results:</strong> 18,010 impressions, 389 clicks, 6.5 conversions, 2.16% CTR<br>
+      <strong>Key discipline:</strong> Constant negative keyword pruning. You added 100+ negative exact match keywords over the period, blocking irrelevant search terms every few weeks.
+    </div>
+    <div class="tags">
+      <span class="tag tag-good">Long-tail</span>
+      <span class="tag tag-good">Cheap clicks</span>
+      <span class="tag tag-good">Conversion-focused</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Campaign: Proxuma Brand</div>
+    <div class="card-buyer">BRAND DEFENSE &middot; $5/DAY &middot; TARGET IMPRESSION SHARE</div>
+    <div class="card-desc">
+      <strong>Results:</strong> 2,264 impressions, 641 clicks, 24 conversions, 28.31% CTR, $0.95 CPC<br>
+      <strong>Purpose:</strong> Catch people searching for "Proxuma" directly. Extremely efficient at $0.95/click and 3.74% conversion rate.
+    </div>
+    <div class="tags">
+      <span class="tag tag-good">28% CTR</span>
+      <span class="tag tag-good">$0.95 CPC</span>
+      <span class="tag tag-good">24 conversions</span>
+    </div>
+  </div>
+
+  <h3>Your keyword strategy</h3>
+  <p>You focused on Autotask-adjacent long-tail terms: people searching for Autotask integrations, Autotask outlook issues, Autotask project planning problems. These are people already in the Autotask ecosystem who need what Proxuma offers. You paired this with aggressive negative keyword management to cut waste.</p>
+
+  <h2>What John Changed (Feb-Apr 2026)</h2>
+  <p>John (john@b2bleads.nl) made 614 changes across February to April 2026. Here's the damage breakdown:</p>
+
+  <table class="matrix">
+    <tr><th>Change category</th><th>Count</th><th>Impact</th></tr>
+    <tr><td><strong>New ad groups created</strong></td><td>57</td><td>Massive scope expansion beyond Autotask niche</td></tr>
+    <tr><td><strong>Keywords added</strong></td><td>128 batches</td><td>Generic MSP terms that compete outside your niche</td></tr>
+    <tr><td><strong>Keywords removed/paused</strong></td><td>94 batches</td><td>Likely killed some of your performing long-tails</td></tr>
+    <tr><td><strong>Bid/budget changes</strong></td><td>94</td><td>Budgets raised from $10 to $66/day per campaign</td></tr>
+    <tr><td><strong>Status flips</strong></td><td>228</td><td>Constant on/off toggling, disrupts algorithm learning</td></tr>
+  </table>
+
+  <h3>Three campaigns John created or restructured</h3>
+
+  <div class="card">
+    <div class="card-title">Search | Leads | USA</div>
+    <div class="card-buyer">JOHN'S CAMPAIGN &middot; $66/DAY &middot; MAXIMIZE CLICKS</div>
+    <div class="card-desc">
+      <strong>Ad groups:</strong> MSP Software, MSP Reporting, MSP Recovery, MSP Automation, MSP Documentation, MSP Dashboard, MSP Quoting, MSP Management, MSP Model Context Protocol, Power BI + Software + Data, Power BI + Software + Monitoring, Autotask Hubspot, Autotask Datto, Autotask N-able, Autotask Outlook, Autotask Reporting, Autotask Microsoft, MSP begrippen, MSP Projectmanagement<br>
+      <strong>Results:</strong> 3,655 impressions, 97 clicks, 0 conversions, $6.39 CPC<br>
+      <strong>Total spend:</strong> $619.59 for zero conversions
+    </div>
+    <div class="tags">
+      <span class="tag tag-bad">0 conversions</span>
+      <span class="tag tag-bad">$619 wasted</span>
+      <span class="tag tag-bad">Maximize Clicks</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Search | Leads | AUS (old + new)</div>
+    <div class="card-buyer">JOHN'S CAMPAIGNS &middot; $66/DAY EACH &middot; MAXIMIZE CLICKS</div>
+    <div class="card-desc">
+      <strong>Same 19 ad groups</strong> duplicated for Australia targeting<br>
+      <strong>Results combined:</strong> 928 impressions, 30 clicks, 0 conversions<br>
+      <strong>Total spend:</strong> $190.65 for zero conversions
+    </div>
+    <div class="tags">
+      <span class="tag tag-bad">0 conversions</span>
+      <span class="tag tag-bad">$190 wasted</span>
+      <span class="tag tag-warning">Australia?</span>
+    </div>
+  </div>
+
+  <h3>Five specific mistakes</h3>
+
+  <div class="callout">
+    <span class="callout-label">Mistake 1: Generic Keywords</span>
+    John added broad terms like "msp billing software", "msp patch management software", "msp rmm software", "best psa software for msp". These are high-volume, high-competition terms where Proxuma isn't the answer. Proxuma solves Autotask project planning pain, not generic MSP tooling needs.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Mistake 2: Maximize Clicks Instead of Conversions</span>
+    Your original campaign used "Maximize Conversions" which optimizes for people who actually sign up. John's campaigns used "Maximize Clicks" which just drives traffic. At $6.39/click with zero conversions, that's Google gladly taking your money for junk clicks.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Mistake 3: Budget Explosion</span>
+    From $10/day on one focused campaign to $66/day on three broad campaigns ($198/day total potential). 20x the daily budget for zero return.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Mistake 4: Constant Status Toggling</span>
+    228 status changes in 3 months. Google's algorithm needs 2-4 weeks of stable data to optimize. Constantly pausing and unpausing campaigns resets the learning phase every time.
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Mistake 5: No Negative Keywords</span>
+    Your entire strategy was built on negative keyword discipline: blocking irrelevant searches. John added zero negative keywords to his new campaigns. Every "msp software" search from someone looking for RMM or backup tools hit your ads.
+  </div>
+
+  <h2>The Numbers Side by Side</h2>
+
+  <table class="matrix">
+    <tr><th>Metric</th><th>Your period (Jun-Nov '25)</th><th>John's period (Feb-Apr '26)</th></tr>
+    <tr><td><strong>Daily budget</strong></td><td>$15 (2 campaigns)</td><td>$198 (4 campaigns)</td></tr>
+    <tr><td><strong>Bid strategy</strong></td><td>Maximize Conversions + Target Impression Share</td><td>Maximize Clicks</td></tr>
+    <tr><td><strong>Avg monthly impressions</strong></td><td>~3,100</td><td>~2,300 (excl. March spike)</td></tr>
+    <tr><td><strong>Conversions (total)</strong></td><td>~30</td><td>0</td></tr>
+    <tr><td><strong>Avg CPC</strong></td><td>$0.95-$12.55</td><td>$6.05-$6.51</td></tr>
+    <tr><td><strong>Negative keywords added</strong></td><td>100+</td><td>0</td></tr>
+    <tr><td><strong>Keyword approach</strong></td><td>Autotask long-tail, exact/phrase match</td><td>Generic MSP broad, phrase/exact</td></tr>
+    <tr><td><strong>Ad groups</strong></td><td>4 focused</td><td>57 across 3 campaigns</td></tr>
+  </table>
+
+  <h2>Recovery Plan</h2>
+  <p>You don't need to rebuild from scratch. Your original campaign data is still in the account, just paused. Here's the step-by-step:</p>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-title">Re-enable your two originals</div>
+      <div class="step-desc">Unpause "Targeted campaign autotask" ($10/day) and "Proxuma Brand" ($5/day). These still have their keywords, negatives, and conversion history.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-title">Pause John's campaigns</div>
+      <div class="step-desc">Keep "Search | Leads | USA", "AUS (old)", and "AUS (new)" paused. Don't delete them yet in case any keyword data is useful.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-title">Fix conversion tracking</div>
+      <div class="step-desc">The report shows "conversion tracking setup is incomplete" on your main campaign. This needs fixing before unpausing or Google can't optimize properly.</div>
+    </div>
+  </div>
+
+  <h3>After re-enabling: first two weeks</h3>
+  <ul>
+    <li>Leave bids alone. Let Maximize Conversions re-learn on 2 weeks of fresh data.</li>
+    <li>Check the Search Terms report daily. Add new negatives for anything irrelevant.</li>
+    <li>Don't touch the budget. $10/day was working. Resist the urge to scale until you see conversions again.</li>
+    <li>Check if your ad copy (headlines/descriptions) is still current. If Proxuma's messaging changed since November 2025, update the responsive search ads.</li>
+  </ul>
+
+  <h3>Optional: salvage from John's work</h3>
+  <p>Some of John's ad groups target real Autotask-adjacent topics (Autotask Datto, Autotask N-able, Autotask Hubspot). If these align with Proxuma's actual integrations, consider moving those keyword sets into your main campaign as new ad groups, but with proper negatives and under Maximize Conversions.</p>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>Your original setup was a textbook long-tail SEM strategy: niche keywords, tight negatives, conversion-focused bidding, low budget. It worked because Proxuma solves a specific pain for Autotask users, and you targeted exactly those people.</p>
+    <p style="margin-top: 12px; color: rgba(255,255,255,.88);">John replaced it with a generic lead-gen playbook: broad keywords, high budgets, click-maximizing. That approach works for commodity products. It doesn't work for a niche Autotask overlay tool. Result: $810 spent on his campaigns for zero conversions.</p>
+    <p style="margin-top: 12px; color: rgba(255,255,255,.88);"><strong>The fix is simple:</strong> re-enable your two original campaigns, fix conversion tracking, and let the algorithm re-learn for two weeks. You already built the right machine. It just needs to be turned back on.</p>
+  </div>
+
+  <h2>Immediate Action Checklist</h2>
+  <ol>
+    <li>Fix conversion tracking on "Targeted campaign autotask" (Google Ads > Tools > Conversions)</li>
+    <li>Unpause "Targeted campaign autotask" ($10/day, Maximize Conversions)</li>
+    <li>Unpause "Proxuma Brand" ($5/day, Target Impression Share)</li>
+    <li>Confirm John's three "Search | Leads" campaigns stay paused</li>
+    <li>Revoke or limit John's account access if you haven't already</li>
+    <li>Check ad copy is still accurate for current Proxuma features</li>
+    <li>Daily: review Search Terms report, add negatives as needed</li>
+    <li>Wait 2 weeks before any budget or bid changes</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Google Ads Forensics &middot; Proxuma &middot; May 4, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Google Ads Forensics: What Happened & Recovery Plan",
+  "date": "2026-05-04",
+  "summary": "Forensic analysis of Proxuma Google Ads account. Max's original long-tail Autotask campaigns (Jun-Nov 2025) produced 30 conversions on $15/day. John (b2bleads.nl) took over Feb 2026 with 614 changes: generic MSP keywords, Maximize Clicks bidding, $198/day budget across 3 new campaigns, zero conversions, $810 wasted. Recovery: re-enable original two campaigns, fix conversion tracking, leave alone for 2 weeks.",
+  "sections": [
+    {
+      "heading": "Account structure",
+      "items": [
+        { "title": "Targeted campaign autotask", "detail": "Max's main campaign. $10/day, Maximize Conversions, 4 ad groups (Outlook, Planning, Project mgmt, Proxuma generic), 18K impressions, 389 clicks, 6.5 conversions", "meta": { "owner": "maxproxuma@gmail.com", "status": "paused", "daily_budget": 10 } },
+        { "title": "Proxuma Brand", "detail": "Brand defense. $5/day, Target Impression Share, 28% CTR, $0.95 CPC, 24 conversions", "meta": { "owner": "maxproxuma@gmail.com", "status": "paused", "daily_budget": 5 } },
+        { "title": "Search | Leads | USA", "detail": "John's campaign. $66/day, Maximize Clicks, 19 ad groups, 97 clicks, 0 conversions, $619 spent", "meta": { "owner": "john@b2bleads.nl", "status": "paused", "daily_budget": 66 } },
+        { "title": "Search | Leads | AUS (old+new)", "detail": "John's AUS campaigns. $66/day each, Maximize Clicks, duplicated structure, 30 clicks, 0 conversions, $190 spent", "meta": { "owner": "john@b2bleads.nl", "status": "paused", "daily_budget": 132 } }
+      ]
+    },
+    {
+      "heading": "John's key mistakes",
+      "items": [
+        { "title": "Generic keywords", "detail": "Added broad MSP terms (billing, patch mgmt, rmm) instead of Autotask long-tails" },
+        { "title": "Maximize Clicks", "detail": "Changed from conversion-focused to click-focused bidding" },
+        { "title": "Budget explosion", "detail": "$15/day to $198/day potential, 13x increase" },
+        { "title": "Status toggling", "detail": "228 status changes in 3 months, resetting algorithm learning" },
+        { "title": "No negative keywords", "detail": "Zero negatives added to new campaigns" }
+      ]
+    },
+    {
+      "heading": "Recovery steps",
+      "items": [
+        { "title": "Fix conversion tracking", "detail": "Main campaign shows incomplete conversion setup" },
+        { "title": "Re-enable originals", "detail": "Unpause Targeted campaign autotask + Proxuma Brand" },
+        { "title": "Keep John's paused", "detail": "Don't delete, may salvage some keyword data" },
+        { "title": "2-week hands-off", "detail": "Let algorithm re-learn before any changes" },
+        { "title": "Daily negatives", "detail": "Resume search term review and negative keyword additions" }
+      ]
+    }
+  ],
+  "next_steps": "Fix conversion tracking in Google Ads, then re-enable the two original campaigns. Check ad copy is current. Review search terms daily for first two weeks. Consider salvaging Autotask Datto/N-able/Hubspot ad groups from John's campaigns if they match real Proxuma integrations.",
+  "session_state": {
+    "phase": "analysis complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Analyzed Campaign report CSV (7 campaigns)",
+      "Analyzed Time series CSV (Jul 2023 - May 2026)",
+      "Parsed 46K-line Change history (1.9MB)",
+      "Identified 614 changes by john@b2bleads.nl",
+      "Identified 379 changes by maxproxuma@gmail.com",
+      "Mapped golden period (Jun-Nov 2025) vs takeover (Feb-Apr 2026)",
+      "Built forensics report with recovery plan"
+    ],
+    "blockers_hit": "Missing Google Ads Editor full export (has headlines/descriptions). Current data shows campaign-level and change-level but not individual ad copy.",
+    "uncommitted_changes": "claude-output repo has new forensics report",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-forensics.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Source CSVs in ~/Downloads/: Campaign report.csv, Time_series_chart(2023.07.01-2026.05.01).csv, Change history report.csv"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended re-enabling original campaigns rather than rebuilding from scratch",
+      "rejected_alternatives": ["Build new campaigns from scratch", "Modify John's campaigns to fix them"],
+      "rationale": "Original campaigns still have keyword history, negative keyword lists, and conversion data intact. Google's algorithm retains historical quality scores. Rebuilding loses all that signal.",
+      "trade_offs": "Conversion tracking issue needs fixing first or re-enabled campaigns won't optimize properly",
+      "contingencies": [
+        { "if_X_then_Y": "If conversion tracking can't be fixed on original campaign, create a new campaign and migrate keywords/negatives manually", "probability": 0.15 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
