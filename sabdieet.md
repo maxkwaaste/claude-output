@@ -3,13 +3,13 @@
 A comprehensive guide based on insights from bio-optimization experts, merged with Weston A. Price Foundation traditional-foods wisdom. No grains.
 
 **Conception date:** April 30, 2026
-**Estimated due date:** January 21, 2027
+**Estimated due date:** December 26, 2026
 
 | Phase | Dates | Weeks |
 |-------|-------|-------|
-| 1st Trimester | Apr 30 - Jul 8, 2026 | 1-12 |
-| 2nd Trimester | Jul 9 - Oct 21, 2026 | 13-27 |
-| 3rd Trimester | Oct 22, 2026 - Jan 21, 2027 | 28-40 |
+| 1st Trimester | Mar 21 - Jun 12, 2026 | 1-12 |
+| 2nd Trimester | Jun 13 - Sep 25, 2026 | 13-27 |
+| 3rd Trimester | Sep 26 - Dec 26, 2026 | 28-40 |
 
 ### Trimester-Specific Focus
 
@@ -36,50 +36,7 @@ A comprehensive guide based on insights from bio-optimization experts, merged wi
 
 ---
 
-## 01. Preconception Optimization
-
-The biological blueprint is set in the months before conception. Both parents prepare the terrain.
-
-### The Six-Month Rule (Dr. Ghulmiyyah)
-
-Both parents commit to at least six months of preparation. Sperm quality matters as much as egg quality. Epigenetic markers carried at conception influence the child's lifelong health.
-
-- Spermatogenesis cycle is roughly 74 days, give it two full cycles
-- Eliminate alcohol, nicotine, recreational drugs
-- Address dental health, gut health, and chronic inflammation
-
-### Metabolic Baselines (Dr. Casey Means)
-
-Conception on a metabolically healthy body changes everything. Confirm your baselines with bloodwork before trying.
-
-| Marker | Target |
-|--------|--------|
-| Fasting Glucose | 70-85 mg/dL |
-| Triglycerides | < 100 mg/dL |
-| HDL | 60-90 mg/dL |
-
-### Hormonal Prep (Dr. Carrie Lynn Carda)
-
-Hormones respond fast to dietary inputs. Strip the diet of inflammatory foods and sodium becomes critical for adrenal and thyroid function.
-
-- Eliminate refined sugar entirely
-- Remove white foods: flour, rice, sugar, processed grains
-- Switch to Celtic sea salt or Himalayan salt for trace minerals
-
-### Iron Management (P.D. Mangan)
-
-Iron is a double-edged sword. Excess iron drives the Fenton reaction, generating hydroxyl radicals that damage DNA. Most pregnancy supplements over-dose iron without measuring need first.
-
-| Marker | Value | Status |
-|--------|-------|--------|
-| Ferritin | 40-60 ng/mL | Ideal |
-| Ferritin | > 80 ng/mL | Risk threshold |
-
-Test ferritin and transferrin saturation before supplementing. Donate blood if levels run high.
-
----
-
-## 02. Trimester-by-Trimester Nutrition
+## 01. Trimester-by-Trimester Nutrition
 
 An animal-based foundation, free of industrial seed oils, with monitoring throughout.
 
@@ -124,7 +81,7 @@ Aim to keep post-meal glucose under 120 mg/dL. Walk for 10 minutes after every m
 
 ---
 
-## 03. Targeted Supplementation
+## 02. Targeted Supplementation
 
 Form matters more than dose. The body responds to bioavailable, methylated nutrients.
 
@@ -162,7 +119,7 @@ Avoid standard prenatal vitamins. They contain synthetic folic acid (blocks fola
 
 ---
 
-## 04. Movement & Strength Training
+## 03. Movement & Strength Training
 
 Pregnancy is not an illness. The strong body delivers, recovers, and carries the infant better.
 
@@ -188,7 +145,7 @@ Breath-led core work. No crunches or sit-ups. Elevated planks, side-lying series
 
 ---
 
-## 05. Toxin Reduction & Environment
+## 04. Toxin Reduction & Environment
 
 The placenta is selective but not invincible. Reduce the load.
 
@@ -219,7 +176,7 @@ Choose small, low-mercury fish:
 
 ---
 
-## 06. Sleep, Stress, Sunlight
+## 05. Sleep, Stress, Sunlight
 
 The free, ancestral inputs that shape circadian rhythm and hormone production.
 
@@ -241,7 +198,7 @@ Daily nasal breathing practice. Prevents pregnenolone steal where chronic cortis
 
 ---
 
-## 07. Postpartum Recovery
+## 06. Postpartum Recovery
 
 The first 30 days set the trajectory for the next 30 years of hormonal health.
 
@@ -268,7 +225,7 @@ No bounce-back culture. The body just performed a miracle. Recovery is the work,
 
 ---
 
-## 08. Daily Regimen & Checklists
+## 07. Daily Regimen & Checklists
 
 A practical synthesis. Print this and stick it on the fridge.
 
