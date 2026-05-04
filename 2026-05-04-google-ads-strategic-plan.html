@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Google Ads Strategic Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 140px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-pay { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.quote-block {
+  border-left: 3px solid #c8a87a; padding: 12px 18px; margin: 14px 0;
+  font-style: italic; color: #4a5568; background: #fefaf5;
+}
+.quote-attr {
+  font-style: normal; font-size: 12px; color: #8a8f96; margin-top: 4px;
+  font-family: -apple-system, sans-serif;
+}
+.week-block {
+  border: 1px solid #e2e4e8; border-radius: 4px; padding: 18px 22px;
+  margin-bottom: 12px;
+}
+.week-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin-bottom: 8px;
+}
+.ad-preview {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 8px;
+  padding: 16px 20px; margin: 12px 0; font-family: -apple-system, sans-serif;
+}
+.ad-preview .ad-url { color: #1a2744; font-size: 12px; margin-bottom: 2px; }
+.ad-preview .ad-headline { color: #1a0dab; font-size: 18px; font-weight: 400; margin-bottom: 4px; cursor: pointer; }
+.ad-preview .ad-desc { color: #4d5156; font-size: 14px; line-height: 1.4; }
+.ad-preview .ad-badge { display: inline-block; font-size: 11px; font-weight: 700; color: #1a2744; background: #e8edf4; padding: 2px 6px; border-radius: 3px; margin-right: 6px; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 4, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-strategic-plan.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Paid Search Strategy &amp; Implementation Plan</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 4, 2026<br>Strategy Document<br>Proxuma Google Ads
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">GOOGLE ADS RELAUNCH</div>
+  <h1>Proxuma Google Ads Strategic Plan</h1>
+  <p class="subtitle">Complete research findings, campaign architecture, ad copy, conversion tracking audit, and 30-day launch roadmap. Based on golden period data (Jun-Nov 2025), 140+ demo transcripts, and current account/website analysis.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">22.5</div>
+      <div class="stat-label">Golden Period Conversions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~10K</div>
+      <div class="stat-label">Autotask MSPs (TAM)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">EUR 52</div>
+      <div class="stat-label">Best CPA (Phrase Match)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">EUR 20</div>
+      <div class="stat-label">Target Daily Budget</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: RESEARCH FINDINGS -->
+  <h2>1. Research Findings</h2>
+
+  <h3>Product Features That Drive Ad Copy</h3>
+  <p>Proxuma solves one core problem: Autotask's native project management is broken. From 140 demo transcripts, these features consistently move prospects from interested to trial:</p>
+  <ol>
+    <li><strong>Visual project timeline / Gantt</strong> with drag-and-drop task management</li>
+    <li><strong>Dispatch calendar</strong> where dragging a ticket onto an engineer creates a service call + Outlook invite in 2 clicks</li>
+    <li><strong>Bulk editing</strong> of 50+ tasks at once (dates, assignees, statuses)</li>
+    <li><strong>Capacity planning</strong> with real-time color-coded resource availability</li>
+    <li><strong>Own Outlook integration</strong> that works every time (replaces Autotask's broken Exchange sync)</li>
+    <li><strong>Shift planning</strong> for NOC/SOC rotations</li>
+    <li><strong>Multi-project overview</strong> showing all projects on one screen</li>
+  </ol>
+  <p>Engineers never need to log into Proxuma. Only planners and PMs use it. Everything syncs back to Autotask.</p>
+
+  <h3>Prospect Pain Points (Direct Quotes for Ad Copy)</h3>
+  <p>These are from real MSP prospects during demos. They work as ad headlines because they use the prospect's own language:</p>
+
+  <div class="quote-block">
+    "Planning in Autotask is a disaster."
+    <div class="quote-attr">Appsys, Belgium</div>
+  </div>
+  <div class="quote-block">
+    "It takes too much time. It is old-fashioned."
+    <div class="quote-attr">Reliable Technology, US</div>
+  </div>
+  <div class="quote-block">
+    "I have no customer who was satisfied with the projects."
+    <div class="quote-attr">BeMSP, France (distributor to 130 MSPs)</div>
+  </div>
+  <div class="quote-block">
+    "We gave up on the Autotask project planning. I called them write-only projects."
+    <div class="quote-attr">TechNosis, US</div>
+  </div>
+  <div class="quote-block">
+    "That puts an hour back in every day. I can take lunch now."
+    <div class="quote-attr">Denise, US (on bulk move feature)</div>
+  </div>
+
+  <h3>Competitive Landscape</h3>
+  <table class="matrix">
+    <tr><th>Competitor</th><th>Pricing</th><th>Integration</th><th>Weakness vs Proxuma</th></tr>
+    <tr><td><strong>TopLeft</strong></td><td>EUR 75/user/mo</td><td>CW, Halo, Autotask</td><td>"Just a Kanban board." Less visual depth. 3.75x the price.</td></tr>
+    <tr><td><strong>Excel</strong></td><td>Free</td><td>None</td><td>Double data entry, version conflicts, no capacity view</td></tr>
+    <tr><td><strong>Monday/Jira/ClickUp</strong></td><td>Varies</td><td>None with Autotask</td><td>No Autotask integration = double data entry</td></tr>
+    <tr><td><strong>Giant Rocketship</strong></td><td>Unknown</td><td>Autotask</td><td>"Works 90% of the time. That 10% kills us."</td></tr>
+    <tr><td><strong>Moovila</strong></td><td>Unknown</td><td>Autotask</td><td>Timeline-only, no capacity planning or dispatch</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Key Finding</span>
+    <strong>TopLeft has a /topleft-vs-proxuma comparison page</strong> actively positioning against Proxuma. They highlight multi-PSA support (CW + Halo + AT) as their advantage. They do NOT show pricing publicly. Proxuma's price transparency (EUR 20 vs EUR 75) is a powerful differentiator to use in ad copy.
+  </div>
+
+  <h3>ICP and Market Size</h3>
+  <ul>
+    <li><strong>TAM:</strong> ~10,000 MSPs using Autotask globally</li>
+    <li><strong>ICP sweet spot:</strong> 20-100 Autotask seats, in US/UK/NL/BE/DE/AU/CA</li>
+    <li><strong>CRM data:</strong> 7,603 companies classified. 252 flagged as ideal customer profiles.</li>
+    <li><strong>Current customers:</strong> ~60 paying MSPs, ~EUR 25-30K MRR</li>
+    <li><strong>Demo rate:</strong> ~1/day at EUR 5-10/day ad spend historically</li>
+    <li><strong>Discovery channels:</strong> LinkedIn, web search, referrals via Dxfferent, word of mouth</li>
+  </ul>
+
+  <h3>Golden Period Analysis (What Worked)</h3>
+  <table class="matrix">
+    <tr><th>Metric</th><th>Golden Period (Jun-Nov 2025)</th><th>John's Period (Feb-Apr 2026)</th></tr>
+    <tr><td><strong>Total conversions</strong></td><td>22.5</td><td>0</td></tr>
+    <tr><td><strong>Best campaign</strong></td><td>NEW1-Search-WebsiteTraffic (EUR 84/conv)</td><td>Search | Leads | USA (paused)</td></tr>
+    <tr><td><strong>Best keyword</strong></td><td>"Autotask Project Management" [phrase]</td><td>Generic MSP terms</td></tr>
+    <tr><td><strong>Best CPA</strong></td><td>EUR 52/conversion</td><td>N/A (zero conversions)</td></tr>
+    <tr><td><strong>Bidding</strong></td><td>Maximize Conversions</td><td>Maximize Clicks</td></tr>
+    <tr><td><strong>Daily budget</strong></td><td>EUR 15-20/day total</td><td>EUR 27/day</td></tr>
+    <tr><td><strong>Keyword strategy</strong></td><td>"Autotask + [feature]" phrase match</td><td>Generic "MSP" broad terms</td></tr>
+  </table>
+
+  <div class="positioning">
+    <h2>Why It Worked</h2>
+    <p>The golden period succeeded because it targeted people already searching for Autotask-specific solutions. "Autotask project management" is a high-intent keyword: the searcher already uses Autotask and already knows the project module is broken. John's campaigns failed because "MSP planning tools" attracts people who may not even use Autotask. The lesson: stay in the Autotask ecosystem.</p>
+  </div>
+
+  <!-- SECTION 2: CAMPAIGN ARCHITECTURE -->
+  <h2>2. Recommended Campaign Architecture</h2>
+
+  <h3>Campaign Structure</h3>
+  <table class="matrix">
+    <tr><th>Campaign</th><th>Type</th><th>Daily Budget</th><th>Bidding</th><th>Purpose</th></tr>
+    <tr><td><strong>Brand</strong></td><td>Search</td><td>EUR 2/day</td><td>Manual CPC</td><td>Protect brand terms. EUR 21/conv historically.</td></tr>
+    <tr><td><strong>Autotask Features</strong></td><td>Search</td><td>EUR 12/day</td><td>Manual CPC (4 weeks), then Maximize Conversions</td><td>Core growth driver. Phrase match on Autotask + feature terms.</td></tr>
+    <tr><td><strong>Recorded Demo</strong></td><td>Search</td><td>EUR 4/day</td><td>Manual CPC</td><td>Lower-intent informational queries. Drives recorded demo form fills.</td></tr>
+    <tr class="row-total"><td><strong>Total</strong></td><td></td><td><strong>EUR 18/day</strong></td><td></td><td><strong>EUR 540/month</strong></td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Bidding Strategy Rationale</span>
+    Start with Manual CPC for the first 4 weeks. The account has been paused for months and has limited recent conversion data. Automated bidding (Maximize Conversions, Target CPA) needs 30+ conversions/month to optimize properly. Once you have 15+ conversions, switch the Autotask Features campaign to Maximize Conversions. Keep Brand on Manual CPC permanently since those clicks should always be cheap.
+  </div>
+
+  <h3>Keyword Plan</h3>
+
+  <h3>Campaign: Autotask Features (4 Ad Groups)</h3>
+  <table class="matrix">
+    <tr><th>Ad Group</th><th>Keywords (Phrase Match)</th><th>Est. CPC</th></tr>
+    <tr>
+      <td><strong>Project Management</strong></td>
+      <td>
+        "autotask project management"<br>
+        "autotask project planning"<br>
+        "autotask project timeline"<br>
+        "autotask gantt chart"<br>
+        "autotask project management tool"
+      </td>
+      <td>EUR 2-5</td>
+    </tr>
+    <tr>
+      <td><strong>Planning & Capacity</strong></td>
+      <td>
+        "autotask planning"<br>
+        "autotask resource planning"<br>
+        "autotask capacity planning"<br>
+        "autotask dispatch calendar"<br>
+        "autotask scheduling"
+      </td>
+      <td>EUR 2-4</td>
+    </tr>
+    <tr>
+      <td><strong>Outlook & Integration</strong></td>
+      <td>
+        "autotask outlook integration"<br>
+        "autotask outlook sync"<br>
+        "autotask calendar integration"<br>
+        "autotask exchange sync"
+      </td>
+      <td>EUR 1-3</td>
+    </tr>
+    <tr>
+      <td><strong>Shifts & Dispatch</strong></td>
+      <td>
+        "autotask shift planning"<br>
+        "MSP shift scheduling autotask"<br>
+        "autotask service call scheduling"<br>
+        "autotask dispatch"
+      </td>
+      <td>EUR 1-3</td>
+    </tr>
+  </table>
+
+  <h3>Campaign: Brand</h3>
+  <table class="matrix">
+    <tr><th>Ad Group</th><th>Keywords (Exact Match)</th><th>Est. CPC</th></tr>
+    <tr>
+      <td><strong>Brand</strong></td>
+      <td>
+        [proxuma]<br>
+        [proxuma autotask]<br>
+        [proxuma planning]<br>
+        [proxuma project management]
+      </td>
+      <td>EUR 0.50-1</td>
+    </tr>
+  </table>
+
+  <h3>Negative Keywords (Account-Level)</h3>
+  <table class="matrix">
+    <tr><th>Category</th><th>Negatives</th></tr>
+    <tr><td>Jobs/Careers</td><td>jobs, careers, salary, hiring, interview, resume, certification</td></tr>
+    <tr><td>Education</td><td>tutorial, course, training, learn, class, certification, exam</td></tr>
+    <tr><td>Free/DIY</td><td>free, open source, template, download</td></tr>
+    <tr><td>Support</td><td>login, support, help desk, ticket, bug, error, password</td></tr>
+    <tr><td>Other PSA</td><td>connectwise, halo psa, freshdesk, zendesk, servicenow</td></tr>
+    <tr><td>Power BI</td><td>power bi, dashboard, report, analytics, reporting</td></tr>
+    <tr><td>Irrelevant</td><td>datto, backup, antivirus, security, RMM, monitoring</td></tr>
+  </table>
+
+  <h3>Geographic Targeting</h3>
+  <div class="callout">
+    <span class="callout-label">Recommendation</span>
+    <strong>Start with USA + UK + Australia only.</strong> These are English-speaking markets where Proxuma has proven traction. The golden period data came primarily from US traffic. Netherlands/Belgium prospects find Proxuma through Dutch channels (LinkedIn, referrals, Dxfferent), not Google Ads in English. If budget allows expansion after month 2, add Canada and New Zealand. Do NOT create separate campaigns per geography at this budget level. One campaign, location targeting set to "Presence: People in or regularly in your targeted locations."
+  </div>
+
+  <h3>Should You Bid on "TopLeft"?</h3>
+  <p><strong>Not yet.</strong> Competitor bidding is expensive and works best when you have a strong landing page with a direct comparison. TopLeft already has a comparison page against Proxuma. Bidding on their name without a counter-page risks driving traffic to TopLeft's comparison page via organic. Build a /proxuma-vs-topleft page first, then consider a small competitor campaign at EUR 2/day.</p>
+
+  <h3>Should You Bid on "Autotask" Broadly?</h3>
+  <p><strong>No.</strong> "Autotask" alone is too broad (login queries, support queries, job seekers). Always pair Autotask with a feature term: "autotask project management," "autotask planning," "autotask outlook integration." The golden period proved this works. Broad "autotask" without feature qualifiers will burn budget on irrelevant clicks.</p>
+
+  <!-- SECTION 3: AD COPY -->
+  <h2>3. Ad Copy (Ready to Paste)</h2>
+
+  <h3>Ad Group: Project Management</h3>
+  <div class="ad-preview">
+    <div class="ad-url"><span class="ad-badge">Ad</span> proxuma.io/planning</div>
+    <div class="ad-headline">Autotask Project Management That Actually Works</div>
+    <div class="ad-desc">Visual timeline with drag-and-drop. See all projects on one screen. Bulk edit 50 tasks at once. Engineers stay in Autotask. Only planners need a license. From EUR 20/user/month. Free trial, no minimum.</div>
+  </div>
+
+  <h3>Responsive Search Ad Headlines (15 options)</h3>
+  <table class="matrix">
+    <tr><th>#</th><th>Headline (max 30 chars)</th><th>Pin Position</th></tr>
+    <tr><td>1</td><td><strong>Autotask Project Management</strong></td><td>H1</td></tr>
+    <tr><td>2</td><td><strong>Visual Planning for Autotask</strong></td><td>H1</td></tr>
+    <tr><td>3</td><td><strong>Autotask Planning Made Visual</strong></td><td>H1</td></tr>
+    <tr><td>4</td><td><strong>Drag-and-Drop Scheduling</strong></td><td>H2</td></tr>
+    <tr><td>5</td><td><strong>See All Projects at a Glance</strong></td><td>H2</td></tr>
+    <tr><td>6</td><td><strong>Bulk Edit 50 Tasks at Once</strong></td><td>H2</td></tr>
+    <tr><td>7</td><td><strong>Know Who Has Capacity</strong></td><td>H2</td></tr>
+    <tr><td>8</td><td><strong>Outlook Sync That Works</strong></td><td>H2</td></tr>
+    <tr><td>9</td><td><strong>From EUR 20/User/Month</strong></td><td>H3</td></tr>
+    <tr><td>10</td><td><strong>3.75x Cheaper Than TopLeft</strong></td><td>H3</td></tr>
+    <tr><td>11</td><td><strong>Engineers Never Need Access</strong></td><td>H3</td></tr>
+    <tr><td>12</td><td><strong>Free Trial, No Minimum</strong></td><td>H3</td></tr>
+    <tr><td>13</td><td><strong>Built for MSP Planners</strong></td><td>-</td></tr>
+    <tr><td>14</td><td><strong>Syncs Back to Autotask</strong></td><td>-</td></tr>
+    <tr><td>15</td><td><strong>New Features Every 2 Weeks</strong></td><td>-</td></tr>
+  </table>
+
+  <h3>Description Lines (4 options)</h3>
+  <table class="matrix">
+    <tr><th>#</th><th>Description (max 90 chars)</th></tr>
+    <tr><td>1</td><td>See all your projects on one visual timeline. Drag tasks across weeks. Create service calls in 2 clicks.</td></tr>
+    <tr><td>2</td><td>Stop using Excel next to Autotask. Proxuma adds the planning layer Autotask should have built.</td></tr>
+    <tr><td>3</td><td>Resource capacity at a glance. Know who is free before you promise a deadline. Real-time sync.</td></tr>
+    <tr><td>4</td><td>Only planners and PMs need a license. Engineers keep working in Autotask. Everything syncs back.</td></tr>
+  </table>
+
+  <h3>Display URL Paths</h3>
+  <table class="matrix">
+    <tr><th>Ad Group</th><th>Path 1</th><th>Path 2</th></tr>
+    <tr><td>Project Management</td><td>/planning</td><td>/autotask</td></tr>
+    <tr><td>Planning & Capacity</td><td>/planning</td><td>/capacity</td></tr>
+    <tr><td>Outlook Integration</td><td>/planning</td><td>/outlook</td></tr>
+    <tr><td>Shifts & Dispatch</td><td>/shifts</td><td>/dispatch</td></tr>
+    <tr><td>Brand</td><td>/planning</td><td></td></tr>
+  </table>
+
+  <h3>Should You Run Separate Ad Groups for Each Feature?</h3>
+  <p><strong>Yes, but share the same campaign.</strong> The 4 ad groups above (Project Management, Planning & Capacity, Outlook & Integration, Shifts & Dispatch) each get tailored headlines that match the search intent. At EUR 12/day total, Google will naturally spend more on the ad groups that convert. After 30 days, pause any ad group with zero conversions and reallocate budget.</p>
+
+  <!-- SECTION 4: LANDING PAGES -->
+  <h2>4. Landing Page Assessment</h2>
+
+  <h3>Current State</h3>
+  <table class="matrix">
+    <tr><th>URL</th><th>Status</th><th>Suitable for Ads?</th></tr>
+    <tr><td>/planning/</td><td style="color:#1a6b3a">200 OK</td><td>Best option. Primary landing page for all Autotask Features ads.</td></tr>
+    <tr><td>/shifts/</td><td style="color:#1a6b3a">200 OK</td><td>Good for Shifts ad group specifically.</td></tr>
+    <tr><td>/pricing/</td><td style="color:#1a6b3a">200 OK</td><td>Use as sitelink extension, not primary landing page.</td></tr>
+    <tr><td>/how-to-use-autotask-for-project-management/</td><td style="color:#1a6b3a">202 OK</td><td>Good for Recorded Demo campaign (educational intent).</td></tr>
+    <tr><td>/project-management/</td><td style="color:#1a6b3a">202 OK</td><td>Alternative landing page for Project Management ad group.</td></tr>
+    <tr><td>/demo/</td><td style="color:#8a6a2a">301 redirect</td><td>Redirects (likely to HubSpot). Fine for demo booking flow.</td></tr>
+    <tr><td>/outlook-integration/</td><td style="color:#8a2a2a">404</td><td>MISSING. Needed if Outlook ad group scales.</td></tr>
+    <tr><td>/kanban/</td><td style="color:#8a2a2a">404</td><td>Feature not built yet. Do not advertise.</td></tr>
+    <tr><td>/trial/</td><td style="color:#8a2a2a">404</td><td>MISSING. Would help conversion rate.</td></tr>
+    <tr><td>/features/</td><td style="color:#8a2a2a">404</td><td>MISSING. Low priority, /planning/ covers it.</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Landing Page Recommendation</span>
+    Use <strong>/planning/</strong> as the primary landing page for all Autotask Features ad groups. It exists and matches the search intent. The ideal Google Ads landing page for "autotask project management" should show: (1) a screenshot of the visual timeline, (2) a clear CTA to book a demo or start a trial, (3) the EUR 20/user price point vs TopLeft's EUR 75, (4) "engineers never need a license" messaging, (5) a 30-second product video or animated GIF. Check whether /planning/ currently has all these elements. If not, improving this one page will have more ROI impact than any keyword change.
+  </div>
+
+  <h3>Conversion Actions on the Website</h3>
+  <ul>
+    <li><strong>Book a live demo</strong> (HubSpot meetings link, confirmation page ID 1937/1082)</li>
+    <li><strong>Request recorded demo</strong> (Gravity Forms ID 2, confirmation page ID 2203)</li>
+    <li><strong>Contact form</strong> (Gravity Forms ID 1, "Send a message")</li>
+    <li><strong>Funnel form</strong> (Gravity Forms ID 3, purpose unclear)</li>
+    <li><strong>Portal registration</strong> (/portal/ redirects to app.proxuma.io)</li>
+  </ul>
+
+  <!-- SECTION 5: CONVERSION TRACKING -->
+  <h2>5. Conversion Tracking Audit & Implementation Plan</h2>
+
+  <h3>Current Setup</h3>
+  <table class="matrix">
+    <tr><th>Component</th><th>Status</th><th>ID</th></tr>
+    <tr><td>Google Tag Manager</td><td style="color:#1a6b3a">Active</td><td>GTM-T8Z3GHT</td></tr>
+    <tr><td>Google Ads tag (gtag)</td><td style="color:#1a6b3a">Active</td><td>AW-11268212749</td></tr>
+    <tr><td>GA4</td><td style="color:#1a6b3a">Active</td><td>G-B2BE5BP0PK</td></tr>
+    <tr><td>mu-plugin tracking</td><td style="color:#1a6b3a">Active</td><td>proxuma-google-ads-tracking.php</td></tr>
+    <tr><td>John's GTM tags</td><td style="color:#8a6a2a">Do not touch</td><td>IDs 44, 45, 46, 50, 51, 53</td></tr>
+  </table>
+
+  <h3>Conversion Actions in Google Ads Account</h3>
+  <table class="matrix">
+    <tr><th>Action</th><th>Type</th><th>Status</th><th>Issue</th></tr>
+    <tr><td>Booked a demo (proxuma.io/)</td><td>Page view (codeless)</td><td style="color:#1a6b3a">ENABLED</td><td>OK</td></tr>
+    <tr><td>bookingconfirm page view</td><td>Page view (codeless)</td><td style="color:#1a6b3a">ENABLED</td><td>Duplicate of above?</td></tr>
+    <tr><td>bookingconfirmed (GA4)</td><td>GA4 event</td><td style="color:#1a6b3a">ENABLED</td><td>TRIPLE counting with above two</td></tr>
+    <tr><td>recorded-demo-requested page view</td><td>Page view (codeless)</td><td style="color:#1a6b3a">ENABLED</td><td>OK</td></tr>
+    <tr><td>recordeddemorequested (GA4)</td><td>GA4 event</td><td style="color:#1a6b3a">ENABLED</td><td>DOUBLE counting with above</td></tr>
+    <tr><td>Google Ads | Mail Click</td><td>Webpage click</td><td style="color:#1a6b3a">ENABLED</td><td>Tracks mailto clicks. Low value.</td></tr>
+    <tr><td>demo_click (GA4)</td><td>GA4 custom</td><td style="color:#8a8f96">HIDDEN</td><td>-</td></tr>
+    <tr><td>form_submission (GA4)</td><td>GA4 custom</td><td style="color:#8a8f96">HIDDEN</td><td>-</td></tr>
+    <tr><td>GAds - Demo aanvragen</td><td>Webpage click</td><td style="color:#8a2a2a">REMOVED</td><td>-</td></tr>
+    <tr><td>Recorded Demo</td><td>Webpage click</td><td style="color:#8a2a2a">REMOVED</td><td>-</td></tr>
+    <tr><td>purchase (GA4)</td><td>GA4 purchase</td><td style="color:#8a2a2a">REMOVED</td><td>-</td></tr>
+    <tr><td>click_expert (GA4)</td><td>GA4 custom</td><td style="color:#8a2a2a">REMOVED</td><td>-</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Critical Issue: Double/Triple Counting</span>
+    The account has <strong>3 enabled conversion actions for the same booking event</strong>: a codeless page view ("Booked a demo"), another codeless page view ("bookingconfirm"), and a GA4 event ("bookingconfirmed"). The mu-plugin also fires a conversion event on the confirmation page. This means every single demo booking is counted 2-3 times, which inflates conversion numbers and confuses automated bidding. Similarly, recorded demo requests are double-counted (page view + GA4 event).
+  </div>
+
+  <h3>Recommended Fix</h3>
+  <ol>
+    <li><strong>Keep as PRIMARY (counting = "One"):</strong>
+      <ul>
+        <li>"Booked a demo (proxuma.io/)" - page view codeless (ID 7239093290)</li>
+        <li>"Page view (recorded-demo-requested)" - page view codeless (ID 7219446149)</li>
+      </ul>
+    </li>
+    <li><strong>Set to SECONDARY (counting = "One", not used for bidding):</strong>
+      <ul>
+        <li>"bookingconfirmed" GA4 event (ID 7219607704)</li>
+        <li>"recordeddemorequested" GA4 event (ID 7219608715)</li>
+        <li>"Google Ads | Mail Click" (ID 7513798738)</li>
+      </ul>
+    </li>
+    <li><strong>Remove or keep removed:</strong>
+      <ul>
+        <li>"bookingconfirm page view" (ID 7219443053) - duplicate, remove</li>
+        <li>All already-REMOVED actions - leave removed</li>
+      </ul>
+    </li>
+  </ol>
+  <p>After cleanup, you should have exactly <strong>2 primary conversion actions</strong>: one for live demo bookings, one for recorded demo requests. This gives automated bidding clean signal.</p>
+
+  <h3>mu-plugin Update Needed</h3>
+  <p>The current mu-plugin (<code>proxuma-google-ads-tracking.php</code>) fires conversion events on 4 page IDs. Since we're using Google's codeless page-view tracking, the mu-plugin's conversion firing is redundant for pages 1937 and 1082 (which fire the same send_to as the codeless "Booked a demo" action). Consider removing the duplicate conversion calls from the mu-plugin to avoid triple-counting. Keep the mu-plugin for gtag.js loading only.</p>
+
+  <h3>Missing: Portal Registration Tracking</h3>
+  <p>Self-service signups at /portal/ (redirects to app.proxuma.io) are not tracked. If self-service trial starts are a conversion goal, add a conversion action for the app registration success page. This requires coordination with the app team to fire a gtag conversion event on successful registration.</p>
+
+  <!-- SECTION 6: 30-DAY LAUNCH PLAN -->
+  <h2>6. 30-Day Launch Plan</h2>
+
+  <div class="week-block">
+    <div class="week-label">Week 1 (May 5-11): Foundation</div>
+    <ul>
+      <li><strong>Day 1-2: Fix conversion tracking.</strong> Set duplicate actions to secondary. Verify only 2 primary actions remain. Test by booking a test demo and confirming exactly 1 conversion fires.</li>
+      <li><strong>Day 1-2: Clean up campaigns.</strong> Pause all of John's campaigns permanently (Search | Leads | USA, Search | Leads | AUS). Remove or archive.</li>
+      <li><strong>Day 3: Create new campaign structure.</strong> Build the 3 campaigns (Brand, Autotask Features, Recorded Demo) with the ad groups and keywords above.</li>
+      <li><strong>Day 3: Add negative keywords</strong> at account level from the list above.</li>
+      <li><strong>Day 4: Write and submit ads.</strong> Use the responsive search ad copy above. One RSA per ad group.</li>
+      <li><strong>Day 5: Set budgets and bidding.</strong> Manual CPC, max CPC EUR 4 for Autotask Features, EUR 1.50 for Brand. Launch.</li>
+      <li><strong>Day 5-7: Monitor.</strong> Check search terms report daily. Add negative keywords for irrelevant queries.</li>
+    </ul>
+  </div>
+
+  <div class="week-block">
+    <div class="week-label">Week 2 (May 12-18): Optimize</div>
+    <ul>
+      <li>Review search terms report. Add 10-20 negative keywords from actual queries.</li>
+      <li>Check which ad groups are getting impressions and clicks. Adjust bids up on performing ad groups, down on underperforming.</li>
+      <li>Verify conversion tracking is firing correctly (check Google Ads > Conversions > recent conversions).</li>
+      <li>Check Quality Score for each keyword. Score below 5 means the landing page or ad relevance needs work.</li>
+      <li>Set up Enhanced Conversions if not already active (sends hashed email data for better attribution).</li>
+    </ul>
+  </div>
+
+  <div class="week-block">
+    <div class="week-label">Week 3 (May 19-25): Refine</div>
+    <ul>
+      <li>By now you should have 100+ clicks. Analyze: which keywords got clicks? Which got conversions?</li>
+      <li>Pause any keyword with 50+ clicks and zero conversions.</li>
+      <li>Test a second RSA in the Project Management ad group (A/B test).</li>
+      <li>Check device performance. If mobile has zero conversions, apply -50% mobile bid adjustment.</li>
+      <li>Review time-of-day data. If all conversions happen during business hours, set ad schedule to Mon-Fri 7am-7pm.</li>
+    </ul>
+  </div>
+
+  <div class="week-block">
+    <div class="week-label">Week 4 (May 26-Jun 1): Decide</div>
+    <ul>
+      <li>4-week performance review. Calculate actual CPA across all campaigns.</li>
+      <li>If CPA is under EUR 100 and you have 5+ conversions: switch Autotask Features to Maximize Conversions bidding with target CPA of EUR 80.</li>
+      <li>If CPA is over EUR 150 or zero conversions: review landing page quality, ad relevance, and keyword intent. Consider /planning/ page redesign before spending more.</li>
+      <li>If one ad group clearly outperforms others: reallocate budget from underperformers.</li>
+      <li>If "Outlook" or "Shifts" ad groups show promise: consider building dedicated landing pages (/outlook-integration/, /shifts/ improvement).</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 7: BUDGET FORECAST -->
+  <h2>7. Budget Forecast</h2>
+
+  <div class="scenario-row">
+    <div class="scenario-card">
+      <div class="scenario-label">Conservative</div>
+      <div class="scenario-value">3-4</div>
+      <div class="scenario-detail">conversions/month<br>CPA EUR 135-180<br>Based on re-learning period</div>
+    </div>
+    <div class="scenario-card highlighted">
+      <div class="scenario-label">Target (Month 2+)</div>
+      <div class="scenario-value">6-8</div>
+      <div class="scenario-detail">conversions/month<br>CPA EUR 68-90<br>Matching golden period rates</div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label">Optimistic</div>
+      <div class="scenario-value">10-12</div>
+      <div class="scenario-detail">conversions/month<br>CPA EUR 45-54<br>If landing page improves</div>
+    </div>
+  </div>
+
+  <table class="matrix">
+    <tr><th>Metric</th><th>Month 1 (re-learning)</th><th>Month 2</th><th>Month 3+</th></tr>
+    <tr><td>Daily budget</td><td>EUR 18</td><td>EUR 18</td><td>EUR 20-25</td></tr>
+    <tr><td>Monthly spend</td><td>EUR 540</td><td>EUR 540</td><td>EUR 600-750</td></tr>
+    <tr><td>Expected clicks</td><td>120-180</td><td>150-220</td><td>180-250</td></tr>
+    <tr><td>Average CPC</td><td>EUR 3-4.50</td><td>EUR 2.50-3.50</td><td>EUR 2.50-3.00</td></tr>
+    <tr><td>Expected conversions</td><td>3-4</td><td>6-8</td><td>8-12</td></tr>
+    <tr><td>Target CPA</td><td>EUR 135-180</td><td>EUR 68-90</td><td>EUR 50-75</td></tr>
+    <tr><td>Bidding strategy</td><td>Manual CPC</td><td>Maximize Conversions</td><td>Target CPA</td></tr>
+  </table>
+
+  <p>These forecasts assume a 1-2% conversion rate on clicks, consistent with the golden period data. The re-learning period in month 1 will have higher CPA as Google's algorithm calibrates. By month 3, you should approach or beat the golden period benchmark of EUR 52-84/conversion.</p>
+
+  <div class="callout">
+    <span class="callout-label">ROI Context</span>
+    At EUR 20/user/month pricing and an average deal of 5-8 planner licenses, each conversion that turns into a customer is worth EUR 100-160/month in recurring revenue. Even at the conservative month-1 CPA of EUR 180, break-even on a single customer happens within 2 months. The golden period CPA of EUR 52 means payback within the first billing cycle.
+  </div>
+
+  <!-- SECTION 8: NEXT STEPS -->
+  <h2>8. Priority Actions</h2>
+
+  <div class="card">
+    <div class="card-title">1. Fix Conversion Tracking (Today)</div>
+    <div class="card-desc">Set duplicate conversion actions to secondary. You should have exactly 2 primary actions: demo booked + recorded demo requested. Without clean tracking, all optimization decisions are based on inflated data.</div>
+    <div class="tags"><span class="tag tag-low">BLOCKING</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. Build New Campaigns (Day 1-3)</div>
+    <div class="card-desc">Create the 3-campaign structure with the keywords and ad copy from this document. Keep John's campaigns paused permanently.</div>
+    <div class="tags"><span class="tag tag-high">HIGH</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Audit /planning/ Landing Page (Day 3-5)</div>
+    <div class="card-desc">Check if /planning/ has: product screenshot, clear CTA, pricing comparison, "engineers don't need a license" messaging. If not, improve it before scaling spend.</div>
+    <div class="tags"><span class="tag tag-high">HIGH</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. Build /proxuma-vs-topleft/ Page (Week 2-3)</div>
+    <div class="card-desc">TopLeft already has a comparison page against Proxuma. Build your own with price transparency (EUR 20 vs EUR 75), deeper capacity planning, and Outlook integration as differentiators.</div>
+    <div class="tags"><span class="tag tag-bundled">MEDIUM</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5. Track Portal Registration (Week 2)</div>
+    <div class="card-desc">Add conversion tracking for self-service signups at app.proxuma.io. This captures the full funnel: ad click to demo to trial to registration.</div>
+    <div class="tags"><span class="tag tag-bundled">MEDIUM</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">6. Weekly Review Cadence (Ongoing)</div>
+    <div class="card-desc">Every Monday: check search terms, add negatives, review CPA by ad group. Adjust bids. Takes 15 minutes.</div>
+    <div class="tags"><span class="tag tag-diy">ONGOING</span></div>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma Google Ads Strategy &middot; May 2026 &middot; Page 1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Google Ads Strategic Plan",
+  "date": "2026-05-04",
+  "summary": "Complete Google Ads strategy for Proxuma based on golden period analysis, 140+ demo transcripts, website audit, and conversion tracking forensics. Includes campaign architecture, ad copy, keyword plan, and 30-day launch roadmap.",
+  "sections": [
+    {
+      "heading": "Research Findings",
+      "items": [
+        { "title": "Product features for ads", "detail": "7 core features drive ad copy: visual timeline, dispatch calendar, bulk edit, capacity planning, Outlook sync, shifts, multi-project view.", "meta": {} },
+        { "title": "Pain points from 140 demos", "detail": "Universal: AT project module hated (90%+), no capacity visibility (80%+), AT too slow (60%+), rescheduling nightmare (50%+).", "meta": {} },
+        { "title": "TopLeft competitor", "detail": "EUR 75/user, has /topleft-vs-proxuma comparison page. Multi-PSA is their angle. No public pricing.", "meta": {} },
+        { "title": "TAM", "detail": "~10,000 MSPs using Autotask globally. 252 ICP-flagged in CRM. Sweet spot: 20-100 seats.", "meta": {} },
+        { "title": "Golden period winners", "detail": "Best keyword: 'Autotask Project Management' [phrase] at EUR 52/conv. NEW1 campaign was star.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Campaign Architecture",
+      "items": [
+        { "title": "3 campaigns", "detail": "Brand (EUR 2/day), Autotask Features (EUR 12/day, 4 ad groups), Recorded Demo (EUR 4/day). Total EUR 18/day.", "meta": {} },
+        { "title": "Bidding", "detail": "Manual CPC for 4 weeks, then Maximize Conversions once 15+ conversions accumulated.", "meta": {} },
+        { "title": "Geography", "detail": "USA + UK + Australia only. NL/BE prospects come through Dutch channels.", "meta": {} },
+        { "title": "TopLeft bidding", "detail": "Not yet. Build /proxuma-vs-topleft comparison page first.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Ad Copy",
+      "items": [
+        { "title": "15 RSA headlines written", "detail": "Pin H1: Autotask Project Management / Visual Planning for Autotask. Pin H3: pricing and trial.", "meta": {} },
+        { "title": "4 description lines", "detail": "Focus on visual timeline, stop using Excel, capacity at a glance, only planners need license.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Conversion Tracking",
+      "items": [
+        { "title": "Critical: double/triple counting", "detail": "3 enabled actions for same booking event. Fix by setting duplicates to secondary.", "meta": {} },
+        { "title": "Setup", "detail": "GTM-T8Z3GHT + AW-11268212749 + G-B2BE5BP0PK. mu-plugin fires on 4 confirmation pages.", "meta": {} },
+        { "title": "Missing: portal registration", "detail": "Self-service signups at app.proxuma.io not tracked.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Landing Pages",
+      "items": [
+        { "title": "/planning/ is best option", "detail": "Exists and matches intent. Check for screenshot, CTA, pricing, 'engineers don't need license' messaging.", "meta": {} },
+        { "title": "Missing pages", "detail": "/outlook-integration/ (404), /trial/ (404), /features/ (404). Build /outlook-integration/ if Outlook ad group scales.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "30-Day Plan",
+      "items": [
+        { "title": "Week 1: Foundation", "detail": "Fix tracking, build campaigns, write ads, set Manual CPC, launch.", "meta": {} },
+        { "title": "Week 2: Optimize", "detail": "Search terms cleanup, bid adjustments, verify tracking.", "meta": {} },
+        { "title": "Week 3: Refine", "detail": "Pause bad keywords, A/B test ads, device/schedule optimization.", "meta": {} },
+        { "title": "Week 4: Decide", "detail": "CPA review. Switch to Maximize Conversions if 5+ conversions.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Budget Forecast",
+      "items": [
+        { "title": "Month 1 (re-learning)", "detail": "EUR 540 spend, 3-4 conversions, CPA EUR 135-180.", "meta": {} },
+        { "title": "Month 2 (target)", "detail": "EUR 540 spend, 6-8 conversions, CPA EUR 68-90.", "meta": {} },
+        { "title": "Month 3+ (optimized)", "detail": "EUR 600-750 spend, 8-12 conversions, CPA EUR 50-75.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Fix conversion tracking first (set duplicates to secondary, keep 2 primary actions). Then build the 3-campaign structure and launch with Manual CPC. Review weekly. After 4 weeks, switch to automated bidding if conversion volume allows. Build /proxuma-vs-topleft comparison page in week 2-3.",
+  "session_state": {
+    "phase": "strategy delivered",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Deep Open Brain research (14 searches covering product, pain points, competitors, ICP, conversion signals, messaging, website, TAM, onboarding, tracking)",
+      "Web research on B2B SaaS Google Ads best practices 2026",
+      "TopLeft competitor analysis including their /topleft-vs-proxuma page",
+      "SSH into proxuma.io: audited mu-plugin, GTM, gtag setup",
+      "Queried Google Ads API for all conversion actions",
+      "Checked all landing page URLs (13 URLs, found 404s)",
+      "Listed Gravity Forms (3 active forms)",
+      "Wrote complete campaign architecture with 4 ad groups and keywords",
+      "Wrote 15 RSA headlines and 4 description lines",
+      "Built 30-day launch roadmap with weekly milestones",
+      "Created budget forecast with 3 scenarios"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new HTML file, not yet committed/pushed",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-strategic-plan.html", "relevance": "this document" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-audit.html", "relevance": "previous audit with full historical data" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-forensics.html", "relevance": "forensics report with keyword-level data" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Google Ads campaigns were re-enabled today (May 4). Conversion tracking has duplicate actions that need cleanup before campaigns can optimize properly."
+  },
+  "project_context": {
+    "protected_resources": ["GTM tags IDs 44-53 (John's, do not touch)", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Start with Manual CPC instead of Maximize Conversions",
+      "rejected_alternatives": ["Maximize Conversions from day 1", "Target CPA from day 1"],
+      "rationale": "Account has been paused for months with no recent conversion data. Automated bidding needs 30+ conversions/month to optimize. Manual CPC gives control during the re-learning period.",
+      "trade_offs": "Slower optimization, requires weekly manual bid adjustments. But prevents Google from overspending on bad clicks during learning phase.",
+      "contingencies": [
+        { "if_X_then_Y": "If 15+ conversions in first 4 weeks, switch Autotask Features campaign to Maximize Conversions", "probability": 0.4 },
+        { "if_X_then_Y": "If zero conversions after 4 weeks, audit landing page before changing bidding strategy", "probability": 0.2 }
+      ]
+    },
+    {
+      "decision": "Do not bid on TopLeft competitor name yet",
+      "rejected_alternatives": ["Immediate competitor campaign targeting TopLeft"],
+      "rationale": "TopLeft has a /topleft-vs-proxuma comparison page. Bidding on their name without a counter-page risks sending traffic to their comparison. Build /proxuma-vs-topleft first.",
+      "trade_offs": "Misses some competitor-intent traffic in the short term. But avoids negative impression if prospects see TopLeft's comparison before Proxuma's.",
+      "contingencies": [
+        { "if_X_then_Y": "Once /proxuma-vs-topleft is live, launch competitor campaign at EUR 2/day", "probability": 0.7 }
+      ]
+    },
+    {
+      "decision": "Target USA + UK + AUS only, no NL/BE",
+      "rejected_alternatives": ["Include Netherlands and Belgium", "USA-only"],
+      "rationale": "Dutch/Belgian prospects find Proxuma through Dutch-language channels (LinkedIn, referrals, Dxfferent), not English Google Ads. The golden period conversions came primarily from US traffic. Adding NL/BE to English campaigns wastes budget on language mismatch.",
+      "trade_offs": "Misses some English-searching NL/BE prospects. Acceptable given budget constraints.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
