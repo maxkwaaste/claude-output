@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Kanban Battlecard</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.win { color: #0f766e; font-weight: 600; }
+.lose { color: #b45309; font-weight: 600; }
+.neutral { color: #6b7280; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning ul { color: rgba(255,255,255,.88); margin-top: 8px; }
+.positioning li { color: rgba(255,255,255,.88); margin-bottom: 4px; }
+.positioning li::marker { color: rgba(255,255,255,.5); }
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.killer-row { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
+.killer-card {
+  flex: 1; min-width: 200px; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 16px; border-top: 3px solid #1a2744;
+}
+.killer-num {
+  font: 700 24px/1 "Georgia", serif; color: #1a2744; margin-bottom: 4px;
+}
+.killer-title {
+  font: 700 12px/1.3 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px;
+}
+.killer-desc { font-size: 13px; color: #4a5568; line-height: 1.45; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+@media print {
+  body { background: #fff; }
+  .page { border: none; box-shadow: none; margin: 0; padding: 32px; max-width: 100%; }
+  .page-header { display: none; }
+  .positioning { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .matrix th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 4, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-kanban-battlecard.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Proxuma</div>
+        <div class="brand-tagline">Kanban Module &middot; Competitive Battlecard</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 4, 2026<br>Demo Prep<br>Sales Engineering
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">COMPETITIVE INTELLIGENCE</div>
+  <h1>Kanban Battlecard</h1>
+  <p class="subtitle">Head-to-head comparison against the three alternatives MSPs actually use: Autotask's built-in board, TopLeft, and spreadsheets.</p>
+
+  <div class="confidential">Internal use only &mdash; do not share externally</div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">30+</div>
+      <div class="stat-label">Configurable card fields</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$0</div>
+      <div class="stat-label">Extra cost (included)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Entity types on one board</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Swimlane options</div>
+    </div>
+  </div>
+
+  <!-- COMPETITOR 1: AUTOTASK -->
+  <h2>1. vs Autotask Native Board View</h2>
+  <p>Autotask's "board view" is a dispatch tool for moving tickets between statuses. It lacks project tasks, swimlanes, saved views, and any card customization.</p>
+
+  <table class="matrix">
+    <tr><th>Capability</th><th>Autotask</th><th>Proxuma</th></tr>
+    <tr><td>Entity types</td><td>Tickets only</td><td class="win">Tasks, Tickets, Service Calls</td></tr>
+    <tr><td>Columns</td><td>Status-based only</td><td class="win">Fully configurable</td></tr>
+    <tr><td>Swimlanes</td><td>None</td><td class="win">6 options (assignee, project, priority, customer, queue, dept)</td></tr>
+    <tr><td>Cross-swimlane drag</td><td>N/A</td><td class="win">Yes, with field update + blocked where Autotask forbids it</td></tr>
+    <tr><td>Saved board views</td><td>No</td><td class="win">Per-user saved views with selector</td></tr>
+    <tr><td>Card layout config</td><td>No</td><td class="win">Density modes, 30+ fields, expanded/collapsed</td></tr>
+    <tr><td>Card color coding</td><td>No</td><td class="win">By priority or custom field</td></tr>
+    <tr><td>Quick filters</td><td>No</td><td class="win">Header-level quick filters</td></tr>
+    <tr><td>Completed auto-hide</td><td>No</td><td class="win">7 / 30 / 60 / 90 days</td></tr>
+    <tr><td>Tasks + Projects unified</td><td>Separate module, no board</td><td class="win">One board</td></tr>
+    <tr><td>Auto-refresh</td><td>No</td><td class="win">30s interval</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">One-liner</span>
+    Autotask gives you a dispatch board. Proxuma gives you a real kanban with swimlanes, saved views, and all entity types in one place.
+  </div>
+
+  <!-- COMPETITOR 2: TOPLEFT -->
+  <h2>2. vs TopLeft Kanban</h2>
+  <p>TopLeft is a standalone SaaS add-on at $36/user/month, with capacity planning at $160/manager/month and client portals at $10/client/month. Separate app, separate login.</p>
+
+  <table class="matrix">
+    <tr><th>Capability</th><th>TopLeft</th><th>Proxuma</th></tr>
+    <tr><td><strong>Pricing</strong></td><td>$36/user/mo + $1K-$3.5K onboarding</td><td class="win">Included in license</td></tr>
+    <tr><td>Swimlanes</td><td>Account, resource, priority, queue, project, category, UDFs</td><td>Assignee, project, priority, customer, queue, dept</td></tr>
+    <tr><td>Card fields</td><td>~10 fixed</td><td class="win">30+ configurable in 9 categories</td></tr>
+    <tr><td>Card density/layout</td><td>No density modes</td><td class="win">Compact vs comfortable, collapsed vs expanded</td></tr>
+    <tr><td>Gantt chart</td><td class="win">Yes</td><td class="lose">No (separate resource view)</td></tr>
+    <tr><td><strong>Capacity planning</strong></td><td>$160/manager/mo add-on</td><td class="win">Built-in (reserved capacity, resource view)</td></tr>
+    <tr><td>Client portal boards</td><td>$10/client/mo add-on</td><td class="neutral">Planned (PNEX roadmap)</td></tr>
+    <tr><td>Separate tool?</td><td class="lose">Yes, separate login/app</td><td class="win">Integrated, same context</td></tr>
+    <tr><td>Drag-drop status</td><td>Yes</td><td>Yes, optimistic with rollback</td></tr>
+    <tr><td>Drag-drop swimlane</td><td class="neutral">Unknown</td><td class="win">Yes (assignee, dept, queue, etc.)</td></tr>
+    <tr><td>Immutable field protection</td><td class="neutral">Unknown</td><td class="win">Yes (project, customer locked)</td></tr>
+    <tr><td>WIP limits</td><td class="neutral">Not mentioned</td><td class="neutral">Not implemented</td></tr>
+    <tr><td><strong>AI planning</strong></td><td>No</td><td class="win">Yes (Timefold, plan bucket)</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Watch out</span>
+    TopLeft has a Gantt chart we don't. If the prospect asks about Gantt, pivot to our resource view and AI-driven scheduling as the modern replacement. Don't pretend it's on the roadmap unless it is.
+  </div>
+
+  <!-- COMPETITOR 3: SPREADSHEETS -->
+  <h2>3. vs Spreadsheets (Excel / Google Sheets)</h2>
+  <p>The most common "competitor" in practice. Someone exports tickets to a spreadsheet, formats it, and it's outdated by lunch.</p>
+
+  <table class="matrix">
+    <tr><th>Capability</th><th>Spreadsheets</th><th>Proxuma</th></tr>
+    <tr><td>Real-time data</td><td>Manual export/copy</td><td class="win">Live Autotask sync</td></tr>
+    <tr><td>Drag-drop workflow</td><td>No</td><td class="win">Yes</td></tr>
+    <tr><td>Multi-user live</td><td>Limited (Google Sheets)</td><td class="win">Yes</td></tr>
+    <tr><td>Status updates back to PSA</td><td>Manual</td><td class="win">Automatic bi-directional</td></tr>
+    <tr><td>Swimlanes/grouping</td><td>Manual pivot/filter</td><td class="win">One-click toggle</td></tr>
+    <tr><td>Visual overview</td><td>Rows of data</td><td class="win">Cards with color, badges, quick info</td></tr>
+    <tr><td>Maintenance</td><td class="lose">Someone has to keep it updated</td><td class="win">Automatic</td></tr>
+  </table>
+
+  <!-- WHY WE WIN -->
+  <div class="positioning">
+    <h2>The Killer Argument</h2>
+    <p>TopLeft alone costs $36/user/month + $160/manager for capacity + onboarding fees. Proxuma includes kanban, capacity planning, resource views, and AI planning in one license with zero add-on costs.</p>
+  </div>
+
+  <h2>7 Reasons Proxuma Wins</h2>
+  <div class="killer-row">
+    <div class="killer-card">
+      <div class="killer-num">1</div>
+      <div class="killer-title">No extra cost</div>
+      <div class="killer-desc">Kanban is included. Not a $36/user bolt-on.</div>
+    </div>
+    <div class="killer-card">
+      <div class="killer-num">2</div>
+      <div class="killer-title">No extra tool</div>
+      <div class="killer-desc">Same app, same context, same login. No tab-switching.</div>
+    </div>
+    <div class="killer-card">
+      <div class="killer-num">3</div>
+      <div class="killer-title">All entity types</div>
+      <div class="killer-desc">Tasks, tickets, and service calls on one board.</div>
+    </div>
+  </div>
+  <div class="killer-row">
+    <div class="killer-card">
+      <div class="killer-num">4</div>
+      <div class="killer-title">Deep card config</div>
+      <div class="killer-desc">30+ fields, density modes, per-user saved views.</div>
+    </div>
+    <div class="killer-card">
+      <div class="killer-num">5</div>
+      <div class="killer-title">Cross-swimlane intelligence</div>
+      <div class="killer-desc">Drag across swimlanes updates the right field. Blocks impossible moves.</div>
+    </div>
+    <div class="killer-card">
+      <div class="killer-num">6</div>
+      <div class="killer-title">AI planning</div>
+      <div class="killer-desc">Timefold and plan bucket feed directly into kanban. Nobody else has this.</div>
+    </div>
+  </div>
+  <div class="killer-row">
+    <div class="killer-card" style="max-width: calc(33.33% - 8px);">
+      <div class="killer-num">7</div>
+      <div class="killer-title">Capacity built-in</div>
+      <div class="killer-desc">Reserved capacity, resource view, expected dates. TopLeft charges $160/manager/month for this.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Proxuma &middot; Internal Battlecard</span>
+    <span>May 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Kanban Battlecard",
+  "date": "2026-05-04",
+  "summary": "Competitive battlecard for Proxuma Kanban module vs Autotask native board, TopLeft, and spreadsheets. For demo prep.",
+  "sections": [
+    {
+      "heading": "vs Autotask Native Board",
+      "items": [
+        { "title": "Verdict", "detail": "Autotask board is dispatch-only. Proxuma wins on every dimension: entity types, swimlanes, saved views, card config, auto-refresh.", "meta": { "proxuma_wins": 11, "autotask_wins": 0 } }
+      ]
+    },
+    {
+      "heading": "vs TopLeft Kanban",
+      "items": [
+        { "title": "Verdict", "detail": "TopLeft is $36/user + $160/manager capacity add-on + onboarding. Proxuma includes everything. TopLeft has Gantt (we don't). Card config and AI planning are our advantages.", "meta": { "proxuma_wins": 8, "topleft_wins": 1, "topleft_gap": "Gantt chart" } }
+      ]
+    },
+    {
+      "heading": "vs Spreadsheets",
+      "items": [
+        { "title": "Verdict", "detail": "Spreadsheets require manual export, manual updates, no drag-drop, no bi-directional sync. Easy win.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Use this battlecard during the demo. If prospect asks about Gantt, pivot to resource view + AI scheduling.",
+  "session_state": {
+    "phase": "complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Formatted competitive intel into scannable battlecard",
+      "Published to claude-output repo"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "none"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-kanban-battlecard.html", "relevance": "this battlecard" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop"]
+  },
+  "decision_log": [
+    {
+      "decision": "Kept TopLeft Gantt gap visible rather than hiding it",
+      "rejected_alternatives": ["Omitting Gantt row", "Marking Gantt as planned"],
+      "rationale": "Honest battlecards build trust internally. Added a callout with the pivot strategy instead.",
+      "trade_offs": "Sales sees a gap but also gets the response script",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
