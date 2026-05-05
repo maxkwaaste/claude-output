@@ -633,6 +633,15 @@ document.getElementById('copy-excalidraw-prompt').addEventListener('click', func
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-05-05-m1pro-openclaw-feasibility.html",
+    "title": "M1 Pro Capacity Analysis: OpenClaw Feasibility",
+    "date": "2026-05-05",
+    "summary": "M1 Pro is at memory capacity (55 MB free of 16 GB) with 30 Claude sessions and Ollama 14B. OpenClaw feasible if orphaned sessions are cleaned and Docker is skipped for native PM2.",
+    "tags": ["M1 Pro", "OpenClaw", "Infrastructure", "Capacity Planning"],
+    "type": "evaluation",
+    "detail": "Live audit of M1 Pro server load vs OpenClaw blueprint requirements. 12.9 GB wired of 16 GB, 30 Claude CLI sessions running, load avg 7.80/8 cores. Three options analyzed: shed load (recommended), time-slice Ollama, or upgrade hardware. Recommends native PM2 over Docker, session reaper cron, and Ollama downsize."
+  },
+  {
     "file": "2026-05-05-openclaw-sales-agent-blueprint.html",
     "title": "OpenClaw Sales Agent Blueprint",
     "date": "2026-05-05",
