@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Onboarding Email Templates (EN + NL)</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+
+/* Email preview styling */
+.email-preview {
+  border: 1px solid #e2e4e8;
+  border-radius: 6px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+.email-preview-header {
+  background: #f5f7fa;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e4e8;
+  font: 600 12px/1 -apple-system, sans-serif;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.email-preview-body {
+  padding: 0;
+}
+.email-preview-body iframe {
+  width: 100%;
+  border: none;
+  height: 900px;
+}
+.copy-btn {
+  background: #1a2744;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font: 600 11px/1 -apple-system, sans-serif;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.copy-btn:hover { background: #0f766e; }
+.review-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #eef0f2;
+}
+.review-item:last-child { border-bottom: none; }
+.review-label {
+  font: 700 12px/1 -apple-system, sans-serif;
+  color: #1a2744;
+  margin-bottom: 4px;
+}
+.review-status {
+  display: inline-block;
+  font: 600 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-right: 8px;
+}
+.status-bad { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.status-good { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.status-warn { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tab-container { margin: 24px 0; }
+.tab-buttons {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #e2e4e8;
+}
+.tab-btn {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  font: 600 13px/1 -apple-system, sans-serif;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+.tab-btn.active {
+  color: #1a2744;
+  border-bottom-color: #1a2744;
+}
+.tab-content {
+  display: none;
+  padding-top: 16px;
+}
+.tab-content.active { display: block; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 5, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-proxuma-onboarding-emails.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Email Template Design</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 5, 2026<br>HubSpot Templates<br>Onboarding
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">PROXUMA ONBOARDING</div>
+  <h1>Pre-Steps Email Templates</h1>
+  <p class="subtitle">Redesigned onboarding pre-steps email for HubSpot. Two versions: English and Dutch. Brand-aligned styling with Proxuma Navy/Teal palette, proper typography, and clear information hierarchy.</p>
+
+  <h2>Review of Current Email</h2>
+
+  <div class="review-item">
+    <div class="review-label">Links</div>
+    <span class="review-status status-bad">Broken</span>
+    <span style="font-size:13px;">All 3 links are HubSpot tracking URLs (<code>djqr7k04.eu1.hs-sales-engage.com</code>) wrapped in Outlook SafeLinks. They will double-encode if re-used in HubSpot. Need raw destination URLs instead.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Registration Link</div>
+    <span class="review-status status-warn">Needs Update</span>
+    <span style="font-size:13px;">Points to a HubSpot sequence link. In a HubSpot template, use a personalization token or direct Proxuma registration URL.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Master Guide Link</div>
+    <span class="review-status status-bad">Vague</span>
+    <span style="font-size:13px;">"Here is the master guide" tells the reader nothing about what they'll find. The destination is another HS tracking link. Replaced with a clear description.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Meeting Booking Link</div>
+    <span class="review-status status-good">Correct Destination</span>
+    <span style="font-size:13px;">Resolves to <code>meetings-eu1.hubspot.com/max-de-kwaasteniet</code>. Correct, but should use the direct URL in the template.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Typography</div>
+    <span class="review-status status-bad">Off-brand</span>
+    <span style="font-size:13px;">Uses Aptos/Calibri (Office defaults). No Proxuma brand identity. Replaced with system sans-serif stack that matches Proxuma's clean SaaS aesthetic.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Colors</div>
+    <span class="review-status status-bad">None</span>
+    <span style="font-size:13px;">Plain black on white. No brand colors applied. Redesign uses Navy #1B365D for headings, Teal #0f766e for CTAs, and structured visual hierarchy.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Copy Quality</div>
+    <span class="review-status status-bad">AI-sloppy</span>
+    <span style="font-size:13px;">"Thrilled to welcome", "kickstart your seamless onboarding journey", "eager" - promotional, generic filler. Rewritten to be direct and informative.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Structure</div>
+    <span class="review-status status-warn">Confusing</span>
+    <span style="font-size:13px;">Information is scattered. Registration link appears before context. KB access instructions are buried. Reorganized with clear sections and visual breaks.</span>
+  </div>
+  <div class="review-item">
+    <div class="review-label">Logo</div>
+    <span class="review-status status-bad">CID Embed</span>
+    <span style="font-size:13px;">Logo is a CID-attached GIF image. Won't work in HubSpot. Replaced with hosted image URL (update with actual Proxuma CDN path).</span>
+  </div>
+
+  <h2>HubSpot Template Usage</h2>
+
+  <div class="callout">
+    <span class="callout-label">How to import</span>
+    <p style="margin-bottom:8px;">1. In HubSpot, go to <strong>Marketing > Email > Create email > Regular</strong></p>
+    <p style="margin-bottom:8px;">2. Choose <strong>"Code your own"</strong> tab</p>
+    <p style="margin-bottom:8px;">3. Paste the HTML source from below</p>
+    <p style="margin-bottom:8px;">4. Replace <code>{{contact.firstname}}</code> and <code>{{company.name}}</code> with HubSpot personalization tokens (they'll auto-populate)</p>
+    <p style="margin-bottom:0;">5. Update the <code>REGISTRATION_URL</code> placeholder with your actual Proxuma registration link or HubSpot CTA</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Placeholders to fill</span>
+    <ul style="margin-top:8px;">
+      <li><code>REGISTRATION_URL</code> - Your Proxuma registration/signup link</li>
+      <li><code>MASTER_GUIDE_URL</code> - Link to the onboarding master guide document</li>
+      <li><code>LOGO_URL</code> - Hosted Proxuma logo (use: <code>https://proxuma.io/wp-content/uploads/proxuma-logo.png</code> or your CDN)</li>
+      <li><code>{{contact.firstname}}</code> - HubSpot auto-fills the contact's first name</li>
+      <li><code>{{company.name}}</code> - HubSpot auto-fills the company name</li>
+    </ul>
+  </div>
+
+  <h2>English Template</h2>
+
+  <div class="tab-container">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="switchTab('en-preview')">Preview</button>
+      <button class="tab-btn" onclick="switchTab('en-source')">HTML Source</button>
+    </div>
+
+    <div class="tab-content active" id="en-preview">
+      <div class="email-preview">
+        <div class="email-preview-header">
+          <span>Subject: Getting started with Proxuma - pre-steps for {{company.name}}</span>
+          <button class="copy-btn" onclick="copySource('en')">Copy HTML</button>
+        </div>
+        <div class="email-preview-body" id="en-render"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="en-source">
+      <button class="copy-btn" onclick="copySource('en')" style="margin-bottom:12px;">Copy HTML</button>
+      <pre id="en-code"></pre>
+    </div>
+  </div>
+
+  <h2>Dutch Template</h2>
+
+  <div class="tab-container">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="switchTab('nl-preview')">Preview</button>
+      <button class="tab-btn" onclick="switchTab('nl-source')">HTML Source</button>
+    </div>
+
+    <div class="tab-content active" id="nl-preview">
+      <div class="email-preview">
+        <div class="email-preview-header">
+          <span>Subject: Aan de slag met Proxuma - voorbereidingsstappen voor {{company.name}}</span>
+          <button class="copy-btn" onclick="copySource('nl')">Copy HTML</button>
+        </div>
+        <div class="email-preview-body" id="nl-render"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="nl-source">
+      <button class="copy-btn" onclick="copySource('nl')" style="margin-bottom:12px;">Copy HTML</button>
+      <pre id="nl-code"></pre>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma Onboarding Templates</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Onboarding Pre-Steps Email Templates",
+  "date": "2026-05-05",
+  "summary": "Redesigned Proxuma onboarding email in EN and NL as HubSpot-ready HTML templates. Replaced broken SafeLinks tracking URLs, added brand styling (Navy #1B365D, Teal #0f766e), rewrote sloppy AI copy, improved information architecture.",
+  "sections": [
+    {
+      "heading": "Review Findings",
+      "items": [
+        { "title": "Links broken", "detail": "All links were double-wrapped HubSpot tracking + Outlook SafeLinks. Replaced with placeholder tokens.", "meta": {} },
+        { "title": "No brand styling", "detail": "Plain Aptos/Calibri, no colors. Now uses Proxuma Navy/Teal palette with proper hierarchy.", "meta": {} },
+        { "title": "Copy was AI-sloppy", "detail": "Promotional filler rewritten to be direct and useful.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Templates Delivered",
+      "items": [
+        { "title": "English HubSpot template", "detail": "Full HTML email with inline CSS, personalization tokens, Proxuma branding.", "meta": {} },
+        { "title": "Dutch HubSpot template", "detail": "Proper Dutch (not translated), same styling, adapted content.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Import into HubSpot, replace REGISTRATION_URL and MASTER_GUIDE_URL placeholders with actual links, upload Proxuma logo to CDN if not already hosted, test send.",
+  "session_state": {
+    "phase": "complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read and analyzed original .eml onboarding email",
+      "Reviewed all links, styling, copy quality, structure",
+      "Built EN and NL HubSpot-ready HTML email templates",
+      "Applied Proxuma brand (Navy/Teal, clean sans-serif, visual hierarchy)"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new file to push",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-proxuma-onboarding-emails.html", "relevance": "this doc" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Used inline CSS rather than embedded stylesheet for max email client compatibility",
+      "rejected_alternatives": ["External CSS (blocked by all clients)", "Embedded <style> (stripped by Gmail/Outlook)"],
+      "rationale": "HubSpot emails need inline styles. Gmail strips <style> tags. Inline is the only reliable approach.",
+      "trade_offs": "Verbose HTML but guaranteed rendering across Outlook, Gmail, Apple Mail",
+      "contingencies": []
+    },
+    {
+      "decision": "Used system sans-serif font stack instead of custom web font",
+      "rejected_alternatives": ["Google Fonts link", "Embedded font"],
+      "rationale": "Email clients block external font loading. System fonts render reliably and match Proxuma's clean SaaS look.",
+      "trade_offs": "Slightly different rendering per OS, but clean and professional everywhere",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+
+<script>
+// Email template sources
+const emailEN = `<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<title>Getting started with Proxuma</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<![endif]-->
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f4f6f8;">
+<tr><td align="center" style="padding:40px 20px;">
+
+<!-- Email Container -->
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+
+<!-- Header with logo -->
+<tr>
+<td style="padding:32px 40px 24px;border-bottom:3px solid #0f766e;">
+<img src="LOGO_URL" alt="Proxuma" width="140" style="display:block;height:auto;"/>
+</td>
+</tr>
+
+<!-- Main content -->
+<tr>
+<td style="padding:32px 40px;">
+
+<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#2c3e50;">Hi {{contact.firstname}},</p>
+
+<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#2c3e50;">Welcome to Proxuma. Here is everything you need to get set up before your onboarding meeting.</p>
+
+<!-- CTA: Register -->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:28px 0;">
+<tr>
+<td align="center">
+<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td style="background-color:#0f766e;border-radius:6px;padding:14px 32px;">
+<a href="REGISTRATION_URL" style="color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;display:inline-block;">Create your account</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- Timing note -->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0;background-color:#f0fdf9;border-radius:6px;border-left:4px solid #0f766e;">
+<tr>
+<td style="padding:16px 20px;">
+<p style="margin:0;font-size:14px;line-height:1.5;color:#115e58;font-weight:600;">Timing: register 24 hours before your onboarding meeting</p>
+<p style="margin:8px 0 0;font-size:14px;line-height:1.5;color:#2c3e50;">This gives the Autotask sync time to complete and starts your 14-day trial at the right moment.</p>
+</td>
+</tr>
+</table>
+
+<!-- Section: What happens after registration -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">After you register</h2>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td style="padding:8px 0;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td width="32" valign="top" style="padding-top:2px;">
+<div style="width:24px;height:24px;background:#1B365D;border-radius:50%;color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:24px;">1</div>
+</td>
+<td style="padding-left:12px;">
+<p style="margin:0;font-size:15px;line-height:1.5;color:#2c3e50;"><strong>Autotask sync starts automatically</strong> after you enter your API credentials. You will receive an email when it is done (usually within 6 hours).</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td style="padding:8px 0;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td width="32" valign="top" style="padding-top:2px;">
+<div style="width:24px;height:24px;background:#1B365D;border-radius:50%;color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:24px;">2</div>
+</td>
+<td style="padding-left:12px;">
+<p style="margin:0;font-size:15px;line-height:1.5;color:#2c3e50;"><strong>Wait for "Active" status</strong> in the top-right corner of your screen before starting any other sync.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td style="padding:8px 0;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td width="32" valign="top" style="padding-top:2px;">
+<div style="width:24px;height:24px;background:#1B365D;border-radius:50%;color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:24px;">3</div>
+</td>
+<td style="padding-left:12px;">
+<p style="margin:0;font-size:15px;line-height:1.5;color:#2c3e50;"><strong>Then start your Outlook sync.</strong> You will need a Microsoft Admin License for this step.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- Section: Knowledge Base -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Knowledge Base</h2>
+
+<p style="margin:0 0 12px;font-size:15px;line-height:1.6;color:#2c3e50;">After registration, you get access to step-by-step guides in the app. Open <strong>Support</strong> in the left sidebar to find articles on:</p>
+
+<ul style="margin:0 0 16px;padding-left:20px;font-size:15px;line-height:1.8;color:#2c3e50;">
+<li>Setting up Proxuma from scratch</li>
+<li>Generating your Autotask API credentials</li>
+<li>Configuring the Outlook sync</li>
+</ul>
+
+<p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:#64748b;"><a href="MASTER_GUIDE_URL" style="color:#0f766e;font-weight:600;text-decoration:underline;">View the full onboarding guide</a> for a complete walkthrough.</p>
+
+<!-- Section: Good to know -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Good to know</h2>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 16px;">
+<tr>
+<td style="padding:12px 16px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;">
+<p style="margin:0;font-size:14px;line-height:1.5;color:#2c3e50;"><strong style="color:#1B365D;">Credit card:</strong> Required during setup, but you will not be charged until the trial ends. We send a reminder email before any charge.</p>
+</td>
+</tr>
+</table>
+
+<!-- Section: Onboarding meeting -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Your onboarding meeting</h2>
+
+<p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#2c3e50;">During the session we walk through the key features together and answer any questions about your setup.</p>
+
+<p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#2c3e50;">Questions before then? Reply to this email or book a time below.</p>
+
+<!-- CTA: Book meeting -->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 32px;">
+<tr>
+<td align="center">
+<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td style="background-color:#1B365D;border-radius:6px;padding:12px 28px;">
+<a href="https://meetings-eu1.hubspot.com/max-de-kwaasteniet" style="color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;display:inline-block;">Book a meeting with me</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- Sign-off -->
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c3e50;">Talk soon,</p>
+<p style="margin:4px 0 0;font-size:15px;line-height:1.6;color:#2c3e50;font-weight:600;">Max de Kwaasteniet</p>
+<p style="margin:4px 0 0;font-size:13px;line-height:1.5;color:#64748b;">Proxuma</p>
+
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="padding:24px 40px;background-color:#f8fafc;border-top:1px solid #e2e8f0;">
+<p style="margin:0;font-size:12px;line-height:1.5;color:#94a3b8;text-align:center;">Proxuma B.V. | This email was sent to {{contact.email}}</p>
+<p style="margin:4px 0 0;font-size:12px;line-height:1.5;color:#94a3b8;text-align:center;"><a href="{{unsubscribe_link}}" style="color:#94a3b8;text-decoration:underline;">Unsubscribe</a></p>
+</td>
+</tr>
+
+</table>
+<!-- /Email Container -->
+
+</td></tr>
+</table>
+</body>
+</html>`;
+
+const emailNL = `<!DOCTYPE html>
+<html lang="nl" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<title>Aan de slag met Proxuma</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<![endif]-->
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f4f6f8;">
+<tr><td align="center" style="padding:40px 20px;">
+
+<!-- Email Container -->
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+
+<!-- Header with logo -->
+<tr>
+<td style="padding:32px 40px 24px;border-bottom:3px solid #0f766e;">
+<img src="LOGO_URL" alt="Proxuma" width="140" style="display:block;height:auto;"/>
+</td>
+</tr>
+
+<!-- Main content -->
+<tr>
+<td style="padding:32px 40px;">
+
+<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#2c3e50;">Hoi {{contact.firstname}},</p>
+
+<p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#2c3e50;">Welkom bij Proxuma. Hieronder vind je alles wat je nodig hebt om je voor te bereiden op het onboarding-gesprek.</p>
+
+<!-- CTA: Register -->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:28px 0;">
+<tr>
+<td align="center">
+<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td style="background-color:#0f766e;border-radius:6px;padding:14px 32px;">
+<a href="REGISTRATION_URL" style="color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;display:inline-block;">Account aanmaken</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- Timing note -->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0;background-color:#f0fdf9;border-radius:6px;border-left:4px solid #0f766e;">
+<tr>
+<td style="padding:16px 20px;">
+<p style="margin:0;font-size:14px;line-height:1.5;color:#115e58;font-weight:600;">Timing: registreer 24 uur voor je onboarding-gesprek</p>
+<p style="margin:8px 0 0;font-size:14px;line-height:1.5;color:#2c3e50;">Zo heeft de Autotask-sync genoeg tijd om te voltooien en start je 14-daagse trial op het juiste moment.</p>
+</td>
+</tr>
+</table>
+
+<!-- Section: After registration -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Na je registratie</h2>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td style="padding:8px 0;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td width="32" valign="top" style="padding-top:2px;">
+<div style="width:24px;height:24px;background:#1B365D;border-radius:50%;color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:24px;">1</div>
+</td>
+<td style="padding-left:12px;">
+<p style="margin:0;font-size:15px;line-height:1.5;color:#2c3e50;"><strong>De Autotask-sync start automatisch</strong> nadat je je API-credentials hebt ingevoerd. Je ontvangt een e-mail zodra de sync klaar is (meestal binnen 6 uur).</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td style="padding:8px 0;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td width="32" valign="top" style="padding-top:2px;">
+<div style="width:24px;height:24px;background:#1B365D;border-radius:50%;color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:24px;">2</div>
+</td>
+<td style="padding-left:12px;">
+<p style="margin:0;font-size:15px;line-height:1.5;color:#2c3e50;"><strong>Wacht op de status "Active"</strong> rechtsboven in je scherm voordat je een andere sync start.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td style="padding:8px 0;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td width="32" valign="top" style="padding-top:2px;">
+<div style="width:24px;height:24px;background:#1B365D;border-radius:50%;color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:24px;">3</div>
+</td>
+<td style="padding-left:12px;">
+<p style="margin:0;font-size:15px;line-height:1.5;color:#2c3e50;"><strong>Start daarna de Outlook-sync.</strong> Hiervoor heb je een Microsoft Admin-licentie nodig.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- Section: Knowledge Base -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Knowledge Base</h2>
+
+<p style="margin:0 0 12px;font-size:15px;line-height:1.6;color:#2c3e50;">Na registratie krijg je toegang tot stap-voor-stap handleidingen in de app. Open <strong>Support</strong> in de linker sidebar voor artikelen over:</p>
+
+<ul style="margin:0 0 16px;padding-left:20px;font-size:15px;line-height:1.8;color:#2c3e50;">
+<li>Proxuma helemaal opzetten vanuit nul</li>
+<li>Je Autotask API-credentials genereren</li>
+<li>De Outlook-sync configureren</li>
+</ul>
+
+<p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:#64748b;"><a href="MASTER_GUIDE_URL" style="color:#0f766e;font-weight:600;text-decoration:underline;">Bekijk de volledige onboarding-gids</a> voor een compleet overzicht.</p>
+
+<!-- Section: Good to know -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Goed om te weten</h2>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 16px;">
+<tr>
+<td style="padding:12px 16px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;">
+<p style="margin:0;font-size:14px;line-height:1.5;color:#2c3e50;"><strong style="color:#1B365D;">Creditcard:</strong> Nodig bij het opzetten, maar er wordt pas na de trial iets afgeschreven. Je ontvangt vooraf een herinnering.</p>
+</td>
+</tr>
+</table>
+
+<!-- Section: Onboarding meeting -->
+<h2 style="margin:32px 0 16px;font-size:18px;font-weight:700;color:#1B365D;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Je onboarding-gesprek</h2>
+
+<p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#2c3e50;">Tijdens het gesprek lopen we samen door de belangrijkste features en beantwoorden we al je vragen over de setup.</p>
+
+<p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#2c3e50;">Vragen voor die tijd? Reageer op deze e-mail of plan een moment in via de knop hieronder.</p>
+
+<!-- CTA: Book meeting -->
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 32px;">
+<tr>
+<td align="center">
+<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td style="background-color:#1B365D;border-radius:6px;padding:12px 28px;">
+<a href="https://meetings-eu1.hubspot.com/max-de-kwaasteniet" style="color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;display:inline-block;">Plan een gesprek met mij</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- Sign-off -->
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c3e50;">Tot snel,</p>
+<p style="margin:4px 0 0;font-size:15px;line-height:1.6;color:#2c3e50;font-weight:600;">Max de Kwaasteniet</p>
+<p style="margin:4px 0 0;font-size:13px;line-height:1.5;color:#64748b;">Proxuma</p>
+
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="padding:24px 40px;background-color:#f8fafc;border-top:1px solid #e2e8f0;">
+<p style="margin:0;font-size:12px;line-height:1.5;color:#94a3b8;text-align:center;">Proxuma B.V. | Deze e-mail is verstuurd naar {{contact.email}}</p>
+<p style="margin:4px 0 0;font-size:12px;line-height:1.5;color:#94a3b8;text-align:center;"><a href="{{unsubscribe_link}}" style="color:#94a3b8;text-decoration:underline;">Uitschrijven</a></p>
+</td>
+</tr>
+
+</table>
+<!-- /Email Container -->
+
+</td></tr>
+</table>
+</body>
+</html>`;
+
+// Render previews
+function renderPreview(containerId, html) {
+  const container = document.getElementById(containerId);
+  const iframe = document.createElement('iframe');
+  iframe.style.width = '100%';
+  iframe.style.border = 'none';
+  iframe.style.height = '900px';
+  container.appendChild(iframe);
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(html);
+  iframe.contentDocument.close();
+}
+
+// Show source code
+function showSource(elementId, html) {
+  const el = document.getElementById(elementId);
+  el.textContent = html;
+}
+
+// Copy source
+function copySource(lang) {
+  const html = lang === 'en' ? emailEN : emailNL;
+  navigator.clipboard.writeText(html).then(() => {
+    alert('HTML copied to clipboard!');
+  });
+}
+
+// Tab switching
+function switchTab(tabId) {
+  const prefix = tabId.startsWith('en') ? 'en' : 'nl';
+  document.querySelectorAll(`#${prefix}-preview, #${prefix}-source`).forEach(el => {
+    el.classList.remove('active');
+  });
+  document.getElementById(tabId).classList.add('active');
+
+  const parent = document.getElementById(tabId).closest('.tab-container');
+  parent.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  const btnIdx = tabId.endsWith('source') ? 1 : 0;
+  parent.querySelectorAll('.tab-btn')[btnIdx].classList.add('active');
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderPreview('en-render', emailEN);
+  renderPreview('nl-render', emailNL);
+  showSource('en-code', emailEN);
+  showSource('nl-code', emailNL);
+});
+</script>
+</body>
+</html>
