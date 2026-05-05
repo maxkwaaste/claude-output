@@ -486,15 +486,41 @@ When spawning Claude Code for complex tasks:
   <p>All email drafts are evaluated and coached through the SDR Outreach Review page at <code>/forge/sdr/review</code> in the NeXum frontend. This replaces raw Telegram/Drafts folder workflows for email review.</p>
   <div class="card">
     <div class="card-title">Batch Review Interface</div>
-    <div class="card-desc">25 daily drafts displayed as scrollable cards. Each shows the AI's reasoning, category (post-demo, inbound, stale deal, upsell, win-back), and contact context. Keyboard-driven: A=send, S=skip, Z=snooze, J/K=navigate.</div>
+    <div class="card-desc">25 daily drafts displayed as scrollable cards. Each shows the AI's reasoning, category (post-demo, inbound, stale deal, upsell, win-back), and contact context. Keyboard-driven: A=send, S=skip, Z=snooze, J/K=navigate. Target: 25 drafts reviewed in under 10 minutes.</div>
+  </div>
+
+  <h3>Learning Loop: How the Agent Gets Better</h3>
+  <p>Every interaction in the SDR Review Page generates training signal. Three channels, ordered by signal quality. The learning loop is the differentiator: every edit teaches the system to draft better next time.</p>
+
+  <div class="card">
+    <div class="card-title">Channel 1: Edit Diffs (passive, highest signal)</div>
+    <div class="card-desc">When you edit a draft's subject or body before approving, the system computes the exact diff between the AI's version and your version. Deleted phrases become "never use" rules. Insertions become style preferences. After 20+ edit pairs, pattern extraction kicks in automatically. Stored in SQLite <code>learning.db</code> on the Forge backend (<code>SdrFeedbackService</code>, ~120 lines).</div>
   </div>
   <div class="card">
-    <div class="card-title">Coaching Loop</div>
-    <div class="card-desc">Edit subject and body inline before approving. Free-text feedback per draft teaches the AI. Edit diffs are captured automatically. After 20+ edits, patterns are extracted into writing rules injected into the draft generation prompt.</div>
+    <div class="card-title">Channel 2: Approve/Reject Patterns (passive)</div>
+    <div class="card-desc">The system tracks correlations between your actions (approve/skip/snooze) and email attributes (category, length, tone, contact type, deal stage). After 50+ decisions, actionable patterns emerge: "win-back emails have 60% reject rate" reduces win-back quota. "Post-demo follow-ups are approved 95% of the time" confirms that template works. Category quotas and template selection adjust accordingly.</div>
   </div>
   <div class="card">
-    <div class="card-title">Learning Extraction</div>
-    <div class="card-desc">Daily 17:00 cron compiles edit patterns into "Max's Writing Rules" with confidence scores (5+ examples = low, 20+ = high). Approve/reject ratios per category inform quota allocation. Explicit feedback is highest-quality signal.</div>
+    <div class="card-title">Channel 3: Explicit Feedback (active, highest quality)</div>
+    <div class="card-desc">When you skip a draft, the Review Page optionally asks for a reason (free-text input in the skip feedback panel). Lowest volume but highest quality signal. These are stored as labeled training data -- direct instructions from the human about what went wrong. Examples: "too generic", "wrong tone for this company size", "we already discussed this topic with them".</div>
+  </div>
+
+  <h3>Daily Compilation (17:00 Cron)</h3>
+  <p>All three channels feed into a daily extraction run that compiles patterns into "Max's Writing Rules" -- a structured ruleset injected into the DeepSeek system prompt for the next morning's batch generation.</p>
+
+  <table class="matrix">
+    <tr><th>Aspect</th><th>How It Works</th></tr>
+    <tr><td><strong>Confidence scoring</strong></td><td>5+ examples = low confidence (suggestion), 10+ = medium (default behavior), 20+ = high (hard rule)</td></tr>
+    <tr><td><strong>Rule format</strong></td><td>Structured entries: "NEVER use [phrase]", "PREFER [pattern] for [category]", "AVOID [approach] when [condition]"</td></tr>
+    <tr><td><strong>Category tuning</strong></td><td>Approve/reject ratios per category adjust the next day's quota allocation (e.g., fewer win-backs if they keep getting skipped)</td></tr>
+    <tr><td><strong>Bilingual rules</strong></td><td>Rules are tagged by language. Dutch edit patterns only apply to Dutch drafts, English to English</td></tr>
+    <tr><td><strong>Rule review</strong></td><td>View and correct learned rules via <code>/learnings</code> command in Telegram or the feedback stats panel in the Review Page (<code>GET /api/sdr/feedback-stats</code>)</td></tr>
+    <tr><td><strong>Decay</strong></td><td>Rules not reinforced in 30 days drop one confidence level. Prevents stale preferences from hardening</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">The Flywheel</span>
+    Day 1: you rewrite half the drafts. Week 2: the agent picks up your phrasing habits and you only tweak subject lines. Month 2: you approve 80%+ with zero edits and the agent has learned your voice in both Dutch and English. The more you coach, the less you need to coach.
   </div>
 
   <h3>Deliverability Rules</h3>
