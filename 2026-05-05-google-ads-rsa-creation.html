@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Ads RSA Creation - 6 Ad Groups</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.ad-group-block {
+  background: #f8f9fb; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 24px 28px; margin: 20px 0;
+}
+.ad-group-block h3 { margin-top: 0; }
+.field-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #6b7280; margin: 14px 0 6px;
+}
+.field-value {
+  font: 400 13px/1.5 -apple-system, sans-serif; color: #2c2c2c;
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 3px;
+  padding: 8px 12px; margin-bottom: 4px;
+}
+.field-value.pinned { border-left: 3px solid #1a2744; }
+.pin-badge {
+  display: inline-block; font: 600 9px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em;
+  background: #1a2744; color: #fff; padding: 2px 6px; border-radius: 2px;
+  margin-left: 8px;
+}
+.desc-block {
+  font: 400 13px/1.6 -apple-system, sans-serif; color: #2c2c2c;
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 3px;
+  padding: 10px 14px; margin-bottom: 6px;
+}
+.meta-row {
+  display: flex; gap: 24px; margin-bottom: 12px;
+  font: 400 13px/1.4 -apple-system, sans-serif; color: #4a5568;
+}
+.meta-row strong { color: #1a2744; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">5 May 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-google-ads-rsa-creation.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Google Ads RSA Specifications</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 5, 2026<br>Ad Copy<br>CID 215-278-2474
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">GOOGLE ADS</div>
+  <h1>Responsive Search Ads - Copy-Paste Specs</h1>
+  <p class="subtitle">6 RSAs for Proxuma campaigns. Each ad group already has one RSA (5 headlines, 2 descriptions). Create new RSAs with the expanded copy below, then pause the old ads.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Ad Groups</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">15</div>
+      <div class="stat-label">Headlines Each</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Descriptions Each</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">How to create in Google Ads UI</span>
+    <strong>Ads &amp; assets > Ads > + (blue button) > Responsive search ad.</strong> Select the campaign and ad group. Paste the Final URL, display path, headlines (with pins), and descriptions. Click Save. Then go to the old ad and pause it.
+  </div>
+
+  <!-- AD GROUP 1: Project Management -->
+  <h2>1. Project Management</h2>
+  <div class="ad-group-block">
+    <div class="meta-row">
+      <span><strong>Campaign:</strong> Proxuma - Autotask Features</span>
+      <span><strong>Ad Group ID:</strong> 198709338440</span>
+    </div>
+    <div class="meta-row">
+      <span><strong>Final URL:</strong> https://proxuma.io/planning/</span>
+      <span><strong>Display path:</strong> /planning/autotask</span>
+    </div>
+
+    <div class="field-label">Headlines (15)</div>
+    <div class="field-value pinned">Autotask Project Management <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Visual Planning for Autotask <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Autotask Planning Made Visual <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Drag-and-Drop Scheduling <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">See All Projects at a Glance <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">Bulk Edit 50 Tasks at Once <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value">Know Who Has Capacity</div>
+    <div class="field-value">Outlook Sync That Works</div>
+    <div class="field-value pinned">From EUR 20/User/Month <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value pinned">3.75x Cheaper Than TopLeft <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Engineers Never Need Access</div>
+    <div class="field-value pinned">Free Trial, No Minimum <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Built for MSP Planners</div>
+    <div class="field-value">Syncs Back to Autotask</div>
+    <div class="field-value">New Features Every 2 Weeks</div>
+
+    <div class="field-label">Descriptions (4)</div>
+    <div class="desc-block">See all your projects on one visual timeline. Drag tasks across weeks. Create service calls in 2 clicks.</div>
+    <div class="desc-block">Stop using Excel next to Autotask. Proxuma adds the planning layer Autotask should have built.</div>
+    <div class="desc-block">Resource capacity at a glance. Know who is free before you promise a deadline. Real-time sync.</div>
+    <div class="desc-block">Only planners and PMs need a license. Engineers keep working in Autotask. Everything syncs back.</div>
+  </div>
+
+  <!-- AD GROUP 2: Planning & Capacity -->
+  <h2>2. Planning &amp; Capacity</h2>
+  <div class="ad-group-block">
+    <div class="meta-row">
+      <span><strong>Campaign:</strong> Proxuma - Autotask Features</span>
+      <span><strong>Ad Group ID:</strong> 198709338600</span>
+    </div>
+    <div class="meta-row">
+      <span><strong>Final URL:</strong> https://proxuma.io/planning/</span>
+      <span><strong>Display path:</strong> /planning/capacity</span>
+    </div>
+
+    <div class="field-label">Headlines (15)</div>
+    <div class="field-value pinned">Autotask Resource Planning <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Visual Capacity Planning <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Capacity Planning Made Visual <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Drag-and-Drop Scheduling <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">See All Projects at a Glance <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">Bulk Edit 50 Tasks at Once <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value">Know Who Has Capacity</div>
+    <div class="field-value">Outlook Sync That Works</div>
+    <div class="field-value pinned">From EUR 20/User/Month <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value pinned">3.75x Cheaper Than TopLeft <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Engineers Never Need Access</div>
+    <div class="field-value pinned">Free Trial, No Minimum <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Built for MSP Planners</div>
+    <div class="field-value">Syncs Back to Autotask</div>
+    <div class="field-value">New Features Every 2 Weeks</div>
+
+    <div class="field-label">Descriptions (4)</div>
+    <div class="desc-block">See all your projects on one visual timeline. Drag tasks across weeks. Create service calls in 2 clicks.</div>
+    <div class="desc-block">Stop using Excel next to Autotask. Proxuma adds the planning layer Autotask should have built.</div>
+    <div class="desc-block">Resource capacity at a glance. Know who is free before you promise a deadline. Real-time sync.</div>
+    <div class="desc-block">Only planners and PMs need a license. Engineers keep working in Autotask. Everything syncs back.</div>
+  </div>
+
+  <!-- AD GROUP 3: Outlook Integration -->
+  <h2>3. Outlook Integration</h2>
+  <div class="ad-group-block">
+    <div class="meta-row">
+      <span><strong>Campaign:</strong> Proxuma - Autotask Features</span>
+      <span><strong>Ad Group ID:</strong> 198709338640</span>
+    </div>
+    <div class="meta-row">
+      <span><strong>Final URL:</strong> https://proxuma.io/planning/</span>
+      <span><strong>Display path:</strong> /planning/outlook</span>
+    </div>
+
+    <div class="field-label">Headlines (15)</div>
+    <div class="field-value pinned">Autotask Outlook Integration <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Outlook Sync for Autotask <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Fix Autotask Outlook Sync <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Drag-and-Drop Scheduling <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">See All Projects at a Glance <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">Calendar Sync That Works <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value">Know Who Has Capacity</div>
+    <div class="field-value">Outlook Sync That Works</div>
+    <div class="field-value pinned">From EUR 20/User/Month <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value pinned">3.75x Cheaper Than TopLeft <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Engineers Never Need Access</div>
+    <div class="field-value pinned">Free Trial, No Minimum <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Built for MSP Planners</div>
+    <div class="field-value">Syncs Back to Autotask</div>
+    <div class="field-value">New Features Every 2 Weeks</div>
+
+    <div class="field-label">Descriptions (4)</div>
+    <div class="desc-block">See all your projects on one visual timeline. Drag tasks across weeks. Create service calls in 2 clicks.</div>
+    <div class="desc-block">Stop using Excel next to Autotask. Proxuma adds the planning layer Autotask should have built.</div>
+    <div class="desc-block">Resource capacity at a glance. Know who is free before you promise a deadline. Real-time sync.</div>
+    <div class="desc-block">Only planners and PMs need a license. Engineers keep working in Autotask. Everything syncs back.</div>
+  </div>
+
+  <!-- AD GROUP 4: Shifts & Dispatch -->
+  <h2>4. Shifts &amp; Dispatch</h2>
+  <div class="ad-group-block">
+    <div class="meta-row">
+      <span><strong>Campaign:</strong> Proxuma - Autotask Features</span>
+      <span><strong>Ad Group ID:</strong> 198709338680</span>
+    </div>
+    <div class="meta-row">
+      <span><strong>Final URL:</strong> https://proxuma.io/shifts/</span>
+      <span><strong>Display path:</strong> /shifts/dispatch</span>
+    </div>
+
+    <div class="field-label">Headlines (15)</div>
+    <div class="field-value pinned">Autotask Shift Planning <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">MSP Shift Scheduling <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Dispatch Calendar for Autotask <span class="pin-badge">Pin H1</span></div>
+    <div class="field-value pinned">Drag-and-Drop Scheduling <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">See All Projects at a Glance <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value pinned">Bulk Edit 50 Tasks at Once <span class="pin-badge">Pin H2</span></div>
+    <div class="field-value">Know Who Has Capacity</div>
+    <div class="field-value">Outlook Sync That Works</div>
+    <div class="field-value pinned">From EUR 20/User/Month <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value pinned">3.75x Cheaper Than TopLeft <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Engineers Never Need Access</div>
+    <div class="field-value pinned">Free Trial, No Minimum <span class="pin-badge">Pin H3</span></div>
+    <div class="field-value">Built for MSP Planners</div>
+    <div class="field-value">Syncs Back to Autotask</div>
+    <div class="field-value">New Features Every 2 Weeks</div>
+
+    <div class="field-label">Descriptions (4)</div>
+    <div class="desc-block">See all your projects on one visual timeline. Drag tasks across weeks. Create service calls in 2 clicks.</div>
+    <div class="desc-block">Stop using Excel next to Autotask. Proxuma adds the planning layer Autotask should have built.</div>
+    <div class="desc-block">Resource capacity at a glance. Know who is free before you promise a deadline. Real-time sync.</div>
+    <div class="desc-block">Only planners and PMs need a license. Engineers keep working in Autotask. Everything syncs back.</div>
+  </div>
+
+  <!-- AD GROUP 5: Brand -->
+  <h2>5. Brand</h2>
+  <div class="ad-group-block">
+    <div class="meta-row">
+      <span><strong>Campaign:</strong> Proxuma - Brand</span>
+      <span><strong>Ad Group ID:</strong> 198709338400</span>
+    </div>
+    <div class="meta-row">
+      <span><strong>Final URL:</strong> https://proxuma.io/</span>
+      <span><strong>Display path:</strong> /planning</span>
+    </div>
+
+    <div class="field-label">Headlines (7)</div>
+    <div class="field-value">Proxuma | Autotask Planning</div>
+    <div class="field-value">Visual Planning for Autotask</div>
+    <div class="field-value">The Autotask Planning Layer</div>
+    <div class="field-value">From EUR 20/User/Month</div>
+    <div class="field-value">Free Trial Available</div>
+    <div class="field-value">Drag-and-Drop Scheduling</div>
+    <div class="field-value">Built for MSP Planners</div>
+
+    <div class="field-label">Descriptions (4)</div>
+    <div class="desc-block">See all your projects on one visual timeline. Drag tasks across weeks. Create service calls in 2 clicks.</div>
+    <div class="desc-block">Stop using Excel next to Autotask. Proxuma adds the planning layer Autotask should have built.</div>
+    <div class="desc-block">Resource capacity at a glance. Know who is free before you promise a deadline. Real-time sync.</div>
+    <div class="desc-block">Only planners and PMs need a license. Engineers keep working in Autotask. Everything syncs back.</div>
+  </div>
+
+  <!-- AD GROUP 6: Informational -->
+  <h2>6. Informational</h2>
+  <div class="ad-group-block">
+    <div class="meta-row">
+      <span><strong>Campaign:</strong> Proxuma - Recorded Demo</span>
+      <span><strong>Ad Group ID:</strong> 198709338840</span>
+    </div>
+    <div class="meta-row">
+      <span><strong>Final URL:</strong> https://proxuma.io/how-to-use-autotask-for-project-management/</span>
+      <span><strong>Display path:</strong> /planning/demo</span>
+    </div>
+
+    <div class="field-label">Headlines (6)</div>
+    <div class="field-value">Autotask Project Management</div>
+    <div class="field-value">See Proxuma in 3 Minutes</div>
+    <div class="field-value">Watch a Recorded Demo</div>
+    <div class="field-value">Visual Planning for Autotask</div>
+    <div class="field-value">Free Recorded Demo</div>
+    <div class="field-value">No Signup Required</div>
+
+    <div class="field-label">Descriptions (4)</div>
+    <div class="desc-block">See all your projects on one visual timeline. Drag tasks across weeks. Create service calls in 2 clicks.</div>
+    <div class="desc-block">Watch how Proxuma turns Autotask project management from painful to visual. 3-minute recorded demo, no signup needed.</div>
+    <div class="desc-block">Resource capacity at a glance. Know who is free before you promise a deadline. Real-time sync.</div>
+    <div class="desc-block">Only planners and PMs need a license. Engineers keep working in Autotask. Everything syncs back.</div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">After creating all 6 ads</span>
+    <ol style="margin-top:8px;">
+      <li>Pause the old RSAs (IDs: 807801064747, 807801064750, 807801064753, 807801064756, 807801064759, 807801064762)</li>
+      <li>Verify with GAQL: <code>SELECT ad_group_ad.ad.responsive_search_ad.headlines, campaign.name, ad_group.name FROM ad_group_ad WHERE ad_group_ad.status = 'ENABLED'</code></li>
+    </ol>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Google Ads RSA Specs - CID 215-278-2474</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Google Ads RSA Creation - 6 Ad Groups",
+  "date": "2026-05-05",
+  "summary": "Copy-paste RSA specs for 6 Proxuma ad groups. API lacks ad creation, so these are formatted for manual entry in Google Ads UI.",
+  "sections": [
+    {
+      "heading": "Project Management",
+      "items": [{ "title": "15 headlines, 4 descriptions", "detail": "Campaign: Proxuma - Autotask Features. Final URL: proxuma.io/planning/. Display path: /planning/autotask", "meta": {"ad_group_id": "198709338440", "old_ad_id": "807801064750"} }]
+    },
+    {
+      "heading": "Planning & Capacity",
+      "items": [{ "title": "15 headlines, 4 descriptions", "detail": "H1 pins adapted to Resource/Capacity Planning. Same H2/H3/descriptions.", "meta": {"ad_group_id": "198709338600", "old_ad_id": "807801064753"} }]
+    },
+    {
+      "heading": "Outlook Integration",
+      "items": [{ "title": "15 headlines, 4 descriptions", "detail": "H1 pins: Outlook-focused. H2 adds Calendar Sync That Works.", "meta": {"ad_group_id": "198709338640", "old_ad_id": "807801064756"} }]
+    },
+    {
+      "heading": "Shifts & Dispatch",
+      "items": [{ "title": "15 headlines, 4 descriptions", "detail": "Final URL: proxuma.io/shifts/. H1 pins: shift/dispatch themed.", "meta": {"ad_group_id": "198709338680", "old_ad_id": "807801064759"} }]
+    },
+    {
+      "heading": "Brand",
+      "items": [{ "title": "7 headlines, 4 descriptions", "detail": "Campaign: Proxuma - Brand. No pins. Shorter headline set.", "meta": {"ad_group_id": "198709338400", "old_ad_id": "807801064747"} }]
+    },
+    {
+      "heading": "Informational",
+      "items": [{ "title": "6 headlines, 4 descriptions", "detail": "Campaign: Proxuma - Recorded Demo. D2 swapped for demo-specific copy.", "meta": {"ad_group_id": "198709338840", "old_ad_id": "807801064762"} }]
+    }
+  ],
+  "next_steps": "Open Google Ads UI, create 6 new RSAs using the specs above, then pause the 6 old ads. After creation, run the GAQL verification query to confirm.",
+  "session_state": {
+    "phase": "specs delivered",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Confirmed all 6 ad groups exist with correct IDs",
+      "Verified existing RSAs (5 headlines, 2 descriptions each)",
+      "Generated full RSA specs with 15 headlines and 4 descriptions per group",
+      "Confirmed API cannot create ads (no creation tool available)"
+    ],
+    "blockers_hit": "Google Ads MCP server has no ad creation endpoint. Manual UI entry required.",
+    "uncommitted_changes": null,
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-google-ads-rsa-creation.html", "relevance": "this doc" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "6 old RSAs still active in Google Ads account 2152782474. Pause after new ones are created."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Create new RSAs rather than suggesting edit of existing ones",
+      "rejected_alternatives": ["Edit existing ads in-place"],
+      "rationale": "Google Ads does not allow editing RSA headline/description assets after creation. Must create new and pause old.",
+      "trade_offs": "Brief overlap period where both old and new ads are active until old ones are paused",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
