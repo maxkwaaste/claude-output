@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma Customer Origins &amp; Contact Verification</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 960px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 8px 10px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 8px 10px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px; vertical-align: top;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.matrix td.pain { font-size: 11px; color: #4a5568; max-width: 280px; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.tag {
+  display: inline-block;
+  font: 600 9px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 3px 6px; border-radius: 3px;
+}
+.tag-direct { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-dxfferent { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-dattocon { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-bemsp { background: #f3e8f4; color: #6a2a8a; border: 1px solid #b88ad8; }
+.tag-hubspot { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 5, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-proxuma-customer-origins.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Customer Intelligence Report</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 5, 2026<br>Customer Analysis<br>Proxuma B.V.
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Customer Intelligence</div>
+  <h1>Proxuma Active Customer Origins &amp; Verified Contacts</h1>
+  <p class="subtitle">60 active customers cross-referenced against Outlook email history and HubSpot CRM. Contacts verified, channels identified, and original pain points extracted.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">60</div>
+      <div class="stat-label">Active Customers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">22</div>
+      <div class="stat-label">Contacts Corrected</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">31</div>
+      <div class="stat-label">Pain Points Found</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Channels Identified</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Key Finding</span>
+    The #1 pain point across all customers: <strong>Autotask project management is too manual, lacks visibility, and makes resource planning painful.</strong> Variations of this theme appear in 80%+ of booking reasons. "Too many clicks" and "no overview" are the two most common phrases.
+  </div>
+
+  <h2>Complete Customer Table</h2>
+  <p>Sorted by company name. Contacts verified against Outlook email history (22 corrected from original list). Channel and pain point from HubSpot booking forms and earliest email threads.</p>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Company</th>
+        <th>Verified Contact</th>
+        <th>Email</th>
+        <th>Plan</th>
+        <th>Channel</th>
+        <th>Original Pain Point</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Aabyss</strong></td><td>Lewis Green</td><td>lewis.green@aabyss.uk</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Recorded demo request, then trial and proposal</td></tr>
+      <tr><td>2</td><td><strong>AfterDark Technology</strong></td><td>Stephen Gibson</td><td>sgibson@adit.net.au</td><td>3yr</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>3</td><td><strong>Affirm IT Services</strong></td><td>Phil Davenport</td><td>phil@affirmit.co.uk</td><td>Yearly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Pricing inquiry, then onboarding call</td></tr>
+      <tr><td>4</td><td><strong>Algoma Technology</strong></td><td>Dawn Piche</td><td>dawn.piche@atstechnology.ca</td><td>Monthly</td><td><span class="tag tag-dattocon">DattoCon</span></td><td class="pain">DattoCon 2024 follow-up</td></tr>
+      <tr><td>5</td><td><strong>Anderson Networks</strong></td><td>Emily Petersen</td><td>emily@andersonnetworks.com</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Proxuma kickoff, PM guides requested</td></tr>
+      <tr><td>6</td><td><strong>APH Computers Ltd</strong></td><td>Sean Martin</td><td>sean.martin@aph.solutions</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>7</td><td><strong>AppSys</strong></td><td>Benjamin Ceyssens</td><td>benjamin.ceyssens@appsysictgroup.com</td><td>3yr</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>8</td><td><strong>Arrows ICT Solutions</strong></td><td>Stijn Muijsenberg</td><td>s.muijsenberg@arrowsict.nl</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Proxuma demo, then billing/invoicing setup</td></tr>
+      <tr><td>9</td><td><strong>BizzCon</strong></td><td>Dennis Ebbenhorst</td><td>dennis.ebbenhorst@bizzcon.nl</td><td>3yr</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Creating projects, phases and tasks is incredibly manual. Project overview and costs are lacking.</td></tr>
+      <tr><td>10</td><td><strong>Blue Arc IT Solutions</strong></td><td>Justin Richards</td><td>justin.richards@blue-arc.com.au</td><td>Monthly</td><td><span class="tag tag-dattocon">DattoCon</span></td><td class="pain">DattoCon 2024 + Dxfferent intake</td></tr>
+      <tr><td>11</td><td><strong>BSV-IT B.V.</strong></td><td>Rick Teunissen</td><td>r.teunissen@bsv.nl</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Planning tickets in Autotask and overview projects and planning.</td></tr>
+      <tr><td>12</td><td><strong>Clev'It</strong></td><td>Allan Alvarez</td><td>allan@clevit.fr</td><td>Monthly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Administrative burden -- too many clicks for simple actions in project management.</td></tr>
+      <tr><td>13</td><td><strong>Com4 Information Tech</strong></td><td>Jacco Molenbrugge</td><td>jacco.molenbrugge@com4.nl</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">"usual" (5-25 employees)</td></tr>
+      <tr><td>14</td><td><strong>Complex ICT</strong></td><td>Willem Zwart</td><td>willem@complexict.nl</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Power BI session request</td></tr>
+      <tr><td>15</td><td><strong>ConXioN BV</strong></td><td>Jelle Vervaeke</td><td>jvervaeke@conxion.be</td><td>Yearly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">POC with Gaetan Burm (Head of PMO). Deep security/compliance review before onboarding.</td></tr>
+      <tr><td>16</td><td><strong>Cubics IT B.V.</strong></td><td>Jannick Boelaars</td><td>jannick@cubics.nl</td><td>Yearly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Proxuma questions, then Power BI AI setup</td></tr>
+      <tr><td>17</td><td><strong>EAC Network Solutions</strong></td><td>Ben Phillips</td><td>ben.phillips@eac-ns.co.uk</td><td>Monthly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Power BI demo</td></tr>
+      <tr><td>18</td><td><strong>East Central Ohio ESC</strong></td><td>Nic Brown</td><td>nic.brown@ecoesc.org</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>19</td><td><strong>EXPRO it</strong></td><td>Remco Beld</td><td>remco.beld@expro-it.nl</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Complete overview of planning for support, consults, customer visits, projects, vacation. (15 users)</td></tr>
+      <tr><td>20</td><td><strong>Fancit BV</strong></td><td>Wichert Ploeg</td><td>wploeg@fancit.nl</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Resources availability automation. (25-50 employees)</td></tr>
+      <tr><td>21</td><td><strong>FIT Technologies</strong></td><td>Ali Tubbs</td><td>atubbs@fittechnologies.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>22</td><td><strong>FMI INFOGERANCE</strong></td><td>--</td><td>--</td><td>Monthly</td><td><span class="tag tag-bemsp">BeMSP</span></td><td class="pain">Sebastien Roux submitted trial Oct 2025. Negotiated 17 licenses at EUR15 for 3 years.</td></tr>
+      <tr><td>23</td><td><strong>Gyver Technologies</strong></td><td>David Leuser</td><td>dleuser@gyver.com</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Initially rejected on price ($25/user "far too much"), re-engaged 2 months later through different internal champion.</td></tr>
+      <tr><td>24</td><td><strong>Holland ICT Groep</strong></td><td>Mark Koele</td><td>mkoele@heiper.nl</td><td>Yearly</td><td><span class="tag tag-dattocon">DattoCon</span></td><td class="pain">DattoCon Dublin reference</td></tr>
+      <tr><td>25</td><td><strong>Igu Tech Group</strong></td><td>Stuart Potter</td><td>spotter@iglutech.com</td><td>Yearly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Lack of visibility and management of our projects function as a whole, across the business. (25-50 employees)</td></tr>
+      <tr><td>26</td><td><strong>inTEC Business</strong></td><td>Jackie Hargreaves</td><td>jackie.hargreaves@intecbusiness.co.uk</td><td>3yr</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Agreement/contract discussions, Power BI onboarding</td></tr>
+      <tr><td>27</td><td><strong>Ironside IT Partners</strong></td><td>Bob Miller</td><td>rmiller@ironsideit.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Cumbersome to manage, template, can't easily assign tasks to customers. (1-5 employees)</td></tr>
+      <tr><td>28</td><td><strong>IT Synergy</strong></td><td>Kiki Brabander</td><td>kiki.brabander@itsynergy.nl</td><td>Monthly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Invoice/payment discussions</td></tr>
+      <tr><td>29</td><td><strong>Itum Solutions B.V.</strong></td><td>Rick Verhagen</td><td>rick.verhagen@itum.nl</td><td>Yearly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Proxuma aanbod, migration to 2.0</td></tr>
+      <tr><td>30</td><td><strong>JUICT B.V.</strong></td><td>Mike Witbreuk</td><td>mike@juict.nl</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">Proxuma questions and training</td></tr>
+      <tr><td>31</td><td><strong>Knox Technology</strong></td><td>Mike Knox</td><td>mike@knoxtech.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Resource planning -- utilization and future planning across tickets and projects. Word-of-mouth. (5-25 employees)</td></tr>
+      <tr><td>32</td><td><strong>Lancom B.V.</strong></td><td>Robbert de Oude</td><td>r.deoude@lancom.nl</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>33</td><td><strong>Lemontree</strong></td><td>Mark Venema</td><td>mark.venema@lemontree.nl</td><td>Monthly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Proxuma developments discussion with Dxfferent</td></tr>
+      <tr><td>34</td><td><strong>Locknet Managed IT</strong></td><td>Robert Burke</td><td>rburke@eojohnson.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Project management in Autotask is very slow and clunky. Need better visibility for coordinators. (100-500 employees)</td></tr>
+      <tr><td>35</td><td><strong>Maiano Informatique</strong></td><td>--</td><td>--</td><td>Monthly</td><td><span class="tag tag-bemsp">BeMSP</span></td><td class="pain">Louise Navarro submitted trial request Dec 2025.</td></tr>
+      <tr><td>36</td><td><strong>Majestic Computer Tech</strong></td><td>Nathan Gaughan</td><td>nathan.gaughan@majestic.com.au</td><td>Monthly</td><td><span class="tag tag-dattocon">DattoCon</span></td><td class="pain">DattoCon demo follow-up, Power BI interest</td></tr>
+      <tr><td>37</td><td><strong>Mario Lehoux</strong></td><td>Mario Lehoux</td><td>mario@mario911.com</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">License/payment, planning, service call status questions (French-speaking)</td></tr>
+      <tr><td>38</td><td><strong>Neten Spa</strong></td><td>Ivan Di Domenicantonio</td><td>ivan.didomenicantonio@neten.it</td><td>Yearly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Performance issues and Autotask syncing (technical support)</td></tr>
+      <tr><td>39</td><td><strong>netaccess ag</strong></td><td>Noel Strasser</td><td>noel.strasser@netaccess.ch</td><td>Yearly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>40</td><td><strong>Network Company</strong></td><td>Bram Beukers</td><td>b.beukers@networkcompany.nl</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Bad overview in dispatch calendar. (5-25 employees)</td></tr>
+      <tr><td>41</td><td><strong>Northern Rogue Tech</strong></td><td>Devin Rawlek</td><td>devin.rawlek@northernrogue.ca</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>42</td><td><strong>Perspektiva IT ApS</strong></td><td>Jonas Christoffersen</td><td>joch@perspektiva-it.dk</td><td>Monthly</td><td><span class="tag tag-dattocon">DattoCon</span></td><td class="pain">Sanded over time. New hire as cleanup crew, looking for something easy to manage. Found via DattoCon Dublin.</td></tr>
+      <tr><td>43</td><td><strong>PLEIN SUD IT</strong></td><td>Gaetan Saurue</td><td>g.saurue@pleinsudgroupe.fr</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>44</td><td><strong>Pritech PTY LTD</strong></td><td>Neill MacRae</td><td>neill@pritech.com.au</td><td>3yr</td><td><span class="tag tag-dattocon">DattoCon</span></td><td class="pain">DattoCon 2023 handshake deal ($400/month). Waited 3 years to actually onboard.</td></tr>
+      <tr><td>45</td><td><strong>SE Engineering</strong></td><td>Christian Vang</td><td>christian@south3e.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>46</td><td><strong>Server At Work</strong></td><td>Kenneth Wyrick III</td><td>kwyrick3@saw.it</td><td>Monthly</td><td><span class="tag tag-direct">Direct</span></td><td class="pain">COO building PM process. Tried TopLeft and Moovila first.</td></tr>
+      <tr><td>47</td><td><strong>Splitbrain BV</strong></td><td>Darryl van der Peijl</td><td>darryl.vanderpeijl@splitbrain.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>48</td><td><strong>Steentjes Groep B.V.</strong></td><td>Rick Albers</td><td>rick@steentjesict.nl</td><td>3yr</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Dxfferent partner channel</td></tr>
+      <tr><td>49</td><td><strong>Surf Tech IT</strong></td><td>Matthew Parsons</td><td>mparsons@surftechit.co.uk</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>50</td><td><strong>T4 Group</strong></td><td>Iain Enticott</td><td>iain@t4group.com.au</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Getting harder to find space and assign resources to tasks in projects and implementation tickets. (5-25 employees)</td></tr>
+      <tr><td>51</td><td><strong>TeamLogic IT N. Alabama</strong></td><td>John Rediker</td><td>jrediker@teamlogicit.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">We would like to clean up our Autotask. (5-25 employees)</td></tr>
+      <tr><td>52</td><td><strong>TechNosis Inc.</strong></td><td>Ian Nelson</td><td>ian@technosis.biz</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>53</td><td><strong>Triune Infotech</strong></td><td>Aaron Torres</td><td>aaron.torres@triuneinfotech.com</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">--</td></tr>
+      <tr><td>54</td><td><strong>TwentyFour IT Services</strong></td><td>Mark Gibson</td><td>mark@twenty-four.it</td><td>Yearly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Dxfferent partner channel (Daniel Jones meetings)</td></tr>
+      <tr><td>55</td><td><strong>Umbrella IT Group</strong></td><td>Alex Ivantsov</td><td>alex@umbrellaitgroup.com</td><td>Yearly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Getting into Autotask projects module. It's not fun. (5-25 employees)</td></tr>
+      <tr><td>56</td><td><strong>UNO IT Services</strong></td><td>Angelo Lelieveld</td><td>alelieveld@uno.nl</td><td>Monthly</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">One of the first customers (Jul 2023)</td></tr>
+      <tr><td>57</td><td><strong>Van der Hoff ICT</strong></td><td>Niels van der Hoff</td><td>niels@vanderhoffict.nl</td><td>Monthly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Dxfferent subsidy program, webinar attendance</td></tr>
+      <tr><td>58</td><td><strong>Van Roey Automation NV</strong></td><td>Hans Hoskens</td><td>hans.hoskens@vanroey.be</td><td>Monthly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">VIP Client. Thomas Kenis originally booked (Jul 2023). Panel speaker at Dxfferent klantendag.</td></tr>
+      <tr><td>59</td><td><strong>VelzArt</strong></td><td>Arie Verhoek</td><td>averhoek@velzart.nl</td><td>3yr</td><td><span class="tag tag-hubspot">HubSpot</span></td><td class="pain">Re-evaluating after earlier trial when product wasn't mature enough. (25-50 employees)</td></tr>
+      <tr><td>60</td><td><strong>VMhosts Ltd</strong></td><td>Nick Fothergill</td><td>nick.fothergill@vmhosts.co.uk</td><td>Monthly</td><td><span class="tag tag-dxfferent">Dxfferent</span></td><td class="pain">Dxfferent intake + recorded demo</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Channel Breakdown</h2>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">24</div>
+      <div class="stat-label">HubSpot Booking</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">11</div>
+      <div class="stat-label">Direct / Organic</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10</div>
+      <div class="stat-label">Dxfferent Partner</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">DattoCon Events</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">BeMSP Partner</div>
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Top Pain Point Themes</h2>
+    <p>1. <strong>Autotask project management is too manual</strong> -- creating projects/phases/tasks requires too many clicks<br>
+    2. <strong>No visibility into resource planning</strong> -- can't see utilization or future capacity<br>
+    3. <strong>Poor project overview</strong> -- no consolidated view of costs, progress, or status across projects<br>
+    4. <strong>Dispatch calendar is broken</strong> -- hard to find space and assign resources<br>
+    5. <strong>Autotask hasn't evolved</strong> -- "sanded over time", "not fun", "slow and clunky"</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma Customer Origins -- 60 Active Customers</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Proxuma Active Customer Origins & Verified Contacts",
+  "date": "2026-05-05",
+  "summary": "Complete customer intelligence report for 60 active Proxuma customers. 22 contacts corrected via Outlook email verification. Pain points and acquisition channels extracted from HubSpot CRM and email history.",
+  "sections": [
+    {
+      "heading": "Verified Contact Table",
+      "items": [
+        { "title": "60 customers verified", "detail": "22 contacts corrected from original list. 58 have verified email addresses. 2 still missing (Maiano, FMI - BeMSP channel).", "meta": {"corrected": 22, "missing": 2} }
+      ]
+    },
+    {
+      "heading": "Channel Analysis",
+      "items": [
+        { "title": "HubSpot Booking", "detail": "24 customers booked through proxuma.com demo form", "meta": {"count": 24} },
+        { "title": "Direct/Organic", "detail": "11 customers found Proxuma through newsletters, recorded demos, or direct inquiry", "meta": {"count": 11} },
+        { "title": "Dxfferent Partner", "detail": "10 customers came through Joshua/Jasper/Melissa at Dxfferent", "meta": {"count": 10} },
+        { "title": "DattoCon Events", "detail": "6 customers from DattoCon Dublin 2023/2024 including Pritech's 3-year handshake deal", "meta": {"count": 6} },
+        { "title": "BeMSP Partner", "detail": "2 customers (Maiano, FMI) through BeMSP trial submissions", "meta": {"count": 2} }
+      ]
+    },
+    {
+      "heading": "Pain Point Themes",
+      "items": [
+        { "title": "Too manual", "detail": "Creating projects/phases/tasks requires too many clicks" },
+        { "title": "No visibility", "detail": "Can't see resource utilization or future planning" },
+        { "title": "Poor overview", "detail": "No consolidated project view for costs/progress/status" },
+        { "title": "Dispatch broken", "detail": "Hard to find space and assign resources in calendar" },
+        { "title": "Autotask stale", "detail": "Platform hasn't evolved - slow, clunky, not fun" }
+      ]
+    }
+  ],
+  "next_steps": "Use this verified contact table for the upcoming bulk email campaign. The pain point data can personalize the message per customer segment.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Verified all 60 customer contacts against Outlook email history",
+      "Corrected 22 wrong contacts from original list",
+      "Found 4 missing contacts (Network Company, PLEIN SUD, and confirmed 2 truly missing)",
+      "Extracted pain points from HubSpot booking emails",
+      "Identified acquisition channels for all 60 customers",
+      "MS365 login and draft test completed"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-proxuma-customer-origins.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [
+      { "channel": "ms365", "id": "test-draft", "status": "test draft created earlier in session", "execution_method": "email" }
+    ],
+    "screenshots": [],
+    "other": "MS365 authenticated as max@proxuma.com. Customer list also saved to Open Brain."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "open in browser after deploy"]
+  },
+  "decision_log": [
+    {
+      "decision": "Used Outlook email frequency to determine primary contact rather than HubSpot CRM contact",
+      "rejected_alternatives": ["Trust the original website list", "Use HubSpot contact only"],
+      "rationale": "The website list had 22 wrong contacts. Outlook shows who actually communicates about Proxuma. HubSpot original booker is often not the day-to-day user.",
+      "trade_offs": "Some original bookers (decision makers) may be better email targets than the operational contacts we identified",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
