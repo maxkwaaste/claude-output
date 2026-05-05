@@ -199,7 +199,7 @@ pre {
 
   <div class="overline">AUTONOMOUS SALES AGENT</div>
   <h1>OpenClaw Sales Agent Blueprint</h1>
-  <p class="subtitle">Complete architecture for a draft-only B2B sales agent targeting the Dutch IT/MSP market. OpenClaw on M1 Pro with GPT-5.4 orchestrator, Claude Code Max worker, and full MCP tool integration.</p>
+  <p class="subtitle">Complete architecture for a draft-only B2B sales agent targeting Dutch and English-speaking IT/MSP buyers worldwide. OpenClaw on M1 Pro with GPT-5.4 orchestrator, Claude Code Max worker, Forge as data backbone, and SDR Review Page for email coaching.</p>
 
   <div class="stats-row">
     <div class="stat-card">
@@ -207,7 +207,7 @@ pre {
       <div class="stat-label">Monthly Total Cost</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">5</div>
+      <div class="stat-value">7</div>
       <div class="stat-label">Connected MCP Tools</div>
     </div>
     <div class="stat-card">
@@ -235,10 +235,12 @@ pre {
   <h3>Connected Tools (via MCP)</h3>
   <table class="matrix">
     <tr><th>Tool</th><th>Access Mode</th><th>Draft-Only Scope</th></tr>
-    <tr><td><strong>HubSpot CRM</strong></td><td>MCP server (already configured)</td><td>Read pipeline, enrich contacts, draft CRM updates</td></tr>
+    <tr><td><strong>HubSpot CRM</strong></td><td>MCP server (already configured)</td><td>Read pipeline, enrich contacts, draft CRM updates. Interim CRM -- migrating to NeXum CRM (Forge API)</td></tr>
+    <tr><td><strong>Forge (NeXum CRM)</strong></td><td>REST API (Sanctum auth, 120 req/min)</td><td>Future source of truth: contacts, deals, companies, usage analytics, email campaigns, release pipeline/roadmap</td></tr>
     <tr><td><strong>Microsoft 365</strong></td><td>MCP server (already configured)</td><td>Read inbox, draft emails in Drafts folder only</td></tr>
     <tr><td><strong>Google Ads</strong></td><td>MCP server (already configured)</td><td>Read performance, draft pauses/budget changes</td></tr>
     <tr><td><strong>Reddit Ads</strong></td><td>Custom MCP (~/.claude/skills/)</td><td>Read campaign data, draft optimizations</td></tr>
+    <tr><td><strong>kb.proxuma.com</strong></td><td>MCP server (connected on M1 Pro)</td><td>Product docs, release notes, feature descriptions. Content source for outreach emails</td></tr>
     <tr><td><strong>Open Brain</strong></td><td>MCP server (already configured)</td><td>Read/write persistent memory</td></tr>
   </table>
 
@@ -250,10 +252,18 @@ pre {
 
 ## Core Identity
 You are a highly analytical Sales Development Agent for a B2B
-SaaS provider in the Netherlands IT/MSP sector. Your mandate:
-monitor the HubSpot CRM pipeline, conduct deep account research,
-and prepare highly targeted outreach drafts. You prioritize
-clinical efficiency over raw volume.
+SaaS provider selling to IT/MSP companies in the Netherlands,
+UK, USA, and Australia. Your mandate: monitor the CRM pipeline,
+conduct deep account research, and prepare highly targeted
+outreach drafts in Dutch or English based on the prospect's
+language. You prioritize clinical efficiency over raw volume.
+
+## Language Routing
+- Detect prospect language from: company domain TLD, contact
+  location, prior email thread language, CRM locale field.
+- Dutch prospects (.nl, NL-based): draft in Dutch.
+- All others (UK, US, AU, international): draft in English.
+- When uncertain, default to English.
 
 ## Dutch Cultural Calibration
 - Directness: State the value proposition in the first sentence.
@@ -265,6 +275,14 @@ clinical efficiency over raw volume.
   or legal prospects only.
 - Formatting: Short declarative paragraphs. No em dashes, no
   exclamation marks, no emojis in professional contexts.
+
+## English Cultural Calibration
+- Same directness principle: lead with value, skip the filler.
+- Professional but not corporate. No "synergy", "leverage",
+  "circle back". Write like a technical peer, not a salesperson.
+- Address by first name. No "Dear Sir/Madam".
+- UK/AU prospects: metric units, dd/mm dates, "organisation".
+- US prospects: imperial units, mm/dd dates, "organization".
 
 ## Red Lines (Non-Negotiable)
 1. DRAFT-ONLY: You are forbidden from sending emails, publishing
@@ -287,17 +305,17 @@ clinical efficiency over raw volume.
     <div class="pos-step">
       <div class="pos-num">1</div>
       <div class="pos-label">Gather</div>
-      <div class="pos-desc">Collect context via read-only MCP calls. HubSpot lookup, web search, Open Brain recall.</div>
+      <div class="pos-desc">Collect context via CRM, Forge API, kb.proxuma.com, web search, Open Brain recall.</div>
     </div>
     <div class="pos-step">
       <div class="pos-num">2</div>
       <div class="pos-label">Draft</div>
-      <div class="pos-desc">Prepare the email/ad/CRM payload. Save to MS365 Drafts or paused ad queue.</div>
+      <div class="pos-desc">Prepare the email/ad/CRM payload. Push to SDR Review Page batch or paused ad queue.</div>
     </div>
     <div class="pos-step">
       <div class="pos-num">3</div>
       <div class="pos-label">Halt</div>
-      <div class="pos-desc">Send structured alert to Telegram. Suspend workflow until explicit human approval.</div>
+      <div class="pos-desc">Drafts appear in SDR Review Page for coaching. Telegram notification. Suspend until approved.</div>
     </div>
   </div>
 
@@ -314,20 +332,24 @@ Before executing any tool or responding:
 For ALL external actions (email, ads, CRM writes):
 
 ### GATHER
-- Use read-only MCP scopes: hubspot lookup, MS365 read, Ads read
+- Use read-only MCP scopes: CRM lookup (HubSpot now, Forge API later),
+  MS365 read, Ads read
+- Query Forge API for contact timeline, deal stage, usage analytics
+- Search kb.proxuma.com for relevant product docs, release notes,
+  and feature updates to reference in outreach
 - Search Open Brain for context on this company/contact
 - Web search for recent news, tech stack, NIS2 compliance status
 
 ### DRAFT
 - Prepare payload in scratchpad
 - Save to platform draft storage:
-  - Emails: MS365 Drafts folder
+  - Emails: pushed to SDR Review Page batch (/forge/sdr/review)
   - Ads: Google Ads paused draft queue
   - CRM: Structured JSON in /tmp/crm-drafts/
 
 ### HALT
-- Send alert to Telegram:
-  "DRAFT READY: [Type] for [Company] - Requires review"
+- Drafts appear in SDR Review Page for coaching and approval
+- Telegram notification: "BATCH READY: [count] drafts for review"
 - Suspend this entity's workflow
 - Do NOT proceed until explicit approval registered
 
@@ -338,8 +360,13 @@ When spawning Claude Code for complex tasks:
 - Worker inherits STRICT DRAFT-ONLY constraint
 - Use: claude -p "[task description]" in project directory</pre>
 
-  <!-- SECTION 4: HUBSPOT AUTOMATION -->
-  <h2>4. HubSpot CRM Automation</h2>
+  <!-- SECTION 4: CRM AUTOMATION -->
+  <h2>4. CRM Automation</h2>
+
+  <div class="callout">
+    <span class="callout-label">CRM Transition</span>
+    HubSpot is the current CRM. NeXum CRM (Forge API) will become the source of truth. The agent must work with HubSpot now and be ready to switch data source to Forge REST endpoints without changing the workflow logic.
+  </div>
 
   <h3>Cron Schedule (HEARTBEAT.md)</h3>
   <p>Stagger intervals to avoid API burst problems. Never schedule multiple data-heavy jobs at the same minute.</p>
@@ -378,15 +405,31 @@ When spawning Claude Code for complex tasks:
     Unlike CRM errors, automated bidding mistakes cause immediate, unrecoverable capital loss. A documented case: an OpenClaw agent paused the top keyword on a $2M/month account at 2 AM based on hallucinated "creative fatigue" -- cost $117,000 before detection.
   </div>
 
-  <h3>Safe vs. Flagged Actions</h3>
+  <div class="callout">
+    <span class="callout-label">Reference: Execution Playbook</span>
+    Full 8-step plan with Claude prompts per step: <code>claude-output/2026-05-04-google-ads-strategic-plan.html</code>. The agent should follow this plan and monitor its execution.
+  </div>
+
+  <h3>Active Campaign Structure (EUR 18/day)</h3>
+  <p>Three campaigns targeting the Autotask ecosystem. High-intent keywords only -- people already using Autotask and searching for specific module improvements. Geo: US, UK, Australia.</p>
+
+  <table class="matrix">
+    <tr><th>Campaign</th><th>Budget</th><th>Bidding</th><th>Ad Groups</th></tr>
+    <tr><td><strong>Proxuma - Brand</strong></td><td>EUR 2/day</td><td>Manual CPC (EUR 1.50 max)</td><td>1: Brand terms</td></tr>
+    <tr><td><strong>Proxuma - Autotask Features</strong></td><td>EUR 12/day</td><td>Manual CPC (EUR 4 max)</td><td>4: Project Mgmt, Planning, Outlook, Shifts</td></tr>
+    <tr><td><strong>Proxuma - Recorded Demo</strong></td><td>EUR 4/day</td><td>Manual CPC (EUR 3 max)</td><td>1: Informational queries</td></tr>
+  </table>
+
+  <h3>Agent Monitoring Scope</h3>
   <table class="matrix">
     <tr><th>Action</th><th>Automation Level</th><th>Rule</th></tr>
-    <tr><td><strong>Performance audit</strong></td><td>Fully automated (read-only)</td><td>Daily CPA, ROAS, search term analysis</td></tr>
-    <tr><td><strong>Negative keyword drafts</strong></td><td>Draft + flag</td><td>Identify bleeding queries (3x target CPA, zero conversions in 7 days)</td></tr>
+    <tr><td><strong>Performance audit</strong></td><td>Fully automated (read-only)</td><td>Daily CPA, ROAS, search term analysis per ad group</td></tr>
+    <tr><td><strong>Search term review</strong></td><td>Draft + flag</td><td>Identify bleeding queries (3x target CPA, zero conversions in 7 days). Draft negative keywords</td></tr>
     <tr><td><strong>Budget changes</strong></td><td>Human approval required</td><td>Never adjust budgets autonomously</td></tr>
     <tr><td><strong>Bid strategy changes</strong></td><td>Human approval required</td><td>Switching match types poisons Smart Bidding history</td></tr>
     <tr><td><strong>Keyword pausing</strong></td><td>Draft + flag</td><td>Check multi-touch attribution first -- high-spend zero-conversion keywords may be top-of-funnel</td></tr>
     <tr><td><strong>Ad copy changes</strong></td><td>Draft + flag</td><td>Agent-optimized copy shows 2.5-4% CVR (2x industry average)</td></tr>
+    <tr><td><strong>Conversion tracking</strong></td><td>Monitor only</td><td>2 primary actions: "Booked a demo" + "Recorded demo requested". Alert if conversion count deviates from baseline</td></tr>
   </table>
 
   <!-- SECTION 6: REDDIT ADS -->
@@ -415,12 +458,13 @@ When spawning Claude Code for complex tasks:
   <p>Use "Lowest Cost" manual bidding for the first 14 days to build conversion baseline. Only then enable "Max Campaigns" automated bidding. Ad copy: long-form educational (800-1200 words), transparent pricing, technical deep-dives. No corporate shilling.</p>
 
   <!-- SECTION 7: EMAIL OUTREACH -->
-  <h2>7. Email Outreach via MS365</h2>
+  <h2>7. Email Outreach (Dutch + English)</h2>
 
-  <h3>Dutch B2B Email Framework (VSL)</h3>
+  <h3>B2B Email Framework (VSL)</h3>
+  <p>Applies to both Dutch and English outreach. Language is auto-detected per prospect (see SOUL.md language routing).</p>
   <div class="card">
     <div class="card-title">Value</div>
-    <div class="card-desc">Open with a specific, useful offer. A technical audit insight, a market data point, a benchmark comparison. Not a meeting request.</div>
+    <div class="card-desc">Open with a specific, useful offer. A technical audit insight, a market data point, a benchmark comparison. Not a meeting request. Pull recent release notes and feature updates from kb.proxuma.com for fresh content angles.</div>
   </div>
   <div class="card">
     <div class="card-title">Specificity</div>
@@ -428,14 +472,36 @@ When spawning Claude Code for complex tasks:
   </div>
   <div class="card">
     <div class="card-title">Leverage</div>
-    <div class="card-desc">Back every claim with data. Dutch buyers respond to facts, not adjectives. "We reduced ticket resolution time by 34% for MSPs using Autotask" beats "revolutionary platform".</div>
+    <div class="card-desc">Back every claim with data. Both Dutch and English buyers respond to facts, not adjectives. "We reduced ticket resolution time by 34% for MSPs using Autotask" beats "revolutionary platform".</div>
+  </div>
+
+  <h3>Content Sources for Outreach</h3>
+  <ul>
+    <li><strong>kb.proxuma.com</strong> (MCP on M1 Pro) -- product docs, release notes, feature descriptions. Mine for new angles and proof points</li>
+    <li><strong>Forge</strong> -- usage analytics (PostHog) reveal which features prospects might benefit from. Release pipeline/roadmap provides "coming soon" hooks</li>
+    <li><strong>Contact timeline</strong> -- prior emails, meeting transcripts, deal history inform personalization</li>
+  </ul>
+
+  <h3>SDR Review Page (Forge Frontend)</h3>
+  <p>All email drafts are evaluated and coached through the SDR Outreach Review page at <code>/forge/sdr/review</code> in the NeXum frontend. This replaces raw Telegram/Drafts folder workflows for email review.</p>
+  <div class="card">
+    <div class="card-title">Batch Review Interface</div>
+    <div class="card-desc">25 daily drafts displayed as scrollable cards. Each shows the AI's reasoning, category (post-demo, inbound, stale deal, upsell, win-back), and contact context. Keyboard-driven: A=send, S=skip, Z=snooze, J/K=navigate.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Coaching Loop</div>
+    <div class="card-desc">Edit subject and body inline before approving. Free-text feedback per draft teaches the AI. Edit diffs are captured automatically. After 20+ edits, patterns are extracted into writing rules injected into the draft generation prompt.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Learning Extraction</div>
+    <div class="card-desc">Daily 17:00 cron compiles edit patterns into "Max's Writing Rules" with confidence scores (5+ examples = low, 20+ = high). Approve/reject ratios per category inform quota allocation. Explicit feedback is highest-quality signal.</div>
   </div>
 
   <h3>Deliverability Rules</h3>
   <ul>
     <li>MX handshake verification before drafting to any address (near-zero bounce rate)</li>
     <li>Honor opt-outs instantly -- build internal suppression lists (GDPR requirement)</li>
-    <li>Agent writes to MS365 Drafts folder only -- never granted Send endpoint access in Phase 1</li>
+    <li>Approved emails sent via Forge campaign API (MS Graph under the hood), auto-unsubscribe enforcement</li>
     <li>Token refresh management for 24/7 operation (expired tokens fail silently)</li>
   </ul>
 
@@ -445,17 +511,20 @@ When spawning Claude Code for complex tasks:
   <h3>What Goes Where</h3>
   <table class="matrix">
     <tr><th>Data Type</th><th>Storage</th><th>Reason</th></tr>
-    <tr><td>Deal stages, contact info, contract values</td><td><strong>HubSpot (live query)</strong></td><td>Highly volatile, must be real-time</td></tr>
-    <tr><td>Meeting dates, lead scores, activity logs</td><td><strong>HubSpot (live query)</strong></td><td>Changes frequently, CRM is source of truth</td></tr>
+    <tr><td>Deal stages, contact info, contract values</td><td><strong>CRM (HubSpot now, Forge later)</strong></td><td>Highly volatile, must be real-time</td></tr>
+    <tr><td>Meeting dates, lead scores, activity logs</td><td><strong>CRM (live query)</strong></td><td>Changes frequently, CRM is source of truth</td></tr>
+    <tr><td>Product usage analytics (PostHog)</td><td><strong>Forge API</strong></td><td>Tenant-level usage data, feature adoption signals</td></tr>
+    <tr><td>Release notes, feature docs, roadmap</td><td><strong>kb.proxuma.com + Forge</strong></td><td>Content source for outreach. KB for docs, Forge for pipeline/roadmap</td></tr>
+    <tr><td>Email draft coaching, edit patterns</td><td><strong>SDR Review Page (learning.db)</strong></td><td>Edit diffs and feedback collected in Forge, compiled into writing rules</td></tr>
     <tr><td>Prospect communication preferences</td><td><strong>Open Brain</strong></td><td>Qualitative heuristic, not in CRM schema</td></tr>
     <tr><td>Workflow failure patterns</td><td><strong>Open Brain</strong></td><td>Agent learns from errors over time</td></tr>
-    <tr><td>Dutch cultural rules, formatting preferences</td><td><strong>SOUL.md</strong></td><td>Permanent, only changed by manual editing</td></tr>
+    <tr><td>Cultural rules, language routing, formatting</td><td><strong>SOUL.md</strong></td><td>Permanent, only changed by manual editing</td></tr>
     <tr><td>Operational procedures, cron configs</td><td><strong>AGENTS.md / HEARTBEAT.md</strong></td><td>Permanent, survives context compaction</td></tr>
   </table>
 
   <div class="callout">
     <span class="callout-label">Key Principle</span>
-    Quantitative, stateful data belongs in HubSpot. Qualitative, behavioral heuristics belong in Open Brain. Never hardcode volatile CRM data into memory files.
+    Quantitative, stateful data belongs in the CRM (HubSpot now, Forge later). Product knowledge lives in kb.proxuma.com and Forge. Qualitative, behavioral heuristics belong in Open Brain. Never hardcode volatile data into memory files.
   </div>
 
   <!-- SECTION 9: GRADUATION -->
@@ -542,7 +611,7 @@ When spawning Claude Code for complex tasks:
   <!-- BOTTOM LINE -->
   <div class="positioning">
     <h2>Implementation Sequence</h2>
-    <p>1. Install OpenClaw on M1 Pro, authenticate with ChatGPT Plus OAuth. 2. Write SOUL.md, AGENTS.md, HEARTBEAT.md with the configs above. 3. Connect existing MCP servers (HubSpot, MS365, Google Ads, Reddit Ads, Open Brain). 4. Set up Docker isolation with cap_drop ALL. 5. Configure Telegram notifications for the Gather-Draft-Halt workflow. 6. Run Phase 1 (draft-only) for 4 weeks while measuring completion rate and accuracy. 7. Graduate to Phase 2 only after hitting the metric thresholds.</p>
+    <p>1. Install OpenClaw on M1 Pro, authenticate with ChatGPT Plus OAuth. 2. Write SOUL.md (bilingual: Dutch + English), AGENTS.md, HEARTBEAT.md with the configs above. 3. Connect existing MCP servers (HubSpot, MS365, Google Ads, Reddit Ads, Open Brain, kb.proxuma.com). 4. Configure Forge API access (Bearer token with forge.read + forge.crm.update scopes). 5. Set up Docker isolation with cap_drop ALL. 6. Wire SDR Review Page (/forge/sdr/review) as the email evaluation interface. 7. Run Phase 1 (draft-only) for 4 weeks while measuring completion rate and accuracy. 8. Graduate to Phase 2 only after hitting the metric thresholds.</p>
   </div>
 
   <div class="page-footer">
@@ -555,7 +624,7 @@ When spawning Claude Code for complex tasks:
 {
   "title": "OpenClaw Sales Agent Blueprint",
   "date": "2026-05-05",
-  "summary": "Complete architecture for an autonomous sales agent: OpenClaw on M1 Pro with GPT-5.4 orchestrator ($20/mo) + Claude Code Max worker ($200/mo). Draft-only mode, Dutch B2B cultural calibration, 3-phase graduation path.",
+  "summary": "Complete architecture for an autonomous sales agent: OpenClaw on M1 Pro with GPT-5.4 orchestrator ($20/mo) + Claude Code Max worker ($200/mo). Draft-only mode, bilingual Dutch+English outreach, Forge as data backbone, SDR Review Page for email coaching, kb.proxuma.com for content, 3-phase graduation path.",
   "sections": [
     {
       "heading": "System Architecture",
@@ -568,7 +637,7 @@ When spawning Claude Code for complex tasks:
     {
       "heading": "Configuration Files",
       "items": [
-        { "title": "SOUL.md", "detail": "Dutch cultural calibration (je/jij, no filler, data-backed claims), draft-only red lines, anti-prompt-injection.", "meta": {} },
+        { "title": "SOUL.md", "detail": "Bilingual: Dutch (je/jij, no filler) + English (peer tone, locale-aware). Language auto-routing. Draft-only red lines, anti-prompt-injection.", "meta": {} },
         { "title": "AGENTS.md", "detail": "Gather-Draft-Halt protocol. Session startup checklist. Claude Code sub-agent coordination.", "meta": {} },
         { "title": "HEARTBEAT.md", "detail": "Staggered crons: pipeline health 9:07, enrichment 10:15, follow-ups 14:30, weekly report Mon 8:00.", "meta": {} }
       ]
@@ -576,10 +645,13 @@ When spawning Claude Code for complex tasks:
     {
       "heading": "Tool Integration",
       "items": [
-        { "title": "HubSpot", "detail": "Pipeline monitoring, lead enrichment, follow-up drafting. Guard against duplicate cascade and silent drift.", "meta": {} },
-        { "title": "Google Ads", "detail": "Read-only audits automated. Budget/bid changes require human approval. $117K incident documented.", "meta": {} },
+        { "title": "HubSpot (interim)", "detail": "Pipeline monitoring, lead enrichment, follow-up drafting. Transitioning to NeXum CRM (Forge API).", "meta": {} },
+        { "title": "Forge (NeXum CRM)", "detail": "Future source of truth: contacts, deals, usage analytics, email campaigns, release pipeline/roadmap.", "meta": {} },
+        { "title": "Google Ads", "detail": "3 campaigns (Brand/Autotask Features/Recorded Demo), EUR 18/day. Full execution playbook in separate doc.", "meta": {} },
         { "title": "Reddit Ads", "detail": "Target r/msp, r/sysadmin. CTR 0.20-0.50%, CPA $50-150. Manual bidding first 14 days.", "meta": {} },
-        { "title": "MS365 Email", "detail": "VSL framework for Dutch B2B. Drafts folder only. MX verification before drafting.", "meta": {} }
+        { "title": "kb.proxuma.com", "detail": "Product docs, release notes, feature descriptions. MCP on M1 Pro. Content source for outreach emails.", "meta": {} },
+        { "title": "SDR Review Page", "detail": "Forge frontend /forge/sdr/review. 25 daily email drafts, coaching loop, edit-diff learning.", "meta": {} },
+        { "title": "MS365 Email", "detail": "Bilingual VSL framework (Dutch + English). Sent via Forge campaign API (MS Graph). MX verification before drafting.", "meta": {} }
       ]
     },
     {
@@ -599,7 +671,7 @@ When spawning Claude Code for complex tasks:
       ]
     }
   ],
-  "next_steps": "Install OpenClaw on M1 Pro, write SOUL.md and AGENTS.md with the configs from this blueprint, connect existing MCP servers, set up Docker isolation, configure Telegram alerts for draft approval workflow, then run Phase 1 for 4 weeks.",
+  "next_steps": "Install OpenClaw on M1 Pro, write bilingual SOUL.md and AGENTS.md, connect MCP servers (including kb.proxuma.com), configure Forge API access, wire SDR Review Page as email evaluation interface, set up Docker isolation, then run Phase 1 for 4 weeks.",
   "session_state": {
     "phase": "research complete",
     "phase_status": "complete",
