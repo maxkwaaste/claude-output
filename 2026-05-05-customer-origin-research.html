@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Origin Research: 27 Non-HubSpot Customers</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.channel-tag {
+  display: inline-block; font: 600 9px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em; padding: 3px 7px;
+  border-radius: 3px; margin-left: 4px;
+}
+.ch-dxfferent { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.ch-dattocon { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.ch-direct { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.ch-partner { background: #f3e8f4; color: #6b2a8a; border: 1px solid #b88ad8; }
+.ch-bemsp { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.ch-network { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 5, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-customer-origin-research.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Sales Intelligence &amp; Customer Research</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 5, 2026<br>Customer Research<br>Proxuma Sales
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Customer Acquisition Analysis</div>
+  <h1>Origin Research: 27 Non-HubSpot Customers</h1>
+  <p class="subtitle">Earliest email contact traced per customer to identify how they initially found Proxuma. Covers partner referrals, DattoCon contacts, direct outreach, and BeMSP channel deals.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">27</div>
+      <div class="stat-label">Customers Researched</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">DattoCon Leads</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Dxfferent Channel</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">9</div>
+      <div class="stat-label">Direct / Recorded Demo</div>
+    </div>
+  </div>
+
+  <h2>Full Customer Origin Table</h2>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th style="width:18%">Company</th>
+        <th style="width:12%">Earliest Date</th>
+        <th style="width:17%">First Contact</th>
+        <th style="width:35%">Initial Reason / Context</th>
+        <th style="width:18%">Channel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>ConXioN BV</strong></td>
+        <td>2025-11-28</td>
+        <td>Gaetan Burm (Head of PMO)</td>
+        <td>POC handover email: Gaetan was leaving ConXioN and handed off the ongoing POC to Jelle Vervaeke (COO). Referenced "constructive collaboration" and strong tech match. ConXioN had been running a POC on scheduling/planning. Note: there are older emails (50+ results with nextLink) not visible here.</td>
+        <td><span class="channel-tag ch-dxfferent">Dxfferent</span> Joshua mentioned throughout threads</td>
+      </tr>
+      <tr>
+        <td><strong>Cubics IT</strong></td>
+        <td>2023-10-20</td>
+        <td>Gerben Kuijpers (PM)</td>
+        <td>Accepted a Proxuma Demo invitation. First substantive email (2023-10-26): asked about pricing, planner vs PM license differences. Interested in project management/planning. Was referred by someone or found Proxuma organically.</td>
+        <td><span class="channel-tag ch-direct">Direct Demo</span> Direct inquiry into demo</td>
+      </tr>
+      <tr>
+        <td><strong>Aabyss</strong></td>
+        <td>2025-03-31</td>
+        <td>Lewis Green (Head of Service)</td>
+        <td>Accepted a Proxuma Demo. First substantive email (2026-01-29): "Brendan is using Autotask and is interested in Proxuma to help with scheduling work." Lewis also introduced Troy Midwood (CEO/Network Group) for potential UK MSP distribution partnership.</td>
+        <td><span class="channel-tag ch-direct">Direct</span> Direct inquiry for scheduling</td>
+      </tr>
+      <tr>
+        <td><strong>Lemontree</strong></td>
+        <td>2024-10-31</td>
+        <td>Mark Venema (PM)</td>
+        <td>Replied about Proxuma planning features. Lemontree was previously a POC customer on v1, closed POC Nov 2024, restarted fresh in Jan 2025 with v2. Primary need: project task planning, capacity management. Jasper from Dxfferent involved in later threads.</td>
+        <td><span class="channel-tag ch-dxfferent">Dxfferent</span> Jasper/Joshua involved</td>
+      </tr>
+      <tr>
+        <td><strong>inTEC Business</strong></td>
+        <td>2024-11-19</td>
+        <td>Jackie Hargreaves (Head of Business Transformation)</td>
+        <td>Accepted Proxuma Demo invitation. First substantive email (2024-11-22): "Thanks for your time earlier... I have scheduled another demo including Louise (Head of Projects). Proposal to start trial in January." inTEC wanted to use Proxuma for project scheduling.</td>
+        <td><span class="channel-tag ch-direct">Direct Demo</span> Self-booked demo</td>
+      </tr>
+      <tr>
+        <td><strong>TwentyFour IT</strong></td>
+        <td>2025-09-02</td>
+        <td>Amy Redfern / Tony Houlihan</td>
+        <td>Accepted onboarding meeting. TwentyFour started with onboarding directly. Tony Houlihan (sales lead) and Amy Redfern drove the relationship. Joshua from Dxfferent mentioned in related threads.</td>
+        <td><span class="channel-tag ch-dxfferent">Dxfferent</span> Dxfferent referral</td>
+      </tr>
+      <tr>
+        <td><strong>Itum Solutions</strong></td>
+        <td>2023-10-02</td>
+        <td>Rick Verhagen (PM)</td>
+        <td>Accepted Proxuma Demo. Rick started testing and provided feature feedback (filters, plan bucket). Long-running relationship with many bug reports and feature requests. Pricing discussions ongoing since early days.</td>
+        <td><span class="channel-tag ch-direct">Direct Demo</span> Organic demo signup</td>
+      </tr>
+      <tr>
+        <td><strong>Server At Work</strong></td>
+        <td>2025-07-02</td>
+        <td>Micheal Goodwin (COO)</td>
+        <td>Responded to a recorded demo email: "I can see this as a nice time-saver for our project coordinator. To date we have failed to have an organized process for project management. We were creating our own process when I came across Proxuma." Had tried TopLeft and Moovila before. Based in Texas/Louisiana.</td>
+        <td><span class="channel-tag ch-direct">Recorded Demo</span> Requested recorded demo via website</td>
+      </tr>
+      <tr>
+        <td><strong>Holland ICT Groep (Heiper)</strong></td>
+        <td>2024-06-27</td>
+        <td>Mark Koele</td>
+        <td>"Alles weer op de rit na Dublin?" -- reference to meeting in Dublin (DattoCon Europe). Asked about latest developments and acceptance environment. Wanted to see new features after event meeting.</td>
+        <td><span class="channel-tag ch-dattocon">DattoCon</span> Met at DattoCon Dublin</td>
+      </tr>
+      <tr>
+        <td><strong>VMhosts</strong></td>
+        <td>2025-07-24</td>
+        <td>Nick Fothergill</td>
+        <td>Responded to recorded demo: "I do have a few questions. Also by pure coincidence my MD met Jasper earlier this week and I think we are looking at some other Autotask help too!" Requested a call. Started via recorded demo, then Jasper connection emerged.</td>
+        <td><span class="channel-tag ch-dxfferent">Dxfferent</span> Recorded demo + MD met Jasper</td>
+      </tr>
+      <tr>
+        <td><strong>EAC Network Solutions</strong></td>
+        <td>2024-10-11</td>
+        <td>Rob Lowein (Tech Ops Manager) / Jeff Woodhall</td>
+        <td>Onboarding meeting accepted. Rob confirmed "12 months should be possible, depends on issues and price." Jeff Woodhall (senior engineer, remote from Australia) was key technical user. They had a previous trial and were returning for a second go.</td>
+        <td><span class="channel-tag ch-direct">Direct</span> Returning trial customer</td>
+      </tr>
+      <tr>
+        <td><strong>Arrows ICT</strong></td>
+        <td>2023-10-10</td>
+        <td>Luc Pijls (Owner)</td>
+        <td>Accepted Proxuma Demo. Very early customer. Luc has been outspoken about product quality -- "ik betaal niet voor iets wat niet werkt" but also believed in the product enough to contribute testing hours.</td>
+        <td><span class="channel-tag ch-direct">Direct Demo</span> Early demo signup</td>
+      </tr>
+      <tr>
+        <td><strong>IT Synergy</strong></td>
+        <td>2025-03-21</td>
+        <td>Kiki Brabander (Scaling Up Teamlead)</td>
+        <td>Replied to Max about Proxuma, asked about requirements for an offer. Later (2025-04-21) decided to postpone -- "other things in Autotask need fixing first." Paul Arkesteijn handles invoicing. Dxfferent likely involved given Jasper billing references.</td>
+        <td><span class="channel-tag ch-dxfferent">Dxfferent</span> Jasper billing references</td>
+      </tr>
+      <tr>
+        <td><strong>Pritech</strong></td>
+        <td>2023-11-14</td>
+        <td>Neill MacRae (Director)</td>
+        <td>Accepted "Proxuma Demo DattoCon" invite. In Jan 2026 email: "We met at DattoCon 3 years ago when you were first releasing your product, and we made a handshake deal to onboard for $400/month." Neill is based in Tasmania, Australia. Very long relationship.</td>
+        <td><span class="channel-tag ch-dattocon">DattoCon</span> Met at DattoCon 2023</td>
+      </tr>
+      <tr>
+        <td><strong>Blue Arc IT</strong></td>
+        <td>2024-11-13</td>
+        <td>Justin Richards (Ops Manager)</td>
+        <td>"Dxfferent Intake DattoCon" -- met at DattoCon. Justin said: "Let's hope you recall your pledge of AUD$2500 rather than EUR2500. I also met one of your former colleagues, Marwin." Came through Dxfferent intake at DattoCon event. Joshua involved in assessment questions.</td>
+        <td><span class="channel-tag ch-dattocon">DattoCon</span> + <span class="channel-tag ch-dxfferent">Dxfferent</span> DattoCon intro, Dxfferent intake</td>
+      </tr>
+      <tr>
+        <td><strong>Majestic Computer Tech</strong></td>
+        <td>2025-02-13</td>
+        <td>Luke Perry (Technical Consultant) / Nathan Gaughan (COO)</td>
+        <td>"Proxuma Demo DattoCon" -- scheduling the demo after DattoCon meeting. Nathan later (2025-02-18): needed to adjust timezone for the demo. ISO 27001 certified, asked about Proxuma's security posture extensively.</td>
+        <td><span class="channel-tag ch-dattocon">DattoCon</span> DattoCon follow-up demo</td>
+      </tr>
+      <tr>
+        <td><strong>Algoma Technology (ATS)</strong></td>
+        <td>2024-10-28</td>
+        <td>Dawn Piche (Operations Lead)</td>
+        <td>"Proxuma Demo DattoCon" -- auto-reply while on vacation after DattoCon. Natalia McLean also accepted the demo. Dawn became the primary user for scheduling and planning.</td>
+        <td><span class="channel-tag ch-dattocon">DattoCon</span> DattoCon 2024 lead</td>
+      </tr>
+      <tr>
+        <td><strong>Complex ICT</strong></td>
+        <td>2023-09-15</td>
+        <td>Willem Zwart (Owner/Director)</td>
+        <td>Accepted "Complex ICT Proxuma Demo". One of the earliest customers. Had a second demo in Oct 2023. Willem was very interested in project planning and shifts module. He said in 2025: "Plannen wordt hier steeds belangrijker."</td>
+        <td><span class="channel-tag ch-direct">Direct Demo</span> Very early demo signup</td>
+      </tr>
+      <tr>
+        <td><strong>Anderson Networks</strong></td>
+        <td>2025-11-10</td>
+        <td>Emily Petersen</td>
+        <td>Responded to a recorded demo email: "Thank you so much for taking the time to make that demo for me. I have reviewed it and signed up for the free trial." Had trouble accessing knowledge base. Joey Anderson (owner) also involved.</td>
+        <td><span class="channel-tag ch-direct">Recorded Demo</span> Requested recorded demo</td>
+      </tr>
+      <tr>
+        <td><strong>Gyver Technologies</strong></td>
+        <td>2025-10-28</td>
+        <td>Ian Silvia (VP Prof. Services)</td>
+        <td>Responded to recorded demo: "Thanks for the info. $25/user is far too much for an add-on." Initially rejected on price. David DeSimone (Managing Member) later re-engaged Dec 2025, wanted trial. David Leuser (VP Ops) handled security review and setup.</td>
+        <td><span class="channel-tag ch-direct">Recorded Demo</span> Initially rejected, re-engaged</td>
+      </tr>
+      <tr>
+        <td><strong>Affirm IT</strong></td>
+        <td>2025-07-01</td>
+        <td>Phil Davenport (Managing Director)</td>
+        <td>Pricing inquiry email: "I'd like to ideally drag tickets/projects into a calendar that syncs with outlook." Asked for a webinar to see the tool in action. Only 2 users needed. Carl Lord (colleague) also attended onboarding.</td>
+        <td><span class="channel-tag ch-direct">Direct</span> Direct pricing inquiry</td>
+      </tr>
+      <tr>
+        <td><strong>Van der Hoff ICT</strong></td>
+        <td>2024-07-11</td>
+        <td>Niels van der Hoff (Owner) / Ferry Kregting (Ops Manager)</td>
+        <td>Accepted "Vanderhoff ICT Proxuma Demo." Later Niels mentioned Dxfferent subsidy deal (Dec 2024): wanted to combine Proxuma with a Dxfferent procedure overview. Joshua involved in pricing and billing.</td>
+        <td><span class="channel-tag ch-dxfferent">Dxfferent</span> Demo + Dxfferent services bundle</td>
+      </tr>
+      <tr>
+        <td><strong>JUICT</strong></td>
+        <td>2025-02-17</td>
+        <td>Anto te Lintelo</td>
+        <td>"Alles goed? Had je al eerder willen contacten maar er kwam in de privesfeer even wat tussen. Kunnen we binnenkort via Teams meeten? Ben benieuwd naar jullie aanpassingen en oplossing." Had previous contact, wanted to see updates. Direct follow-up.</td>
+        <td><span class="channel-tag ch-direct">Direct</span> Returning interest, prior contact</td>
+      </tr>
+      <tr>
+        <td><strong>Mario Lehoux (mario911)</strong></td>
+        <td>2023-11-13</td>
+        <td>Mario Lehoux</td>
+        <td>Accepted "Proxuma Demo for Mario911." Solo operator from Montreal, Canada (French-speaking). Very engaged from the start. By Dec 2023 was already asking to activate the software and pay: "Yes, if you can, I want begin now. I can pay. I need this good product."</td>
+        <td><span class="channel-tag ch-direct">Direct Demo</span> Self-service demo booking</td>
+      </tr>
+      <tr>
+        <td><strong>Steentjes Groep</strong></td>
+        <td>2025-08-01</td>
+        <td>Marnix Ankone</td>
+        <td>Auto-reply to newsletter. First substantive email (2025-11-13): "Ik heb zojuist de omgeving aangemaakt." Earlier same day discussed offer: "Mooi dat je ook de andere business welke wij bij jullie doen hierin meeneemt. Ik had het met Joshua erover gehad." Referenced Joshua and wanting a 3-year deal with 30% discount.</td>
+        <td><span class="channel-tag ch-dxfferent">Dxfferent</span> Joshua referral, bundled deal</td>
+      </tr>
+      <tr>
+        <td><strong>Maiano Informatique</strong></td>
+        <td>2025-12-02</td>
+        <td>Louise Navarro (BeMSP Account Manager)</td>
+        <td>"I'm account manager in charge of partner: Maiano Informatique who is requesting a new trial." BeMSP submitted a trial request form on behalf of French MSP Maiano. Karla created the account same day.</td>
+        <td><span class="channel-tag ch-bemsp">BeMSP</span> BeMSP partner channel (France)</td>
+      </tr>
+      <tr>
+        <td><strong>FMI INFOGERANCE</strong></td>
+        <td>2025-10-09</td>
+        <td>Sebastien Roux (BeMSP Account Manager)</td>
+        <td>"My client FMI INFOGERANCE is requesting a Proxuma trial." BeMSP submitted a trial request. Later (Jan 2026) Sebastian negotiated volume pricing for 17 users, wanted price under EUR20. Closed deal at EUR15/license for 3-year commitment.</td>
+        <td><span class="channel-tag ch-bemsp">BeMSP</span> BeMSP partner channel (France)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Channel Distribution Summary</h2>
+
+  <div class="callout">
+    <span class="callout-label">Channel Breakdown</span>
+    <p><strong>Direct / Recorded Demo (9):</strong> Cubics, Aabyss, inTEC, Itum, Server At Work, Arrows ICT, Complex ICT, Anderson Networks, Gyver, Affirm IT, JUICT, Mario Lehoux. These customers found Proxuma through website, newsletters, or organic search and booked demos or requested recorded demos themselves.</p>
+    <p><strong>DattoCon Event Leads (5):</strong> Holland ICT Groep (Dublin), Pritech (DattoCon 2023), Blue Arc IT (DattoCon 2024), Majestic (DattoCon), Algoma Technology (DattoCon 2024). All met at Kaseya/Datto conferences and followed up afterward.</p>
+    <p><strong>Dxfferent Channel (8):</strong> ConXioN, Lemontree, TwentyFour IT, VMhosts, IT Synergy, Van der Hoff ICT, EAC (partial), Steentjes Groep. Joshua and/or Jasper from Dxfferent were actively involved in the sales process, onboarding, or billing discussions.</p>
+    <p><strong>BeMSP Partner Channel (2):</strong> Maiano Informatique, FMI INFOGERANCE. Both French MSPs introduced through BeMSP account managers (Louise Navarro and Sebastien Roux respectively).</p>
+    <p><strong>Dual Channel (2):</strong> Blue Arc IT (DattoCon + Dxfferent intake), VMhosts (Recorded Demo + Jasper meeting).</p>
+  </div>
+
+  <div class="positioning">
+    <h2>Key Observations</h2>
+    <p>The strongest acquisition channels outside HubSpot are DattoCon events and the Dxfferent partner relationship. DattoCon contacts tend to be international (Australia, Canada, US) and convert slowly but with high commitment. Dxfferent channel customers are mostly Dutch/Belgian and benefit from Joshua's hands-on involvement in onboarding and Autotask optimization. The BeMSP channel in France is newer (late 2025) but already produced two customers. Direct/recorded demo leads are the most common path and show the broadest geographic spread.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Customer Origin Research | 27 Non-HubSpot Accounts</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Customer Origin Research: 27 Non-HubSpot Customers",
+  "date": "2026-05-05",
+  "summary": "Traced the earliest email contact for 27 customers who did not come through the HubSpot booking form. Identified 9 direct/recorded demo leads, 8 Dxfferent channel referrals, 5 DattoCon event leads, 2 BeMSP partner deals, and 2 dual-channel.",
+  "sections": [
+    {
+      "heading": "Channel Distribution",
+      "items": [
+        { "title": "Direct / Recorded Demo", "detail": "9 customers found Proxuma organically or via newsletters", "meta": { "count": 9 } },
+        { "title": "Dxfferent Channel", "detail": "8 customers with Joshua/Jasper involvement in sales/onboarding", "meta": { "count": 8 } },
+        { "title": "DattoCon Events", "detail": "5 customers met at DattoCon conferences (2023-2024)", "meta": { "count": 5 } },
+        { "title": "BeMSP Partner", "detail": "2 French MSPs introduced via BeMSP account managers", "meta": { "count": 2 } },
+        { "title": "Dual Channel", "detail": "Blue Arc IT and VMhosts came through two channels simultaneously", "meta": { "count": 2 } }
+      ]
+    },
+    {
+      "heading": "Notable Findings",
+      "items": [
+        { "title": "Pritech handshake deal", "detail": "Neill MacRae made a $400/month handshake deal at DattoCon 2023, waited 3 years to onboard", "meta": {} },
+        { "title": "Server At Work organic", "detail": "Micheal Goodwin found Proxuma while building their own PM process, preferred it over TopLeft and Moovila", "meta": {} },
+        { "title": "FMI volume deal", "detail": "BeMSP negotiated 17 licenses at EUR15/license for 3-year commitment", "meta": {} },
+        { "title": "ConXioN deep history", "detail": "50+ emails, started as POC with Gaetan Burm who then left, Jelle Vervaeke (COO) continued", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Use channel data for sales attribution analysis. Consider strengthening BeMSP channel for French market. DattoCon leads convert slow but sticky.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Searched MS365 mailbox for 27 customer domains",
+      "Read oldest emails per customer to identify initial contact reason",
+      "Classified each customer into acquisition channel",
+      "Generated output-page report"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "none"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-05-customer-origin-research.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Classified VMhosts as Dxfferent channel despite initial recorded demo contact",
+      "rejected_alternatives": ["Pure direct"],
+      "rationale": "Nick Fothergill explicitly mentioned his MD met Jasper, and the intake email subject was 'VMHosts Dxfferent Intake'",
+      "trade_offs": "Could be argued as dual-channel",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
