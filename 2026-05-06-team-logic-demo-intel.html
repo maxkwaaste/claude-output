@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Intelligence: Team Logic IT Demo Call</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+blockquote {
+  border-left: 3px solid #d0d3d8; padding: 12px 18px; margin: 14px 0;
+  font-style: italic; color: #4a5568; background: #fafbfc;
+}
+blockquote .ts {
+  display: block; font-style: normal; font-size: 11px; color: #8a8f96;
+  margin-top: 6px; font-family: -apple-system, sans-serif;
+}
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 6, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-06-team-logic-demo-intel.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Sales Intelligence &amp; Deal Analysis</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 6, 2026<br>Demo Debrief<br>Proxuma Planning
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SALES INTELLIGENCE</div>
+  <h1>Team Logic IT - Demo Call Debrief</h1>
+  <p class="subtitle">Full transcript analysis of Proxuma demo with Philip Rieger. High-intent prospect actively evaluating project management tooling and process consulting. Follow-up scheduled.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">~20</div>
+      <div class="stat-label">Employees</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">30+</div>
+      <div class="stat-label">Active Projects</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12 wk</div>
+      <div class="stat-label">Current Lead Time</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">High</div>
+      <div class="stat-label">Intent Level</div>
+    </div>
+  </div>
+
+  <!-- 1. PROSPECT -->
+  <h2>1. Prospect</h2>
+  <table class="matrix">
+    <tr><th>Field</th><th>Detail</th></tr>
+    <tr><td><strong>Company</strong></td><td>Team Logic IT (franchise)</td></tr>
+    <tr><td><strong>Contact</strong></td><td>Philip Rieger</td></tr>
+    <tr><td><strong>Role</strong></td><td>Operations / Service Delivery leadership. Main Autotask person. Been with the group ~3 years. Oversees project process, templates, and tooling decisions.</td></tr>
+    <tr><td><strong>Location</strong></td><td>Central Time (US)</td></tr>
+    <tr><td><strong>German heritage</strong></td><td>Family emigrated early 1900s, farmers in South Dakota (small talk rapport point)</td></tr>
+  </table>
+
+  <!-- 2. COMPANY PROFILE -->
+  <h2>2. Company Profile</h2>
+  <table class="matrix">
+    <tr><th>Area</th><th>Detail</th></tr>
+    <tr><td><strong>Size</strong></td><td>Just over 20 people</td></tr>
+    <tr><td><strong>Industry</strong></td><td>MSP (Managed Service Provider)</td></tr>
+    <tr><td><strong>Structure</strong></td><td>Mixed/shared resources: L2 and L3 engineers do both service delivery and project work. Actively planning to split into dedicated professional services vs. service delivery teams.</td></tr>
+    <tr><td><strong>Project load</strong></td><td>30+ active projects. Individual engineers carry 5-7 projects each. Only a fraction can be worked on at any time due to capacity constraints.</td></tr>
+    <tr><td><strong>Project leads</strong></td><td>Account managers currently act as project leads. Splitting responsibilities: want PM to own project delivery, AMs to do account management, owners to do owner work.</td></tr>
+    <tr><td><strong>Hiring</strong></td><td>Actively hiring a dedicated project manager. Want to align new PM hire with tool rollout.</td></tr>
+  </table>
+
+  <h3>Tools &amp; Stack</h3>
+  <table class="matrix">
+    <tr><th>Tool</th><th>Status / Notes</th></tr>
+    <tr><td><strong>Autotask</strong></td><td>Primary PSA. Philip is the main admin. Painful for portfolio-level project planning.</td></tr>
+    <tr><td><strong>IT Glue</strong></td><td>In use. Process docs show as sidebar images for technicians.</td></tr>
+    <tr><td><strong>Giant Rocketship</strong></td><td>Currently using for ticket dispatch automation. Philip: "could take it or leave it." Auto-dispatching works, but they need to fix issue/sub-issue types and estimated times internally first.</td></tr>
+    <tr><td><strong>Sea Level OPS (Pax 8)</strong></td><td>Went through service delivery module. Evaluating professional services module. Philip: "feels dated, very manual, lots of documentation." Not convinced it's the right long-term fit.</td></tr>
+    <tr><td><strong>AI tools</strong></td><td>Leadership regularly uses Copilot and Claude. Philip personally spun up an Open Brain instance. Follows Nate B Jones on Substack for AI content. Understands MCP servers.</td></tr>
+    <tr><td><strong>Datto stack</strong></td><td>Using Datto products (confirmed by Max mentioning Datto Backup, Datto RMM in Power BI discussion)</td></tr>
+    <tr><td><strong>Microsoft</strong></td><td>Microsoft partner (confirmed Power BI licensing discussion)</td></tr>
+    <tr><td><strong>Pax 8</strong></td><td>Distribution partner (purchased Sea Level OPS through them)</td></tr>
+  </table>
+
+  <h3>Pain Points</h3>
+  <ul>
+    <li><strong>No portfolio view.</strong> Autotask has zero portfolio-level project planning capability. "Nonexistent" per Philip.</li>
+    <li><strong>Flat templates.</strong> Engineers build projects where every task has the same start/end date with no dependencies. Moving dates becomes a full-day job for someone.</li>
+    <li><strong>Schedule management nightmare.</strong> Constantly moving schedules across all projects, even those that haven't started. Someone spends entire days doing nothing but updating dates.</li>
+    <li><strong>12-week project lead time.</strong> Way further out than desired. Know they need to add capacity, but also recognize it's partly a utilization and efficiency problem.</li>
+    <li><strong>Shared resources.</strong> No clean separation between service delivery and project work. Engineers get pulled in both directions.</li>
+    <li><strong>No dedicated PM.</strong> Account managers and the owner are splitting project lead duties alongside their actual jobs. "Doesn't really work out that well, unfortunately."</li>
+    <li><strong>Client-facing project visibility.</strong> Want to share project status with clients (especially co-managed) and assign tasks to clients. Currently no good solution outside Autotask licensing.</li>
+  </ul>
+
+  <!-- 3. DEMO TOPICS -->
+  <h2>3. Demo Topics Covered</h2>
+  <ul>
+    <li><strong>Resource/dispatch calendar</strong> - drag-and-drop service calls, color-coded by type (purple = ticket, blue = project task, green = service call)</li>
+    <li><strong>Outlook integration</strong> - bidirectional sync, service calls sent to engineer calendars with hyperlinks to project tasks, reads Outlook appointments back</li>
+    <li><strong>Project Gantt view</strong> - phases, tasks, service calls hierarchy. Inline editing of fields, time entries, notes, attachments</li>
+    <li><strong>Capacity screen</strong> - heat map showing planned work per resource (shades of blue = utilization, red = overbooked), includes PTO and internal activities</li>
+    <li><strong>Bulk edit feature</strong> - shift-select multiple tasks, move by days/weeks, service calls move with them</li>
+    <li><strong>Template system</strong> - master template with modular phases (admin, prep, kickoff, POC, delivery, adoption). Select which phases apply. Consulting-provided master template included.</li>
+    <li><strong>Shift planner module</strong> - rotation scheduling for service desk coverage with capacity impact</li>
+    <li><strong>Proposal mode</strong> - create projects in proposal stage to see calendar impact before committing</li>
+    <li><strong>Power BI integration</strong> - dashboards for time logging compliance, effective hourly rate per customer, revenue per contact, project hours (estimated vs. planned vs. worked)</li>
+    <li><strong>AI-powered reports</strong> - customer-facing project reports generated in 5 minutes with client branding, plus internal reports with margin data and verifiable DAX queries</li>
+    <li><strong>MCP server architecture</strong> - Philip spotted and asked about it. Understands the concept of plugging AI into Power BI data.</li>
+    <li><strong>Dxfferent consulting (Guide as a Service)</strong> - sprint-based consulting every 2 weeks, process maps for every MSP process, Autotask configuration recommendations, master template</li>
+  </ul>
+
+  <!-- 4. QUESTIONS -->
+  <h2>4. Questions Asked by Prospect</h2>
+  <ol>
+    <li><strong>~18:00</strong> - Does the system suggest available people based on capacity/availability/utilization when scheduling tasks? (Wants auto-suggestions, not just visual browsing)</li>
+    <li><strong>~22:44</strong> - If you move one task with dependencies, do all dependent tasks move automatically?</li>
+    <li><strong>~23:20</strong> - Can you create predecessor/successor links within Proxuma?</li>
+    <li><strong>~23:32</strong> - Do you still have to open individual tasks to set predecessors? (Probing for friction)</li>
+    <li><strong>~24:12</strong> - What does the portfolio-level view look like? Can a salesperson see current overall project load from a project calendar perspective (not just resource level)?</li>
+    <li><strong>~25:14</strong> - How do you handle projects in a "ready" state vs. "in progress" when tasks haven't been assigned to specific resources yet?</li>
+    <li><strong>~28:49</strong> - This all requires clean project plans up front, correct? (Reality check, not a criticism)</li>
+    <li><strong>~29:55</strong> - Clarification: you can't see the order of tasks via API, so you sort by chronological then alphabetical?</li>
+    <li><strong>~31:18</strong> - Do you have guided training or just content made available? (Evaluating onboarding support)</li>
+    <li><strong>~32:19</strong> - Are you doing consulting for service delivery as well, or just projects?</li>
+    <li><strong>~37:57</strong> - The ticket dispatching in Proxuma is all manual, correct? (Comparing to Giant Rocketship's auto-dispatch)</li>
+    <li><strong>~38:33</strong> - Can Giant Rocketship and Proxuma coexist? GRS for service delivery automation, Proxuma for project management?</li>
+    <li><strong>~39:29</strong> - Can you assign tasks to clients? Client-facing project portal? Access to project visuals without Autotask license?</li>
+    <li><strong>~42:23</strong> - The Power BI dashboards work for service delivery and ticketing too, not just projects?</li>
+    <li><strong>~44:55</strong> - You're effectively spinning up MCP servers in front of each tool and pulling data? (Technical understanding)</li>
+    <li><strong>~07:50</strong> - For Power BI, would we need our own licensing and instances?</li>
+  </ol>
+
+  <!-- 5. FEEDBACK -->
+  <h2>5. Feedback &amp; Reactions</h2>
+
+  <h3>Positive</h3>
+  <ul>
+    <li>Confirmed that portfolio-level planning is their #1 gap. Proxuma directly addresses it.</li>
+    <li>Recognized the value of templates + consulting together: "they definitely go hand in hand."</li>
+    <li>Already moved to service call dispatch model for tickets (via Sea Level OPS + GRS), which means the Proxuma service call methodology isn't a foreign concept.</li>
+    <li>Interested in Power BI integration. Asked multiple follow-up questions about dashboards across service delivery, not just projects.</li>
+    <li>Technically sophisticated: understood MCP servers, already using Claude, set up Open Brain. This means faster adoption of advanced features.</li>
+    <li>Actively looking for a "more modern" alternative to Sea Level OPS.</li>
+  </ul>
+
+  <h3>Skepticism / Probing</h3>
+  <ul>
+    <li>Pushed back on whether Proxuma actually suggests resources or just shows calendars. Wants smarter automation, not just visualization.</li>
+    <li>Noted that predecessor linking isn't faster in Proxuma than Autotask. Max was transparent about this.</li>
+    <li>Correctly identified that all capacity planning depends on clean project data up front. Max confirmed this is unavoidable.</li>
+    <li>Asked whether ticket dispatching is manual (it is). Comparing to GRS auto-dispatch.</li>
+  </ul>
+
+  <h3>Feature Requests / Wishes</h3>
+  <ul>
+    <li>Auto-suggest available resources based on capacity when assigning tasks</li>
+    <li>Portfolio-level project calendar (not resource calendar) showing overall project load. Max confirmed this feature is ~1 month away.</li>
+    <li>Estimated hours "smeared" across task dates without requiring service calls. Max confirmed also ~1 month away.</li>
+    <li>Client portal with task assignment for non-Autotask-licensed clients</li>
+    <li>Modular templates where template components can be shared across different project types</li>
+  </ul>
+
+  <!-- 6. OBJECTIONS -->
+  <h2>6. Objections &amp; Concerns</h2>
+
+  <div class="card">
+    <div class="card-title">Process before tooling</div>
+    <div class="card-desc">Philip clearly stated that process needs to be fixed first regardless of tool choice. "No matter what tool we end up looking at, our overall process is where we're gonna have to target first." This is not an objection to Proxuma specifically, but it could delay a purchase decision.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Existing commitments</div>
+    <div class="card-desc">Already invested in Sea Level OPS (through Pax 8) and Giant Rocketship. Need to evaluate whether to continue with Sea Level or move to something "more modern." Sunk cost psychology could slow the switch.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Task ordering limitation</div>
+    <div class="card-desc">The Autotask API not exposing task order means flat-date projects will look messy in Proxuma. Philip's projects currently have this problem. He needs to clean up templates before Proxuma can shine.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Manual ticket dispatch</div>
+    <div class="card-desc">Proxuma's ticket dispatch is manual vs. Giant Rocketship's auto-dispatch. Philip wants both tools to coexist. Max confirmed this works fine.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Hiring timeline dependency</div>
+    <div class="card-desc">Philip wants to align the tool rollout with hiring a dedicated PM. "It would be nice to have that person starting around the same time." If the hire gets delayed, the deal could stall.</div>
+  </div>
+
+  <!-- 7. NEXT STEPS -->
+  <h2>7. Next Steps</h2>
+  <div class="callout">
+    <span class="callout-label">FOLLOW-UP SCHEDULED</span>
+    <strong>Friday the 27th at 10:00 AM Central Time</strong> (5:00 PM Netherlands time). Call with the Dxfferent consultant to discuss Autotask configuration, process consulting, and the consulting + tooling bundle. Max will join as a fly on the wall. Philip will be able to show his Autotask configuration and talk through current state in detail.
+  </div>
+  <ul>
+    <li>Philip wants to evaluate both Proxuma (tooling) and Dxfferent (consulting) as a combined package.</li>
+    <li>He is comparing this against continuing with Sea Level OPS for the professional services module.</li>
+    <li>Two parallel evaluation tracks: (1) consulting program for process overhaul, (2) project management tool.</li>
+    <li>Timeline: "over the next couple of months" for both evaluations.</li>
+    <li>No trial started yet. Trial discussion would come after the consulting conversation.</li>
+  </ul>
+
+  <!-- 8. KEY QUOTES -->
+  <h2>8. Key Quotes</h2>
+
+  <blockquote>
+    "That overall planning and portfolio view is nonexistent in Autotask, so it makes it very difficult for us to actually plan the work out for the team and stay on top of it."
+    <span class="ts">~01:15 - Philip on the core problem</span>
+  </blockquote>
+
+  <blockquote>
+    "Somebody's just sitting there spending their entire day doing nothing but updating schedules, which is another big struggle for us right now."
+    <span class="ts">~21:52 - Philip on the scheduling nightmare</span>
+  </blockquote>
+
+  <blockquote>
+    "Our current lead time for next project start date is I think it's like at 12 weeks, way further out than we want it to be. So we know we've got to add capacity, but some of that is also utilization and efficiency."
+    <span class="ts">~26:44 - Philip quantifying the backlog</span>
+  </blockquote>
+
+  <blockquote>
+    "I can tell you right now that no matter what tool we end up looking at, our overall process is where I think we're gonna have to target first."
+    <span class="ts">~35:58 - Philip acknowledging process-first</span>
+  </blockquote>
+
+  <blockquote>
+    "I think that makes a lot of sense for us to evaluate that because yeah, they definitely go hand in hand."
+    <span class="ts">~48:29 - Philip on Proxuma + Dxfferent consulting bundle</span>
+  </blockquote>
+
+  <!-- 9. SALES INTELLIGENCE -->
+  <h2>9. Sales Intelligence</h2>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>High-quality lead. Philip is the decision maker for tooling and process. He has budget authority (one of his "top strategic goals for this year"). The combination of Proxuma planning + Dxfferent consulting is a natural fit because they need process overhaul before any tool can work well. The consulting engagement creates stickiness and positions Proxuma as the obvious tool choice once processes are clean. Biggest risk is timeline: hiring a PM and finishing the Sea Level OPS evaluation could push the decision out 2-3 months.</p>
+  </div>
+
+  <h3>Budget Signals</h3>
+  <ul>
+    <li>Professional services improvement is a "top strategic goal" for this year. Budget is allocated.</li>
+    <li>Already paying for Sea Level OPS (through Pax 8), Giant Rocketship, and actively hiring a PM. Spending money on this problem space.</li>
+    <li>Estimated team capacity: 80-100 project task hours per week across the team.</li>
+    <li>No price sensitivity signals during the call. Max mentioned month-to-month pricing, no commitment required, and Philip didn't flinch.</li>
+  </ul>
+
+  <h3>Decision Timeline</h3>
+  <ul>
+    <li>"Over the next couple of months" for both tool and consulting evaluation.</li>
+    <li>Wants to align with hiring a dedicated PM.</li>
+    <li>Follow-up with Dxfferent consultant on the 27th is the next concrete step.</li>
+  </ul>
+
+  <h3>Competitors in Play</h3>
+  <table class="matrix">
+    <tr><th>Competitor</th><th>Status</th><th>Threat Level</th></tr>
+    <tr><td><strong>Sea Level OPS (Pax 8)</strong></td><td>Already using for service delivery. Evaluating professional services module. "Not necessarily convinced it's the right fit long term." Called it "dated."</td><td>Medium - incumbent but weak position</td></tr>
+    <tr><td><strong>Giant Rocketship</strong></td><td>Currently using for auto-dispatch. "Could take it or leave it." Philip asked about coexistence with Proxuma.</td><td>Low - complementary, not competitive</td></tr>
+    <tr><td><strong>Other project tools</strong></td><td>No specific competitors mentioned for the project management layer.</td><td>Unknown</td></tr>
+  </table>
+
+  <h3>Internal Politics</h3>
+  <ul>
+    <li>Philip appears to be the primary decision maker for tooling and process. He's the Autotask admin and leads the professional services improvement initiative.</li>
+    <li>He mentioned "the owner" having some projects. There is leadership above Philip, but the strategic goals appear aligned.</li>
+    <li>100% leadership alignment on improving professional services ("one of our top strategic goals").</li>
+    <li>Engineers currently have no dedicated PM to coordinate them. This is felt at all levels.</li>
+  </ul>
+
+  <h3>Rapport &amp; Personal Notes</h3>
+  <ul>
+    <li>Philip is technically sharp. Uses Claude, set up Open Brain, understands MCP architecture. He'll appreciate the technical depth of the Power BI integration.</li>
+    <li>German heritage (Rieger). Family from South Dakota. Good small talk hook for Max.</li>
+    <li>Follows Nate B Jones on Substack. Max recognized the name. Shared interest in AI tooling.</li>
+    <li>Philip has been with Team Logic for 3 years and has been working on templates and scoping processes since day one. He knows the problems deeply.</li>
+  </ul>
+
+  <h3>Recommended Follow-Up Strategy</h3>
+  <ol>
+    <li><strong>Before the 27th:</strong> Brief the Dxfferent consultant on Philip's specific pain points: flat templates, no dependencies, 12-week lead time, 30+ active projects, shared resources, hiring a PM.</li>
+    <li><strong>During the 27th call:</strong> Let the consultant lead. Focus on showing how Guide as a Service would fix the template and process problems first, positioning Proxuma as the natural next step.</li>
+    <li><strong>After the 27th:</strong> Send a concrete proposal that bundles consulting + Proxuma trial. Position against Sea Level OPS as "dated and manual" (Philip's own words) vs. Dxfferent's sprint-based, modern approach.</li>
+    <li><strong>Trial timing:</strong> Suggest starting the Proxuma trial when the first cleaned-up templates are ready from the consulting engagement. This solves the "messy data" objection.</li>
+    <li><strong>Power BI hook:</strong> Send Philip a sample Power BI dashboard relevant to project management. He showed interest in dashboards beyond just projects.</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Sales Intelligence / Team Logic IT / May 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Team Logic IT - Demo Call Debrief",
+  "date": "2026-05-06",
+  "summary": "High-intent MSP prospect (~20 people, 30+ projects) with portfolio planning pain in Autotask. Philip Rieger is the decision maker, actively evaluating tooling + process consulting. Follow-up with Dxfferent consultant scheduled for the 27th at 10 AM CT.",
+  "sections": [
+    {
+      "heading": "Prospect",
+      "items": [
+        { "title": "Philip Rieger", "detail": "Operations/service delivery lead at Team Logic IT franchise. Main Autotask admin. 3 years at the company. Central Time US. German heritage (South Dakota).", "meta": { "role": "decision_maker", "tech_savvy": true } }
+      ]
+    },
+    {
+      "heading": "Company Profile",
+      "items": [
+        { "title": "Team Logic IT", "detail": "~20 employees, 30+ active projects, engineers carry 5-7 each. Shared L2/L3 resources. Splitting into dedicated PS vs SD teams. Hiring a dedicated PM.", "meta": { "size": 20, "projects": 30, "lead_time_weeks": 12 } }
+      ]
+    },
+    {
+      "heading": "Tools",
+      "items": [
+        { "title": "Autotask", "detail": "Primary PSA, painful for portfolio planning", "meta": { "status": "active" } },
+        { "title": "IT Glue", "detail": "Documentation, process images in sidebar", "meta": { "status": "active" } },
+        { "title": "Giant Rocketship", "detail": "Auto-dispatch for tickets. Could take it or leave it.", "meta": { "status": "active", "threat": "low" } },
+        { "title": "Sea Level OPS", "detail": "Pax 8 program. Did service delivery module. Evaluating PS module. Feels dated.", "meta": { "status": "evaluating", "threat": "medium" } },
+        { "title": "AI (Claude, Copilot, Open Brain)", "detail": "Leadership uses regularly. Philip set up Open Brain. Follows Nate B Jones.", "meta": { "status": "active" } }
+      ]
+    },
+    {
+      "heading": "Pain Points",
+      "items": [
+        { "title": "No portfolio view in Autotask", "detail": "Core problem. Cannot plan work across projects.", "meta": {} },
+        { "title": "Flat templates", "detail": "All tasks same date, no dependencies. Moving dates is full-day job.", "meta": {} },
+        { "title": "12-week lead time", "detail": "Way too long. Need capacity + efficiency improvements.", "meta": {} },
+        { "title": "No dedicated PM", "detail": "AMs and owner splitting PM duties. Actively hiring.", "meta": {} },
+        { "title": "Client visibility", "detail": "Want client-facing project portal and task assignment.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Next Steps",
+      "items": [
+        { "title": "Follow-up call Friday 27th, 10 AM CT", "detail": "With Dxfferent consultant. Philip shows Autotask config. Max joins as observer.", "meta": { "date": "2026-05-27", "time": "10:00 CT / 17:00 NL" } },
+        { "title": "Evaluate consulting + tooling bundle", "detail": "Philip wants to assess Dxfferent + Proxuma as combined package vs. continuing with Sea Level OPS.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Competitors",
+      "items": [
+        { "title": "Sea Level OPS (Pax 8)", "detail": "Incumbent for service delivery. Evaluating PS module. Philip: 'dated, very manual.' Medium threat.", "meta": { "threat": "medium" } },
+        { "title": "Giant Rocketship", "detail": "Auto-dispatch. Coexists with Proxuma. Low threat.", "meta": { "threat": "low" } }
+      ]
+    }
+  ],
+  "next_steps": "Brief Dxfferent consultant before the 27th on Philip's pain points (flat templates, 12-week lead time, 30+ projects, hiring PM). After the 27th call, send bundled consulting + Proxuma trial proposal. Position against Sea Level OPS using Philip's own 'dated and manual' assessment. Suggest trial starts when first clean templates are ready from consulting.",
+  "session_state": {
+    "phase": "transcript analysis complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read full 4504-line VTT transcript",
+      "Extracted all 9 sections of sales intelligence",
+      "Saved to Open Brain",
+      "Generated output-page HTML"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new HTML file to commit",
+    "next_action_required": "none"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-06-team-logic-demo-intel.html", "relevance": "this doc" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Open Brain thought captured: ID 44c11fb2-c9e8-4688-a3f8-85e06aab8b6f"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": []
+}
+</script>
+</body>
+</html>
