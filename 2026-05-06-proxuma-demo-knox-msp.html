@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Intel: Knox MSP Demo Call</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.quote-block {
+  border-left: 3px solid #c8a87a; padding: 12px 20px; margin: 12px 0;
+  font-style: italic; color: #4a5568; background: #fefcf8;
+}
+.quote-ts {
+  font: 500 10px/1 -apple-system, sans-serif; color: #8a8f96;
+  text-transform: uppercase; letter-spacing: .06em; margin-top: 6px;
+  font-style: normal;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 6, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-06-proxuma-demo-knox-msp.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Sales Intelligence</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 6, 2026<br>Demo Call Analysis<br>Proxuma + Dxfferent
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SALES INTELLIGENCE REPORT</div>
+  <h1>Knox MSP -- Proxuma Demo Call</h1>
+  <p class="subtitle">Full transcript analysis of a ~73-minute product demo with three prospect attendees. Referred via True Methods pod. Strong buying signals for both Proxuma and Dxfferent consulting.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Attendees</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2012</div>
+      <div class="stat-label">Autotask Customer Since</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~5</div>
+      <div class="stat-label">Team Size (Est.)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2-3</div>
+      <div class="stat-label">Concurrent Projects</div>
+    </div>
+  </div>
+
+  <!-- 1. PROSPECT -->
+  <h2>1. Prospect</h2>
+  <p>Company name was not explicitly stated during the call. East Coast US-based MSP. Referred to Proxuma through a <strong>True Methods pod meeting</strong>.</p>
+
+  <table class="matrix">
+    <tr><th>Person</th><th>Role</th><th>Notes</th></tr>
+    <tr><td><strong>Mike Knox</strong></td><td>Owner / Decision Maker</td><td>Primary speaker. Drives the buying decision. Focused on visibility into resource capacity and project status from an ownership/sales perspective.</td></tr>
+    <tr><td><strong>Jerry Schauer</strong></td><td>Head of Projects (Professional Services)</td><td>Customer-facing project work. Prior Connectwise Manage experience at a larger MSP. Wants Kanban-style task organization, drag-and-drop scheduling.</td></tr>
+    <tr><td><strong>Matthew Proulx</strong></td><td>Centralized Services</td><td>Handles onboarding backend (accounts, M365, Intune). Mix of reactive and proactive project work. Military brat, lived in Belgium 13 years.</td></tr>
+  </table>
+
+  <p><strong>Not on the call but referenced:</strong></p>
+  <ul>
+    <li><strong>Kyle</strong> -- Service Manager. Mike said he would send Kyle the recording to review. Potential additional user of Proxuma for ticket delegation.</li>
+    <li><strong>Emmanuel</strong> -- Level 2 technician. Referenced as someone who could be assigned templated project work (e.g. SonicWall rollouts).</li>
+  </ul>
+
+  <!-- 2. COMPANY PROFILE -->
+  <h2>2. Company Profile</h2>
+
+  <div class="card">
+    <div class="card-title">Size and Growth</div>
+    <div class="card-desc">Small MSP, roughly 5 people (Mike + Jerry + Matthew + Kyle + Emmanuel). Significant growth in the last 5-6 years, currently accelerating. Mike: "We are really trying to leverage the project management function." They do new customer onboards, Azure migrations, Google-to-Microsoft migrations, endpoint protection rollouts.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tools in Use</div>
+    <div class="card-desc">
+      <strong>Autotask</strong> -- since 2012. Primary PSA. Project management module acknowledged as inadequate.<br>
+      <strong>IT Glue</strong> -- confirmed in use.<br>
+      <strong>RMM</strong> -- Datto stack implied (Autotask + IT Glue).<br>
+      <strong>Microsoft Planner</strong> -- Jerry was experimenting with it as a Kanban alternative.<br>
+      <strong>Power BI</strong> -- Mike started playing with it but never got far. Said "Now you're speaking my language" when Max showed Power BI dashboards.<br>
+      <strong>True Methods</strong> -- active participant, using roles-to-revenue framework.<br>
+      <strong>AI</strong> -- not yet using AI for any operational work.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Pain Points</div>
+    <div class="card-desc">
+      <ul style="margin-top:6px">
+        <li>No visibility into resource capacity. Mike cannot answer: "Can I start a new onboard next week or is the team overloaded?"</li>
+        <li>No process for transitioning work from managed services (reactive) to professional services (projects). Ticket escalation to project is ad hoc.</li>
+        <li>Jerry has no good way to organize his work into "waiting on something" vs "actively workable" buckets.</li>
+        <li>Processes are inconsistent. They try a process, it kind of works, then the next customer is different and it breaks.</li>
+        <li>No formal process maps. Mike admitted: "We clearly do not have those processes mapped out."</li>
+        <li>Not using Autotask service calls at all.</li>
+        <li>Project templates exist for onboarding but need improvement. Other project types have no templates.</li>
+        <li>Jerry and Matthew wear both hats (project manager + engineer) due to team size.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Pricing Model</div>
+    <div class="card-desc">All-in per-seat pricing for their customers. They do not send itemized hourly invoices, but still need to track hours per customer to understand effective hourly rate and profitability.</div>
+  </div>
+
+  <!-- 3. DEMO TOPICS COVERED -->
+  <h2>3. Demo Topics Covered</h2>
+  <ol>
+    <li><strong>Dxfferent consulting overview</strong> -- Process maps (Lucid Charts), MSP best practices, two-week sprint model, unlimited Teams DM support, service offering review, IT Glue configuration.</li>
+    <li><strong>Process maps library</strong> -- Showed the full library of MSP process maps (ticket processing, planning, project management, onboarding, offboarding, risk management, time entry, etc.).</li>
+    <li><strong>Capacity view / resource calendar</strong> -- Color-coded capacity per person per day. Explained how service calls enable granular planning. Showed overbooking visibility.</li>
+    <li><strong>Service calls concept</strong> -- Explained service calls as the granular planning unit. Drag-and-drop from bucket to calendar. Bidirectional sync with Autotask.</li>
+    <li><strong>Reserve capacity view (upcoming feature)</strong> -- Estimated hours from tasks smeared across calendar days. Could not fully demo it (too new in dev environment).</li>
+    <li><strong>Kanban board (upcoming feature)</strong> -- Mentioned as coming within a month.</li>
+    <li><strong>Project Gantt view</strong> -- Projects as purple bars, phases, tasks, parent-child relationships. Filtering by person, customer, account manager. Quick search for single project view.</li>
+    <li><strong>Bulk edit operations</strong> -- Move all service calls by X days, reassign to someone else, change to Teams meeting, status changes in bulk.</li>
+    <li><strong>Outlook integration</strong> -- Silent calendar updates (no email spam), hyperlinks to Autotask tickets, Teams meeting creation, customer location fetching.</li>
+    <li><strong>Inline editing</strong> -- Edit tasks, copy phases, billing UDFs, custom columns.</li>
+    <li><strong>Power BI dashboards</strong> -- Hours per person per project, capacity view in Power BI, revenue and costs. Mentioned $300/month pricing. Showed AI/MCP integration for natural language queries against Power BI data.</li>
+    <li><strong>AI planner (future)</strong> -- Briefly mentioned automatic scheduling based on priority. Max noted it is still risky due to hallucination concerns.</li>
+  </ol>
+
+  <!-- 4. QUESTIONS ASKED BY PROSPECT -->
+  <h2>4. Questions Asked by Prospect</h2>
+
+  <table class="matrix">
+    <tr><th>Who</th><th>Question / Concern</th><th>Approx. Time</th></tr>
+    <tr><td>Jerry</td><td>Does the calendar support click, drag and resize instead of open-and-change-numbers?</td><td>~27:10</td></tr>
+    <tr><td>Jerry</td><td>If you drag something on top of something else, does it shuffle things around?</td><td>~29:08</td></tr>
+    <tr><td>Jerry</td><td>Can you set up priority-based auto-shuffling? (Low priority pushed aside by high priority)</td><td>~29:18</td></tr>
+    <tr><td>Jerry</td><td>Does drag-and-resize trigger unwanted update emails to customers/staff?</td><td>~32:01</td></tr>
+    <tr><td>Jerry</td><td>For cascading project tasks: does it auto-adjust when a predecessor slips?</td><td>~37:00</td></tr>
+    <tr><td>Jerry</td><td>ConnectWise had a ticket list on the left + calendar on the right for drag scheduling. Does Proxuma do this?</td><td>~30:29</td></tr>
+    <tr><td>Matthew</td><td>Is the sync bidirectional? Moving a service call in Proxuma updates Autotask?</td><td>~31:04</td></tr>
+    <tr><td>Mike</td><td>Can I see just projects (not reactive tickets) with a calendar overlay for multiple projects?</td><td>~22:54</td></tr>
+    <tr><td>Mike</td><td>Can I see two projects expanded on the same timeline to spot overlap?</td><td>~43:08</td></tr>
+    <tr><td>Mike</td><td>Do we need to create service calls on top of tasks, or can tasks alone give us visibility?</td><td>~25:01</td></tr>
+    <tr><td>Mike</td><td>What do the most successful rollouts look like? What do those companies do?</td><td>~53:18</td></tr>
+    <tr><td>Mike</td><td>Are we putting the cart before the horse getting Proxuma without the consulting?</td><td>~1:05:18</td></tr>
+    <tr><td>Mike</td><td>Is there any automation for time tracking / completing tasks?</td><td>~57:33</td></tr>
+    <tr><td>Mike</td><td>What does rollout and implementation look like?</td><td>~1:03:06</td></tr>
+    <tr><td>Matthew</td><td>Would Jerry and I be our own project managers in Proxuma while Mike views the calendar?</td><td>~59:22</td></tr>
+  </table>
+
+  <!-- 5. FEEDBACK / REACTIONS -->
+  <h2>5. Feedback and Reactions</h2>
+
+  <h3>Positive</h3>
+  <ul>
+    <li>Jerry said <strong>"Nice"</strong> when Kanban board was mentioned and <strong>"Excellent"</strong> about drag-and-drop.</li>
+    <li>Jerry: "Oh, nice. OK, so we can easily migrate into using service calls by just clicking and dragging." (~30:59)</li>
+    <li>Jerry: "The service manager could benefit a lot from this too in doling out schedules and times to technicians." (~34:20)</li>
+    <li>Mike on Power BI: <strong>"I saw Power BI. Now you're speaking my language."</strong> (~44:19)</li>
+    <li>Mike: "Relatively easy barrier to entry. I like that." (~1:05:01)</li>
+    <li>Mike: "I think from that perspective it all makes sense." (~56:38)</li>
+    <li>Matthew: "It looked pretty good." (~52:56)</li>
+    <li>Jerry: "Looked pretty good." (~52:54)</li>
+    <li>Jerry appreciated the Dxfferent process maps: "Complaint process. Interesting. Absenteeism. Oh my goodness." (~1:06:39)</li>
+  </ul>
+
+  <h3>Reservations</h3>
+  <ul>
+    <li>Mike wanted to "crawl before we sprint" when AI/Power BI features were shown. Prefers to nail project management basics first.</li>
+    <li>Matthew acknowledged it "requires us to just knuckle down and actually properly task out projects." They need discipline, not just tooling.</li>
+    <li>Mike found the main demo view a bit dense: "I don't want to say overwhelming, but there's a lot going on right here on this screen." (~39:21)</li>
+  </ul>
+
+  <!-- 6. OBJECTIONS / CONCERNS -->
+  <h2>6. Objections and Concerns</h2>
+  <p>No pricing objections were raised. No objections about switching costs. The main concerns were about <strong>readiness</strong>, not about the product:</p>
+  <ul>
+    <li><strong>"Chicken and egg"</strong> -- They don't have processes mapped, but need the tool. Need the tool, but should processes come first? Mike used this phrase explicitly. (~15:42)</li>
+    <li><strong>Cart before the horse</strong> -- Mike asked whether they should do consulting first before adopting Proxuma, or both simultaneously. (~1:05:23)</li>
+    <li><strong>No auto-cascade for project delays</strong> -- Jerry asked about automatic rescheduling when predecessor tasks slip. Currently manual in Proxuma (drag and drop). AI planner mentioned as future.</li>
+    <li><strong>Feature not demo-ready</strong> -- Reserve capacity view was too new to demo properly. Max could not log into the dev environment smoothly.</li>
+  </ul>
+
+  <!-- 7. NEXT STEPS -->
+  <h2>7. Next Steps Discussed</h2>
+  <div class="callout">
+    <span class="callout-label">AGREED NEXT STEPS</span>
+    <ol>
+      <li><strong>Tuesday 9:00 AM Eastern</strong> -- Follow-up session with Joshua (Dxfferent consultant). All three attendees confirmed. Joshua to watch this recording beforehand.</li>
+      <li><strong>Max sends pricing follow-up</strong> -- Standard Proxuma pricing email with details.</li>
+      <li><strong>Max sends calendar invite</strong> -- For the Tuesday Joshua session.</li>
+      <li><strong>Kyle watches recording</strong> -- Mike to share the demo recording with Kyle (service manager) for his perspective on ticket dispatching use case.</li>
+      <li><strong>Proxuma trial consideration</strong> -- 14-day trial, extendable by 14. Max as free guide. Monthly rolling commitment, no onboarding costs, no minimum purchase.</li>
+      <li><strong>Dual-track approach agreed</strong> -- Matthew proposed and Mike agreed: pursue both Proxuma (capacity/planning tool) and Dxfferent consulting (process optimization) in parallel.</li>
+    </ol>
+  </div>
+
+  <!-- 8. KEY QUOTES -->
+  <h2>8. Key Quotes</h2>
+
+  <div class="quote-block">
+    "We know that the project management module in Autotask sucks. And need some help."
+    <div class="quote-ts">Mike Knox -- ~02:38</div>
+  </div>
+
+  <div class="quote-block">
+    "I don't know what I don't know, right. So I know we're in our growth mode. We are trying to do onboards and projects."
+    <div class="quote-ts">Mike Knox -- ~06:04</div>
+  </div>
+
+  <div class="quote-block">
+    "I saw Power BI. Now you're speaking my language."
+    <div class="quote-ts">Mike Knox -- ~44:19</div>
+  </div>
+
+  <div class="quote-block">
+    "I think we should crawl before we sprint. Some of that stuff is great... but I think for us right now it's, is it a tool that we think would help us from a project management perspective?"
+    <div class="quote-ts">Mike Knox -- ~49:25</div>
+  </div>
+
+  <div class="quote-block">
+    "It does require us to just knuckle down and actually properly task out projects. It just requires that level of knowing where we're going."
+    <div class="quote-ts">Matthew Proulx -- ~52:58</div>
+  </div>
+
+  <!-- 9. SALES INTELLIGENCE -->
+  <h2>9. Sales Intelligence</h2>
+
+  <div class="card">
+    <div class="card-title">Budget Signals</div>
+    <div class="card-desc">No pushback on pricing at any point. When Max mentioned $300/month for Power BI dashboards, Mike showed enthusiasm, not hesitation. Mike asked about ROI and maximizing investment, not about whether they could afford it. "Relatively easy barrier to entry, I like that." The all-in seat pricing model for their own customers suggests they think in recurring revenue terms and understand SaaS value.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Decision Process</div>
+    <div class="card-desc">Mike is the clear decision maker but actively solicits input from Jerry and Matthew. He asked them directly: "You guys disagree or see anything else there?" Kyle (not on call) has influence on the service desk side. The decision is collaborative but Mike drives it. No mention of a board, partners, or other stakeholders.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Timeline</div>
+    <div class="card-desc">Warm but not urgent. Max suggested they could wait ~1 month for the Kanban + reserve capacity features to ship, and Mike was comfortable with that. The Joshua/Dxfferent session is Tuesday (next week). Expect 2-4 week decision cycle from first demo to trial start.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Competitors / Alternatives</div>
+    <div class="card-desc">
+      <strong>Microsoft Planner</strong> -- Jerry was experimenting with Kanban boards there. Not a serious competitor but shows the need.<br>
+      <strong>ConnectWise Manage</strong> -- Jerry has prior experience and positively referenced its ticket-list-to-calendar drag-and-drop. He was pleased Proxuma does the same thing.<br>
+      No other planning or project management tools were mentioned as being evaluated.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Internal Politics</div>
+    <div class="card-desc">Jerry and Matthew both do project management AND engineering work. They want to be pure project managers but the team is too small. Mike acknowledged this tension: "They would both love to have two or three people underneath them. We're just not there yet." This is a growth-stage MSP where process discipline is the bottleneck to scaling.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">True Methods Connection</div>
+    <div class="card-desc">They are active True Methods participants using the roles-to-revenue framework. This is good for Dxfferent positioning ("applied True Methods"). The referral came from a True Methods pod meeting, which means other pod members may also be prospects.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Upsell Opportunities</div>
+    <div class="card-desc">
+      <strong>Dxfferent consulting (high probability)</strong> -- Mike explicitly asked about it and said "I don't want to rebuild the wheel." Matthew proposed the dual-track approach. They need process work badly.<br>
+      <strong>Power BI dashboards ($300/mo)</strong> -- Mike showed genuine excitement. Not first priority but a natural phase-two add-on.<br>
+      <strong>IT Glue configuration</strong> -- They have IT Glue but Max hinted it needs proper configuration. Another Dxfferent module.<br>
+      <strong>Additional Proxuma licenses</strong> -- Starting with 3 users (Mike, Jerry, Matthew). Kyle and Emmanuel are natural expansions once value is proven.
+    </div>
+  </div>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>This is a high-probability deal for both Proxuma and Dxfferent. The prospect has real pain (no capacity visibility, no process maps, Autotask underutilized), budget willingness, and an owner who is self-aware about what he does not know. The dual-track approach (Proxuma + Dxfferent) was the prospect's own idea, not a Max push. Key risk: they are a small team and may struggle to find time to implement changes while doing client work. The Joshua session on Tuesday is the critical next step. Prepare Joshua with this recording and brief him on the emphasis on project management and resource capacity over reactive ticket management.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Sales Intelligence -- Knox MSP Demo Call</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Sales Intel: Knox MSP Demo Call",
+  "date": "2026-05-06",
+  "summary": "Transcript analysis of a Proxuma product demo with Mike Knox (owner), Jerry Schauer (head of projects), and Matthew Proulx (centralized services) from an East Coast US MSP. Strong buying signals for both Proxuma and Dxfferent consulting. Follow-up with Joshua scheduled for Tuesday 9AM Eastern.",
+  "sections": [
+    {
+      "heading": "Prospect",
+      "items": [
+        { "title": "Mike Knox", "detail": "Owner/decision maker. Wants resource capacity visibility and project oversight.", "meta": { "role": "owner" } },
+        { "title": "Jerry Schauer", "detail": "Head of projects. Prior ConnectWise experience. Wants Kanban + drag-and-drop scheduling.", "meta": { "role": "projects" } },
+        { "title": "Matthew Proulx", "detail": "Centralized services. Onboarding backend, proactive tasks. Dual PM/engineer role.", "meta": { "role": "centralized_services" } }
+      ]
+    },
+    {
+      "heading": "Company Profile",
+      "items": [
+        { "title": "Size", "detail": "~5 people. Autotask since 2012. Significant growth, 2-3 concurrent projects.", "meta": {} },
+        { "title": "Tools", "detail": "Autotask, IT Glue, RMM (Datto stack implied). No Power BI yet. True Methods participant.", "meta": {} },
+        { "title": "Pain", "detail": "No resource capacity visibility, no process maps, Autotask PM module inadequate, service calls unused, inconsistent processes across customers.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Key Questions",
+      "items": [
+        { "title": "Drag-and-drop UX", "detail": "Jerry: does it support click-drag-resize? Does it shuffle on overlap? Email spam risk?", "meta": {} },
+        { "title": "Project overlap visibility", "detail": "Mike: can I see multiple projects overlaid on a calendar?", "meta": {} },
+        { "title": "Auto-cascade on delays", "detail": "Jerry: does it auto-adjust downstream tasks when a predecessor slips?", "meta": {} },
+        { "title": "Implementation readiness", "detail": "Mike: are we putting the cart before the horse without consulting?", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Sales Intelligence",
+      "items": [
+        { "title": "Budget", "detail": "No price objection. Liked low barrier to entry. Comfortable with SaaS model.", "meta": { "signal": "positive" } },
+        { "title": "Timeline", "detail": "Warm but not urgent. 2-4 week expected decision cycle.", "meta": { "signal": "moderate" } },
+        { "title": "Decision process", "detail": "Mike decides, consults Jerry + Matthew. Kyle has influence on service desk side.", "meta": {} },
+        { "title": "Upsell", "detail": "Dxfferent consulting (high), Power BI dashboards (medium), IT Glue config (medium), additional licenses (likely).", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Send pricing follow-up email and Tuesday 9AM Eastern calendar invite for Joshua session. Brief Joshua on this recording with emphasis: they want project management and capacity visibility, not reactive ticket management. Kyle to watch recording separately. Expect trial start within 2-4 weeks. Reserve capacity + Kanban features shipping soon will help close.",
+  "session_state": {
+    "phase": "transcript analysis complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read full 5751-line VTT transcript",
+      "Extracted prospect info, pain points, questions, feedback, objections, next steps, quotes, sales intel",
+      "Generated structured output page",
+      "Saved to Open Brain"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has uncommitted HTML file",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-06-proxuma-demo-knox-msp.html", "relevance": "this document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Open Brain thought captured with meeting notes and action items (id: d05f72c1)"
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": []
+}
+</script>
+</body>
+</html>
