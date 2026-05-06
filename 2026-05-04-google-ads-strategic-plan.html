@@ -191,11 +191,33 @@ pre {
   color: #1a2744; margin-bottom: 4px;
 }
 .scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+.step-block.done { opacity: 0.7; }
+.step-block.done .step-header { background: #e6f4ea; }
+.step-block.partial { opacity: 0.85; }
+.step-block.partial .step-header { background: #fef3e2; }
+.step-done-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 3px 8px; border-radius: 3px;
+  background: #1a6b3a; color: #fff; margin-left: auto;
+}
+.step-partial-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 3px 8px; border-radius: 3px;
+  background: #b45309; color: #fff; margin-left: auto;
+}
+.step-done-detail {
+  font: 400 11px/1.3 -apple-system, sans-serif; color: #1a6b3a;
+  margin-top: 3px; display: block;
+}
+.step-partial-detail {
+  font: 400 11px/1.3 -apple-system, sans-serif; color: #92400e;
+  margin-top: 3px; display: block;
+}
 </style>
 </head>
 <body>
 <div class="page-header">
-  <span class="date">May 4, 2026</span>
+  <span class="date">May 5, 2026</span>
   <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-google-ads-strategic-plan.html">View on GitHub</a></span>
 </div>
 <div class="page">
@@ -207,7 +229,7 @@ pre {
       </div>
     </div>
     <div class="page-meta-right">
-      May 4, 2026<br>Step-by-Step Plan<br>Proxuma Google Ads
+      May 5, 2026<br>Step-by-Step Plan<br>Proxuma Google Ads
     </div>
   </div>
   <div class="brand-rule"></div>
@@ -241,9 +263,203 @@ pre {
   </div>
 
   <!-- ============================================================ -->
+  <!-- CRITICAL FIXES (from audit May 5) -->
+  <!-- ============================================================ -->
+  <h2>Critical Fixes (Audit Findings May 5)</h2>
+  <p>Two independent audits scored the account at 42-48/100. These fixes are blocking -- they corrupt data and limit reach. Do them before anything else below.</p>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">F1</div>
+      <div class="step-meta">
+        <div class="step-title">Fix Conversion Action Settings (Web UI)</div>
+        <div class="step-tags">
+          <span class="step-tag step-tag-time">10 min</span>
+          <span class="step-tag step-tag-risk">Data corruption</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><strong>Problems found:</strong></p>
+      <ul>
+        <li>"Booked a demo" (7239093290) has <code>includeInConversionsMetric = false</code> -- invisible to bidding and Conversions column</li>
+        <li>Both primary actions set to MANY_PER_CLICK -- page refreshes count as extra conversions</li>
+        <li>YouTube follow-on views + subscriptions set as primary conversions -- wrong signal polluting bidding</li>
+      </ul>
+      <p><strong>Fix in Google Ads web UI:</strong> ads.google.com > Tools & Settings > Measurement > Conversions</p>
+      <ol>
+        <li><strong>"Booked a demo"</strong>: Click > Edit Settings > Count: change "Every" to "One" > Goal: ensure "Primary action used for bidding" is selected > Save</li>
+        <li><strong>"Page view recorded-demo-requested"</strong>: Click > Edit Settings > Count: "Every" to "One" > Save</li>
+        <li><strong>"YouTube follow-on views"</strong>: Click > Edit Settings > Goal: select "Secondary action NOT used for bidding" > Save</li>
+        <li><strong>"YouTube channel subscriptions"</strong>: Same as above -- secondary, not for bidding > Save</li>
+      </ol>
+      <div class="callout">
+        <span class="callout-label">Cannot be done via API</span>
+        The Google Ads MCP doesn't support conversion action mutations. These must be done manually in the web UI. Takes 2 minutes per action.
+      </div>
+    </div>
+  </div>
+
+  <div class="step-block done">
+    <div class="step-header">
+      <div class="step-num">F2</div>
+      <div class="step-meta">
+        <div class="step-title">Add USA + Australia Geo Targeting (Google Ads Editor)</div>
+        <div class="step-tags">
+          <span class="step-tag step-tag-time">5 min</span>
+          <span class="step-tag step-tag-risk">Zero impressions in 80% of market</span>
+        </div>
+      </div>
+      <span class="step-done-badge">Done May 5</span>
+    </div>
+    <div class="step-body">
+      <p><strong>Problem:</strong> All 3 new campaigns only target UK (geoTargetConstants/2826). USA and Australia were specified in the plan but not added during campaign creation. 80%+ of Autotask users are in US/AU.</p>
+      <p><strong>Fix in Google Ads Editor (Mac app, installed and synced):</strong></p>
+      <ol>
+        <li>Get Recent Changes (Cmd+T) to sync</li>
+        <li>For each campaign (Proxuma - Brand, Proxuma - Autotask Features, Proxuma - Recorded Demo):</li>
+        <li>Navigate: Keywords and Targeting > Locations > + Add location</li>
+        <li>Add: <strong>United States</strong> (ID 2840) + <strong>Australia</strong> (ID 2036)</li>
+        <li>Keep United Kingdom (2826) in place</li>
+        <li>Campaign Settings > Location options (advanced) > Target: "Presence: People in or regularly in your targeted locations"</li>
+        <li>Post changes (Cmd+P)</li>
+      </ol>
+      <div class="callout">
+        <span class="callout-label">Verification</span>
+        After fixing, run in any Claude session with Google Ads MCP:<br>
+        <code>SELECT campaign.name, campaign_criterion.location.geo_target_constant FROM campaign_criterion WHERE campaign.id IN (23824474309, 23824474312, 23824474315) AND campaign_criterion.type = 'LOCATION'</code><br>
+        Expected: 3 locations per campaign (2826, 2840, 2036).
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TRACKING ARCHITECTURE -->
+  <!-- ============================================================ -->
+  <h2>Tracking Architecture (Current State + Upgrades)</h2>
+  <p>What's tracked now vs. what's missing. T1 and T2 below fill the gaps that limit bidding optimization.</p>
+
+  <table class="matrix">
+  <tr><th>Layer</th><th>Status</th><th>Detail</th></tr>
+  <tr><td>Google Ads auto-tagging (gclid)</td><td><strong>Active</strong></td><td>Ad click attribution working</td></tr>
+  <tr><td>GA4 (G-B2BE5BP0PK)</td><td><strong>Active</strong></td><td>Page views, basic events</td></tr>
+  <tr><td>GTM (GTM-T8Z3GHT)</td><td><strong>Active</strong></td><td>John's tags IDs 44-53 -- DO NOT TOUCH</td></tr>
+  <tr><td>mu-plugin conversion firing</td><td><strong>Active</strong></td><td>Pages 1937, 1082, 2203, 3050</td></tr>
+  <tr><td>HubSpot page analytics</td><td><strong>Active</strong></td><td>Standard tracking, all pages</td></tr>
+  <tr><td>Reddit pixel</td><td><strong>Active</strong></td><td>PageVisit event only</td></tr>
+  <tr><td>Grail tracker</td><td><strong>Active</strong></td><td>Session-level tracking</td></tr>
+  <tr><td style="color:#8a2a2a">Enhanced Conversions</td><td style="color:#8a2a2a"><strong>NOT SET UP</strong></td><td>No email hash sent with conversion event</td></tr>
+  <tr><td style="color:#8a2a2a">Micro-conversions</td><td style="color:#8a2a2a"><strong>NOT SET UP</strong></td><td>CTA clicks, scroll, engaged visits invisible to Ads</td></tr>
+  <tr><td style="color:#8a2a2a">Server-side tracking</td><td style="color:#8a2a2a"><strong>NOT SET UP</strong></td><td>15-30% signal loss from adblockers (future)</td></tr>
+  </table>
+
+  <!-- T1: Enhanced Conversions -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">T1</div>
+      <div class="step-meta">
+        <div class="step-title">Add Enhanced Conversions (Email Hash)</div>
+        <div class="step-tags">
+          <span class="step-tag step-tag-time">20 min</span>
+          <span class="step-tag step-tag-impact">High Impact</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><strong>Why:</strong> HubSpot captures the email on every demo booking. After booking, the user redirects to proxuma.io/bookingconfirmed/. The email is known but never passed to Google Ads. Enhanced Conversions hashes (SHA256) the email and sends it with the conversion event, improving match rate by 10-20% as cookies degrade.</p>
+      <p><strong>How:</strong> The mu-plugin at <code>wp-content/mu-plugins/proxuma-google-ads-tracking.php</code> fires the conversion on page 1937. Modify it to capture email from the HubSpot redirect, hash server-side (PHP), inject into the gtag call as <code>user_data.email_address</code>.</p>
+
+      <div class="prompt-block" id="prompt-t1">
+        <button class="copy-btn" onclick="copyPrompt('t1')">Copy</button>
+        <span class="prompt-label">Claude Prompt -- Enhanced Conversions</span>Implement Enhanced Conversions for Proxuma's Google Ads (CID 215-278-2474).
+
+CONTEXT: Demo bookings go through HubSpot meetings (meetings-eu1.hubspot.com/proxuma/demo2). After booking, HubSpot redirects to proxuma.io/bookingconfirmed/ (page ID 1937). The mu-plugin at wp-content/mu-plugins/proxuma-google-ads-tracking.php fires the conversion event on that page.
+
+CURRENT mu-plugin code fires: gtag("event", "conversion", {"send_to": "AW-11268212749/smB7CKqY7_saEI2Qjf0p"});
+
+TASK:
+1. SSH into proxuma.io: ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu
+
+2. Check what URL parameters HubSpot passes on redirect to /bookingconfirmed/. Common ones: ?email=, ?firstName=, ?lastName=. If not in URL, check if HubSpot form submission stores in a transient or cookie.
+
+3. Modify the mu-plugin to capture the email and send Enhanced Conversions data. The gtag call should become:
+   gtag("event", "conversion", {
+     "send_to": "AW-11268212749/smB7CKqY7_saEI2Qjf0p",
+     "user_data": {
+       "email_address": hashedEmail
+     }
+   });
+   Where hashedEmail is SHA256 of the lowercase trimmed email.
+
+4. The hashing MUST happen server-side (PHP sha256) and be injected into the page. Do NOT hash client-side as that exposes the raw email in the DOM.
+
+5. Also add Enhanced Conversions to the recorded demo conversion (page 2203, send_to: AW-11268212749/zU08CIWDwPIaEI2Qjf0p). The "Request recorded demo" form (Gravity Forms ID 2) captures email -- use gform_after_submission hook or check if the confirmation page has access to the entry.
+
+6. In Google Ads, Enhanced Conversions must be ENABLED on the conversion action. Use the Google Ads MCP tools to check and enable enhanced conversions on the two primary actions (IDs 7239093290 and 7219446149).
+
+7. Verify: after implementation, submit a test via /request-recorded-demo/ and check that user_data appears in the gtag call (inspect Network tab for collect requests to google).
+
+IMPORTANT: Do NOT modify John's GTM tags (IDs 44-53). Do NOT break the existing conversion tracking. The mu-plugin change must be backwards-compatible -- if no email is available, fire the conversion without user_data (current behavior).
+Google Ads Editor (Mac app) is installed and synced if you need UI-level changes.</div>
+    </div>
+  </div>
+
+  <!-- T2: Micro-Conversions -->
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">T2</div>
+      <div class="step-meta">
+        <div class="step-title">Add Micro-Conversion Events</div>
+        <div class="step-tags">
+          <span class="step-tag step-tag-time">30 min</span>
+          <span class="step-tag step-tag-impact">Bidding Signal</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><strong>Why:</strong> Google only knows "clicked ad" and "booked demo". Adding intermediate signals (CTA click, pricing section scroll, engaged visit) gives Smart Bidding earlier data to optimize toward, even before you hit 15 conversions.</p>
+      <p><strong>What to track:</strong></p>
+      <ul>
+        <li>CTA button clicks on /planning/ and /shifts/ (event: <code>cta_click</code>)</li>
+        <li>Scroll to pricing section (event: <code>pricing_viewed</code>)</li>
+        <li>Time on page > 30 seconds (event: <code>engaged_visit</code>)</li>
+      </ul>
+      <p>These should be SECONDARY conversion actions (observe-only, don't influence bidding yet).</p>
+
+      <div class="prompt-block" id="prompt-t2">
+        <button class="copy-btn" onclick="copyPrompt('t2')">Copy</button>
+        <span class="prompt-label">Claude Prompt -- Micro-Conversions</span>Add micro-conversion tracking events to Proxuma's Google Ads landing pages.
+
+SSH: ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu
+WordPress path: ~/www/proxuma.io/public_html/
+
+TASK: Add these events via a new mu-plugin (proxuma-micro-conversions.php):
+
+1. CTA Click tracking: When any element with class containing "c-button" or link to meetings-eu1.hubspot.com is clicked on /planning/, /shifts/, or /how-to-use-autotask-for-project-management/, fire:
+   gtag("event", "cta_click", {"event_category": "engagement", "page_path": window.location.pathname});
+
+2. Pricing section viewed: When user scrolls to an element containing pricing info (EUR 20, pricing table), fire once per session:
+   gtag("event", "pricing_viewed", {"event_category": "engagement"});
+
+3. Engaged visit: After 30 seconds on landing pages, fire once:
+   gtag("event", "engaged_visit", {"event_category": "engagement", "page_path": window.location.pathname});
+
+4. In Google Ads (use MCP tools), create 3 new conversion actions as SECONDARY (not primary for bidding):
+   - "Micro: CTA Click" (counting: many per click)
+   - "Micro: Pricing Viewed" (counting: one per click)
+   - "Micro: Engaged Visit 30s" (counting: one per click)
+   If API blocks creation, provide instructions for Google Ads Editor (Mac app, installed and synced).
+
+5. Only fire on pages: /planning/, /shifts/, /how-to-use-autotask-for-project-management/. Do NOT add to every page.
+
+IMPORTANT: Do NOT touch GTM tags IDs 44-53. Do NOT modify the existing mu-plugin (proxuma-google-ads-tracking.php). Create a SEPARATE mu-plugin file.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
   <!-- STEP 1 -->
   <!-- ============================================================ -->
-  <div class="step-block">
+  <div class="step-block done">
     <div class="step-header">
       <div class="step-num">1</div>
       <div class="step-meta">
@@ -253,6 +469,7 @@ pre {
           <span class="step-tag step-tag-impact">Blocking</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-done-badge">Done May 5</span><span class="step-done-detail">Both primary actions confirmed correct, 4 duplicates set to secondary</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why first:</strong> Right now, every demo booking is counted 2-3 times in Google Ads. This inflates your conversion numbers and will confuse automated bidding the moment you turn it on. Nothing else matters until tracking is clean.</p>
@@ -313,16 +530,17 @@ Do NOT modify the mu-plugin at wp-content/mu-plugins/proxuma-google-ads-tracking
   <!-- ============================================================ -->
   <!-- STEP 2 -->
   <!-- ============================================================ -->
-  <div class="step-block">
+  <div class="step-block partial">
     <div class="step-header">
       <div class="step-num">2</div>
       <div class="step-meta">
-        <div class="step-title">Permanently Pause John's Campaigns</div>
+        <div class="step-title">Pause Legacy Campaigns</div>
         <div class="step-tags">
           <span class="step-tag step-tag-time">5 min</span>
-          <span class="step-tag step-tag-impact">Stops waste</span>
+          <span class="step-tag step-tag-impact">Stops overlap</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-partial-badge">Deferred</span><span class="step-partial-detail">John's campaigns paused. Legacy "Proxuma Brand" + "Targeted campaign autotask" kept running as safety net (EUR 15/day overlap). Pause when new campaigns prove results.</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why now:</strong> John's "Search | Leads | USA" and "Search | Leads | AUS" campaigns used generic MSP keywords with Maximize Clicks bidding. They spent EUR 810 with zero conversions. If they're re-enabled by accident, they'll burn budget immediately.</p>
@@ -357,7 +575,7 @@ Account has Explorer API access (2,880 ops/day max). Stay under 10 API calls for
   <!-- ============================================================ -->
   <!-- STEP 3 -->
   <!-- ============================================================ -->
-  <div class="step-block">
+  <div class="step-block done">
     <div class="step-header">
       <div class="step-num">3</div>
       <div class="step-meta">
@@ -367,6 +585,7 @@ Account has Explorer API access (2,880 ops/day max). Stay under 10 API calls for
           <span class="step-tag step-tag-impact">Prevents waste</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-done-badge">Done May 5</span><span class="step-done-detail">All 48 playbook keywords in "Claude gen list" (verified May 6). "BAD PERFORMERS" has 263 additional negatives.</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why now:</strong> Before you spend a single euro on new campaigns, block the queries that will never convert. This is free money saved.</p>
@@ -413,7 +632,7 @@ IMPORTANT: Explorer API access may not support shared set mutations. If the API 
   <!-- ============================================================ -->
   <!-- STEP 4 -->
   <!-- ============================================================ -->
-  <div class="step-block">
+  <div class="step-block done">
     <div class="step-header">
       <div class="step-num">4</div>
       <div class="step-meta">
@@ -423,6 +642,7 @@ IMPORTANT: Explorer API access may not support shared set mutations. If the API 
           <span class="step-tag step-tag-impact">Core growth driver</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-done-badge">Done May 5</span><span class="step-done-detail">3 campaigns: Brand (EUR 2/day), Autotask Features (EUR 12/day), Recorded Demo (EUR 4/day). All 6 ad groups enabled.</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why now:</strong> With tracking fixed, waste stopped, and negatives in place, you can build the campaigns that will actually drive conversions. This is the golden period formula, rebuilt.</p>
@@ -512,7 +732,7 @@ All campaigns: ensure the shared negative keyword list "Proxuma - Account Negati
   <!-- ============================================================ -->
   <!-- STEP 5 -->
   <!-- ============================================================ -->
-  <div class="step-block">
+  <div class="step-block done">
     <div class="step-header">
       <div class="step-num">5</div>
       <div class="step-meta">
@@ -522,6 +742,7 @@ All campaigns: ensure the shared negative keyword list "Proxuma - Account Negati
           <span class="step-tag step-tag-impact">Ads go live</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-done-badge">Done May 5</span><span class="step-done-detail">6 RSAs enabled (1 per ad group), 6 paused variants.</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why now:</strong> Campaigns exist but have no ads. These headlines come from the language 140+ MSP prospects actually used in demos. Not marketing speak -- their own words.</p>
@@ -623,7 +844,7 @@ After creating all ads, verify by querying: SELECT ad_group_ad.ad.responsive_sea
   <!-- ============================================================ -->
   <!-- STEP 6 -->
   <!-- ============================================================ -->
-  <div class="step-block">
+  <div class="step-block partial">
     <div class="step-header">
       <div class="step-num">6</div>
       <div class="step-meta">
@@ -633,6 +854,7 @@ After creating all ads, verify by querying: SELECT ad_group_ad.ad.responsive_sea
           <span class="step-tag step-tag-impact">Conversion rate</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-partial-badge">Deferred</span><span class="step-partial-detail">Will do as part of website interface work, separate from ads playbook.</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why now:</strong> Your ads point to /planning/. If that page doesn't match the ad promise, you'll pay for clicks that don't convert. This is the highest-leverage improvement after the campaigns are live.</p>
@@ -689,6 +911,7 @@ WordPress theme: custom "proxuma" (not Elementor). Use $wpdb->update() for page 
           <span class="step-tag step-tag-manual">Manual in UI</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-partial-badge">Waiting</span><span class="step-partial-detail">Campaigns just went live. First review after May 13 when there's enough data. 1 conversion / EUR 116 spend as of May 6.</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why now:</strong> After campaigns run for 7 days, do this every Monday. Phrase match keywords will trigger on searches you didn't expect. Some will be gold, some will be waste. This is how you learn and tighten.</p>
@@ -746,6 +969,7 @@ Account is on Explorer API access: budget API calls, stay under 10 for this task
           <span class="step-tag step-tag-risk">Only after data</span>
         </div>
       </div>
+      <div style="margin-left:auto;text-align:right"><span class="step-partial-badge">Blocked</span><span class="step-partial-detail">Needs 15+ conversions in last 30 days. Currently at 1. Check again mid-June.</span></div>
     </div>
     <div class="step-body">
       <p><strong>Why last:</strong> Automated bidding needs conversion data to work. Without 15-30 conversions, Google's algorithm guesses badly and overspends. This is the step that killed John's campaigns -- he used Maximize Clicks from day one on cold keywords.</p>
@@ -790,6 +1014,84 @@ PREREQUISITE CHECK (do this first):
 Report: what the current CPA is, what target CPA you set, and what to monitor.</div>
     </div>
   </div>
+
+  <!-- ============================================================ -->
+  <!-- RECOMMENDED SKILLS -->
+  <!-- ============================================================ -->
+  <h2>Recommended Claude Code Skills</h2>
+  <p>Two open-source skill sets for ongoing Google Ads optimization. Install both for comprehensive coverage.</p>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">S1</div>
+      <div class="step-meta">
+        <div class="step-title">google-ads-skills (agent-skills)</div>
+        <div class="step-tags">
+          <span class="step-tag step-tag-time">10 min install</span>
+          <span class="step-tag step-tag-impact">Daily ops</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><strong>What:</strong> 5 skills -- analysis (anomaly detection), audit (7-dimension framework), PPC math, safe write ops (CEP protocol), MCP integration. Originally at itallstartedwithaidea/google-ads-skills, migrated to <strong>itallstartedwithaidea/agent-skills</strong> (April 2026).</p>
+      <p><strong>Best for:</strong> Daily monitoring, budget anomaly detection, safe campaign modifications with confirm-execute-postcheck flow.</p>
+      <ul>
+        <li>7-dimension audit: Structure, Conversion Tracking, Keywords, Creative, Bidding, Targeting, Waste</li>
+        <li>Works with existing Google Ads MCP (no second MCP needed)</li>
+        <li>Handles micros conversion and fractional currency properly</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <div class="step-num">S2</div>
+      <div class="step-meta">
+        <div class="step-title">claude-ads (AgriciDaniel)</div>
+        <div class="step-tags">
+          <span class="step-tag step-tag-time">10 min install</span>
+          <span class="step-tag step-tag-impact">Monthly audit</span>
+        </div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p><strong>What:</strong> 250+ automated checks across platforms. 80 checks specific to Google Ads: campaign structure, bid strategy, quality score, conversion tracking. Generates Ads Health Score (0-100).</p>
+      <p><strong>Best for:</strong> Monthly comprehensive audits, catching configuration drift, PDF reports for stakeholders.</p>
+      <ul>
+        <li>Works standalone -- no paid services, no API keys beyond existing MCP</li>
+        <li>Optional: PDF reports (reportlab), landing page analysis (Playwright)</li>
+        <li>Install via Claude Code plugin marketplace or bash one-liner</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prompt-block" id="prompt-skills">
+    <button class="copy-btn" onclick="copyPrompt('skills')">Copy</button>
+    <span class="prompt-label">Claude Prompt -- Install Both Skills</span>Install two Google Ads optimization skills for Claude Code.
+
+## Skill 1: google-ads-skills (agent-skills)
+Repository: https://github.com/itallstartedwithaidea/agent-skills
+Install to: ~/.claude/skills/google-ads-skills/
+- Clone the repo (or the relevant subdirectory if it's a monorepo)
+- Check if it has SKILL.md files or marketplace.json for structure
+- Do NOT install a second Google Ads MCP -- we already have one running (mcp__google-ads__)
+- Verify skill files are accessible from Claude Code
+
+## Skill 2: claude-ads
+Repository: https://github.com/AgriciDaniel/claude-ads
+Install to: ~/.claude/skills/claude-ads/
+- Clone the repo
+- Install Python dependencies if needed: pip install reportlab matplotlib Pillow playwright
+- Configure to use existing Google Ads MCP connection (CID 215-278-2474)
+- Run playwright install if landing page analysis is desired
+
+After installing both:
+1. List ~/.claude/skills/ to confirm directories exist
+2. Check for any SKILL.md or marketplace.json that needs registration
+3. Report what commands or capabilities each skill exposes
+4. Note any conflicts with existing ~/.claude/ configuration
+
+Do NOT modify existing skills or settings. Additive only.</div>
 
   <!-- ============================================================ -->
   <!-- BUDGET FORECAST -->
@@ -876,28 +1178,48 @@ function copyPrompt(n) {
 <script type="application/json" id="claude-data">
 {
   "title": "Proxuma Google Ads Execution Playbook",
-  "date": "2026-05-04",
-  "summary": "8-step execution playbook ordered by speed and certainty of impact. Each step has a copy-paste Claude prompt. Steps: fix tracking, pause waste, add negatives, build campaigns, write ads, audit landing page, weekly reviews, switch to automated bidding.",
+  "date": "2026-05-05",
+  "summary": "8-step execution playbook + tracking upgrades + skills recommendations. Steps 1-5 complete (May 5). Remaining: landing page audit, weekly reviews, automated bidding switch. New: Enhanced Conversions (T1), Micro-conversions (T2), and two Claude Code skills for ongoing optimization.",
   "sections": [
     {
-      "heading": "Step 1: Fix Conversion Double-Counting",
-      "items": [{ "title": "10 min, blocking", "detail": "3 enabled actions for same booking event. Set duplicates to secondary. Keep 2 primary actions.", "meta": {"time": "10min", "priority": "blocking"} }]
+      "heading": "F1: Fix Conversion Actions (Web UI)",
+      "items": [{ "title": "10 min, data corruption", "detail": "'Booked a demo' includeInConversions=false (invisible to bidding). Both primaries MANY_PER_CLICK. YouTube actions set as primary. Fix all 4 in web UI: ads.google.com > Conversions.", "meta": {"time": "10min", "priority": "critical"} }]
     },
     {
-      "heading": "Step 2: Pause John's Campaigns",
-      "items": [{ "title": "5 min, stops waste", "detail": "EUR 810 spent, zero conversions. Pause Search|Leads|USA, Search|Leads|AUS, and zero-conversion ad groups in Targeted campaign.", "meta": {"time": "5min"} }]
+      "heading": "F2: Add USA + Australia Geo Targeting",
+      "items": [{ "title": "5 min, zero impressions in 80% of market", "detail": "All 3 new campaigns UK-only. Add US (2840) + AU (2036) via Google Ads Editor. Set location to Presence only.", "meta": {"time": "5min", "priority": "critical"} }]
+    },
+    {
+      "heading": "Tracking Architecture",
+      "items": [{ "title": "Current state + upgrades", "detail": "7 active tracking layers. 3 gaps: Enhanced Conversions (no email hash), Micro-conversions (no intermediate signals), Server-side (future). T1 and T2 fix the first two.", "meta": {"priority": "high"} }]
+    },
+    {
+      "heading": "T1: Enhanced Conversions",
+      "items": [{ "title": "20 min, high impact", "detail": "SHA256 hash email from HubSpot redirect, pass as user_data with conversion event. Improves match rate 10-20%.", "meta": {"time": "20min"} }]
+    },
+    {
+      "heading": "T2: Micro-Conversions",
+      "items": [{ "title": "30 min, bidding signal", "detail": "CTA click, pricing_viewed, engaged_visit events as secondary conversion actions. Gives Smart Bidding early signals.", "meta": {"time": "30min"} }]
+    },
+    {
+      "heading": "Step 1: Fix Conversion Double-Counting",
+      "items": [{ "title": "10 min, blocking", "detail": "3 enabled actions for same booking event. Set duplicates to secondary. Keep 2 primary actions.", "meta": {"time": "10min", "priority": "blocking"}, "status": "done" }]
+    },
+    {
+      "heading": "Step 2: Pause Legacy Campaigns",
+      "items": [{ "title": "5 min, stops overlap", "detail": "DEFERRED: John's campaigns paused. Legacy 'Proxuma Brand' + 'Targeted campaign autotask' kept running as safety net (EUR 15/day overlap). Pause when new campaigns prove results.", "meta": {"time": "5min"}, "status": "deferred" }]
     },
     {
       "heading": "Step 3: Add Negative Keywords",
-      "items": [{ "title": "15 min, prevents waste", "detail": "Account-level negatives for jobs, education, free, support, other PSA, wrong product, generic queries.", "meta": {"time": "15min"} }]
+      "items": [{ "title": "15 min, prevents waste", "detail": "DONE: All 48 playbook keywords verified in 'Claude gen list' (May 6). 'BAD PERFORMERS' has 263 additional negatives.", "meta": {"time": "15min"}, "status": "done" }]
     },
     {
       "heading": "Step 4: Build Campaign Structure",
-      "items": [{ "title": "30-45 min, core driver", "detail": "3 campaigns (Brand EUR 2/day, Autotask Features EUR 12/day with 4 ad groups, Recorded Demo EUR 4/day). Manual CPC. USA+UK+AUS.", "meta": {"time": "30-45min"} }]
+      "items": [{ "title": "30-45 min, core driver", "detail": "3 campaigns live: Proxuma - Brand (23824474309), Proxuma - Autotask Features (23824474312), Proxuma - Recorded Demo (23824474315). 6 ad groups total. Daily eval cron on M1 Pro.", "meta": {"time": "30-45min"}, "status": "done" }]
     },
     {
       "heading": "Step 5: Write and Submit Ads",
-      "items": [{ "title": "20 min, ads go live", "detail": "15 RSA headlines from prospect language. 4 description lines. One RSA per ad group, adapted headlines per theme.", "meta": {"time": "20min"} }]
+      "items": [{ "title": "20 min, ads go live", "detail": "6 RSAs live with 15 headlines + 4 descriptions each, pin positions set. 6 old RSAs paused. All approved.", "meta": {"time": "20min"}, "status": "done" }]
     },
     {
       "heading": "Step 6: Audit /planning/ Landing Page",
@@ -910,26 +1232,37 @@ function copyPrompt(n) {
     {
       "heading": "Step 8: Switch to Automated Bidding",
       "items": [{ "title": "Week 4-6, after 15+ conversions", "detail": "Switch Autotask Features to Maximize Conversions with target CPA at 120% of current. Keep Brand and Recorded Demo on Manual CPC.", "meta": {"time": "week4-6"} }]
+    },
+    {
+      "heading": "Skills: google-ads-skills + claude-ads",
+      "items": [{ "title": "10 min install each", "detail": "S1: 5 skills (analysis, audit, math, write, MCP) from agent-skills repo. S2: 250+ checks, Health Score, monthly audit. Both work with existing MCP.", "meta": {"time": "10min"} }]
     }
   ],
-  "next_steps": "Start at Step 1 (fix conversion tracking). Work through steps sequentially. Each prompt is self-contained for a new Claude session. Steps 1-5 can be done in one day. Step 6 within the first week. Step 7 is recurring every Monday. Step 8 only after 15+ conversions.",
+  "next_steps": "STATUS (May 6): Steps 1,3,4,5 DONE. Step 2 DEFERRED (legacy campaigns kept as safety net). Step 6 DEFERRED (website work). Step 7 WAITING (run after May 13 when data exists). Step 8 BLOCKED (1/15 conversions). F1 still pending (manual web UI fix). F2 geo done. THEN: T1 (Enhanced Conversions), T2 (Micro-conversions). Currently EUR 33/day across 5 campaigns (3 new + 2 legacy).",
   "session_state": {
-    "phase": "playbook delivered",
-    "phase_status": "complete",
-    "progress_pct": 100,
+    "phase": "steps 1,3,4,5 done. Step 2 deferred (legacy kept). Step 6 deferred (website). Step 7 waiting (data needed, run after May 13). Step 8 blocked (1/15 conversions). F1 pending (manual web UI). F2 done. T1/T2 planned.",
+    "phase_status": "waiting_for_data",
+    "progress_pct": 62,
     "work_done_this_session": [
-      "Deep Open Brain research (14 searches)",
-      "Web research on B2B SaaS Google Ads 2026 best practices",
-      "TopLeft competitor analysis",
-      "SSH audit of proxuma.io conversion tracking",
-      "Google Ads API audit of all conversion actions",
-      "Landing page URL checks (13 URLs)",
-      "Gravity Forms inventory",
-      "Restructured as 8-step execution playbook with copy-paste prompts"
+      "Step 1: Fixed conversion double-counting (4 actions set to secondary)",
+      "Step 2: Paused Planning/Outlook ad groups (John's campaigns already paused) -- user re-enabled Planning/Outlook",
+      "Step 3: Added account-level negative keyword lists (3 lists attached to all campaigns)",
+      "Step 4: Built 3 new campaigns with 6 ad groups via API",
+      "Step 5: Created 6 RSAs with 15 headlines each, pinned positions",
+      "Conversion tracking architecture audit (SSH + API)",
+      "Enhanced Conversions gap identified (email not hashed)",
+      "Skills research: google-ads-skills + claude-ads repos evaluated",
+      "Daily evaluation cron scheduled on M1 Pro",
+      "Ran 2 independent audits (google-ads-skills + claude-ads): Health Score 42-48/100",
+      "Found: 'Booked a demo' invisible to bidding (includeInConversions=false)",
+      "Found: Both primary actions MANY_PER_CLICK (should be ONE)",
+      "Found: YouTube actions polluting conversion signal (primary, should be secondary)",
+      "Found: New campaigns UK-only, missing USA+Australia",
+      "Installed google-ads-skills + claude-ads skills on both machines"
     ],
     "blockers_hit": null,
-    "uncommitted_changes": "claude-output repo has updated HTML file, needs commit/push",
-    "next_action_required": "user-exec"
+    "uncommitted_changes": "HTML updated with tracking section, done badges, skills section",
+    "next_action_required": "Wait for data (run Step 7 weekly review after May 13). F1 still pending (manual web UI, 10 min). Then: T1, T2. Step 6 deferred to website work. Step 2: pause legacy when new campaigns prove results."
   },
   "artifact_pointers": {
     "memory_files": [],
@@ -948,25 +1281,41 @@ function copyPrompt(n) {
     "wp_cache_flushed": null,
     "drafts_pending": [],
     "screenshots": [],
-    "other": "Google Ads campaigns re-enabled May 4. Conversion tracking has duplicate actions that need cleanup (Step 1)."
+    "other": "Google Ads: 3 new campaigns live but UK-only (geo fix pending). 6 RSAs serving. 'Booked a demo' conversion invisible to bidding (fix pending). YouTube actions polluting signal (fix pending). Old campaigns running in parallel (user choice). Daily eval cron on M1 Pro. Audit reports: google-ads-audit-baseline.md + google-ads-health-score.md"
   },
   "project_context": {
-    "protected_resources": ["GTM tags IDs 44-53 (John's)", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
-    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial output"]
+    "protected_resources": ["GTM tags IDs 44-53 (John's)", "mu-plugin proxuma-google-ads-tracking.php (modify carefully)", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial output"],
+    "google_ads_access": "Full mutate access via MCP (not just Explorer). Google Ads Editor for Mac installed and synced.",
+    "automation": "Daily eval cron on M1 Pro (100.85.64.20). Prompt: ~/ClaudeCode/claude-native/prompts/google-ads-check.md. Logs: ~/ClaudeCode/claude-native/logs/tasks/google-ads-check.log"
   },
   "decision_log": [
     {
       "decision": "Ordered steps by certainty and speed of impact, not by logical sequence",
       "rejected_alternatives": ["Chronological order", "Grouped by category (tracking, campaigns, content)"],
-      "rationale": "User wants to see ROI from the quickest wins first. Fixing tracking and stopping waste cost nothing and take minutes. Building campaigns takes longer but is the core action. Landing page improvement and automated bidding come last because they need data.",
-      "trade_offs": "Steps 1-3 are defensive (stop losing money). Steps 4-5 are offensive (start making money). Steps 6-8 are optimization (make more money per euro).",
+      "rationale": "User wants to see ROI from the quickest wins first.",
+      "trade_offs": "Steps 1-3 defensive. Steps 4-5 offensive. Steps 6-8 optimization.",
       "contingencies": []
     },
     {
       "decision": "Each step gets its own self-contained Claude prompt",
       "rejected_alternatives": ["One mega-prompt for all steps", "Manual instructions only"],
-      "rationale": "User can execute steps across multiple sessions. Each prompt contains all context needed without referencing this document. Fresh session = fresh context = better execution.",
-      "trade_offs": "Some context is duplicated across prompts. Acceptable for reliability.",
+      "rationale": "Fresh session = fresh context = better execution.",
+      "trade_offs": "Some context duplicated. Acceptable for reliability.",
+      "contingencies": []
+    },
+    {
+      "decision": "Keep old 'Targeted campaign autotask' running alongside new campaigns",
+      "rejected_alternatives": ["Pause old campaign immediately"],
+      "rationale": "User wants to let them compete. Weekly review will show which wins.",
+      "trade_offs": "Potential self-bidding on same keywords. Acceptable short-term.",
+      "contingencies": ["Pause old campaign if new campaigns outperform after 2 weeks"]
+    },
+    {
+      "decision": "Added tracking upgrades (T1, T2) and skills section to playbook",
+      "rejected_alternatives": ["Separate document for tracking", "Skip skills research"],
+      "rationale": "Tracking gaps limit bidding optimization. Skills provide ongoing automation. Both belong in the same playbook for single-source execution.",
+      "trade_offs": "Document is longer. Acceptable -- sections are clearly labeled.",
       "contingencies": []
     }
   ]
