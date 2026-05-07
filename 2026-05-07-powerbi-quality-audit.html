@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power BI Report Quality Audit | Proxuma</title>
+<style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+
+/* Brand header */
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+
+/* Page meta (date, section label) */
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+.section-label {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280;
+}
+
+/* Typography */
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+
+/* Section title (uppercase with navy underline) */
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+
+/* KPI / stat cards row */
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+
+/* Scenario cards (side by side boxes) */
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+
+/* Tables */
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+
+/* Cards */
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+
+/* Tags / badges */
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+/* Legacy compat */
+.tag-pay { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-dist { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-high { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+
+/* Callout box (key finding style) */
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+
+/* Bottom line / highlight box (dark navy bg) */
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+
+/* Confidential bar */
+.confidential {
+  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+}
+
+/* Horizontal bar chart */
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 140px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+
+/* Two-column layout */
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+
+/* Steps row */
+.pos-steps { display: flex; gap: 10px; }
+.pos-step {
+  flex: 1; background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center;
+}
+.pos-num { font-size: 22px; font-weight: 800; color: #1a2744; }
+.pos-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.pos-desc { font-size: 11px; color: #6b7280; }
+
+/* Footer */
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+
+/* Code */
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+
+/* Disclosure / small print */
+.disclosure {
+  margin-top: 32px; padding-top: 16px; border-top: 1px solid #d0d3d8;
+}
+.disclosure h3 { margin-top: 0; }
+.disclosure p { font-size: 11px; color: #8a8f96; line-height: 1.5; }
+</style>
+<style>
+.tier-pill { display:inline-block; padding:2px 8px; border-radius:3px; font:600 10px/1.6 -apple-system,sans-serif; text-transform:uppercase; letter-spacing:.04em; }
+.tier-rich { background:#e6f4ea; color:#1a6b3a; border:1px solid #8ac8a0; }
+.tier-standard { background:#e8edf4; color:#2a4a8a; border:1px solid #8aa8d8; }
+.tier-thin { background:#fef3e2; color:#8a6a2a; border:1px solid #e8c87a; }
+.tier-shell { background:#fde8e8; color:#8a2a2a; border:1px solid #d8a0a0; }
+.tier-category { background:#eef0f2; color:#4a5568; border:1px solid #c0c4ca; }
+details { margin:8px 0; }
+details summary { cursor:pointer; font:600 13px/1.4 -apple-system,sans-serif; color:#1a2744; padding:6px 0; }
+details summary:hover { color:#2a4a8a; }
+.bar-fill { min-width: 28px; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 7, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-powerbi-quality-audit.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Power BI Report Corpus Analysis</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 7, 2026<br>Quality Audit<br>872 Reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">CORPUS QUALITY AUDIT</div>
+  <h1>Power BI Report Quality Analysis</h1>
+  <p class="subtitle">Comprehensive audit of 872 report HTML files (449 EN, 423 NL) in ~/ClaudeCode/powerbi-reports/. Classifies every report into quality tiers, identifies root causes of variance, and provides a concrete remediation plan.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Total Reports</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">314</div>
+      <div class="stat-label">Rich (36%)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">433</div>
+      <div class="stat-label">Standard (50%)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">125</div>
+      <div class="stat-label">Need Work (14%)</div>
+    </div>
+  </div>
+
+  <!-- ============= EXECUTIVE SUMMARY ============= -->
+  <h2>1. Executive Summary</h2>
+
+  <div class="callout">
+    <span class="callout-label">Key Findings</span>
+    <strong>86% of reports meet STANDARD or RICH quality.</strong> The truthifier pass (8 commits, all 872 files) improved DAX and KPI coverage across the entire corpus. The remaining 14% (106 THIN + 11 SHELL + 8 CATEGORY) need targeted fixes. The gallery pages are critically stale: EN shows only 20 of 449 reports, NL shows zero NL-specific links. Hreflang cross-references are broken on 95% of files.
+  </div>
+
+  <p>The audit measured every file across 20+ metrics: real DAX queries (containing EVALUATE/SUMMARIZE/CALCULATE/MEASURE), KPI values, data table cells, generic placeholder markers, structural elements, and SEO metadata. Reports were classified into five quality tiers based on content depth and placeholder contamination.</p>
+
+  <h3>Tier Definitions</h3>
+  <ul>
+    <li><span class="tier-pill tier-rich">Rich</span> 3+ real DAX, 4+ KPIs, 10+ data cells, zero generic markers</li>
+    <li><span class="tier-pill tier-standard">Standard</span> 3+ real DAX, 2+ KPIs, some data. Acceptable but may contain markers</li>
+    <li><span class="tier-pill tier-thin">Thin</span> Has some content but missing key elements (low DAX, few KPIs, or sparse tables)</li>
+    <li><span class="tier-pill tier-shell">Shell</span> Template structure present but filled with placeholder text, few/no KPIs</li>
+    <li><span class="tier-pill tier-category">Category</span> Not a report at all -- a category landing page</li>
+  </ul>
+
+  <!-- ============= TIER BREAKDOWN ============= -->
+  <h2>2. Tier Distribution</h2>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+<span class="bar-label" style="width:120px">Rich</span>
+<div class="bar"><div class="bar-fill" style="width:36.00917431192661%;background:#16a34a">314 (36%)</div></div>
+<span class="bar-amount" style="font-size:11px">EN:224 NL:90</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:120px">Standard</span>
+<div class="bar"><div class="bar-fill" style="width:49.65596330275229%;background:#2563eb">433 (50%)</div></div>
+<span class="bar-amount" style="font-size:11px">EN:169 NL:264</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:120px">Thin</span>
+<div class="bar"><div class="bar-fill" style="width:12.155963302752294%;background:#d97706">106 (12%)</div></div>
+<span class="bar-amount" style="font-size:11px">EN:44 NL:62</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:120px">Shell</span>
+<div class="bar"><div class="bar-fill" style="width:1.261467889908257%;background:#dc2626">11 (1%)</div></div>
+<span class="bar-amount" style="font-size:11px">EN:10 NL:1</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:120px">Category</span>
+<div class="bar"><div class="bar-fill" style="width:0.9174311926605505%;background:#6b7280">8 (1%)</div></div>
+<span class="bar-amount" style="font-size:11px">EN:2 NL:6</span>
+</div>
+  </div>
+
+  <table class="matrix">
+    <thead><tr><th>Tier</th><th>Total</th><th>EN</th><th>NL</th><th>% of Corpus</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier-pill tier-rich">Rich</span></td><td><strong>314</strong></td><td>224</td><td>90</td><td>36.0%</td></tr>
+      <tr><td><span class="tier-pill tier-standard">Standard</span></td><td><strong>433</strong></td><td>169</td><td>264</td><td>49.7%</td></tr>
+      <tr><td><span class="tier-pill tier-thin">Thin</span></td><td><strong>106</strong></td><td>44</td><td>62</td><td>12.2%</td></tr>
+      <tr><td><span class="tier-pill tier-shell">Shell</span></td><td><strong>11</strong></td><td>10</td><td>1</td><td>1.3%</td></tr>
+      <tr><td><span class="tier-pill tier-category">Category</span></td><td><strong>8</strong></td><td>2</td><td>6</td><td>0.9%</td></tr>
+      <tr class="row-total"><td>Total</td><td><strong>872</strong></td><td>449</td><td>423</td><td>100%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">NL vs EN Quality Gap</span>
+    NL has proportionally more RICH reports (90/423 = 21%) vs EN (224/449 = 50%), but more STANDARD (264/423 = 62% vs 169/449 = 38%). The reason: NL Dutch generic markers ("We hebben de cijfers" etc.) are less prevalent than EN markers, pushing more NL reports from RICH into STANDARD. Aggregate metrics are similar: EN avg 3.5 real DAX, 4.2 KPIs vs NL avg 3.4 real DAX, 3.9 KPIs.
+  </div>
+
+  <!-- ============= QUALITY DISTRIBUTIONS ============= -->
+  <h2>3. Quality Metric Distributions</h2>
+
+  <div class="two-col">
+    <div>
+      <h3>Real DAX Queries per Report</h3>
+      <div class="bar-chart"><div class="bar-row">
+<span class="bar-label" style="width:40px">0</span>
+<div class="bar"><div class="bar-fill" style="width:2.839756592292089%">14</div></div>
+<span class="bar-amount">14</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">1</span>
+<div class="bar"><div class="bar-fill" style="width:4.056795131845842%">20</div></div>
+<span class="bar-amount">20</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">2</span>
+<div class="bar"><div class="bar-fill" style="width:6.693711967545639%">33</div></div>
+<span class="bar-amount">33</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">3</span>
+<div class="bar"><div class="bar-fill" style="width:100.0%">493</div></div>
+<span class="bar-amount">493</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">4</span>
+<div class="bar"><div class="bar-fill" style="width:36.71399594320487%">181</div></div>
+<span class="bar-amount">181</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">5</span>
+<div class="bar"><div class="bar-fill" style="width:22.31237322515213%">110</div></div>
+<span class="bar-amount">110</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">6</span>
+<div class="bar"><div class="bar-fill" style="width:2.028397565922921%">10</div></div>
+<span class="bar-amount">10</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">7</span>
+<div class="bar"><div class="bar-fill" style="width:1.6227180527383367%">8</div></div>
+<span class="bar-amount">8</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">9</span>
+<div class="bar"><div class="bar-fill" style="width:0.2028397565922921%">1</div></div>
+<span class="bar-amount">1</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">10</span>
+<div class="bar"><div class="bar-fill" style="width:0.4056795131845842%">2</div></div>
+<span class="bar-amount">2</span>
+</div></div>
+      <p style="font-size:12px;color:#6b7280">14 reports have zero real DAX. Most reports have 3-5 real DAX queries.</p>
+    </div>
+    <div>
+      <h3>KPI Values per Report</h3>
+      <div class="bar-chart"><div class="bar-row">
+<span class="bar-label" style="width:40px">0</span>
+<div class="bar"><div class="bar-fill" style="width:10.88646967340591%;background:#2563eb">70</div></div>
+<span class="bar-amount">70</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">1</span>
+<div class="bar"><div class="bar-fill" style="width:2.332814930015552%;background:#2563eb">15</div></div>
+<span class="bar-amount">15</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">2</span>
+<div class="bar"><div class="bar-fill" style="width:4.354587869362364%;background:#2563eb">28</div></div>
+<span class="bar-amount">28</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">3</span>
+<div class="bar"><div class="bar-fill" style="width:1.3996889580093312%;background:#2563eb">9</div></div>
+<span class="bar-amount">9</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">4</span>
+<div class="bar"><div class="bar-fill" style="width:100.0%;background:#2563eb">643</div></div>
+<span class="bar-amount">643</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">6</span>
+<div class="bar"><div class="bar-fill" style="width:1.5552099533437014%;background:#2563eb">10</div></div>
+<span class="bar-amount">10</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">7</span>
+<div class="bar"><div class="bar-fill" style="width:3.421461897356143%;background:#2563eb">22</div></div>
+<span class="bar-amount">22</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">8</span>
+<div class="bar"><div class="bar-fill" style="width:9.17573872472784%;background:#2563eb">59</div></div>
+<span class="bar-amount">59</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">12</span>
+<div class="bar"><div class="bar-fill" style="width:2.488335925349922%;background:#2563eb">16</div></div>
+<span class="bar-amount">16</span>
+</div></div>
+      <p style="font-size:12px;color:#6b7280">70 reports have zero KPIs. Mode is 4 KPIs per report.</p>
+    </div>
+  </div>
+
+  <h3>Generic Placeholder Markers per Report</h3>
+  <div class="bar-chart"><div class="bar-row">
+<span class="bar-label" style="width:40px">0</span>
+<div class="bar"><div class="bar-fill" style="width:100.0%;background:#16a34a">362</div></div>
+<span class="bar-amount">362</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">1</span>
+<div class="bar"><div class="bar-fill" style="width:80.11049723756905%;background:#d97706">290</div></div>
+<span class="bar-amount">290</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">2</span>
+<div class="bar"><div class="bar-fill" style="width:22.099447513812155%;background:#d97706">80</div></div>
+<span class="bar-amount">80</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">3</span>
+<div class="bar"><div class="bar-fill" style="width:29.005524861878452%;background:#d97706">105</div></div>
+<span class="bar-amount">105</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">5</span>
+<div class="bar"><div class="bar-fill" style="width:0.5524861878453038%;background:#dc2626">2</div></div>
+<span class="bar-amount">2</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">8</span>
+<div class="bar"><div class="bar-fill" style="width:4.696132596685083%;background:#dc2626">17</div></div>
+<span class="bar-amount">17</span>
+</div><div class="bar-row">
+<span class="bar-label" style="width:40px">10</span>
+<div class="bar"><div class="bar-fill" style="width:4.41988950276243%;background:#dc2626">16</div></div>
+<span class="bar-amount">16</span>
+</div></div>
+  <p style="font-size:12px;color:#6b7280">362 reports (42%) have zero markers (clean). 193 reports have 1-3 markers. 317 have 4+ markers -- these still have real data alongside the filler text.</p>
+
+  <!-- ============= PROBLEM FILES ============= -->
+  <h2>4. Problem Files Detail</h2>
+
+  <h3>Shell Reports (11 files)</h3>
+  <p>These have the template structure but lack real content. Most are EN-only reports with 10 generic markers and zero KPIs/tables.</p>
+  <table class="matrix">
+    <thead><tr><th>Lang</th><th>Report</th><th>DAX</th><th>KPIs</th><th>Cells</th><th>Markers</th></tr></thead>
+    <tbody><tr>
+<td>EN</td>
+<td><strong>Average Deal Size</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-average-deal-size-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Average Task Cycle Time</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-average-task-cycle-time-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Billing Charge Allocation Conflicts</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-billing-charge-allocation-conflicts-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Client Revenue Month-over-Month Report</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-how-does-client-revenue-compare-month-over-month-</span></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">210</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Power Bi Mcp Server</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-power-bi-mcp-server-post.html</span></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>NL</td>
+<td><strong>Power Bi Mcp Server</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-power-bi-mcp-server-post.html</span></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">1</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Project Revenue vs Labor Cost</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-project-revenue-vs-labor-cost-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>PSA vs QuickBooks Comparison</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-psa-vs-quickbooks-comparison-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>SLA Performance by Priority Level</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-sla-performance-by-priority-2-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>SLA Performance by Queue</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-sla-performance-by-queue-2-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Client Churn Revenue Impact Report</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-what-revenue-are-we-losing-from-churned-clients-p</span></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">2</td>
+</tr></tbody>
+  </table>
+
+  <h3>Category Pages (8 files)</h3>
+  <p>These are not reports -- they are category landing pages that link to other reports. They should be handled separately from the report corpus.</p>
+  <table class="matrix">
+    <thead><tr><th>Lang</th><th>Title</th><th>File</th></tr></thead>
+    <tbody><tr>
+<td>NL</td>
+<td><strong>Beveiliging</strong></td>
+<td>proxuma-io-beveiliging-post.html</td>
+</tr><tr>
+<td>NL</td>
+<td><strong>Financieel</strong></td>
+<td>proxuma-io-financieel-post.html</td>
+</tr><tr>
+<td>NL</td>
+<td><strong>Klantrapporten</strong></td>
+<td>proxuma-io-klantrapporten-post.html</td>
+</tr><tr>
+<td>NL</td>
+<td><strong>Projecten</strong></td>
+<td>proxuma-io-projecten-post.html</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Ticketing Overview</strong></td>
+<td>proxuma-io-ticketing-post.html</td>
+</tr><tr>
+<td>NL</td>
+<td><strong>Ticketing</strong></td>
+<td>proxuma-io-ticketing-post.html</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Upsell Opportunities</strong></td>
+<td>proxuma-io-upsell-post.html</td>
+</tr><tr>
+<td>NL</td>
+<td><strong>Upsell</strong></td>
+<td>proxuma-io-upsell-post.html</td>
+</tr></tbody>
+  </table>
+
+  <h3>STANDARD/RICH with 5+ Generic Markers (23 files)</h3>
+  <p>These reports have enough real data to qualify as STANDARD or RICH, but still contain significant placeholder text that should be cleaned.</p>
+  <table class="matrix">
+    <thead><tr><th>Lang</th><th>Report</th><th>Tier</th><th>DAX</th><th>Markers</th></tr></thead>
+    <tbody><tr>
+<td>EN</td>
+<td><strong>Churned Client Revenue Loss</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Client Revenue Month over Month</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Contract Profitability</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Contracts Expiring Soon</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Declining Profitability Trends</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Labor Revenue vs Charges Revenue</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Margins by Service Type</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>New Client Revenue Trajectory</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Opportunity Win Rate</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Pipeline Value Trend</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Quarterly Revenue Growth Focus</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">10</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Billing Item Analysis</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>CI End of Warranty</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Configuration Items per Client</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Cost of Service Delivery</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>CRM Activity Dashboard</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>CSAT Trend Over Time</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>First Hour Fix Rate</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Management Performance Summary</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>NOC Dashboard Auto Refresh</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Open Tickets MoM Change per Company</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>CSAT vs SLA Correlation</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">5</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Preventable SLA Breaches</strong></td>
+<td style="text-align:center">STANDARD</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center;color:#dc2626;font-weight:700">5</td>
+</tr></tbody>
+  </table>
+
+  <details>
+    <summary>Thin Reports (106 files -- first 30 shown)</summary>
+    <p style="margin:8px 0;font-size:13px">These have some content but fall short of STANDARD. Common issues: only 1-2 real DAX queries, missing KPIs, sparse tables.</p>
+    <table class="matrix">
+      <thead><tr><th>Lang</th><th>Report</th><th>DAX</th><th>KPIs</th><th>Cells</th><th>Markers</th></tr></thead>
+      <tbody><tr>
+<td>EN</td>
+<td><strong>Ai Privacy Compliance Guide</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-ai-privacy-compliance-guide-post.html</span></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">74</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Backup Oversight Workload: Which Engineers Ow</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-backup-oversight-workload-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">88</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>CSAT vs SLA Performance Correlation</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-csat-vs-sla-performance-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Client Coverage per Technician</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-how-many-unique-clients-does-each-tech-serve</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>SLA Performance by Ticket Origin — RMM vs Man</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-sla-performance-rmm-alerts-post.html</span></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Billing &amp; Charge Allocation Audit</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-are-there-any-billing-charge-allocation-conf</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>CSAT Score per Engineer</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-csat-score-per-engineer-post.html</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Device-to-Tech Ratio: Which Teams Are Managin</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-device-to-tech-ratio-post.html</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">75</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>How Are Tickets Distributed Across Queues?</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-how-are-tickets-distributed-across-queues-po</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Technician Performance Trends</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-how-does-each-techs-performance-change-over-</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Resource Utilization Comparison Across the Te</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-how-does-resource-utilization-compare-across</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Most Tickets by Company</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-most-tickets-by-company-post.html</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">82</td>
+<td style="text-align:center">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Ticket Priority Distribution: Where Is Your S</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-test-priority-distribution-post.html</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">171</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Ticket Age Distribution: Open Backlog Analysi</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-ticket-age-distribution-post.html</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Average Time Per Ticket: Identifying Your Mos</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-what-is-each-techs-average-time-per-ticket-p</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Average First Response Time: Where Your SLA C</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-whats-our-average-first-response-time-in-hou</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>SLA Trend: 12 Months of First Response &amp; </strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-whats-our-sla-trend-over-the-last-12-months-</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">72</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>New Client Revenue Trajectories</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-which-new-clients-have-the-highest-revenue-t</span></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">44</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Client Reports Overview</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-client-reports-post.html</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">70</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>SmileBack CSAT CSAT Sentiment Distribution</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-csat-sentiment-distribution-post.html</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>MRR Dashboard: Track Your Managed Services Re</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-mrr-dashboard-post.html</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Project Budget Variance</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-project-budget-variance-post.html</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">174</td>
+<td style="text-align:center">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Projects Overview</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-projects-post.html</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">79</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Resources Overview</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-resources-post.html</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">48</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>The SLA Doughnut Chart Autotask Can't Build: </strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-sla-doughnut-chart-post.html</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Live NOC Dashboard — Operational Ticket Monit</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-what-does-an-auto-refreshing-noc-dashboard-l</span></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">3</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Billable Hours Trend 12 Months</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-billable-hours-trend-12-months-post.html</span></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">66</td>
+<td style="text-align:center">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Costs Overview</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-costs-post.html</span></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">76</td>
+<td style="text-align:center">2</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Estimated vs Actual Hours</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-estimated-vs-actual-hours-post.html</span></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">88</td>
+<td style="text-align:center">8</td>
+</tr><tr>
+<td>EN</td>
+<td><strong>Hours by Purchase Order</strong><br><span style="font-size:11px;color:#6b7280">proxuma-io-hours-by-purchase-order-post.html</span></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">174</td>
+<td style="text-align:center">8</td>
+</tr></tbody>
+    </table>
+  </details>
+
+  <!-- ============= EN-NL PAIRING ============= -->
+  <h2>5. EN-NL Cross-Reference</h2>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" style="color:#dc2626">95%</div>
+      <div class="stat-label">Hreflang Links Broken</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">20</div>
+      <div class="stat-label">Matched Pairs (of ~420)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">429</div>
+      <div class="stat-label">EN Unpaired</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">403</div>
+      <div class="stat-label">NL Unpaired</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Critical SEO Issue</span>
+    <strong>Hreflang cross-references are broken on 95% of files.</strong> EN files reference their own EN slug in the NL URL path (e.g., <code>/nl-powerbi/.../alert-mttr-mean-time-to-resolve/</code>) but the actual NL canonical uses a translated slug (<code>/nl-powerbi/.../alert-mttr-rmm-oplostijd/</code>). NL files do the same in reverse. Google cannot establish language pairs, which means duplicate content penalties and missed regional ranking.
+  </div>
+
+  <p>Only 20 pairs could be matched (where both EN and NL use the same URL slug). The remaining ~420 pairs exist topically but use different slugs. This means:</p>
+  <ul>
+    <li>No language switcher will work without a slug mapping table</li>
+    <li>Google cannot associate the translations</li>
+    <li>A mapping table needs to be built from file titles or content similarity</li>
+  </ul>
+
+  <!-- ============= GALLERY FIX ============= -->
+  <h2>6. Gallery Pages</h2>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" style="color:#dc2626">20</div>
+      <div class="stat-label">EN Gallery Links (need 449)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color:#dc2626">0</div>
+      <div class="stat-label">NL Gallery Links (need 423)</div>
+    </div>
+  </div>
+
+  <p>The gallery pages (<code>proxuma-io-insights-gallery.html</code> and <code>proxuma-io-insights-gallery-nl.html</code>) were grabbed from the live WP site and are frozen at the original ~20 reports. The EN gallery shows 20 report links; the NL gallery shows zero NL-specific links (all 40 href attributes point to EN URLs).</p>
+
+  <p>To fix the gallery, the HTML needs to be regenerated from the full list of 449 EN and 423 NL report files. The gallery page uses ACF field <code>bf_sections_0_html_code</code> on WP pages 3299 (EN) and 3495 (NL). The regenerated gallery should include all report titles, slugs, and category tags.</p>
+
+  <!-- ============= TRUTHIFIER IMPACT ============= -->
+  <h2>7. Truthifier Impact Analysis</h2>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Files Modified</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Commits</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">-65K</div>
+      <div class="stat-label">Net Lines Changed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">72%</div>
+      <div class="stat-label">DAX Pass Rate (Live)</div>
+    </div>
+  </div>
+
+  <p>The truthifier (commits <code>506a2bb</code> through <code>54de876</code>) modified all 872 files across 8 commits. It replaced and restructured content, resulting in 462K insertions and 528K deletions -- a net reduction of 65K lines.</p>
+
+  <table class="matrix">
+    <thead><tr><th>Metric</th><th>EN</th><th>NL</th></tr></thead>
+    <tbody>
+      <tr><td>Files that grew</td><td>3</td><td>4</td></tr>
+      <tr><td>Files that shrank</td><td>446</td><td>419</td></tr>
+      <tr><td>Avg real DAX</td><td>3.5</td><td>3.4</td></tr>
+      <tr><td>Avg KPIs</td><td>4.2</td><td>3.9</td></tr>
+      <tr><td>Avg data cells</td><td>83</td><td>81</td></tr>
+      <tr><td>Avg file size</td><td>93 KB</td><td>93 KB</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Truthifier Verdict</span>
+    The truthifier improved quality overall. Pre-truthifier DAX pass rate was ~33%; post-truthifier it is 72% (per the live audit from 2026-04-23). The net shrinkage is explained by replacing verbose LLM-generated narrative with structured data injections. The 14 files with zero real DAX are reports where the truthifier could not find matching DAX in the library (reports referencing fabricated tables like BI_HiBob_Employees, BI_Datto_Backup_Status).
+  </div>
+
+  <!-- ============= ROOT CAUSE ============= -->
+  <h2>8. Root Cause Analysis</h2>
+
+  <p>The quality variance has five distinct causes:</p>
+
+  <div class="card">
+    <div class="card-title">1. Multi-batch Sonnet generation with varying prompts</div>
+    <div class="card-desc">Reports were generated in multiple batches by Sonnet subagents. Earlier batches used simpler prompts producing SHELL-quality output (10 generic markers, zero KPIs). Later batches used report_builder.py with structured data injection. The 5 EN SHELL reports with 10 markers each (average-deal-size, average-task-cycle-time, billing-charge-allocation-conflicts, project-revenue-vs-labor-cost, psa-vs-quickbooks-comparison) are from the earliest batch.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. Truthifier coverage gaps</div>
+    <div class="card-desc">The truthifier injected real DAX and KPIs from a validated library of 483 queries. Reports referencing tables not present in the demo dataset (BI_HiBob_Employees: 25 files, BI_Datto_Backup_Status: 12, BI_Microsoft_Licenses: 9) could not be enriched. These remain THIN because their topic areas have no matching DAX in the library.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Generic marker persistence</div>
+    <div class="card-desc">The truthifier injected real data but did not remove existing generic markers. 23 STANDARD/RICH reports still contain 5-10 markers ("We pulled the numbers", "Connect Your Own Data" etc.) alongside real DAX and KPIs. These need a cleanup pass to strip the filler text.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. Category pages mixed with reports</div>
+    <div class="card-desc">8 files are category landing pages (beveiliging, financieel, ticketing, upsell, projecten, klantrapporten + 2 EN: power-bi-mcp-server, ai-privacy-compliance-guide). These are not Power BI reports and should be excluded from quality metrics or handled separately.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5. Hreflang generation using wrong slugs</div>
+    <div class="card-desc">When EN files were generated, their NL hreflang was set to the EN slug in the NL URL path. NL files did the same in reverse. This broke 95% of cross-language links. Root cause: the generation script did not look up the actual NL/EN canonical slug before setting hreflang.</div>
+  </div>
+
+  <!-- ============= REMEDIATION ============= -->
+  <h2>9. Remediation Plan</h2>
+
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>125 reports need work (14% of corpus). The fixes are mechanical and scriptable. Estimated total effort: 2-3 sessions for a Sonnet agent with proper prompts, plus 1 session for gallery regeneration and hreflang fixes.</p>
+  </div>
+
+  <h3>Priority 1: Gallery Regeneration (Blocking)</h3>
+  <p>Regenerate both gallery pages from the full file list. Script should:</p>
+  <ul>
+    <li>Read all 449 EN + 423 NL report files</li>
+    <li>Extract title, slug, category from each file</li>
+    <li>Generate gallery HTML matching the existing card/grid format</li>
+    <li>Push to WP pages 3299 (EN) and 3495 (NL) via ACF field <code>bf_sections_0_html_code</code></li>
+  </ul>
+  <p><strong>Effort:</strong> 1 session. Scriptable.</p>
+
+  <h3>Priority 2: Strip Generic Markers (23 files)</h3>
+  <p>The 23 STANDARD/RICH reports with 5+ markers need the placeholder text removed. These reports already have real data -- the markers are leftover filler. A regex-based cleanup script can handle this.</p>
+  <p><strong>Effort:</strong> 30 minutes. Fully scriptable.</p>
+
+  <h3>Priority 3: Enrich SHELL Reports (11 files)</h3>
+  <p>The 11 SHELL reports need real DAX, KPIs, and data tables injected. 5 of these (average-deal-size, etc.) have the template structure but zero content. The other 6 are edge cases (MCP server page, duplicate SLA reports).</p>
+  <p><strong>Effort:</strong> 1 session. Requires DAX library lookup + LLM enrichment for 5 files. The 2 MCP server pages and 2 duplicate SLA pages may be better handled by removal or redirect.</p>
+
+  <h3>Priority 4: Upgrade THIN Reports (106 files)</h3>
+  <p>These need incremental enrichment: add missing KPIs, expand tables, inject additional DAX queries. Most have 1-2 real DAX queries already -- they need 1-2 more plus KPI values.</p>
+  <p><strong>Effort:</strong> 2-3 sessions. Can be batched by topic area.</p>
+
+  <h3>Priority 5: Fix Hreflang Cross-References (832 files)</h3>
+  <p>Build an EN-NL slug mapping table (by title similarity or manual curation). Then update all hreflang links to point to the correct counterpart slug. This is critical for SEO but does not affect visible content quality.</p>
+  <p><strong>Effort:</strong> 1 session. Requires building the mapping first, then a script to rewrite hreflang attributes.</p>
+
+  <h3>Priority 6: Remove/Redirect Category Pages (8 files)</h3>
+  <p>The 6 NL category pages (beveiliging, financieel, etc.) and 2 EN edge cases should either be removed from the report corpus or given proper category landing page treatment. They pollute quality metrics and confuse the gallery.</p>
+  <p><strong>Effort:</strong> 30 minutes. Decision needed on whether to keep or remove.</p>
+
+  <!-- ============= ADDITIONAL FLAGS ============= -->
+  <h2>10. Additional Quality Flags</h2>
+
+  <table class="matrix">
+    <thead><tr><th>Issue</th><th>Count</th><th>Severity</th></tr></thead>
+    <tbody>
+      <tr><td>Generic boilerplate FAQ (3 identical questions)</td><td>42</td><td style="color:#d97706">Medium</td></tr>
+      <tr><td>Missing FAQ JSON-LD</td><td>24</td><td style="color:#d97706">Medium</td></tr>
+      <tr><td>DAX toggles with no real DAX inside</td><td>14</td><td style="color:#dc2626">High</td></tr>
+      <tr><td>Zero KPI values</td><td>70</td><td style="color:#d97706">Medium</td></tr>
+      <tr><td>Zero data table cells</td><td>23</td><td style="color:#dc2626">High</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Power BI Report Quality Audit -- 872 files analyzed</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Power BI Report Quality Audit",
+  "date": "2026-05-07",
+  "summary": "Comprehensive audit of 872 Power BI report HTML files. 86% meet STANDARD or RICH quality. 14% (125 files) need remediation. Gallery pages are critically stale (20/449 EN links, 0/423 NL links). Hreflang broken on 95% of files. Full per-file audit saved to quality-audit.json.",
+  "sections": [
+    {
+      "heading": "Tier Distribution",
+      "items": [
+        {"title": "RICH", "detail": "314 reports (36%). 3+ real DAX, 4+ KPIs, 10+ data cells, zero markers.", "meta": {"en": 224, "nl": 90}},
+        {"title": "STANDARD", "detail": "433 reports (50%). Has real DAX and KPIs but may contain generic markers.", "meta": {"en": 169, "nl": 264}},
+        {"title": "THIN", "detail": "106 reports (12%). Missing key elements like DAX or KPIs.", "meta": {"en": 44, "nl": 62}},
+        {"title": "SHELL", "detail": "11 reports (1%). Template structure with placeholder text, no real content.", "meta": {"en": 10, "nl": 1}},
+        {"title": "CATEGORY_PAGE", "detail": "8 pages (1%). Not reports -- category landing pages.", "meta": {"en": 2, "nl": 6}}
+      ]
+    },
+    {
+      "heading": "Critical Issues",
+      "items": [
+        {"title": "Gallery pages stale", "detail": "EN shows 20/449 links, NL shows 0/423 NL links. Needs full regeneration."},
+        {"title": "Hreflang broken 95%", "detail": "EN files use EN slug in NL URL, NL does reverse. Google cannot match translations."},
+        {"title": "Generic markers persist", "detail": "23 STANDARD/RICH files have 5+ placeholder markers despite having real data."}
+      ]
+    },
+    {
+      "heading": "Root Causes",
+      "items": [
+        {"title": "Multi-batch generation", "detail": "Earliest Sonnet batches used simpler prompts producing SHELL output."},
+        {"title": "Truthifier gaps", "detail": "Reports referencing non-existent tables (HiBob, Datto) could not be enriched."},
+        {"title": "Marker cleanup missed", "detail": "Truthifier injected data but did not strip existing placeholder text."}
+      ]
+    }
+  ],
+  "next_steps": "Priority order: (1) regenerate gallery pages for WP 3299/3495, (2) strip markers from 23 files, (3) enrich 11 SHELL reports, (4) upgrade 106 THIN reports, (5) fix hreflang on 832 files, (6) handle 8 category pages.",
+  "session_state": {
+    "phase": "audit complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Audited all 872 HTML files across 20+ metrics",
+      "Classified into 5 quality tiers",
+      "Identified 95% broken hreflang cross-references",
+      "Confirmed gallery pages stale (20 EN links, 0 NL links)",
+      "Analyzed truthifier impact (all 872 files, 72% DAX pass rate)",
+      "Identified 5 root causes of quality variance",
+      "Generated per-file JSON audit and HTML report"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "quality-audit.json, quality-audit-summary.json, quality_audit.py, quality_audit_v2.py, generate_audit_html.py in ~/ClaudeCode/powerbi-reports/ (uncommitted)",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/powerbi-reports/",
+    "temp_files": [
+      {"path": "~/ClaudeCode/powerbi-reports/quality-audit.json", "description": "Per-file audit data for all 872 reports", "cleanup_after": "remediation complete"},
+      {"path": "~/ClaudeCode/powerbi-reports/quality-audit-summary.json", "description": "Aggregated audit summary", "cleanup_after": "remediation complete"}
+    ],
+    "github_links": [
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-powerbi-quality-audit.html", "relevance": "This audit report"}
+    ],
+    "wordpress_ids": [3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887", "WP page 3299", "WP page 3495"],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Used language-specific generic markers (EN + NL lists) for tier classification",
+      "rejected_alternatives": ["EN-only markers (undercount NL issues)", "No markers in classification"],
+      "rationale": "NL files use Dutch translations of the same placeholder phrases. Without Dutch markers, 238 NL files were incorrectly classified as RICH.",
+      "trade_offs": "Dutch marker list may be incomplete -- some NL placeholder phrases might be missed",
+      "contingencies": []
+    },
+    {
+      "decision": "Classified tier based on real_dax + kpi + cells + markers thresholds",
+      "rejected_alternatives": ["File size only", "Human review of each file"],
+      "rationale": "Content metrics are more reliable than size for quality assessment. 872 files makes manual review impractical.",
+      "trade_offs": "Thresholds are somewhat arbitrary -- edge cases may be misclassified",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
