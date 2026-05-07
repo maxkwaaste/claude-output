@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M4 Air Automation Audit</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 900px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page {
+  max-width: 900px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 12px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+
+/* Automation-specific */
+.auto-item {
+  border: 1px solid #e2e4e8; border-radius: 4px; padding: 18px 22px;
+  margin-bottom: 10px; position: relative; transition: opacity .2s;
+}
+.auto-item.marked-kill { opacity: 0.4; background: #fde8e8; }
+.auto-item-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+}
+.auto-name {
+  font: 700 15px/1 "Georgia", serif; color: #1a2744; flex: 1;
+}
+.auto-schedule {
+  font: 500 11px/1 -apple-system, sans-serif; color: #6b7280;
+}
+.auto-desc {
+  font: 400 13px/1.5 -apple-system, sans-serif; color: #4a5568; margin-bottom: 8px;
+}
+.auto-evidence {
+  font: 400 12px/1.5 "JetBrains Mono", "SF Mono", monospace; color: #6b7280;
+  background: #f8f9fb; padding: 8px 12px; border-radius: 3px; margin-bottom: 8px;
+}
+.auto-actions {
+  display: flex; align-items: center; gap: 16px; margin-top: 10px;
+}
+.status-badge {
+  display: inline-block; font: 600 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 4px 10px; border-radius: 3px;
+}
+.status-working { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.status-broken { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.status-stale { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.status-running { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.status-idle { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.status-unloaded { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.status-warning { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.status-violation { background: #f3e8fd; color: #6b2a8a; border: 1px solid #c8a0d8; }
+
+.kill-cb { width: 18px; height: 18px; cursor: pointer; accent-color: #c8402a; }
+.kill-label {
+  font: 500 11px/1 -apple-system, sans-serif; color: #c8402a;
+  text-transform: uppercase; letter-spacing: .04em; cursor: pointer;
+  user-select: none;
+}
+
+.comment-area {
+  width: 100%; min-height: 36px; max-height: 120px; margin-top: 8px;
+  font: 400 13px/1.5 -apple-system, sans-serif; color: #2c2c2c;
+  border: 1px solid #d0d3d8; border-radius: 3px; padding: 8px 12px;
+  resize: vertical; background: #fafbfc;
+}
+.comment-area:focus { outline: none; border-color: #1a2744; background: #fff; }
+.comment-area::placeholder { color: #b0b5bc; }
+
+.section-comment {
+  margin: 12px 0 24px; padding: 14px 18px; background: #f8f9fb;
+  border: 1px dashed #d0d3d8; border-radius: 4px;
+}
+.section-comment-label {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #6b7280; margin-bottom: 6px; display: block;
+}
+
+/* Copy handoff button */
+.handoff-btn {
+  position: sticky; bottom: 20px; float: right; z-index: 100;
+  background: #1a2744; color: #fff; border: none; border-radius: 4px;
+  padding: 12px 20px; cursor: pointer;
+  font: 600 12px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.handoff-btn:hover { background: #2a3a5a; }
+.handoff-btn.copied { background: #1a6b3a; }
+
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 7, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-m4-air-automation-audit.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Infrastructure Audit</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 7, 2026<br>M4 Air (MacBook-Air-van-Max.local)<br>100.125.79.122
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">AUTOMATION INVENTORY</div>
+  <h1>M4 Air Full Automation Audit</h1>
+  <p class="subtitle">Every cron job, LaunchAgent, pm2 process, and background daemon on the client machine. Each investigated end-to-end with log evidence. Check the box to mark for kill, add comments per item or section.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">LaunchAgents</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Working</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Stale / Broken</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Unloaded</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">No crontab, no pm2</span>
+    <code>crontab -l</code> returns "no crontab for maxdekwaasteniet". pm2 is not installed. All automations on this machine run as LaunchAgents.
+  </div>
+
+  <div class="callout" style="border-left-color: #c8402a;">
+    <span class="callout-label" style="color: #c8402a;">Rule violation</span>
+    The rule "All automation runs on M1 Pro" is violated by <code>com.proxuma.dashboard-refresh</code> (runs on M4 Air). This should be migrated to M1 Pro or killed here.
+  </div>
+
+  <!-- ============ LAUNCH AGENTS ============ -->
+  <h2>LaunchAgents (8 custom agents)</h2>
+  <div class="section-comment">
+    <span class="section-comment-label">Section notes</span>
+    <textarea class="comment-area" data-key="section-launchagents" placeholder="Notes on LaunchAgents as a whole..."></textarea>
+  </div>
+
+  <!-- 1: air-sync -->
+  <div class="auto-item" id="la-air-sync">
+    <div class="auto-item-header">
+      <span class="status-badge status-warning">Working w/ errors</span>
+      <span class="auto-name">air-sync</span>
+      <span class="auto-schedule">Every 2 min</span>
+    </div>
+    <div class="auto-desc">Rsyncs entire <code>$HOME</code> to M1 Pro SanDisk (<code>/Volumes/Sandisk/MacBookAir-Sync/</code>) via SSH over Tailscale. Uses GNU rsync from Homebrew to avoid macOS openrsync socket bugs. Nice 10, low priority IO.</div>
+    <div class="auto-evidence">Script: ~/.sync/sync.sh | Plist: com.maxdekwaasteniet.air-sync<br>Loaded: YES | RunAtLoad: YES<br>Recent log: rsync error code 12 (WhatsApp media dir causing "Interrupted system call")<br>Also: "cannot delete backup-pre-git" warnings (non-empty dir, harmless)</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-air-sync" data-key="kill-air-sync">
+      <label class="kill-label" for="kill-air-sync">Kill</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-air-sync" placeholder="Comment... (WhatsApp dir errors are noise but recurring)"></textarea>
+  </div>
+
+  <!-- 2: claude-archive-push -->
+  <div class="auto-item" id="la-archive-push">
+    <div class="auto-item-header">
+      <span class="status-badge status-working">Working</span>
+      <span class="auto-name">claude-archive-push</span>
+      <span class="auto-schedule">Every 15 min</span>
+    </div>
+    <div class="auto-desc">Pushes <code>~/.claude/projects/</code>, <code>~/.claude/todos/</code>, and <code>~/.claude/shell-snapshots/</code> to M1 Pro via rsync over SSH (100.85.64.20). Also drains any pending hook files from <code>~/.claude-archive-pending/</code>.</div>
+    <div class="auto-evidence">Script: ~/.claude/hooks/archive-push-m1.sh | Plist: com.proxuma.claude-archive-push<br>Loaded: YES | RunAtLoad: YES<br>Last run: 2026-05-07 16:58 "=== done ===" (successful, no errors)<br>Runs consistently every 15 min throughout the day.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-archive-push" data-key="kill-archive-push">
+      <label class="kill-label" for="kill-archive-push">Kill</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-archive-push" placeholder="Comment..."></textarea>
+  </div>
+
+  <!-- 3: dashboard-refresh -->
+  <div class="auto-item" id="la-dashboard-refresh">
+    <div class="auto-item-header">
+      <span class="status-badge status-violation">Rule violation</span>
+      <span class="auto-name">dashboard-refresh</span>
+      <span class="auto-schedule">Daily 07:00 + fallback 24h</span>
+    </div>
+    <div class="auto-desc">Runs Power BI dashboard refresh script (<code>refresh.py</code>) daily at 07:00. Fetches data from Power BI, builds HTML dashboards, pushes to WordPress. <strong>Violates the "all automation on M1 Pro" rule.</strong> Also: last successful run was April 20 (17 days ago). April 21 log has only the header line, no completion. No May entries at all.</div>
+    <div class="auto-evidence">Script: ~/ClaudeCode/powerbi-dashboards/refresh-wrapper.sh | Plist: com.proxuma.dashboard-refresh<br>Loaded: YES | RunAtLoad: NO<br>Last success: 2026-04-20 07:00 (operations-overview, 154 KB, pushed to WP page 4504)<br>Last attempt: 2026-04-21 07:06 (truncated, likely crashed during python execution)<br>No runs since April 21. Machine likely not awake at 07:00 during May.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-dashboard" data-key="kill-dashboard" checked>
+      <label class="kill-label" for="kill-dashboard">Kill (should run on M1 Pro)</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-dashboard" placeholder="Comment... (pre-checked: violates M1 Pro automation rule)"></textarea>
+  </div>
+
+  <!-- 4: daxpreview-sync -->
+  <div class="auto-item" id="la-daxpreview">
+    <div class="auto-item-header">
+      <span class="status-badge status-working">Working</span>
+      <span class="auto-name">daxpreview-sync</span>
+      <span class="auto-schedule">Every 30 sec</span>
+    </div>
+    <div class="auto-desc">Pulls <code>dax-library.json</code> from M1 Pro (<code>~/ClaudeCode/powerbi-reports/truthifier-data/</code>) to local <code>~/ClaudeCode/dax-preview/data/</code> via rsync over SSH. Read-only, one-shot sync. Keeps the DAX preview tool current with the latest library data.</div>
+    <div class="auto-evidence">Script: ~/ClaudeCode/dax-preview/sync.sh | Plist: com.proxuma.daxpreview.sync<br>Loaded: YES | RunAtLoad: YES<br>Last 5 runs all rc=0, running every 30 seconds right now.<br>Active and healthy. Sync completes in under 1 second each time.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-daxpreview" data-key="kill-daxpreview">
+      <label class="kill-label" for="kill-daxpreview">Kill</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-daxpreview" placeholder="Comment... (30 sec interval is aggressive but each sync is fast)"></textarea>
+  </div>
+
+  <!-- 5: mount-m1pro -->
+  <div class="auto-item" id="la-mount">
+    <div class="auto-item-header">
+      <span class="status-badge status-working">Working</span>
+      <span class="auto-name">mount-m1pro</span>
+      <span class="auto-schedule">Every 5 min + RunAtLoad</span>
+    </div>
+    <div class="auto-desc">Mounts M1 Pro SMB share (<code>//maxdekwaasteniet@maxs-laptop.taild8bb24.ts.net/maxdekwaasteniet</code>) to <code>/Volumes/maxdekwaasteniet</code> silently via <code>mount_smbfs</code>. No Finder popups. Creates symlink at <code>~/M1 Pro Server</code>. Skips if already mounted or if M1 Pro unreachable (1s ping + 2s SMB port check).</div>
+    <div class="auto-evidence">Script: ~/Library/LaunchAgents/mount-m1pro.sh | Plist: com.proxuma.mount-m1pro<br>Loaded: YES | RunAtLoad: YES<br>No log output (silent by design, exits 0 when already mounted or unreachable).<br>Working correctly: silent mount maintenance.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-mount" data-key="kill-mount">
+      <label class="kill-label" for="kill-mount">Kill</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-mount" placeholder="Comment..."></textarea>
+  </div>
+
+  <!-- 6: nudge-poll -->
+  <div class="auto-item" id="la-nudge">
+    <div class="auto-item-header">
+      <span class="status-badge status-stale">Stale</span>
+      <span class="auto-name">nudge-poll</span>
+      <span class="auto-schedule">Every 15 min</span>
+    </div>
+    <div class="auto-desc">Part of the GTM Nudge Engine. Polls the sent folder to detect outgoing emails and trigger follow-up nudges. Runs <code>poll_sent.sh</code> from the abandoned-project-tracker repo.</div>
+    <div class="auto-evidence">Script: ~/ClaudeCode/abandoned-project-tracker/nudge-engine/scripts/poll_sent.sh<br>Plist: com.proxuma.nudge-poll<br>Loaded: YES | RunAtLoad: NO<br>Every single run says "No snapshot file yet -- skipping".<br>The snapshot file was never initialized. This has been running uselessly since March 9.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-nudge" data-key="kill-nudge" checked>
+      <label class="kill-label" for="kill-nudge">Kill (never initialized, always skips)</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-nudge" placeholder="Comment... (pre-checked: never worked, no snapshot file)"></textarea>
+  </div>
+
+  <!-- 7: excalidraw-watcher -->
+  <div class="auto-item" id="la-excalidraw">
+    <div class="auto-item-header">
+      <span class="status-badge status-unloaded">Unloaded</span>
+      <span class="auto-name">excalidraw-watcher</span>
+      <span class="auto-schedule">WatchPaths: ~/Downloads</span>
+    </div>
+    <div class="auto-desc">Watches <code>~/Downloads</code> for <code>.excalidraw</code> files and renames them (lowercase). Triggered on filesystem change, not on interval. Script exists and is executable.</div>
+    <div class="auto-evidence">Script: ~/.claude/helpers/excalidraw-watcher.sh | Plist: com.max.excalidraw-watcher<br>Loaded: NO (launchctl: "Could not find service")<br>Last log entry: 2026-04-15 13:45 (3 weeks ago, when it was last loaded).<br>Plist file exists but agent is not loaded into launchd.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-excalidraw" data-key="kill-excalidraw">
+      <label class="kill-label" for="kill-excalidraw">Kill</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-excalidraw" placeholder="Comment... (not loaded, not harmful. Load with: launchctl load ~/Library/LaunchAgents/com.max.excalidraw-watcher.plist)"></textarea>
+  </div>
+
+  <!-- 8: kokoro TTS -->
+  <div class="auto-item" id="la-kokoro">
+    <div class="auto-item-header">
+      <span class="status-badge status-unloaded">Unloaded</span>
+      <span class="auto-name">kokoro TTS (voicemode)</span>
+      <span class="auto-schedule">KeepAlive (persistent)</span>
+    </div>
+    <div class="auto-desc">Kokoro FastAPI TTS server. Runs GPU-accelerated text-to-speech on the Mac GPU via PyTorch. KeepAlive=true means launchd should restart it if it dies. Configured with max 25 requests per uvicorn worker. Used by the <code>tts</code> MCP server for the <code>/speak</code> skill.</div>
+    <div class="auto-evidence">Script: ~/.voicemode/services/kokoro/start-gpu_mac.sh | Plist: com.voicemode.kokoro<br>Loaded: NO (launchctl: "Could not find service")<br>Process: NOT running (no kokoro in ps, port 8880 not listening)<br>Last log: audiobook generation activity, then clean shutdown.<br>The voice MCP shows as "failed" in session health check.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-kokoro" data-key="kill-kokoro">
+      <label class="kill-label" for="kill-kokoro">Kill</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-kokoro" placeholder="Comment... (not loaded. Load with: launchctl load ~/Library/LaunchAgents/com.voicemode.kokoro.plist. Voice MCP depends on this.)"></textarea>
+  </div>
+
+  <!-- ============ MCP PROCESSES ============ -->
+  <h2>MCP Server Processes</h2>
+  <div class="section-comment">
+    <span class="section-comment-label">Section notes</span>
+    <textarea class="comment-area" data-key="section-mcp" placeholder="Notes on MCP processes..."></textarea>
+  </div>
+
+  <div class="auto-item" id="mcp-servers">
+    <div class="auto-item-header">
+      <span class="status-badge status-working">Normal</span>
+      <span class="auto-name">Claude Code MCP Servers (3 sessions)</span>
+      <span class="auto-schedule">Per-session lifecycle</span>
+    </div>
+    <div class="auto-desc">Three active Claude Code sessions, each with its own set of MCP server processes. These are normal and expected: they start when a Claude session opens and stop when it closes. Each session spawns ~15 MCP processes (ms365, hubspot, memory, open-brain, tts, excalidraw, google-ads, gemini-mcp, claude-flow, ruv-swarm, flow-nexus, engram, powerbi, sequential-thinking, context7, octocode).</div>
+    <div class="auto-evidence">~45 node/python MCP processes across 3 TTY sessions (s000, s007, s008, s012).<br>All healthy, all tied to active Claude sessions.<br>No orphaned MCP processes found.</div>
+    <div class="auto-actions">
+      <input type="checkbox" class="kill-cb" id="kill-mcp" data-key="kill-mcp">
+      <label class="kill-label" for="kill-mcp">Kill</label>
+    </div>
+    <textarea class="comment-area" data-key="comment-mcp" placeholder="Comment... (these are normal Claude session processes)"></textarea>
+  </div>
+
+  <!-- ============ BOTTOM LINE ============ -->
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>The M4 Air is much cleaner than the M1 Pro was. 8 LaunchAgents total, no crontab, no pm2. Four are working well (air-sync, archive-push, daxpreview-sync, mount-m1pro). Two are not loaded and not running (excalidraw-watcher, kokoro). One is stale and useless (nudge-poll). One violates the "automation on M1 Pro" rule (dashboard-refresh). Recommended kills: dashboard-refresh (move to M1 Pro) and nudge-poll (never worked). The air-sync WhatsApp errors are noise but worth excluding that directory.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>M4 Air Automation Audit | May 7, 2026</span>
+  </div>
+
+  <button class="handoff-btn" onclick="copyHandoff()">Copy handoff prompt</button>
+</div>
+
+<script>
+// Persist comments and kill checkboxes to localStorage
+const STORAGE_KEY = 'm4-air-audit-2026-05-07';
+
+function save() {
+  const state = {};
+  document.querySelectorAll('.comment-area').forEach(el => {
+    state[el.dataset.key] = el.value;
+  });
+  document.querySelectorAll('.kill-cb').forEach(el => {
+    state[el.dataset.key] = el.checked;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function load() {
+  try {
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    document.querySelectorAll('.comment-area').forEach(el => {
+      if (state[el.dataset.key] !== undefined) el.value = state[el.dataset.key];
+    });
+    document.querySelectorAll('.kill-cb').forEach(el => {
+      if (state[el.dataset.key] !== undefined) el.checked = state[el.dataset.key];
+      toggleKill(el);
+    });
+  } catch(e) {}
+}
+
+function toggleKill(cb) {
+  const item = cb.closest('.auto-item');
+  if (cb.checked) item.classList.add('marked-kill');
+  else item.classList.remove('marked-kill');
+}
+
+document.querySelectorAll('.comment-area').forEach(el => el.addEventListener('input', save));
+document.querySelectorAll('.kill-cb').forEach(el => {
+  el.addEventListener('change', () => { toggleKill(el); save(); });
+});
+
+function copyHandoff() {
+  const kills = [];
+  const comments = [];
+  document.querySelectorAll('.kill-cb:checked').forEach(el => {
+    const name = el.closest('.auto-item').querySelector('.auto-name').textContent;
+    kills.push(name);
+  });
+  document.querySelectorAll('.comment-area').forEach(el => {
+    if (el.value.trim()) comments.push(el.dataset.key + ': ' + el.value.trim());
+  });
+
+  let prompt = 'Context from M4 Air automation audit: ';
+  prompt += 'Audited 8 LaunchAgents on M4 Air (100.125.79.122). ';
+  prompt += '4 working (air-sync, archive-push, daxpreview-sync, mount-m1pro). ';
+  prompt += '2 unloaded (excalidraw-watcher, kokoro). ';
+  prompt += '1 stale (nudge-poll, never initialized). ';
+  prompt += '1 rule violation (dashboard-refresh, should be on M1 Pro). ';
+  if (kills.length) prompt += 'MARKED FOR KILL: ' + kills.join(', ') + '. ';
+  if (comments.length) prompt += 'COMMENTS: ' + comments.join(' | ') + '. ';
+  prompt += 'Kill commands: launchctl unload ~/Library/LaunchAgents/PLIST_FILE. ';
+  prompt += 'Audit HTML: ~/ClaudeCode/claude-output/2026-05-07-m4-air-automation-audit.html';
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.querySelector('.handoff-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy handoff prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+load();
+</script>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "M4 Air Full Automation Audit",
+  "date": "2026-05-07",
+  "summary": "Audited all automations on M4 Air. 8 LaunchAgents found: 4 working, 2 unloaded, 1 stale, 1 rule violation. No crontab, no pm2.",
+  "sections": [
+    {
+      "heading": "LaunchAgents",
+      "items": [
+        { "title": "air-sync", "detail": "Rsyncs $HOME to M1 Pro SanDisk every 2 min. Working but WhatsApp media dir causes rsync code 12 errors.", "meta": { "status": "working-with-errors", "interval": "120s", "loaded": true } },
+        { "title": "claude-archive-push", "detail": "Pushes .claude/projects + todos to M1 Pro every 15 min. Fully working, no errors.", "meta": { "status": "working", "interval": "900s", "loaded": true } },
+        { "title": "dashboard-refresh", "detail": "Daily Power BI dashboard refresh at 07:00. RULE VIOLATION: should run on M1 Pro. Last success April 20, crashed April 21, no May runs.", "meta": { "status": "rule-violation", "interval": "daily-07:00", "loaded": true } },
+        { "title": "daxpreview-sync", "detail": "Pulls dax-library.json from M1 Pro every 30 sec. Working perfectly.", "meta": { "status": "working", "interval": "30s", "loaded": true } },
+        { "title": "mount-m1pro", "detail": "Mounts M1 Pro SMB share every 5 min. Silent by design, working correctly.", "meta": { "status": "working", "interval": "300s", "loaded": true } },
+        { "title": "nudge-poll", "detail": "GTM nudge engine sent-folder poller every 15 min. Never initialized: 'No snapshot file yet' on every single run since March 9.", "meta": { "status": "stale", "interval": "900s", "loaded": true } },
+        { "title": "excalidraw-watcher", "detail": "Watches Downloads for .excalidraw files. Plist exists but NOT loaded into launchd. Last active April 15.", "meta": { "status": "unloaded", "interval": "WatchPaths", "loaded": false } },
+        { "title": "kokoro TTS", "detail": "Kokoro FastAPI TTS server. NOT loaded, not running. Voice MCP depends on this.", "meta": { "status": "unloaded", "interval": "KeepAlive", "loaded": false } }
+      ]
+    },
+    {
+      "heading": "MCP Processes",
+      "items": [
+        { "title": "Claude Code MCP Servers", "detail": "~45 processes across 3 active sessions. Normal per-session lifecycle, no orphans.", "meta": { "status": "normal" } }
+      ]
+    }
+  ],
+  "next_steps": "Kill dashboard-refresh and nudge-poll on M4 Air. Migrate dashboard-refresh to M1 Pro cron. Optionally: add WhatsApp exclusion to air-sync, reload kokoro if TTS is needed.",
+  "session_state": {
+    "phase": "audit complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Audited crontab (empty), pm2 (not installed), LaunchAgents (8 found), background processes (MCP only)",
+      "Read all 8 plist files and their scripts",
+      "Checked logs and launchctl status for each agent",
+      "Built interactive HTML audit page with kill checkboxes"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new audit HTML file, not yet committed",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-m4-air-automation-audit.html", "relevance": "this audit" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-m1-pro-automation-audit.html", "relevance": "companion M1 Pro audit" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "automation-on-m1-pro rule"]
+  },
+  "decision_log": [
+    {
+      "decision": "Pre-checked dashboard-refresh and nudge-poll for kill",
+      "rejected_alternatives": ["Keep dashboard-refresh on M4 Air", "Initialize nudge-poll snapshot file"],
+      "rationale": "dashboard-refresh violates the M1 Pro automation rule and hasn't run successfully since April 20. nudge-poll has never worked since installation on March 9.",
+      "trade_offs": "Dashboard refresh needs to be set up on M1 Pro before killing here",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
