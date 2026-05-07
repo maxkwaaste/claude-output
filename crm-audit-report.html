@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxuma CRM Audit Report -- 2026-05-07</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Open Sans',sans-serif;background:#0f172a;color:#cbd5e1;line-height:1.5;padding:0}
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border-bottom:2px solid #0f766e;padding:40px 32px 32px}
+.header h1{font-family:'DM Serif Display',serif;font-size:28px;color:#f1f5f9;margin-bottom:4px}
+.header .sub{color:#94a3b8;font-size:14px}
+.stats{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap}
+.stat{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:12px 20px;min-width:120px}
+.stat .n{font-size:28px;font-weight:800;color:#f1f5f9}
+.stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;margin-top:2px}
+.stat.green .n{color:#34d399}
+.stat.amber .n{color:#fbbf24}
+.stat.red .n{color:#f87171}
+.stat.blue .n{color:#60a5fa}
+.stat.gray .n{color:#94a3b8}
+.container{max-width:1400px;margin:0 auto;padding:24px 32px 80px}
+h2{font-family:'DM Serif Display',serif;font-size:22px;color:#f1f5f9;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid #334155}
+.section-note{font-size:13px;color:#94a3b8;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
+th{background:#1e293b;color:#94a3b8;font-weight:600;text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid #334155;position:sticky;top:0;z-index:2}
+td{padding:8px 12px;border-bottom:1px solid #1e293b;vertical-align:top}
+tr:hover td{background:#1e293b}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.badge-green{background:#064e3b;color:#34d399}
+.badge-amber{background:#78350f;color:#fbbf24}
+.badge-red{background:#7f1d1d;color:#f87171}
+.badge-blue{background:#1e3a5f;color:#60a5fa}
+.badge-gray{background:#1e293b;color:#64748b}
+.badge-purple{background:#3b0764;color:#c084fc}
+.mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:#94a3b8}
+.error-row td{background:#1a1207!important}
+.error-type{font-weight:700;white-space:nowrap}
+.error-type.wrong_match{color:#f87171}
+.error-type.uncertain_match{color:#fbbf24}
+.error-type.not_in_crm{color:#60a5fa}
+.error-type.banned{color:#f87171}
+.error-type.unpaid{color:#fbbf24}
+.error-type.canceled{color:#fb923c}
+textarea.comment{width:100%;background:#0f172a;border:1px solid #334155;color:#cbd5e1;padding:8px;border-radius:6px;font-family:'Open Sans',sans-serif;font-size:13px;resize:vertical;min-height:36px}
+textarea.comment:focus{outline:none;border-color:#0f766e}
+.copy-btn{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#0f766e,#115e58);color:#f1f5f9;border:none;padding:14px 28px;border-radius:12px;font-family:'Open Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);z-index:100;transition:all .15s}
+.copy-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.5)}
+.copy-btn.copied{background:linear-gradient(135deg,#064e3b,#065f46)}
+.filter-bar{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+.filter-btn{background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;transition:all .1s}
+.filter-btn:hover,.filter-btn.active{background:#0f766e;color:#f1f5f9;border-color:#0f766e}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>Proxuma CRM Audit Report</h1>
+<div class="sub">SuperAdmin export vs Forge CRM -- 2026-05-07 -- 77 companies processed (excl. Dxfferent, Corpsoft, Splitbrain)</div>
+<div class="stats">
+<div class="stat green"><div class="n">56</div><div class="l">Active Customers</div></div>
+<div class="stat blue"><div class="n">3</div><div class="l">Active Trials</div></div>
+<div class="stat red"><div class="n">7</div><div class="l">Former Customers</div></div>
+<div class="stat gray"><div class="n">9</div><div class="l">Never Activated</div></div>
+<div class="stat amber"><div class="n">21</div><div class="l">Errors / Flags</div></div>
+</div>
+</div>
+
+<div class="container">
+
+<h2>Errors and Flags</h2>
+<div class="section-note">Issues found during the audit. Add your comments below -- the copy button will include them.</div>
+<table id="errors-table">
+<thead>
+<tr><th style="width:200px">Company</th><th style="width:120px">Error Type</th><th>Detail</th><th style="width:250px">Your Comment</th></tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+<h2>All Companies</h2>
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all">All (77)</button>
+<button class="filter-btn" data-filter="active_customer">Active (56)</button>
+<button class="filter-btn" data-filter="active_trial">Trial (3)</button>
+<button class="filter-btn" data-filter="former_customer">Former (7)</button>
+<button class="filter-btn" data-filter="never_activated">Never Activated (9)</button>
+<button class="filter-btn" data-filter="internal_demo">Internal (1)</button>
+<button class="filter-btn" data-filter="partial_trial">Partial Trial (1)</button>
+</div>
+<table id="companies-table">
+<thead>
+<tr><th style="width:220px">Company</th><th>Subdomain</th><th>Classification</th><th>Subscription</th><th>Payment</th><th>Autotask</th><th style="width:200px">Comment</th></tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+</div>
+
+<button class="copy-btn" onclick="copyHandoff()">Copy handoff prompt</button>
+
+<script>
+const DATA = {"companies": [{"name": "ConXioN BV", "sub": "conxion", "cls": "active_customer", "type": "Yearly", "status": "Upcoming Charge", "at": "Active"}, {"name": "FIT Technologies", "sub": "fittechnologies", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Cheops Technology NV", "sub": "cheops", "cls": "active_trial", "type": "Trial", "status": "Active", "at": "Active"}, {"name": "Locknet Managed IT Services", "sub": "locknet", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "AppSys", "sub": "appsysictgroup", "cls": "active_customer", "type": "3 year", "status": "Paid", "at": "Active"}, {"name": "Cubics IT B.V.", "sub": "cubics", "cls": "active_customer", "type": "Yearly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Lancom B.V.", "sub": "lancom", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "UNO IT Services", "sub": "unoit", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Aabyss", "sub": "aabyss", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "AfterDark Technology", "sub": "afterdark", "cls": "active_customer", "type": "3 year", "status": "Paid", "at": "Active"}, {"name": "Fancit BV", "sub": "fancit", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "TeamLogic IT North Alabama", "sub": "tlitna", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Lemontree", "sub": "lemontree", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "inTEC Business", "sub": "intecbusiness", "cls": "active_customer", "type": "3 year", "status": "Paid", "at": "Active"}, {"name": "T4 Group", "sub": "t4group", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "netaccess ag", "sub": "netaccess", "cls": "active_customer", "type": "Yearly", "status": "Paid", "at": "Active"}, {"name": "TwentyFour IT Services Ltd", "sub": "24it", "cls": "active_customer", "type": "Yearly", "status": "Paid", "at": "Active"}, {"name": "Xantion ICT", "sub": "xantion", "cls": "active_trial", "type": "Trial", "status": "Active", "at": "Active"}, {"name": "Holland ICT Groep", "sub": "hig", "cls": "active_customer", "type": "Yearly", "status": "Paid", "at": "Active"}, {"name": "Igu Tech Group", "sub": "iglutech", "cls": "active_customer", "type": "Yearly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Neten Spa", "sub": "neten", "cls": "active_customer", "type": "Yearly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Van Roey Automation NV", "sub": "vanroey", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Maiano Informatique", "sub": "maianoinfo", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "VMhosts Ltd", "sub": "vmh", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Itum Solutuions B.V.", "sub": "itumsol", "cls": "active_customer", "type": "Yearly", "status": "Upcoming Charge", "at": "Active"}, {"name": "EAC Network Solutions", "sub": "eacautotask", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "BizzCon", "sub": "bizzcon", "cls": "active_customer", "type": "3 year", "status": "Paid", "at": "Active"}, {"name": "Server At Work", "sub": "saw", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Mon Technicien", "sub": "montechnicien", "cls": "former_customer", "type": "Trial", "status": "Canceled", "at": "Active"}, {"name": "Contigo Technology", "sub": "contigotx", "cls": "former_customer", "type": "Monthly", "status": "Suspended", "at": "Active"}, {"name": "Arrows ICT Solutions B.V.", "sub": "arrowsict", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "IT Synergy", "sub": "itsynergy", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Surf Tech IT", "sub": "surftechit", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "TechNosis, Inc.", "sub": "technosis", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Aurora ICT", "sub": "auroraict", "cls": "partial_trial", "type": "Trial", "status": "Upcoming Charge", "at": "Active"}, {"name": "radius180, LLC", "sub": "radius180", "cls": "former_customer", "type": "Monthly", "status": "Canceled", "at": "Active"}, {"name": "VelzArt", "sub": "velzart", "cls": "former_customer", "type": "3 year", "status": "Unpaid", "at": "Active"}, {"name": "Pritech PTY LTD", "sub": "pritech", "cls": "active_customer", "type": "3 year", "status": "Upcoming Charge", "at": "Active"}, {"name": "Blue Arc IT Solutions", "sub": "bluearc", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "FMI INFOGERANCE", "sub": "groupefmi", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Southeastern Engineering & Electronics", "sub": "south3e", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Majestic Computer Technology", "sub": "majestic", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Com4 Information Technology", "sub": "com4", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "EXPRO it", "sub": "expro", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "BeMSP", "sub": "bemsp", "cls": "active_trial", "type": "Trial", "status": "Active", "at": "Active"}, {"name": "APH Computers Limited", "sub": "aphcomp", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Perspektiva IT ApS", "sub": "perspektivait", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Algoma Technology Services", "sub": "algomatech", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "PLEIN SUD IT", "sub": "pleinsudit", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Knox Technology", "sub": "knoxtech", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Umbrella IT Group", "sub": "umbrella", "cls": "active_customer", "type": "Yearly", "status": "Paid", "at": "Active"}, {"name": "East Central Ohio ESC", "sub": "ecoesc", "cls": "former_customer", "type": "Monthly", "status": "Unpaid", "at": "Active"}, {"name": "Network Company", "sub": "networkcompany", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "BSV-IT B.V.", "sub": "bsvit", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Complex ICT", "sub": "complexict", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Anderson Networks", "sub": "acns", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Clev'It", "sub": "clevit", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Gyver Technologies", "sub": "gyver", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Affirm IT Services Ltd.", "sub": "affirmit", "cls": "active_customer", "type": "Yearly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Van der Hoff ICT", "sub": "vanderhoffict", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "JUICT B.V.", "sub": "juict", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Northern Rogue Technologies Inc.", "sub": "northernrogue", "cls": "active_customer", "type": "Monthly", "status": "Upcoming Charge", "at": "Active"}, {"name": "Mario Lehoux", "sub": "mario911", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Ironside IT Partners", "sub": "ironside", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Steentjes Groep B.V.", "sub": "steentjesgroep", "cls": "former_customer", "type": "3 year", "status": "Unpaid", "at": "Active"}, {"name": "Triune Infotech", "sub": "triuneit", "cls": "active_customer", "type": "Monthly", "status": "Paid", "at": "Active"}, {"name": "Notatech", "sub": "notatech", "cls": "former_customer", "type": "Monthly", "status": "Paid", "at": "Inactive"}, {"name": "Demo Company Prod", "sub": "proddemo", "cls": "internal_demo", "type": "Yearly", "status": "Paid", "at": "Inactive"}, {"name": "ABAX INFO", "sub": "abaxinfo", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "Blue Sky It Consulting", "sub": "blueskyit", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "C3 Systems and Security", "sub": "c3systemsandsecurity", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "EAC", "sub": "eac", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "GC Brieau", "sub": "gcbrieau", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "IntermixIT", "sub": "intermixit", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "NewsLive", "sub": "newsreachbi", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "OutHustle", "sub": "outhustle", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}, {"name": "TeamLogic IT", "sub": "tlit", "cls": "never_activated", "type": "", "status": "", "at": "Inactive"}], "errors": [{"company": "UNO IT Services", "type": "wrong_match", "detail": "Matched to 'Couno' in Forge CRM -- likely wrong company. UNO IT subdomain is 'unoit'."}, {"company": "Itum Solutuions B.V.", "type": "wrong_match", "detail": "Matched to 'Advitum' in Forge CRM -- likely wrong company. Itum subdomain is 'itumsol'."}, {"company": "Van der Hoff ICT", "type": "wrong_match", "detail": "Matched to contact 'Niels van der Hoff' instead of company record."}, {"company": "inTEC Business", "type": "uncertain_match", "detail": "Matched to 'Inteck IT' -- might be the same company or different. Subdomain is 'intecbusiness'."}, {"company": "Algoma Technology Services", "type": "uncertain_match", "detail": "Matched to 'Algoma Telephone Services' -- name differs. Subdomain is 'algomatech'."}, {"company": "Locknet Managed IT Services", "type": "not_in_crm", "detail": "Active customer (Monthly/Paid) not found in Forge CRM. Needs company record created."}, {"company": "TeamLogic IT North Alabama", "type": "not_in_crm", "detail": "Active customer (Monthly/Upcoming Charge) not found. Email: rwilson@tlitna.com confirmed real."}, {"company": "Igu Tech Group", "type": "not_in_crm", "detail": "Active customer (Yearly/Upcoming Charge) not found. Subdomain: iglutech."}, {"company": "Surf Tech IT", "type": "not_in_crm", "detail": "Active customer (Monthly/Upcoming Charge) not found. Subdomain: surftechit."}, {"company": "FMI INFOGERANCE", "type": "not_in_crm", "detail": "Active customer (Monthly/Upcoming Charge) not found. Managed via BeMSP partner. Subdomain: groupefmi."}, {"company": "Southeastern Engineering & Electronics", "type": "not_in_crm", "detail": "Active customer (Monthly/Paid) not found. Subdomain: south3e."}, {"company": "APH Computers Limited", "type": "not_in_crm", "detail": "Active customer (Monthly/Paid) not found. Email: sean.martin@aph.solutions confirmed real."}, {"company": "Anderson Networks", "type": "not_in_crm", "detail": "Active customer (Monthly/Paid) not found. Subdomain: acns. Deal 'ACNS - New Deal' exists but company record missing."}, {"company": "Steentjes Groep B.V.", "type": "not_in_crm", "detail": "Former customer (3 year/Unpaid) not found. Deal 'Steentjes ICT B.V. - New Deal' exists but company record not matched."}, {"company": "Notatech", "type": "not_in_crm", "detail": "Former customer (Paid but Autotask Inactive, DB=0). Not found in CRM."}, {"company": "Aurora ICT", "type": "not_in_crm", "detail": "Partial trial (Status=Created, Trial subscription). Not found in CRM. Email: nick.alles@auroraict.nl."}, {"company": "Contigo Technology", "type": "banned", "detail": "Banned + Suspended in SuperAdmin. Was closedwon in HubSpot -- moved to closedlost."}, {"company": "VelzArt", "type": "unpaid", "detail": "3-year contract Unpaid. 3 deals moved from closedwon to closedlost in HubSpot."}, {"company": "East Central Ohio ESC", "type": "unpaid", "detail": "Monthly subscription Unpaid. Deal moved from closedwon to closedlost."}, {"company": "Mon Technicien", "type": "banned", "detail": "Banned, Trial Canceled. Deal moved to closedlost."}, {"company": "radius180, LLC", "type": "canceled", "detail": "Monthly subscription Canceled. Deal moved to closedlost."}]};
+
+const CLS_BADGE = {
+  active_customer: 'badge-green',
+  active_trial: 'badge-blue',
+  former_customer: 'badge-red',
+  never_activated: 'badge-gray',
+  internal_demo: 'badge-gray',
+  partial_trial: 'badge-purple',
+};
+const CLS_LABEL = {
+  active_customer: 'Active Customer',
+  active_trial: 'Active Trial',
+  former_customer: 'Former Customer',
+  never_activated: 'Never Activated',
+  internal_demo: 'Internal Demo',
+  partial_trial: 'Partial Trial',
+};
+const ERR_LABEL = {
+  wrong_match: 'Wrong Match',
+  uncertain_match: 'Uncertain Match',
+  not_in_crm: 'Not in CRM',
+  banned: 'Banned',
+  unpaid: 'Unpaid',
+  canceled: 'Canceled',
+};
+
+// Render errors
+const errBody = document.querySelector('#errors-table tbody');
+DATA.errors.forEach((e, i) => {
+  const tr = document.createElement('tr');
+  tr.className = 'error-row';
+  tr.innerHTML = `
+    <td><strong>${e.company}</strong></td>
+    <td><span class="error-type ${e.type}">${ERR_LABEL[e.type] || e.type}</span></td>
+    <td>${e.detail}</td>
+    <td><textarea class="comment" data-error-idx="${i}" placeholder="Your instructions..."
+      oninput="saveComments()">${localStorage.getItem('err_'+i) || ''}</textarea></td>
+  `;
+  errBody.appendChild(tr);
+});
+
+// Render companies
+const compBody = document.querySelector('#companies-table tbody');
+DATA.companies.forEach((c, i) => {
+  const tr = document.createElement('tr');
+  tr.dataset.cls = c.cls;
+  tr.innerHTML = `
+    <td><strong>${c.name}</strong></td>
+    <td class="mono">${c.sub}</td>
+    <td><span class="badge ${CLS_BADGE[c.cls] || 'badge-gray'}">${CLS_LABEL[c.cls] || c.cls}</span></td>
+    <td>${c.type || '--'}</td>
+    <td>${c.status || '--'}</td>
+    <td>${c.at}</td>
+    <td><textarea class="comment" data-comp-idx="${i}" placeholder="Note..."
+      oninput="saveComments()">${localStorage.getItem('comp_'+i) || ''}</textarea></td>
+  `;
+  compBody.appendChild(tr);
+});
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    compBody.querySelectorAll('tr').forEach(tr => {
+      tr.style.display = (f === 'all' || tr.dataset.cls === f) ? '' : 'none';
+    });
+  });
+});
+
+function saveComments() {
+  document.querySelectorAll('[data-error-idx]').forEach(ta => {
+    localStorage.setItem('err_' + ta.dataset.errorIdx, ta.value);
+  });
+  document.querySelectorAll('[data-comp-idx]').forEach(ta => {
+    localStorage.setItem('comp_' + ta.dataset.compIdx, ta.value);
+  });
+}
+
+function copyHandoff() {
+  let prompt = 'Context from CRM audit report (2026-05-07). Here are my comments on the errors and companies:\n\n';
+  
+  prompt += '## Error Comments\n';
+  let hasErrorComments = false;
+  DATA.errors.forEach((e, i) => {
+    const val = document.querySelector(`[data-error-idx="${i}"]`).value.trim();
+    if (val) {
+      prompt += `- **${e.company}** (${ERR_LABEL[e.type]}): ${val}\n`;
+      hasErrorComments = true;
+    }
+  });
+  if (!hasErrorComments) prompt += '(no comments)\n';
+  
+  prompt += '\n## Company Comments\n';
+  let hasCompComments = false;
+  DATA.companies.forEach((c, i) => {
+    const val = document.querySelector(`[data-comp-idx="${i}"]`).value.trim();
+    if (val) {
+      prompt += `- **${c.name}** (${CLS_LABEL[c.cls]}): ${val}\n`;
+      hasCompComments = true;
+    }
+  });
+  if (!hasCompComments) prompt += '(no comments)\n';
+
+  prompt += '\n## Summary of what was done\n';
+  prompt += '- 56 Forge CRM enrichment notes updated with PROXUMA STATUS at top\n';
+  prompt += '- 24 HubSpot deal stages corrected (14 to closedwon, 9 to closedlost, 1 to presentationscheduled)\n';
+  prompt += '- 21 errors/flags identified (3 wrong matches, 2 uncertain, 11 not in CRM, 5 churned)\n';
+  prompt += '\nPlease process my comments above and take the appropriate actions.';
+  
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy handoff prompt';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+<!--CLAUDE-DATA
+{
+  "type": "crm-audit-report",
+  "date": "2026-05-07",
+  "companies_count": 77,
+  "errors_count": 21,
+  "summary": {
+    "active_customers": 56,
+    "active_trials": 3,
+    "former_customers": 7,
+    "never_activated": 9,
+    "enrichment_notes_updated": 56,
+    "hubspot_deals_updated": 24,
+    "errors_flagged": 21
+  }
+}
+-->
+</body>
+</html>
