@@ -1258,6 +1258,21 @@ Final summary:
     "protected_resources": ["WP page 3299 (EN gallery, ACF only)", "WP page 3495 (NL gallery, ACF only)", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
     "conventions_applied": ["humanizer anti-slop", "$wpdb->update() not wp_update_post()", "ACF update_post_meta for gallery pages"]
   },
+  "git_discipline": {
+    "rule": "Every stage runs on its own git branch. Main stays clean until stage is approved.",
+    "before_stage": "cd ~/ClaudeCode/powerbi-reports && git stash --include-untracked && git checkout -b stage-{N}-{short-description}",
+    "after_changes": "git add en/ nl/ && git commit -m 'stage {N}: {description}'",
+    "on_approve": "git checkout main && git merge stage-{N}-{short-description}",
+    "on_reject": "git checkout main && git branch -D stage-{N}-{short-description}",
+    "rationale": "Each merge is a single revert target. If staging looks wrong, abandon branch and main is untouched."
+  },
+  "staging_rebuild": {
+    "rule": "After every stage that modifies local files, rebuild staging and push to dev.proxuma.io for preview before approving.",
+    "commands": [
+      "cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py",
+      "cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m 'staging: stage {N}' && git push"
+    ]
+  },
   "decision_log": [
     {
       "decision": "Reordered stages: markers first, then hreflang, then FAQs, then content enrichment, then gallery",
