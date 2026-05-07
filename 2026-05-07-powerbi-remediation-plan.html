@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power BI Report Library Remediation Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 12px; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-green { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-amber { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-red { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-blue { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-gray { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+
+.stage { margin: 28px 0; border: 1px solid #e2e4e8; border-radius: 4px; padding: 24px 28px; }
+.stage-num {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .08em; color: #fff; background: #1a2744;
+  display: inline-block; padding: 4px 10px; border-radius: 3px; margin-bottom: 10px;
+}
+.stage h3 { margin-top: 8px; font-size: 15px; text-transform: none; letter-spacing: 0; }
+.stage-meta {
+  display: flex; gap: 24px; margin: 12px 0;
+  font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+.stage-meta strong { color: #1a2744; }
+.prompt-block {
+  background: #1a2744; color: #e8edf4; border-radius: 4px; padding: 20px 24px;
+  margin: 16px 0; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 11.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+  max-height: 600px; overflow-y: auto;
+}
+.prompt-label {
+  font: 700 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .08em; color: #c8a87a; margin-bottom: 10px; display: block;
+  font-family: -apple-system, sans-serif;
+}
+.dep-list {
+  margin: 8px 0 0 0; padding: 0; list-style: none;
+  font: 400 13px/1.5 -apple-system, sans-serif;
+}
+.dep-list li::before { content: "→ "; color: #1a2744; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 7, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-powerbi-remediation-plan.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Implementation Planning</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 7, 2026<br>Remediation Plan<br>Power BI Reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">Staged Implementation Plan</div>
+  <h1>Power BI Report Library Remediation</h1>
+  <p class="subtitle">10-stage plan to bring 872 report HTML files from mixed quality to production-ready, fix SEO (hreflang), rebuild gallery pages, and deploy to live proxuma.io. Each stage has a self-contained prompt for a fresh Claude session.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Total Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">510</div>
+      <div class="stat-label">Need Marker Cleanup</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">852</div>
+      <div class="stat-label">Broken Hreflang</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10</div>
+      <div class="stat-label">Stages</div>
+    </div>
+  </div>
+
+  <h2>Current State</h2>
+
+  <table class="matrix">
+    <tr><th>Tier</th><th>Count</th><th>EN</th><th>NL</th><th>Issues</th></tr>
+    <tr><td><strong>RICH</strong></td><td>314 (36%)</td><td>224</td><td>90</td><td>No content issues. Hreflang broken.</td></tr>
+    <tr><td><strong>STANDARD</strong></td><td>433 (50%)</td><td>169</td><td>264</td><td>427 have generic markers (1-10 each). 23 have generic FAQ. Hreflang broken.</td></tr>
+    <tr><td><strong>THIN</strong></td><td>106 (12%)</td><td>44</td><td>62</td><td>67 have generic markers. 51 missing KPIs. 12 have generic FAQ. Hreflang broken.</td></tr>
+    <tr><td><strong>SHELL</strong></td><td>11 (1%)</td><td>10</td><td>1</td><td>Template + filler only. 10 have markers. 5 have generic FAQ. Nearly empty.</td></tr>
+    <tr><td><strong>CATEGORY</strong></td><td>8 (1%)</td><td>2</td><td>6</td><td>Not reports. Landing pages mixed in. 6 have markers. 2 have generic FAQ.</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Key constraint</span>
+    <strong>dev.proxuma.io</strong> (GitHub Pages staging) has all 872 reports for preview. <strong>Live proxuma.io</strong> has been reverted to pre-push state (232 EN + 242 NL, old content). No push to live until all stages complete and Max approves on staging.
+  </div>
+
+  <h2>Stage Dependency Graph</h2>
+  <p>Stages 1-3 can run in sequence quickly (all mechanical). Stages 4-6 require Power BI data and are the heaviest. Stage 7 is a decision gate. Stages 8-10 are the deploy pipeline.</p>
+
+  <table class="matrix">
+    <tr><th>Stage</th><th>Name</th><th>Files</th><th>Depends On</th><th>Effort</th></tr>
+    <tr><td><strong>1</strong></td><td>Strip generic markers</td><td>510</td><td>None</td><td>Mechanical, ~30 min</td></tr>
+    <tr><td><strong>2</strong></td><td>Build EN/NL slug mapping + fix hreflang</td><td>872</td><td>None</td><td>Script + manual review, ~1 hr</td></tr>
+    <tr><td><strong>3</strong></td><td>Fix generic FAQs</td><td>42</td><td>Stage 1</td><td>Semi-mechanical, ~45 min</td></tr>
+    <tr><td><strong>4</strong></td><td>Enrich SHELL reports</td><td>11</td><td>Stages 1, 2</td><td>Heavy: needs Power BI, ~2 hr</td></tr>
+    <tr><td><strong>5</strong></td><td>Upgrade THIN reports</td><td>106</td><td>Stages 1, 2</td><td>Heavy: needs Power BI, ~4 hr</td></tr>
+    <tr><td><strong>6</strong></td><td>Handle category pages</td><td>8</td><td>Stage 2</td><td>Decision + light work, ~30 min</td></tr>
+    <tr><td><strong>7</strong></td><td>Rebuild gallery for staging</td><td>2 gallery pages</td><td>Stages 1-6</td><td>Script rebuild, ~30 min</td></tr>
+    <tr><td><strong>8</strong></td><td>Final QA pass</td><td>872</td><td>Stage 7</td><td>Automated + spot check, ~1 hr</td></tr>
+    <tr><td><strong>9</strong></td><td>Push to live WP</td><td>All approved</td><td>Stage 8 + user approval</td><td>Deploy script, ~2 hr</td></tr>
+    <tr><td><strong>10</strong></td><td>Post-push verification + live gallery</td><td>Live site</td><td>Stage 9</td><td>Verify + rebuild, ~1 hr</td></tr>
+  </table>
+
+  <!-- ==================== STAGE 1 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 1</span>
+    <h3>Strip Generic Markers from 510 Files</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> 510 files (427 STANDARD + 67 THIN + 10 SHELL + 6 CATEGORY)</span>
+      <span><strong>Type:</strong> Mechanical find-and-remove</span>
+    </div>
+
+    <p>Remove 10 known generic marker phrases from all affected files. These are filler sentences that the truthifier injected alongside real data but didn't clean up. The phrases are full sentences or sentence fragments that can be removed by deleting the containing paragraph or list item.</p>
+
+    <p><strong>The 10 markers to strip:</strong></p>
+    <ol>
+      <li><code>We pulled the numbers</code></li>
+      <li><code>Here is what stands out</code></li>
+      <li><code>where the gaps are</code></li>
+      <li><code>what to do about it</code></li>
+      <li><code>The data above paints a picture</code></li>
+      <li><code>Look for patterns, outliers</code></li>
+      <li><code>This report uses demo data</code></li>
+      <li><code>Connect Proxuma Power BI to your own</code></li>
+      <li><code>Schedule Recurring Review</code></li>
+      <li><code>Connect Your Own Data</code></li>
+    </ol>
+
+    <p><strong>Expected outcome:</strong> All 872 files have <code>generic_marker_count: 0</code> when re-audited.</p>
+    <p><strong>Verification:</strong> Run <code>python3 quality_audit_v2.py</code> and confirm zero files have markers.</p>
+
+    <ul class="dep-list">
+      <li>No dependencies. Can start immediately.</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 1</span>
+Context: Power BI report remediation Stage 1 of 10. Strip generic marker phrases from HTML report files.
+
+## What you're doing
+
+~/ClaudeCode/powerbi-reports/ has 872 HTML report files in en/ (449 files) and nl/ (423 files). A quality audit found 510 files containing generic filler phrases that need to be removed. These phrases appear inside &lt;p&gt; tags, &lt;li&gt; tags, or &lt;h3&gt;/&lt;h4&gt; headings.
+
+## The 10 marker phrases to remove
+
+1. "We pulled the numbers"
+2. "Here is what stands out"
+3. "where the gaps are"
+4. "what to do about it"
+5. "The data above paints a picture"
+6. "Look for patterns, outliers"
+7. "This report uses demo data"
+8. "Connect Proxuma Power BI to your own"
+9. "Schedule Recurring Review"
+10. "Connect Your Own Data"
+
+## How to remove them
+
+Write a Python script at ~/ClaudeCode/powerbi-reports/strip-markers.py that:
+
+1. Reads every .html file in en/ and nl/
+2. For each marker phrase, finds the containing HTML element (&lt;p&gt;...&lt;/p&gt;, &lt;li&gt;...&lt;/li&gt;, or &lt;h3&gt;...&lt;/h3&gt;, &lt;h4&gt;...&lt;/h4&gt;) that contains the phrase
+3. Removes the entire containing element (not just the phrase text -- remove the whole paragraph/list item)
+4. If a &lt;ul&gt; or &lt;ol&gt; becomes empty after removing list items, remove the empty list too
+5. If a doc-section div becomes empty (no content elements left), remove that section too
+6. Writes the cleaned file back
+7. Logs: filename, markers found, markers removed
+
+Important: use regex or BeautifulSoup. Do NOT use simple string.replace() since the phrase may be part of a longer sentence. Match case-insensitively. The containing element is the nearest &lt;p&gt;, &lt;li&gt;, &lt;h3&gt;, or &lt;h4&gt; ancestor.
+
+## Verification
+
+After running the strip script:
+
+```bash
+cd ~/ClaudeCode/powerbi-reports
+python3 quality_audit_v2.py
+```
+
+Check the output JSON. Expected: zero files with generic_marker_count > 0.
+
+Also spot-check 3 files that had high marker counts:
+- en/proxuma-io-average-deal-size-post.html (was 10 markers, SHELL tier)
+- en/proxuma-io-billing-item-analysis-post.html (was 8 markers, STANDARD tier)
+- nl/proxuma-io-power-bi-mcp-server-post.html (was 1 marker, SHELL tier)
+
+Open them and verify the real content (DAX blocks, KPI cards, tables, charts) is untouched. Only filler paragraphs should be gone.
+
+## After completion
+
+Rebuild staging:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py
+cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m "stage 1: strip generic markers from 510 files" && git push
+```
+
+Report: how many files were modified, how many marker instances were removed, and confirm the audit passes clean.</div>
+  </div>
+
+  <!-- ==================== STAGE 2 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 2</span>
+    <h3>Build EN/NL Slug Mapping + Fix Hreflang on All 872 Files</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> All 872 files</span>
+      <span><strong>Type:</strong> Data mapping + mechanical rewrite</span>
+    </div>
+
+    <p>Every report file has two hreflang tags (EN and NL). Currently broken: each file uses its own slug for both languages. Example: EN file <code>28-day-backup-heatmap</code> has NL alt URL <code>/nl-powerbi/ai-gegenereerde-rapporten/28-day-backup-heatmap/</code> (wrong -- that's the EN slug in the NL path). It should point to <code>/nl-powerbi/ai-gegenereerde-rapporten/28-dagen-backup-heatmap/</code>.</p>
+
+    <p>The existing <code>quality-audit-pairs-v2.json</code> only matched 20 of 872 files. We need a better matching strategy to build the full EN/NL slug map.</p>
+
+    <p><strong>Expected outcome:</strong> Every file's hreflang tags point to the correct counterpart URL. Files without a counterpart get <code>x-default</code> only (no broken cross-link).</p>
+
+    <ul class="dep-list">
+      <li>No dependencies. Can run in parallel with Stage 1.</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 2</span>
+Context: Power BI report remediation Stage 2 of 10. Fix broken hreflang tags on all 872 report HTML files.
+
+## The problem
+
+~/ClaudeCode/powerbi-reports/ has 449 EN files in en/ and 423 NL files in nl/. Every file has hreflang link tags in the &lt;head&gt; pointing to EN and NL versions. The problem: each file uses its OWN slug for the alternate language URL.
+
+Example of the bug:
+- EN file slug: `28-day-backup-heatmap`
+  - canonical: https://proxuma.io/powerbi/insights/28-day-backup-heatmap/
+  - NL alt (WRONG): https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/28-day-backup-heatmap/
+  - NL alt (CORRECT): https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/28-dagen-backup-heatmap/
+
+- NL file slug: `28-dagen-backup-heatmap`
+  - canonical: https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/28-dagen-backup-heatmap/
+  - EN alt (WRONG): https://proxuma.io/powerbi/insights/28-dagen-backup-heatmap/
+  - EN alt (CORRECT): https://proxuma.io/powerbi/insights/28-day-backup-heatmap/
+
+## Step 1: Build the EN/NL slug mapping
+
+The existing file `quality-audit-pairs-v2.json` only matched 20 pairs by identical filename. That's insufficient. You need to build a better mapping.
+
+Read `quality-audit.json` (array of objects with fields: file, lang, canonical_url, alt_url, doc_title, html_title, etc.).
+
+Matching strategy (apply in order, stop at first match):
+1. **Identical filename**: same filename in en/ and nl/ (20 pairs already found)
+2. **Title match**: same doc_title in both languages (some reports have English titles in both)
+3. **Slug similarity**: extract slug from canonical_url, use fuzzy matching (SequenceMatcher ratio > 0.6) between EN and NL slugs. Many NL slugs are Dutch translations of the EN slug.
+4. **Content fingerprint**: for remaining unmatched, compute a fingerprint from the DAX queries in the file (DAX is language-independent). If two files share 2+ identical DAX blocks, they're pairs.
+
+Write a script `build-hreflang-map.py` that:
+1. Loads quality-audit.json
+2. Applies the 4 matching strategies in order
+3. Outputs `hreflang-mapping.json` with structure:
+```json
+{
+  "pairs": [
+    {"en_file": "en/filename.html", "en_slug": "slug", "nl_file": "nl/filename.html", "nl_slug": "slug"},
+    ...
+  ],
+  "en_only": ["en/filename.html", ...],
+  "nl_only": ["nl/filename.html", ...],
+  "stats": {"paired": N, "en_only": N, "nl_only": N, "by_method": {"identical": N, "title": N, "fuzzy": N, "dax": N}}
+}
+```
+4. Prints summary statistics
+
+Run the script. If fewer than 300 pairs are found, investigate the unmatched files and add more matching heuristics.
+
+## Step 2: Fix hreflang tags in all files
+
+Write `fix-hreflang.py` that:
+1. Loads `hreflang-mapping.json`
+2. For each paired file:
+   - EN file: update the NL hreflang URL to use the NL slug
+   - NL file: update the EN hreflang URL to use the EN slug
+3. For unpaired files (en_only, nl_only):
+   - Remove the broken alternate hreflang link (the one pointing to a non-existent counterpart)
+   - Keep the self-referencing hreflang and x-default
+4. Also fix the alt_url in any JSON-LD structured data (same bug pattern)
+5. Log all changes
+
+The hreflang tags look like:
+```html
+&lt;link rel="alternate" hreflang="en" href="https://proxuma.io/powerbi/insights/SLUG/" /&gt;
+&lt;link rel="alternate" hreflang="nl" href="https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/SLUG/" /&gt;
+```
+
+EN base path: `https://proxuma.io/powerbi/insights/`
+NL base path: `https://proxuma.io/nl-powerbi/ai-gegenereerde-rapporten/`
+
+## Verification
+
+After running fix-hreflang.py:
+
+1. Spot-check 5 paired files: open both EN and NL, confirm the hreflang tags cross-reference correctly
+2. Spot-check 3 unpaired files: confirm they only have self-referencing hreflang
+3. Run a validation script that for every file, checks if the alt URL slug actually exists as a file in the other language directory
+4. Count: how many files were fixed, how many pairs established, how many remain unpaired
+
+## After completion
+
+Rebuild staging:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py
+cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m "stage 2: fix hreflang on all 872 files" && git push
+```
+
+Save `hreflang-mapping.json` -- it will be needed for gallery rebuilds in Stage 7.</div>
+  </div>
+
+  <!-- ==================== STAGE 3 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 3</span>
+    <h3>Replace 42 Generic FAQs with Report-Specific Questions</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> 42 files (23 STANDARD + 12 THIN + 5 SHELL + 2 CATEGORY)</span>
+      <span><strong>Type:</strong> Content generation (needs LLM)</span>
+    </div>
+
+    <p>42 files have a generic 3-question FAQ template. These need to be replaced with questions specific to each report's actual content. The FAQ also appears in JSON-LD structured data (FAQPage schema) and must be updated in both places.</p>
+
+    <p><strong>Expected outcome:</strong> All 42 files have unique, report-specific FAQs. <code>has_generic_faq: false</code> in re-audit.</p>
+
+    <ul class="dep-list">
+      <li>Run after Stage 1 (markers stripped, so FAQ content is cleaner to read)</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 3</span>
+Context: Power BI report remediation Stage 3 of 10. Replace generic FAQ templates with report-specific FAQs.
+
+## What you're doing
+
+42 HTML report files in ~/ClaudeCode/powerbi-reports/ have a generic 3-question FAQ that was copied from a template. Each FAQ needs to be replaced with 3 questions specific to that report's actual content (the DAX queries, KPI data, tables, and narrative text already in the file).
+
+The file list is in ~/ClaudeCode/powerbi-reports/remediation-file-lists.json under the key "generic_faq". It contains paths like "en/filename.html" and "nl/filename.html".
+
+## What a generic FAQ looks like
+
+The generic FAQ has questions like:
+- "What data sources does this report use?"
+- "How often should I review this report?"
+- "Can I customize this report for my organization?"
+
+These appear in two places in each file:
+1. An HTML `&lt;div class="doc-section"&gt;` with FAQ content (typically has an h3 "Frequently Asked Questions")
+2. A `&lt;script type="application/ld+json"&gt;` block with FAQPage schema
+
+## How to generate specific FAQs
+
+For each file:
+1. Read the file content
+2. Extract the report title (from `&lt;title&gt;` or the h1)
+3. Extract what the report measures (from KPI cards, table headers, DAX query names)
+4. Generate 3 specific questions that a user of this report would actually ask
+5. Write concise answers (2-3 sentences each)
+
+Good FAQ questions reference specific metrics, thresholds, or use cases from the report. Examples for a "Ticket SLA Compliance" report:
+- "What counts as an SLA breach in this report?" (answers with the actual DAX logic)
+- "How is the compliance rate calculated?" (references the specific measure)
+- "Which ticket queues are included in the analysis?" (references the data scope)
+
+For NL files, write the FAQ in Dutch. Match the tone of the existing report content.
+
+## Implementation
+
+Write `fix-generic-faqs.py` that:
+1. Loads the file list from remediation-file-lists.json
+2. For each file, reads content and generates 3 specific FAQ Q&A pairs
+3. Replaces the HTML FAQ section (find the doc-section containing the FAQ h3, replace its content)
+4. Replaces the JSON-LD FAQPage schema with updated questions
+5. Writes the file back
+6. Logs: filename, old questions (first 50 chars each), new questions
+
+Since you need to generate contextual questions, use the report's own content as context. Parse the doc_title, KPI labels, table headers, and DAX measure names from each file to inform the questions.
+
+## Verification
+
+After running:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 quality_audit_v2.py
+```
+
+Check: `has_generic_faq` should be false for all 872 files.
+
+Spot-check 5 files manually:
+- Confirm FAQ questions reference actual report content
+- Confirm JSON-LD FAQPage matches the HTML FAQ
+- Confirm NL files have Dutch FAQs
+
+## After completion
+
+Rebuild staging:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py
+cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m "stage 3: replace 42 generic FAQs with report-specific questions" && git push
+```</div>
+  </div>
+
+  <!-- ==================== STAGE 4 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 4</span>
+    <h3>Enrich 11 SHELL Reports</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> 11 files (10 EN + 1 NL)</span>
+      <span><strong>Type:</strong> Heavy content generation (needs Power BI MCP)</span>
+    </div>
+
+    <p>SHELL reports have template structure with filler text but almost no real data. They need real DAX queries, KPI cards, data tables, charts, and narrative text. Two special cases: the "power-bi-mcp-server" files (EN + NL) are not Power BI reports at all -- they're product pages for the MCP server and should be treated differently.</p>
+
+    <p><strong>Expected outcome:</strong> All 11 files upgraded to at least STANDARD tier with real data.</p>
+
+    <ul class="dep-list">
+      <li>Stages 1 and 2 complete (markers stripped, hreflang fixed)</li>
+      <li>Requires Power BI MCP access for DAX queries</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 4</span>
+Context: Power BI report remediation Stage 4 of 10. Enrich 11 SHELL-tier reports with real Power BI data.
+
+## What you're doing
+
+11 report files in ~/ClaudeCode/powerbi-reports/ are classified as SHELL -- they have the HTML template structure but are mostly filler with little or no real data. Each needs to be rebuilt with actual DAX queries, KPI cards, data tables, and narrative.
+
+## The 11 SHELL files
+
+Regular Power BI reports (9 files, need DAX + data):
+1. en/proxuma-io-average-deal-size-post.html
+2. en/proxuma-io-average-task-cycle-time-post.html
+3. en/proxuma-io-billing-charge-allocation-conflicts-post.html
+4. en/proxuma-io-how-does-client-revenue-compare-month-over-month-post.html
+5. en/proxuma-io-project-revenue-vs-labor-cost-post.html
+6. en/proxuma-io-psa-vs-quickbooks-comparison-post.html
+7. en/proxuma-io-sla-performance-by-priority-2-post.html
+8. en/proxuma-io-sla-performance-by-queue-2-post.html
+9. en/proxuma-io-what-revenue-are-we-losing-from-churned-clients-post.html
+
+MCP Server product pages (2 files, NOT Power BI reports):
+10. en/proxuma-io-power-bi-mcp-server-post.html
+11. nl/proxuma-io-power-bi-mcp-server-post.html
+
+## How to enrich the 9 regular reports
+
+For each report:
+1. Read the existing file to understand what report topic it covers (the title and slug tell you)
+2. Read the golden standard at ~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html to understand the target structure
+3. Use report_builder.py at ~/ClaudeCode/powerbi-reports/report_builder.py as the generation tool
+4. Query the Power BI schema using the mcp__powerbi__search_schema and mcp__powerbi__execute_dax tools to find relevant measures and tables
+5. Build real DAX queries for the report topic
+6. Generate KPI cards with realistic data
+7. Generate data tables and charts
+8. Write the enriched content into the existing file structure
+
+DAX gotchas:
+- `is_sla_overdue` doesn't exist. Use `resolved_due_age_days > 0` instead
+- `first_response_met` and `resolution_met` are int64. Filter with `+ 0 = 1`
+- NEVER fabricate DAX measures. Always query the schema first: `mcp__powerbi__search_schema` to find what exists
+
+For each file, the minimum to reach STANDARD tier:
+- At least 3 real DAX queries with toggle blocks
+- At least 4 KPI cards with data
+- At least 2 data tables with real cell data
+- Narrative text that references the actual data
+
+## How to handle the 2 MCP Server pages
+
+These are product/documentation pages, not reports. They should:
+- Keep their current content structure
+- NOT have fake DAX or Power BI data
+- Have their tier manually set (add a data attribute or just accept they'll be classified differently)
+- Decision: keep them in the reports directory but note them as non-report content pages
+
+## Verification
+
+After enrichment, run the audit:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 quality_audit_v2.py
+```
+
+Check: all 9 regular SHELL files should now be STANDARD or RICH tier. The 2 MCP server pages can remain as-is.
+
+Spot-check each enriched file: open in browser, verify DAX blocks expand/collapse, KPI cards show data, tables render.
+
+## After completion
+
+Rebuild staging:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py
+cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m "stage 4: enrich 11 SHELL reports with real data" && git push
+```</div>
+  </div>
+
+  <!-- ==================== STAGE 5 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 5</span>
+    <h3>Upgrade 106 THIN Reports</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> 106 files (44 EN + 62 NL)</span>
+      <span><strong>Type:</strong> Batch content enrichment (needs Power BI MCP)</span>
+    </div>
+
+    <p>THIN reports have some content but are missing key elements. The breakdown: 51 missing KPIs entirely, 10 have KPIs but no tables, 7 have both but too few data cells, 38 have other gaps. These need targeted enrichment based on what each specific file is missing.</p>
+
+    <p><strong>Expected outcome:</strong> All 106 files upgraded to STANDARD tier (real_dax >= 2, kpi >= 3, data_cells >= 20).</p>
+
+    <ul class="dep-list">
+      <li>Stages 1 and 2 complete</li>
+      <li>Requires Power BI MCP access</li>
+      <li>Largest stage by file count. Consider batching in groups of 20-25.</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 5</span>
+Context: Power BI report remediation Stage 5 of 10. Upgrade 106 THIN-tier reports by adding missing elements.
+
+## What you're doing
+
+106 report files in ~/ClaudeCode/powerbi-reports/ are classified as THIN -- they have some real content but are missing key elements needed for STANDARD tier. Each file needs different things added based on what it's missing.
+
+## File list and what each needs
+
+The full file list is in ~/ClaudeCode/powerbi-reports/remediation-file-lists.json under key "thin_files".
+
+To determine what each file needs, load ~/ClaudeCode/powerbi-reports/quality-audit.json and filter for tier == "THIN". Each entry has:
+- real_dax_count: how many real DAX queries it has
+- kpi_count: how many KPI cards
+- table_count: how many data tables
+- data_cell_count: total data cells in tables
+
+Minimum thresholds for STANDARD tier:
+- real_dax_count >= 2
+- kpi_count >= 3
+- data_cell_count >= 20
+
+## Enrichment strategy
+
+Group files by what they need:
+
+**Group A (51 files): Missing KPIs entirely (kpi_count == 0)**
+- Add 4 KPI cards relevant to the report topic
+- If also missing DAX: add 2-3 DAX queries
+- If also missing tables: add 1-2 data tables
+
+**Group B (10 files): Has KPIs but no tables (table_count == 0, kpi_count > 0)**
+- Add 2 data tables with relevant columns and rows
+- May also need more DAX queries
+
+**Group C (7 files): Has KPIs + tables but few data cells (data_cell_count < 20)**
+- Expand existing tables with more rows/columns
+- Or add an additional table
+
+**Group D (38 files): Other gaps**
+- Check each file's specific shortfall against STANDARD thresholds
+- Add whatever is missing
+
+## How to enrich
+
+For each file:
+1. Read the file to understand the report topic
+2. Query Power BI schema: `mcp__powerbi__search_schema` for relevant measures/tables
+3. Build real DAX queries for the topic
+4. Generate KPI cards, data tables, and narratives
+5. Insert into the existing file structure (don't replace existing good content, ADD to it)
+
+Use ~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html as the reference for HTML structure.
+Use ~/ClaudeCode/powerbi-reports/report_builder.py if batch generation is helpful.
+
+DAX gotchas:
+- `is_sla_overdue` doesn't exist. Use `resolved_due_age_days > 0`
+- `first_response_met`/`resolution_met` are int64, filter with `+ 0 = 1`
+- NEVER fabricate DAX. Always query schema first.
+
+## Batch approach
+
+Process in batches of 20-25 files. After each batch:
+1. Run `python3 quality_audit_v2.py` and check the batch files moved to STANDARD or RICH
+2. Fix any that didn't meet threshold
+3. Continue to next batch
+
+## Verification
+
+After all 106 files processed:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 quality_audit_v2.py
+```
+
+Check: zero files with tier == "THIN" (except the 2 MCP server pages if they were THIN).
+
+Spot-check 5 files from each group: verify KPI cards render, tables have data, DAX toggles work.
+
+## After completion
+
+Rebuild staging:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py
+cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m "stage 5: upgrade 106 THIN reports to STANDARD" && git push
+```</div>
+  </div>
+
+  <!-- ==================== STAGE 6 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 6</span>
+    <h3>Handle 8 Category Pages</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> 8 files (2 EN + 6 NL)</span>
+      <span><strong>Type:</strong> Decision + light implementation</span>
+    </div>
+
+    <p>8 files are category landing pages, not reports. They were mixed into the report directories. Decision needed: keep as curated landing pages linking to reports in that category, or remove from the report library.</p>
+
+    <p><strong>The 8 category pages:</strong></p>
+    <table class="matrix">
+      <tr><th>File</th><th>Lang</th><th>Title / Topic</th></tr>
+      <tr><td>proxuma-io-ticketing-post.html</td><td>EN</td><td>Ticketing Overview</td></tr>
+      <tr><td>proxuma-io-upsell-post.html</td><td>EN</td><td>Upsell Opportunities</td></tr>
+      <tr><td>proxuma-io-beveiliging-post.html</td><td>NL</td><td>Beveiliging</td></tr>
+      <tr><td>proxuma-io-financieel-post.html</td><td>NL</td><td>Financieel</td></tr>
+      <tr><td>proxuma-io-klantrapporten-post.html</td><td>NL</td><td>Klantrapporten</td></tr>
+      <tr><td>proxuma-io-projecten-post.html</td><td>NL</td><td>Projecten</td></tr>
+      <tr><td>proxuma-io-ticketing-post.html</td><td>NL</td><td>Ticketing</td></tr>
+      <tr><td>proxuma-io-upsell-post.html</td><td>NL</td><td>Upsell</td></tr>
+    </table>
+
+    <p><strong>Recommended action:</strong> Keep them. They serve as category entry points for SEO and navigation. But exclude them from the gallery card count and the quality audit tier stats. Mark them with a <code>data-page-type="category"</code> attribute so they're distinguishable.</p>
+
+    <ul class="dep-list">
+      <li>Stage 2 (hreflang should be fixed on these too)</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 6</span>
+Context: Power BI report remediation Stage 6 of 10. Handle 8 category landing pages mixed into the report library.
+
+## What you're doing
+
+8 HTML files in ~/ClaudeCode/powerbi-reports/ are category landing pages, not individual reports. They need to be cleaned up and marked as category pages so they're excluded from report quality metrics but kept in the library for SEO/navigation.
+
+## The 8 files
+
+EN (2):
+- en/proxuma-io-ticketing-post.html (Ticketing Overview)
+- en/proxuma-io-upsell-post.html (Upsell Opportunities)
+
+NL (6):
+- nl/proxuma-io-beveiliging-post.html (Beveiliging)
+- nl/proxuma-io-financieel-post.html (Financieel)
+- nl/proxuma-io-klantrapporten-post.html (Klantrapporten)
+- nl/proxuma-io-projecten-post.html (Projecten)
+- nl/proxuma-io-ticketing-post.html (Ticketing)
+- nl/proxuma-io-upsell-post.html (Upsell)
+
+## What to do
+
+1. Add `data-page-type="category"` to the &lt;body&gt; tag of each file
+2. Strip any generic markers (if Stage 1 hasn't already)
+3. Clean up any generic FAQ content
+4. Make sure each page has a clean list of links to reports in its category
+5. Verify hreflang tags are correct (EN ticketing ↔ NL ticketing, EN upsell ↔ NL upsell)
+6. The 4 NL-only categories (beveiliging, financieel, klantrapporten, projecten) have no EN counterpart -- remove their EN hreflang or set x-default only
+
+## Verification
+
+- Open each file in browser, confirm it looks like a proper category landing page
+- Confirm `data-page-type="category"` is present on all 8
+- Run quality audit: these should still show as CATEGORY_PAGE tier
+
+## After completion
+
+No staging rebuild needed for this small change. Will be included in Stage 7 rebuild.</div>
+  </div>
+
+  <!-- ==================== STAGE 7 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 7</span>
+    <h3>Rebuild Gallery Pages for Staging</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> 2 gallery page builds + staging rebuild</span>
+      <span><strong>Type:</strong> Script build + HTML generation</span>
+    </div>
+
+    <p>The gallery pages on the staging site need to show all 449 EN and 423 NL reports (minus 8 category pages = 441 EN + 417 NL report cards). Currently the EN gallery shows 20 links and NL shows 0. Build a gallery generator that creates the full card grid.</p>
+
+    <p><strong>Expected outcome:</strong> Staging dev.proxuma.io shows complete gallery with all reports. The gallery HTML will also be used in Stage 10 for the live WP ACF update.</p>
+
+    <ul class="dep-list">
+      <li>All content stages (1-6) must be complete so the gallery reflects final state</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 7</span>
+Context: Power BI report remediation Stage 7 of 10. Rebuild gallery pages to show all reports.
+
+## What you're doing
+
+The report gallery pages need to display cards for all reports. Currently the EN gallery shows 20/449 links and the NL gallery shows 0/423. You need to generate gallery HTML that includes all reports.
+
+## Gallery architecture
+
+On live WordPress (proxuma.io):
+- EN gallery: page ID 3299, uses ACF field `bf_sections_0_html_code`
+- NL gallery: page ID 3495, uses ACF field `bf_sections_0_html_code`
+- Template: `page.php` renders ACF `bf_sections` > `custom_html` > `html_code`
+- Update method: `update_post_meta($id, 'bf_sections_0_html_code', $content)` via SSH
+
+On staging (dev.proxuma.io / GitHub Pages):
+- Gallery pages need to be standalone HTML files that work without WordPress
+
+## How to build the gallery
+
+1. Read all files from ~/ClaudeCode/powerbi-reports/quality-audit.json (the latest audit after Stages 1-6)
+2. Exclude CATEGORY_PAGE tier files (8 files) and the 2 MCP server SHELL files
+3. For each report, extract: title, slug, tier, data source badges, KPI count
+
+Write `build-gallery.py` at ~/ClaudeCode/powerbi-reports/build-gallery.py that:
+
+1. Generates gallery HTML for EN (all en/ reports except categories)
+2. Generates gallery HTML for NL (all nl/ reports except categories)
+3. Each gallery card shows:
+   - Report title (from doc_title in audit JSON)
+   - Data source badges (from search_bar_text or the source badges in the file)
+   - Link to the report page
+   - Tier indicator (subtle, for QA purposes on staging)
+4. Cards are grouped by data source category (Autotask, Datto, Microsoft 365, etc.)
+5. Includes a search/filter bar
+6. The hero section rotates featured reports (use RICH tier reports)
+
+Output two files:
+- ~/ClaudeCode/powerbi-reports/gallery-en.html (standalone for staging)
+- ~/ClaudeCode/powerbi-reports/gallery-nl.html (standalone for staging)
+- ~/ClaudeCode/powerbi-reports/gallery-en-wp.html (ACF-compatible fragment for WP, Stage 10)
+- ~/ClaudeCode/powerbi-reports/gallery-nl-wp.html (ACF-compatible fragment for WP, Stage 10)
+
+The WP fragments should NOT be full HTML pages -- just the content that goes into the ACF field.
+
+## Verification
+
+1. Build staging:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py
+```
+2. Copy gallery files into the staging build
+3. Push to GitHub Pages:
+```bash
+cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m "stage 7: rebuild complete gallery pages" && git push
+```
+4. Open dev.proxuma.io gallery pages in browser
+5. Count cards: EN should show ~441, NL should show ~417
+6. Test search/filter
+7. Click 5 random report cards -- confirm they link to the correct report page
+
+## After completion
+
+Report: card counts for EN and NL, any reports that were excluded and why.</div>
+  </div>
+
+  <!-- ==================== STAGE 8 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 8</span>
+    <h3>Final QA Pass</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> All 872 files + gallery pages</span>
+      <span><strong>Type:</strong> Automated validation + spot checks</span>
+    </div>
+
+    <p>Run the full quality audit one final time, validate all hreflang links resolve, check the staging site renders correctly, and produce a sign-off report for Max.</p>
+
+    <ul class="dep-list">
+      <li>All stages 1-7 complete</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 8</span>
+Context: Power BI report remediation Stage 8 of 10. Final QA pass before live deployment.
+
+## What you're doing
+
+All content remediation (Stages 1-7) is complete. Run a comprehensive quality check on the entire 872-file library before requesting user approval for live deployment.
+
+## QA checklist
+
+### 1. Run full audit
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 quality_audit_v2.py
+```
+
+Expected results:
+- RICH + STANDARD should be 95%+ of all reports (excluding category pages and MCP server pages)
+- THIN: should be 0 (or very close)
+- SHELL: should be 0 (except 2 MCP server pages)
+- generic_marker_count > 0: should be 0 files
+- has_generic_faq: should be 0 files
+
+### 2. Validate hreflang
+Write a validation script that:
+- For every paired file, checks that the alt URL slug corresponds to an actual file
+- For unpaired files, confirms no broken cross-links
+- Reports any mismatches
+
+### 3. Validate HTML structure
+For a random sample of 50 files (mix of tiers and languages):
+- Check that all DAX toggle blocks open/close correctly (valid HTML structure)
+- Check that KPI cards have content (not empty divs)
+- Check that tables have at least header + 1 data row
+- Check that no orphaned closing tags or broken HTML
+
+### 4. Staging site check
+Rebuild and push staging one final time:
+```bash
+cd ~/ClaudeCode/powerbi-reports && python3 build-staging.py
+cd ~/ClaudeCode/powerbi-reports-staging && git add -A && git commit -m "stage 8: final QA rebuild" && git push
+```
+
+Manually check on dev.proxuma.io:
+- EN gallery loads, shows all reports, search works
+- NL gallery loads, shows all reports, search works
+- 10 random report pages render correctly (5 EN, 5 NL)
+- Hreflang tags in page source look correct
+- No console errors
+
+### 5. Generate sign-off report
+
+Create a summary for the user:
+- Total files by tier (before remediation vs after)
+- Hreflang: how many pairs established, how many unpaired
+- Gallery: card counts
+- Any remaining issues or known limitations
+- Recommendation: ready for live push or not
+
+Output this as a concise report in the terminal.</div>
+  </div>
+
+  <!-- ==================== STAGE 9 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 9</span>
+    <h3>Push to Live WordPress</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> All approved files to proxuma.io</span>
+      <span><strong>Type:</strong> Deploy script execution</span>
+    </div>
+
+    <p>After Max approves the staging site, push all files to live WordPress. This uses the existing deploy infrastructure with wp-mapping.json for page IDs.</p>
+
+    <div class="callout">
+      <span class="callout-label">Gate</span>
+      This stage requires explicit user approval. Do not proceed without Max confirming the staging site is acceptable.
+    </div>
+
+    <ul class="dep-list">
+      <li>Stage 8 complete + user approval</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 9</span>
+Context: Power BI report remediation Stage 9 of 10. Push approved reports to live WordPress.
+
+## Prerequisites
+
+- Max has approved the staging site at dev.proxuma.io
+- All quality issues resolved in Stages 1-8
+- wp-mapping.json at ~/ClaudeCode/powerbi-reports/wp-mapping.json has page IDs for existing pages and slugs for new pages
+
+## What you're doing
+
+Push all report HTML files to live proxuma.io WordPress. The site currently has 232 EN + 242 NL reports (old content). After this push it will have 449 EN + 423 NL (all current files).
+
+## Deploy method
+
+SSH: `ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu`
+WP root: `cd ~/www/proxuma.io/public_html`
+
+Critical rules:
+- Use `$wpdb-&gt;update()` for content updates, NEVER `wp_update_post()` (strips style/script tags)
+- Protected pages (NEVER touch): 3299, 3495, 3401, 5655, 3389, 4887
+
+wp-mapping.json structure:
+```json
+{
+  "en": {
+    "update": [{"file": "en/filename.html", "slug": "slug", "page_id": 1234}, ...],
+    "create": [{"file": "en/filename.html", "slug": "slug"}, ...]
+  },
+  "nl": { same structure },
+  "_stats": {"en_update": 230, "en_create": 217, "nl_update": 240, "nl_create": 181}
+}
+```
+
+## Deploy script
+
+Use or update ~/ClaudeCode/powerbi-reports/deploy-reports.py (or bulk-publish.py). The deploy needs to:
+
+1. **Update existing pages** (230 EN + 240 NL = 470 pages):
+   - SSH to SiteGround
+   - For each page_id, run WP-CLI with $wpdb to update post_content
+   - Use batches of 20-30 to avoid timeout
+
+2. **Create new pages** (217 EN + 181 NL = 398 pages):
+   - SSH to SiteGround
+   - Create pages with correct parent (EN parent: insights page, NL parent: ai-gegenereerde-rapporten page)
+   - Set correct slug, status publish
+   - Use $wpdb for content insertion
+
+3. **Progress tracking**:
+   - Log each page: page_id, slug, status (updated/created/failed)
+   - Save progress to ~/ClaudeCode/powerbi-reports/deploy-progress.json
+   - If interrupted, can resume from last successful page
+
+## Batch execution
+
+Process in batches of 30 pages with a 2-second pause between batches. Total: ~29 batches. Expected time: ~90 minutes.
+
+## Verification during deploy
+
+After each batch of 30:
+- curl 3 random pages from the batch, confirm they return 200
+- Check page content includes the report title
+
+## After completion
+
+Do NOT flush cache yet (that's Stage 10).
+Do NOT update gallery pages yet (that's Stage 10).
+
+Report: pages updated, pages created, any failures, total time.</div>
+  </div>
+
+  <!-- ==================== STAGE 10 ==================== -->
+
+  <div class="stage">
+    <span class="stage-num">Stage 10</span>
+    <h3>Post-Push Verification + Live Gallery Update</h3>
+    <div class="stage-meta">
+      <span><strong>Scope:</strong> Live site verification + gallery ACF update + cache flush</span>
+      <span><strong>Type:</strong> Verification + deploy</span>
+    </div>
+
+    <p>Verify the live push worked, update the gallery pages on live WP, flush all caches, and do a final spot check.</p>
+
+    <ul class="dep-list">
+      <li>Stage 9 complete (all pages pushed)</li>
+    </ul>
+
+    <div class="prompt-block">
+<span class="prompt-label">Session prompt for Stage 10</span>
+Context: Power BI report remediation Stage 10 of 10. Post-push verification and live gallery update.
+
+## What you're doing
+
+Stage 9 pushed all report pages to live proxuma.io. Now verify them, update the gallery pages, flush caches, and do final checks.
+
+## Step 1: Verify live pages
+
+Sample 20 pages (10 EN, 10 NL, mix of updated and newly created):
+```bash
+# For each page, curl and check
+curl -s -o /dev/null -w "%{http_code}" "https://proxuma.io/powerbi/insights/SLUG/"
+```
+
+For each page, also check:
+- Title tag contains the report name
+- Content includes at least one DAX toggle block
+- Hreflang tags are present and correct
+
+## Step 2: Update gallery pages on live WP
+
+SSH: `ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu`
+WP root: `cd ~/www/proxuma.io/public_html`
+
+The gallery HTML fragments were generated in Stage 7:
+- ~/ClaudeCode/powerbi-reports/gallery-en-wp.html (for page 3299)
+- ~/ClaudeCode/powerbi-reports/gallery-nl-wp.html (for page 3495)
+
+Upload them via SCP:
+```bash
+scp -i ~/.ssh/id_ed25519 -P 18765 ~/ClaudeCode/powerbi-reports/gallery-en-wp.html u1434-nm1gftpe9yl0@es33.siteground.eu:~/www/proxuma.io/public_html/tmp/
+scp -i ~/.ssh/id_ed25519 -P 18765 ~/ClaudeCode/powerbi-reports/gallery-nl-wp.html u1434-nm1gftpe9yl0@es33.siteground.eu:~/www/proxuma.io/public_html/tmp/
+```
+
+Then update via WP-CLI:
+```bash
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu "cd ~/www/proxuma.io/public_html && wp eval '
+\$en = file_get_contents(\"tmp/gallery-en-wp.html\");
+update_post_meta(3299, \"bf_sections_0_html_code\", \$en);
+\$nl = file_get_contents(\"tmp/gallery-nl-wp.html\");
+update_post_meta(3495, \"bf_sections_0_html_code\", \$nl);
+echo \"Gallery updated: EN=\" . strlen(\$en) . \" NL=\" . strlen(\$nl);
+'"
+```
+
+## Step 3: Flush all caches
+
+```bash
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu "cd ~/www/proxuma.io/public_html && wp cache flush && wp sg purge"
+```
+
+For CDN cache, use the SiteTools socket:
+```bash
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu 'curl --unix-socket /chroot/tmp/site-tools.sock "http://localhost/api/v1/domain-all?flush_cache=1&domain=proxuma.io"'
+```
+
+## Step 4: Final verification
+
+1. Open https://proxuma.io/powerbi/ in browser -- gallery should show all reports
+2. Open https://proxuma.io/nl-powerbi/ in browser -- NL gallery should show all reports
+3. Click 5 random reports from each gallery -- confirm they load
+4. Check Google PageSpeed on 2 report pages (use WebFetch with PageSpeed API)
+5. Take screenshots via Microlink: `https://api.microlink.io/?url=URL&screenshot=true&meta=false`
+
+## Step 5: Cleanup
+
+- Remove temp files from SiteGround:
+```bash
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu "rm ~/www/proxuma.io/public_html/tmp/gallery-*.html"
+```
+
+## Report
+
+Final summary:
+- Total reports live: EN count + NL count
+- Gallery card counts: EN + NL
+- Sample page load times
+- Any issues found
+- Screenshots of the gallery pages</div>
+  </div>
+
+  <!-- ==================== BOTTOM LINE ==================== -->
+
+  <div class="positioning">
+    <h2>Execution Notes</h2>
+    <p>Stages 1-3 are mechanical and can be done in a single day. Stages 4-5 are the heaviest -- they need Power BI MCP access and will take multiple sessions. Stage 6 is a quick decision. Stages 7-8 are rebuild + QA. Stages 9-10 are the actual deploy and should be done in one sitting to avoid partial states on live.</p>
+    <p style="margin-top: 12px; color: rgba(255,255,255,.88);">Each stage prompt is self-contained. Copy the prompt block, start a fresh Claude session, and paste it. The executing session has everything it needs. After each stage, verify on dev.proxuma.io before moving to the next.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Power BI Report Remediation Plan &middot; 10 Stages</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Power BI Report Library Remediation Plan",
+  "date": "2026-05-07",
+  "summary": "10-stage remediation plan for 872 Power BI report HTML files. Covers marker stripping (510 files), hreflang fix (all 872), FAQ replacement (42), SHELL enrichment (11), THIN upgrades (106), category page handling (8), gallery rebuild, QA, and live deploy. Each stage has a self-contained session prompt.",
+  "sections": [
+    {
+      "heading": "Current State",
+      "items": [
+        {"title": "872 total files", "detail": "449 EN + 423 NL across 5 quality tiers", "meta": {"rich": 314, "standard": 433, "thin": 106, "shell": 11, "category": 8}},
+        {"title": "510 files with generic markers", "detail": "10 known filler phrases, ranging from 1-10 per file", "meta": {}},
+        {"title": "852 broken hreflang", "detail": "Each file uses own slug for alt language URL. Only 20 EN-NL pairs matched.", "meta": {}}
+      ]
+    },
+    {
+      "heading": "Stages",
+      "items": [
+        {"title": "Stage 1: Strip markers", "detail": "Remove 10 generic phrases from 510 files. Mechanical.", "meta": {"files": 510, "effort": "30 min"}},
+        {"title": "Stage 2: Fix hreflang", "detail": "Build EN-NL slug mapping, fix all 872 files. Need fuzzy matching + DAX fingerprinting.", "meta": {"files": 872, "effort": "1 hr"}},
+        {"title": "Stage 3: Fix FAQs", "detail": "Replace 42 generic FAQs with report-specific questions.", "meta": {"files": 42, "effort": "45 min"}},
+        {"title": "Stage 4: Enrich SHELL", "detail": "Add real DAX/KPIs to 11 nearly-empty reports. Needs Power BI MCP.", "meta": {"files": 11, "effort": "2 hr"}},
+        {"title": "Stage 5: Upgrade THIN", "detail": "Add missing elements to 106 reports. Largest stage. Needs Power BI MCP.", "meta": {"files": 106, "effort": "4 hr"}},
+        {"title": "Stage 6: Category pages", "detail": "Mark 8 non-report pages, clean up, set data-page-type.", "meta": {"files": 8, "effort": "30 min"}},
+        {"title": "Stage 7: Rebuild gallery", "detail": "Generate full gallery with all report cards for staging.", "meta": {"files": 2, "effort": "30 min"}},
+        {"title": "Stage 8: Final QA", "detail": "Full audit, hreflang validation, HTML checks, staging verification.", "meta": {"files": 872, "effort": "1 hr"}},
+        {"title": "Stage 9: Live deploy", "detail": "Push to proxuma.io via SSH/WP-CLI. 470 updates + 398 creates.", "meta": {"files": 868, "effort": "2 hr"}},
+        {"title": "Stage 10: Post-push", "detail": "Verify live pages, update gallery ACF, flush caches, screenshots.", "meta": {"files": 0, "effort": "1 hr"}}
+      ]
+    }
+  ],
+  "next_steps": "Start with Stage 1 (strip markers) and Stage 2 (hreflang) in parallel since they have no dependencies. After both complete, proceed through stages sequentially. Stages 4 and 5 are the heaviest and need Power BI MCP access.",
+  "session_state": {
+    "phase": "plan complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Read quality-audit.json to get exact file counts and distributions",
+      "Discovered 510 files with markers (not 29 as initially estimated)",
+      "Analyzed hreflang bug pattern and slug mapping challenge",
+      "Created 10-stage remediation plan with self-contained prompts",
+      "Generated HTML plan document at claude-output"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new plan file, needs commit+push",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/powerbi-reports/",
+    "temp_files": [
+      {"path": "~/ClaudeCode/powerbi-reports/remediation-file-lists.json", "description": "Categorized file lists for each remediation stage", "cleanup_after": "stage 8 complete"}
+    ],
+    "github_links": [
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-powerbi-remediation-plan.html", "relevance": "this plan document"},
+      {"url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-07-powerbi-quality-audit.html", "relevance": "quality audit that informed this plan"}
+    ],
+    "wordpress_ids": [3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "dev.proxuma.io has current 872 files for staging preview. Live proxuma.io reverted to 232 EN + 242 NL."
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3299 (EN gallery, ACF only)", "WP page 3495 (NL gallery, ACF only)", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "$wpdb->update() not wp_update_post()", "ACF update_post_meta for gallery pages"]
+  },
+  "decision_log": [
+    {
+      "decision": "Reordered stages: markers first, then hreflang, then FAQs, then content enrichment, then gallery",
+      "rejected_alternatives": ["Gallery first (would need rebuild after content changes)", "Hreflang last (blocks gallery build)"],
+      "rationale": "Mechanical cleanup first reduces noise for later content work. Gallery depends on all content being final.",
+      "trade_offs": "Stages 4-5 are blocked until 1-2 complete, but 1-2 are fast",
+      "contingencies": []
+    },
+    {
+      "decision": "Keep category pages in library with data-page-type marker",
+      "rejected_alternatives": ["Delete them", "Convert to reports"],
+      "rationale": "They serve SEO purpose as category landing pages. Marking them distinguishes from reports in audits.",
+      "trade_offs": "8 files remain non-report content in a report directory",
+      "contingencies": []
+    },
+    {
+      "decision": "Corrected marker count from 29 to 510 based on actual audit data",
+      "rejected_alternatives": [],
+      "rationale": "Initial estimate of 29 was only files with 5+ markers. Actual audit shows 510 files with 1+ markers.",
+      "trade_offs": "Stage 1 is bigger than initially scoped but still mechanical",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
