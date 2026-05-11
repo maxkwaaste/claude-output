@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Deploy Playbook: Session Prompts</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 36px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+
+/* Prompt blocks */
+.prompt-block {
+  background: #1a2744; border-radius: 6px; padding: 0; margin: 18px 0;
+  overflow: hidden; position: relative;
+}
+.prompt-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 20px; background: rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.prompt-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .06em; color: #c8a87a;
+}
+.prompt-step {
+  font: 600 11px/1 -apple-system, sans-serif;
+  color: rgba(255,255,255,0.5); letter-spacing: .03em;
+}
+.prompt-body {
+  padding: 20px; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,0.88);
+  white-space: pre-wrap; word-wrap: break-word; cursor: pointer;
+}
+.prompt-body:hover { background: rgba(255,255,255,0.03); }
+.prompt-body::after {
+  content: 'Click to copy'; position: absolute; bottom: 8px; right: 12px;
+  font: 500 10px/1 -apple-system, sans-serif; color: rgba(255,255,255,0.25);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.prompt-block.copied .prompt-body::after {
+  content: 'Copied!'; color: #c8a87a;
+}
+
+/* Callout */
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+
+/* Positioning box */
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+
+/* Stats row */
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+
+/* Phase markers */
+.phase-marker {
+  display: inline-block; font: 700 10px/1 -apple-system, sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; padding: 4px 10px;
+  border-radius: 3px; margin-bottom: 12px;
+}
+.phase-infra { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.phase-manual { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.phase-deploy { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.phase-qa { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 11, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-11-report-deploy-playbook.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Power BI Report Library &bull; Deploy Playbook</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 11, 2026<br>Execution Playbook<br>Report Infrastructure
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">REPORT LIBRARY DEPLOYMENT</div>
+  <h1>Session Playbook: 11 Steps to Production</h1>
+  <p class="subtitle">One conductor session guides you through 10 worker sessions. Each prompt is self-contained. Click any prompt block to copy it to clipboard. Paste into a fresh Claude Code terminal on M4 Air.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Conductor</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10</div>
+      <div class="stat-label">Worker Sessions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Files to Deploy</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Manual Step</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">How to use this playbook</span>
+    <strong>Step 1:</strong> Open a new Claude Code session and paste the Conductor prompt. Keep this session open throughout.<br>
+    <strong>Step 2:</strong> The conductor tells you which worker step to run next. Open a new tab, paste that worker's prompt, let it finish.<br>
+    <strong>Step 3:</strong> Go back to the conductor tab, tell it "step N done." It reviews the output and gives you the next step.<br><br>
+    Do them in order. Don't skip steps. If a worker session hits a problem, go back to the conductor and describe what happened. The conductor adapts the plan.
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Conductor Session</h2>
+  <p>This session stays open from start to finish. It tracks progress, reviews worker output, and tells you what to paste next. Start here.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Conductor</span>
+      <span class="prompt-step">Keep open throughout</span>
+    </div>
+    <div class="prompt-body">You are the conductor for deploying 872 Power BI reports to WordPress via SiteGround staging. You do NOT implement anything yourself. You track progress, review worker output, and tell Max which worker prompt to run next.
+
+CONTEXT:
+- Analysis doc: ~/ClaudeCode/claude-output/2026-05-11-report-staging-frozen-zones.html (read the claude-data JSON block for full context)
+- Playbook with all prompts: ~/ClaudeCode/claude-output/2026-05-11-report-deploy-playbook.html
+- Report repo: ~/ClaudeCode/powerbi-reports/ (872 files: 449 in en/, 423 in nl/)
+- Remediation log: fetch from https://github.com/Proxuma/powerbi-reports/blob/main/REMEDIATION-LOG.md via gh CLI
+- Protected WP pages (NEVER touch): 3299, 3495, 3401, 5655, 3389, 4887
+- Deploy method: $wpdb->update() via SSH, NEVER wp_update_post()
+- SSH prod: ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu
+- WP root: ~/www/proxuma.io/public_html
+
+THE 10 STEPS (in order):
+1. Extract teal-frame-css.html from known-good report
+2. Create GOLDEN-STANDARD.html reference file
+3. Build visual-audit.py (automated checks for all 872 files)
+4. Fix audit findings (batch)
+5. Build deploy_reports_lib.py (deployment library)
+6. MANUAL: Max sets up SiteGround staging via Site Tools UI
+7. Deploy 10 test reports to staging
+8. Visual QA on test batch
+9. Fix issues from QA
+10. Full 872-file deploy to staging + 3-layer validation
+
+YOUR JOB per step:
+- Before: tell Max "Run step N now" and remind him to open a new Claude Code tab for it.
+- After: when Max says "step N done", read the files that step produced. Verify they look correct. Check git status in ~/ClaudeCode/powerbi-reports/. If something's off, explain what to fix before moving on. If it's good, say "step N verified, run step N+1."
+- If a step fails: diagnose from the worker's output. Either give Max a corrected prompt or a manual fix, then retry.
+
+Start by reading the analysis doc's claude-data block, then tell Max to begin with Step 1.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Phase 1: Infrastructure</h2>
+  <p>Steps 1-5 build the missing tooling. No WordPress access needed yet.</p>
+
+  <!-- STEP 1 -->
+  <span class="phase-marker phase-infra">Infrastructure</span>
+  <h3>Step 1: Extract CSS Template</h3>
+  <p>Extracts the canonical CSS from a known-good report file and locks it as the single source of truth. Every future report and batch fix references this file.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 1</span>
+      <span class="prompt-step">~5 min</span>
+    </div>
+    <div class="prompt-body">TASK: Extract the locked CSS template from a known-good report.
+
+SOURCE: ~/ClaudeCode/powerbi-reports/en/proxuma-io-sla-performance-post.html
+
+OUTPUT: ~/ClaudeCode/powerbi-reports/templates/teal-frame-css.html
+
+WHAT TO DO:
+1. Read the source report file.
+2. Find all CSS inside the second &lt;style&gt; block (the one after the morph bar CSS, starting with the comment about "LOCKED CSS TEMPLATE"). This is the teal-frame + report-specific CSS. If there's no comment marker, it's the style block containing `.prx-report` rules.
+3. Extract that entire style block into templates/teal-frame-css.html. Include the &lt;style&gt; tags.
+4. Add a comment at the top: &lt;!-- LOCKED CSS TEMPLATE - Do not modify. Extracted from sla-performance on YYYY-MM-DD. Any report-specific CSS goes in a SEPARATE style block. --&gt;
+5. Verify the extracted CSS contains these key selectors (grep for them): .prx-report, .report-frame-outer, .doc, .doc-header, .doc-kpi-row, .doc-kpi, .doc-section, .dax-toggle
+6. Count the CSS rules. Report the count.
+
+DO NOT modify any CSS values. Copy verbatim. Do not "clean up" or reformat.
+
+Create the templates/ directory if it doesn't exist.
+
+When done: git add and commit to the powerbi-reports repo with message "chore: extract locked CSS template from sla-performance"</div>
+  </div>
+
+  <!-- STEP 2 -->
+  <span class="phase-marker phase-infra">Infrastructure</span>
+  <h3>Step 2: Create Golden Standard</h3>
+  <p>Designates one report as the visual reference. This is the file you compare against when checking if a report "looks right."</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 2</span>
+      <span class="prompt-step">~5 min</span>
+    </div>
+    <div class="prompt-body">TASK: Create the GOLDEN-STANDARD.html reference file for the Power BI report library.
+
+SOURCE: ~/ClaudeCode/powerbi-reports/en/proxuma-io-sla-performance-post.html
+
+OUTPUT: ~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html
+
+WHAT TO DO:
+1. Copy the source file to GOLDEN-STANDARD.html (exact copy, byte-for-byte).
+2. Add a comment right after &lt;!DOCTYPE html&gt;: &lt;!-- GOLDEN STANDARD - Visual reference for all reports. Do not edit. Source: sla-performance. Date: YYYY-MM-DD --&gt;
+3. Open it in the browser to verify it renders correctly: open ~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html
+4. Verify it has all 10 frozen zones by checking for:
+   - Morph bar: .prx-morph-bar with background #115e58
+   - Search hero: .search-hero with teal gradient
+   - Teal frame: .report-frame-outer with gradient #0f766e to #134e4a
+   - Doc letterhead: .doc-header with 3px solid #1B365D border
+   - KPI row: .doc-kpi-row with 4-column grid
+   - Sections: .doc-section-num with color #0f766e
+   - DAX toggles: .dax-toggle elements
+   - Tables: table elements inside .doc-body
+   - Doc footer: .doc-footer
+   - CTA block outside teal frame
+5. Report which zones are present and which (if any) are missing.
+
+DO NOT modify any content. This is a reference copy.
+
+When done: git add and commit with message "chore: add golden standard reference file"</div>
+  </div>
+
+  <!-- STEP 3 -->
+  <span class="phase-marker phase-infra">Infrastructure</span>
+  <h3>Step 3: Build Visual Audit Script</h3>
+  <p>Creates an automated validation script that scans all 872 files for the six error classes identified in the analysis. This runs before every deploy.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 3</span>
+      <span class="prompt-step">~15 min</span>
+    </div>
+    <div class="prompt-body">TASK: Build visual-audit.py that scans all Power BI report HTML files for visual errors.
+
+OUTPUT: ~/ClaudeCode/powerbi-reports/visual-audit.py
+
+REFERENCE: Read ~/ClaudeCode/powerbi-reports/qa-validate.py for the existing file I/O patterns and HTML parsing approach used in this repo.
+
+THE 6 CHECKS (implement all):
+
+1. DIV BALANCE: Parse each HTML file, count opening and closing div tags. Flag files where counts don't match. Report the delta.
+
+2. CLASS WHITELIST: Grep inside .prx-report content for these drift markers. Flag any file containing them:
+   - .bar-chart, .bar-row, .bar-fill (should be .patch-row, .patch-bar-wrapper, .patch-segment)
+   - .kpi-grid, .kpi-card, .kpi-value (should be .doc-kpi-row, .doc-kpi, .doc-kpi-value)
+   - .section-card (should be unwrapped into .doc-section)
+   - .inline-dax (should be .dax-toggle)
+   - .metric-card, .stat-card (should be .doc-kpi)
+   - .data-table, .stats-table (should be plain table in .doc-body)
+
+3. COLOR AUDIT: Extract all hex color values from inline style attributes and style blocks. Flag non-standard colors. Allowed palette:
+   #0f766e, #115e58, #134e4a, #0f2240 (teals/navy)
+   #1B365D, #1b365d (document navy)
+   #2c3e50 (text)
+   #333, #333333 (text alt)
+   #fafbfc, #f1f5f9, #e2e8f0 (grays)
+   #64748b, #94a3b8 (muted text)
+   #10B981, #ef4444, #f59e0b (status green/red/amber)
+   #5eead4 (morph bar link teal)
+   #fff, #ffffff, #000, #000000 (black/white)
+   Plus any colors inside SVG elements (skip those) and standard badge colors (DBEAFE, FDE68A, FECACA, E9D5FF, A7F3D0, FEF3C7 etc.)
+
+4. FONT AUDIT: Grep for font-family declarations. Flag any containing: Inter, Montserrat, Roboto, Arial, Helvetica. Allowed: Open Sans, DM Serif Display, JetBrains Mono, Playfair Display, system fonts (-apple-system, BlinkMacSystemFont, sans-serif, serif, monospace).
+
+5. ARTIFACT SCAN: Grep for known filler phrases:
+   "We pulled the numbers", "Schedule Recurring Review", "Let's break down", "TODO", "PLACEHOLDER", "Lorem ipsum"
+   Also flag files with more than one FAQPage JSON-LD block.
+
+6. STRUCTURE CHECK: Verify each file has:
+   - Exactly one .prx-morph-bar
+   - Exactly one .report-frame-outer
+   - Exactly one .doc element
+   - At least one .doc-kpi-row
+   - At least one .doc-section
+
+OUTPUT FORMAT: Print a summary table showing pass/fail counts per check. Then list every flagged file grouped by check type, with the specific issue found. At the end, write results to ~/ClaudeCode/powerbi-reports/AUDIT-RESULTS.md.
+
+SCAN TARGETS: All .html files in en/ and nl/ directories. Skip GOLDEN-STANDARD.html, gallery files, index.html, and anything in templates/.
+
+Run the script after building it. Report results.
+
+When done: git add visual-audit.py and AUDIT-RESULTS.md, commit with "feat: add visual audit script with 6-check validation"</div>
+  </div>
+
+  <!-- STEP 4 -->
+  <span class="phase-marker phase-infra">Infrastructure</span>
+  <h3>Step 4: Fix Audit Findings</h3>
+  <p>Batch-fixes whatever the audit found. The prompt adapts based on actual findings.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 4</span>
+      <span class="prompt-step">~20 min (depends on findings)</span>
+    </div>
+    <div class="prompt-body">TASK: Fix all visual audit findings in the Power BI report library.
+
+READ FIRST:
+- ~/ClaudeCode/powerbi-reports/AUDIT-RESULTS.md (the audit output from step 3)
+- ~/ClaudeCode/powerbi-reports/templates/teal-frame-css.html (the canonical CSS)
+
+RULES:
+1. Only fix what the audit flagged. Do not "improve" other things.
+2. For CSS class drift: replace wrong classes with correct ones using this mapping:
+   .bar-chart/.bar-row/.bar-fill -> .patch-row/.patch-bar-wrapper/.patch-segment
+   .kpi-grid/.kpi-card/.kpi-value -> .doc-kpi-row/.doc-kpi/.doc-kpi-value
+   .section-card -> unwrap into .doc-section
+   .inline-dax -> .dax-toggle (note: different HTML structure, check each case)
+   .metric-card/.stat-card -> .doc-kpi
+   .data-table/.stats-table -> remove class, leave plain table
+3. For div imbalance: find the specific broken nesting and fix minimally. Do not restructure.
+4. For wrong colors: replace with nearest palette color. Do not guess, use the allowed palette from the audit script.
+5. For wrong fonts: replace with Open Sans (body), DM Serif Display (titles), or JetBrains Mono (code).
+6. For content artifacts: remove filler phrases. Do NOT inject replacement text. Just delete.
+7. For duplicate FAQ JSON-LD: keep the first one, remove extras.
+
+NEVER touch:
+- JavaScript
+- DAX query content inside code blocks
+- Morph bar CSS (first style block)
+- Proxuma SVG logo
+- JSON-LD structured data (except duplicate FAQPage cleanup)
+
+After all fixes, re-run the audit: python3 ~/ClaudeCode/powerbi-reports/visual-audit.py
+
+TARGET: Zero findings on re-run. If some findings can't be fixed automatically (need manual review), list them in AUDIT-RESULTS.md under a "Manual Review Needed" heading.
+
+When done: git add all changed files. Commit with "fix: resolve visual audit findings (N files fixed)" where N is the count.</div>
+  </div>
+
+  <!-- STEP 5 -->
+  <span class="phase-marker phase-infra">Infrastructure</span>
+  <h3>Step 5: Build Deploy Library</h3>
+  <p>Creates the deployment script that pushes report HTML to WordPress pages via SSH.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 5</span>
+      <span class="prompt-step">~15 min</span>
+    </div>
+    <div class="prompt-body">TASK: Build deploy_reports_lib.py for pushing Power BI report HTML files to WordPress via SSH.
+
+OUTPUT: ~/ClaudeCode/powerbi-reports/deploy_reports_lib.py
+
+REQUIREMENTS:
+
+1. PROTECTED_PAGE_IDS = {3299, 3495, 3401, 5655, 3389, 4887}
+   Every function that touches a page ID must check against this set first. Hard abort with error message if a protected page is targeted.
+
+2. Core functions:
+   - get_wp_pages(ssh_config, parent_id) -> list of {id, slug, title}
+     Runs: wp post list --post_parent={parent_id} --post_type=page --fields=ID,post_name,post_title --format=json
+   - build_slug_map(en_pages, nl_pages, report_files) -> dict mapping filename to page_id
+     Match report filenames to WP page slugs. EN parent: 3299, NL parent: 3495.
+   - push_report(ssh_config, page_id, html_content, dry_run=False)
+     Uploads HTML via temp file on server, then runs PHP:
+     $wpdb->update('wp_posts', ['post_content' => file_get_contents('/tmp/report_{page_id}.html')], ['ID' => {page_id}]);
+     In dry_run mode: only upload the temp file and print what WOULD be updated. Do not run the PHP.
+   - batch_deploy(ssh_config, slug_map, report_dir, dry_run=False, batch_size=50, delay=5)
+     Deploys in batches with delay between batches. Logs progress to stdout.
+     Returns: {success: [...], failed: [...], skipped: [...]}
+   - flush_cache(ssh_config)
+     Runs: cd ~/www/proxuma.io/public_html && wp cache flush && wp sg purge
+
+3. SSH config dict format:
+   {"host": "es33.siteground.eu", "port": 18765, "user": "u1434-nm1gftpe9yl0", "key": "~/.ssh/id_ed25519"}
+   Support overriding for staging via a --staging flag or separate config.
+
+4. CLI interface:
+   python3 deploy_reports_lib.py --dry-run              # dry run all
+   python3 deploy_reports_lib.py --dry-run --limit 10   # dry run first 10
+   python3 deploy_reports_lib.py --deploy --limit 10    # deploy first 10
+   python3 deploy_reports_lib.py --deploy               # deploy all
+   python3 deploy_reports_lib.py --staging --deploy      # deploy to staging env
+   Add --en-only and --nl-only flags.
+
+5. HTML extraction: Read each file, extract content from inside the body tag. The reports are full HTML documents but WordPress only needs the body content (everything between body tags, excluding the tags themselves).
+
+6. Logging: Print progress as "Deploying [N/total] slug -> page_id ... OK/FAIL". Write a deploy log to DEPLOY-LOG.md with timestamp, files deployed, success/fail counts.
+
+TEST: Run with --dry-run --limit 1 to verify it connects via SSH and reads the WP page list. Report the output.
+
+When done: git add and commit with "feat: add deploy_reports_lib.py with protected page safeguards"</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Phase 2: Staging Setup</h2>
+  <p>One manual step, then the first real deploy.</p>
+
+  <!-- STEP 6 -->
+  <span class="phase-marker phase-manual">Manual</span>
+  <h3>Step 6: Set Up SiteGround Staging</h3>
+  <p>This is the one step you do yourself in the browser. No Claude session needed.</p>
+
+  <div class="callout">
+    <span class="callout-label">Manual step</span>
+    <ol>
+      <li>Log into <strong>SiteGround Site Tools</strong> for proxuma.io</li>
+      <li>Go to <strong>WordPress > Staging</strong></li>
+      <li>Click <strong>Create Staging Copy</strong></li>
+      <li>Wait for the clone to complete (a few minutes for the full site)</li>
+      <li>Note the staging URL and staging SSH details that SiteGround gives you</li>
+      <li>Go back to the conductor session and tell it: "Step 6 done. Staging URL is [URL]. Staging SSH is [details if different from prod]."</li>
+    </ol>
+    <p style="margin-bottom: 0;">The conductor will update the deploy script config for the staging environment.</p>
+  </div>
+
+  <!-- STEP 7 -->
+  <span class="phase-marker phase-deploy">Deploy</span>
+  <h3>Step 7: Deploy 10 Test Reports to Staging</h3>
+  <p>First real deploy. Small batch to verify the pipeline works end-to-end before committing to all 872 files.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 7</span>
+      <span class="prompt-step">~10 min</span>
+    </div>
+    <div class="prompt-body">TASK: Deploy 10 test reports to the SiteGround staging WordPress environment.
+
+STAGING SSH: [THE CONDUCTOR WILL TELL YOU THE STAGING SSH DETAILS - ASK MAX IF NOT PROVIDED]
+
+WHAT TO DO:
+1. Read ~/ClaudeCode/powerbi-reports/deploy_reports_lib.py to understand the CLI interface.
+2. Pick 10 reports that cover different categories. Select from en/ directory:
+   - 2 SLA/ticket reports
+   - 2 client/profitability reports
+   - 2 device/security reports
+   - 2 project/resource reports
+   - 2 finance/billing reports
+   Find them by grepping filenames for keywords: sla, client, device, security, project, resource, billing, profitability.
+3. Run the deploy script with --staging --deploy --limit 10 (or specify the 10 files explicitly if the script supports a file list).
+4. After deploy, flush cache on staging: run the flush_cache function or SSH in and run: cd ~/www/proxuma.io/public_html && wp cache flush && wp sg purge
+5. Test 3 of the 10 pages by fetching them with curl and checking:
+   - HTTP 200 response
+   - The response contains "prx-report" (proves report content was inserted)
+   - The response contains "proxuma" theme markers (proves WP theme is wrapping the content)
+6. Report: which 10 files were deployed, their staging URLs, curl test results.
+
+DO NOT deploy to production. Only staging.
+DO NOT touch protected pages (3299, 3495, 3401, 5655, 3389, 4887).</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Phase 3: Visual QA</h2>
+  <p>The heart of the process. Verify reports look correct in-theme, fix what's broken.</p>
+
+  <!-- STEP 8 -->
+  <span class="phase-marker phase-qa">Visual QA</span>
+  <h3>Step 8: Visual QA on Test Batch</h3>
+  <p>This step is partially manual. You open the 10 staging pages in a browser and compare against the golden standard. Claude helps you document what you find.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 8</span>
+      <span class="prompt-step">~15 min</span>
+    </div>
+    <div class="prompt-body">TASK: Help Max do visual QA on the 10 test reports deployed to SiteGround staging.
+
+CONTEXT: 10 Power BI reports were just deployed to WordPress staging. Max will open them in a browser and report visual issues. Your job is to document findings and categorize them.
+
+GOLDEN STANDARD: ~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html (open this in a browser tab for side-by-side comparison)
+
+FROZEN ZONES REFERENCE (from the analysis doc at ~/ClaudeCode/claude-output/2026-05-11-report-staging-frozen-zones.html):
+- Zone 1: Morph bar (pixel-frozen) - #115e58, 50px height, z-10000, word cascade
+- Zone 2: Search hero (structure-frozen) - teal gradient, badge, question text
+- Zone 3: Teal frame (pixel-frozen) - gradient #0f766e-#134e4a, 50px padding, 12px radius
+- Zone 4: Doc letterhead (pixel-frozen) - Proxuma logo, 3px navy rule, meta layout
+- Zone 5: KPI row (style-frozen) - 4-col grid, #fafbfc background, shared borders
+- Zone 6: Sections (style-frozen) - teal numbers, consistent headers
+- Zone 7: DAX toggles (style-frozen) - dark bg, JetBrains Mono, copy button
+- Zone 8: Tables (style-frozen) - clean borders, consistent padding
+- Zone 9: Patching bars (style-frozen) - .patch-row, green/amber/red segments
+- Zone 10: Footer + CTA (pixel-frozen) - same text on every report
+
+WORKFLOW:
+1. Ask Max to open the golden standard and a staging report side by side.
+2. For each issue Max reports, document it as:
+   - Which zone (1-10)
+   - What's wrong (specific: "KPI values are gray instead of navy #1B365D")
+   - Which file(s) affected
+   - Severity: BLOCKING (deploy can't proceed) or COSMETIC (fix later)
+3. Also check via curl if there are WP theme CSS conflicts:
+   - Fetch a staging page, extract the full HTML, look for theme CSS rules that override .prx-report styles
+   - Common conflicts: h1/h2 font overrides, a tag color overrides, table resets
+4. Write all findings to ~/ClaudeCode/powerbi-reports/QA-FINDINGS.md with structure:
+   ## Blocking Issues
+   ## Cosmetic Issues
+   ## Theme CSS Conflicts
+   ## Clean Zones (zones that passed)
+
+When done: commit QA-FINDINGS.md with "docs: visual QA findings from staging test batch"</div>
+  </div>
+
+  <!-- STEP 9 -->
+  <span class="phase-marker phase-qa">Visual QA</span>
+  <h3>Step 9: Fix QA Findings</h3>
+  <p>Fixes the blocking issues from the QA pass. Adapts based on what was actually found.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 9</span>
+      <span class="prompt-step">~20 min (depends on findings)</span>
+    </div>
+    <div class="prompt-body">TASK: Fix all BLOCKING visual issues found during QA of the staging test batch.
+
+READ FIRST:
+- ~/ClaudeCode/powerbi-reports/QA-FINDINGS.md (the issues to fix)
+- ~/ClaudeCode/powerbi-reports/templates/teal-frame-css.html (canonical CSS)
+- ~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html (visual reference)
+
+RULES:
+1. Fix BLOCKING issues only. Leave COSMETIC for a later pass.
+2. If the fix affects CSS that's shared across all 872 files (e.g., a color value in the inline CSS), you need to apply it to ALL files, not just the 10 test files. Build a batch fix script if needed.
+3. For WP theme CSS conflicts: the fix goes into the report CSS as higher-specificity overrides. Add them to the template CSS (teal-frame-css.html) first, then propagate to all files. Example: if the WP theme overrides h2 styling, add .prx-report .doc h2 { ... !important } to the template.
+4. When changing the template CSS, update it in teal-frame-css.html AND in every report file's inline CSS. Write a Python script (fix-css-propagate.py) to do this.
+5. After fixes, re-run visual-audit.py to make sure fixes didn't introduce new issues.
+6. Re-deploy the 10 test files to staging to verify the fixes.
+
+NEVER:
+- Rewrite the entire CSS. Only add targeted overrides for specific conflicts.
+- Change frozen zone values (colors, paddings) unless QA-FINDINGS.md specifically says those values are wrong.
+- Touch content (text, DAX queries, tables data).
+
+When done: commit all changes with "fix: resolve blocking QA findings from staging test batch"</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Phase 4: Full Deploy</h2>
+
+  <!-- STEP 10 -->
+  <span class="phase-marker phase-deploy">Deploy</span>
+  <h3>Step 10: Full 872-File Deploy + Validation</h3>
+  <p>The big one. Deploy everything to staging, run the full 3-layer validation, then go to production.</p>
+
+  <div class="prompt-block" onclick="copyPrompt(this)">
+    <div class="prompt-header">
+      <span class="prompt-label">Worker Step 10</span>
+      <span class="prompt-step">~30 min</span>
+    </div>
+    <div class="prompt-body">TASK: Deploy all 872 Power BI reports to SiteGround staging, validate, then prepare for production deploy.
+
+STAGING SSH: [ASK MAX FOR STAGING SSH DETAILS IF NOT IN deploy_reports_lib.py CONFIG]
+
+PHASE A - FULL STAGING DEPLOY:
+1. Run visual-audit.py one final time. Must be zero findings. If not, stop and report.
+2. Deploy all files: python3 deploy_reports_lib.py --staging --deploy
+   This should deploy in batches (batch_size=50, delay=5s between batches).
+3. Flush staging cache after deploy.
+4. Check the deploy log (DEPLOY-LOG.md) for any failures. Report counts: success/fail/skipped.
+
+PHASE B - LAYER 1 VALIDATION (automated, all files):
+5. Run visual-audit.py against the local files one more time (sanity check).
+6. Fetch 20 random staging URLs via curl and verify:
+   - HTTP 200
+   - Contains "prx-report"
+   - Contains theme header markers
+   Report pass/fail count.
+
+PHASE C - LAYER 2 VALIDATION (sample screenshots):
+7. Pick 5 reports from different categories. For each, use curl to fetch the full HTML from staging. Check for:
+   - Correct morph bar (Zone 1): contains .prx-morph-bar with #115e58
+   - Correct teal frame (Zone 3): contains .report-frame-outer
+   - Correct KPI row (Zone 5): contains .doc-kpi-row
+   - No drift markers: no .kpi-card, .bar-chart, .inline-dax classes
+   Report results per file.
+
+PHASE D - PRODUCTION READINESS REPORT:
+8. Write ~/ClaudeCode/powerbi-reports/PRODUCTION-READY.md with:
+   - Total files deployed to staging
+   - Validation results (all 3 layers)
+   - Any issues found
+   - Recommendation: GO or NO-GO for production
+   - Exact command to run production deploy (with --deploy flag, no --staging)
+
+DO NOT deploy to production. Only staging. Max will review PRODUCTION-READY.md and make the call.
+
+When done: commit DEPLOY-LOG.md and PRODUCTION-READY.md with "docs: full staging deploy complete, production readiness report"</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <div class="positioning">
+    <h2>After Step 10</h2>
+    <p>Go back to the conductor session. It will review PRODUCTION-READY.md and tell you whether to proceed with production deploy. The production deploy is the same command without --staging. After production deploy: flush cache, verify 5 live pages, update gallery ACF on pages 3299 and 3495 if needed.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Rollback plan</span>
+    If production deploy goes wrong, all original page content is in WordPress revision history. Each page's last revision before the deploy is the rollback point. The deploy script should log the pre-deploy content hash for each page so you can verify rollback if needed.
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Report Deploy Playbook &bull; May 11, 2026</span>
+  </div>
+</div>
+
+<script>
+function copyPrompt(block) {
+  const body = block.querySelector('.prompt-body');
+  const text = body.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    block.classList.add('copied');
+    setTimeout(() => block.classList.remove('copied'), 2000);
+  });
+}
+</script>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Report Deploy Playbook: Session Prompts",
+  "date": "2026-05-11",
+  "summary": "Complete playbook with 1 conductor prompt and 10 worker prompts for deploying 872 Power BI reports to WordPress via SiteGround staging. Each prompt is self-contained and ready to paste into a fresh Claude Code session.",
+  "sections": [
+    {
+      "heading": "Conductor",
+      "items": [
+        { "title": "Conductor session", "detail": "Stays open throughout. Tracks progress, reviews worker output, tells Max which step to run next.", "meta": { "type": "persistent" } }
+      ]
+    },
+    {
+      "heading": "Phase 1: Infrastructure (Steps 1-5)",
+      "items": [
+        { "title": "Step 1: Extract CSS template", "detail": "Extract locked CSS from sla-performance into templates/teal-frame-css.html", "meta": { "time": "5 min" } },
+        { "title": "Step 2: Create golden standard", "detail": "Copy sla-performance as GOLDEN-STANDARD.html visual reference", "meta": { "time": "5 min" } },
+        { "title": "Step 3: Build visual-audit.py", "detail": "6-check validation: div balance, class whitelist, color audit, font audit, artifact scan, structure check", "meta": { "time": "15 min" } },
+        { "title": "Step 4: Fix audit findings", "detail": "Batch fix whatever the audit found. Class drift mapping, div fixes, color corrections.", "meta": { "time": "20 min" } },
+        { "title": "Step 5: Build deploy_reports_lib.py", "detail": "SSH-based deploy with protected page safeguards, batch mode, dry-run, staging support", "meta": { "time": "15 min" } }
+      ]
+    },
+    {
+      "heading": "Phase 2: Staging Setup (Steps 6-7)",
+      "items": [
+        { "title": "Step 6: SiteGround staging (manual)", "detail": "Max creates WordPress staging clone via Site Tools UI", "meta": { "time": "10 min", "manual": true } },
+        { "title": "Step 7: Deploy 10 test reports", "detail": "First real deploy to staging. 10 files across 5 categories.", "meta": { "time": "10 min" } }
+      ]
+    },
+    {
+      "heading": "Phase 3: Visual QA (Steps 8-9)",
+      "items": [
+        { "title": "Step 8: Visual QA", "detail": "Side-by-side comparison against golden standard. Document findings per zone.", "meta": { "time": "15 min" } },
+        { "title": "Step 9: Fix QA findings", "detail": "Fix blocking issues. Propagate CSS fixes to all 872 files if needed.", "meta": { "time": "20 min" } }
+      ]
+    },
+    {
+      "heading": "Phase 4: Full Deploy (Step 10)",
+      "items": [
+        { "title": "Step 10: Full deploy + validation", "detail": "872-file deploy to staging, 3-layer validation, production readiness report.", "meta": { "time": "30 min" } }
+      ]
+    }
+  ],
+  "next_steps": "Open a fresh Claude Code session, paste the Conductor prompt, and start with Step 1. The conductor will guide you through the rest.",
+  "session_state": {
+    "phase": "playbook complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Analyzed REMEDIATION-LOG.md and staging situation",
+      "Produced frozen zones analysis document",
+      "Produced 11-prompt deploy playbook (conductor + 10 workers)"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo: playbook file and index entry pending push",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "report-redesign.md", "version_date": "2026-02-22", "verified_live": false }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/powerbi-reports/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/Proxuma/powerbi-reports/blob/main/REMEDIATION-LOG.md", "relevance": "remediation history and deploy rules" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-11-report-staging-frozen-zones.html", "relevance": "frozen zones analysis" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-11-report-deploy-playbook.html", "relevance": "this playbook" }
+    ],
+    "wordpress_ids": [3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "SiteGround staging not yet created. Step 6 is manual."
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3299", "WP page 3495", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "$wpdb->update() only", "pbcopy on terminal output", "CRISPY vertical slices"]
+  },
+  "decision_log": [
+    {
+      "decision": "SiteGround staging as the visual verification environment (confirmed by user)",
+      "rejected_alternatives": ["GitHub Pages theme shell", "Local WordPress"],
+      "rationale": "User decision. Full theme fidelity, doubles as deploy rehearsal.",
+      "trade_offs": "Shares server resources with production. Single staging environment.",
+      "contingencies": []
+    },
+    {
+      "decision": "10-file test batch before full deploy",
+      "rejected_alternatives": ["Deploy all 872 at once", "Deploy 100-file batches incrementally"],
+      "rationale": "Small batch catches theme CSS conflicts and deploy script bugs before committing to the full set. 10 files covers 5 report categories.",
+      "trade_offs": "Adds one extra step, but prevents a broken 872-file deploy.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
