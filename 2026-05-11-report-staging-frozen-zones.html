@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Library: Staging Strategy &amp; Frozen Zones</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+
+/* Brand header */
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+
+/* Page meta (date, section label) */
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+.section-label {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280;
+}
+
+/* Typography */
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+
+/* Section title (uppercase with navy underline) */
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+
+/* KPI / stat cards row */
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+
+/* Tables */
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+
+/* Callout box */
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+
+/* Bottom line / highlight box */
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+
+/* Cards */
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+
+/* Tags */
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-frozen { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-variable { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-risk { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-warn { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+
+/* Zone diagram */
+.zone-diagram {
+  background: #f8f9fb; border: 1px solid #e2e4e8; border-radius: 6px;
+  padding: 24px; margin: 20px 0; font-family: "JetBrains Mono", "SF Mono", monospace; font-size: 12px;
+  line-height: 1.6; overflow-x: auto; white-space: pre;
+}
+.zone-label { font-weight: 700; }
+.zone-frozen { color: #2a4a8a; }
+.zone-style { color: #0f766e; }
+.zone-content { color: #6b7280; }
+
+/* Two-column */
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+
+/* Code */
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+
+/* Footer */
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+
+/* Scenario cards */
+.scenario-row { display: flex; gap: 12px; margin: 20px 0; }
+.scenario-card {
+  flex: 1; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 20px; text-align: center;
+}
+.scenario-card.highlighted { border-color: #1a2744; border-width: 2px; }
+.scenario-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-bottom: 8px;
+}
+.scenario-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744; margin-bottom: 4px;
+}
+.scenario-detail { font-size: 13px; color: #6b7280; line-height: 1.4; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 11, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-11-report-staging-frozen-zones.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Power BI Report Library &bull; Staging &amp; Visual QA</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 11, 2026<br>Technical Analysis<br>Report Infrastructure
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">REPORT LIBRARY DEPLOYMENT</div>
+  <h1>Staging Strategy &amp; Frozen Zones</h1>
+  <p class="subtitle">How to get 872 reports rendering in-theme on a staging environment, what visual errors to expect, and which zones of a report are structurally frozen vs. content-variable.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Report Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10</div>
+      <div class="stat-label">Frozen Zones</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Drift Risk Classes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Missing Infra Files</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>1. Current Situation</h2>
+
+  <p>The Proxuma/powerbi-reports repo holds 872 remediated HTML files (449 EN, 423 NL) on <code>main</code>, ready for WordPress deployment. Eight remediation stages are complete. Stage 9 (live deploy) and Stage 10 (post-push verification) are blocked on visual verification.</p>
+
+  <h3>What exists</h3>
+  <ul>
+    <li><strong>dev.proxuma.io</strong> resolves to GitHub Pages (<code>maxkwaaste.github.io</code>). Returns HTTP 200. Serves raw HTML without the WordPress theme shell (no site header, no nav, no footer, no theme CSS).</li>
+    <li><strong>Report files</strong> are self-contained: each has its own inline CSS, chrome wrapper (morph bar, search hero, pipeline, overview, CTA), teal-frame document, JSON-LD, and JavaScript. They render their own visual structure standalone.</li>
+    <li><strong>WordPress</strong> wraps these in the Proxuma theme via <code>page.php</code>, adding the site header/nav and footer around the report content.</li>
+  </ul>
+
+  <h3>What's missing</h3>
+
+  <div class="callout">
+    <span class="callout-label">Infrastructure gap</span>
+    Three files referenced by the <code>/powerbireport</code> command spec don't exist in the repo or locally:
+    <ul style="margin-top: 8px;">
+      <li><code>templates/teal-frame-css.html</code> (the locked CSS template)</li>
+      <li><code>GOLDEN-STANDARD.html</code> (the visual reference file)</li>
+      <li><code>deploy_reports_lib.py</code> (the deployment library with <code>wrap_with_chrome()</code>)</li>
+    </ul>
+    <p style="margin-top: 8px; margin-bottom: 0;">The CSS is baked into each report file individually. There is no single-source CSS file to update across all 872 reports. This makes visual fixes a batch operation every time.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>2. Staging Environment: Three Options</h2>
+
+  <p>The goal is to see reports rendered inside the actual Proxuma WordPress theme, exactly as visitors will see them. GitHub Pages can't do this. Three paths forward:</p>
+
+  <div class="scenario-row">
+    <div class="scenario-card highlighted">
+      <div class="scenario-label">Option A</div>
+      <div class="scenario-value">SG Staging</div>
+      <div class="scenario-detail">SiteGround WordPress staging clone. Full theme fidelity. 10 min setup via Site Tools UI.</div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label">Option B</div>
+      <div class="scenario-value">Theme Shell</div>
+      <div class="scenario-detail">Inject WP theme header/footer HTML into GitHub Pages via build script. 80% fidelity.</div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label">Option C</div>
+      <div class="scenario-value">Local WP</div>
+      <div class="scenario-detail">Local WordPress with Proxuma theme. Full fidelity but setup overhead.</div>
+    </div>
+  </div>
+
+  <h3>Option A: SiteGround Staging (recommended)</h3>
+  <p>SiteGround Site Tools has a one-click staging feature that clones the production WordPress site. This gives you the real theme, all plugins (ACF, Yoast, SG CachePress, If-So), and the actual CSS/JS stack. Reports deployed here render identically to production.</p>
+
+  <p><strong>Setup steps:</strong></p>
+  <ol>
+    <li>Log into SiteGround Site Tools for proxuma.io</li>
+    <li>WordPress > Staging > Create Staging Copy</li>
+    <li>SiteGround gives you a staging URL (typically <code>stg-proxuma-io.sgXX.siteground.eu</code> or similar). You can optionally CNAME <code>dev.proxuma.io</code> to point there instead of GitHub Pages.</li>
+    <li>SSH into the staging environment and deploy reports via <code>$wpdb->update()</code></li>
+  </ol>
+
+  <div class="callout">
+    <span class="callout-label">Key limitation</span>
+    SiteGround staging is a full clone, so deploying 872 pages means 872 <code>$wpdb->update()</code> calls on the staging database. This is the same operation you'll run on production, so it doubles as a deployment rehearsal. However, SiteGround's staging environment shares server resources with production. Run the batch during off-peak hours.
+  </div>
+
+  <h3>Option B: Theme Shell on GitHub Pages</h3>
+  <p>Scrape the Proxuma theme's header and footer HTML from a live page, then wrap each report file in that shell via a build script. Push to GitHub Pages. Gets you ~80% visual fidelity: the nav, footer, and theme fonts render, but dynamic WordPress features (If-So geolocation, SG CachePress, ACF) won't work. Good enough for visual QA of report-internal elements, not for testing theme interactions.</p>
+
+  <h3>Option C: Local WordPress</h3>
+  <p>Set up LocalWP or wp-env with the Proxuma theme cloned from production. Full fidelity on your machine, but requires installing the theme, plugins, and importing content. More setup than SiteGround staging, and harder to share with others for review.</p>
+
+  <div class="positioning">
+    <h2>Recommendation</h2>
+    <p>Use SiteGround staging (Option A) as the primary visual verification environment. It's the only option that gives 100% theme fidelity with zero theme setup work. Re-point <code>dev.proxuma.io</code> to the staging URL only if you want a clean domain; the SiteGround staging URL works fine as-is.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>3. Deployment Pipeline for Staging</h2>
+
+  <p>The <code>deploy_reports_lib.py</code> referenced in the <code>/powerbireport</code> spec doesn't exist. But the reports in the repo already have chrome wrappers baked in (they're full-page HTML, not teal-frame-only). So deployment is simpler than the spec implies: push the HTML content directly into WordPress page <code>post_content</code> via <code>$wpdb->update()</code>.</p>
+
+  <h3>Batch deploy sequence</h3>
+  <ol>
+    <li><strong>Create page stubs.</strong> Each report needs a WordPress page under the correct parent (3299 for EN, 3495 for NL). Pages that already exist on production will exist on staging after the clone. New reports from the remediation (if any don't have WP pages yet) need to be created first.</li>
+    <li><strong>Map files to page IDs.</strong> Use <code>hreflang-mapping.json</code> and the existing WP page list to build a slug-to-page-ID mapping.</li>
+    <li><strong>Push HTML via SSH.</strong> For each file, extract the content inside <code>&lt;body&gt;...&lt;/body&gt;</code> and push it via:
+      <pre>$wpdb->update('wp_posts', ['post_content' => $html], ['ID' => $page_id]);</pre>
+    </li>
+    <li><strong>Flush cache.</strong> <code>wp cache flush && wp sg purge</code> after the batch.</li>
+    <li><strong>Spot-check 10 pages</strong> across different report categories before doing a full visual pass.</li>
+  </ol>
+
+  <div class="callout">
+    <span class="callout-label">Protected pages</span>
+    The deploy script must skip page IDs 3299, 3495, 3401, 5655, 3389, 4887. These are gallery pages and editorial content. The existing <code>PROTECTED_PAGE_IDS</code> safeguard needs to be in whatever deploy script you build.
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>4. Visual Error Taxonomy</h2>
+
+  <p>Once reports are on staging, you'll encounter visual errors in roughly six categories. Ordered by likelihood and severity:</p>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Class</th>
+        <th>What Happens</th>
+        <th>How to Detect</th>
+        <th>Prevalence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>CSS class drift</strong></td>
+        <td>Subagents invented CSS classes that don't exist (<code>.bar-chart</code>, <code>.kpi-card</code>, <code>.stat-card</code>, <code>.metric-card</code>). Elements render as unstyled plain text.</td>
+        <td>Grep all files for class names not in the V5 stylesheet. The <code>/report-audit</code> command has the class mapping.</td>
+        <td>High. Known from the Feb-Mar audit. Remediation stages may not have caught all instances.</td>
+      </tr>
+      <tr>
+        <td><strong>Div imbalance</strong></td>
+        <td>Extra or missing closing <code>&lt;/div&gt;</code> tags. Breaks container nesting, causing content to spill outside the teal frame or collapse sections.</td>
+        <td>HTML parser validation. Stage 8 QA fixed 135 div balance issues but LLM generation is probabilistic.</td>
+        <td>Medium. 135 were fixed; residual cases likely.</td>
+      </tr>
+      <tr>
+        <td><strong>WP theme CSS conflict</strong></td>
+        <td>WordPress theme CSS overrides inline report styles. Common culprits: <code>h1</code>/<code>h2</code> tag styles, <code>a</code> link colors, <code>table</code> resets, <code>img</code> max-width.</td>
+        <td>Visual comparison: same report on GitHub Pages (no theme) vs. staging (with theme). Differences are theme conflicts.</td>
+        <td>Medium. Reports use <code>.prx-report</code> scoping but generic selectors in the theme can still win specificity battles.</td>
+      </tr>
+      <tr>
+        <td><strong>Color/font deviation</strong></td>
+        <td>Wrong hex codes (e.g., <code>#1B365D</code> vs <code>#1a2744</code>), wrong font families (Inter/Montserrat instead of Open Sans), wrong font weights.</td>
+        <td>Regex scan for non-standard color values and font-family declarations across all files.</td>
+        <td>Low-medium. Template was consistent but individual session regenerations may have drifted.</td>
+      </tr>
+      <tr>
+        <td><strong>Responsive breakage</strong></td>
+        <td>KPI rows don't stack on mobile, morph bar overlaps content, tables overflow horizontally, teal frame padding collapses.</td>
+        <td>Resize browser to 375px width on staging. Check KPI row, tables, and morph bar.</td>
+        <td>Low. Most reports share the same responsive CSS, but custom chart CSS may lack media queries.</td>
+      </tr>
+      <tr>
+        <td><strong>Content artifacts</strong></td>
+        <td>Leftover template placeholders, generic filler phrases that survived Stage 1 cleanup, duplicate FAQ JSON-LD blocks, "TODO" markers.</td>
+        <td>Grep for known artifact patterns: "We pulled the numbers", "Schedule Recurring Review", "TODO", duplicate <code>FAQPage</code> schemas.</td>
+        <td>Low. Stages 1-8 targeted these specifically, but some edge cases may remain.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2>5. Frozen Zones: The Visual Contract</h2>
+
+  <p>A Power BI report page has distinct visual zones. Some must look identical across all 872 reports, regardless of content. Others vary by report topic but follow fixed styling rules. This section defines which is which, so when you're reviewing visual errors, you know exactly what "correct" looks like for each zone.</p>
+
+  <div class="zone-diagram"><span class="zone-label">REPORT PAGE ANATOMY</span>
+
+<span class="zone-frozen">[ WP Theme Header + Nav ]</span>                    &larr; WordPress (not in report HTML)
+
+<span class="zone-frozen">[ Morph Bar (fixed, z-10000) ]</span>                  &larr; FROZEN: #115e58, 50px, word cascade
+<span class="zone-frozen">[ Search Hero ]</span>                                 &larr; FROZEN structure, VARIABLE question text
+  <span class="zone-content">  Breadcrumb / Badge / Question / Source pills</span>
+  <span class="zone-content">  Shelf card (title, meta, CTA)</span>
+
+<span class="zone-style">[ Pipeline Section ]</span>                             &larr; STYLE-FROZEN, content varies
+<span class="zone-style">[ Report Overview ]</span>                              &larr; STYLE-FROZEN, content varies
+
+<span class="zone-frozen">[ Teal Frame ]</span>                                  &larr; FROZEN: gradient, 50px pad, 12px radius
+  <span class="zone-frozen">  [ Doc Letterhead ]</span>                          &larr; FROZEN: logo, rule, meta layout
+  <span class="zone-frozen">  [ Doc Title Block ]</span>                         &larr; FROZEN style, VARIABLE text
+  <span class="zone-style">  [ Doc Body ]</span>
+    <span class="zone-style">    [ KPI Row ]</span>                              &larr; STYLE-FROZEN: 4-col grid
+    <span class="zone-style">    [ Sections 1.0, 2.0... ]</span>                &larr; STYLE-FROZEN: numbering, headers
+    <span class="zone-style">      [ Tables ]</span>                             &larr; STYLE-FROZEN: borders, padding
+    <span class="zone-style">      [ Patching/Compliance Bars ]</span>           &larr; STYLE-FROZEN: colors, heights
+    <span class="zone-style">      [ DAX Toggles ]</span>                        &larr; STYLE-FROZEN: dark bg, JetBrains Mono
+    <span class="zone-content">      [ Narrative text, findings ]</span>          &larr; Content only, styling from .doc-body
+  <span class="zone-frozen">  [ Doc Footer ]</span>                              &larr; FROZEN: layout, text
+
+<span class="zone-frozen">[ CTA Block ]</span>                                   &larr; FROZEN (outside teal frame)
+<span class="zone-style">[ Related Reports ]</span>                              &larr; STYLE-FROZEN, cards vary
+<span class="zone-style">[ Series Navigation ]</span>                            &larr; STYLE-FROZEN if present
+
+<span class="zone-frozen">[ WP Theme Footer ]</span>                             &larr; WordPress (not in report HTML)</div>
+
+  <p>Legend: <span class="tag tag-frozen">FROZEN</span> = pixel-identical across all reports. <span class="tag tag-variable">STYLE-FROZEN</span> = same CSS rules, different content. <span class="tag tag-risk">CONTENT-ONLY</span> = only the text varies; styling inherited from parent container.</p>
+
+  <!-- ============================================================ -->
+  <h2>6. Frozen Zone Specifications</h2>
+
+  <p>Each zone below lists exactly what must remain constant. When reviewing a report for visual correctness, check these values. If any deviate, the report has drifted.</p>
+
+  <h3>Zone 1: Morph Bar</h3>
+  <div class="card">
+    <div class="card-title">Pixel-frozen. Identical on every report.</div>
+    <div class="card-desc">
+      <ul>
+        <li><code>position: fixed; top: 0; height: 50px; z-index: 10000</code></li>
+        <li>Background: solid <code>#115e58</code> (no gradient, no border)</li>
+        <li>Trigger: activates when <code>.report-frame-outer</code> top reaches viewport top</li>
+        <li>Animation: slide-down (scaleY) + word cascade (<code>translateY(-18px) scale(0.8) blur(2px)</code> to rest)</li>
+        <li>Word delay: 35ms stagger per <code>&lt;span class="w"&gt;</code></li>
+        <li>Pills: integration names + "All reports" back link (teal <code>#5eead4</code>)</li>
+        <li>Font: Open Sans italic, 0.88rem, white</li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-frozen">FROZEN</span></div>
+  </div>
+
+  <h3>Zone 2: Search Hero</h3>
+  <div class="card">
+    <div class="card-title">Structure frozen, question text varies.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Gradient: <code>linear-gradient(160deg, #0f766e 0%, #134e4a 40%, #0f2240 100%)</code></li>
+        <li>Dot grid overlay, green glow at bottom</li>
+        <li>"AI-Generated Report" badge with pulsing dot</li>
+        <li>"THE QUESTION WE ASKED" label</li>
+        <li>Question text: Playfair Display italic (this varies per report)</li>
+        <li>Source pills: badge colors per source (PSA blue, RMM yellow, etc.)</li>
+        <li>Shelf card: white background, overlapping hero bottom</li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-frozen">FROZEN STRUCTURE</span><span class="tag tag-variable">VARIABLE TEXT</span></div>
+  </div>
+
+  <h3>Zone 3: Teal Frame</h3>
+  <div class="card">
+    <div class="card-title">Pixel-frozen. The signature visual element.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Background: <code>linear-gradient(180deg, #0f766e 0%, #115e58 50%, #134e4a 100%)</code></li>
+        <li>Padding: <code>50px</code> on all sides (same visual weight as morph bar height)</li>
+        <li>Border-radius: <code>12px</code></li>
+        <li>Inner <code>.doc</code>: white background, <code>border-radius: 4px</code>, box-shadow</li>
+        <li>Never use <code>#00D9A5</code> green for the frame. Always the teal gradient.</li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-frozen">FROZEN</span></div>
+  </div>
+
+  <h3>Zone 4: Document Letterhead</h3>
+  <div class="card">
+    <div class="card-title">Pixel-frozen. Top of the white document.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Left: Proxuma SVG logo + "AI-Generated Power BI Report" type label</li>
+        <li>Right: Date, Source badges, Scope line</li>
+        <li>Bottom border: <code>3px solid #1B365D</code> (navy rule)</li>
+        <li>Padding: <code>36px 48px 28px</code></li>
+        <li>Meta text: 0.74rem, <code>#64748b</code>, strong labels in <code>#1B365D</code></li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-frozen">FROZEN</span></div>
+  </div>
+
+  <h3>Zone 5: KPI Row</h3>
+  <div class="card">
+    <div class="card-title">Style-frozen. Layout identical, values vary.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Grid: <code>grid-template-columns: repeat(4, 1fr)</code>, no gap, shared borders</li>
+        <li>Background: <code>#fafbfc</code></li>
+        <li>Border: <code>1px solid #e2e8f0</code>, <code>border-radius: 6px</code></li>
+        <li>Label: 0.66rem, uppercase, <code>#94a3b8</code></li>
+        <li>Value: Open Sans 800, 1.6rem, <code>#1B365D</code></li>
+        <li>Note colors: green <code>#10B981</code>, red <code>#ef4444</code>, amber <code>#f59e0b</code></li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-variable">STYLE-FROZEN</span></div>
+  </div>
+
+  <h3>Zone 6: Section Structure</h3>
+  <div class="card">
+    <div class="card-title">Style-frozen. Numbered sections with consistent headers.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Section numbers: Open Sans 800, 0.82rem, <code>#0f766e</code> (teal)</li>
+        <li>Section title: Open Sans 700, 1rem, <code>#1B365D</code></li>
+        <li>Section padding: <code>28px 0</code>, border-bottom <code>1px solid #f1f5f9</code></li>
+        <li>Doc body padding: <code>0 48px</code></li>
+        <li>Structure: <code>.doc-section-head</code> with <code>.doc-section-num</code> + <code>.doc-section-title</code></li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-variable">STYLE-FROZEN</span></div>
+  </div>
+
+  <h3>Zone 7: DAX Toggles</h3>
+  <div class="card">
+    <div class="card-title">Style-frozen. Dark code blocks with copy buttons.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Toggle class: <code>.dax-toggle</code> (NOT <code>.inline-dax</code> which is a drift marker)</li>
+        <li>Code font: JetBrains Mono</li>
+        <li>Dark background code block</li>
+        <li>Copy button: "Copy Query" (EN) / "Kopieer Query" (NL)</li>
+        <li>Exactly 3 toggles per report, placed at the bottom of data-heavy sections</li>
+        <li>Function: <code>prxCopyDAX(btn)</code></li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-variable">STYLE-FROZEN</span></div>
+  </div>
+
+  <h3>Zone 8: Tables</h3>
+  <div class="card">
+    <div class="card-title">Style-frozen. Clean standard styling, data varies.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Header: no dark background (unlike the output-page <code>.matrix</code> style). Clean borders.</li>
+        <li>Cell padding consistent across all tables</li>
+        <li>No invented wrapper classes (<code>.data-table</code>, <code>.stats-table</code> are drift markers)</li>
+        <li>Correct class: bare <code>&lt;table&gt;</code> inside <code>.doc-body</code>, styled by the scoped CSS</li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-variable">STYLE-FROZEN</span></div>
+  </div>
+
+  <h3>Zone 9: Patching/Compliance Bars</h3>
+  <div class="card">
+    <div class="card-title">Style-frozen. Horizontal stacked bars with fixed colors.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Classes: <code>.patch-row</code>, <code>.patch-bar-wrapper</code>, <code>.patch-segment</code></li>
+        <li>NOT: <code>.bar-chart</code>, <code>.bar-row</code>, <code>.bar-fill</code> (those are drift markers from subagents)</li>
+        <li>Colors: <code>.bar-danger</code> (red), <code>.bar-warning</code> (amber), <code>.bar-success</code> (green)</li>
+        <li>NOT: <code>.critical</code>, <code>.warning</code>, <code>.success</code> (generic names that drift)</li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-variable">STYLE-FROZEN</span></div>
+  </div>
+
+  <h3>Zone 10: Document Footer + CTA</h3>
+  <div class="card">
+    <div class="card-title">Pixel-frozen. Same text, same layout on every report.</div>
+    <div class="card-desc">
+      <ul>
+        <li>Doc footer: "Proxuma Power BI - AI-Generated Report" + "Generated in under fifteen minutes via MCP"</li>
+        <li>CTA block: sits OUTSIDE the teal frame</li>
+        <li>Both are chrome elements, not content</li>
+      </ul>
+    </div>
+    <div class="tags"><span class="tag tag-frozen">FROZEN</span></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>7. Drift Detection: Class Whitelist</h2>
+
+  <p>The single biggest source of visual errors is AI-generated CSS class names that don't match the actual stylesheet. Here's the authoritative mapping between drift markers (wrong classes) and correct classes:</p>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Drift Marker (wrong)</th>
+        <th>Correct Class</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>.bar-chart</code>, <code>.bar-row</code>, <code>.bar-fill</code></td>
+        <td><code>.patch-row</code>, <code>.patch-bar-wrapper</code>, <code>.patch-segment</code></td>
+        <td>Horizontal stacked bars</td>
+      </tr>
+      <tr>
+        <td><code>.kpi-grid</code>, <code>.kpi-card</code>, <code>.kpi-value</code></td>
+        <td><code>.doc-kpi-row</code>, <code>.doc-kpi</code>, <code>.doc-kpi-value</code></td>
+        <td>KPI metric row</td>
+      </tr>
+      <tr>
+        <td><code>.section-card</code></td>
+        <td>Unwrap into <code>.doc-section</code></td>
+        <td>No wrapper card needed</td>
+      </tr>
+      <tr>
+        <td><code>.inline-dax</code></td>
+        <td><code>.dax-toggle</code></td>
+        <td>Different HTML structure too</td>
+      </tr>
+      <tr>
+        <td><code>.critical</code>, <code>.danger</code></td>
+        <td><code>.bar-danger</code></td>
+        <td>Red status color</td>
+      </tr>
+      <tr>
+        <td><code>.warning</code>, <code>.amber</code></td>
+        <td><code>.bar-warning</code></td>
+        <td>Amber status color</td>
+      </tr>
+      <tr>
+        <td><code>.success</code>, <code>.green</code></td>
+        <td><code>.bar-success</code></td>
+        <td>Green status color</td>
+      </tr>
+      <tr>
+        <td><code>.data-table</code>, <code>.stats-table</code></td>
+        <td>Plain <code>&lt;table&gt;</code> in <code>.doc-body</code></td>
+        <td>Styled by scoped CSS, no class needed</td>
+      </tr>
+      <tr>
+        <td><code>.metric-card</code>, <code>.stat-card</code></td>
+        <td><code>.doc-kpi</code></td>
+        <td>Inside <code>.doc-kpi-row</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2>8. Validation Strategy</h2>
+
+  <p>A three-layer approach, from cheapest to most expensive:</p>
+
+  <h3>Layer 1: Automated (run on all 872 files)</h3>
+  <ul>
+    <li><strong>Div balance check.</strong> Parse HTML and verify opening/closing div counts match. The <code>qa-validate.py</code> script in the repo already does this.</li>
+    <li><strong>Class whitelist scan.</strong> Grep for known drift markers (the table above). Flag any file containing them.</li>
+    <li><strong>Color audit.</strong> Extract all hex colors from inline styles. Flag any that aren't in the V5 palette (<code>#0f766e</code>, <code>#115e58</code>, <code>#134e4a</code>, <code>#1B365D</code>, <code>#2c3e50</code>, <code>#fafbfc</code>, etc.).</li>
+    <li><strong>Font audit.</strong> Grep for <code>font-family</code> declarations. Flag Inter, Montserrat, or any font not in the spec (Open Sans, DM Serif Display, JetBrains Mono).</li>
+    <li><strong>Artifact scan.</strong> Grep for known filler phrases, "TODO", duplicate <code>FAQPage</code> schemas.</li>
+  </ul>
+
+  <h3>Layer 2: Screenshot comparison (sample of 20-30 reports)</h3>
+  <ul>
+    <li>Pick 3-4 reports from each category (SLA, CSAT, resource, finance, device, project, client, queue, pipeline).</li>
+    <li>Capture full-page screenshots on staging via Microlink API or Playwright.</li>
+    <li>Compare frozen zones visually: morph bar, teal frame, letterhead, KPI row, footer.</li>
+    <li>This catches theme CSS conflicts that automated scans miss.</li>
+  </ul>
+
+  <h3>Layer 3: Manual spot-check (5-10 reports)</h3>
+  <ul>
+    <li>Open reports in a real browser on staging.</li>
+    <li>Scroll through: does the morph bar trigger correctly? Do DAX toggles open/close? Do tables render without horizontal overflow?</li>
+    <li>Test at 375px width (mobile) for at least 3 reports.</li>
+    <li>This catches JavaScript issues and responsive breakage.</li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2>9. Working with Claude on Visual Fixes</h2>
+
+  <p>When you find visual errors on staging, here's how to communicate them efficiently so Claude can fix them without introducing new drift:</p>
+
+  <h3>What to tell Claude</h3>
+  <ol>
+    <li><strong>Which zone is broken.</strong> Use the zone numbers from this document: "Zone 5 (KPI Row) is wrong on this report."</li>
+    <li><strong>What it looks like vs. what it should look like.</strong> A screenshot is best. Or: "The KPI values are showing in gray instead of navy <code>#1B365D</code>."</li>
+    <li><strong>Whether it's one report or many.</strong> "This affects sla-performance and 3 other SLA reports" vs. "All 872 files have this."</li>
+  </ol>
+
+  <h3>What Claude should NOT do</h3>
+  <ul>
+    <li>Rewrite the entire CSS block "to be cleaner." The CSS is intentionally copied verbatim from the template. Optimization = drift.</li>
+    <li>Add new CSS classes. Use only the existing class vocabulary.</li>
+    <li>Change frozen zone values (colors, paddings, font sizes) to "look better." The spec is the spec.</li>
+    <li>Touch doc-body content when fixing chrome/frame issues. Scope repairs to the broken zone only.</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>The Golden Rule</h2>
+    <p>When fixing visual errors, the CSS template is the source of truth, not what "looks right" to the model. If a report's CSS diverges from the template, the fix is always to restore the template values, never to update the template to match the report.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>10. Infrastructure To-Do Before Staging Deploy</h2>
+
+  <ol>
+    <li><strong>Create <code>templates/teal-frame-css.html</code>.</strong> Extract the CSS from one known-good report (e.g., <code>en/proxuma-io-sla-performance-post.html</code>) and lock it as the canonical template. Every future report generation and every batch fix should reference this file.</li>
+    <li><strong>Create <code>GOLDEN-STANDARD.html</code>.</strong> Pick one visually verified report as the reference. This is what "correct" looks like.</li>
+    <li><strong>Build <code>deploy_reports_lib.py</code>.</strong> Needs: <code>push_via_tempfile()</code>, <code>PROTECTED_PAGE_IDS</code> safeguard, slug-to-page-ID mapper, batch deploy with progress logging. The remediation scripts (<code>qa-validate.py</code>, <code>fix-chrome-markers.py</code>) are good starting points for the file I/O patterns.</li>
+    <li><strong>Build <code>visual-audit.py</code>.</strong> Combines Layer 1 checks: div balance, class whitelist, color audit, font audit, artifact scan. Run before every deploy.</li>
+    <li><strong>Set up SiteGround staging.</strong> Manual step via Site Tools UI.</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Report Library Staging Strategy &bull; May 11, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Report Library: Staging Strategy & Frozen Zones",
+  "date": "2026-05-11",
+  "summary": "Analysis of how to get 872 Power BI reports rendering in the WordPress theme on a staging environment, with a taxonomy of 6 visual error classes and a frozen zones specification defining 10 zones (4 pixel-frozen, 6 style-frozen) that must remain consistent across all reports.",
+  "sections": [
+    {
+      "heading": "Current Situation",
+      "items": [
+        { "title": "dev.proxuma.io is GitHub Pages", "detail": "Points to maxkwaaste.github.io, serves raw HTML without WP theme. HTTP 200 but no theme rendering.", "meta": { "status": "inadequate" } },
+        { "title": "3 infrastructure files missing", "detail": "teal-frame-css.html, GOLDEN-STANDARD.html, deploy_reports_lib.py don't exist in repo or locally. CSS is baked into each of 872 files individually.", "meta": { "blocking": true } },
+        { "title": "872 files remediated", "detail": "8 stages complete. Stages 9-10 (deploy + verify) blocked on visual verification environment.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Staging Options",
+      "items": [
+        { "title": "SiteGround Staging (recommended)", "detail": "One-click clone via Site Tools. Full theme fidelity. Deploy via SSH + $wpdb->update().", "meta": { "fidelity": "100%", "setup_time": "10 min" } },
+        { "title": "Theme Shell on GitHub Pages", "detail": "Scrape WP header/footer, inject into static files. ~80% fidelity. Misses dynamic features.", "meta": { "fidelity": "80%", "setup_time": "2 hours" } },
+        { "title": "Local WordPress", "detail": "Full fidelity but requires theme+plugin setup. More maintenance.", "meta": { "fidelity": "100%", "setup_time": "4 hours" } }
+      ]
+    },
+    {
+      "heading": "Visual Error Taxonomy",
+      "items": [
+        { "title": "CSS class drift", "detail": "Subagents invented non-existent classes. Elements render as unstyled text.", "meta": { "prevalence": "high" } },
+        { "title": "Div imbalance", "detail": "Extra/missing closing divs break container nesting.", "meta": { "prevalence": "medium" } },
+        { "title": "WP theme CSS conflict", "detail": "Theme CSS overrides inline report styles via specificity.", "meta": { "prevalence": "medium" } },
+        { "title": "Color/font deviation", "detail": "Wrong hex codes or font families from session-specific regeneration.", "meta": { "prevalence": "low-medium" } },
+        { "title": "Responsive breakage", "detail": "KPI rows, tables, morph bar break at mobile widths.", "meta": { "prevalence": "low" } },
+        { "title": "Content artifacts", "detail": "Leftover template placeholders, filler phrases, duplicate JSON-LD.", "meta": { "prevalence": "low" } }
+      ]
+    },
+    {
+      "heading": "Frozen Zones (10 zones)",
+      "items": [
+        { "title": "4 pixel-frozen zones", "detail": "Morph bar, teal frame, doc letterhead, doc footer/CTA. Must be identical across all 872 reports.", "meta": { "type": "pixel-frozen" } },
+        { "title": "6 style-frozen zones", "detail": "Search hero, KPI row, section structure, DAX toggles, tables, patching bars. Same CSS, different content.", "meta": { "type": "style-frozen" } }
+      ]
+    },
+    {
+      "heading": "Drift Detection",
+      "items": [
+        { "title": "Class whitelist mapping", "detail": "9 drift marker patterns mapped to correct V5 classes. e.g. .kpi-card -> .doc-kpi, .bar-chart -> .patch-row.", "meta": {} },
+        { "title": "3-layer validation", "detail": "Layer 1: automated scan (872 files). Layer 2: screenshot comparison (20-30 sample). Layer 3: manual browser check (5-10).", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Infrastructure To-Do",
+      "items": [
+        { "title": "Create teal-frame-css.html", "detail": "Extract CSS from known-good report, lock as canonical template.", "meta": { "priority": "high" } },
+        { "title": "Create GOLDEN-STANDARD.html", "detail": "Pick one visually verified report as the reference.", "meta": { "priority": "high" } },
+        { "title": "Build deploy_reports_lib.py", "detail": "Push function, protected page safeguard, slug-to-ID mapper, batch deploy.", "meta": { "priority": "high" } },
+        { "title": "Build visual-audit.py", "detail": "Combines all Layer 1 automated checks into one script.", "meta": { "priority": "medium" } },
+        { "title": "Set up SiteGround staging", "detail": "Manual step via Site Tools UI.", "meta": { "priority": "high" } }
+      ]
+    }
+  ],
+  "next_steps": "Set up SiteGround staging via Site Tools UI. Then create the 3 missing infrastructure files (teal-frame-css.html, GOLDEN-STANDARD.html, deploy_reports_lib.py) before attempting a batch deploy to staging. Once 10 spot-check pages render correctly in-theme, do the full 872-file deploy and run the 3-layer validation.",
+  "session_state": {
+    "phase": "analysis complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Analyzed REMEDIATION-LOG.md from Proxuma/powerbi-reports repo",
+      "Verified dev.proxuma.io points to GitHub Pages (HTTP 200, no WP theme)",
+      "Confirmed 3 infrastructure files missing (CSS template, golden standard, deploy lib)",
+      "Confirmed 872 files exist locally (449 EN, 423 NL)",
+      "Produced staging strategy + frozen zones analysis document"
+    ],
+    "blockers_hit": "SiteGround staging setup is a manual UI step that requires Max's login",
+    "uncommitted_changes": "claude-output repo: new analysis file, index.html entry pending",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "report-redesign.md", "version_date": "2026-02-22", "verified_live": false },
+      { "name": "powerbi-reports-bulk-publish.md", "version_date": null, "verified_live": false }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/powerbi-reports/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/Proxuma/powerbi-reports/blob/main/REMEDIATION-LOG.md", "relevance": "remediation history and deploy rules" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-11-report-staging-frozen-zones.html", "relevance": "this analysis document" }
+    ],
+    "wordpress_ids": [3299, 3495],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "dev.proxuma.io currently resolves to GitHub Pages (maxkwaaste.github.io). DNS change needed if pointing to SiteGround staging."
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3299", "WP page 3495", "WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "$wpdb->update() only (never wp_update_post)", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommended SiteGround staging over GitHub Pages theme shell or local WP",
+      "rejected_alternatives": ["Theme shell injection on GitHub Pages (80% fidelity)", "Local WordPress setup (high maintenance)"],
+      "rationale": "SiteGround staging is the only option that gives 100% theme fidelity with near-zero setup. It also serves as a deployment rehearsal since the same $wpdb->update() calls run on staging and production.",
+      "trade_offs": "Shares server resources with production; batch deploys during off-peak only. Single staging environment (can't run multiple staging sites simultaneously on SiteGround).",
+      "contingencies": [
+        { "if_X_then_Y": "If SiteGround staging is too slow for 872-file batch deploy, fall back to deploying in batches of 100 with 30s delays between batches", "probability": 0.3 }
+      ]
+    },
+    {
+      "decision": "Defined 10 frozen zones (4 pixel-frozen, 6 style-frozen) as the visual contract",
+      "rejected_alternatives": ["Treating everything as frozen (too rigid, blocks content variation)", "No frozen zones (too loose, allows unlimited visual drift)"],
+      "rationale": "The pixel-frozen vs style-frozen distinction matches the actual report architecture: chrome elements are identical, document content varies but within fixed style rules.",
+      "trade_offs": "Requires maintaining a class whitelist and running automated scans before every deploy. Adds operational overhead but prevents the drift that caused the original remediation effort.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
