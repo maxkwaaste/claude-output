@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanban Feature Deep Research</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tier { margin-bottom: 28px; }
+.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.tier-badge {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+}
+.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
+.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
+.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
+.tier-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 16px; font-weight: 700; color: #1a2744;
+}
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 140px; color: #2c2c2c; flex-shrink: 0; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 12, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-12-kanban-deep-research.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Product &amp; Feature Research</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 12, 2026<br>Deep Research<br>NeXum / Venture
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">FEATURE RESEARCH</div>
+  <h1>Kanban Board: Complete Feature Audit</h1>
+  <p class="subtitle">Technical architecture, API surface, adapters, marketing positioning, release status, and live data from the Venture platform. Covers all NeXum-co and Proxuma repos plus the live API at venture.proxuma.io.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Adapters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1,061</div>
+      <div class="stat-label">Live Deals</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">24</div>
+      <div class="stat-label">Vue Components</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">Jun 1</div>
+      <div class="stat-label">Ship Date</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Architecture Overview</h2>
+
+  <p>The Kanban system is entity-agnostic. A <code>KanBanAdapter</code> interface abstracts data fetching, card rendering, and move operations. The board components (VKanBan*) are shared across all modules. Each domain plugs in its own adapter.</p>
+
+  <div class="callout">
+    <span class="callout-label">Key architecture decision</span>
+    No external drag-and-drop library. Native HTML5 <code>draggable="true"</code> with custom composables (<code>useKanbanDnd</code>, <code>useKanbanCardDrag</code>, <code>useAutoScroll</code>). Keeps the bundle small and avoids library coupling.
+  </div>
+
+  <h3>Component Tree</h3>
+  <table class="matrix">
+    <tr><th>Component</th><th>Role</th></tr>
+    <tr><td><strong>VKanBanBoard</strong></td><td>Root container. Provides DragContext, adapter, stores via provide/inject. Handles toolbar, loading, empty state.</td></tr>
+    <tr><td><strong>VKanBanColumn</strong></td><td>288px column with header (dot + label + count + EUR total), card list, drop zone, pagination.</td></tr>
+    <tr><td><strong>VKanBanCard</strong></td><td>Draggable card with 5 field zones: header, top-left, top-right, bottom-left, expandable.</td></tr>
+    <tr><td><strong>VKanBanDropOverlay</strong></td><td>Dashed border overlay when dragging over a valid target column.</td></tr>
+    <tr><td><strong>VKanBanViewSelect</strong></td><td>Board tabs (switch, rename, create, duplicate, delete, set default).</td></tr>
+    <tr><td><strong>VKanBanFilters</strong></td><td>Search input + structured filters with multi-operator support.</td></tr>
+    <tr><td><strong>VKanBanSwimlanesToggle</strong></td><td>Dropdown to group by swimlane dimension (adapter-specific options).</td></tr>
+    <tr><td><strong>VKanBanViewSettings</strong></td><td>Drawer with 3 tabs: Columns, Swimlanes, Card Layout.</td></tr>
+    <tr><td><strong>BoardSettingsColumns</strong></td><td>Add/remove columns, set WIP limits, configure sort.</td></tr>
+    <tr><td><strong>BoardSettingsSwimlanes</strong></td><td>Swimlane grouping configuration.</td></tr>
+    <tr><td><strong>BoardSettingsCardLayout</strong></td><td>Toggle field visibility, apply presets, compact mode.</td></tr>
+    <tr><td><strong>VKanBanEmptyState</strong></td><td>No-cards state with optional "clear filters" button.</td></tr>
+  </table>
+
+  <h3>Stores (Pinia)</h3>
+  <table class="matrix">
+    <tr><th>Store</th><th>Responsibility</th></tr>
+    <tr><td><strong>kanbanBoardStore</strong></td><td>Saved view CRUD. Manages boards[], activeBoardId, merges overrides with defaults. Persists to /api/forge/saved-views.</td></tr>
+    <tr><td><strong>kanbanDataStore</strong></td><td>Runtime card state. Fetches via adapter, builds columns/swimlanes, handles pagination (10 cards/page), auto-refresh (30s), optimistic move with rollback.</td></tr>
+    <tr><td><strong>kanbanFilterStore</strong></td><td>Search + structured filters. Persists to localStorage. Fingerprint hash triggers debounced refetch (300ms).</td></tr>
+  </table>
+
+  <h3>Constants</h3>
+  <ul>
+    <li><code>CARDS_PER_PAGE</code> = 10</li>
+    <li><code>AUTO_REFRESH_INTERVAL</code> = 30,000ms</li>
+    <li><code>FILTER_DEBOUNCE_MS</code> = 300ms</li>
+    <li><code>MAX_BOARDS_PER_USER</code> = 20</li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2>The 5 Adapters</h2>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">1. Deal Pipeline</span>
+      <span class="tier-title">dealAdapter.ts</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        CRM deal pipeline with HubSpot sync. 13 column options (Leverancier, Lead/Misschien, Voorstel/Plannen, Wacht op klant, 5 Active variants, SO Abonnement, Marketing, Completed, Closed lost). Card fields include amount (currency), company name (clickable link), close date, activity indicator (green/yellow/red by recency), deal source, trial status, enrichment data. Two presets: "Pipeline Manager" and "Minimal". Swimlanes: company_name (cross-swimlane blocked), deal_source.
+      </div>
+      <div class="tags">
+        <span class="tag tag-independent">HubSpot Sync</span>
+        <span class="tag tag-bundled">13 Columns</span>
+        <span class="tag tag-acquired">2 Presets</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">2. Jira Issues</span>
+      <span class="tier-title">jiraAdapter.ts</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        Development tracking with 24 Jira statuses mapped to columns (Open through QA workflows to Gereed/Afgewezen). Card fields: story points, assignee, epic summary (badge), issue type (badge), priority, sprint, last update. Swimlanes: sprint, epic, assignee, issue type. Read-only: moves are no-ops. No deep links (cards open IssueDetailSlideover per decision D4).
+      </div>
+      <div class="tags">
+        <span class="tag tag-bundled">24 Statuses</span>
+        <span class="tag tag-diy">Read-only</span>
+        <span class="tag tag-independent">4 Swimlane Options</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">3. Internal Roadmap</span>
+      <span class="tier-title">roadmapAdapter.ts</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        Product roadmap with 11 statuses (backlog through on_prod). Card fields: status label, brand, MRR (calculated from pricing), epics count, target date, category. Swimlanes: brand, category. Read-only, no deep links.
+      </div>
+      <div class="tags">
+        <span class="tag tag-bundled">11 Statuses</span>
+        <span class="tag tag-diy">Read-only</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">4. Client Actions</span>
+      <span class="tier-title">clientActionAdapter.ts</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        Assessment actions from MyDxfferent. 10 statuses (proposed through rejected/postponed/skipped). Writable: moves update action status via PUT. Card fields: priority (colored badge), maturity level range (L1-L5), pillar, subject, owner, deadline, evidence count, phase. 5 swimlane options, 3 presets (Standaard, Uitgebreid, Compact). Cross-swimlane allowed except for pillar grouping.
+      </div>
+      <div class="tags">
+        <span class="tag tag-independent">Writable</span>
+        <span class="tag tag-bundled">10 Statuses</span>
+        <span class="tag tag-acquired">3 Presets</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">5. Client Roadmap</span>
+      <span class="tier-title">clientRoadmapAdapter.ts</span>
+    </div>
+    <div class="card">
+      <div class="card-desc">
+        Client-facing roadmap items. 4 statuses (backlog, planned, in_progress, completed). Card fields: pillar name, action count, target quarter, priority (MoSCoW), health indicator (on_track/risk/off_track), linked actions (list with badges). Callback-based moves. Swimlanes: pillar only.
+      </div>
+      <div class="tags">
+        <span class="tag tag-independent">Callback Moves</span>
+        <span class="tag tag-diy">4 Statuses</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>API Surface</h2>
+
+  <p>Base URL: <code>https://venture.proxuma.io/api</code>. Auth: Bearer token (Sanctum). Permission gate: <code>can:forge.read</code>.</p>
+
+  <h3>Saved Views (Primary)</h3>
+  <table class="matrix">
+    <tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td><code>/forge/saved-views?module=crm</code></td><td>List views for module</td></tr>
+    <tr><td>POST</td><td><code>/forge/saved-views</code></td><td>Create view</td></tr>
+    <tr><td>GET</td><td><code>/forge/saved-views/{id}</code></td><td>Get view</td></tr>
+    <tr><td>PUT</td><td><code>/forge/saved-views/{id}</code></td><td>Update view (deep merge)</td></tr>
+    <tr><td>DELETE</td><td><code>/forge/saved-views/{id}</code></td><td>Delete view</td></tr>
+    <tr><td>PATCH</td><td><code>/forge/saved-views/{id}/default</code></td><td>Set as default</td></tr>
+    <tr><td>POST</td><td><code>/forge/saved-views/{id}/duplicate</code></td><td>Duplicate view</td></tr>
+  </table>
+
+  <h3>Kanban Boards (Legacy Compat)</h3>
+  <table class="matrix">
+    <tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td><code>/forge/kanban/boards</code></td><td>List boards</td></tr>
+    <tr><td>POST</td><td><code>/forge/kanban/boards</code></td><td>Create board</td></tr>
+    <tr><td>PATCH</td><td><code>/forge/kanban/boards/{id}/cards/{cardId}/move</code></td><td>Move card (syncs to HubSpot)</td></tr>
+  </table>
+
+  <h3>CRM Deals</h3>
+  <table class="matrix">
+    <tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td><code>/forge/crm/deals?per_page=100</code></td><td>List deals (paginated)</td></tr>
+    <tr><td>GET</td><td><code>/forge/crm/deals/{id}</code></td><td>Deal detail</td></tr>
+    <tr><td>PATCH</td><td><code>/forge/crm/deals/{id}</code></td><td>Update deal</td></tr>
+    <tr><td>GET</td><td><code>/forge/crm/deals/{id}/timeline</code></td><td>Deal activity timeline</td></tr>
+    <tr><td>GET</td><td><code>/forge/crm/companies/{id}/deals</code></td><td>Deals by company</td></tr>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2>Live Data: Deal Pipeline</h2>
+
+  <p>1,061 deals in the system (11 pages at 100/page). Stage distribution from first page sample:</p>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="bar-label">Completed (179314880)</span>
+      <div class="bar"><div class="bar-fill" style="width:36%">36</div></div>
+      <span class="bar-amount">36%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Closed Won</span>
+      <div class="bar"><div class="bar-fill" style="width:20%">20</div></div>
+      <span class="bar-amount">20%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Closed Lost</span>
+      <div class="bar"><div class="bar-fill" style="width:11%">11</div></div>
+      <span class="bar-amount">11%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Voorstel (179308765)</span>
+      <div class="bar"><div class="bar-fill" style="width:8%">8</div></div>
+      <span class="bar-amount">8%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Presentation</span>
+      <div class="bar"><div class="bar-fill" style="width:7%">7</div></div>
+      <span class="bar-amount">7%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">SO Abonnement</span>
+      <div class="bar"><div class="bar-fill" style="width:5%">5</div></div>
+      <span class="bar-amount">5%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Wacht op klant</span>
+      <div class="bar"><div class="bar-fill" style="width:4%">4</div></div>
+      <span class="bar-amount">4%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Active stages</span>
+      <div class="bar"><div class="bar-fill" style="width:5%">5</div></div>
+      <span class="bar-amount">5%</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Data observation</span>
+    Stages use HubSpot numeric IDs (e.g. 179314880 = Completed). The dealAdapter maps these to friendly column labels. Deal data comes from HubSpot sync (<code>source_type: "system_sync"</code>). Many deals lack company_name and contact_name, suggesting enrichment gaps.
+  </div>
+
+  <h3>Live Board Views</h3>
+  <p>The development module has 3 saved views:</p>
+  <table class="matrix">
+    <tr><th>View</th><th>Mode</th><th>Config</th></tr>
+    <tr><td><strong>Active Development</strong> (default)</td><td>List</td><td>Filters: sprint_status = active + future</td></tr>
+    <tr><td><strong>My Issues</strong></td><td>List</td><td>Filters: assignee = __current_user__, sprint = active + future</td></tr>
+    <tr><td><strong>Testing Pipeline</strong></td><td>Kanban</td><td>11 columns (ON DEV through RELEASE PASS/FAIL), swimlane: fix_version</td></tr>
+  </table>
+  <p>The CRM module has 0 saved views for the current user (API token user_id=3). The default deal board config is seeded client-side from constants.</p>
+
+  <!-- ============================================================ -->
+  <h2>Marketing Positioning</h2>
+
+  <p>The Kanban board is part of the June 2026 tri-feature release alongside Reserved Capacity and Client Portal. The marketing narrative positions it as the "DOEN" (action) layer in the Proxuma product hierarchy.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Campaign Narrative</h3>
+      <ul>
+        <li>"Familiar, visual way to manage work for teams not fully planful"</li>
+        <li>Part of "Grip for everyone" messaging</li>
+        <li>Tri-feature: Reserved Capacity + KanBan + Client Portal</li>
+        <li>Target: MSP teams that use sticky notes or spreadsheets today</li>
+      </ul>
+    </div>
+    <div>
+      <h3>KB & Content Status</h3>
+      <ul>
+        <li>KB article: HIGH priority, shipping 2026-06-01</li>
+        <li>Topic status: on_prod with 4 child topics</li>
+        <li>Development: 27/27 items PRE-PROD PASS</li>
+        <li>All 10 epics (E00-E10) marked "done"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Positioning quote</span>
+    "KanBan biedt een vertrouwde, visuele manier om werk te beheren voor teams die nog niet volledig planmatig werken." Tied to the broader "Grip en Controle" product narrative.
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Documentation & Specs</h2>
+
+  <p>All spec files live in <code>NeXum-co/nexum-platform</code>:</p>
+
+  <table class="matrix">
+    <tr><th>Document</th><th>Path</th><th>Content</th></tr>
+    <tr><td><strong>Design Spec</strong></td><td><code>docs/superpowers/specs/2026-04-13-forge-crm-dashboards-kanban-design.md</code></td><td>50+ page design doc. Adapter pattern, data architecture, module structure, permissions model.</td></tr>
+    <tr><td><strong>Build Plan</strong></td><td><code>docs/superpowers/plans/2026-04-13-forge-kanban-module-buildplan.md</code></td><td>200+ line implementation plan. 5 waves: backend migration, models, controllers, frontend, adapters.</td></tr>
+    <tr><td><strong>Enhancement Spec</strong></td><td><code>new-features/forge-development-ux/E05-kanban-enhancements/design.md</code></td><td>Card click handlers, toolbar visibility, click vs drag (5px threshold), Jira adapter expansion.</td></tr>
+    <tr><td><strong>Enhancement Plan</strong></td><td><code>new-features/forge-development-ux/E05-kanban-enhancements/buildplan.md</code></td><td>Phase 1: card clicks open IssueDetailSlideover. Phase 2: full Jira status columns.</td></tr>
+    <tr><td><strong>UX Decisions</strong></td><td><code>new-features/forge-development-ux/decisions.md</code></td><td>D4: Cards open slideover, not Jira link. Consistent UX across all modules.</td></tr>
+    <tr><td><strong>Improvement Plan</strong></td><td><code>new-features/forge-development-ux/IMPROVEMENT.md</code></td><td>14 feedback items. 10 epics (E00-E10), all marked done. Platform-first shared components.</td></tr>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2>Design System Integration</h2>
+
+  <h3>Theme Support</h3>
+  <p>The Kanban components use NuxtUI semantic tokens, which means they automatically adapt to all 6 themes: Proxuma (light), Proxuma Dark, Dxfferent (dark), Dxfferent Light, NeXum (dark), NeXum Light. No component-level theme overrides needed.</p>
+
+  <h3>Card Field Formats</h3>
+  <table class="matrix">
+    <tr><th>Format</th><th>Zone</th><th>Rendering</th></tr>
+    <tr><td>text</td><td>any</td><td>Plain text span</td></tr>
+    <tr><td>currency</td><td>header</td><td>Formatted amount (Intl.NumberFormat, nl-NL, EUR)</td></tr>
+    <tr><td>date</td><td>any</td><td>Formatted date string</td></tr>
+    <tr><td>link</td><td>top-left</td><td>NuxtLink to entity (e.g. company page)</td></tr>
+    <tr><td>badge</td><td>bottom-left</td><td>VBadge with color from field value</td></tr>
+    <tr><td>boolean</td><td>bottom-left</td><td>VBadge shown only when true</td></tr>
+    <tr><td>activity</td><td>top-right</td><td>Colored dot (green/yellow/red) + relative time</td></tr>
+    <tr><td>list</td><td>expandable</td><td>Nested items with icons and optional badges</td></tr>
+    <tr><td>number</td><td>any</td><td>Numeric value</td></tr>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2>Release Status</h2>
+
+  <div class="positioning">
+    <h2>Ship Date: June 1, 2026</h2>
+    <p>All 10 implementation epics (E00-E10) are marked done. 27 out of 27 development items are in PRE-PROD PASS. KB article mapped and scheduled. Multiple handover documents prepared (May 9-10). The feature is code-complete and in final QA.</p>
+  </div>
+
+  <h3>Outstanding Items</h3>
+  <ul>
+    <li>CRM module has no saved views for the API user, suggesting board creation is client-side with defaults from constants</li>
+    <li>No test files exist for Kanban components or adapters</li>
+    <li>Deal data enrichment gaps: many deals lack company_name and contact_name</li>
+    <li>The "Testing Pipeline" view in development module uses legacy kanban format (pre-SavedView normalization)</li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Kanban Feature Deep Research / May 12, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Kanban Feature Deep Research",
+  "date": "2026-05-12",
+  "summary": "Complete audit of the NeXum/Venture Kanban feature: 5 adapters (Deal, Jira, Roadmap, Client Actions, Client Roadmap), 24 Vue components, full API surface at venture.proxuma.io, 1,061 live deals, marketing positioning for June 2026 tri-feature release.",
+  "sections": [
+    {
+      "heading": "Architecture",
+      "items": [
+        { "title": "Entity-agnostic adapter pattern", "detail": "KanBanAdapter interface abstracts all data fetching, card rendering, and move operations. 5 implementations.", "meta": { "components": 24, "stores": 3 } },
+        { "title": "Native HTML5 DnD", "detail": "No external library. Custom composables: useKanbanDnd, useKanbanCardDrag, useAutoScroll.", "meta": {} },
+        { "title": "Pinia stores", "detail": "boardStore (CRUD), dataStore (runtime cards, auto-refresh 30s), filterStore (search + structured filters, localStorage).", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Adapters",
+      "items": [
+        { "title": "dealAdapter", "detail": "CRM deals with HubSpot sync. 13 columns, 2 presets, writable moves.", "meta": { "columns": 13, "writable": true } },
+        { "title": "jiraAdapter", "detail": "24 Jira statuses, 4 swimlane options. Read-only, cards open slideover.", "meta": { "columns": 24, "writable": false } },
+        { "title": "roadmapAdapter", "detail": "11 statuses, brand/category swimlanes. Read-only.", "meta": { "columns": 11, "writable": false } },
+        { "title": "clientActionAdapter", "detail": "10 statuses, 5 swimlane options, 3 presets. Writable via PUT.", "meta": { "columns": 10, "writable": true } },
+        { "title": "clientRoadmapAdapter", "detail": "4 statuses, MoSCoW priority, callback-based moves.", "meta": { "columns": 4, "writable": true } }
+      ]
+    },
+    {
+      "heading": "API Surface",
+      "items": [
+        { "title": "Base URL", "detail": "https://venture.proxuma.io/api. Bearer token auth (Sanctum).", "meta": { "token_location": "~/.venture-token" } },
+        { "title": "Saved Views", "detail": "7 endpoints for CRUD, default, duplicate. Primary persistence layer.", "meta": {} },
+        { "title": "Kanban Boards (legacy)", "detail": "Backward-compatible routes mapping to SavedView controller.", "meta": {} },
+        { "title": "CRM Deals", "detail": "Paginated deal list, detail, update, timeline. 1,061 total deals.", "meta": { "total_deals": 1061 } }
+      ]
+    },
+    {
+      "heading": "Live Data",
+      "items": [
+        { "title": "Deal distribution", "detail": "36% completed, 20% closed won, 11% closed lost, 8% voorstel, rest scattered across active stages.", "meta": {} },
+        { "title": "Dev views", "detail": "3 saved views: Active Development (list), My Issues (list), Testing Pipeline (kanban with 11 columns).", "meta": {} },
+        { "title": "CRM views", "detail": "0 saved views for API user. Default config from client-side constants.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Marketing",
+      "items": [
+        { "title": "June 2026 tri-feature release", "detail": "KanBan + Reserved Capacity + Client Portal. 'Grip for everyone' messaging.", "meta": { "ship_date": "2026-06-01" } },
+        { "title": "KB article", "detail": "HIGH priority, on_prod status with 4 child topics.", "meta": {} },
+        { "title": "QA status", "detail": "27/27 items PRE-PROD PASS. All 10 epics done.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Specs & Docs",
+      "items": [
+        { "title": "Design spec", "detail": "50+ page doc in nexum-platform repo covering full architecture.", "meta": { "path": "docs/superpowers/specs/2026-04-13-forge-crm-dashboards-kanban-design.md" } },
+        { "title": "Build plan", "detail": "5-wave implementation plan, 200+ lines.", "meta": { "path": "docs/superpowers/plans/2026-04-13-forge-kanban-module-buildplan.md" } },
+        { "title": "Enhancement specs", "detail": "E05 kanban enhancements: card clicks, toolbar, Jira expansion.", "meta": { "path": "new-features/forge-development-ux/E05-kanban-enhancements/" } }
+      ]
+    }
+  ],
+  "next_steps": "Snapshot HTML is at ~/ClaudeCode/claude-output/kanban-snapshot.html for Claude Design upload. API token saved at ~/.venture-token. Next: upload snapshot to Claude Design for visual iteration, or use the API to pull real deal data into an updated snapshot.",
+  "session_state": {
+    "phase": "research complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Listed all 65 GitHub repos across maxkwaaste, NeXum-co, Proxuma, and shared repos",
+      "Built static Kanban HTML snapshot with Proxuma design tokens and Priority 1-5 swimlanes",
+      "Pushed snapshot to claude-output repo (public)",
+      "Saved Venture API token to ~/.venture-token",
+      "Deep research: backend API routes, frontend components, 5 adapters, stores, types",
+      "Deep research: marketing positioning, release status, specs, enhancement plans",
+      "Live API calls: fetched deals (1,061 total), saved views (3 dev views), stage distribution"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has this research page uncommitted",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "venture-api-access.md", "version_date": "2026-05-12", "verified_live": true }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [
+      { "path": "/tmp/venture-deals.json", "description": "First page of deals from Venture API", "cleanup_after": "session end" },
+      { "path": "/tmp/venture-deals-all.json", "description": "100 deals with stage analysis", "cleanup_after": "session end" },
+      { "path": "/tmp/venture-views.json", "description": "CRM saved views (empty)", "cleanup_after": "session end" },
+      { "path": "/tmp/venture-dev-views.json", "description": "Development saved views (3 views)", "cleanup_after": "session end" },
+      { "path": "/tmp/venture-kanban-boards.json", "description": "Legacy kanban boards endpoint", "cleanup_after": "session end" }
+    ],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/kanban-snapshot.html", "relevance": "Static Kanban snapshot for Claude Design" },
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-12-kanban-deep-research.html", "relevance": "This research document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Venture API token saved to ~/.venture-token (chmod 600). API confirmed working at venture.proxuma.io."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output", "output-page for substantial research"]
+  },
+  "decision_log": [
+    {
+      "decision": "Built static HTML snapshot instead of making repo public",
+      "rejected_alternatives": ["Public repo with full Kanban source", "Sanitized public repo with generic components only"],
+      "rationale": "User chose option 4: visual snapshot with mock data exposes zero IP while giving Claude Design accurate design reference.",
+      "trade_offs": "Claude Design sees visuals only, not component code structure. For code-level design changes, would need to upload Vue files separately.",
+      "contingencies": []
+    },
+    {
+      "decision": "Used Proxuma light theme for snapshot, not dark or NeXum theme",
+      "rejected_alternatives": ["Dxfferent dark theme", "Multi-theme snapshot"],
+      "rationale": "Proxuma light is the default/primary theme. Claude Design can iterate on one theme first.",
+      "trade_offs": "Dark mode variations not captured.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
