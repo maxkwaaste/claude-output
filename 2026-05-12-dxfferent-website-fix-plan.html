@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dxfferent.com - Website Fix Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tag {
+  display: inline-block;
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px; margin: 2px 4px 2px 0;
+}
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">12 May 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-12-dxfferent-website-fix-plan.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Website Quality Audit</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 12, 2026<br>Execution Plan<br>dxfferent.com
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">WEBSITE CORRECTIONS</div>
+  <h1>Dxfferent.com Fix Plan</h1>
+  <p class="subtitle">Remaining fixes after the first batch of 11 typo corrections. Covers content gaps, ACF data repairs, footer updates, and consistency issues across 42 pages.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">11</div>
+      <div class="stat-label">Already fixed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Can do now</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Need input</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Big editorial</div>
+    </div>
+  </div>
+
+  <h2>Phase 1: Autonomous fixes (no editorial judgment needed)</h2>
+
+  <p>These are mechanical repairs where the correct text is obvious from context or from the equivalent page in the other language.</p>
+
+  <div class="card">
+    <div class="card-title">1. IT Glue EN (ID 1993) &mdash; garbled text</div>
+    <div class="card-buyer">ACF text field &bull; str_replace in post_content</div>
+    <div class="card-desc">
+      Bullet 3 in the "problems" section reads: <code>nobody updates themualization, critical performance data can get lost</code>.
+      Two sentences collided during editing. The NL equivalent (ID 757) is clean: "niemand werkt ze bij, waardoor kritieke prestatiegegevens verloren kunnen gaan."
+      <br><br><strong>Fix:</strong> Replace with <code>Documents are often outdated, but nobody updates them, causing critical performance data to get lost</code>
+    </div>
+    <span class="tag tag-independent">Safe</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. MSP Journey EN (ID 58) &mdash; truncated heading</div>
+    <div class="card-buyer">ACF title-text field &bull; str_replace in post_content</div>
+    <div class="card-desc">
+      Section heading reads: <code>We take a look at the Core elements of</code> (sentence stops mid-air).
+      NL equivalent (ID 693): "We kijken naar de kernelementen van je bedrijf."
+      <br><br><strong>Fix:</strong> Append <code>your business</code> to the title field.
+    </div>
+    <span class="tag tag-independent">Safe</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Security Officer NL (ID 1990) &mdash; duplicate bullet</div>
+    <div class="card-buyer">ACF repeater &bull; JSON manipulation in post_content</div>
+    <div class="card-desc">
+      The "problems" section has 3 list items but item 0 and item 1 are identical: "Security taken verdwijnen tussen het dagelijkse werk." EN version (ID 2164) has only 2 items in this section, so the duplicate is simply an extra row.
+      <br><br><strong>Fix:</strong> Change item 1 text to something meaningful that the EN version is missing, or reduce the list count from 3 to 2 and remove item 1 data. Safest approach: change the duplicate text to a third valid concern from the Security Officer domain, e.g. "Er ontbreekt structureel overzicht van open risico's en acties."
+      <br><br><strong>Risk:</strong> Medium. ACF repeater JSON in post_content is fragile. Changing one field's text value is safe. Removing a repeater row requires adjusting the count field and all subsequent indices, which can break the block.
+      <br><br><strong>Decision:</strong> Replace the duplicate text rather than remove the row. Simpler and safer.
+    </div>
+    <span class="tag tag-acquired">Medium risk</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. About page EN (ID 152) &mdash; placeholder content</div>
+    <div class="card-buyer">ACF hero block &bull; update text field</div>
+    <div class="card-desc">
+      Page only has a hero block with title "About" and text "blablabla." The "About Dxfferent" section on How We Work (ID 60) already has proper copy that covers mission, principles, and team philosophy.
+      <br><br><strong>Fix:</strong> Update the hero text field with a condensed version of the How We Work "About" section. The page will be simple (hero only) but correct. Content:
+      <br><br><em>"Dxfferent was founded on the belief that MSPs should be able to focus on helping their customers with IT, not reinventing business processes. Having helped over 150 MSPs, we know the latest best practices, the best technology to use, and how to make customers happy. We combine hands-on MSP consulting with Autotask expertise, compliance know-how, and process optimization to take your business to the next level."</em>
+      <br><br><strong>Also add:</strong> A "book a call" button using the existing ACF hero_buttons field pointing to the HubSpot meeting link.
+    </div>
+    <span class="tag tag-independent">Safe</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5. Footer EN (global block ID 16) &mdash; add About link</div>
+    <div class="card-buyer">Global block post_content &bull; JSON link insertion</div>
+    <div class="card-desc">
+      Current EN footer sitemap: Home, Services, Products, How we work, Customers, Downloads, Contact, Privacy, Terms and conditions. No "About" link.
+      <br><br><strong>Fix:</strong> Add <code>About</code> link to <code>/about/</code> in tab_1_links_row1 (sitemap column), after "Customers."
+      <br><br><strong>Risk:</strong> High impact because global blocks affect every EN page. Must back up before modifying. Must verify rendered output after.
+    </div>
+    <span class="tag tag-acquired">High impact</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">6. Footer NL (global block ID 213) &mdash; add Over ons link</div>
+    <div class="card-buyer">Global block post_content &bull; JSON link insertion</div>
+    <div class="card-desc">
+      Same as above for NL footer. There is no NL about page (/nl/about/ does not exist). Two options:
+      <br><br><strong>Option A:</strong> Link to the EN /about/ page from the NL footer (acceptable since there's no NL version).
+      <br><br><strong>Option B:</strong> Create an NL about page first, then link to it. This means duplicating the hero block with Dutch content.
+      <br><br><strong>Decision:</strong> Go with Option A for now. Link text: "Over ons" pointing to /about/. The About page content is language-neutral enough.
+    </div>
+    <span class="tag tag-acquired">High impact</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">7. Products EN+NL (ID 66, 734) &mdash; wrong Proxuma description</div>
+    <div class="card-buyer">ACF products block &bull; need to locate field in content</div>
+    <div class="card-desc">
+      The Proxuma product card shows the Security Officer training description instead of the actual Proxuma text. The EN products page shows: "Ontwikkel de vaardigheden die nodig zijn om een effectieve Security Officer te worden..." for the Proxuma card. This is the Security Officer training description copy-pasted into the wrong slot.
+      <br><br>The correct Proxuma description exists on the same page in another block: "Supercharge your Autotask Planning &amp; Project Management. With Proxuma, you make Planning appointments, resource capacity management and project management a simple matter of drag &amp; drop."
+      <br><br><strong>Fix:</strong> The products block uses ACF repeater fields. Need to find the Proxuma entry's text field and replace the Security Officer description with the correct Proxuma text.
+      <br><br><strong>Complication:</strong> Initial search for "products_fields" in the content returned nothing, meaning the products block might store data differently (possibly using product post type references rather than inline text). Need to investigate the products block template to understand data structure before fixing.
+    </div>
+    <span class="tag tag-acquired">Needs investigation</span>
+  </div>
+
+  <h2>Phase 2: Fixes that need editorial input</h2>
+
+  <div class="card">
+    <div class="card-title">8. How We Work EN+NL (ID 60, 666) &mdash; Step 4 missing</div>
+    <div class="card-buyer">ACF step-text block &bull; missing block, not just a text fix</div>
+    <div class="card-desc">
+      Both EN and NL "How We Work" pages skip from Step 3 (Kick-off) to Step 5 (Go-live). The MSP Journey page does have a Step 4 (Gameplan: goals and strategy), but How We Work is a different process description (implementation-focused, not assessment-focused).
+      <br><br>The missing step is the actual sprint work between kick-off and go-live. Based on context from the Autotask GaaS pages, this would be something like: "Sprints &mdash; We work in bi-weekly sprints, each targeting specific milestones. After every sprint we review progress together and adjust the plan for the next cycle."
+      <br><br><strong>Complication:</strong> This requires inserting a new ACF step-text block into the page's post_content JSON, not just editing existing text. Inserting a full ACF block via SQL is doable but error-prone. Safer to do in WP admin.
+      <br><br><strong>Alternative:</strong> Renumber Step 5 to Step 4 and Step 6 to Step 5. This avoids adding a block but changes the narrative (the "missing step" feeling goes away). However, the MSP Journey page has 6 steps, so consistency argues for keeping 6 steps and adding the missing one.
+    </div>
+    <span class="tag tag-bundled">Needs decision</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">9. Je/uw consistency across NL pages</div>
+    <div class="card-buyer">10+ pages &bull; editorial style decision</div>
+    <div class="card-desc">
+      Multiple NL pages mix informal "je/jij/jouw" with formal "u/uw" in the same paragraph. Example: "Van het optimaliseren van <strong>je</strong> Autotask tot het opnieuw uitvinden van <strong>uw</strong> dienstenaanbod." This appears on at least pages 702, 1529, 1971, 1976, and 766.
+      <br><br>The site's overall tone is informal (matching the MSP market in NL). Recommendation: standardize on "je/jij/jouw" everywhere and remove all "u/uw" instances.
+      <br><br><strong>Scope:</strong> This is a significant content sweep across 10+ pages. Each replacement needs context-checking (some "uw" might be in testimonials or legal text where formal language is appropriate).
+      <br><br><strong>Decision:</strong> Flag for a separate session. Not a quick fix.
+    </div>
+    <span class="tag tag-diy">Deferred</span>
+  </div>
+
+  <h2>Execution approach</h2>
+
+  <div class="callout">
+    <span class="callout-label">Key constraint</span>
+    The entire site uses ACF blocks with data stored as JSON in <code>post_content</code>. Every edit is a <code>str_replace</code> or regex on that JSON via <code>$wpdb->update()</code>. One wrong character in the JSON breaks the page. Every fix gets a backup first, and a rendered HTML check after.
+  </div>
+
+  <h3>Execution order</h3>
+  <ol>
+    <li><strong>Items 1-2</strong> (IT Glue garbled text + MSP Journey truncated title): Simple str_replace on known strings. No structural risk.</li>
+    <li><strong>Item 3</strong> (Security Officer duplicate): Replace duplicate text with new sentence. Changing a value in existing JSON, not adding/removing structure.</li>
+    <li><strong>Item 4</strong> (About page content): Update the hero text field. Page structure stays the same.</li>
+    <li><strong>Items 5-6</strong> (Footer links): Most impactful. Back up both global blocks first. Add one link each to tab_1_links_row1 arrays. Verify all pages render correctly.</li>
+    <li><strong>Item 7</strong> (Proxuma description): Investigate products block template first, then fix.</li>
+  </ol>
+
+  <h3>Verification per fix</h3>
+  <ol>
+    <li>Back up page content: <code>wp post get ID --field=content > /tmp/backup_ID.html</code></li>
+    <li>Apply fix via <code>$wpdb->update()</code></li>
+    <li>Flush cache: <code>wp cache flush && wp sg purge</code></li>
+    <li>Verify via REST API: fetch page content and check fix is present</li>
+    <li>Verify via curl: fetch rendered HTML and confirm page is not broken</li>
+    <li>Open in browser for visual check</li>
+  </ol>
+
+  <div class="positioning">
+    <h2>Bottom line</h2>
+    <p>7 items can be done autonomously right now. Items 1-4 are safe text replacements. Items 5-6 (footer) are high-impact but mechanical. Item 7 (Proxuma) needs one more investigation step. Items 8-9 need editorial decisions before execution.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>dxfferent.com &mdash; Website Fix Plan</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Dxfferent.com Website Fix Plan",
+  "date": "2026-05-12",
+  "summary": "Execution plan for 7 autonomous fixes on dxfferent.com: garbled IT Glue text, truncated MSP Journey heading, Security Officer duplicate bullet, About page placeholder, footer link additions, and Proxuma description swap. Plus 2 deferred items needing editorial input.",
+  "sections": [
+    {
+      "heading": "Autonomous fixes",
+      "items": [
+        { "title": "IT Glue EN garbled text", "detail": "Page 1993: replace 'themualization' with proper sentence", "meta": { "page_id": 1993, "risk": "low" } },
+        { "title": "MSP Journey truncated heading", "detail": "Page 58: append 'your business' to title-text field", "meta": { "page_id": 58, "risk": "low" } },
+        { "title": "Security Officer NL duplicate bullet", "detail": "Page 1990: replace duplicate text with unique third concern", "meta": { "page_id": 1990, "risk": "medium" } },
+        { "title": "About page content", "detail": "Page 152: replace 'blablabla' with condensed About Dxfferent copy", "meta": { "page_id": 152, "risk": "low" } },
+        { "title": "Footer EN - add About link", "detail": "Global block 16: add About link to sitemap column", "meta": { "block_id": 16, "risk": "high-impact" } },
+        { "title": "Footer NL - add Over ons link", "detail": "Global block 213: add Over ons link pointing to /about/", "meta": { "block_id": 213, "risk": "high-impact" } },
+        { "title": "Products Proxuma description", "detail": "Pages 66+734: Proxuma card shows Security Officer text. Need to investigate products block template first.", "meta": { "page_ids": [66, 734], "risk": "medium" } }
+      ]
+    },
+    {
+      "heading": "Needs editorial input",
+      "items": [
+        { "title": "How We Work Step 4", "detail": "Pages 60+666: Step 4 missing. Either add Sprint step or renumber 5-6 to 4-5.", "meta": { "page_ids": [60, 666], "risk": "medium" } },
+        { "title": "Je/uw consistency", "detail": "10+ NL pages mix formal and informal register. Needs style decision and broad sweep.", "meta": { "risk": "low-per-page" } }
+      ]
+    }
+  ],
+  "next_steps": "Execute Phase 1 items 1-6 immediately. Investigate products block template to unblock item 7. Defer items 8-9 to a separate session.",
+  "session_state": {
+    "phase": "plan approved, ready to execute",
+    "phase_status": "in_progress",
+    "progress_pct": 50,
+    "work_done_this_session": [
+      "Audited all 42 non-KB pages via WP REST API",
+      "Found 23 issues across spelling, grammar, content, and consistency",
+      "Fixed 11 simple typos via $wpdb->update()",
+      "Investigated theme structure: Interly custom theme with ACF blocks",
+      "Mapped footer global blocks (EN=16, NL=213)",
+      "Confirmed SSH access: ssh -i ~/.ssh/id_ed25519_siteground_dxfferent -p 18765 u110-srp2wn2ngthp@ssh.dxfferent.com",
+      "WP root: ~/www/dxfferent.com/public_html"
+    ],
+    "blockers_hit": "Products block template stores data differently than expected - need to inspect template before fixing Proxuma description",
+    "uncommitted_changes": null,
+    "next_action_required": "claude-continue"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [
+      { "path": "/tmp/dxfferent_pages.txt", "description": "All page content extracted via REST API", "cleanup_after": "session end" }
+    ],
+    "github_links": [],
+    "wordpress_ids": [1993, 58, 1990, 152, 16, 213, 66, 734, 60, 666],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": "2026-05-12T00:00:00Z",
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "SiteGround cache flushed after first batch of fixes. Will need another flush after Phase 1 execution."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["$wpdb->update() instead of wp_update_post() to preserve HTML/scripts"]
+  },
+  "decision_log": [
+    {
+      "decision": "Replace Security Officer duplicate bullet text rather than removing the ACF repeater row",
+      "rejected_alternatives": ["Remove repeater row (requires JSON index rewrite)", "Leave as-is"],
+      "rationale": "Changing a text value in existing JSON is safe. Removing a row requires adjusting count field and all subsequent indices, which risks breaking the block.",
+      "trade_offs": "Introduces a new bullet point not on the EN page, but the EN page also only has 2 bullets vs NL's 3",
+      "contingencies": []
+    },
+    {
+      "decision": "Link NL footer 'Over ons' to EN /about/ page rather than creating NL about page",
+      "rejected_alternatives": ["Create /nl/over-ons/ page first"],
+      "rationale": "About page content is brief and language-neutral enough. Creating a separate NL page adds scope without clear value.",
+      "trade_offs": "NL users land on an English page. Acceptable for now.",
+      "contingencies": [
+        { "if_X_then_Y": "If Jasper wants a Dutch about page later, create it and update the footer link", "probability": 0.4 }
+      ]
+    },
+    {
+      "decision": "Defer je/uw consistency to separate session",
+      "rejected_alternatives": ["Fix it now as part of this batch"],
+      "rationale": "10+ pages need context-sensitive replacement. Some 'uw' may be intentional (testimonials, legal). Needs editorial style guide decision first.",
+      "trade_offs": "Inconsistency remains live. Low business impact since Dutch MSPs won't notice mixed register as strongly as grammar errors.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
