@@ -685,6 +685,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-05-12-morph-bar-diagnosis-audit.html",
+    "title": "Morph Bar Diagnosis Audit",
+    "date": "2026-05-12",
+    "summary": "Independent verification of MORPH-BAR-DIAGNOSIS.md. Core JS bug confirmed but EN numbers contradict narrative, broken comment root cause is wrong, and golden standard template carries both bugs.",
+    "tags": ["Power BI", "Reports", "Audit", "Morph Bar"],
+    "type": "evaluation",
+    "detail": "5 findings across 3 severity levels. The orphaned catch SyntaxError is real and affects 851 of 872 files. The broken HTML comment diagnosis is wrong: the <!-- exists in all files, the style imbalance comes from instruction text inside a style element. GOLDEN-STANDARD.html itself is contaminated with both bugs, making file-by-file fixes futile without template repair."
+  },
+  {
     "file": "2026-05-11-report-deploy-playbook.html",
     "title": "Report Deploy Playbook: Session Prompts",
     "date": "2026-05-11",

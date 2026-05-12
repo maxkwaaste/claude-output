@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morph Bar Diagnosis Audit</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.finding { margin-bottom: 22px; }
+.finding-id {
+  font: 700 11px/1 "JetBrains Mono", "SF Mono", monospace;
+  padding: 3px 8px; border-radius: 3px; margin-right: 8px;
+}
+.sev-critical { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.sev-important { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.sev-minor { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.sev-info { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.finding-title { font-weight: 700; color: #1a2744; font-size: 15px; }
+.finding-body { margin-top: 6px; }
+.verdict { display: inline-block; font: 600 11px/1 -apple-system, sans-serif; padding: 3px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: .04em; }
+.verdict-correct { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.verdict-partial { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.verdict-wrong { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.verdict-missing { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 12, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-12-morph-bar-diagnosis-audit.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Technical Audit Report</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 12, 2026<br>Code Audit<br>Power BI Reports
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">DIAGNOSIS VERIFICATION</div>
+  <h1>Morph Bar Diagnosis Audit</h1>
+  <p class="subtitle">Independent verification of MORPH-BAR-DIAGNOSIS.md against the actual 872 report HTML files in ~/ClaudeCode/powerbi-reports/</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Total HTML Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">851</div>
+      <div class="stat-label">Files with Orphan Bug</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">872</div>
+      <div class="stat-label">Files with Style Imbalance</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Findings (3 Critical)</div>
+    </div>
+  </div>
+
+  <!-- ═══ FINDING 1 ═══ -->
+  <h2>Issue 1: Orphaned catch SyntaxError</h2>
+
+  <div class="callout">
+    <span class="callout-label">Verdict</span>
+    <span class="verdict verdict-correct">Root cause confirmed</span> &mdash; <span class="verdict verdict-wrong">Scale numbers contradictory</span>
+  </div>
+
+  <h3>What the diagnosis claims</h3>
+  <p>An orphaned <code>catch(e){}document.body.removeChild(ta)}</code> fragment causes a SyntaxError that kills the morph bar IIFE when both live in the same <code>&lt;script&gt;</code> block. NL files are affected (352 of 423) because they use one script block. EN files (248 of 449) "happen to work" because the morph bar is in a separate script block.</p>
+
+  <h3>What I found</h3>
+
+  <table class="matrix">
+    <tr><th>Metric</th><th>Diagnosis Claims</th><th>Verified Reality</th><th>Delta</th></tr>
+    <tr><td>NL files with orphan</td><td>352</td><td><strong>412</strong> of 423</td><td>+60</td></tr>
+    <tr><td>EN files with orphan</td><td>248</td><td><strong>439</strong> of 449</td><td>+191</td></tr>
+    <tr><td>NL: orphan + morph same block</td><td>352</td><td><strong>352</strong></td><td>exact match</td></tr>
+    <tr><td>EN: orphan + morph same block</td><td>"happen to work"</td><td><strong>248 broken</strong></td><td>contradicts text</td></tr>
+    <tr><td>EN: orphan + morph diff blocks</td><td>248 (implied)</td><td><strong>191</strong></td><td>-57</td></tr>
+    <tr><td>Clean files (no orphan at all)</td><td>not mentioned</td><td><strong>21</strong> (10 EN + 11 NL)</td><td>missing</td></tr>
+  </table>
+
+  <div class="finding">
+    <span class="finding-id sev-critical">AUDIT-001</span><span class="finding-title">Table vs. narrative contradiction on EN files</span>
+    <div class="finding-body">
+      <p>The diagnosis table header says "Broken (orphan + morph in same block)" and lists 248 EN files. The narrative below then says: "The 248 broken EN files happen to work because the morph bar is in a separate <code>&lt;script&gt;</code> tag." These two statements contradict each other.</p>
+      <p>Reality: 248 EN files have the orphan and morph bar in the <strong>same</strong> block (morph IS killed). 191 EN files have them in <strong>different</strong> blocks (morph survives). The narrative has the number backwards. This means the actual morph-killed count is 248 EN + 352 NL = <strong>600</strong>, which happens to match the "Fix priority" section total. The table is correct; the explanatory paragraph is wrong.</p>
+    </div>
+  </div>
+
+  <div class="finding">
+    <span class="finding-id sev-important">AUDIT-002</span><span class="finding-title">Diagnosis underreports total affected scope</span>
+    <div class="finding-body">
+      <p>The fix priority section says "600 affected files." This only counts files where the morph bar is killed. But the orphaned catch also kills <code>prxCopyDAX()</code> and the DAX toggle handler in every file where it appears, including the 191 EN + 60 NL files where the morph bar survives in a separate block. Total files needing the fix: <strong>851</strong>, not 600.</p>
+    </div>
+  </div>
+
+  <h3>Sed fix viability</h3>
+  <div class="callout">
+    <span class="callout-label">Verified</span>
+    The proposed <code>sed</code> command <strong>would work</strong>. The orphaned catch IS on its own line in every file checked. The regex pattern matches exactly.
+  </div>
+
+  <!-- ═══ FINDING 2 ═══ -->
+  <h2>Issue 2: Broken HTML Comment</h2>
+
+  <div class="callout">
+    <span class="callout-label">Verdict</span>
+    <span class="verdict verdict-partial">Style imbalance confirmed</span> &mdash; <span class="verdict verdict-wrong">Root cause misidentified</span>
+  </div>
+
+  <h3>What the diagnosis claims</h3>
+  <p>All report files have a broken HTML comment where the opening <code>&lt;!--</code> was stripped. This causes 3 extra unclosed <code>&lt;style&gt;</code> tags per file.</p>
+
+  <h3>What I found</h3>
+  <p>The <code>&lt;!--</code> was <strong>not stripped</strong>. Every single file (872 of 872) has a proper <code>&lt;!-- ORIGINAL REPORT CSS ... --&gt;</code> comment. The problem is different.</p>
+
+  <p>The actual structure in every file:</p>
+  <pre>&lt;/style&gt;
+&lt;!-- ORIGINAL REPORT CSS (teal frame + report-specific charts/viz) --&gt;
+&lt;style&gt; BLOCK VERBATIM into every report.
+  DO NOT modify, rewrite, or "optimize" any CSS rules.
+  DO NOT add custom CSS inside SVG &lt;defs&gt;&lt;style&gt; tags.
+  ...
+--&gt;
+&lt;style&gt;
+/* --- Theme isolation ... */</pre>
+
+  <p>What happened: the instruction text that should be a comment got placed <strong>inside</strong> a <code>&lt;style&gt;</code> element instead. The <code>&lt;style&gt; BLOCK VERBATIM...</code> opens a real style element. Everything until the browser finds a <code>&lt;/style&gt;</code> is parsed as CSS content. The instruction text is invalid CSS but CSS parsers skip over it. The <code>--&gt;</code> is not a comment-close here; it's just more invalid CSS text.</p>
+
+  <table class="matrix">
+    <tr><th>Metric</th><th>Diagnosis Claims</th><th>Verified Reality</th></tr>
+    <tr><td>Files with missing <code>&lt;!--</code></td><td>872</td><td><strong>0</strong></td></tr>
+    <tr><td>Files with proper <code>&lt;!--</code> comment</td><td>0</td><td><strong>872</strong></td></tr>
+    <tr><td>Style tag imbalance (7 open, 4 close)</td><td>yes</td><td><strong>yes (confirmed)</strong></td></tr>
+    <tr><td>Browsers tolerate it on working pages</td><td>stated as possibility</td><td><strong>likely, given most pages render</strong></td></tr>
+  </table>
+
+  <div class="finding">
+    <span class="finding-id sev-critical">AUDIT-003</span><span class="finding-title">Diagnosis misidentifies root cause of style imbalance</span>
+    <div class="finding-body">
+      <p>The diagnosis says "opening <code>&lt;!--</code> was stripped." In reality, the comment exists. The style imbalance comes from instruction text being placed inside a <code>&lt;style&gt;</code> element. The fix proposed in the diagnosis (restore <code>&lt;!--</code>) won't resolve the issue because the <code>&lt;!--</code> is already there. The correct fix is to either remove the instruction text entirely or move it into its own HTML comment <strong>before</strong> the <code>&lt;style&gt;</code> tag.</p>
+    </div>
+  </div>
+
+  <!-- ═══ FINDING 3 ═══ -->
+  <h2>Issue 3: PSA vs QuickBooks Zero Styling</h2>
+
+  <div class="callout">
+    <span class="callout-label">Verdict</span>
+    <span class="verdict verdict-correct">Correctly deferred to browser verification</span>
+  </div>
+
+  <p>The diagnosis is honest about what it couldn't verify and doesn't overclaim. One useful data point: the PSA file does <strong>not</strong> have the orphaned catch fragment, so Issue 1 is ruled out as a cause. The style imbalance is identical to every other file. If PSA specifically renders without styles while others with the same pattern render fine, the cause is likely external (SG Optimizer, page size at 88K chars, or something page-specific).</p>
+
+  <!-- ═══ CRITICAL MISSING ═══ -->
+  <h2>What the Diagnosis Missed</h2>
+
+  <div class="finding">
+    <span class="finding-id sev-critical">AUDIT-004</span><span class="finding-title">GOLDEN-STANDARD.html is contaminated</span>
+    <div class="finding-body">
+      <p>The golden standard template at <code>~/ClaudeCode/powerbi-reports/GOLDEN-STANDARD.html</code> contains <strong>both</strong> bugs:</p>
+      <ul>
+        <li>Orphaned <code>catch(e){}document.body.removeChild(ta)}</code> at line 1195</li>
+        <li>Style tag imbalance: 7 opens, 4 closes (delta 3)</li>
+      </ul>
+      <p>This is the template used to generate all report files. Fixing individual files without fixing the golden standard means every future report generation will reintroduce both bugs. <strong>The golden standard must be fixed first.</strong></p>
+    </div>
+  </div>
+
+  <div class="finding">
+    <span class="finding-id sev-important">AUDIT-005</span><span class="finding-title">Some EN files have duplicate orphaned catch lines</span>
+    <div class="finding-body">
+      <p>Multiple EN files (e.g. <code>28-day-backup-heatmap</code>, <code>28-day-device-statistics-trend</code>, <code>ai-privacy-compliance-guide</code>) have the orphaned catch on <strong>two different lines</strong>. The sed fix removes lines matching the exact pattern, so both would be caught, but the diagnosis doesn't mention duplicates exist. This suggests the fragment was introduced by two different copy operations during generation.</p>
+    </div>
+  </div>
+
+  <!-- ═══ BOTTOM LINE ═══ -->
+  <div class="positioning">
+    <h2>Bottom Line</h2>
+    <p>The diagnosis correctly identifies the core JS bug and its mechanism. The root cause analysis is solid. But it has three problems that matter for the fix: (1) the EN narrative contradicts its own table, understating EN breakage, (2) the broken comment root cause is wrong, so the proposed comment fix won't work, and (3) the golden standard template carries both bugs, which means a file-by-file fix without template repair will break again on next regeneration. Fix the golden standard first, then run the sed cleanup on existing files.</p>
+  </div>
+
+  <h2>Recommended Fix Order</h2>
+  <ol>
+    <li><strong>Fix GOLDEN-STANDARD.html first</strong> -- remove the orphaned catch, restore the full <code>prxCopyToClipboard</code> function, fix the style tag structure</li>
+    <li><strong>Run sed on all 872 files</strong> to remove the orphaned catch line (the proposed command works)</li>
+    <li><strong>Fix style imbalance</strong> across all files -- remove or relocate the instruction text that sits inside <code>&lt;style&gt;</code> elements</li>
+    <li><strong>Browser-verify PSA page</strong> after fixes 1-3 are applied; the styling issue may self-resolve</li>
+  </ol>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Morph Bar Diagnosis Audit -- May 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Morph Bar Diagnosis Audit",
+  "date": "2026-05-12",
+  "summary": "Independent verification of MORPH-BAR-DIAGNOSIS.md. Core JS bug confirmed, but EN scale numbers contradict the narrative, the broken comment root cause is misidentified, and GOLDEN-STANDARD.html itself carries both bugs.",
+  "sections": [
+    {
+      "heading": "Issue 1: Orphaned catch SyntaxError",
+      "items": [
+        { "title": "Root cause confirmed", "detail": "Orphaned catch(e){} causes SyntaxError that kills same-block JS. 352 NL + 248 EN morph bars killed.", "meta": { "verdict": "correct", "files_affected": 851 } },
+        { "title": "AUDIT-001: Table vs narrative contradiction", "detail": "Table says 248 EN 'broken (same block)' but narrative says they 'happen to work (diff blocks)'. Table is right, narrative is wrong.", "meta": { "severity": "critical" } },
+        { "title": "AUDIT-002: Underreported scope", "detail": "Fix priority says 600 files. Actual: 851 files have the orphan (412 NL + 439 EN). 251 additional files have broken prxCopyDAX even though morph works.", "meta": { "severity": "important" } },
+        { "title": "Sed fix viable", "detail": "Orphaned catch IS on its own line. Proposed sed command matches correctly.", "meta": { "verified": true } }
+      ]
+    },
+    {
+      "heading": "Issue 2: Broken HTML Comment",
+      "items": [
+        { "title": "AUDIT-003: Root cause misidentified", "detail": "Diagnosis says opening <!-- was stripped. Reality: <!-- ORIGINAL REPORT CSS --> comment exists in all 872 files. Style imbalance (7 open, 4 close) is real but caused by instruction text inside a <style> element, not a missing comment.", "meta": { "severity": "critical" } }
+      ]
+    },
+    {
+      "heading": "Issue 3: PSA vs QuickBooks",
+      "items": [
+        { "title": "Correctly deferred", "detail": "PSA file has no orphaned catch. Style imbalance is identical to working pages. Needs browser verification.", "meta": { "verdict": "honest" } }
+      ]
+    },
+    {
+      "heading": "Critical Missing Findings",
+      "items": [
+        { "title": "AUDIT-004: GOLDEN-STANDARD contaminated", "detail": "Template file has BOTH bugs (orphaned catch + style imbalance). Fixing individual files without fixing template means regeneration reintroduces bugs.", "meta": { "severity": "critical" } },
+        { "title": "AUDIT-005: Duplicate orphan lines in EN", "detail": "Some EN files have the orphaned catch on two separate lines. Sed catches both, but suggests two copy operations during generation.", "meta": { "severity": "important" } }
+      ]
+    }
+  ],
+  "next_steps": "Fix GOLDEN-STANDARD.html first (remove orphan, restore full clipboard function, fix style structure). Then run sed on all 872 files. Then fix style imbalance. Then browser-verify PSA page.",
+  "session_state": {
+    "phase": "audit complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Verified orphaned catch pattern across all 872 files",
+      "Confirmed script block placement (same vs diff) for NL and EN",
+      "Disproved broken comment claim (<!-- exists in all files)",
+      "Confirmed style tag imbalance (7 open, 4 close) in all files",
+      "Found GOLDEN-STANDARD.html carries both bugs",
+      "Verified sed fix viability (orphan is standalone line)"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has this new audit file",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-12-morph-bar-diagnosis-audit.html", "relevance": "this audit report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop"]
+  },
+  "decision_log": [
+    {
+      "decision": "Classified broken comment as misidentified rather than partially correct",
+      "rejected_alternatives": ["Marking it as correct because the style imbalance IS real"],
+      "rationale": "The diagnosis proposes 'restore <!--' as the fix. Since <!-- already exists, that fix would do nothing. Getting the root cause wrong means the proposed fix is wrong, which is worse than getting a detail wrong.",
+      "trade_offs": "May read as harsh when the style imbalance finding itself is valid",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
