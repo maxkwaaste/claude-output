@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autotask API User Setup Guide</title>
+<script type="application/json" id="claude-data">
+{
+  "title": "Autotask API User Setup Guide",
+  "type": "guide",
+  "created": "2026-05-12",
+  "session_state": {
+    "phase": "implementation",
+    "phase_status": "blocked_on_credentials",
+    "progress_pct": 40,
+    "work_done_this_session": "Tasks 2+3 code changes done (child entity routing, sandbox allowlist). TypeScript compiles clean. This guide created for API user setup.",
+    "blockers_hit": ["Need Autotask API credentials from user before .env can be created"],
+    "uncommitted_changes": "client.ts, write.ts, sandbox.ts modified in ~/ClaudeCode/autotask-mcp/",
+    "next_action_required": "User creates API user in Autotask following this guide, provides credentials"
+  },
+  "artifact_pointers": {
+    "project_path": "~/ClaudeCode/autotask-mcp/",
+    "modified_files": [
+      "src/autotask/client.ts",
+      "src/tools/write.ts",
+      "src/privacy/sandbox.ts"
+    ],
+    "plan_file": "~/ClaudeCode/autotask-mcp/docs/superpowers/plans/2026-05-12-autotask-mcp-setup.md",
+    "memory_files": []
+  },
+  "external_state": {
+    "drafts": [],
+    "cache_state": null,
+    "screenshots": null
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions": "TypeScript MCP server, Zod validation, sandbox safety layer",
+    "referenced_memory_files": []
+  },
+  "decision_log": [
+    {
+      "decision": "Used built-in API User (system) security level as base, with custom copy for minimum permissions",
+      "rationale": "Avoids over-permissioning while keeping setup simple. Custom copy allows tightening later.",
+      "rejected_alternatives": ["Full admin API user - too broad", "Per-entity custom level - too complex for initial setup"],
+      "contingencies": []
+    }
+  ]
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.callout.warning {
+  background: #fef3e2; border-left-color: #c8a040;
+}
+.callout.warning .callout-label { color: #8a6a2a; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%; background: #1a2744; color: #fff;
+  font: 700 14px/1 -apple-system, sans-serif; margin-right: 10px; flex-shrink: 0;
+}
+.step-header {
+  display: flex; align-items: center; margin: 28px 0 12px;
+  font: 700 16px/1.3 "Georgia", serif; color: #1a2744;
+}
+.nav-path {
+  background: #f0f2f5; border-radius: 4px; padding: 12px 18px; margin: 10px 0;
+  font: 500 13px/1.6 -apple-system, sans-serif; color: #2c2c2c;
+}
+.nav-path .arrow { color: #6b7280; margin: 0 6px; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.cred-box {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 20px 0; color: #fff;
+}
+.cred-box h3 { color: #c8a87a; margin-top: 0; }
+.cred-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.15);
+  font: 400 14px/1.4 -apple-system, sans-serif;
+}
+.cred-row:last-child { border-bottom: none; }
+.cred-label { color: rgba(255,255,255,.6); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.cred-value { color: #fff; font-weight: 600; }
+.checklist { list-style: none; margin-left: 0; padding-left: 0; }
+.checklist li {
+  padding: 8px 0 8px 32px; position: relative; border-bottom: 1px solid #eef0f2;
+}
+.checklist li::before {
+  content: ''; position: absolute; left: 4px; top: 12px;
+  width: 16px; height: 16px; border: 2px solid #1a2744; border-radius: 3px;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="date">12 May 2026</div>
+</div>
+
+<div class="page">
+
+<div class="brand">
+  <div class="brand-name">Proxuma</div>
+  <div class="brand-tagline">Claude Code Output Archive</div>
+</div>
+<div class="brand-rule"></div>
+
+<h1>Autotask API User Setup Guide</h1>
+<p class="subtitle">Step-by-step instructions for creating an Autotask REST API user with the minimum permissions needed for the Proxuma MCP integration. Covers security level setup, credential generation, and the three values Claude needs.</p>
+
+<div class="callout warning">
+  <span class="callout-label">Important</span>
+  <strong>Write down the Secret immediately.</strong> The API Secret (password) is shown only once when generated. If you close the form without copying it, you must regenerate it, which invalidates the old one.
+</div>
+
+<h2>What You'll Create</h2>
+
+<p>The Autotask REST API uses three credentials sent as HTTP headers on every request:</p>
+
+<div class="cred-box">
+  <h3>The Three Credentials</h3>
+  <div class="cred-row">
+    <span class="cred-label">UserName</span>
+    <span class="cred-value">Auto-generated 15-character key (not an email)</span>
+  </div>
+  <div class="cred-row">
+    <span class="cred-label">Secret</span>
+    <span class="cred-value">Auto-generated 25-character password (shown once)</span>
+  </div>
+  <div class="cred-row">
+    <span class="cred-label">ApiIntegrationCode</span>
+    <span class="cred-value">27-character tracking ID (auto-generated, permanent)</span>
+  </div>
+</div>
+
+<h2>Step 1: Create a Custom Security Level</h2>
+
+<p>Before creating the API user, set up a security level with minimum permissions. This avoids using the overly broad built-in "API User (system)" level.</p>
+
+<div class="nav-path">
+  Admin <span class="arrow">&rarr;</span> Account Settings &amp; Users <span class="arrow">&rarr;</span> Resources/Users (HR) <span class="arrow">&rarr;</span> Security Levels
+</div>
+
+<ol>
+  <li>Find <strong>"API User (system) (API-only)"</strong> in the list</li>
+  <li>Click the context menu (three dots / right-click) and select <strong>Copy</strong></li>
+  <li>Rename the copy to <strong>"Proxuma MCP Integration"</strong></li>
+  <li>Edit the permissions per the table below</li>
+  <li>Click <strong>Save &amp; Close</strong></li>
+</ol>
+
+<h3>Minimum Required Permissions</h3>
+
+<table class="matrix">
+  <thead>
+    <tr><th>Category</th><th>Setting</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td colspan="3" style="background:#e8edf4; font-weight:700; color:#1a2744;">CRM</td></tr>
+    <tr><td>Organization Access</td><td>Customer &amp; Cancellation</td><td><strong>All</strong></td></tr>
+    <tr><td>Organization Access</td><td>Vendor &amp; Partners</td><td><strong>All</strong></td></tr>
+    <tr><td>Contacts</td><td>View</td><td><strong>All</strong></td></tr>
+    <tr><td>Devices</td><td>View</td><td><strong>All</strong></td></tr>
+    <tr><td colspan="3" style="background:#e8edf4; font-weight:700; color:#1a2744;">Service Desk</td></tr>
+    <tr><td>Tickets</td><td>View</td><td><strong>All</strong></td></tr>
+    <tr><td>Tickets</td><td>Add</td><td><strong>Yes</strong></td></tr>
+    <tr><td>Tickets</td><td>Edit</td><td><strong>Yes</strong></td></tr>
+    <tr><td>Tickets</td><td>Delete</td><td>None</td></tr>
+    <tr><td>Ticket Notes</td><td>Edit</td><td><strong>All</strong></td></tr>
+    <tr><td>Service Calls</td><td>View / Add / Edit</td><td><strong>All / Yes / Yes</strong></td></tr>
+    <tr><td>Service Calls</td><td>Delete</td><td>None</td></tr>
+    <tr><td>Time Entries</td><td>Can modify Work Type</td><td>Checked</td></tr>
+    <tr><td>Time Entries</td><td>Can view non-billable</td><td>Checked</td></tr>
+    <tr><td colspan="3" style="background:#e8edf4; font-weight:700; color:#1a2744;">Projects</td></tr>
+    <tr><td>Client &amp; Internal</td><td>View</td><td><strong>All</strong></td></tr>
+    <tr><td>Client &amp; Internal</td><td>Add</td><td><strong>Yes</strong></td></tr>
+    <tr><td>Task Notes</td><td>Edit</td><td><strong>All</strong></td></tr>
+    <tr><td>Time</td><td>Can enter time on</td><td><strong>All Tasks</strong></td></tr>
+    <tr><td colspan="3" style="background:#e8edf4; font-weight:700; color:#1a2744;">Contracts</td></tr>
+    <tr><td>Contracts</td><td>View</td><td><strong>All</strong></td></tr>
+    <tr><td colspan="3" style="background:#e8edf4; font-weight:700; color:#1a2744;">Admin (checkboxes)</td></tr>
+    <tr><td>Resources/Users (HR)</td><td>Enabled</td><td>Checked</td></tr>
+    <tr><td>Application-Wide Features</td><td>Enabled</td><td>Checked</td></tr>
+    <tr><td>Service Desk (Tickets)</td><td>Enabled</td><td>Checked</td></tr>
+    <tr><td>Projects &amp; Tasks</td><td>Enabled</td><td>Checked</td></tr>
+    <tr><td>Organizations &amp; Contacts</td><td>Enabled</td><td>Checked</td></tr>
+    <tr><td colspan="3" style="background:#e8edf4; font-weight:700; color:#1a2744;">Other</td></tr>
+    <tr><td>Password</td><td>Not required to change</td><td>Checked</td></tr>
+    <tr><td colspan="3" style="background:#e8edf4; font-weight:700; color:#1a2744;">Web Services API</td></tr>
+    <tr><td>API Access</td><td>Can login to Web Services API</td><td>Checked (default on API levels)</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <span class="callout-label">Why these permissions</span>
+  The MCP needs read access across all entities for search/query operations. Write access is limited to Projects, Tasks, Phases, Tickets, Notes, ServiceCalls, and TimeEntries. The sandbox layer in the MCP code adds a second safety gate that restricts writes to your demo resource only.
+</div>
+
+<h2>Step 2: Create the API User</h2>
+
+<div class="nav-path">
+  Admin <span class="arrow">&rarr;</span> Resources (Users) <span class="arrow">&rarr;</span> click dropdown arrow next to <strong>+ New</strong> <span class="arrow">&rarr;</span> <strong>New API User</strong>
+</div>
+
+<p>Fill in the form:</p>
+
+<h3>General Section</h3>
+<table class="matrix">
+  <thead><tr><th>Field</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>First Name</td><td><strong>Proxuma</strong></td></tr>
+    <tr><td>Last Name</td><td><strong>MCP</strong></td></tr>
+    <tr><td>Email Address</td><td>Your email (for error notifications only)</td></tr>
+    <tr><td>Active</td><td>Checked</td></tr>
+    <tr><td>Locked</td><td>Unchecked</td></tr>
+    <tr><td>Security Level</td><td><strong>Proxuma MCP Integration</strong> (the one you just created)</td></tr>
+    <tr><td>Primary Internal Location</td><td>Your office location (sets timezone)</td></tr>
+  </tbody>
+</table>
+
+<h3>Credentials Section</h3>
+<ol>
+  <li>Click <strong>Generate Key</strong> to create the Username (15 characters)</li>
+  <li>Click <strong>Generate Secret</strong> to create the Password (25 characters)</li>
+  <li><strong>Copy both values immediately</strong> and paste them somewhere safe</li>
+</ol>
+
+<div class="callout warning">
+  <span class="callout-label">Critical</span>
+  The Secret is shown <strong>only once</strong>. After you save and close this form, you cannot view it again. If you lose it, you must regenerate (which breaks any existing integration using the old secret).
+</div>
+
+<h3>API Tracking Identifier Section</h3>
+<ol>
+  <li>Select <strong>"Custom (Internal Integration)"</strong></li>
+  <li>Enter Internal Integration Name: <strong>Proxuma MCP</strong></li>
+  <li>A tracking identifier will be auto-generated (this becomes your <code>ApiIntegrationCode</code>)</li>
+</ol>
+
+<div class="callout warning">
+  <span class="callout-label">Permanent</span>
+  The tracking identifier cannot be changed after saving. Double-check the integration name before you save.
+</div>
+
+<h3>Line of Business Section</h3>
+<p>Move all items to the "Associated" pane, or check "Resource can view items with no assigned Line of Business". This ensures the integration can see all data.</p>
+
+<h3>Save</h3>
+<p>Click <strong>Save &amp; Close</strong>. The API user is now active.</p>
+
+<h2>Step 3: Collect Your Three Values</h2>
+
+<p>After saving, you should have these three values. Paste them to Claude:</p>
+
+<div class="cred-box">
+  <h3>What to Paste to Claude</h3>
+  <div class="cred-row">
+    <span class="cred-label">AUTOTASK_USERNAME</span>
+    <span class="cred-value">The 15-character Key from step 2</span>
+  </div>
+  <div class="cred-row">
+    <span class="cred-label">AUTOTASK_SECRET</span>
+    <span class="cred-value">The 25-character Secret from step 2</span>
+  </div>
+  <div class="cred-row">
+    <span class="cred-label">AUTOTASK_INTEGRATION_CODE</span>
+    <span class="cred-value">The tracking identifier from step 2</span>
+  </div>
+  <div class="cred-row">
+    <span class="cred-label">AUTOTASK_SANDBOX_RESOURCE_NAME</span>
+    <span class="cred-value">Your full name as it appears in Autotask (e.g. "Max de Kwaasteniet")</span>
+  </div>
+</div>
+
+<pre>AUTOTASK_USERNAME=&lt;paste key here&gt;
+AUTOTASK_SECRET=&lt;paste secret here&gt;
+AUTOTASK_INTEGRATION_CODE=&lt;paste tracking ID here&gt;
+AUTOTASK_SANDBOX_RESOURCE_NAME=&lt;your full name&gt;</pre>
+
+<h2>Checklist</h2>
+
+<ul class="checklist">
+  <li>Created custom security level "Proxuma MCP Integration" with minimum permissions</li>
+  <li>Created API User with name "Proxuma MCP"</li>
+  <li>Generated and saved the Username (Key)</li>
+  <li>Generated and saved the Secret (shown only once)</li>
+  <li>Selected "Custom (Internal Integration)" and named it "Proxuma MCP"</li>
+  <li>Associated all Lines of Business</li>
+  <li>Copied all four values to paste to Claude</li>
+</ul>
+
+<h2>Gotchas</h2>
+
+<table class="matrix">
+  <thead><tr><th>Issue</th><th>Detail</th></tr></thead>
+  <tbody>
+    <tr><td>Secret shown once</td><td>Cannot be viewed after saving. Must regenerate if lost (breaks existing integrations).</td></tr>
+    <tr><td>Tracking ID permanent</td><td>Cannot be changed after save. Each integration needs its own API user.</td></tr>
+    <tr><td>Rate limit shared</td><td>All integrations on the tenant share 10,000 requests per 60-minute window. Throttling starts at 50% usage.</td></tr>
+    <tr><td>Silent permission blocks</td><td>If the security level lacks permission for an entity, the API returns empty results, not an error.</td></tr>
+    <tr><td>API users cannot log in to UI</td><td>They are API-only. They cannot be assigned to tickets/tasks as resources.</td></tr>
+    <tr><td>TLS 1.2 required</td><td>All API connections must use TLS 1.2 or higher.</td></tr>
+  </tbody>
+</table>
+
+<div class="page-footer">
+  <span>Proxuma &middot; Claude Code Output</span>
+  <span>12 May 2026</span>
+</div>
+
+</div>
+
+</body>
+</html>
