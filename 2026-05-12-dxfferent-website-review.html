@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dxfferent.com - Website Fixes Review</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1a1a1a; background: #f5f5f5; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.page {
+  max-width: 720px; margin: 40px auto; background: #fff;
+  border-radius: 12px; padding: 48px 44px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+}
+.logo-row {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+}
+.logo-dot {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: linear-gradient(135deg, #0f766e, #115e58);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 16px;
+}
+.logo-text { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+.logo-sub { font-size: 12px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+h1 {
+  font-size: 26px; font-weight: 700; color: #111;
+  margin-bottom: 6px; line-height: 1.25;
+}
+.subtitle { font-size: 15px; color: #6b7280; margin-bottom: 32px; }
+.stats {
+  display: flex; gap: 0; margin-bottom: 36px;
+  border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;
+}
+.stat {
+  flex: 1; padding: 16px 20px; text-align: center;
+  border-right: 1px solid #e5e7eb;
+}
+.stat:last-child { border-right: none; }
+.stat-num { font-size: 28px; font-weight: 700; color: #111; }
+.stat-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+.card {
+  border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 20px 24px; margin-bottom: 12px;
+  transition: border-color 0.15s;
+}
+.card:hover { border-color: #0f766e; }
+.card-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.card-title { font-size: 15px; font-weight: 600; color: #111; }
+.card-badge {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; padding: 3px 8px; border-radius: 4px;
+  white-space: nowrap;
+}
+.badge-text { background: #ecfdf5; color: #065f46; }
+.badge-footer { background: #eff6ff; color: #1e40af; }
+.badge-new { background: #fef3c7; color: #92400e; }
+.card-desc { font-size: 13px; color: #4b5563; line-height: 1.55; margin-bottom: 10px; }
+.card-check {
+  font-size: 13px; color: #111; font-weight: 500;
+  background: #f9fafb; border-radius: 6px; padding: 10px 14px;
+  border-left: 3px solid #0f766e;
+}
+.card-link {
+  display: inline-block; margin-top: 10px;
+  font-size: 13px; font-weight: 600; color: #0f766e;
+  text-decoration: none; border-bottom: 1px solid transparent;
+}
+.card-link:hover { border-bottom-color: #0f766e; }
+.section-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #6b7280; margin: 32px 0 14px;
+}
+.footer-note {
+  margin-top: 36px; padding-top: 16px; border-top: 1px solid #e5e7eb;
+  font-size: 12px; color: #9ca3af;
+  display: flex; justify-content: space-between;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="logo-row">
+    <div class="logo-dot">D</div>
+    <div>
+      <div class="logo-text">Dxfferent.com</div>
+      <div class="logo-sub">Website Quality Fixes</div>
+    </div>
+  </div>
+
+  <h1>Website corrections -- May 12, 2026</h1>
+  <p class="subtitle">All fixes applied directly in production via WP-CLI. Backups saved on the server. Each card links to the affected page and tells you what to look for.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Pages fixed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Page created</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Footers updated</div>
+    </div>
+  </div>
+
+  <div class="section-label">Content fixes</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">1. IT Glue (EN) -- garbled sentence</div>
+      <span class="card-badge badge-text">Text fix</span>
+    </div>
+    <div class="card-desc">Bullet 4 in the "problems" section had two sentences collided: "nobody updates themualization, critical performance data can get lost." Fixed to read properly.</div>
+    <div class="card-check">Look for: bullet list with cross icons. Fourth item should read "Documents are often outdated, but nobody updates them, causing critical performance data to get lost"</div>
+    <a class="card-link" href="https://dxfferent.com/services/guide-as-a-service/itglue/" target="_blank">Open page &rarr;</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">2. MSP Journey (EN) -- truncated heading</div>
+      <span class="card-badge badge-text">Text fix</span>
+    </div>
+    <div class="card-desc">Section heading was cut off mid-sentence: "We take a look at the Core elements of" (nothing after "of"). Completed with "your business".</div>
+    <div class="card-check">Look for: a section heading that now reads "We take a look at the core elements of your business"</div>
+    <a class="card-link" href="https://dxfferent.com/services/guide-as-a-service/the-msp-journey/" target="_blank">Open page &rarr;</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">3. Security Officer (NL) -- duplicate bullet</div>
+      <span class="card-badge badge-text">Text fix</span>
+    </div>
+    <div class="card-desc">The problems section had 3 list items but items 1 and 2 were identical ("Security taken verdwijnen tussen het dagelijkse werk"). Replaced the duplicate with a unique third concern.</div>
+    <div class="card-check">Look for: three different bullet points with cross icons. Second bullet should now read "Er ontbreekt structureel overzicht van open risico's en acties"</div>
+    <a class="card-link" href="https://dxfferent.com/nl/services/gids-as-a-service/securityofficer/" target="_blank">Open page &rarr;</a>
+  </div>
+
+  <div class="section-label">About pages</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">4. About (EN) -- placeholder replaced</div>
+      <span class="card-badge badge-text">Text fix</span>
+    </div>
+    <div class="card-desc">Page only had a hero block with the text "blablabla." Replaced with a real company description and added a "Book a call" CTA button.</div>
+    <div class="card-check">Look for: "About Dxfferent" as page title, paragraph about helping 150+ MSPs, and a "Book a call" button</div>
+    <a class="card-link" href="https://dxfferent.com/about/" target="_blank">Open page &rarr;</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">5. Over ons (NL) -- new page created</div>
+      <span class="card-badge badge-new">New page</span>
+    </div>
+    <div class="card-desc">Created a Dutch version of the About page. Linked to the EN version via Polylang so the language switcher works. Same content, fully translated to Dutch.</div>
+    <div class="card-check">Look for: "Over Dxfferent" as page title, Dutch paragraph text, "Boek een gesprek" button, and a working language switcher to the English version</div>
+    <a class="card-link" href="https://dxfferent.com/nl/over-ons/" target="_blank">Open page &rarr;</a>
+  </div>
+
+  <div class="section-label">Footer updates (affects every page)</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">6. Footer EN -- added About link</div>
+      <span class="card-badge badge-footer">Footer</span>
+    </div>
+    <div class="card-desc">Added "About" to the sitemap column in the English footer. Links to /about/. Visible on every English page.</div>
+    <div class="card-check">Look for: "About" link in the footer sitemap column, after "Customers". Click it -- should go to /about/</div>
+    <a class="card-link" href="https://dxfferent.com/" target="_blank">Check on homepage &rarr;</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">7. Footer NL -- added Over ons link</div>
+      <span class="card-badge badge-footer">Footer</span>
+    </div>
+    <div class="card-desc">Added "Over ons" to the sitemap column in the Dutch footer. Links to /nl/over-ons/ (the new Dutch About page). Visible on every Dutch page.</div>
+    <div class="card-check">Look for: "Over ons" link in the footer sitemap column, after "Kennisbank". Click it -- should go to /nl/over-ons/</div>
+    <a class="card-link" href="https://dxfferent.com/nl/" target="_blank">Check on NL homepage &rarr;</a>
+  </div>
+
+  <div class="footer-note">
+    <span>Dxfferent.com website fixes</span>
+    <span>May 12, 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Dxfferent.com Website Fixes Review",
+  "date": "2026-05-12",
+  "summary": "7 fixes applied to dxfferent.com: IT Glue garbled text, MSP Journey truncated heading, Security Officer duplicate bullet, About page placeholder replaced, new Dutch About page created, About link added to both EN and NL footers.",
+  "fixes": [
+    {"id": 1993, "page": "IT Glue EN", "type": "text fix", "url": "https://dxfferent.com/services/guide-as-a-service/itglue/"},
+    {"id": 58, "page": "MSP Journey EN", "type": "text fix", "url": "https://dxfferent.com/services/guide-as-a-service/the-msp-journey/"},
+    {"id": 1990, "page": "Security Officer NL", "type": "text fix", "url": "https://dxfferent.com/nl/services/gids-as-a-service/securityofficer/"},
+    {"id": 152, "page": "About EN", "type": "text fix", "url": "https://dxfferent.com/about/"},
+    {"id": 2359, "page": "Over ons NL", "type": "new page", "url": "https://dxfferent.com/nl/over-ons/"},
+    {"id": 16, "page": "Footer EN", "type": "footer", "url": "https://dxfferent.com/"},
+    {"id": 213, "page": "Footer NL", "type": "footer", "url": "https://dxfferent.com/nl/"}
+  ]
+}
+</script>
+</body>
+</html>
