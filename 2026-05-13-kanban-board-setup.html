@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proxuma Kanban — Board Setup &amp; Architecture</title>
+<title>Proxuma Kanban — Board Setup &amp; Demo Scenarios</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -24,13 +24,12 @@
   --font-mono: "JetBrains Mono", monospace;
 
   /* board colors */
+  --col-todo: #93C5FD;
+  --col-progress: #FBBF24;
+  --col-waiting: #C4B5FD;
+  --col-done: #5EEAD4;
   --col-backlog: #4338CA;
   --col-planned: #F59E0B;
-  --col-progress: #2563EB;
-  --col-waiting: #7C3AED;
-  --col-waiting-vendor: #EA580C;
-  --col-done: #16A34A;
-  --col-review: #0EA5E9;
 
   /* card entity colors */
   --entity-ticket: #EBD7FF;
@@ -282,15 +281,6 @@ a { color: var(--accent-donkerst); }
 .lose { color: var(--accent-diep); font-weight: 500; }
 .neutral { color: var(--inkt-zacht); }
 
-/* ── Code block ── */
-.code-block {
-  background: var(--inkt); color: #E2DDD5; border-radius: 8px;
-  padding: 16px 20px; margin: 16px 0; overflow-x: auto;
-  font-family: var(--font-mono); font-size: 12px; line-height: 1.6;
-}
-.code-block .cm { color: #8B8580; }
-.code-block .kw { color: #CC785C; }
-
 /* ── Footer ── */
 .page-foot {
   border-top: 1px solid var(--lijn); padding: 20px 0 40px;
@@ -314,7 +304,7 @@ a { color: var(--accent-donkerst); }
 
 <div class="wrap">
   <div class="page-top">
-    <span>May 13, 2026 (updated from NeXum-co/nexum-platform source)</span>
+    <span>May 13, 2026 (verified from product UI)</span>
     <a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-kanban-board-setup.html">View on GitHub</a>
   </div>
 </div>
@@ -322,352 +312,163 @@ a { color: var(--accent-donkerst); }
 <!-- HERO -->
 <div class="wrap hero">
   <p class="eyebrow">Proxuma Kanban</p>
-  <h1>Board Setup &amp; Architecture</h1>
-  <p class="lede">How Proxuma's generic KanBan system works. Two live adapters (Deal Pipeline, Development Backlog), fully configurable columns and swimlanes, and the adapter pattern that makes it extensible to any entity type.</p>
+  <h1>Board Setup &amp; Demo Scenarios</h1>
+  <p class="lede">How Autotask statuses map to kanban columns. Which swimlanes to use. Five ready-to-demo board configurations for MSP sales demos. Verified from the actual Board Settings UI (PNEX-3183).</p>
 </div>
 
 <div class="wrap">
   <div class="stats-strip">
-    <div class="stat"><div class="v">2</div><div class="k">Live Adapters</div></div>
-    <div class="stat"><div class="v">7</div><div class="k">Deal Pipeline Stages</div></div>
-    <div class="stat"><div class="v">18+</div><div class="k">Jira Statuses</div></div>
-    <div class="stat"><div class="v">5+</div><div class="k">Swimlane Options</div></div>
+    <div class="stat"><div class="v">4</div><div class="k">Default Columns</div></div>
+    <div class="stat"><div class="v">9</div><div class="k">Swimlane Options</div></div>
+    <div class="stat"><div class="v">10+</div><div class="k">Card Fields</div></div>
+    <div class="stat"><div class="v">5</div><div class="k">Demo Scenarios</div></div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 1: ARCHITECTURE                       -->
+<!-- SECTION 1: DEFAULT 4-COLUMN BOARD             -->
 <!-- ══════════════════════════════════════════════ -->
 <div class="wrap section">
-  <h2 class="section-line">Architecture: Adapter Pattern</h2>
-  <p class="sub">One generic VKanBan component set, multiple entity-specific adapters. The board doesn't know what it's displaying -- the adapter tells it.</p>
-
-  <div class="code-block">
-<span class="cm">// Shared components (entity-agnostic)</span>
-components/shared/VKanBan/
-  VKanBanBoard.vue          <span class="cm">-- Main container (swimlanes, flat, drag context)</span>
-  VKanBanColumn.vue         <span class="cm">-- Column with DnD + pagination (10 cards)</span>
-  VKanBanCard.vue           <span class="cm">-- Configurable card with expandable fields</span>
-  VKanBanFilters.vue        <span class="cm">-- Filter panel</span>
-  VKanBanViewSelect.vue     <span class="cm">-- Board selector (CRUD, duplicate, default)</span>
-  VKanBanViewSettings.vue   <span class="cm">-- Side panel: columns, swimlanes, card layout</span>
-  VKanBanDropOverlay.vue    <span class="cm">-- Viewport-fixed drop overlay</span>
-  VKanBanSwimlanesToggle.vue <span class="cm">-- Quick swimlane switching</span>
-
-<span class="cm">// Stores (Pinia, entity-agnostic)</span>
-stores/kanban/
-  kanbanBoardStore.ts       <span class="cm">-- Board config CRUD</span>
-  kanbanDataStore.ts        <span class="cm">-- Data fetching via adapter</span>
-  kanbanFilterStore.ts      <span class="cm">-- Filter state (localStorage persisted)</span>
-
-<span class="cm">// Adapters (entity-specific)</span>
-types/kanban/
-  dealAdapter.ts            <span class="cm">-- CRM deal pipeline</span>
-  jiraAdapter.ts            <span class="cm">-- Development backlog (read-only)</span>
-  </div>
-
-  <div class="callout">
-    <div class="label">Adapter interface</div>
-    Each adapter defines: <strong>columnOptions</strong>, <strong>swimlaneOptions</strong>, <strong>cardFieldDefinitions</strong>, <strong>cardPresets</strong>, <strong>defaultColumns</strong>, <strong>canCrossSwimlane()</strong>, <strong>getDropTargets()</strong>, <strong>getCardLink()</strong>. Adding a new entity type means writing one adapter file.
-  </div>
-
-  <p style="font-size: 14px; color: var(--inkt-zacht); margin-top: 12px;">Backend: Laravel 11+ / PHP 8.4 / PostgreSQL 16. Board configs stored in <code style="font-family:var(--font-mono);font-size:12px;background:var(--papier-diep);padding:2px 6px;border-radius:3px;">forge.saved_views</code> as JSONB, per user, per module. Deep merge updates so partial config changes don't overwrite the full board.</p>
-</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 2: DEAL ADAPTER                       -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="wrap section">
-  <h2 class="section-line">Deal Adapter: CRM Pipeline</h2>
-  <p class="sub">The deal pipeline board. 7 stages from Incoming to Won/Lost. Drag-drop enabled -- moving a card writes through to HubSpot API.</p>
-
-  <!-- Default 3-column view with company swimlanes -->
-  <div class="board-frame">
-    <div class="board-toolbar">
-      <span class="view-name">&#9645; Pipeline Manager</span>
-      <span class="pill">Swimlane: <strong>Company</strong></span>
-      <span class="pill">Preset: <strong>Pipeline Manager</strong></span>
-      <span class="spacer"></span>
-      <span class="pill">Adapter: <strong>deal</strong></span>
-    </div>
-    <!-- TechWave Solutions swimlane -->
-    <div class="swim">
-      <div class="swim-head"><span class="chev">&#9660;</span><h4>TechWave Solutions</h4><span class="cnt">4</span></div>
-      <div class="columns" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="col">
-          <div class="col-head">
-            <span class="col-dot" style="background:#6B7280"></span>
-            <span class="col-name">Incoming</span>
-            <span class="col-count">1</span>
-          </div>
-          <div class="col-statuses">incoming</div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Managed Security Package</span></div><div class="mc-body"><span class="badge svc">EUR 12,500</span><span class="mc-company">TechWave Solutions</span><span class="av" style="background:#7C3AED">JM</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head">
-            <span class="col-dot" style="background:var(--col-progress)"></span>
-            <span class="col-name">In Progress</span>
-            <span class="col-count over">3/3</span>
-          </div>
-          <div class="col-statuses">meeting_scheduled + qualified + proposal + negotiation</div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Cloud Migration Phase 2</span></div><div class="mc-body"><span class="badge svc">EUR 34,000</span><span class="mc-meta">Close: Jun 15</span><span class="av" style="background:#2563EB">MK</span></div></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">M365 E5 Upgrade</span></div><div class="mc-body"><span class="badge svc">EUR 8,400</span><span class="mc-meta">Close: May 30</span><span class="av" style="background:#7C3AED">JM</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head">
-            <span class="col-dot" style="background:var(--col-done)"></span>
-            <span class="col-name">Closed</span>
-            <span class="col-count">1</span>
-          </div>
-          <div class="col-statuses">won + lost</div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Backup as a Service</span></div><div class="mc-body"><span class="badge p4">Won</span><span class="badge svc">EUR 18,000</span></div></div>
-        </div>
-      </div>
-    </div>
-    <!-- Nordic IT collapsed -->
-    <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-      <div class="swim-head"><span class="chev">&#9654;</span><h4>Nordic IT Services</h4><span class="cnt">3</span></div>
-      <div class="columns" style="grid-template-columns: repeat(3, 1fr);"></div>
-    </div>
-    <!-- DataForce collapsed -->
-    <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-      <div class="swim-head"><span class="chev">&#9654;</span><h4>DataForce BV</h4><span class="cnt">2</span></div>
-      <div class="columns" style="grid-template-columns: repeat(3, 1fr);"></div>
-    </div>
-  </div>
-
-  <div class="callout">
-    <div class="label">Drag-drop write-through</div>
-    Moving a card updates the deal stage via HubSpot API. Canonical data in PostgreSQL stays read-only -- the regular sync brings changes back. Cross-swimlane drag is blocked when grouped by Company (you can't reassign a deal to another company by dragging).
-  </div>
-
-  <!-- Expanded 7-column view -->
-  <h3 style="margin-top: 32px;">Expanded View: All 7 Stages</h3>
-  <p class="sub">Users can expand the 3 default columns into individual pipeline stages via BoardSettingsColumns.</p>
+  <h2 class="section-line">The Default 4-Column Board</h2>
+  <p class="sub">Autotask statuses grouped into 4 visual columns. Each column maps one or more statuses. Users can add columns, rename them, set WIP limits, and drag statuses between columns.</p>
 
   <div class="board-frame">
     <div class="board-toolbar">
-      <span class="view-name">&#9645; Full Pipeline</span>
+      <span class="view-name">&#9645; Default Board</span>
       <span class="pill">Swimlane: <strong>None</strong></span>
       <span class="spacer"></span>
+      <span class="pill">Entity: <strong>Tickets + Tasks</strong></span>
     </div>
     <div style="padding: 16px;">
-      <div class="columns" style="grid-template-columns: repeat(7, 1fr);">
-        <div class="col">
-          <div class="col-head"><span class="col-dot" style="background:#6B7280"></span><span class="col-name">Incoming</span><span class="col-count">4</span></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Security Audit</span></div><div class="mc-body"><span class="badge svc">EUR 9,200</span><span class="av" style="background:#7C3AED">JM</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">Meeting</span><span class="col-count">3</span></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Endpoint Protection</span></div><div class="mc-body"><span class="badge svc">EUR 15,000</span><span class="av" style="background:#2563EB">MK</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head"><span class="col-dot" style="background:#4338CA"></span><span class="col-name">Qualified</span><span class="col-count">2</span></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">DR as a Service</span></div><div class="mc-body"><span class="badge svc">EUR 22,000</span><span class="av" style="background:#16A34A">AT</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Proposal</span><span class="col-count over">4/3</span></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Cloud Migration</span></div><div class="mc-body"><span class="badge svc">EUR 34,000</span><span class="mc-meta">Close: Jun 15</span></div></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Network Redesign</span></div><div class="mc-body"><span class="badge svc">EUR 28,500</span><span class="mc-meta">Close: Jul 1</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head"><span class="col-dot" style="background:var(--col-planned)"></span><span class="col-name">Negotiation</span><span class="col-count">2</span></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Managed Print</span></div><div class="mc-body"><span class="badge svc">EUR 8,400</span><span class="mc-meta">Close: May 30</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Won</span><span class="col-count">6</span></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">Backup aaS</span></div><div class="mc-body"><span class="badge p4">Won</span><span class="badge svc">EUR 18,000</span></div></div>
-        </div>
-        <div class="col">
-          <div class="col-head"><span class="col-dot" style="background:#DC2626"></span><span class="col-name">Lost</span><span class="col-count">2</span></div>
-          <div class="mcard task"><div class="mc-head"><span class="mc-title">SOC Service</span></div><div class="mc-body"><span class="badge p1">Lost</span><span class="badge svc">EUR 45,000</span></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 3: DEAL PIPELINE REFERENCE            -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="wrap section">
-  <h2 class="section-line">Deal Pipeline Stages</h2>
-
-  <table class="status-table">
-    <tr><th>Stage ID</th><th>Stage</th><th>Color</th><th>Default Column</th><th>isDefault</th></tr>
-    <tr><td><code>incoming</code></td><td><strong>Incoming</strong></td><td><span class="col-dot" style="background:#6B7280;display:inline-block;vertical-align:middle;margin-right:4px"></span>Gray</td><td>Incoming</td><td>todo</td></tr>
-    <tr><td><code>meeting_scheduled</code></td><td><strong>Meeting Scheduled</strong></td><td><span class="col-dot" style="background:#2563EB;display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>In Progress</td><td>--</td></tr>
-    <tr><td><code>qualified</code></td><td><strong>Qualified</strong></td><td><span class="col-dot" style="background:#4338CA;display:inline-block;vertical-align:middle;margin-right:4px"></span>Indigo</td><td>In Progress</td><td>--</td></tr>
-    <tr><td><code>proposal</code></td><td><strong>Proposal</strong></td><td><span class="col-dot" style="background:#7C3AED;display:inline-block;vertical-align:middle;margin-right:4px"></span>Violet</td><td>In Progress</td><td>--</td></tr>
-    <tr><td><code>negotiation</code></td><td><strong>Negotiation</strong></td><td><span class="col-dot" style="background:#F59E0B;display:inline-block;vertical-align:middle;margin-right:4px"></span>Amber</td><td>In Progress</td><td>--</td></tr>
-    <tr><td><code>won</code></td><td><strong>Won</strong></td><td><span class="col-dot" style="background:#16A34A;display:inline-block;vertical-align:middle;margin-right:4px"></span>Green</td><td>Closed</td><td>done</td></tr>
-    <tr><td><code>lost</code></td><td><strong>Lost</strong></td><td><span class="col-dot" style="background:#DC2626;display:inline-block;vertical-align:middle;margin-right:4px"></span>Red</td><td>Closed</td><td>done</td></tr>
-  </table>
-
-  <h3 style="margin-top: 24px;">Deal Card Fields</h3>
-  <table class="status-table">
-    <tr><th>Field</th><th>Format</th><th>Zone</th><th>In Preset</th></tr>
-    <tr><td><strong>amount</strong></td><td>Currency (EUR)</td><td>Header</td><td>Pipeline Mgr + Minimal</td></tr>
-    <tr><td><strong>company_name</strong></td><td>Link</td><td>Top-left</td><td>Pipeline Mgr + Minimal</td></tr>
-    <tr><td><strong>close_date</strong></td><td>Date</td><td>Top-right</td><td>Pipeline Mgr</td></tr>
-    <tr><td><strong>next_action</strong></td><td>Text</td><td>Expandable</td><td>Pipeline Mgr</td></tr>
-    <tr><td><strong>pipeline</strong></td><td>Badge</td><td>Bottom-left</td><td>--</td></tr>
-    <tr><td><strong>deal_source</strong></td><td>Badge</td><td>Expandable</td><td>--</td></tr>
-    <tr><td><strong>trial_active</strong></td><td>Boolean</td><td>Bottom-left</td><td>--</td></tr>
-    <tr><td><strong>trial_end_date</strong></td><td>Date</td><td>Expandable</td><td>--</td></tr>
-    <tr><td><strong>includes_dxfferent</strong></td><td>Boolean</td><td>Expandable</td><td>--</td></tr>
-  </table>
-
-  <h3 style="margin-top: 24px;">Deal Swimlane Options</h3>
-  <table class="status-table">
-    <tr><th>Key</th><th>Label</th><th>Cross-swimlane drag</th></tr>
-    <tr><td><code>none</code></td><td>No Swimlanes</td><td>N/A</td></tr>
-    <tr><td><code>company</code></td><td>Company</td><td class="lose">Blocked</td></tr>
-    <tr><td><code>deal_source</code></td><td>Deal Source</td><td class="win">Allowed</td></tr>
-    <tr><td><code>product_tier</code></td><td>Product Tier</td><td class="win">Allowed</td></tr>
-    <tr><td><code>msp_size</code></td><td>MSP Size</td><td class="win">Allowed</td></tr>
-    <tr><td><code>owner</code></td><td>Owner</td><td class="win">Allowed</td></tr>
-  </table>
-</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 4: JIRA ADAPTER                       -->
-<!-- ══════════════════════════════════════════════ -->
-<div class="wrap section">
-  <h2 class="section-line">Jira Adapter: Development Backlog</h2>
-  <p class="sub">The development board. Statuses loaded dynamically from the Jira database (18+ statuses). Read-only -- Jira is the source of truth.</p>
-
-  <div class="board-frame">
-    <div class="board-toolbar">
-      <span class="view-name">&#9645; Sprint 35 Backlog</span>
-      <span class="pill">Swimlane: <strong>Sprint</strong></span>
-      <span class="pill">Mode: <strong>Read-only</strong></span>
-      <span class="spacer"></span>
-      <span class="pill">Adapter: <strong>jira</strong></span>
-    </div>
-    <!-- Sprint 35 swimlane -->
-    <div class="swim">
-      <div class="swim-head"><span class="chev">&#9660;</span><h4>Sprint 35</h4><span class="cnt">7</span></div>
-      <div class="columns" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
         <div class="col">
           <div class="col-head">
-            <span class="col-dot" style="background:var(--col-backlog)"></span>
+            <span class="col-dot" style="background: var(--col-todo)"></span>
             <span class="col-name">To Do</span>
-            <span class="col-count">2</span>
+            <span class="col-count">170</span>
           </div>
-          <div class="col-statuses">Open, Goedgekeurd</div>
-          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3421 KanBan card click handler</span></div><div class="mc-body"><span class="badge" style="background:#E0E7FF;color:#3730A3">Task</span><span class="badge p4">5 SP</span><span class="av" style="background:#7C3AED">JM</span></div></div>
-          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3435 Settings toolbar visibility</span></div><div class="mc-body"><span class="badge" style="background:#E0E7FF;color:#3730A3">Task</span><span class="badge p4">3 SP</span><span class="av" style="background:#2563EB">MK</span></div></div>
+          <div class="col-statuses">Mapped statuses (from Board Settings)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Server outage alert</span></div><div class="mc-body"><span class="badge p1">P1 - Critical</span><span class="mc-meta">10/08</span><span class="av" style="background:#7C3AED">DD</span></div></div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">VPN tunnel down</span></div><div class="mc-body"><span class="badge p2">P2 - High</span><span class="mc-company">Byte IT</span><span class="av" style="background:#2563EB">MH</span></div></div>
+          <div class="mcard task"><div class="mc-head"><span class="mc-title">Configure Intune policies</span></div><div class="mc-body"><span class="badge p3">P3 - Medium</span><span class="mc-meta">est. 4h</span></div></div>
         </div>
         <div class="col">
           <div class="col-head">
-            <span class="col-dot" style="background:var(--col-progress)"></span>
+            <span class="col-dot" style="background: var(--col-progress)"></span>
             <span class="col-name">In Progress</span>
-            <span class="col-count">3</span>
+            <span class="col-count over">31/30</span>
           </div>
-          <div class="col-statuses">Actief, Code Review, ON DEV, ON PRE-PROD</div>
-          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3398 Reserved capacity algorithm</span></div><div class="mc-body"><span class="badge" style="background:#FEE2E2;color:#991B1B">Bug</span><span class="badge p4">8 SP</span><span class="mc-meta">Code Review</span><span class="av" style="background:#16A34A">AT</span></div></div>
-          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3412 Client portal security levels</span></div><div class="mc-body"><span class="badge" style="background:#DBEAFE;color:#1E40AF">Story</span><span class="badge p4">13 SP</span><span class="mc-meta">ON DEV</span><span class="av" style="background:#F59E0B">CP</span></div></div>
-          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3440 Swimlane toggle component</span></div><div class="mc-body"><span class="badge" style="background:#E0E7FF;color:#3730A3">Task</span><span class="badge p4">3 SP</span><span class="mc-meta">Actief</span><span class="av" style="background:#4338CA">SC</span></div></div>
+          <div class="col-statuses">Mapped statuses (from Board Settings)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Database failover drill</span></div><div class="mc-body"><span class="badge p1">P1 - Critical</span><span class="mc-meta overdue">1h overdue</span><span class="av" style="background:#DC2626">JR</span><span class="av" style="background:#7C3AED">AT</span></div></div>
+          <div class="mcard task"><div class="mc-head"><span class="mc-title">VLAN migration</span></div><div class="mc-body"><span class="badge p1">P1 - Critical</span><span class="mc-company">Cascadia Tech</span><span class="av" style="background:#F59E0B">CP</span></div></div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Printer driver issue</span></div><div class="mc-body"><span class="badge p4">P4 - Low</span><span class="mc-company">Spark IT</span></div></div>
         </div>
         <div class="col">
           <div class="col-head">
-            <span class="col-dot" style="background:var(--col-done)"></span>
-            <span class="col-name">Done</span>
-            <span class="col-count">2</span>
+            <span class="col-dot" style="background: var(--col-waiting)"></span>
+            <span class="col-name">Waiting</span>
+            <span class="col-count">154</span>
           </div>
-          <div class="col-statuses">Gereed, Afgewezen</div>
-          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3390 Stacked planning view</span></div><div class="mc-body"><span class="badge" style="background:#DBEAFE;color:#1E40AF">Story</span><span class="badge p4">8 SP</span><span class="mc-meta">Gereed</span></div></div>
+          <div class="col-statuses">Waiting Approval &middot; Waiting on pred... &middot; Waiting Materials &middot; Waiting Vendor &middot; Waiting Customer</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">SonicWall RMA</span></div><div class="mc-body"><span class="badge p1">P1 - Critical</span><span class="mc-meta">Waiting Vendor</span><span class="av" style="background:#4338CA">SC</span></div></div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">License renewal approval</span></div><div class="mc-body"><span class="badge p3">P3 - Medium</span><span class="mc-meta">Waiting Approval</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head">
+            <span class="col-dot" style="background: var(--col-done)"></span>
+            <span class="col-name">Done</span>
+            <span class="col-count">66.7k</span>
+          </div>
+          <div class="col-statuses">Mapped statuses (from Board Settings)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Internet outage resolved</span></div><div class="mc-body"><span class="badge p1">P1 - Critical</span><span class="mc-meta">Completed May 6</span><span class="av" style="background:#7C3AED">DR</span></div></div>
         </div>
       </div>
-    </div>
-    <!-- Sprint 34 collapsed -->
-    <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-      <div class="swim-head"><span class="chev">&#9654;</span><h4>Sprint 34</h4><span class="cnt">12 (all done)</span></div>
-      <div class="columns" style="grid-template-columns: repeat(3, 1fr);"></div>
-    </div>
-    <!-- Backlog collapsed -->
-    <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-      <div class="swim-head"><span class="chev">&#9654;</span><h4>Backlog (no sprint)</h4><span class="cnt">24</span></div>
-      <div class="columns" style="grid-template-columns: repeat(3, 1fr);"></div>
     </div>
   </div>
 
   <div class="callout">
-    <div class="label">Read-only adapter</div>
-    Jira is the source of truth. No drag-drop. No moveCard. The VKanBanBoard gets a <code style="font-family:var(--font-mono);font-size:12px;">readonly</code> prop that prevents drag initiation entirely. Clicking a card opens <strong>IssueDetailSlideover</strong> with full issue details, comments, and Forge notes.
+    <div class="label">Unmapped statuses</div>
+    Statuses not assigned to a column sit in the "Unmapped statuses" sidebar: <strong>Pending Completion, On Hold, Customer Responded, Autoresolved, Acknowledged, Planned, Schedule, TEST</strong>. Drag any of these into a column to include them on the board.
   </div>
-
-  <h3 style="margin-top: 24px;">Jira Statuses (dynamically loaded)</h3>
-  <p class="sub">Statuses are loaded from the database via <code style="font-family:var(--font-mono);font-size:12px;">SELECT DISTINCT status, status_category FROM canonical.jira_issues</code>. Not hardcoded.</p>
-  <table class="status-table">
-    <tr><th>Category</th><th>Default Column</th><th>Known Statuses</th></tr>
-    <tr><td><strong>new</strong></td><td>To Do</td><td>Open, Goedgekeurd</td></tr>
-    <tr><td><strong>indeterminate</strong></td><td>In Progress</td><td>Actief, Code Review, ON DEV, ON PRE-PROD, PRE-PROD FAIL</td></tr>
-    <tr><td><strong>done</strong></td><td>Done</td><td>Gereed, Afgewezen</td></tr>
-  </table>
-
-  <h3 style="margin-top: 24px;">Jira Swimlane Options</h3>
-  <table class="status-table">
-    <tr><th>Key</th><th>Label</th><th>Cross-swimlane</th></tr>
-    <tr><td><code>none</code></td><td>No Swimlanes</td><td>N/A</td></tr>
-    <tr><td><code>sprint_name</code></td><td>Sprint</td><td class="lose">Blocked</td></tr>
-    <tr><td><code>epic_key</code></td><td>Epic</td><td class="lose">Blocked</td></tr>
-    <tr><td><code>assignee_name</code></td><td>Assignee</td><td class="lose">Blocked</td></tr>
-    <tr><td><code>issue_type</code></td><td>Issue Type</td><td class="lose">Blocked</td></tr>
-  </table>
-
-  <h3 style="margin-top: 24px;">Jira Card Fields</h3>
-  <table class="status-table">
-    <tr><th>Field</th><th>Display</th></tr>
-    <tr><td><strong>Type icon</strong></td><td>Bug / Task / Story / Sub-task icon</td></tr>
-    <tr><td><strong>Key</strong></td><td>PNEX-3421 format</td></tr>
-    <tr><td><strong>Summary</strong></td><td>Issue title</td></tr>
-    <tr><td><strong>Story points</strong></td><td>Badge (e.g. "8 SP")</td></tr>
-    <tr><td><strong>Assignee</strong></td><td>Avatar circle</td></tr>
-    <tr><td><strong>Epic badge</strong></td><td>Epic name badge</td></tr>
-    <tr><td><strong>Time in status</strong></td><td>Duration text</td></tr>
-  </table>
 </div>
 
 <!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 5: BOARD FEATURES                     -->
+<!-- SECTION: COLUMN CONFIGURATION                 -->
 <!-- ══════════════════════════════════════════════ -->
 <div class="wrap section">
-  <h2 class="section-line">Board Features</h2>
+  <h2 class="section-line">Column Configuration</h2>
+  <p class="sub">Board Settings &rarr; Columns tab. Each column has a name, WIP limit, color, and mapped Autotask statuses. Columns are reorderable via drag.</p>
 
   <table class="status-table">
-    <tr><th>Feature</th><th>Implementation</th></tr>
-    <tr><td><strong>WIP Limits</strong></td><td>Per-column limit. Visual indicator (red count) when exceeded. Configured in BoardSettingsColumns.</td></tr>
-    <tr><td><strong>Auto-refresh</strong></td><td>30-second polling. Silent background update.</td></tr>
-    <tr><td><strong>Pagination</strong></td><td>10 cards per column. "Show more" to load next page.</td></tr>
-    <tr><td><strong>Hide completed</strong></td><td>Configurable <code style="font-family:var(--font-mono);font-size:12px;">hideCompletedAfterDays</code> (0-365). Done/Won/Lost cards auto-hide.</td></tr>
-    <tr><td><strong>Saved views</strong></td><td>Per user, per module. CRUD + duplicate + set default. Stored in <code style="font-family:var(--font-mono);font-size:12px;">forge.saved_views</code> JSONB.</td></tr>
-    <tr><td><strong>Card presets</strong></td><td>Adapter-defined field sets. Deal: "Pipeline Manager" (4 fields), "Minimal" (2 fields).</td></tr>
-    <tr><td><strong>Settings panel</strong></td><td>BoardSettingsColumns (add/remove/reorder/WIP), BoardSettingsSwimlanes (5+ options), BoardSettingsCardLayout (field visibility + zones).</td></tr>
-    <tr><td><strong>Optimistic updates</strong></td><td>Deal adapter only. Instant UI update + rollback on API failure.</td></tr>
-    <tr><td><strong>DnD approach</strong></td><td>Native HTML5 <code style="font-family:var(--font-mono);font-size:12px;">draggable="true"</code> + custom ghost. Composables: useKanbanDnd, useKanbanCardDrag, useAutoScroll.</td></tr>
+    <tr><th>Column</th><th>Color</th><th>WIP Limit</th><th>Mapped Statuses (Waiting example)</th></tr>
+    <tr><td><strong>To Do</strong></td><td><span class="col-dot" style="background:var(--col-todo);display:inline-block;vertical-align:middle;margin-right:4px"></span>Light Blue</td><td>Configurable</td><td>User-defined mapping</td></tr>
+    <tr><td><strong>In Progress</strong></td><td><span class="col-dot" style="background:var(--col-progress);display:inline-block;vertical-align:middle;margin-right:4px"></span>Amber</td><td>Configurable</td><td>User-defined mapping</td></tr>
+    <tr><td><strong>Waiting</strong></td><td><span class="col-dot" style="background:var(--col-waiting);display:inline-block;vertical-align:middle;margin-right:4px"></span>Purple</td><td>Configurable</td><td>Waiting Approval, Waiting on predecessors, Waiting Materials, Waiting Vendor, Waiting Customer</td></tr>
+    <tr><td><strong>Done</strong></td><td><span class="col-dot" style="background:var(--col-done);display:inline-block;vertical-align:middle;margin-right:4px"></span>Teal</td><td>Configurable</td><td>User-defined mapping</td></tr>
   </table>
+
+  <p style="font-size: 14px; color: var(--inkt-zacht); margin-top: 8px;">10 column colors available. Users can add new columns via "+ Add column" and drag Autotask statuses from the unmapped sidebar into any column.</p>
 </div>
 
 <!-- ══════════════════════════════════════════════ -->
-<!-- SECTION 6: ADAPTER COMPARISON                 -->
+<!-- SECTION: SWIMLANES                            -->
 <!-- ══════════════════════════════════════════════ -->
 <div class="wrap section">
-  <h2 class="section-line">Adapter Comparison</h2>
+  <h2 class="section-line">Swimlane Options</h2>
+  <p class="sub">Board Settings &rarr; Swimlanes tab. 9 grouping options, some restricted to specific entity types.</p>
 
   <table class="status-table">
-    <tr><th>Feature</th><th>Deal Adapter</th><th>Jira Adapter</th></tr>
-    <tr><td><strong>Entity type</strong></td><td><code>deal</code></td><td><code>jira</code></td></tr>
-    <tr><td><strong>Column source</strong></td><td>7 hardcoded pipeline stages</td><td>Dynamic from DB (18+ Jira statuses)</td></tr>
-    <tr><td><strong>Drag &amp; drop</strong></td><td class="win">Enabled (HubSpot write-through)</td><td class="lose">Disabled (read-only)</td></tr>
-    <tr><td><strong>Cross-swimlane</strong></td><td>Blocked for Company only</td><td>Always blocked</td></tr>
-    <tr><td><strong>Swimlane options</strong></td><td>6 (none, company, source, tier, size, owner)</td><td>5 (none, sprint, epic, assignee, type)</td></tr>
-    <tr><td><strong>Card fields</strong></td><td>10 fields, 4 zones</td><td>7 fields (type, key, summary, SP, assignee, epic, time)</td></tr>
-    <tr><td><strong>Card presets</strong></td><td>Pipeline Manager, Minimal</td><td>None (fixed layout)</td></tr>
-    <tr><td><strong>Default columns</strong></td><td>3 (Incoming / In Progress / Closed)</td><td>3 (To Do / In Progress / Done)</td></tr>
-    <tr><td><strong>Write-back</strong></td><td>HubSpot API (canonical stays read-only)</td><td>None (Jira is source of truth)</td></tr>
-    <tr><td><strong>Card click</strong></td><td>Navigate to /forge/crm/deals/{id}</td><td>Open IssueDetailSlideover</td></tr>
+    <tr><th>#</th><th>Swimlane</th><th>Description</th><th>Scope</th></tr>
+    <tr><td>1</td><td><strong>No Swimlanes</strong></td><td>Flat column layout without grouping</td><td>All</td></tr>
+    <tr><td>2</td><td><strong>Priority</strong></td><td>Group by priority level (P1-Critical, P2-High, P3-Medium, P4-Low, Standard, Unassigned)</td><td>All</td></tr>
+    <tr><td>3</td><td><strong>Assignee</strong></td><td>Group by assigned resource</td><td>All</td></tr>
+    <tr><td>4</td><td><strong>Project</strong></td><td>Group by project</td><td>All</td></tr>
+    <tr><td>5</td><td><strong>Company</strong></td><td>Group by company/customer</td><td>All</td></tr>
+    <tr><td>6</td><td><strong>Event type</strong></td><td>Group by event type</td><td>All</td></tr>
+    <tr><td>7</td><td><strong>Customer</strong></td><td>Group by customer</td><td class="lose">Ticket only</td></tr>
+    <tr><td>8</td><td><strong>Queue</strong></td><td>Group by queue</td><td class="lose">Ticket only</td></tr>
+    <tr><td>9</td><td><strong>Department</strong></td><td>Group by department</td><td class="lose">Task only</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="label">Priority swimlane values</div>
+    When grouped by Priority, the swimlanes are: <strong>P1 - Critical</strong>, <strong>P2 - High</strong>, <strong>P3 - Medium</strong>, <strong>P4 - Low</strong>, <strong>Standard</strong>, <strong>Unassigned</strong>. Each swimlane is collapsible.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- SECTION: CARD LAYOUT                          -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="wrap section">
+  <h2 class="section-line">Card Layout</h2>
+  <p class="sub">Board Settings &rarr; Card Layout tab. Separate configuration for Task and Ticket cards. Live preview updates as you change settings.</p>
+
+  <h3>Fixed Card Fields (4 positions)</h3>
+  <table class="status-table">
+    <tr><th>Position</th><th>Default (Task)</th><th>Configurable</th></tr>
+    <tr><td><strong>Top left</strong></td><td>End date</td><td>Dropdown selector</td></tr>
+    <tr><td><strong>Top right</strong></td><td>Primary resource + Secondary resources</td><td>Dropdown selector</td></tr>
+    <tr><td><strong>Bottom left</strong></td><td>Priority</td><td>Dropdown selector</td></tr>
+    <tr><td><strong>Bottom right</strong></td><td>Company</td><td>Dropdown selector</td></tr>
+  </table>
+
+  <h3 style="margin-top: 24px;">Expanded Fields (3 of 10+ available)</h3>
+  <table class="status-table">
+    <tr><th>Field</th><th>Shown by Default</th></tr>
+    <tr><td><strong>Project</strong></td><td class="win">Yes</td></tr>
+    <tr><td><strong>Task type</strong></td><td class="win">Yes</td></tr>
+    <tr><td><strong>Department</strong></td><td class="win">Yes</td></tr>
+    <tr><td colspan="2" style="color:var(--inkt-zacht);font-style:italic;">+ 7 more available via "+ Add field"</td></tr>
+  </table>
+
+  <h3 style="margin-top: 24px;">Additional Card Features</h3>
+  <table class="status-table">
+    <tr><th>Feature</th><th>Details</th></tr>
+    <tr><td><strong>Entity type badge</strong></td><td>Task (blue) or Ticket (purple) label on each card</td></tr>
+    <tr><td><strong>Status indicator</strong></td><td>Colored dot showing current status (matches column color)</td></tr>
+    <tr><td><strong>Assignee avatars</strong></td><td>Primary + secondary resource initials with colored circles</td></tr>
+    <tr><td><strong>Company icon</strong></td><td>Company name with building icon</td></tr>
+    <tr><td><strong>Show Service Calls</strong></td><td>Toggle to display linked service calls on expanded card (e.g. "Service calls 1/5")</td></tr>
   </table>
 </div>
 
@@ -676,340 +477,334 @@ types/kanban/
 <!-- ══════════════════════════════════════════════ -->
 <div class="wrap section">
   <h2 class="section-line">Demo Scenarios</h2>
-  <p class="sub">Five boards, each demonstrating a different use case. Set up as saved views for live switching during demos.</p>
+  <p class="sub">Five boards, each a different MSP use case. Set up all five as saved views so you can switch during a demo.</p>
 
-  <!-- SCENARIO 1: Sales Pipeline Review -->
+  <!-- SCENARIO 1: Dispatch Lead Morning Board -->
   <div class="scenario">
     <div class="scenario-header">
       <span class="scenario-num">1</span>
-      <div><div class="scenario-title">Sales Pipeline Review</div><div class="scenario-who">Sales lead, account executive</div></div>
+      <div><div class="scenario-title">Dispatch Lead Morning Board</div><div class="scenario-who">Service desk manager, dispatch coordinator</div></div>
     </div>
-    <div class="scenario-story">Weekly pipeline review. The sales lead opens the full 7-column board grouped by Owner. Who has deals stuck in Proposal? Who's about to close?</div>
+    <div class="scenario-story">8:30 AM. The dispatch lead opens Proxuma. What's on fire, what's stuck, who's overloaded. One screen answers all three.</div>
     <div style="padding: 0 16px;">
       <div class="board-frame" style="margin: 16px 0;">
         <div class="board-toolbar">
-          <span class="view-name">&#9645; Weekly Pipeline</span>
-          <span class="pill">Swimlane: <strong>Owner</strong></span>
-          <span class="pill">Columns: <strong>7 (expanded)</strong></span>
+          <span class="view-name">&#9645; Morning Dispatch</span>
+          <span class="pill">Swimlane: <strong>Priority</strong></span>
           <span class="spacer"></span>
         </div>
+        <!-- P1 swimlane -->
         <div class="swim">
-          <div class="swim-head"><span class="chev">&#9660;</span><h4>Joshua M.</h4><span class="cnt">5</span></div>
-          <div class="columns" style="grid-template-columns: repeat(7, 1fr);">
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#6B7280"></span><span class="col-name">Incoming</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Security Audit</span></div><div class="mc-body"><span class="badge svc">EUR 9.2K</span><span class="mc-company">Meridian IT</span></div></div>
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>P1 - Critical</h4><span class="cnt">5</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-todo)"></span><span class="col-name">To Do</span><span class="col-count">2</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Server outage</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-company">Byte IT</span><span class="av" style="background:#7C3AED">DD</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Network switch failure</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-company">Spark IT</span><span class="av" style="background:#2563EB">MH</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#2563EB"></span><span class="col-name">Meeting</span></div></div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#4338CA"></span><span class="col-name">Qualified</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">DR aaS</span></div><div class="mc-body"><span class="badge svc">EUR 22K</span><span class="mc-company">CloudBase</span></div></div>
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count over">3/3</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">DB failover drill</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta overdue">1h overdue</span><span class="av" style="background:#DC2626">JR</span><span class="av" style="background:#7C3AED">AT</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Office VLAN migration</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-company">Cascadia Tech</span><span class="av" style="background:#F59E0B">CP</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#7C3AED"></span><span class="col-name">Proposal</span><span class="col-count over">2/2</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Cloud Migration</span></div><div class="mc-body"><span class="badge svc">EUR 34K</span><span class="mc-meta">Jun 15</span></div></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Network Redesign</span></div><div class="mc-body"><span class="badge svc">EUR 28.5K</span><span class="mc-meta">Jul 1</span></div></div>
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">SonicWall RMA</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">Waiting Vendor</span><span class="av" style="background:#4338CA">SC</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#F59E0B"></span><span class="col-name">Negotiation</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Managed Print</span></div><div class="mc-body"><span class="badge svc">EUR 8.4K</span><span class="mc-meta">May 30</span></div></div>
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Internet outage</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">resolved</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#16A34A"></span><span class="col-name">Won</span></div></div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#DC2626"></span><span class="col-name">Lost</span></div></div>
           </div>
         </div>
+        <!-- P2 collapsed -->
         <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-          <div class="swim-head"><span class="chev">&#9654;</span><h4>Max K.</h4><span class="cnt">3</span></div>
-          <div class="columns" style="grid-template-columns: repeat(7, 1fr);"></div>
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>P2 - High</h4><span class="cnt">164</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);"></div>
+        </div>
+        <!-- P3 collapsed -->
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>P3 - Medium</h4><span class="cnt">2,769</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);"></div>
         </div>
       </div>
     </div>
     <div class="scenario-moves">
       <h5>Demo moves</h5>
       <ol>
-        <li>Show WIP limit on Proposal column (2/2). "Joshua can't take more proposals until one moves forward."</li>
-        <li>Drag "Managed Print" from Negotiation to Won. Watch the stage update in HubSpot.</li>
-        <li>Toggle swimlane to Deal Source. "Now see which channels are producing -- Inbound vs Partner vs Outbound."</li>
+        <li>Show P1 swimlane with 5 critical items. Point out the overdue badge.</li>
+        <li>Show WIP limit hit on In Progress (3/3). "Protects your team from overload."</li>
+        <li>Drag a ticket from To Do to In Progress -- status updates in Autotask.</li>
+        <li>Collapse P3/P4: "Fold the noise, focus on what burns."</li>
+        <li>Toggle swimlane to Assignee -- show workload distribution in one click.</li>
       </ol>
     </div>
   </div>
 
-  <!-- SCENARIO 2: Sprint Planning Board -->
+  <!-- SCENARIO 2: L2 Escalation Board -->
   <div class="scenario">
     <div class="scenario-header">
       <span class="scenario-num">2</span>
-      <div><div class="scenario-title">Sprint Planning Board</div><div class="scenario-who">Product owner, development team</div></div>
+      <div><div class="scenario-title">L2 Escalation Board</div><div class="scenario-who">L2/L3 engineers, escalation manager</div></div>
     </div>
-    <div class="scenario-story">Sprint 35 just started. The team opens the Jira kanban to see what's in the sprint, grouped by sprint. Click any card to see the full issue detail without leaving Forge.</div>
+    <div class="scenario-story">Escalated tickets need more structure. The L2 team sees their queue grouped by assignee, with clear visibility on what's blocking.</div>
     <div style="padding: 0 16px;">
       <div class="board-frame" style="margin: 16px 0;">
         <div class="board-toolbar">
-          <span class="view-name">&#9645; Active Sprints</span>
-          <span class="pill">Swimlane: <strong>Sprint</strong></span>
-          <span class="pill">Mode: <strong>Read-only</strong></span>
+          <span class="view-name">&#9645; L2 Escalation</span>
+          <span class="pill">Swimlane: <strong>Assignee</strong></span>
+          <span class="pill">Queue: <strong>L2 Support</strong></span>
           <span class="spacer"></span>
         </div>
         <div class="swim">
-          <div class="swim-head"><span class="chev">&#9660;</span><h4>Sprint 35</h4><span class="cnt">7</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-backlog)"></span><span class="col-name">To Do</span><span class="col-count">2</span></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3421 Card click handler</span></div><div class="mc-body"><span class="badge" style="background:#E0E7FF;color:#3730A3">Task</span><span class="badge p4">5 SP</span><span class="av" style="background:#7C3AED">JM</span></div></div>
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>Johan R.</h4><span class="cnt">5</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-todo)"></span><span class="col-name">To Do</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">DNS propagation</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-company">Nordic IT</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">3</span></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3398 Reserved capacity</span></div><div class="mc-body"><span class="badge" style="background:#FEE2E2;color:#991B1B">Bug</span><span class="badge p4">8 SP</span><span class="mc-meta">Code Review</span><span class="av" style="background:#16A34A">AT</span></div></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3412 Portal security</span></div><div class="mc-body"><span class="badge" style="background:#DBEAFE;color:#1E40AF">Story</span><span class="badge p4">13 SP</span><span class="mc-meta">ON DEV</span><span class="av" style="background:#F59E0B">CP</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count over">3/3</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Exchange hybrid</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">4h worked</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">GPO conflict</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">SLA: 6h left</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">2</span></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3390 Stacked view</span></div><div class="mc-body"><span class="badge" style="background:#DBEAFE;color:#1E40AF">Story</span><span class="badge p4">8 SP</span><span class="mc-meta">Gereed</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">2</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Cert approval</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">Waiting Approval</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Fortinet RMA</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">Waiting Vendor</span></div></div>
             </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span></div></div>
           </div>
         </div>
         <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-          <div class="swim-head"><span class="chev">&#9654;</span><h4>Sprint 34 (closed)</h4><span class="cnt">15 done</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);"></div>
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Anna T.</h4><span class="cnt">3</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);"></div>
+        </div>
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Dennis D.</h4><span class="cnt">4</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);"></div>
         </div>
       </div>
     </div>
     <div class="scenario-moves">
       <h5>Demo moves</h5>
       <ol>
-        <li>Click a card. IssueDetailSlideover opens with description, comments, linked issues, Forge notes.</li>
-        <li>Open settings, expand columns: add "Code Review" and "ON DEV" as separate columns. Bottleneck spotted.</li>
-        <li>Toggle swimlane to Epic. "See progress per feature area."</li>
+        <li>Show WIP limit on Johan: 3/3 in progress. "Protects your team from overload."</li>
+        <li>Waiting column shows the blocker type: Waiting Approval vs Waiting Vendor.</li>
+        <li>Point at SLA countdown -- "See the deadline without opening the ticket."</li>
+        <li>Toggle swimlane to Queue -- "Now see all queues on one board."</li>
       </ol>
     </div>
   </div>
 
-  <!-- SCENARIO 3: Deal Source Analysis -->
+  <!-- SCENARIO 3: Project Implementation Board -->
   <div class="scenario">
     <div class="scenario-header">
       <span class="scenario-num">3</span>
-      <div><div class="scenario-title">Deal Source Analysis</div><div class="scenario-who">Marketing, sales leadership</div></div>
+      <div><div class="scenario-title">Project Implementation Board</div><div class="scenario-who">Project manager, implementation lead</div></div>
     </div>
-    <div class="scenario-story">Which channels produce deals that close? Group by Deal Source to see the pipeline health per acquisition channel.</div>
+    <div class="scenario-story">Rolling out Microsoft 365 for a customer. Tasks and tickets from issues on one board, grouped by project.</div>
     <div style="padding: 0 16px;">
       <div class="board-frame" style="margin: 16px 0;">
         <div class="board-toolbar">
-          <span class="view-name">&#9645; Source Analysis</span>
-          <span class="pill">Swimlane: <strong>Deal Source</strong></span>
+          <span class="view-name">&#9645; M365 Rollout</span>
+          <span class="pill">Swimlane: <strong>Project</strong></span>
           <span class="spacer"></span>
         </div>
         <div class="swim">
-          <div class="swim-head"><span class="chev">&#9660;</span><h4>Inbound</h4><span class="cnt">6</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#6B7280"></span><span class="col-name">Incoming</span><span class="col-count">2</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">SOC Service</span></div><div class="mc-body"><span class="badge svc">EUR 45K</span><span class="mc-company">DataForce BV</span></div></div>
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>M365 Tenant Migration -- Byte IT</h4><span class="cnt">8</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-todo)"></span><span class="col-name">To Do</span><span class="col-count">2</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Configure Intune policies</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">est. 4h</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Mailbox migration batch 3</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">est. 2h</span></div></div>
             </div>
             <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">3</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Cloud Migration</span></div><div class="mc-body"><span class="badge svc">EUR 34K</span><span class="mc-company">TechWave</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Mailbox migration batch 2</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="av" style="background:#16A34A">AT</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Outlook profile error</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="av" style="background:#F59E0B">CP</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">DNS cutover prep</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">May 19</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Closed</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Backup aaS</span></div><div class="mc-body"><span class="badge p4">Won</span><span class="badge svc">EUR 18K</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">License order pending</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">Waiting Vendor</span></div></div>
             </div>
-          </div>
-        </div>
-        <div class="swim">
-          <div class="swim-head"><span class="chev">&#9660;</span><h4>Partner (Dxfferent)</h4><span class="cnt">3</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#6B7280"></span><span class="col-name">Incoming</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Managed Security</span></div><div class="mc-body"><span class="badge svc">EUR 12.5K</span><span class="mc-company">Nordic IT</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">4</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Tenant provisioning</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">done</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">2</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">DR aaS</span></div><div class="mc-body"><span class="badge svc">EUR 22K</span><span class="mc-company">CloudBase</span></div></div>
-            </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Closed</span></div></div>
           </div>
         </div>
         <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-          <div class="swim-head"><span class="chev">&#9654;</span><h4>Outbound</h4><span class="cnt">2</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);"></div>
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Firewall Upgrade -- Spark IT</h4><span class="cnt">4</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);"></div>
         </div>
       </div>
     </div>
     <div class="scenario-moves">
       <h5>Demo moves</h5>
       <ol>
-        <li>Compare swimlanes: Inbound has 6 deals, Partner has 3, Outbound has 2. "Where should you invest?"</li>
-        <li>Inbound has a Won deal. Partner has nothing in Closed yet. "Partner deals are newer -- pipeline is healthy."</li>
-        <li>Drag the "DR aaS" deal from In Progress to Proposal. The stage updates in HubSpot.</li>
+        <li>Two entity types visible: purple = ticket, blue = task. "Both on one board."</li>
+        <li>Service calls linked on expanded cards -- "Your onsite visit is right on the card."</li>
+        <li>Toggle swimlane to Company -- same data, different grouping, zero effort.</li>
       </ol>
     </div>
   </div>
 
-  <!-- SCENARIO 4: Code Review Bottleneck -->
+  <!-- SCENARIO 4: Account Manager QBR Board -->
   <div class="scenario">
     <div class="scenario-header">
       <span class="scenario-num">4</span>
-      <div><div class="scenario-title">Code Review Bottleneck</div><div class="scenario-who">Tech lead, engineering manager</div></div>
+      <div><div class="scenario-title">Account Manager / QBR Board</div><div class="scenario-who">Account manager, customer success</div></div>
     </div>
-    <div class="scenario-story">Expand the Jira board to show individual statuses. Group by Assignee. Find out who has the most items stuck in Code Review.</div>
+    <div class="scenario-story">Before a quarterly business review, the AM needs all open work for one customer on screen. Swimlane by Company, filter to the customer.</div>
     <div style="padding: 0 16px;">
       <div class="board-frame" style="margin: 16px 0;">
         <div class="board-toolbar">
-          <span class="view-name">&#9645; Review Focus</span>
-          <span class="pill">Swimlane: <strong>Assignee</strong></span>
-          <span class="pill">Columns: <strong>5 (expanded)</strong></span>
+          <span class="view-name">&#9645; QBR: Byte IT</span>
+          <span class="pill">Swimlane: <strong>Company</strong></span>
           <span class="spacer"></span>
         </div>
         <div class="swim">
-          <div class="swim-head"><span class="chev">&#9660;</span><h4>Andreas T.</h4><span class="cnt">4</span></div>
-          <div class="columns" style="grid-template-columns: repeat(5, 1fr);">
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-backlog)"></span><span class="col-name">Open</span></div></div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">Actief</span><span class="col-count">1</span></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3445 API rate limit</span></div><div class="mc-body"><span class="badge" style="background:#E0E7FF;color:#3730A3">Task</span><span class="badge p4">3 SP</span></div></div>
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>Byte IT</h4><span class="cnt">8 open</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-todo)"></span><span class="col-name">To Do</span><span class="col-count">2</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Backup config review</span></div><div class="mc-body"><span class="badge p3">P3</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Annual pen test</span></div><div class="mc-body"><span class="badge p2">P2</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-review)"></span><span class="col-name">Code Review</span><span class="col-count over">2/1</span></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3398 Reserved capacity</span></div><div class="mc-body"><span class="badge" style="background:#FEE2E2;color:#991B1B">Bug</span><span class="badge p4">8 SP</span><span class="mc-meta">3 days</span></div></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3410 Filter refactor</span></div><div class="mc-body"><span class="badge" style="background:#E0E7FF;color:#3730A3">Task</span><span class="badge p4">5 SP</span><span class="mc-meta">1 day</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">2</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">M365 migration</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="av" style="background:#16A34A">AT</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-planned)"></span><span class="col-name">ON DEV</span><span class="col-count">1</span></div>
-              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">PNEX-3401 Saved views</span></div><div class="mc-body"><span class="badge" style="background:#DBEAFE;color:#1E40AF">Story</span><span class="badge p4">5 SP</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">3</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">License approval</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">Waiting Customer</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">UPS delivery</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">Waiting Vendor</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Gereed</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">12</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Firewall update</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">last week</span></div></div>
+            </div>
           </div>
-        </div>
-        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-          <div class="swim-head"><span class="chev">&#9654;</span><h4>Corp-Soft Team</h4><span class="cnt">8</span></div>
-          <div class="columns" style="grid-template-columns: repeat(5, 1fr);"></div>
         </div>
       </div>
     </div>
     <div class="scenario-moves">
       <h5>Demo moves</h5>
       <ol>
-        <li>Show Andreas has 2/1 in Code Review (over WIP). "This engineer is a bottleneck -- 3 days waiting."</li>
-        <li>Click PNEX-3398 to open the slideover. See linked issues, comments, time in status.</li>
-        <li>Toggle swimlane to Epic. "Is this a KanBan issue or a Reserved Capacity issue?"</li>
+        <li>Filter to one customer -- "This is your QBR prep screen."</li>
+        <li>Show counts: "8 open items, 3 waiting on the customer."</li>
+        <li>Save as a named view -- "QBR: Byte IT" -- one click to get back.</li>
+        <li>"This replaces the spreadsheet your AM maintains manually."</li>
       </ol>
     </div>
   </div>
 
-  <!-- SCENARIO 5: Customer Pipeline for QBR -->
+  <!-- SCENARIO 5: Department Task Board -->
   <div class="scenario">
     <div class="scenario-header">
       <span class="scenario-num">5</span>
-      <div><div class="scenario-title">Customer Pipeline for QBR</div><div class="scenario-who">Account manager, customer success</div></div>
+      <div><div class="scenario-title">Department Task Board</div><div class="scenario-who">Team lead, department manager</div></div>
     </div>
-    <div class="scenario-story">Before a quarterly business review, the AM opens the deal board grouped by Company with the Minimal preset. One screen shows every deal for every customer.</div>
+    <div class="scenario-story">A department lead wants to see all tasks for their team. Swimlane by Department (Task only), with expanded card fields showing project and task type.</div>
     <div style="padding: 0 16px;">
       <div class="board-frame" style="margin: 16px 0;">
         <div class="board-toolbar">
-          <span class="view-name">&#9645; QBR Prep</span>
-          <span class="pill">Swimlane: <strong>Company</strong></span>
-          <span class="pill">Preset: <strong>Minimal</strong></span>
+          <span class="view-name">&#9645; IT Services Tasks</span>
+          <span class="pill">Swimlane: <strong>Department</strong></span>
+          <span class="pill">Entity: <strong>Tasks only</strong></span>
           <span class="spacer"></span>
         </div>
         <div class="swim">
-          <div class="swim-head"><span class="chev">&#9660;</span><h4>TechWave Solutions</h4><span class="cnt">4</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#6B7280"></span><span class="col-name">Incoming</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Managed Security</span></div><div class="mc-body"><span class="badge svc">EUR 12.5K</span></div></div>
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>IT Services</h4><span class="cnt">6</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-todo)"></span><span class="col-name">To Do</span><span class="col-count">2</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Office Renovation cabling</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">est. 6h</span><span class="av" style="background:#DC2626">JS</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Switch config backup</span></div><div class="mc-body"><span class="badge p4">P4</span><span class="mc-meta">est. 1h</span><span class="av" style="background:#F59E0B">AS</span></div></div>
             </div>
             <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">2</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Cloud Migration P2</span></div><div class="mc-body"><span class="badge svc">EUR 34K</span></div></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">M365 E5 Upgrade</span></div><div class="mc-body"><span class="badge svc">EUR 8.4K</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Server rack relocation</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-company">Cascadia Tech</span><span class="av" style="background:#DC2626">JS</span><span class="av" style="background:#F59E0B">AS</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Closed</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Backup aaS</span></div><div class="mc-body"><span class="badge p4">Won</span><span class="badge svc">EUR 18K</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">1</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">AP mount hardware</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">Waiting Materials</span></div></div>
             </div>
-          </div>
-        </div>
-        <div class="swim">
-          <div class="swim-head"><span class="chev">&#9660;</span><h4>Nordic IT Services</h4><span class="cnt">2</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:#6B7280"></span><span class="col-name">Incoming</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Endpoint Protection</span></div><div class="mc-body"><span class="badge svc">EUR 15K</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">3</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Firewall rule update</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">done</span></div></div>
             </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">1</span></div>
-              <div class="mcard task"><div class="mc-head"><span class="mc-title">Network Redesign</span></div><div class="mc-body"><span class="badge svc">EUR 28.5K</span></div></div>
-            </div>
-            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Closed</span></div></div>
           </div>
         </div>
         <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
-          <div class="swim-head"><span class="chev">&#9654;</span><h4>DataForce BV</h4><span class="cnt">2</span></div>
-          <div class="columns" style="grid-template-columns: repeat(3, 1fr);"></div>
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Engineering</h4><span class="cnt">4</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);"></div>
         </div>
       </div>
     </div>
     <div class="scenario-moves">
       <h5>Demo moves</h5>
       <ol>
-        <li>Show TechWave: EUR 72.9K total pipeline. 1 already won. "This customer is expanding."</li>
-        <li>Save as named view: "QBR: TechWave" -- one click to get back during the call.</li>
-        <li>Switch preset to Pipeline Manager. Now close_date and next_action appear on every card.</li>
-        <li>"Cross-swimlane drag is blocked here. You can't accidentally move a deal between companies."</li>
+        <li>Department swimlane is Task-only -- "Each department sees their own work."</li>
+        <li>Expand a card: project name, task type, department are visible. "Context without opening the task."</li>
+        <li>Toggle "Show Service Calls" in Card Layout. Linked service calls appear on expanded cards.</li>
+        <li>Toggle swimlane to Assignee -- same tasks, now grouped by who's doing them.</li>
       </ol>
     </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════ -->
-<!-- FUTURE ADAPTERS                               -->
+<!-- COMPETITIVE TABLE                              -->
 <!-- ══════════════════════════════════════════════ -->
 <div class="wrap section">
-  <h2 class="section-line">Future Adapters</h2>
-  <p class="sub">The adapter pattern makes adding new entity types straightforward. One TypeScript file per adapter.</p>
-
+  <h2 class="section-line">Competitive Quick Reference</h2>
   <table class="status-table">
-    <tr><th>Planned Adapter</th><th>Entity Type</th><th>Source</th><th>Notes</th></tr>
-    <tr><td><strong>Tasks</strong></td><td>task</td><td>Autotask / internal</td><td>Project tasks on a kanban board</td></tr>
-    <tr><td><strong>Projects</strong></td><td>project</td><td>Autotask / internal</td><td>Project phases as columns</td></tr>
-    <tr><td><strong>Compliance</strong></td><td>compliance</td><td>Internal</td><td>Audit items through review stages</td></tr>
+    <tr><th>Feature</th><th>Autotask Native</th><th>TopLeft ($36/user)</th><th>Proxuma (included)</th></tr>
+    <tr><td>Multi-status columns</td><td class="lose">No (1:1)</td><td class="win">Yes</td><td class="win">Yes (drag statuses into columns)</td></tr>
+    <tr><td>Swimlanes</td><td class="lose">None</td><td class="win">7 + UDFs</td><td class="win">9 options (3 entity-restricted)</td></tr>
+    <tr><td>Tasks + Tickets</td><td class="lose">Tickets only</td><td class="neutral">Tickets + Tasks</td><td class="win">Tickets + Tasks + linked Service Calls</td></tr>
+    <tr><td>Card field config</td><td class="lose">None</td><td class="neutral">~10 fields</td><td class="win">10+ fields, 4 fixed positions + expandable</td></tr>
+    <tr><td>WIP limits</td><td class="lose">No</td><td class="lose">No</td><td class="win">Yes (per column)</td></tr>
+    <tr><td>Saved views</td><td class="lose">No</td><td class="win">Yes</td><td class="win">Yes (CRUD + duplicate + default)</td></tr>
+    <tr><td>Column colors</td><td class="lose">Fixed</td><td class="neutral">Limited</td><td class="win">10 color options</td></tr>
+    <tr><td>Pricing</td><td>In PSA</td><td>$36/user + onboarding</td><td class="win">Included in license</td></tr>
   </table>
-
-  <div class="callout">
-    <div class="label">Architecture note</div>
-    The VKanBan components are fully entity-agnostic. Adding a new adapter requires: one adapter file defining columnOptions, swimlaneOptions, cardFieldDefinitions, and a fetchCards/moveCard implementation. No changes to shared components.
-  </div>
 </div>
 
 <div class="wrap">
   <div class="page-foot">
-    <span>Proxuma Kanban -- Board Setup &amp; Architecture (from NeXum-co/nexum-platform specs)</span>
+    <span>Proxuma Kanban -- Board Setup &amp; Demo Playbook (PNEX-3183)</span>
     <span>May 2026</span>
   </div>
 </div>
 
 <script type="application/json" id="claude-data">
 {
-  "title": "Proxuma Kanban Board Setup & Architecture (from actual codebase)",
+  "title": "Proxuma Kanban Board Setup & Demo Scenarios (from product UI)",
   "date": "2026-05-13",
-  "summary": "Rewritten from actual NeXum-co/nexum-platform specs. Generic adapter-based KanBan system with two live adapters: Deal (CRM pipeline, 7 stages, HubSpot write-through) and Jira (development backlog, 18+ statuses, read-only). Visual boards and demo scenarios updated to match reality.",
+  "summary": "Verified from actual Board Settings UI screenshots. 4 default columns (To Do, In Progress, Waiting, Done), 9 swimlane options (Priority, Assignee, Project, Company, Event type, Customer, Queue, Department), configurable card layout with Task/Ticket separation and 10+ fields. 5 demo scenarios for MSP sales demos.",
   "sections": [
-    { "heading": "Architecture", "items": [
-      { "title": "Adapter pattern", "detail": "Entity-agnostic VKanBan components + entity-specific adapters (dealAdapter.ts, jiraAdapter.ts). Backend: Laravel 11+ / PostgreSQL 16 / forge.saved_views JSONB. Frontend: Nuxt 4 + Nuxt UI v3 + native HTML5 DnD.", "meta": {} }
+    { "heading": "Columns", "items": [
+      { "title": "Default 4 columns", "detail": "To Do (light blue), In Progress (amber), Waiting (purple), Done (teal)", "meta": {} },
+      { "title": "Waiting statuses", "detail": "Waiting Approval, Waiting on predecessors, Waiting Materials, Waiting Vendor, Waiting Customer", "meta": {} },
+      { "title": "Unmapped statuses", "detail": "Pending Completion, On Hold, Customer Responded, Autoresolved, Acknowledged, Planned, Schedule, TEST", "meta": {} }
     ]},
-    { "heading": "Deal Adapter", "items": [
-      { "title": "Pipeline stages", "detail": "incoming (gray), meeting_scheduled (blue), qualified (indigo), proposal (violet), negotiation (amber), won (green), lost (red)", "meta": {} },
-      { "title": "Default columns", "detail": "3 groups: Incoming / In Progress (meeting+qualified+proposal+negotiation) / Closed (won+lost)", "meta": {} },
-      { "title": "Swimlanes", "detail": "none, company (cross-drag blocked), deal_source, product_tier, msp_size, owner", "meta": {} },
-      { "title": "Card fields", "detail": "amount, close_date, company_name, pipeline, deal_source, next_action, trial_active, trial_end_date, includes_dxfferent", "meta": {} },
-      { "title": "Card presets", "detail": "Pipeline Manager (amount+company+close_date+next_action), Minimal (amount+company)", "meta": {} },
-      { "title": "Drag-drop", "detail": "Enabled. Writes through to HubSpot API. Canonical data stays read-only.", "meta": {} }
+    { "heading": "Swimlanes", "items": [
+      { "title": "9 options", "detail": "No Swimlanes, Priority (P1-P4 + Standard + Unassigned), Assignee, Project, Company, Event type, Customer (Ticket only), Queue (Ticket only), Department (Task only)", "meta": {} }
     ]},
-    { "heading": "Jira Adapter", "items": [
-      { "title": "Statuses", "detail": "Dynamically loaded from DB. Categories: new (Open, Goedgekeurd), indeterminate (Actief, Code Review, ON DEV, ON PRE-PROD, PRE-PROD FAIL), done (Gereed, Afgewezen)", "meta": {} },
-      { "title": "Default columns", "detail": "3 categories (To Do / In Progress / Done). Users can expand to individual statuses.", "meta": {} },
-      { "title": "Swimlanes", "detail": "none, sprint_name, epic_key, assignee_name, issue_type. All cross-swimlane blocked.", "meta": {} },
-      { "title": "Card fields", "detail": "type icon, key (PNEX-xxx), summary, story points, assignee, epic badge, time in status", "meta": {} },
-      { "title": "Read-only", "detail": "No drag-drop. No moveCard. Jira is source of truth. Card click opens IssueDetailSlideover.", "meta": {} }
+    { "heading": "Card Layout", "items": [
+      { "title": "Fixed positions", "detail": "Top left (End date), Top right (Primary+Secondary resources), Bottom left (Priority), Bottom right (Company)", "meta": {} },
+      { "title": "Expanded fields", "detail": "3 of 10+ available: Project, Task type, Department. Plus Show Service Calls toggle.", "meta": {} },
+      { "title": "Entity types", "detail": "Separate layout config for Task (blue) and Ticket (purple)", "meta": {} }
     ]},
     { "heading": "Demo Scenarios", "items": [
-      { "title": "1. Sales Pipeline Review", "detail": "Deal adapter, Owner swimlane, 7-column expanded", "meta": {} },
-      { "title": "2. Sprint Planning Board", "detail": "Jira adapter, Sprint swimlane, 3-column default", "meta": {} },
-      { "title": "3. Deal Source Analysis", "detail": "Deal adapter, Deal Source swimlane, 3-column default", "meta": {} },
-      { "title": "4. Code Review Bottleneck", "detail": "Jira adapter, Assignee swimlane, 5-column expanded", "meta": {} },
-      { "title": "5. Customer Pipeline QBR", "detail": "Deal adapter, Company swimlane, Minimal preset", "meta": {} }
+      { "title": "1. Dispatch Morning", "detail": "4-col, Priority swimlanes, WIP limits", "meta": {} },
+      { "title": "2. L2 Escalation", "detail": "4-col, Assignee swimlanes, Queue filter", "meta": {} },
+      { "title": "3. Project Implementation", "detail": "4-col, Project swimlanes, Tasks+Tickets", "meta": {} },
+      { "title": "4. QBR Account Board", "detail": "4-col, Company swimlanes, saved views", "meta": {} },
+      { "title": "5. Department Task Board", "detail": "4-col, Department swimlanes (Task only), expanded fields", "meta": {} }
     ]}
   ],
-  "source": "NeXum-co/nexum-platform (docs/superpowers/specs/2026-04-13-forge-crm-dashboards-kanban-design.md, docs/superpowers/plans/2026-04-13-forge-kanban-module-buildplan.md, docs/superpowers/specs/2026-04-15-development-module-redesign.md, new-features/forge-development-ux/E05-kanban-enhancements/)",
-  "corrections_from_v1": "Previous version was based on guessed Autotask data (14 statuses, tickets/tasks/service calls, 5-column default). Real system is adapter-based with Deal (CRM) and Jira (dev) adapters. No Autotask entity types in the current implementation.",
-  "next_steps": "Set up these views in the Proxuma product. Implement future adapters (tasks, projects, compliance) as the platform grows.",
-  "session_state": { "phase": "complete", "phase_status": "complete", "progress_pct": 100, "work_done_this_session": ["Found actual kanban code in NeXum-co/nexum-platform", "Read design specs, build plans, and adapter definitions", "Rewrote entire doc to match reality"], "blockers_hit": null, "uncommitted_changes": "2026-05-13-kanban-board-setup.html rewritten", "next_action_required": "user-decision" },
+  "source": "Product UI screenshots (Board Settings panel) + PNEX-3183 references in NeXum-co/nexum-platform",
+  "corrections_from_v2": "v2 was based on Forge CRM/Jira adapter specs (a separate, newer system). v3 is from the actual product UI: Autotask-based kanban with 9 swimlane options, 4 default columns, configurable card layout for Task/Ticket.",
+  "next_steps": "Set up 5 demo views as saved boards. Implement the website from Claude Design handoff at ~/Downloads/Kanban website try-handoff (2).zip.",
+  "session_state": { "phase": "complete", "phase_status": "complete", "progress_pct": 100, "work_done_this_session": ["Found Forge specs (wrong system)", "User corrected with product UI screenshots", "Rewrote doc from actual Board Settings"], "blockers_hit": "GitHub code search cannot index M4rckC/proxuma-frontend (private)", "uncommitted_changes": "2026-05-13-kanban-board-setup.html rewritten v3", "next_action_required": "user-decision" },
   "artifact_pointers": { "memory_files": [], "git_branch": "main", "local_repo_path": "~/ClaudeCode/claude-output/", "temp_files": [], "github_links": [{ "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-kanban-board-setup.html", "relevance": "this document" }], "wordpress_ids": [], "commit_sha": null },
   "external_state": { "wp_cache_flushed": null, "drafts_pending": [], "screenshots": [], "other": "" },
   "project_context": { "protected_resources": [], "conventions_applied": ["claudezakelijk style system", "humanizer anti-slop"] },
   "decision_log": [
-    { "decision": "Removed all Autotask references", "reason": "Real implementation uses Deal (HubSpot) and Jira adapters, not Autotask" },
-    { "decision": "Updated entity types from tickets/tasks/service calls to deals/jira issues", "reason": "Matches actual adapter implementations" },
-    { "decision": "Changed competitive table to adapter comparison", "reason": "The product isn't competing with TopLeft anymore in this context -- it's a CRM+Dev tool, not an MSP ticket board" }
+    { "decision": "Reverted to Autotask-based kanban focus", "reason": "User screenshots showed the actual product is the Nova KanBan (PNEX-3183) with Autotask tickets/tasks, not the Forge CRM/Jira adapter system" },
+    { "decision": "9 swimlane options from product UI", "reason": "Screenshots showed: No Swimlanes, Priority, Assignee, Project, Company, Event type, Customer (Ticket only), Queue (Ticket only), Department (Task only)" },
+    { "decision": "4 default columns from Columns tab", "reason": "To Do, In Progress, Waiting, Done with configurable status mapping, WIP limits, and 10 color options" },
+    { "decision": "Card layout from Card Layout tab", "reason": "4 fixed positions (end date, resources, priority, company), 10+ expandable fields (3 default: project, task type, department), Show Service Calls toggle, separate Task/Ticket config" }
   ]
 }
 </script>
