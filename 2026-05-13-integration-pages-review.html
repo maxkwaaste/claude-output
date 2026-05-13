@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integration Pages Review — What to Fix</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-high { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-medium { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-low { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 13, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-integration-pages-review.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Product & Marketing Review</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 13, 2026<br>Page Audit<br>Power BI Integrations
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">INTEGRATION PAGES REVIEW</div>
+  <h1>The pages don't explain the product</h1>
+  <p class="subtitle">Someone Googling "Autotask Power BI" lands on a page that describes a completely different product than what Proxuma actually sells. The integration pages read like a traditional BI SaaS (share API keys, get dashboards), while the actual product is: Proxuma builds the data model, you bring your own AI, and you generate reports through MCP. That disconnect is the core problem.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">9</div>
+      <div class="stat-label">Pages sitting in draft</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Pages mention AI/MCP</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">"Coming soon" but ready</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Steps shown (of 5 real)</div>
+    </div>
+  </div>
+
+  <h2>The big problem: product model mismatch</h2>
+
+  <p>The /powerbi/insights/ page explains the product correctly: connect tools, Proxuma builds the semantic model, publish to Power BI, AI connects via MCP, reports in minutes. Five clear steps. The visitor understands they're buying a data model + AI bridge.</p>
+
+  <p>The integration pages tell a different story. "We pull tickets into a unified Power BI model" and "Connected in minutes" with three steps: create API user, share credentials, data starts flowing. This sounds like BrightGauge or MSPbots. Where's the Power BI license? Where's the AI? Where's the MCP connection?</p>
+
+  <div class="callout">
+    <span class="callout-label">The visitor's confusion</span>
+    A person Googling "Autotask Power BI" clicks through, reads the page, and thinks: "OK so I share my API keys and Proxuma gives me 25 reports. Simple." Then they hit the pricing page or talk to sales and discover they need Power BI Pro, need to connect their own AI, and the reports are generated on demand through MCP. That's a different product than what the page promised.
+  </div>
+
+  <h2>Issue by issue</h2>
+
+  <div class="card">
+    <div class="card-title">1. "Getting Started" skips the actual product</div>
+    <div class="card-buyer">HIGH IMPACT</div>
+    <div class="card-desc">Three steps shown: create API user, share credentials, data flows. The real flow has five steps (the insights page gets this right). The integration pages should mirror that: connect tools, we build your model, publish to Power BI, connect AI via MCP, generate reports. Hiding the AI and Power BI from the setup makes the product seem simpler than it is, which creates friction at sales time.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. "25+ reports powered by Autotask" is misleading</div>
+    <div class="card-buyer">HIGH IMPACT</div>
+    <div class="card-desc">The section implies 25 pre-built reports ship with the product. In reality these are examples of what the AI can generate through MCP. The framing should be: "Here's what your AI can create in under two minutes." The small intro text says "generated using AI" but the heading and card layout suggest a report library, not AI-generated samples.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. No mention of "Bring Your Own AI" anywhere</div>
+    <div class="card-buyer">HIGH IMPACT</div>
+    <div class="card-desc">The insights page has a clear BYOAI section. The integration pages don't mention Claude, ChatGPT, MCP, or AI at all (except a passing "AI analysis" in one sentence). This is the product's main differentiator. A visitor should understand within 10 seconds: your data, your Power BI, your AI, our model in between.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. Power BI is invisible as a requirement</div>
+    <div class="card-buyer">MEDIUM IMPACT</div>
+    <div class="card-desc">Someone Googling "Autotask Power BI" probably already has or wants Power BI. But the page never mentions that they need a Power BI Pro/Premium license, that data lands in their workspace, or what the Power BI side looks like. The page title says "Autotask PSA + Power BI" but the body treats Power BI as a background detail, not as the platform the customer already uses.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5. Cross-source section is buried and undersold</div>
+    <div class="card-buyer">MEDIUM IMPACT</div>
+    <div class="card-desc">"Better with friends" is cute but doesn't convey the actual value: combining Autotask with RMM and M365 is the reason to use Proxuma instead of just connecting Autotask to Power BI directly. These cross-source insights (ghost device detection, true profitability, churn prediction) are the competitive moat. They should be higher on the page, not below the report list.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">6. Nine draft pages sitting unpublished</div>
+    <div class="card-buyer">MEDIUM IMPACT</div>
+    <div class="card-desc">Datto RMM, Microsoft 365, HubSpot, SmileBack, and five others all have complete pages but are still draft+noindex. Meanwhile the index page says "Coming soon" for N-able Cove, Inforcer, HiBob. That's search traffic left on the table. Every MSP Googling "Datto RMM Power BI" or "HubSpot Power BI reports" could be landing on your page.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">7. Report counts are stale on the index</div>
+    <div class="card-buyer">LOW IMPACT</div>
+    <div class="card-desc">The index page shows IT Glue at 1 report, but 6 exist now. HubSpot shows 1, but 29 exist. The memory file has the correct counts. When publishing the draft pages, sync the index report counts too.</div>
+  </div>
+
+  <h2>What a Google visitor actually needs to see</h2>
+
+  <p>Someone Googling "Autotask Power BI" is an MSP owner or ops manager who already knows Power BI (or wants it) and wants to get their PSA data into it. They're comparing options: do it themselves with Power Automate, use BrightGauge, use MSPbots, or find something else.</p>
+
+  <p>The page should answer five questions within 30 seconds of scrolling:</p>
+
+  <ol>
+    <li><strong>What does Proxuma do that I can't do myself?</strong> You get a pre-built semantic model with 600+ measures that cross-references Autotask with your other tools. Building this yourself would take months.</li>
+    <li><strong>Do I need Power BI?</strong> Yes, Power BI Pro or Premium. We publish to your workspace. You own the data.</li>
+    <li><strong>What's the AI part?</strong> You connect Claude, ChatGPT, or any MCP-compatible AI to our Power BI model. Ask questions in plain English, get reports in minutes.</li>
+    <li><strong>What kind of reports can I get?</strong> Here are 25 examples the AI generated. Each one took under two minutes. Your AI generates the same from your live data.</li>
+    <li><strong>How do I start?</strong> Connect your API, we build your model, you're live in 24 hours.</li>
+  </ol>
+
+  <p>The current page answers #4 and #5 reasonably well (though #5 is oversimplified). It completely skips #1, #2, and #3.</p>
+
+  <h2>Suggested page structure</h2>
+
+  <table class="matrix">
+    <tr><th>Section</th><th>Current</th><th>Proposed</th></tr>
+    <tr><td><strong>Hero</strong></td><td>"Autotask PSA + Power BI" with data stats</td><td>Same title, but add "Bring your AI. We bring the data model." as subline. Keep the stats.</td></tr>
+    <tr><td><strong>How it works</strong></td><td>3 steps (API user, share creds, data flows)</td><td>5 steps matching /insights/: connect tools, model built, publish to Power BI, AI connects via MCP, reports in minutes</td></tr>
+    <tr><td><strong>Cross-source</strong></td><td>Below reports, "Better with friends"</td><td>Move up, right after how-it-works. Rename to "Why not just connect Power BI yourself?" Frame as the answer to the DIY question.</td></tr>
+    <tr><td><strong>What we connect</strong></td><td>9 data category cards</td><td>Keep as-is. This is good reference content that helps with SEO.</td></tr>
+    <tr><td><strong>Sample reports</strong></td><td>"25+ reports powered by Autotask"</td><td>Reframe: "What your AI can generate." Add "Each report below was created by AI in under 2 minutes, using your live Autotask data through MCP."</td></tr>
+    <tr><td><strong>Requirements</strong></td><td>Not present</td><td>Add a small section: Power BI Pro/Premium required. Any MCP-compatible AI (Claude, ChatGPT, Copilot). Read-only Autotask API access.</td></tr>
+    <tr><td><strong>CTA</strong></td><td>"Ready to unlock your Autotask data?"</td><td>Keep, but add "Autotask is included in every plan. No per-connector fees."</td></tr>
+  </table>
+
+  <div class="positioning">
+    <h2>Bottom line</h2>
+    <p>The integration pages are well-designed and the content (data categories, cross-source cards, report lists) is strong. The problem is framing. They present Proxuma as a dashboard service when it's actually a data model + AI bridge. Fix the messaging and publish the 9 draft pages. That's 10 SEO-ready landing pages for every "[tool name] Power BI" search an MSP might run.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Integration Pages Review &middot; Page 1 of 1</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Integration Pages Review — What to Fix",
+  "date": "2026-05-13",
+  "summary": "Audit of 10 Power BI integration pages. Core finding: pages describe a traditional BI SaaS when the actual product is a data model + AI bridge (BYOAI via MCP). Nine pages sitting in draft. Proposes restructuring the page sections to match the 5-step flow from /insights/ and reframing sample reports as AI-generated examples.",
+  "sections": [
+    {
+      "heading": "Product model mismatch",
+      "items": [
+        { "title": "Integration pages hide the AI/MCP story", "detail": "Zero mentions of BYOAI, Claude, ChatGPT, or MCP on any integration page. The insights page explains it correctly.", "meta": { "severity": "high" } },
+        { "title": "Getting Started shows 3 steps instead of 5", "detail": "Skips Power BI publish and AI/MCP connection. Makes product seem like a simple dashboard SaaS.", "meta": { "severity": "high" } },
+        { "title": "Report section implies pre-built library", "detail": "Heading says '25+ reports powered by Autotask' without making clear these are AI-generated on demand.", "meta": { "severity": "high" } }
+      ]
+    },
+    {
+      "heading": "Structural issues",
+      "items": [
+        { "title": "Cross-source section buried", "detail": "The main competitive differentiator sits below the report list. Should be higher.", "meta": { "severity": "medium" } },
+        { "title": "Power BI requirement invisible", "detail": "No mention of Power BI Pro/Premium requirement or workspace ownership.", "meta": { "severity": "medium" } },
+        { "title": "9 draft pages unpublished", "detail": "Datto RMM, M365, HubSpot, SmileBack, Datto Backup, IT Glue, N-able Cove, Inforcer, HiBob all ready.", "meta": { "severity": "medium" } },
+        { "title": "Report counts stale on index", "detail": "IT Glue shows 1 (has 6), HubSpot shows 1 (has 29).", "meta": { "severity": "low" } }
+      ]
+    },
+    {
+      "heading": "Proposed page structure",
+      "items": [
+        { "title": "Hero with AI subline", "detail": "Keep 'Autotask PSA + Power BI' title, add 'Bring your AI. We bring the data model.'", "meta": {} },
+        { "title": "5-step how it works", "detail": "Match /insights/: connect, model built, publish to PBI, AI via MCP, reports in minutes.", "meta": {} },
+        { "title": "Cross-source moved up", "detail": "Reframe as 'Why not connect Power BI yourself?' Answer: 600+ measures, cross-source joins.", "meta": {} },
+        { "title": "Reports reframed", "detail": "'What your AI can generate' with per-report generation time context.", "meta": {} },
+        { "title": "Requirements section added", "detail": "PBI Pro/Premium, any MCP AI, read-only API access.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Decide which changes to implement. Start with the Autotask page (3652) as template, then propagate to all 9 draft pages before publishing them.",
+  "session_state": {
+    "phase": "review complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Fetched and analyzed live Autotask page (3652)",
+      "Fetched and analyzed integrations index (3650)",
+      "Fetched and analyzed /powerbi/insights/ for product model comparison",
+      "Identified 7 issues across messaging, structure, and publishing"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [
+      { "name": "integration-pages.md", "version_date": "2026-05-13", "verified_live": true }
+    ],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-integration-pages-review.html", "relevance": "this review doc" }
+    ],
+    "wordpress_ids": [3650, 3652, 6973, 6974, 6975, 6976, 6977, 6978, 6979, 6980, 6981],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": []
+}
+</script>
+</body>
+</html>
