@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integration Pages — Two-Phase Prompt</title>
+<style>
+:root {
+  --stone-50: #fafaf9; --stone-100: #f5f5f4; --stone-200: #e7e5e4;
+  --stone-300: #d6d3d1; --stone-400: #a8a29e; --stone-500: #78716c;
+  --stone-600: #57534e; --stone-700: #44403c; --stone-800: #292524;
+  --stone-900: #1c1917;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  background: var(--stone-100); color: var(--stone-800);
+  line-height: 1.6; padding: 40px 24px;
+}
+.container { max-width: 900px; margin: 0 auto; }
+h1 { font-size: 1.4rem; margin-bottom: 8px; color: var(--stone-900); }
+.subtitle { color: var(--stone-500); font-size: 0.85rem; margin-bottom: 32px; }
+.phase { background: #fff; border: 1px solid var(--stone-200); border-radius: 8px; padding: 28px 32px; margin-bottom: 24px; }
+.phase-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone-400); margin-bottom: 8px; }
+.phase h2 { font-size: 1.1rem; margin-bottom: 16px; color: var(--stone-900); }
+pre { background: var(--stone-900); color: #e7e5e4; padding: 20px 24px; border-radius: 6px; overflow-x: auto; font-size: 0.82rem; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; margin: 16px 0; }
+code { font-family: inherit; }
+.note { background: var(--stone-50); border-left: 3px solid var(--stone-400); padding: 12px 16px; font-size: 0.82rem; color: var(--stone-600); margin: 16px 0; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.82rem; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--stone-200); }
+th { font-weight: 700; color: var(--stone-600); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.copy-btn { position: fixed; bottom: 24px; right: 24px; background: var(--stone-800); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 0.85rem; z-index: 100; }
+.copy-btn:hover { background: var(--stone-700); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Integration Pages: Two-Phase Handoff</h1>
+<p class="subtitle">Create 11 missing integration detail pages for proxuma.io/powerbi/integrations/ &mdash; 2026-05-13</p>
+
+<!-- ======================== PHASE 1 ======================== -->
+<div class="phase" id="phase1">
+<div class="phase-label">Phase 1 &mdash; Research Claude</div>
+<h2>Map reports to integrations</h2>
+
+<pre id="prompt1">Context from prior session: The page /powerbi/integrations/autotask/ exists and is correct (WP page 3652, child of 3650). 11 other integration pages are 404s. We need to create them. Before writing, we need to know which reports belong to which integration.
+
+## Your task
+
+Map every existing EN report page to its primary data source integration(s). There are ~200 report pages, all children of WP page 3299 (the EN reports gallery).
+
+## How to research
+
+SSH into the server and work from there:
+```
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu
+cd ~/www/proxuma.io/public_html
+```
+
+Each report page's HTML content contains a "Built from:" line or data source badge that names the integration. You can extract this with wp-cli + grep:
+
+```bash
+# Get all EN report page IDs
+wp post list --post_type=page --post_parent=3299 --fields=ID,post_name --posts_per_page=300 --format=csv > /tmp/report-ids.csv
+
+# For each report, extract the data source from the HTML content
+while IFS=, read -r id slug; do
+  [[ "$id" == "ID" ]] && continue
+  source=$(wp post get "$id" --field=content 2>/dev/null | grep -oP '(?<=Built from: )[^<]+' | head -1)
+  [[ -z "$source" ]] && source=$(wp post get "$id" --field=content 2>/dev/null | grep -oP 'data-source="[^"]*"' | head -1)
+  echo "$slug|$source"
+done < /tmp/report-ids.csv > /tmp/report-sources.csv
+```
+
+If that pattern doesn't match, look at a few report pages manually to find the actual pattern:
+```bash
+wp post get 6790 --field=content | grep -i 'built\|source\|integration\|autotask\|datto\|microsoft\|hubspot\|smileback\|it.glue\|n-able\|hibob\|unifi\|inforcer\|lighthouse' | head -20
+```
+
+## The 12 integrations to map to
+
+| Slug | Integration name | Notes |
+|------|-----------------|-------|
+| autotask | Autotask PSA | Already has a page, 20 reports linked |
+| datto-rmm | Datto RMM | ~8 reports expected |
+| microsoft-365 | Microsoft 365 | Includes M365 Lighthouse, M365 licenses |
+| datto-backup | Datto Backup | Backup success/failure reports |
+| it-glue | IT Glue | Documentation-related reports |
+| hubspot | HubSpot CRM | Sales pipeline, deals, CRM reports |
+| smileback | SmileBack | CSAT/satisfaction reports |
+| azure-lighthouse | Azure Lighthouse | May overlap with M365 |
+| n-able-cove | N-able Cove | Cove backup reports |
+| inforcer | Inforcer | Security policy reports |
+| hibob | HiBob | HR/headcount reports |
+| unifi | UniFi | Network reports |
+
+Note: some reports are "Cross-Source" and belong to multiple integrations. Map them to ALL relevant integrations. Some report titles start with the integration name (e.g., "Datto RMM Device Uptime Report", "HiBob HR Headcount Trend"). Use title as a hint but verify from actual page content.
+
+Also note: there may be "N-able RMM" reports in the list. Check whether these should map to "Datto RMM" or a separate integration. The integrations index page does NOT list "N-able RMM" as a separate integration.
+
+## Output format
+
+Save the mapping as a JSON file at /tmp/integration-report-mapping.json:
+
+```json
+{
+  "autotask": {
+    "name": "Autotask PSA",
+    "reports": [
+      {"slug": "zombie-tickets", "title": "Zombie Tickets Analysis", "wp_id": 1234},
+      ...
+    ]
+  },
+  "datto-rmm": {
+    "name": "Datto RMM",
+    "reports": [...]
+  },
+  ...
+}
+```
+
+Also save a summary showing:
+- How many reports per integration
+- Reports that don't clearly belong to any integration
+- Reports that belong to multiple integrations (cross-source)
+
+Save the summary to /tmp/integration-mapping-summary.md.
+
+## Important
+
+- Do NOT create any pages. Research only.
+- Include the WP post ID for each report (needed by the write phase).
+- For cross-source reports, list them under EVERY integration they reference.
+- If a report genuinely doesn't fit any of the 12 integrations, put it under "autotask" (the PSA is the catch-all for general MSP operational reports).</pre>
+</div>
+
+<!-- ======================== PHASE 2 ======================== -->
+<div class="phase" id="phase2">
+<div class="phase-label">Phase 2 &mdash; Write Claude</div>
+<h2>Create 11 integration pages</h2>
+
+<pre id="prompt2">Context from prior session: We audited /powerbi/integrations/ and found that only the Autotask page (WP 3652) exists. The other 11 integration pages are 404s. A research phase mapped every report to its integration. The mapping is at /tmp/integration-report-mapping.json and a summary at /tmp/integration-mapping-summary.md.
+
+## Your task
+
+Create 11 new WordPress pages for the missing integrations. Each page is a child of WP page 3650 (the integrations index). Use the Autotask page (WP 3652) as the HTML/CSS template.
+
+## Template reference
+
+The full Autotask page HTML is at:
+~/ClaudeCode/claude-output/autotask-integration-template.html
+
+To get the live version:
+```bash
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu \
+  "cd ~/www/proxuma.io/public_html && wp post get 3652 --field=content"
+```
+
+## Template structure (6 sections to adapt per integration)
+
+1. **Series nav** — breadcrumb: Power BI / Integrations / [Integration Name]
+2. **Page hero** — logo combo (Power BI + integration logo), badge text, h1, subtitle, stats (report count, entities synced, sync frequency, API access type)
+3. **"What we connect" section** — data entities pulled from this integration. Grid of data-point cards with icon, title, description. THIS IS DIFFERENT PER INTEGRATION.
+4. **"Cross-source intelligence" section** — what becomes possible when this integration is combined with others. 4-6 combo cards with badge pills showing which integrations combine.
+5. **"Sample reports" section** — links to actual reports. Use the mapping from /tmp/integration-report-mapping.json. Each report is an `a.report-link` with icon, title, and one-line description.
+6. **"Getting started" section** — 3 steps + CTA. Generic across all pages (connect, model, report).
+
+## Integration details to write
+
+| Slug | Name | Badge | Logo source | Category |
+|------|------|-------|-------------|----------|
+| datto-rmm | Datto RMM | RMM INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/ (check for datto-rmm logo) | Endpoint management |
+| microsoft-365 | Microsoft 365 | M365 INTEGRATION | Use M365 logo | Cloud & licenses |
+| datto-backup | Datto Backup | BACKUP INTEGRATION | Datto backup logo | Backup & DR |
+| it-glue | IT Glue | DOCUMENTATION INTEGRATION | IT Glue logo | Documentation |
+| hubspot | HubSpot CRM | CRM INTEGRATION | HubSpot logo | Sales & CRM |
+| smileback | SmileBack | CSAT INTEGRATION | SmileBack logo | Customer satisfaction |
+| azure-lighthouse | Azure Lighthouse | AZURE INTEGRATION | Azure logo | Cloud management |
+| n-able-cove | N-able Cove | BACKUP INTEGRATION | N-able logo | Backup & DR |
+| inforcer | Inforcer | SECURITY INTEGRATION | Inforcer logo | Security & compliance |
+| hibob | HiBob | HR INTEGRATION | HiBob logo | HR & people |
+| unifi | UniFi | NETWORK INTEGRATION | UniFi logo | Network infrastructure |
+
+## Logo discovery
+
+Check what logos already exist on the server:
+```bash
+ssh ... "ls ~/www/proxuma.io/public_html/wp-content/uploads/2025/12/*.png"
+```
+The Autotask page uses: https://staging2.proxuma.io/wp-content/uploads/2025/12/4.png
+Find the right logo file for each integration, or use an SVG icon placeholder if no logo exists.
+
+## Content guidelines for each section
+
+### "What we connect" — data entities
+Write 6-9 data entity cards per integration. These must be REAL entities from that platform's API/data model:
+- Datto RMM: devices, alerts, monitors, patches, audit logs, components, sites
+- Microsoft 365: tenants, users, licenses, mailboxes, security scores, service health, usage reports
+- Datto Backup: backup jobs, devices, agents, storage, alerts, restore points
+- IT Glue: documents, configurations, passwords, flexible assets, contacts
+- HubSpot: contacts, companies, deals, pipeline stages, activities, engagements
+- SmileBack: CSAT scores, NPS responses, survey completions, feedback trends
+- Azure Lighthouse: tenants, subscriptions, resource groups, delegated access, policy compliance
+- N-able Cove: backup jobs, devices, storage, schedules, error logs, recovery points
+- Inforcer: security policies, compliance status, conditional access, MFA status
+- HiBob: employees, departments, managers, org chart, headcount, change logs
+- UniFi: access points, switches, clients, networks, site health, traffic data
+
+### "Cross-source intelligence" — combo cards
+Write 4-6 cards showing what becomes possible when THIS integration combines with others. Example for Datto RMM:
+- PSA + RMM = Ghost device detection
+- RMM + Backup = Device protection coverage
+- RMM + M365 = Security risk scoring
+Each card gets combo-badge pills (cb-psa, cb-rmm, cb-backup, cb-m365, cb-itglue, cb-smileback, cb-hubspot).
+
+### "Sample reports" section
+Pull the report list from /tmp/integration-report-mapping.json. For each report, create an a.report-link element:
+```html
+<a href="/powerbi/insights/[slug]/" class="report-link">
+    <div class="rl-icon"><svg>...</svg></div>
+    <div class="rl-content">
+        <div class="rl-title">[Report Title]</div>
+        <div class="rl-desc">[One-line description]</div>
+    </div>
+    <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+</a>
+```
+Use varied SVG icons (wrench for tickets, clock for time, dollar for revenue, shield for security, etc. — copy from the Autotask template).
+
+If an integration has fewer than 3 reports, that's fine. For "coming soon" integrations with 0 reports: skip the reports section entirely and add a "Reports coming soon" note.
+
+### Hero stats
+Adapt per integration:
+- Report count: actual count from the mapping
+- Entities synced: count of data entity cards you wrote
+- Sync frequency: "Live" for API integrations, "Daily" for batch integrations
+- API access: "Read-only" for all
+
+## Publishing
+
+Create each page as a DRAFT with noindex meta. Use wp-cli:
+
+```bash
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu
+cd ~/www/proxuma.io/public_html
+
+# Create the page (draft, noindex)
+wp post create --post_type=page \
+  --post_title="[Integration Name] Integration" \
+  --post_name="[slug]" \
+  --post_parent=3650 \
+  --post_status=draft \
+  --post_content="$(cat /tmp/integration-[slug].html)"
+
+# Get the new page ID and add noindex
+wp post meta add [NEW_ID] _yoast_wpseo_meta-robots-noindex 1
+```
+
+Generate each page's HTML to a temp file first (/tmp/integration-[slug].html), then create via wp-cli.
+
+## CSS
+
+The CSS is identical across all pages (it's scoped to .prx-integration). COPY the full style block from the Autotask template verbatim. Do not modify or "improve" it.
+
+## Quality checks after creation
+
+After creating all 11 pages:
+1. List all children of page 3650: `wp post list --post_parent=3650 --post_type=page --fields=ID,post_title,post_name,post_status --format=table`
+2. Verify each page has content: `wp post get [ID] --field=content | wc -c` (should be >10KB each)
+3. Verify noindex is set: `wp post meta get [ID] _yoast_wpseo_meta-robots-noindex`
+
+## Important rules
+
+- COPY the CSS from the Autotask template EXACTLY. Do not change fonts, colors, spacing, or any style.
+- COPY the JavaScript (scroll reveal animation) from the Autotask template EXACTLY.
+- Every report link must point to an EXISTING page (verified in the research phase).
+- Write substantive, accurate descriptions for data entities. No filler text.
+- Do NOT publish (keep as draft). Do NOT remove noindex.
+- Do NOT touch the Autotask page (3652) or the index page (3650).
+- Use `$wpdb->update()` if you need to update content later. Never `wp_update_post()` — it strips style/script tags.</pre>
+</div>
+
+<!-- ======================== NOTES ======================== -->
+<div class="phase">
+<div class="phase-label">Execution notes</div>
+<h2>How to run this</h2>
+
+<div class="note">
+<strong>Phase 1 (Research)</strong> runs first. It produces /tmp/integration-report-mapping.json and /tmp/integration-mapping-summary.md. Review the summary before starting Phase 2.<br><br>
+<strong>Phase 2 (Write)</strong> depends on Phase 1's output. It creates 11 draft pages with noindex. After review, you publish them and remove noindex.
+</div>
+
+<p style="margin-top:16px; font-size:0.82rem; color:var(--stone-600);">
+Both prompts are self-contained. Copy Phase 1 into a new Claude session, review output, then copy Phase 2 into another session. The handoff artifact is the JSON mapping file on the server.
+</p>
+
+<table>
+<tr><th>Integration</th><th>Expected reports</th><th>Title hints in report names</th></tr>
+<tr><td>Datto RMM</td><td>8-15</td><td>"Datto RMM", "RMM Alert", device uptime/online</td></tr>
+<tr><td>Microsoft 365</td><td>15-25</td><td>"Microsoft 365", "M365", "Lighthouse", license, tenant</td></tr>
+<tr><td>Datto Backup</td><td>8-12</td><td>"Datto Backup", backup success/failure/reliability</td></tr>
+<tr><td>IT Glue</td><td>2-4</td><td>"IT Glue", "Documentation"</td></tr>
+<tr><td>HubSpot</td><td>5-8</td><td>"HubSpot", deal, pipeline, CRM</td></tr>
+<tr><td>SmileBack</td><td>3-6</td><td>"SmileBack", CSAT, NPS, satisfaction</td></tr>
+<tr><td>Azure Lighthouse</td><td>0-2</td><td>"Azure", "Lighthouse" (may overlap M365)</td></tr>
+<tr><td>N-able Cove</td><td>6-8</td><td>"N-able Cove", "Cove"</td></tr>
+<tr><td>Inforcer</td><td>0-2</td><td>"Inforcer", security policy</td></tr>
+<tr><td>HiBob</td><td>8-12</td><td>"HiBob", headcount, manager, org structure</td></tr>
+<tr><td>UniFi</td><td>0-1</td><td>"UniFi", network</td></tr>
+</table>
+</div>
+
+</div>
+
+<button class="copy-btn" onclick="copyPrompt('phase1')">Copy Phase 1</button>
+
+<script>
+let currentPhase = 'phase1';
+const btn = document.querySelector('.copy-btn');
+
+document.querySelectorAll('.phase').forEach(p => {
+  p.addEventListener('click', () => {
+    const pre = p.querySelector('pre');
+    if (pre) {
+      currentPhase = pre.id === 'prompt1' ? 'phase1' : 'phase2';
+      btn.textContent = currentPhase === 'phase1' ? 'Copy Phase 1' : 'Copy Phase 2';
+    }
+  });
+});
+
+function copyPrompt(phase) {
+  const el = document.getElementById(phase === 'phase1' ? 'prompt1' : 'prompt2');
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => {
+      btn.textContent = currentPhase === 'phase1' ? 'Copy Phase 1' : 'Copy Phase 2';
+    }, 1500);
+  });
+}
+
+btn.addEventListener('click', () => copyPrompt(currentPhase));
+</script>
+
+<!--CLAUDE-DATA
+{
+  "type": "integration-pages-prompt",
+  "date": "2026-05-13",
+  "phases": 2,
+  "integrations_missing": 11,
+  "template_page": 3652,
+  "parent_page": 3650,
+  "gallery_page_en": 3299,
+  "total_reports_approx": 200
+}
+-->
+</body>
+</html>

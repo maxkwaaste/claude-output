@@ -1,0 +1,936 @@
+<!-- wp:html -->
+<!-- Proxuma.io Page: Autotask Power BI Integration -->
+<!-- URL: /powerbi/integrations/autotask -->
+<style>
+/* ===== Integration Detail Page — .prx-integration scope ===== */
+.prx-integration *, .prx-integration *::before, .prx-integration *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.prx-integration {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1e293b;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    background: linear-gradient(180deg, #dce8f5 0%, #e4eef8 400px, #eaf1fa 1000px, #f0f5fb 2000px, #e8f0fa 100%) !important;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+}
+.prx-integration .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+}
+.prx-integration h2, .prx-integration h3, .prx-integration h4 {
+    font-family: 'Montserrat', sans-serif;
+    color: #1B365D !important;
+}
+.prx-integration a { color: #1e40af; text-decoration: underline; text-decoration-color: rgba(30,64,175,.3); text-underline-offset: 2px; transition: text-decoration-color .2s; }
+.prx-integration a:hover { text-decoration-color: rgba(30,64,175,.8); }
+
+/* --- Animations --- */
+.prx-integration .prx-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+.prx-integration .prx-reveal.prx-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Series Navigation --- */
+.prx-integration .series-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 32px auto 24px;
+    max-width: 1140px;
+    padding: 0 24px;
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 2;
+    flex-wrap: wrap;
+}
+.prx-integration .series-nav a {
+    color: #1B365D;
+    text-decoration: none;
+    font-weight: 500;
+}
+.prx-integration .series-nav a:hover { text-decoration: underline; }
+.prx-integration .series-nav .sep { color: #94a3b8; }
+.prx-integration .series-nav .current { color: #64748b; }
+
+/* --- Page Hero --- */
+.prx-integration .page-hero {
+    background: linear-gradient(135deg, #1B365D 0%, #0f2240 100%) !important;
+    border-radius: 16px;
+    padding: 56px 52px;
+    color: white !important;
+    margin: 0 auto 40px;
+    max-width: 1140px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+.prx-integration .page-hero::after {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 280px;
+    height: 280px;
+    background: rgba(0, 217, 165, 0.1);
+    border-radius: 50%;
+}
+.prx-integration .page-hero::before {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 220px;
+    height: 220px;
+    background: rgba(0, 183, 255, 0.08);
+    border-radius: 50%;
+}
+
+/* --- Logo Combination --- */
+.prx-integration .hero-logos {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+}
+.prx-integration .hero-logo-box {
+    width: 72px;
+    height: 72px;
+    background: rgba(255,255,255,0.1) !important;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.prx-integration .hero-logo-box img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+.prx-integration .hero-logo-box svg {
+    width: 40px;
+    height: 40px;
+}
+.prx-integration .hero-logo-plus {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5) !important;
+    flex-shrink: 0;
+}
+
+.prx-integration .hero-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+.prx-integration .hero-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.prx-integration .hero-icon img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+.prx-integration .hero-icon svg { stroke: white; fill: none; stroke-width: 1.5; }
+.prx-integration .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(219,234,254,0.15);
+    border: 1px solid rgba(219,234,254,0.25);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #93c5fd !important;
+    letter-spacing: 0.5px;
+}
+.prx-integration .page-hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    color: white !important;
+    line-height: 1.15;
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+}
+.prx-integration .page-hero .hero-subtitle {
+    font-size: 1.05rem;
+    opacity: 0.85;
+    font-weight: 400;
+    max-width: 640px;
+    color: white !important;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+.prx-integration .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+}
+.prx-integration .hero-stat {
+    text-align: left;
+}
+.prx-integration .hero-stat .stat-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #5eead4 !important;
+    line-height: 1.2;
+}
+.prx-integration .hero-stat .stat-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.6) !important;
+    font-weight: 500;
+}
+@media (max-width: 600px) {
+    .prx-integration .page-hero { padding: 40px 28px; }
+    .prx-integration .page-hero h1 { font-size: 1.7rem; }
+    .prx-integration .hero-stats { gap: 20px; }
+    .prx-integration .hero-stat .stat-value { font-size: 1.3rem; }
+    .prx-integration .hero-logos { gap: 14px; }
+    .prx-integration .hero-logo-box { width: 56px; height: 56px; }
+    .prx-integration .hero-logo-box img { width: 36px; height: 36px; }
+    .prx-integration .hero-logo-box svg { width: 32px; height: 32px; }
+}
+
+/* --- Section Card (reusable) --- */
+.prx-integration .section-card {
+    background: #fff !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 36px 36px;
+    margin: 0 auto 24px;
+    max-width: 1140px;
+    box-shadow: 0 2px 8px rgba(27,54,93,0.05);
+    position: relative;
+    z-index: 2;
+}
+.prx-integration .section-card .section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+.prx-integration .section-card h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.25;
+}
+.prx-integration .section-card > p {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    max-width: 680px;
+}
+.prx-integration .section-card > p strong { color: #1B365D; }
+
+/* --- Data Points Grid --- */
+.prx-integration .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+@media (max-width: 768px) {
+    .prx-integration .data-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+    .prx-integration .data-grid { grid-template-columns: 1fr; }
+}
+.prx-integration .data-point {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    border-left: 3px solid #3b82f6;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.prx-integration .data-point:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(27,54,93,0.06);
+}
+.prx-integration .data-point h4 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.prx-integration .data-point p {
+    font-size: 0.82rem;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+.prx-integration .data-point .dp-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    background: #DBEAFE !important;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+.prx-integration .data-point .dp-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: #1D4ED8;
+    fill: none;
+    stroke-width: 2;
+}
+
+/* --- Cross-Source Cards --- */
+.prx-integration .cross-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+@media (max-width: 600px) {
+    .prx-integration .cross-grid { grid-template-columns: 1fr; }
+}
+.prx-integration .cross-card {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.prx-integration .cross-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(27,54,93,0.06);
+}
+.prx-integration .cross-card .combo-badges {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.prx-integration .combo-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+.prx-integration .cb-psa { background: #DBEAFE !important; color: #1D4ED8 !important; border: 1.5px solid #93C5FD; }
+.prx-integration .cb-rmm { background: #FDE68A !important; color: #B45309 !important; border: 1.5px solid #FCD34D; }
+.prx-integration .cb-backup { background: #FECACA !important; color: #DC2626 !important; border: 1.5px solid #FCA5A5; }
+.prx-integration .cb-m365 { background: #E9D5FF !important; color: #7C3AED !important; border: 1.5px solid #C4B5FD; }
+.prx-integration .cb-itglue { background: #A7F3D0 !important; color: #059669 !important; border: 1.5px solid #6EE7B7; }
+.prx-integration .cb-smileback { background: #FEF3C7 !important; color: #D97706 !important; border: 1.5px solid #FCD34D; }
+.prx-integration .cross-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+.prx-integration .cross-card p {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* --- Reports Grid --- */
+.prx-integration .reports-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+@media (max-width: 600px) {
+    .prx-integration .reports-grid { grid-template-columns: 1fr; }
+}
+.prx-integration .report-link {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.prx-integration .report-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(27,54,93,0.06);
+    background: #eff6ff !important;
+}
+.prx-integration .report-link .rl-icon {
+    width: 40px;
+    height: 40px;
+    background: #DBEAFE !important;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.prx-integration .report-link .rl-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: #1D4ED8;
+    fill: none;
+    stroke-width: 2;
+}
+.prx-integration .report-link .rl-content {
+    flex: 1;
+    min-width: 0;
+}
+.prx-integration .report-link .rl-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1B365D !important;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+.prx-integration .report-link .rl-desc {
+    font-size: 0.78rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+.prx-integration .report-link .rl-arrow {
+    width: 20px;
+    height: 20px;
+    stroke: #94a3b8;
+    fill: none;
+    stroke-width: 2;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, stroke 0.2s ease;
+}
+.prx-integration .report-link:hover .rl-arrow {
+    transform: translateX(4px);
+    stroke: #1D4ED8;
+}
+
+/* --- Setup Section --- */
+.prx-integration .setup-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+@media (max-width: 768px) {
+    .prx-integration .setup-steps { grid-template-columns: 1fr; }
+}
+.prx-integration .setup-step {
+    text-align: center;
+    padding: 24px 16px;
+}
+.prx-integration .setup-step .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #DBEAFE !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1D4ED8 !important;
+    margin-bottom: 12px;
+}
+.prx-integration .setup-step h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+.prx-integration .setup-step p {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* --- CTA Block --- */
+.prx-integration .cta-block {
+    background: linear-gradient(135deg, #00D9A5 0%, #00c49a 100%) !important;
+    border-radius: 12px;
+    padding: 48px 40px;
+    text-align: center;
+    margin: 24px auto 40px;
+    max-width: 1140px;
+    position: relative;
+    z-index: 2;
+}
+.prx-integration .cta-block h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1B365D !important;
+    margin-bottom: 12px;
+}
+.prx-integration .cta-block p {
+    color: #1B365D !important;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.85;
+    line-height: 1.6;
+}
+.prx-integration .cta-btn {
+    display: inline-block;
+    background: #1B365D !important;
+    color: #fff !important;
+    padding: 14px 36px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none !important;
+    transition: background 0.2s, transform 0.15s;
+    margin: 0 8px;
+}
+.prx-integration .cta-btn:hover {
+    background: #0f2240 !important;
+    transform: translateY(-2px);
+}
+.prx-integration .cta-btn.cta-btn-outline {
+    background: transparent !important;
+    color: #1B365D !important;
+    border: 2px solid #1B365D;
+}
+.prx-integration .cta-btn.cta-btn-outline:hover {
+    background: rgba(27,54,93,0.08) !important;
+}
+@media (max-width: 600px) {
+    .prx-integration .cta-block { padding: 36px 24px; }
+    .prx-integration .cta-btn { display: block; margin: 0 0 12px 0; }
+}
+
+/* --- Print --- */
+@media print {
+    .prx-integration .cta-block { display: none; }
+    .prx-integration { background: #fff !important; }
+    .prx-integration .prx-reveal { opacity: 1 !important; transform: none !important; }
+}
+</style>
+
+<div class="prx-integration">
+
+    <!-- Series Navigation -->
+    <nav class="series-nav">
+        <a href="/powerbi">Power BI</a>
+        <span class="sep">/</span>
+        <a href="/powerbi/integrations/">Integrations</a>
+        <span class="sep">/</span>
+        <span class="current">Autotask PSA</span>
+    </nav>
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <!-- Logo combination: Power BI + Autotask -->
+        <div class="hero-logos">
+            <div class="hero-logo-box">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><rect x="2" y="13" width="5" height="9" rx="1.2" fill="#E8B500"/><rect x="9.5" y="7" width="5" height="15" rx="1.2" fill="#F2C811"/><rect x="17" y="2" width="5" height="20" rx="1.2" fill="#FFDA4A"/></svg>
+            </div>
+            <span class="hero-logo-plus">+</span>
+            <div class="hero-logo-box">
+                <img src="https://staging2.proxuma.io/wp-content/uploads/2025/12/4.png" alt="Autotask">
+            </div>
+        </div>
+
+        <div class="hero-top">
+            <div class="hero-icon">
+                <img src="https://staging2.proxuma.io/wp-content/uploads/2025/12/4.png" alt="Autotask">
+            </div>
+            <span class="hero-badge">PSA INTEGRATION</span>
+        </div>
+        <h1>Autotask PSA + Power BI</h1>
+        <p class="hero-subtitle">The backbone of MSP reporting. We pull tickets, contracts, projects, time entries, billing data, SLAs, resources, and configuration items into a unified Power BI model. If it's in Autotask, it's in your dashboard.</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="stat-value">25+</div>
+                <div class="stat-label">Reports powered</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-value">40+</div>
+                <div class="stat-label">Entities synced</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-value">Live</div>
+                <div class="stat-label">Sync frequency</div>
+            </div>
+            <div class="hero-stat">
+                <div class="stat-value">Read-only</div>
+                <div class="stat-label">API access</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- What We Connect -->
+    <div class="section-card prx-reveal">
+        <div class="section-label">What we connect</div>
+        <h2>Data we pull from Autotask</h2>
+        <p>Every entity below is synced into Power BI and available for dashboards, reports, and AI analysis. <strong>We never write back to Autotask</strong> — our API access is strictly read-only.</p>
+
+        <div class="data-grid">
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+                <h4>Tickets</h4>
+                <p>All ticket types, statuses, priorities, queues, SLA targets, and resolution data. Full lifecycle from creation to close.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <h4>Contracts</h4>
+                <p>Recurring contracts, block hours, T&amp;M agreements, contract periods, billing codes, and renewal dates.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                <h4>Projects</h4>
+                <p>Project phases, tasks, milestones, estimated vs. actual hours, budget tracking, and project status.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <h4>Time Entries</h4>
+                <p>All billable and non-billable time, per resource, per ticket or project. The foundation of profitability analysis.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+                <h4>Billing &amp; Revenue</h4>
+                <p>Invoice items, revenue by client, cost rates, billing rates, and the gap between estimated and actual revenue.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <h4>Companies</h4>
+                <p>Client master data, classification, territory, account managers, and custom UDFs you've configured in Autotask.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                <h4>Resources</h4>
+                <p>Team members, roles, departments, cost rates, and capacity. Essential for utilisation and KPI reporting.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
+                <h4>Configuration Items</h4>
+                <p>Devices, hardware, software assets, warranty dates, and lifecycle status. Cross-reference with RMM for full asset visibility.</p>
+            </div>
+            <div class="data-point">
+                <div class="dp-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                <h4>SLAs &amp; Queues</h4>
+                <p>SLA definitions, response targets, resolution targets, queue assignments, and escalation rules.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cross-Source Intelligence -->
+    <div class="section-card prx-reveal">
+        <div class="section-label">Cross-source intelligence</div>
+        <h2>Better with friends</h2>
+        <p>Autotask data becomes exponentially more powerful when combined with other sources. Here's what unlocks when you add more connectors.</p>
+
+        <div class="cross-grid">
+            <div class="cross-card">
+                <div class="combo-badges">
+                    <span class="combo-badge cb-psa">PSA</span>
+                    <span class="combo-badge cb-rmm">RMM</span>
+                </div>
+                <h4>Ghost Device Detection</h4>
+                <p>Match RMM agent counts against Autotask contract line items. Find devices you're managing for free — unbilled endpoints that drain margin.</p>
+            </div>
+            <div class="cross-card">
+                <div class="combo-badges">
+                    <span class="combo-badge cb-psa">PSA</span>
+                    <span class="combo-badge cb-rmm">RMM</span>
+                    <span class="combo-badge cb-backup">Backup</span>
+                </div>
+                <h4>True Profitability</h4>
+                <p>Contract revenue minus actual time, device management overhead, and backup storage costs. The real margin per client, not the optimistic one.</p>
+            </div>
+            <div class="cross-card">
+                <div class="combo-badges">
+                    <span class="combo-badge cb-psa">PSA</span>
+                    <span class="combo-badge cb-itglue">IT Glue</span>
+                </div>
+                <h4>Documentation ROI</h4>
+                <p>Clients with better IT Glue documentation get faster ticket resolution. Quantify exactly how much documentation saves per client per year.</p>
+            </div>
+            <div class="cross-card">
+                <div class="combo-badges">
+                    <span class="combo-badge cb-psa">PSA</span>
+                    <span class="combo-badge cb-m365">M365</span>
+                    <span class="combo-badge cb-rmm">RMM</span>
+                </div>
+                <h4>Security Risk Scoring</h4>
+                <p>Combine Autotask ticket patterns with RMM patch status and M365 security scores for a per-client security risk index.</p>
+            </div>
+            <div class="cross-card">
+                <div class="combo-badges">
+                    <span class="combo-badge cb-psa">PSA</span>
+                    <span class="combo-badge cb-smileback">SmileBack</span>
+                </div>
+                <h4>Churn Risk Prediction</h4>
+                <p>CSAT trends, open ticket aging, SLA breaches, and contract renewal dates — combined into a single churn likelihood score per client.</p>
+            </div>
+            <div class="cross-card">
+                <div class="combo-badges">
+                    <span class="combo-badge cb-psa">PSA</span>
+                    <span class="combo-badge cb-m365">M365</span>
+                </div>
+                <h4>License Waste</h4>
+                <p>Match M365 license assignments against usage. Flag E5 users who only use email, Premium licenses with no Teams activity.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Available Reports -->
+    <div class="section-card prx-reveal">
+        <div class="section-label">Sample reports</div>
+        <h2>25+ reports powered by Autotask</h2>
+        <p>Every report below uses Autotask PSA as a primary data source. They were generated using AI connected to Power BI — each one in under two minutes.</p>
+
+        <div class="reports-grid">
+            <a href="/powerbi/insights/zombie-tickets/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Zombie Tickets Analysis</div>
+                    <div class="rl-desc">Tickets that won't die — open, aging, forgotten</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/stuck-tickets/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Stuck Tickets Report</div>
+                    <div class="rl-desc">Tickets stuck in a status for too long</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/ticket-timing/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Ticket Timing Heatmap</div>
+                    <div class="rl-desc">When tickets arrive — hour by hour, day by day</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/standard-changes/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Standard Changes Report</div>
+                    <div class="rl-desc">Recurring ticket patterns and automation candidates</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/sla-accuracy/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">SLA Accuracy Analysis</div>
+                    <div class="rl-desc">Are your SLA targets realistic? Data says...</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/sla-breach-analysis/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">SLA Breach Analysis</div>
+                    <div class="rl-desc">Where, when, and why SLAs get breached</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/phase-budget/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Project Budget Variance</div>
+                    <div class="rl-desc">Estimated vs actual hours per project phase</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/phase-duration/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Project Lead Time Report</div>
+                    <div class="rl-desc">How long project phases actually take</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/client-profitability/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Client Profitability Report</div>
+                    <div class="rl-desc">Revenue, cost, and margin per client</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/unprofitable-clients/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Unprofitable Clients Report</div>
+                    <div class="rl-desc">Clients costing you more than they pay</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/client-cost-drains/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Client Cost Drain Analysis</div>
+                    <div class="rl-desc">Where operational costs bleed out</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/contract-profitability/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Contract Profitability</div>
+                    <div class="rl-desc">Which contracts make money, which don't</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/cost-rate-analysis/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Cost Rate Analysis</div>
+                    <div class="rl-desc">Internal cost rates vs billing rates</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/sales-performance/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Sales Pipeline Report</div>
+                    <div class="rl-desc">Opportunities, conversion, and deal velocity</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/ps-team-kpi-dashboard/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Resource KPI Dashboard</div>
+                    <div class="rl-desc">Utilisation, productivity, and capacity per engineer</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/resource-allocation/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Resource Allocation</div>
+                    <div class="rl-desc">Where your team's hours actually go</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/onboarding-risk/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6m3-3h-6"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Onboarding &amp; Offboarding Risk</div>
+                    <div class="rl-desc">Knowledge concentration and single points of failure</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/pricing-model/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Data-Driven Pricing Model</div>
+                    <div class="rl-desc">What your services should cost, based on data</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/customer-facing-qbr/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Automated QBR for MSPs</div>
+                    <div class="rl-desc">Customer-facing quarterly business reviews</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+            <a href="/powerbi/insights/security-status/" class="report-link">
+                <div class="rl-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div class="rl-content">
+                    <div class="rl-title">Security Status Report</div>
+                    <div class="rl-desc">AV, patching, and software compliance overview</div>
+                </div>
+                <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- Setup -->
+    <div class="section-card prx-reveal">
+        <div class="section-label">Getting started</div>
+        <h2>Connected in minutes</h2>
+        <p>Setting up the Autotask integration is straightforward. We need read-only API access — nothing more.</p>
+
+        <div class="setup-steps">
+            <div class="setup-step">
+                <div class="step-num">1</div>
+                <h4>Create an API user</h4>
+                <p>In Autotask Admin, create a dedicated API-only user with read permissions. We provide a step-by-step guide.</p>
+            </div>
+            <div class="setup-step">
+                <div class="step-num">2</div>
+                <h4>Share credentials</h4>
+                <p>Send us the API username and secret via our secure onboarding portal. Credentials are encrypted at rest.</p>
+            </div>
+            <div class="setup-step">
+                <div class="step-num">3</div>
+                <h4>Data starts flowing</h4>
+                <p>We configure the dataflows and your first dashboards are live within 24 hours. Historical data is backfilled automatically.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-block prx-reveal">
+        <h2>Ready to unlock your Autotask data?</h2>
+        <p>Autotask is included in every Proxuma Power BI plan. No add-on costs, no per-connector fees. Connect today and see your first dashboards tomorrow.</p>
+        <div>
+            <a href="/powerbi-self-onboarding/" class="cta-btn">Start self-onboarding</a>
+            <a href="/powerbi/integrations/" class="cta-btn cta-btn-outline">View all integrations</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- Reveal animation -->
+<script>
+(function() {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('prx-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.prx-integration .prx-reveal').forEach(function(el) {
+        observer.observe(el);
+    });
+})();
+</script>
+<!-- /wp:html -->
