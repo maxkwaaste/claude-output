@@ -320,7 +320,7 @@ a { color: var(--accent-donkerst); }
   <div class="stats-strip">
     <div class="stat"><div class="v">4</div><div class="k">Default Columns</div></div>
     <div class="stat"><div class="v">9</div><div class="k">Swimlane Options</div></div>
-    <div class="stat"><div class="v">10+</div><div class="k">Card Fields</div></div>
+    <div class="stat"><div class="v">24</div><div class="k">Card Fields</div></div>
     <div class="stat"><div class="v">5</div><div class="k">Demo Scenarios</div></div>
   </div>
 </div>
@@ -452,24 +452,52 @@ a { color: var(--accent-donkerst); }
     <tr><td><strong>Bottom right</strong></td><td>Company</td><td>Dropdown selector</td></tr>
   </table>
 
-  <h3 style="margin-top: 24px;">Expanded Fields (3 of 10+ available)</h3>
+  <h3 style="margin-top: 24px;">All Available Card Fields (23+)</h3>
+  <p class="sub">From <code style="font-family:var(--font-mono);font-size:12px;">M4rckC/proxuma-frontend</code> branch <code style="font-family:var(--font-mono);font-size:12px;">feature/nova-features</code>. Each can be toggled on/off.</p>
   <table class="status-table">
-    <tr><th>Field</th><th>Shown by Default</th></tr>
-    <tr><td><strong>Project</strong></td><td class="win">Yes</td></tr>
-    <tr><td><strong>Task type</strong></td><td class="win">Yes</td></tr>
-    <tr><td><strong>Department</strong></td><td class="win">Yes</td></tr>
-    <tr><td colspan="2" style="color:var(--inkt-zacht);font-style:italic;">+ 7 more available via "+ Add field"</td></tr>
+    <tr><th>#</th><th>Field</th><th>Code Key</th></tr>
+    <tr><td>1</td><td><strong>Autotask ID</strong></td><td><code>auto_task_id</code></td></tr>
+    <tr><td>2</td><td><strong>Priority</strong></td><td><code>priority</code></td></tr>
+    <tr><td>3</td><td><strong>Estimated hours</strong></td><td><code>estimated_hours</code></td></tr>
+    <tr><td>4</td><td><strong>Category</strong></td><td><code>category</code></td></tr>
+    <tr><td>5</td><td><strong>Type</strong></td><td><code>type</code></td></tr>
+    <tr><td>6</td><td><strong>Company</strong></td><td><code>company</code></td></tr>
+    <tr><td>7</td><td><strong>Company location</strong></td><td><code>company_location</code></td></tr>
+    <tr><td>8</td><td><strong>Project</strong></td><td><code>project</code></td></tr>
+    <tr><td>9</td><td><strong>Phase</strong></td><td><code>phase</code></td></tr>
+    <tr><td>10</td><td><strong>Project number</strong></td><td><code>project_number</code></td></tr>
+    <tr><td>11</td><td><strong>Primary Resources</strong></td><td><code>assigned_resource</code></td></tr>
+    <tr><td>12</td><td><strong>Primary Contact</strong></td><td><code>contact</code></td></tr>
+    <tr><td>13</td><td><strong>Secondary Resources</strong></td><td><code>secondary_resources</code></td></tr>
+    <tr><td>14</td><td><strong>Additional Contact</strong></td><td><code>additional_contact</code></td></tr>
+    <tr><td>15</td><td><strong>Location</strong></td><td><code>location</code></td></tr>
+    <tr><td>16</td><td><strong>Description</strong></td><td><code>description</code></td></tr>
+    <tr><td>17</td><td><strong>Attachments</strong></td><td><code>attachments</code></td></tr>
+    <tr><td>18</td><td><strong>Notes</strong></td><td><code>notes</code></td></tr>
+    <tr><td>19</td><td><strong>Due date</strong></td><td><code>due_date</code></td></tr>
+    <tr><td>20</td><td><strong>PO number</strong></td><td><code>purchase_order_number</code></td></tr>
+    <tr><td>21</td><td><strong>Resource rotation</strong></td><td><code>resource_rotation</code></td></tr>
+    <tr><td>22</td><td><strong>Required skills</strong></td><td><code>required_skills</code></td></tr>
+    <tr><td>23</td><td><strong>Source</strong></td><td><code>source</code></td></tr>
+    <tr><td>24</td><td><strong>Tags</strong> (conditional)</td><td><code>tags</code></td></tr>
   </table>
 
   <h3 style="margin-top: 24px;">Additional Card Features</h3>
   <table class="status-table">
     <tr><th>Feature</th><th>Details</th></tr>
-    <tr><td><strong>Entity type badge</strong></td><td>Task (blue) or Ticket (purple) label on each card</td></tr>
-    <tr><td><strong>Status indicator</strong></td><td>Colored dot showing current status (matches column color)</td></tr>
+    <tr><td><strong>Entity types</strong></td><td>Task (blue), Ticket (purple), Service Call (green) -- separate layout per type</td></tr>
+    <tr><td><strong>Status indicator</strong></td><td>Colored dot matching column color</td></tr>
     <tr><td><strong>Assignee avatars</strong></td><td>Primary + secondary resource initials with colored circles</td></tr>
     <tr><td><strong>Company icon</strong></td><td>Company name with building icon</td></tr>
     <tr><td><strong>Show Service Calls</strong></td><td>Toggle to display linked service calls on expanded card (e.g. "Service calls 1/5")</td></tr>
+    <tr><td><strong>Auto-hide completed</strong></td><td>7, 14, 30, 60, or 90 days after completion</td></tr>
+    <tr><td><strong>Real-time updates</strong></td><td>WebSocket events for Ticket and Task changes</td></tr>
   </table>
+
+  <div class="callout">
+    <div class="label">Source code</div>
+    Kanban components at <code style="font-family:var(--font-mono);font-size:12px;">M4rckC/proxuma-frontend</code> branch <code style="font-family:var(--font-mono);font-size:12px;">feature/nova-features</code>. Key files: <code style="font-family:var(--font-mono);font-size:12px;">components/kanban/</code> (Board, Column, Card, Header), <code style="font-family:var(--font-mono);font-size:12px;">components/schedule/Kanban/Settings/</code> (Board Settings panel), <code style="font-family:var(--font-mono);font-size:12px;">api/user/kanbanApi.js</code> (API layer). Backend API: <code style="font-family:var(--font-mono);font-size:12px;">/api/tenant/kanban/columns</code>, <code style="font-family:var(--font-mono);font-size:12px;">/api/tenant/kanban/board</code>, <code style="font-family:var(--font-mono);font-size:12px;">/api/tenant/kanban/counts</code>.
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════════ -->
@@ -751,7 +779,7 @@ a { color: var(--accent-donkerst); }
     <tr><td>Multi-status columns</td><td class="lose">No (1:1)</td><td class="win">Yes</td><td class="win">Yes (drag statuses into columns)</td></tr>
     <tr><td>Swimlanes</td><td class="lose">None</td><td class="win">7 + UDFs</td><td class="win">9 options (3 entity-restricted)</td></tr>
     <tr><td>Tasks + Tickets</td><td class="lose">Tickets only</td><td class="neutral">Tickets + Tasks</td><td class="win">Tickets + Tasks + linked Service Calls</td></tr>
-    <tr><td>Card field config</td><td class="lose">None</td><td class="neutral">~10 fields</td><td class="win">10+ fields, 4 fixed positions + expandable</td></tr>
+    <tr><td>Card field config</td><td class="lose">None</td><td class="neutral">~10 fields</td><td class="win">24 fields, 4 fixed positions + expandable</td></tr>
     <tr><td>WIP limits</td><td class="lose">No</td><td class="lose">No</td><td class="win">Yes (per column)</td></tr>
     <tr><td>Saved views</td><td class="lose">No</td><td class="win">Yes</td><td class="win">Yes (CRUD + duplicate + default)</td></tr>
     <tr><td>Column colors</td><td class="lose">Fixed</td><td class="neutral">Limited</td><td class="win">10 color options</td></tr>
