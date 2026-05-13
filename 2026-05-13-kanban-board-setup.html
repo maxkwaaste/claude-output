@@ -3,640 +3,821 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proxuma Kanban — Board Setup, Status Mapping &amp; Demo Scenarios</title>
+<title>Proxuma Kanban — Board Setup &amp; Demo Scenarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --papier: #FAF7F2;
+  --papier-diep: #F2ECE0;
+  --inkt: #2A2725;
+  --inkt-zacht: #58524C;
+  --accent: #CC785C;
+  --accent-diep: #A35A41;
+  --accent-donkerst: #7B3D2F;
+  --teal: #0f766e;
+  --teal-diep: #115e58;
+  --lijn: #E6DFD2;
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* board colors */
+  --col-backlog: #4338CA;
+  --col-planned: #F59E0B;
+  --col-progress: #2563EB;
+  --col-waiting: #7C3AED;
+  --col-waiting-vendor: #EA580C;
+  --col-done: #16A34A;
+  --col-review: #0EA5E9;
+
+  /* card entity colors */
+  --entity-ticket: #EBD7FF;
+  --entity-task: #DBEAFE;
+  --entity-service: #DCFCE7;
+
+  /* priority badge colors */
+  --p1-bg: #FEE2E2; --p1-text: #991B1B;
+  --p2-bg: #FFEDD5; --p2-text: #9A3412;
+  --p3-bg: #FEF9C3; --p3-text: #854D0E;
+  --p4-bg: #DCFCE7; --p4-text: #166534;
+  --p5-bg: #F3F4F6; --p5-text: #374151;
+}
+html { background: var(--papier); }
 body {
-  font-family: "Georgia", "Times New Roman", serif;
-  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
-  -webkit-font-smoothing: antialiased; padding: 0;
+  font-family: var(--font-sans);
+  color: var(--inkt); line-height: 1.7;
+  font-size: 17px; -webkit-font-smoothing: antialiased;
 }
-.page-header {
-  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.2rem, 4vw + 1rem, 3.5rem); letter-spacing: -0.035em; }
+h2 { font-size: clamp(1.5rem, 2vw + 0.5rem, 2rem); margin: 0 0 1rem; }
+h3 { font-size: 1.1rem; margin: 0 0 0.5rem; }
+a { color: var(--accent-donkerst); }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Header ── */
+.page-top {
+  border-bottom: 1px solid var(--lijn);
+  padding: 14px 0;
+  font-size: 12px; color: var(--inkt-zacht);
   display: flex; justify-content: space-between; align-items: center;
-  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
-.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
-.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
-.page {
-  max-width: 780px; margin: 12px auto 60px; background: #fff;
-  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+.page-top a { color: var(--inkt-zacht); text-decoration: none; border-bottom: 1px solid var(--lijn); }
+.page-top a:hover { color: var(--inkt); border-color: var(--inkt); }
+
+/* ── Hero ── */
+.hero { padding: 48px 0 40px; }
+.hero .eyebrow {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--inkt-zacht); font-weight: 600;
 }
-.brand { margin-bottom: 6px; }
-.brand-name {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+.hero .eyebrow::before {
+  content: ''; display: inline-block; width: 48px; height: 2px;
+  background: var(--accent-diep); margin-right: 12px; vertical-align: middle;
 }
-.brand-tagline {
-  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+.hero h1 { margin: 12px 0 16px; }
+.hero .lede { font-size: 1.15rem; color: var(--inkt-zacht); max-width: 680px; margin: 0; }
+
+/* ── Stats strip ── */
+.stats-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  border-top: 1px solid var(--lijn); border-bottom: 1px solid var(--lijn);
+  padding: 28px 0; margin: 32px 0 48px;
 }
-.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
-.page-meta {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 8px;
+.stat { padding: 0 20px; border-left: 2px solid var(--lijn); }
+.stat:first-child { border-left: 2px solid var(--accent-diep); }
+.stat .v {
+  font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700;
+  color: var(--accent-diep); line-height: 1;
 }
-.page-meta-right {
-  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+.stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--inkt-zacht); margin-top: 4px; }
+
+/* ── Section ── */
+.section { margin-bottom: 56px; }
+.section-line::before {
+  content: ''; display: block; width: 48px; height: 2px;
+  background: var(--accent-diep); margin-bottom: 12px;
 }
-h1 {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 28px; font-weight: 700; color: #1a2744;
-  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+.section p { max-width: 680px; }
+.section .sub { color: var(--inkt-zacht); font-size: 0.95rem; margin: 4px 0 20px; }
+
+/* ── KANBAN BOARD VISUAL ── */
+.board-frame {
+  background: #fff; border: 1px solid var(--lijn);
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 4px 24px -8px rgba(42,39,37,0.08);
+  margin: 20px 0 32px;
 }
-h2 {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 20px; font-weight: 700; color: #1a2744;
-  margin: 32px 0 12px; line-height: 1.25;
+.board-toolbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; background: var(--papier-diep);
+  border-bottom: 1px solid var(--lijn); font-size: 12px;
 }
-h2::after {
-  content: ''; display: block; width: 100%; height: 2px;
-  background: #1a2744; margin-top: 6px;
+.board-toolbar .view-name {
+  font-weight: 600; color: var(--inkt);
+  background: #fff; border: 1px solid var(--lijn); border-radius: 6px;
+  padding: 4px 10px; display: inline-flex; align-items: center; gap: 6px;
 }
-h3 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 13px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+.board-toolbar .pill {
+  background: #fff; border: 1px solid var(--lijn); border-radius: 6px;
+  padding: 4px 10px; color: var(--inkt-zacht); display: inline-flex; align-items: center; gap: 4px;
 }
-.subtitle {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+.board-toolbar .pill strong { color: var(--inkt); font-weight: 600; }
+.board-toolbar .spacer { flex: 1; }
+
+/* Swimlane */
+.swim { border-top: 1px solid var(--lijn); padding: 16px; }
+.swim:first-of-type { border-top: none; }
+.swim-head {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px; cursor: pointer; user-select: none;
 }
-.overline {
-  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+.swim-head h4 {
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  color: var(--inkt); margin: 0;
 }
-p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
-ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
-li { margin-bottom: 6px; }
-li::marker { color: #1a2744; }
-.stats-row { display: flex; gap: 0; margin: 28px 0; }
-.stat-card {
-  flex: 1; padding: 20px 24px;
-  border-left: 2px solid #d0d3d8;
+.swim-head .cnt {
+  font-size: 11px; background: var(--papier-diep); color: var(--inkt-zacht);
+  padding: 2px 8px; border-radius: 4px; font-weight: 500;
 }
-.stat-value {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+.swim-head .chev { color: var(--inkt-zacht); font-size: 10px; transition: transform 0.2s; }
+.swim.collapsed .chev { transform: rotate(-90deg); }
+.swim.collapsed .columns { display: none; }
+
+/* Columns grid */
+.columns {
+  display: grid; gap: 10px;
 }
-.stat-label {
-  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+.col {
+  background: var(--papier); border: 1px dashed transparent;
+  border-radius: 8px; padding: 10px; min-height: 80px;
 }
-.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
-.matrix th {
-  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
-  text-transform: uppercase; letter-spacing: .06em;
-  background: #1a2744; color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+.col-head {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 8px; padding: 0 2px;
 }
-.matrix td {
-  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 13px;
+.col-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.col-name { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--inkt); }
+.col-count {
+  margin-left: auto; font-size: 10px; color: var(--inkt-zacht);
+  background: #fff; border: 1px solid var(--lijn); padding: 1px 6px; border-radius: 4px;
 }
-.matrix tr:nth-child(even) td { background: #f8f9fb; }
-.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
-.matrix td strong { font-weight: 700; color: #1a2744; }
-.callout {
-  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
-  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+.col-count.over { color: #DC2626; font-weight: 600; }
+.col-statuses {
+  font-size: 10px; color: var(--inkt-zacht); font-style: italic;
+  padding: 4px 6px; background: rgba(0,0,0,0.02); border-radius: 4px; margin-bottom: 6px;
+  font-family: var(--font-mono);
 }
-.callout strong { color: #1a2744; }
-.callout-label {
-  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+
+/* Mini card */
+.mcard {
+  background: #fff; border: 1px solid var(--lijn); border-radius: 8px;
+  margin-bottom: 6px; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
-.positioning {
-  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
-  color: #fff;
+.mcard .mc-head {
+  padding: 6px 8px; display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; color: var(--inkt);
 }
-.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
-.positioning h2::after { display: none; }
-.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
-.positioning ul { color: rgba(255,255,255,.88); margin-top: 8px; }
-.positioning li { color: rgba(255,255,255,.88); margin-bottom: 4px; }
-.positioning li::marker { color: rgba(255,255,255,.5); }
-.confidential {
-  background: #fef3e2; border-left: 3px solid #c8a040; padding: 10px 16px;
-  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .06em; color: #c8402a; margin: 24px 0;
+.mcard.ticket .mc-head { background: var(--entity-ticket); }
+.mcard.task .mc-head { background: var(--entity-task); }
+.mcard.service .mc-head { background: var(--entity-service); }
+.mcard .mc-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mcard .mc-body { padding: 6px 8px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.mcard .badge {
+  font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 3px;
+  display: inline-flex; align-items: center; gap: 3px;
 }
-.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-.tag {
-  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+.badge.p1 { background: var(--p1-bg); color: var(--p1-text); }
+.badge.p2 { background: var(--p2-bg); color: var(--p2-text); }
+.badge.p3 { background: var(--p3-bg); color: var(--p3-text); }
+.badge.p4 { background: var(--p4-bg); color: var(--p4-text); }
+.badge.svc { background: var(--p5-bg); color: var(--p5-text); }
+.mcard .mc-meta {
+  font-size: 9.5px; color: var(--inkt-zacht);
+  display: inline-flex; align-items: center; gap: 3px;
 }
-.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
-.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
-.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
-.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
-.tier { margin-bottom: 28px; }
-.tier-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.tier-badge {
-  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .07em; padding: 3px 10px; border-radius: 3px;
+.mcard .mc-meta.overdue { color: #DC2626; font-weight: 500; }
+.mcard .av {
+  width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #fff;
+  font-size: 7px; font-weight: 700; color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-left: -4px;
 }
-.tier-badge.t1 { background: #e8edf4; border: 1px solid #b0bdd0; color: #1a2744; }
-.tier-badge.t2 { background: #eef0f2; border: 1px solid #c0c4ca; color: #4a5568; }
-.tier-badge.t3 { background: #fef3e2; border: 1px solid #e8c87a; color: #8a6a2a; }
-.tier-title {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 16px; font-weight: 700; color: #1a2744;
+.mcard .av:first-of-type { margin-left: auto; }
+.mcard .mc-company {
+  font-size: 9.5px; color: var(--teal); font-weight: 500;
+  display: inline-flex; align-items: center; gap: 3px;
 }
-.card {
-  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
-  padding: 18px 22px; margin-bottom: 8px; position: relative;
+
+/* ── Status mapping table ── */
+.status-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.status-table th {
+  text-align: left; padding: 10px 12px;
+  background: var(--inkt); color: var(--papier);
+  font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
 }
-.card::before {
-  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
-  width: 2px; background: #1a2744; border-radius: 1px;
+.status-table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--lijn);
+  font-family: var(--font-sans); font-size: 13px;
 }
-.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
-.card-buyer {
-  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+.status-table tr:nth-child(even) td { background: var(--papier); }
+.status-table td strong { color: var(--inkt); }
+
+/* ── Scenario card ── */
+.scenario {
+  background: #fff; border: 1px solid var(--lijn); border-radius: 12px;
+  margin-bottom: 28px; overflow: hidden;
+  box-shadow: 0 2px 12px -4px rgba(42,39,37,0.06);
 }
-.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
-.scenario-row { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
-.scenario-card {
-  flex: 1; min-width: 200px; border: 1px solid #e2e4e8; border-radius: 4px;
-  padding: 16px; border-top: 3px solid #1a2744;
+.scenario-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid var(--lijn);
+  background: var(--papier);
 }
 .scenario-num {
-  font: 700 24px/1 "Georgia", serif; color: #1a2744; margin-bottom: 4px;
+  font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700;
+  color: var(--accent-diep); line-height: 1;
 }
-.scenario-title {
-  font: 700 12px/1.3 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px;
+.scenario-title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--inkt); }
+.scenario-who { font-size: 11px; color: var(--inkt-zacht); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.scenario-story {
+  padding: 16px 20px; font-size: 14px; color: var(--inkt-zacht);
+  border-bottom: 1px solid var(--lijn); font-style: italic;
 }
-.scenario-desc { font-size: 13px; color: #4a5568; line-height: 1.45; }
-.page-footer {
-  display: flex; justify-content: space-between; margin-top: 40px;
-  padding-top: 12px; border-top: 1px solid #d0d3d8;
-  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+.scenario-config {
+  padding: 12px 20px 4px; font-size: 13px;
 }
-code {
-  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
-  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+.scenario-config dt { font-weight: 600; color: var(--inkt); display: inline; }
+.scenario-config dd { display: inline; color: var(--inkt-zacht); margin: 0 0 8px; }
+.scenario-config dd::after { content: ''; display: block; }
+.scenario-moves {
+  padding: 0 20px 16px;
 }
-.win { color: #0f766e; font-weight: 600; }
-.lose { color: #b45309; font-weight: 600; }
-.neutral { color: #6b7280; }
-.board-viz {
-  background: #f5f7fa; border: 1px solid #e2e4e8; border-radius: 8px;
-  padding: 20px; margin: 16px 0; display: flex; gap: 10px; overflow-x: auto;
+.scenario-moves h5 {
+  font-family: var(--font-sans); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-diep);
+  margin: 12px 0 6px;
 }
-.bv-col {
-  flex: 1; min-width: 120px; background: #fff; border-radius: 6px;
-  border: 1px solid #e2e4e8; padding: 10px 12px;
+.scenario-moves ol { padding-left: 18px; font-size: 13px; color: var(--inkt-zacht); }
+.scenario-moves li { margin-bottom: 4px; }
+
+/* ── Callout ── */
+.callout {
+  background: var(--papier); border-left: 3px solid var(--accent-diep);
+  padding: 16px 20px; margin: 20px 0; border-radius: 0 8px 8px 0;
+  font-size: 14px;
 }
-.bv-col-head {
-  font: 700 10px/1 -apple-system, sans-serif; text-transform: uppercase;
-  letter-spacing: .05em; color: #1a2744; margin-bottom: 8px;
-  display: flex; align-items: center; gap: 6px;
+.callout .label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--accent-diep); margin-bottom: 4px;
 }
-.bv-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.bv-status {
-  font: 400 10.5px/1.3 -apple-system, sans-serif; color: #4a5568;
-  padding: 4px 8px; background: #f5f7fa; border-radius: 4px; margin-bottom: 4px;
+
+/* ── Comparison table ── */
+.win { color: var(--teal); font-weight: 600; }
+.lose { color: var(--accent-diep); font-weight: 500; }
+.neutral { color: var(--inkt-zacht); }
+
+/* ── Footer ── */
+.page-foot {
+  border-top: 1px solid var(--lijn); padding: 20px 0 40px;
+  font-size: 12px; color: var(--inkt-zacht);
+  display: flex; justify-content: space-between;
+  margin-top: 48px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .stats-strip { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .columns { grid-template-columns: 1fr 1fr !important; }
 }
 @media print {
   body { background: #fff; }
-  .page { border: none; box-shadow: none; margin: 0; padding: 32px; max-width: 100%; }
-  .page-header { display: none; }
-  .positioning { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .matrix th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .board-frame { box-shadow: none; }
 }
 </style>
 </head>
 <body>
-<div class="page-header">
-  <span class="date">May 13, 2026</span>
-  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-kanban-board-setup.html">View on GitHub</a></span>
+
+<div class="wrap">
+  <div class="page-top">
+    <span>May 13, 2026</span>
+    <a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-kanban-board-setup.html">View on GitHub</a>
+  </div>
 </div>
-<div class="page">
-  <div class="page-meta">
-    <div>
-      <div class="brand">
-        <div class="brand-name">Proxuma</div>
-        <div class="brand-tagline">Kanban Module &middot; Board Setup &amp; Demo Playbook</div>
+
+<!-- ── HERO ── -->
+<div class="wrap hero">
+  <p class="eyebrow">Proxuma Kanban</p>
+  <h1>Board Setup &amp; Demo Scenarios</h1>
+  <p class="lede">How Autotask statuses map to kanban columns. Which swimlanes to use. Five ready-to-demo board configurations for MSP sales demos that beat TopLeft on every dimension.</p>
+</div>
+
+<div class="wrap">
+  <div class="stats-strip">
+    <div class="stat"><div class="v">14</div><div class="k">Autotask statuses</div></div>
+    <div class="stat"><div class="v">5</div><div class="k">Board columns</div></div>
+    <div class="stat"><div class="v">6</div><div class="k">Swimlane options</div></div>
+    <div class="stat"><div class="v">5</div><div class="k">Demo scenarios</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- SECTION 1: THE DEFAULT BOARD                  -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="wrap section">
+  <h2 class="section-line">The Default 5-Column Board</h2>
+  <p class="sub">14 Autotask statuses collapsed into 5 visual columns. Each column shows which statuses feed into it.</p>
+
+  <div class="board-frame">
+    <div class="board-toolbar">
+      <span class="view-name">▭ Default Board</span>
+      <span class="pill">Swimlane: <strong>None</strong></span>
+      <span class="spacer"></span>
+      <span class="pill">Entity: <strong>All</strong></span>
+    </div>
+    <div style="padding: 16px;">
+      <div class="columns" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="col">
+          <div class="col-head">
+            <span class="col-dot" style="background: var(--col-backlog)"></span>
+            <span class="col-name">Backlog / New</span>
+            <span class="col-count">170</span>
+          </div>
+          <div class="col-statuses">New (1) &middot; To be planned (13) &middot; Assigned (29)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Server outage alert</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">New</span><span class="av" style="background:#7C3AED">DD</span></div></div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">VPN tunnel down</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">New</span><span class="av" style="background:#2563EB">MH</span></div></div>
+          <div class="mcard task"><div class="mc-head"><span class="mc-title">Capacity reserve task</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">To be planned</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head">
+            <span class="col-dot" style="background: var(--col-planned)"></span>
+            <span class="col-name">Planned</span>
+            <span class="col-count">213</span>
+          </div>
+          <div class="col-statuses">Planned (10)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">M365 tenant migration</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">May 15</span><span class="av" style="background:#16A34A">AT</span><span class="av" style="background:#F59E0B">CP</span></div></div>
+          <div class="mcard service"><div class="mc-head"><span class="mc-title">Onsite switch install</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">May 16</span><span class="av" style="background:#DC2626">JR</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head">
+            <span class="col-dot" style="background: var(--col-progress)"></span>
+            <span class="col-name">In Progress</span>
+            <span class="col-count over">31/30</span>
+          </div>
+          <div class="col-statuses">In progress (8) &middot; Customer responded (19) &middot; Notes (20, 23)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Database failover drill</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta overdue">1h overdue</span><span class="av" style="background:#DC2626">JR</span><span class="av" style="background:#7C3AED">AT</span></div></div>
+          <div class="mcard task"><div class="mc-head"><span class="mc-title">VLAN migration</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-company">Cascadia Tech</span><span class="av" style="background:#F59E0B">CP</span></div></div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Printer driver issue</span></div><div class="mc-body"><span class="badge p4">P4</span><span class="mc-meta">Customer responded</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head">
+            <span class="col-dot" style="background: var(--col-waiting)"></span>
+            <span class="col-name">Waiting</span>
+            <span class="col-count">154</span>
+          </div>
+          <div class="col-statuses">Waiting Customer (7) &middot; Third party (12) &middot; Material (26)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">SonicWall RMA</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">Waiting vendor</span><span class="av" style="background:#4338CA">SC</span></div></div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">License renewal approval</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">Waiting customer</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head">
+            <span class="col-dot" style="background: var(--col-done)"></span>
+            <span class="col-name">Done</span>
+            <span class="col-count">66.7k</span>
+          </div>
+          <div class="col-statuses">Complete (5) &middot; Autoresolved (16) &middot; Pending completion (24)</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Internet outage resolved</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">Completed May 6</span><span class="av" style="background:#7C3AED">DR</span></div></div>
+        </div>
       </div>
     </div>
-    <div class="page-meta-right">
-      May 13, 2026<br>Product Setup<br>Demo Engineering
+  </div>
+</div>
+
+<!-- ── 4-COLUMN VARIANT ── -->
+<div class="wrap section">
+  <h2 class="section-line">Alternative: 4-Column Board</h2>
+  <p class="sub">For smaller MSPs who prefer simplicity. Merges Planned into the first column.</p>
+
+  <div class="board-frame">
+    <div class="board-toolbar">
+      <span class="view-name">▭ Simple Board</span>
+      <span class="pill">Swimlane: <strong>None</strong></span>
+      <span class="spacer"></span>
+    </div>
+    <div style="padding: 16px;">
+      <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-backlog)"></span><span class="col-name">To Do</span><span class="col-count">383</span></div>
+          <div class="col-statuses">New &middot; To be planned &middot; Assigned &middot; Planned</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Server outage</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">New</span></div></div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">M365 migration</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">Planned</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">307</span></div>
+          <div class="col-statuses">In progress &middot; Customer responded &middot; Notes</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">DB failover drill</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta overdue">overdue</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">154</span></div>
+          <div class="col-statuses">Customer &middot; Third party &middot; Material</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">SonicWall RMA</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">vendor</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">66.7k</span></div>
+          <div class="col-statuses">Complete &middot; Autoresolved &middot; Pending</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Outage resolved</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">done</span></div></div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="brand-rule"></div>
+</div>
 
-  <div class="overline">KANBAN PRODUCT SETUP</div>
-  <h1>Board Configuration, Status Mapping &amp; Demo Scenarios</h1>
-  <p class="subtitle">Complete setup guide for Proxuma Kanban boards: how Autotask statuses map to columns, which swimlanes to use per scenario, and five ready-to-demo board configurations for MSP sales demos.</p>
+<!-- ── 6-COLUMN VARIANT ── -->
+<div class="wrap section">
+  <h2 class="section-line">Alternative: 6-Column Board</h2>
+  <p class="sub">For MSPs with heavy escalation workflows. Splits waiting into client vs. vendor.</p>
 
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-value">14</div>
-      <div class="stat-label">Autotask statuses</div>
+  <div class="board-frame">
+    <div class="board-toolbar">
+      <span class="view-name">▭ Escalation Board</span>
+      <span class="pill">Swimlane: <strong>Assignee</strong></span>
+      <span class="spacer"></span>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">5</div>
-      <div class="stat-label">Kanban columns</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">6</div>
-      <div class="stat-label">Swimlane options</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">5</div>
-      <div class="stat-label">Demo scenarios</div>
+    <div style="padding: 16px;">
+      <div class="columns" style="grid-template-columns: repeat(6, 1fr);">
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-backlog)"></span><span class="col-name">New</span></div>
+          <div class="col-statuses">New &middot; Assigned</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Switch failure</span></div><div class="mc-body"><span class="badge p1">P1</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-planned)"></span><span class="col-name">Planned</span></div>
+          <div class="col-statuses">To be planned &middot; Planned</div>
+          <div class="mcard task"><div class="mc-head"><span class="mc-title">Firewall upgrade</span></div><div class="mc-body"><span class="badge p2">P2</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-progress)"></span><span class="col-name">Working</span></div>
+          <div class="col-statuses">In progress &middot; Notes</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">VLAN migration</span></div><div class="mc-body"><span class="badge p1">P1</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-waiting)"></span><span class="col-name">Waiting Client</span></div>
+          <div class="col-statuses">Waiting Customer &middot; Customer responded</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Approval needed</span></div><div class="mc-body"><span class="badge p3">P3</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-waiting-vendor)"></span><span class="col-name">Waiting Vendor</span></div>
+          <div class="col-statuses">Third party &middot; Material</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">RMA pending</span></div><div class="mc-body"><span class="badge p1">P1</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><span class="col-dot" style="background: var(--col-done)"></span><span class="col-name">Done</span></div>
+          <div class="col-statuses">Pending &middot; Complete</div>
+          <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Resolved</span></div><div class="mc-body"><span class="badge p4">P4</span></div></div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- ─────────── SECTION 1: STATUS MAPPING ─────────── -->
-  <h2>1. Autotask Status to Kanban Column Mapping</h2>
-  <p>Autotask has 14 ticket/task statuses. Most MSPs use 7-10 of these. The kanban board collapses them into 5 visual columns. This is the key differentiator vs. Autotask's native board (which forces 1 status = 1 column) and matches what TopLeft sells as "multi-status columns."</p>
+<!-- ══════════════════════════════════════════════ -->
+<!-- SECTION: FULL STATUS MAP TABLE                -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="wrap section">
+  <h2 class="section-line">Full Status Reference</h2>
 
-  <h3>The 5-column default board</h3>
-  <div class="board-viz">
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#0D2CC6"></span>Backlog / New</div>
-      <div class="bv-status">New (1)</div>
-      <div class="bv-status">To be planned (13)</div>
-      <div class="bv-status">Assigned (29)</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#F39529"></span>Planned</div>
-      <div class="bv-status">Planned (10)</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#2487E4"></span>In Progress</div>
-      <div class="bv-status">In progress (8)</div>
-      <div class="bv-status">Customer has responded (19)</div>
-      <div class="bv-status">Internal note added (23)</div>
-      <div class="bv-status">Note added (20)</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#844BE5"></span>Waiting</div>
-      <div class="bv-status">Waiting Customer (7)</div>
-      <div class="bv-status">Waiting for third party (12)</div>
-      <div class="bv-status">Waiting on material (26)</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#41AA70"></span>Done</div>
-      <div class="bv-status">Complete (5)</div>
-      <div class="bv-status">Autoresolved (16)</div>
-      <div class="bv-status">Pending completion (24)</div>
-    </div>
-  </div>
-
-  <h3>Full status reference</h3>
-  <table class="matrix">
-    <tr><th>Status ID</th><th>Autotask Status</th><th>Kanban Column</th><th>Color</th><th>Live Ticket Count</th></tr>
-    <tr><td>1</td><td><strong>New</strong></td><td>Backlog / New</td><td>#0D2CC6</td><td>169</td></tr>
-    <tr><td>13</td><td><strong>To be planned</strong></td><td>Backlog / New</td><td>#0D2CC6</td><td>--</td></tr>
-    <tr><td>29</td><td><strong>Assigned</strong></td><td>Backlog / New</td><td>#0D2CC6</td><td>1</td></tr>
-    <tr><td>10</td><td><strong>Planned</strong></td><td>Planned</td><td>#F39529</td><td>213</td></tr>
-    <tr><td>8</td><td><strong>In progress</strong></td><td>In Progress</td><td>#2487E4</td><td>205</td></tr>
-    <tr><td>19</td><td><strong>Customer has responded</strong></td><td>In Progress</td><td>#2487E4</td><td>102</td></tr>
-    <tr><td>23</td><td><strong>Internal note added</strong></td><td>In Progress</td><td>#2487E4</td><td>--</td></tr>
-    <tr><td>20</td><td><strong>Note added</strong></td><td>In Progress</td><td>#2487E4</td><td>--</td></tr>
-    <tr><td>7</td><td><strong>Waiting Customer</strong></td><td>Waiting</td><td>#844BE5</td><td>116</td></tr>
-    <tr><td>12</td><td><strong>Waiting for third party</strong></td><td>Waiting</td><td>#844BE5</td><td>38</td></tr>
-    <tr><td>26</td><td><strong>Waiting on material</strong></td><td>Waiting</td><td>#844BE5</td><td>--</td></tr>
-    <tr><td>5</td><td><strong>Complete</strong></td><td>Done</td><td>#41AA70</td><td>66,677</td></tr>
-    <tr><td>16</td><td><strong>Autoresolved</strong></td><td>Done</td><td>#41AA70</td><td>--</td></tr>
-    <tr><td>24</td><td><strong>Pending completion</strong></td><td>Done</td><td>#41AA70</td><td>--</td></tr>
+  <table class="status-table">
+    <tr><th>ID</th><th>Autotask Status</th><th>Kanban Column</th><th>Color</th><th>Live Count</th></tr>
+    <tr><td>1</td><td><strong>New</strong></td><td>Backlog / New</td><td><span class="col-dot" style="background:var(--col-backlog);display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>169</td></tr>
+    <tr><td>13</td><td><strong>To be planned</strong></td><td>Backlog / New</td><td><span class="col-dot" style="background:var(--col-backlog);display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>--</td></tr>
+    <tr><td>29</td><td><strong>Assigned</strong></td><td>Backlog / New</td><td><span class="col-dot" style="background:var(--col-backlog);display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>1</td></tr>
+    <tr><td>10</td><td><strong>Planned</strong></td><td>Planned</td><td><span class="col-dot" style="background:var(--col-planned);display:inline-block;vertical-align:middle;margin-right:4px"></span>Amber</td><td>213</td></tr>
+    <tr><td>8</td><td><strong>In progress</strong></td><td>In Progress</td><td><span class="col-dot" style="background:var(--col-progress);display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>205</td></tr>
+    <tr><td>19</td><td><strong>Customer has responded</strong></td><td>In Progress</td><td><span class="col-dot" style="background:var(--col-progress);display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>102</td></tr>
+    <tr><td>23</td><td><strong>Internal note added</strong></td><td>In Progress</td><td><span class="col-dot" style="background:var(--col-progress);display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>--</td></tr>
+    <tr><td>20</td><td><strong>Note added</strong></td><td>In Progress</td><td><span class="col-dot" style="background:var(--col-progress);display:inline-block;vertical-align:middle;margin-right:4px"></span>Blue</td><td>--</td></tr>
+    <tr><td>7</td><td><strong>Waiting Customer</strong></td><td>Waiting</td><td><span class="col-dot" style="background:var(--col-waiting);display:inline-block;vertical-align:middle;margin-right:4px"></span>Purple</td><td>116</td></tr>
+    <tr><td>12</td><td><strong>Waiting for third party</strong></td><td>Waiting</td><td><span class="col-dot" style="background:var(--col-waiting);display:inline-block;vertical-align:middle;margin-right:4px"></span>Purple</td><td>38</td></tr>
+    <tr><td>26</td><td><strong>Waiting on material</strong></td><td>Waiting</td><td><span class="col-dot" style="background:var(--col-waiting);display:inline-block;vertical-align:middle;margin-right:4px"></span>Purple</td><td>--</td></tr>
+    <tr><td>5</td><td><strong>Complete</strong></td><td>Done</td><td><span class="col-dot" style="background:var(--col-done);display:inline-block;vertical-align:middle;margin-right:4px"></span>Green</td><td>66,677</td></tr>
+    <tr><td>16</td><td><strong>Autoresolved</strong></td><td>Done</td><td><span class="col-dot" style="background:var(--col-done);display:inline-block;vertical-align:middle;margin-right:4px"></span>Green</td><td>--</td></tr>
+    <tr><td>24</td><td><strong>Pending completion</strong></td><td>Done</td><td><span class="col-dot" style="background:var(--col-done);display:inline-block;vertical-align:middle;margin-right:4px"></span>Green</td><td>--</td></tr>
   </table>
 
   <div class="callout">
-    <span class="callout-label">Key design decision</span>
-    <strong>"Customer has responded"</strong> goes into <strong>In Progress</strong>, not Backlog. When a customer responds, the ball is back with the technician. This is the opposite of how Autotask's native board treats it (as a separate status column), but matches how MSP dispatch leads actually think about workflow. TopLeft lets customers configure this. We should too, but the default should be "In Progress."
+    <div class="label">Key decision</div>
+    <strong>Customer has responded</strong> goes to <strong>In Progress</strong>, not Backlog. When a customer responds, the ball is back with the technician. This matches how dispatch leads think about workflow.
   </div>
+</div>
 
-  <h3>Alternative: 4-column board (simpler)</h3>
-  <p>Some smaller MSPs prefer fewer columns. Drop the "Planned" column and merge those statuses into "Backlog / New."</p>
-  <div class="board-viz">
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#0D2CC6"></span>To Do</div>
-      <div class="bv-status">New, To be planned, Assigned, Planned</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#2487E4"></span>In Progress</div>
-      <div class="bv-status">In progress, Customer responded, Notes</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#844BE5"></span>Waiting</div>
-      <div class="bv-status">Waiting Customer, Third party, Material</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#41AA70"></span>Done</div>
-      <div class="bv-status">Complete, Autoresolved, Pending</div>
-    </div>
-  </div>
+<!-- ══════════════════════════════════════════════ -->
+<!-- DEMO SCENARIOS WITH VISUAL BOARDS             -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="wrap section">
+  <h2 class="section-line">Demo Scenarios</h2>
+  <p class="sub">Five boards, each a different MSP use case. Set up all five as saved views so you can switch during a demo.</p>
 
-  <h3>Alternative: 6-column board (detailed)</h3>
-  <p>For MSPs with heavy escalation workflows. Splits "Waiting" into customer vs. vendor, adds a "Review" column before Done.</p>
-  <div class="board-viz">
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#0D2CC6"></span>New</div>
-      <div class="bv-status">New, Assigned</div>
+  <!-- ── SCENARIO 1 ── -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <span class="scenario-num">1</span>
+      <div><div class="scenario-title">Dispatch Lead Morning Board</div><div class="scenario-who">Service desk manager, dispatch coordinator</div></div>
     </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#F39529"></span>Planned</div>
-      <div class="bv-status">To be planned, Planned</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#2487E4"></span>Working</div>
-      <div class="bv-status">In progress, Notes</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#844BE5"></span>Waiting Client</div>
-      <div class="bv-status">Waiting Customer, Customer responded</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#E87040"></span>Waiting Vendor</div>
-      <div class="bv-status">Third party, Material</div>
-    </div>
-    <div class="bv-col">
-      <div class="bv-col-head"><span class="bv-dot" style="background:#41AA70"></span>Done</div>
-      <div class="bv-status">Pending completion, Complete</div>
-    </div>
-  </div>
-
-  <!-- ─────────── SECTION 2: SWIMLANES ─────────── -->
-  <h2>2. Swimlane Options</h2>
-  <p>Swimlanes group cards into horizontal rows within each column. The user picks one grouping at a time. Each swimlane shows a count badge and can be collapsed.</p>
-
-  <table class="matrix">
-    <tr><th>Swimlane</th><th>Groups by</th><th>Best for</th><th>Collapse behavior</th></tr>
-    <tr><td><strong>Priority</strong></td><td>P1 Critical, P2 High, P3 Medium, P4 Low, Service/Change</td><td>Dispatch leads, morning standup</td><td>Collapse P3/P4, keep P1/P2 open</td></tr>
-    <tr><td><strong>Assignee</strong></td><td>Primary resource on ticket/task</td><td>Team leads checking workload</td><td>Collapse people who are off today</td></tr>
-    <tr><td><strong>Customer</strong></td><td>Company name from Autotask</td><td>Account managers, customer reviews</td><td>Collapse inactive customers</td></tr>
-    <tr><td><strong>Queue</strong></td><td>L1, L2, Onsite, Customer Success, etc.</td><td>Operations managers, escalation tracking</td><td>Collapse queues not owned by viewer</td></tr>
-    <tr><td><strong>Project</strong></td><td>Autotask project name</td><td>Project managers, implementation tracking</td><td>Collapse completed projects</td></tr>
-    <tr><td><strong>Ticket Type</strong></td><td>Incident, Service Request, Alert, Problem, Change</td><td>ITIL-oriented MSPs, reporting</td><td>Collapse Alerts (automated noise)</td></tr>
-  </table>
-
-  <div class="callout">
-    <span class="callout-label">TopLeft comparison</span>
-    TopLeft offers swimlanes by: account, resource, priority, queue, project, category, and UDFs. They charge $36/user/month for this. Proxuma includes it. Our gap: we don't yet support UDF-based swimlanes. Their gap: no cross-swimlane drag-and-drop with field update.
-  </div>
-
-  <!-- ─────────── SECTION 3: PRIORITIES ─────────── -->
-  <h2>3. Priority Levels (from Demo Data)</h2>
-  <table class="matrix">
-    <tr><th>Priority ID</th><th>Name</th><th>Card Color</th><th>Ticket Count</th><th>% of Total</th></tr>
-    <tr><td>1</td><td><strong>P1 - Critical</strong></td><td style="color:#C02049">Red badge</td><td>1,788</td><td>2.6%</td></tr>
-    <tr><td>2</td><td><strong>P2 - High</strong></td><td style="color:#A33B14">Orange badge</td><td>14,715</td><td>21.8%</td></tr>
-    <tr><td>3</td><td><strong>P4 - Low</strong></td><td style="color:#1F6F44">Green badge</td><td>30,415</td><td>45.0%</td></tr>
-    <tr><td>4</td><td><strong>P3 - Medium</strong></td><td style="color:#7A5300">Amber badge</td><td>5,019</td><td>7.4%</td></tr>
-    <tr><td>5</td><td><strong>Service/Change req.</strong></td><td style="color:#6b7280">Gray badge</td><td>15,584</td><td>23.1%</td></tr>
-    <tr class="row-total"><td></td><td><strong>Total</strong></td><td></td><td><strong>67,521</strong></td><td><strong>100%</strong></td></tr>
-  </table>
-
-  <!-- ─────────── SECTION 4: QUEUES ─────────── -->
-  <h2>4. Queue Distribution (Demo Data)</h2>
-  <table class="matrix">
-    <tr><th>Queue</th><th>Ticket Count</th><th>Use in Demo</th></tr>
-    <tr><td><strong>L1 / Centralized Services</strong></td><td>31,378</td><td>Default queue in all scenarios</td></tr>
-    <tr><td><strong>Helpdesk / Support</strong></td><td>17,082</td><td>Triage board scenario</td></tr>
-    <tr><td><strong>L2 Support</strong></td><td>7,889</td><td>Escalation board scenario</td></tr>
-    <tr><td><strong>Merged Tickets</strong></td><td>4,999</td><td>Exclude from boards</td></tr>
-    <tr><td><strong>Network/Infrastructure</strong></td><td>2,316</td><td>Project board scenario</td></tr>
-    <tr><td><strong>Customer Success</strong></td><td>804</td><td>Account management scenario</td></tr>
-    <tr><td><strong>Interne IT</strong></td><td>793</td><td>Internal IT board</td></tr>
-    <tr><td><strong>Onsite Support</strong></td><td>705</td><td>Field service board scenario</td></tr>
-    <tr><td><strong>Administration</strong></td><td>327</td><td>Ops board</td></tr>
-    <tr><td><strong>Sales / Pre-sales</strong></td><td>152</td><td>Sales pipeline board</td></tr>
-  </table>
-
-  <!-- ─────────── SECTION 5: DEMO SCENARIOS ─────────── -->
-  <h2>5. Five Demo Scenarios</h2>
-  <p>Each scenario represents a real MSP use case. Set up all five as saved views in the demo environment so you can switch between them during a demo call.</p>
-
-  <div class="tier">
-    <div class="tier-header">
-      <span class="tier-badge t1">Scenario 1</span>
-      <span class="tier-title">Dispatch Lead Morning Board</span>
-    </div>
-    <div class="card">
-      <div class="card-buyer">WHO USES THIS: Service desk manager, dispatch coordinator</div>
-      <div class="card-desc">
-        <p><strong>The story:</strong> It's 8:30 AM. The dispatch lead opens Proxuma and needs to know: what's on fire, what's stuck, and who's overloaded. This board answers all three questions in one screen.</p>
-        <p><strong>Board config:</strong></p>
-        <ul>
-          <li><strong>Columns:</strong> 5-column default (Backlog > Planned > In Progress > Waiting > Done)</li>
-          <li><strong>Swimlanes:</strong> Priority (P1 Critical at top, always expanded. P2 High expanded. P3/P4 collapsed)</li>
-          <li><strong>Card fields:</strong> Title, priority badge, customer name, assignee avatar, due date, SLA indicator</li>
-          <li><strong>Filters:</strong> Exclude "Complete" older than 7 days. Exclude "Merged Tickets" queue</li>
-          <li><strong>WIP limit:</strong> In Progress capped at 30 (shows red counter when exceeded)</li>
-          <li><strong>Entity types:</strong> Tickets + Service Calls</li>
-        </ul>
-        <p><strong>Demo moves:</strong></p>
-        <ol>
-          <li>Show P1 swimlane with 5 critical tickets. Point out the overdue badge on one.</li>
-          <li>Drag a ticket from "Backlog" to "In Progress" -- status updates in Autotask instantly.</li>
-          <li>Drag across swimlanes (reassign from one tech to another) -- show the field update.</li>
-          <li>Collapse P3/P4 -- "fold the noise, focus on what burns."</li>
-          <li>Toggle to Assignee swimlane -- show workload distribution in one click.</li>
-        </ol>
+    <div class="scenario-story">8:30 AM. The dispatch lead opens Proxuma. What's on fire, what's stuck, who's overloaded. One screen answers all three.</div>
+    <div style="padding: 0 16px;">
+      <div class="board-frame" style="margin: 16px 0;">
+        <div class="board-toolbar">
+          <span class="view-name">▭ Morning Dispatch</span>
+          <span class="pill">Swimlane: <strong>Priority</strong></span>
+          <span class="spacer"></span>
+          <span class="pill">Entity: <strong>Tickets + Service Calls</strong></span>
+        </div>
+        <!-- P1 swimlane -->
+        <div class="swim">
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>P1 -- Critical</h4><span class="cnt">5</span></div>
+          <div class="columns" style="grid-template-columns: repeat(5, 1fr);">
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-backlog)"></span><span class="col-name">Backlog</span><span class="col-count">2</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Server outage</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-company">Byte IT</span><span class="av" style="background:#7C3AED">DD</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Network switch failure</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-company">Spark IT</span><span class="av" style="background:#2563EB">MH</span></div></div>
+            </div>
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-planned)"></span><span class="col-name">Planned</span><span class="col-count">0</span></div>
+            </div>
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count over">3/3</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">DB failover drill</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta overdue">1h overdue</span><span class="av" style="background:#DC2626">JR</span><span class="av" style="background:#7C3AED">AT</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Office VLAN migration</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-company">Cascadia Tech</span><span class="av" style="background:#F59E0B">CP</span></div></div>
+            </div>
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">SonicWall RMA</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">vendor</span><span class="av" style="background:#4338CA">SC</span></div></div>
+            </div>
+            <div class="col">
+              <div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Internet outage</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">resolved</span></div></div>
+            </div>
+          </div>
+        </div>
+        <!-- P2 collapsed -->
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>P2 -- High</h4><span class="cnt">164</span></div>
+          <div class="columns" style="grid-template-columns: repeat(5, 1fr);"></div>
+        </div>
+        <!-- P3 collapsed -->
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>P3 -- Medium</h4><span class="cnt">2,769</span></div>
+          <div class="columns" style="grid-template-columns: repeat(5, 1fr);"></div>
+        </div>
       </div>
     </div>
+    <div class="scenario-moves">
+      <h5>Demo moves</h5>
+      <ol>
+        <li>Show P1 swimlane with 5 critical tickets. Point out the overdue badge.</li>
+        <li>Drag a ticket from Backlog to In Progress -- status updates in Autotask instantly.</li>
+        <li>Drag across swimlanes to reassign from one tech to another.</li>
+        <li>Collapse P3/P4: "fold the noise, focus on what burns."</li>
+        <li>Toggle swimlane to Assignee -- show workload distribution in one click.</li>
+      </ol>
+    </div>
   </div>
 
-  <div class="tier">
-    <div class="tier-header">
-      <span class="tier-badge t1">Scenario 2</span>
-      <span class="tier-title">Escalation / L2 Engineering Board</span>
+  <!-- ── SCENARIO 2 ── -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <span class="scenario-num">2</span>
+      <div><div class="scenario-title">L2 Escalation Board</div><div class="scenario-who">L2/L3 engineers, escalation manager</div></div>
     </div>
-    <div class="card">
-      <div class="card-buyer">WHO USES THIS: L2/L3 engineers, escalation manager</div>
-      <div class="card-desc">
-        <p><strong>The story:</strong> Escalated tickets need more structure. The L2 team doesn't want to see every new ticket from L1. They want only what's been assigned to their queue, with clear visibility on what's waiting on a vendor vs. waiting on the customer.</p>
-        <p><strong>Board config:</strong></p>
-        <ul>
-          <li><strong>Columns:</strong> 6-column (New > Planned > Working > Waiting Client > Waiting Vendor > Done)</li>
-          <li><strong>Swimlanes:</strong> Assignee (each engineer sees their lane)</li>
-          <li><strong>Card fields:</strong> Title, ticket number, customer, priority, hours worked, SLA countdown</li>
-          <li><strong>Filters:</strong> Queue = "L2 Support" only. Active tickets only (exclude Complete > 30 days)</li>
-          <li><strong>WIP limit:</strong> 5 per engineer in "Working" column</li>
-          <li><strong>Entity types:</strong> Tickets only</li>
-        </ul>
-        <p><strong>Demo moves:</strong></p>
-        <ol>
-          <li>Show the split between "Waiting Client" and "Waiting Vendor" -- "no more guessing who's blocking."</li>
-          <li>Drag a ticket from "Waiting Client" to "Working" when customer responds -- auto-updates status to "In progress."</li>
-          <li>Show WIP limit on an engineer who has 5/5 -- "this protects your team from overload."</li>
-          <li>Point at SLA countdown on a card -- "you see the deadline without opening the ticket."</li>
-        </ol>
+    <div class="scenario-story">Escalated tickets need more structure. The L2 team only sees their queue, with clear visibility on what's blocking: customer or vendor.</div>
+    <div style="padding: 0 16px;">
+      <div class="board-frame" style="margin: 16px 0;">
+        <div class="board-toolbar">
+          <span class="view-name">▭ L2 Escalation</span>
+          <span class="pill">Swimlane: <strong>Assignee</strong></span>
+          <span class="pill">Queue: <strong>L2 Support</strong></span>
+          <span class="spacer"></span>
+        </div>
+        <div class="swim">
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>Johan R.</h4><span class="cnt">5</span></div>
+          <div class="columns" style="grid-template-columns: repeat(6, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-backlog)"></span><span class="col-name">New</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">DNS propagation</span></div><div class="mc-body"><span class="badge p2">P2</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-planned)"></span><span class="col-name">Planned</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">Working</span><span class="col-count over">5/5</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Exchange hybrid</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">4h worked</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">GPO conflict</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">SLA: 6h left</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting Client</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Cert approval</span></div><div class="mc-body"><span class="badge p3">P3</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting-vendor)"></span><span class="col-name">Waiting Vendor</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Fortinet RMA</span></div><div class="mc-body"><span class="badge p1">P1</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span></div></div>
+          </div>
+        </div>
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Anna T.</h4><span class="cnt">3</span></div>
+          <div class="columns" style="grid-template-columns: repeat(6, 1fr);"></div>
+        </div>
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Dennis D.</h4><span class="cnt">4</span></div>
+          <div class="columns" style="grid-template-columns: repeat(6, 1fr);"></div>
+        </div>
       </div>
     </div>
+    <div class="scenario-moves">
+      <h5>Demo moves</h5>
+      <ol>
+        <li>Show the split: Waiting Client vs. Waiting Vendor -- "no more guessing who's blocking."</li>
+        <li>Show WIP limit on Johan: 5/5 -- "protects your team from overload."</li>
+        <li>Point at SLA countdown -- "see the deadline without opening the ticket."</li>
+      </ol>
+    </div>
   </div>
 
-  <div class="tier">
-    <div class="tier-header">
-      <span class="tier-badge t1">Scenario 3</span>
-      <span class="tier-title">Project Implementation Board</span>
+  <!-- ── SCENARIO 3 ── -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <span class="scenario-num">3</span>
+      <div><div class="scenario-title">Project Implementation Board</div><div class="scenario-who">Project manager, implementation lead</div></div>
     </div>
-    <div class="card">
-      <div class="card-buyer">WHO USES THIS: Project manager, implementation lead</div>
-      <div class="card-desc">
-        <p><strong>The story:</strong> An MSP is rolling out a new Microsoft 365 tenant for a customer. The project has 20+ tasks, some tickets from issues that came up, and scheduled service calls for onsite work. All three entity types on one board.</p>
-        <p><strong>Board config:</strong></p>
-        <ul>
-          <li><strong>Columns:</strong> 5-column (Backlog > Planned > In Progress > Blocked > Done)</li>
-          <li><strong>Swimlanes:</strong> Project (group by Autotask project name)</li>
-          <li><strong>Card fields:</strong> Title, entity type indicator (color-coded: purple=ticket, blue=task, green=service call), assignee, estimated hours, due date</li>
-          <li><strong>Filters:</strong> Show only project-linked items. Include tasks + tickets + service calls</li>
-          <li><strong>WIP limit:</strong> None (project work is milestone-driven)</li>
-          <li><strong>Entity types:</strong> Tasks + Tickets + Service Calls (all three)</li>
-        </ul>
-        <p><strong>Demo moves:</strong></p>
-        <ol>
-          <li>Show all three entity types with their color headers -- "tasks, tickets, and service calls in one view."</li>
-          <li>Expand one project swimlane, collapse others -- "focus on the active deployment."</li>
-          <li>Drag a task from Planned to In Progress -- task status updates in Autotask project.</li>
-          <li>Point out a service call card with scheduled date -- "your onsite visit is right here on the board."</li>
-          <li>Killer line: "TopLeft can't do this. Autotask can't do this. Three entity types on one board."</li>
-        </ol>
+    <div class="scenario-story">Rolling out Microsoft 365 for a customer. Tasks, tickets from issues, and scheduled service calls for onsite work. Three entity types on one board.</div>
+    <div style="padding: 0 16px;">
+      <div class="board-frame" style="margin: 16px 0;">
+        <div class="board-toolbar">
+          <span class="view-name">▭ M365 Rollout</span>
+          <span class="pill">Swimlane: <strong>Project</strong></span>
+          <span class="pill">Entity: <strong>All 3 types</strong></span>
+          <span class="spacer"></span>
+        </div>
+        <div class="swim">
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>M365 Tenant Migration -- Byte IT</h4><span class="cnt">8</span></div>
+          <div class="columns" style="grid-template-columns: repeat(5, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-backlog)"></span><span class="col-name">Backlog</span><span class="col-count">2</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Configure Intune policies</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">est. 4h</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Mailbox migration batch 3</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">est. 2h</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-planned)"></span><span class="col-name">Planned</span><span class="col-count">2</span></div>
+              <div class="mcard service"><div class="mc-head"><span class="mc-title">Onsite: laptop rollout day 1</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">May 20</span><span class="av" style="background:#DC2626">JR</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">DNS cutover</span></div><div class="mc-body"><span class="badge p1">P1</span><span class="mc-meta">May 19</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">2</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Mailbox migration batch 2</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="av" style="background:#16A34A">AT</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Outlook profile error (issue)</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="av" style="background:#F59E0B">CP</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Blocked</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">License order pending</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">vendor</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">4</span></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Tenant provisioning</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">done</span></div></div>
+              <div class="mcard service"><div class="mc-head"><span class="mc-title">Onsite: server rack</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">done</span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Firewall Upgrade -- Spark IT</h4><span class="cnt">4</span></div>
+          <div class="columns" style="grid-template-columns: repeat(5, 1fr);"></div>
+        </div>
       </div>
     </div>
+    <div class="scenario-moves">
+      <h5>Demo moves</h5>
+      <ol>
+        <li>Point out the three colors: purple = ticket, blue = task, green = service call. "All three on one board."</li>
+        <li>Show the service call with a scheduled date -- "your onsite visit is right here."</li>
+        <li>Killer line: "TopLeft can't do this. Autotask can't do this. Three entity types, one board."</li>
+      </ol>
+    </div>
   </div>
 
-  <div class="tier">
-    <div class="tier-header">
-      <span class="tier-badge t2">Scenario 4</span>
-      <span class="tier-title">Account Manager / Customer Review Board</span>
+  <!-- ── SCENARIO 4 ── -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <span class="scenario-num">4</span>
+      <div><div class="scenario-title">Account Manager / QBR Board</div><div class="scenario-who">Account manager, customer success</div></div>
     </div>
-    <div class="card">
-      <div class="card-buyer">WHO USES THIS: Account manager, customer success</div>
-      <div class="card-desc">
-        <p><strong>The story:</strong> Before a QBR (quarterly business review) call, the account manager wants to see all open work for a specific customer. Or during a customer call, they need a quick view of "what are we working on for you right now."</p>
-        <p><strong>Board config:</strong></p>
-        <ul>
-          <li><strong>Columns:</strong> 4-column (To Do > In Progress > Waiting > Done)</li>
-          <li><strong>Swimlanes:</strong> Customer (one row per company)</li>
-          <li><strong>Card fields:</strong> Title, priority, assignee, last activity date, hours worked</li>
-          <li><strong>Filters:</strong> Filter to specific customer(s) for the meeting. Queue = Customer Success or All.</li>
-          <li><strong>Entity types:</strong> Tickets + Tasks</li>
-        </ul>
-        <p><strong>Demo moves:</strong></p>
-        <ol>
-          <li>Filter to one customer -- "this is your QBR prep screen."</li>
-          <li>Show the count badges -- "8 open items, 3 waiting on the customer."</li>
-          <li>Save this as a named view -- "My QBR: Byte IT" -- click save.</li>
-          <li>Switch to a different saved view for another customer -- instant context switch.</li>
-          <li>Point: "This replaces the spreadsheet your AM maintains manually."</li>
-        </ol>
+    <div class="scenario-story">Before a quarterly business review, the AM needs all open work for one customer on screen. During the call, it's the live dashboard.</div>
+    <div style="padding: 0 16px;">
+      <div class="board-frame" style="margin: 16px 0;">
+        <div class="board-toolbar">
+          <span class="view-name">▭ QBR: Byte IT</span>
+          <span class="pill">Swimlane: <strong>Customer</strong></span>
+          <span class="pill">Filter: <strong>Byte IT</strong></span>
+          <span class="spacer"></span>
+        </div>
+        <div class="swim">
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>Byte IT</h4><span class="cnt">8 open</span></div>
+          <div class="columns" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-backlog)"></span><span class="col-name">To Do</span><span class="col-count">2</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Backup config review</span></div><div class="mc-body"><span class="badge p3">P3</span></div></div>
+              <div class="mcard task"><div class="mc-head"><span class="mc-title">Annual pen test</span></div><div class="mc-body"><span class="badge p2">P2</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">In Progress</span><span class="col-count">3</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">M365 migration</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="av" style="background:#16A34A">AT</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Printer driver fix</span></div><div class="mc-body"><span class="badge p4">P4</span><span class="av" style="background:#2563EB">MH</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting)"></span><span class="col-name">Waiting</span><span class="col-count">3</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">License approval</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">waiting customer</span></div></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">UPS delivery</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">waiting vendor</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Done</span><span class="col-count">12</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Firewall update</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">last week</span></div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="scenario-moves">
+      <h5>Demo moves</h5>
+      <ol>
+        <li>Filter to one customer -- "this is your QBR prep screen."</li>
+        <li>Show counts: "8 open items, 3 waiting on the customer."</li>
+        <li>Save as a named view -- "My QBR: Byte IT" -- one click.</li>
+        <li>"This replaces the spreadsheet your AM maintains manually."</li>
+      </ol>
+    </div>
   </div>
 
-  <div class="tier">
-    <div class="tier-header">
-      <span class="tier-badge t2">Scenario 5</span>
-      <span class="tier-title">Field Service / Onsite Board</span>
+  <!-- ── SCENARIO 5 ── -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <span class="scenario-num">5</span>
+      <div><div class="scenario-title">Field Service / Onsite Board</div><div class="scenario-who">Field service coordinator, onsite engineers</div></div>
     </div>
-    <div class="card">
-      <div class="card-buyer">WHO USES THIS: Field service coordinator, onsite engineers</div>
-      <div class="card-desc">
-        <p><strong>The story:</strong> The MSP has a team that goes onsite. They need to see scheduled service calls, onsite tickets, and hardware-waiting items. The "Waiting on material" status is critical here -- hardware orders block onsite visits.</p>
-        <p><strong>Board config:</strong></p>
-        <ul>
-          <li><strong>Columns:</strong> 5-column (Scheduled > Dispatched > Onsite > Waiting Parts > Completed)</li>
-          <li><strong>Swimlanes:</strong> Assignee (field engineer)</li>
-          <li><strong>Card fields:</strong> Title, customer, scheduled date/time, location, priority, contact name</li>
-          <li><strong>Filters:</strong> Queue = "Onsite Support." Entity = Service Calls + Tickets with onsite flag.</li>
-          <li><strong>Column mapping:</strong> Planned > Scheduled, In Progress > Onsite, Waiting on material > Waiting Parts</li>
-          <li><strong>Entity types:</strong> Service Calls + Tickets</li>
-        </ul>
-        <p><strong>Demo moves:</strong></p>
-        <ol>
-          <li>Show service call cards with scheduled time -- "your field team sees their day at a glance."</li>
-          <li>Drag from "Scheduled" to "Onsite" -- engineer has arrived, status updates.</li>
-          <li>Move to "Waiting Parts" -- "hardware hasn't arrived, visit postponed. The dispatcher sees it immediately."</li>
-          <li>Show the assignee swimlane -- "who's where today."</li>
-        </ol>
+    <div class="scenario-story">A team that goes onsite. Scheduled service calls, onsite tickets, and hardware-waiting items. "Waiting on material" is the blocker that postpones visits.</div>
+    <div style="padding: 0 16px;">
+      <div class="board-frame" style="margin: 16px 0;">
+        <div class="board-toolbar">
+          <span class="view-name">▭ Field Service</span>
+          <span class="pill">Swimlane: <strong>Assignee</strong></span>
+          <span class="pill">Queue: <strong>Onsite Support</strong></span>
+          <span class="spacer"></span>
+        </div>
+        <div class="swim">
+          <div class="swim-head"><span class="chev">&#9660;</span><h4>Chris P.</h4><span class="cnt">4</span></div>
+          <div class="columns" style="grid-template-columns: repeat(5, 1fr);">
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-planned)"></span><span class="col-name">Scheduled</span><span class="col-count">2</span></div>
+              <div class="mcard service"><div class="mc-head"><span class="mc-title">Switch install -- Northwind</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-meta">May 14, 09:00</span></div></div>
+              <div class="mcard service"><div class="mc-head"><span class="mc-title">UPS replacement -- Byte IT</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">May 14, 14:00</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-progress)"></span><span class="col-name">Dispatched</span></div></div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-review)"></span><span class="col-name">Onsite</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">Server rack cabling</span></div><div class="mc-body"><span class="badge p2">P2</span><span class="mc-company">Cascadia Tech</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-waiting-vendor)"></span><span class="col-name">Waiting Parts</span><span class="col-count">1</span></div>
+              <div class="mcard ticket"><div class="mc-head"><span class="mc-title">AP mount hardware</span></div><div class="mc-body"><span class="badge p3">P3</span><span class="mc-meta">ETA May 16</span></div></div>
+            </div>
+            <div class="col"><div class="col-head"><span class="col-dot" style="background:var(--col-done)"></span><span class="col-name">Completed</span></div></div>
+          </div>
+        </div>
+        <div class="swim collapsed" style="border-top: 1px solid var(--lijn);">
+          <div class="swim-head"><span class="chev">&#9654;</span><h4>Mike H.</h4><span class="cnt">3</span></div>
+          <div class="columns" style="grid-template-columns: repeat(5, 1fr);"></div>
+        </div>
       </div>
     </div>
+    <div class="scenario-moves">
+      <h5>Demo moves</h5>
+      <ol>
+        <li>Show service call cards with scheduled times -- "your field team sees their day."</li>
+        <li>Drag from Scheduled to Onsite -- engineer arrived, status updates.</li>
+        <li>Move to Waiting Parts -- "hardware hasn't arrived. Dispatcher sees it immediately."</li>
+      </ol>
+    </div>
   </div>
+</div>
 
-  <!-- ─────────── SECTION 6: COMPETITIVE POSITIONING ─────────── -->
-  <h2>6. Competitive Quick Reference</h2>
-
-  <table class="matrix">
+<!-- ══════════════════════════════════════════════ -->
+<!-- COMPETITIVE TABLE                              -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="wrap section">
+  <h2 class="section-line">Competitive Quick Reference</h2>
+  <table class="status-table">
     <tr><th>Feature</th><th>Autotask Native</th><th>TopLeft ($36/user)</th><th>Proxuma (included)</th></tr>
     <tr><td>Multi-status columns</td><td class="lose">No (1:1)</td><td class="win">Yes</td><td class="win">Yes</td></tr>
-    <tr><td>Swimlanes</td><td class="lose">None</td><td class="win">7 options + UDFs</td><td class="win">6 options</td></tr>
+    <tr><td>Swimlanes</td><td class="lose">None</td><td class="win">7 + UDFs</td><td class="win">6 options</td></tr>
     <tr><td>Tasks + Tickets + Service Calls</td><td class="lose">Tickets only</td><td class="neutral">Tickets + Tasks</td><td class="win">All three</td></tr>
     <tr><td>Card field config</td><td class="lose">None</td><td class="neutral">~10 fields</td><td class="win">30+ fields</td></tr>
-    <tr><td>Saved views</td><td class="lose">No</td><td class="win">Yes</td><td class="win">Yes</td></tr>
     <tr><td>WIP limits</td><td class="lose">No</td><td class="lose">No</td><td class="win">Yes</td></tr>
-    <tr><td>Cross-swimlane drag</td><td class="lose">N/A</td><td class="neutral">Unknown</td><td class="win">Yes, with field update</td></tr>
-    <tr><td>Gantt chart</td><td class="lose">No</td><td class="win">Yes</td><td class="lose">No (resource view instead)</td></tr>
-    <tr><td>AI scheduling</td><td class="lose">No</td><td class="lose">No</td><td class="win">Timefold + plan bucket</td></tr>
-    <tr><td>Capacity planning</td><td class="lose">No</td><td class="neutral">$160/mgr/mo add-on</td><td class="win">Built-in</td></tr>
-    <tr><td>Pricing</td><td>Included in PSA</td><td>$36/user + onboarding</td><td class="win">Included in Proxuma license</td></tr>
+    <tr><td>Cross-swimlane drag</td><td class="lose">N/A</td><td class="neutral">Unknown</td><td class="win">Yes + field update</td></tr>
+    <tr><td>Gantt chart</td><td class="lose">No</td><td class="win">Yes</td><td class="lose">No (resource view)</td></tr>
+    <tr><td>AI scheduling</td><td class="lose">No</td><td class="lose">No</td><td class="win">Timefold</td></tr>
+    <tr><td>Capacity planning</td><td class="lose">No</td><td class="neutral">$160/mgr add-on</td><td class="win">Built-in</td></tr>
+    <tr><td>Pricing</td><td>In PSA</td><td>$36/user + onboarding</td><td class="win">Included</td></tr>
   </table>
+</div>
 
-  <div class="positioning">
-    <h2>The Demo Closer</h2>
-    <p>TopLeft charges $36/user/month for a kanban board, plus $160/manager/month for capacity planning, plus $1,000-$3,500 onboarding. Proxuma gives you kanban, capacity planning, resource views, AI scheduling, and project management in one license. No add-ons. No extra logins. One tool that does what three used to.</p>
-  </div>
-
-  <!-- ─────────── SECTION 7: DRAG-DROP STATUS RULES ─────────── -->
-  <h2>7. Drag-and-Drop Status Rules</h2>
-  <p>When a card is dragged between columns, the Autotask status needs to update. Not all moves are valid. The kanban should enforce Autotask's business rules and block impossible transitions.</p>
-
-  <h3>Column transition matrix</h3>
-  <table class="matrix">
-    <tr><th>From \ To</th><th>Backlog</th><th>Planned</th><th>In Progress</th><th>Waiting</th><th>Done</th></tr>
-    <tr><td><strong>Backlog</strong></td><td>--</td><td class="win">Planned (10)</td><td class="win">In progress (8)</td><td class="win">Waiting Customer (7)</td><td class="win">Complete (5)</td></tr>
-    <tr><td><strong>Planned</strong></td><td class="win">New (1)</td><td>--</td><td class="win">In progress (8)</td><td class="win">Waiting Customer (7)</td><td class="win">Complete (5)</td></tr>
-    <tr><td><strong>In Progress</strong></td><td class="lose">Blocked</td><td class="win">Planned (10)</td><td>--</td><td class="win">Waiting Customer (7)</td><td class="win">Complete (5)</td></tr>
-    <tr><td><strong>Waiting</strong></td><td class="lose">Blocked</td><td class="lose">Blocked</td><td class="win">In progress (8)</td><td>--</td><td class="win">Complete (5)</td></tr>
-    <tr><td><strong>Done</strong></td><td class="lose">Blocked</td><td class="lose">Blocked</td><td class="win">In progress (8)</td><td class="lose">Blocked</td><td>--</td></tr>
-  </table>
-
-  <div class="callout">
-    <span class="callout-label">Immutable fields on drag</span>
-    When dragging across swimlanes, some fields can update (assignee, queue, priority) but others are locked by Autotask: <strong>project</strong> and <strong>customer/company</strong> cannot change via drag. The board should show a "locked" indicator and block the drop. This is a feature, not a bug: "We protect you from mistakes Autotask would reject anyway."
-  </div>
-
-  <!-- ─────────── SECTION 8: CARD LAYOUT ─────────── -->
-  <h2>8. Card Field Zones</h2>
-  <p>Each card has four zones that can be configured per saved view:</p>
-
-  <table class="matrix">
-    <tr><th>Zone</th><th>Position</th><th>Default Fields</th><th>Options</th></tr>
-    <tr><td><strong>Header band</strong></td><td>Top, color-coded</td><td>Title, entity type indicator, status pill</td><td>Ticket number, project name</td></tr>
-    <tr><td><strong>Top-right</strong></td><td>Badge area</td><td>Priority badge</td><td>SLA indicator, hours worked</td></tr>
-    <tr><td><strong>Body</strong></td><td>Main content</td><td>Customer name, due date</td><td>Queue, contract, issue type, description preview</td></tr>
-    <tr><td><strong>Footer</strong></td><td>Bottom row</td><td>Assignee avatar(s), last activity</td><td>Estimated hours, billable flag, AI scheduling tag</td></tr>
-  </table>
-
-  <p>Two density modes: <strong>Compact</strong> (header + priority only, for high-volume boards) and <strong>Comfortable</strong> (all four zones visible, for detailed work).</p>
-
-  <!-- ─────────── SECTION 9: WEBSITE STATUS ─────────── -->
-  <h2>9. Website (from Claude Design)</h2>
-  <p>The kanban product page has been designed in Claude Design and exported as a handoff bundle. Key sections in the HTML:</p>
-  <ul>
-    <li><strong>Hero:</strong> "Move work, not meetings" -- live mini-board with flying card animation</li>
-    <li><strong>Ecosystem strip:</strong> Resource, Projects, Shifts, Kanban (NEW badge)</li>
-    <li><strong>Interactive demo board:</strong> Drag-and-drop cards, priority swimlanes (P1/P2/P3), WIP limits</li>
-    <li><strong>Stats strip:</strong> 38% fewer meetings, 2.4s sync latency, 12k+ cards/month, 99.97% uptime</li>
-    <li><strong>Feature sections:</strong> Priority swimlanes, AI scheduler, saved views/filters</li>
-    <li><strong>Before/After comparison:</strong> Spreadsheets vs. Proxuma Kanban</li>
-    <li><strong>Board rules trio:</strong> Substatus columns, card field config, swimlane picker</li>
-    <li><strong>Autotask sync visualization:</strong> Bi-directional real-time sync</li>
-    <li><strong>CTA:</strong> "Stop managing tickets in a grid" -- book demo / start trial</li>
-  </ul>
-  <p>File location: <code>/Users/maxdekwaasteniet/Downloads/Kanban website try-handoff (2).zip</code><br>
-  Main file: <code>kanban-website-try/project/Kanban.html</code></p>
-
-  <div class="page-footer">
-    <span>Proxuma Kanban &middot; Board Setup &amp; Demo Playbook</span>
+<div class="wrap">
+  <div class="page-foot">
+    <span>Proxuma Kanban -- Board Setup &amp; Demo Playbook</span>
     <span>May 2026</span>
   </div>
 </div>
@@ -645,113 +826,27 @@ code {
 {
   "title": "Proxuma Kanban Board Setup, Status Mapping & Demo Scenarios",
   "date": "2026-05-13",
-  "summary": "Complete kanban product setup: 14 Autotask statuses mapped to 5 board columns, 6 swimlane options, drag-drop transition rules, and 5 ready-to-demo scenarios for MSP sales demos. Includes competitive positioning vs TopLeft and Autotask native.",
+  "summary": "Visual kanban board setup with drawn boards for each scenario. 14 Autotask statuses mapped to 3 board layouts. 5 interactive demo scenarios with visual boards, swimlanes, and demo scripts.",
   "sections": [
-    {
-      "heading": "Status Mapping",
-      "items": [
-        { "title": "Default 5-column board", "detail": "Backlog/New (3 statuses), Planned (1), In Progress (4), Waiting (3), Done (3). Covers all 14 Autotask statuses.", "meta": { "columns": 5, "statuses_mapped": 14 } },
-        { "title": "Alternative boards", "detail": "4-column (simpler, merge Planned into Backlog) and 6-column (split Waiting into Client/Vendor, add Review before Done).", "meta": {} },
-        { "title": "Key decision", "detail": "Customer has responded goes into In Progress, not Backlog. Ball is back with technician.", "meta": {} }
-      ]
-    },
-    {
-      "heading": "Swimlanes",
-      "items": [
-        { "title": "6 options", "detail": "Priority, Assignee, Customer, Queue, Project, Ticket Type. Each with collapse behavior.", "meta": { "gap_vs_topleft": "No UDF-based swimlanes yet" } }
-      ]
-    },
-    {
-      "heading": "Demo Scenarios",
-      "items": [
-        { "title": "Scenario 1: Dispatch Lead Morning Board", "detail": "5-col, priority swimlanes, P1/P2 expanded. For dispatch coordinators.", "meta": {} },
-        { "title": "Scenario 2: L2 Escalation Board", "detail": "6-col with split waiting, assignee swimlanes, WIP 5/engineer.", "meta": {} },
-        { "title": "Scenario 3: Project Implementation Board", "detail": "5-col, project swimlanes, all 3 entity types. Killer differentiator.", "meta": {} },
-        { "title": "Scenario 4: Customer Review / QBR Board", "detail": "4-col, customer swimlanes, saved views per customer.", "meta": {} },
-        { "title": "Scenario 5: Field Service / Onsite Board", "detail": "5-col with custom names, assignee swimlanes, service calls focus.", "meta": {} }
-      ]
-    },
-    {
-      "heading": "Competitive Positioning",
-      "items": [
-        { "title": "vs TopLeft", "detail": "TopLeft: $36/user + $160/mgr capacity + $1K-3.5K onboarding. Proxuma: included. TopLeft has Gantt (we don't) and UDF swimlanes. We have 3 entity types, WIP limits, AI scheduling, cross-swimlane drag.", "meta": {} },
-        { "title": "vs Autotask native", "detail": "Autotask board: tickets only, no swimlanes, no saved views, no card config, no multi-status columns. Easy win on every dimension.", "meta": {} }
-      ]
-    },
-    {
-      "heading": "Website",
-      "items": [
-        { "title": "Claude Design handoff", "detail": "Full product page HTML with interactive demo board, priority swimlanes, drag-drop. Ready for implementation.", "meta": { "file": "~/Downloads/Kanban website try-handoff (2).zip" } }
-      ]
-    }
+    { "heading": "Board Layouts", "items": [
+      { "title": "5-column default", "detail": "Backlog (New/To be planned/Assigned), Planned, In Progress (In progress/Customer responded/Notes), Waiting (Customer/Third party/Material), Done (Complete/Autoresolved/Pending)", "meta": {} },
+      { "title": "4-column simple", "detail": "To Do, In Progress, Waiting, Done", "meta": {} },
+      { "title": "6-column escalation", "detail": "New, Planned, Working, Waiting Client, Waiting Vendor, Done", "meta": {} }
+    ]},
+    { "heading": "Demo Scenarios", "items": [
+      { "title": "1. Dispatch Morning", "detail": "5-col, priority swimlanes, WIP 30", "meta": {} },
+      { "title": "2. L2 Escalation", "detail": "6-col, assignee swimlanes, WIP 5/engineer", "meta": {} },
+      { "title": "3. Project Implementation", "detail": "5-col, project swimlanes, all 3 entity types", "meta": {} },
+      { "title": "4. QBR Account Board", "detail": "4-col, customer swimlanes, saved views", "meta": {} },
+      { "title": "5. Field Service", "detail": "5-col custom names, assignee swimlanes, service calls", "meta": {} }
+    ]}
   ],
-  "next_steps": "Set up the 5 demo scenarios as saved views in the actual Proxuma Kanban product. Implement the website from the Claude Design handoff. Decide on column-to-status mapping configurability (should customers remap statuses to columns, or is the default fixed?).",
-  "session_state": {
-    "phase": "setup spec complete",
-    "phase_status": "complete",
-    "progress_pct": 100,
-    "work_done_this_session": [
-      "Queried all 14 Autotask statuses from Power BI demo dataset",
-      "Queried priority levels, queues, ticket types with real counts",
-      "Mapped statuses to 3 board layouts (4/5/6 columns)",
-      "Defined 6 swimlane options with collapse behaviors",
-      "Created 5 demo scenarios with specific board configs and demo scripts",
-      "Built competitive comparison table vs TopLeft and Autotask native",
-      "Documented drag-drop transition rules and immutable field protection",
-      "Researched TopLeft.team features, pricing, and kanban offerings",
-      "Reviewed Claude Design website handoff bundle"
-    ],
-    "blockers_hit": null,
-    "uncommitted_changes": null,
-    "next_action_required": "user-decision"
-  },
-  "artifact_pointers": {
-    "memory_files": [],
-    "git_branch": "main",
-    "local_repo_path": "~/ClaudeCode/claude-output/",
-    "temp_files": [
-      { "path": "/tmp/kanban-site/kanban-website-try/", "description": "Extracted Claude Design handoff bundle", "cleanup_after": "website implemented" }
-    ],
-    "github_links": [
-      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-kanban-board-setup.html", "relevance": "this document" },
-      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-04-kanban-battlecard.html", "relevance": "competitive battlecard from May 4" }
-    ],
-    "wordpress_ids": [],
-    "commit_sha": null
-  },
-  "external_state": {
-    "wp_cache_flushed": null,
-    "drafts_pending": [],
-    "screenshots": [],
-    "other": ""
-  },
-  "project_context": {
-    "protected_resources": [],
-    "conventions_applied": ["humanizer anti-slop", "output-page skill"]
-  },
-  "decision_log": [
-    {
-      "decision": "Customer has responded maps to In Progress column, not Backlog",
-      "rejected_alternatives": ["Separate column for responded", "Map to Backlog as a re-triage step"],
-      "rationale": "When a customer responds, the ball is back with the technician. Dispatch leads think of it as active work, not intake.",
-      "trade_offs": "Some MSPs may want responded tickets in a separate column for re-triage. Made the default opinionated but noted configurability as a next step.",
-      "contingencies": []
-    },
-    {
-      "decision": "5-column default board with 4 and 6-column alternatives",
-      "rejected_alternatives": ["4-column only", "Fully custom from scratch"],
-      "rationale": "5 columns gives enough resolution for most workflows without overwhelming. The Planned column separates intake from scheduled work, which dispatch leads value.",
-      "trade_offs": "More columns means wider board. Mobile/tablet may need horizontal scroll.",
-      "contingencies": []
-    },
-    {
-      "decision": "Block backward drag from Done to Backlog/Planned/Waiting",
-      "rejected_alternatives": ["Allow all transitions", "Soft warning instead of block"],
-      "rationale": "Autotask rejects most backward transitions from Complete anyway. Better to block in the UI than let the user drag and see an API error.",
-      "trade_offs": "Reopening a completed ticket requires going through In Progress first, which is an extra step.",
-      "contingencies": []
-    }
-  ]
+  "next_steps": "Set up these 5 boards as saved views in the Proxuma product. Implement the website from Claude Design handoff.",
+  "session_state": { "phase": "complete", "phase_status": "complete", "progress_pct": 100, "work_done_this_session": ["Rebuilt output page in claudezakelijk style with visual kanban boards drawn for each scenario"], "blockers_hit": null, "uncommitted_changes": null, "next_action_required": "user-decision" },
+  "artifact_pointers": { "memory_files": [], "git_branch": "main", "local_repo_path": "~/ClaudeCode/claude-output/", "temp_files": [], "github_links": [{ "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-13-kanban-board-setup.html", "relevance": "this document" }], "wordpress_ids": [], "commit_sha": null },
+  "external_state": { "wp_cache_flushed": null, "drafts_pending": [], "screenshots": [], "other": "" },
+  "project_context": { "protected_resources": [], "conventions_applied": ["claudezakelijk style system", "humanizer anti-slop"] },
+  "decision_log": []
 }
 </script>
 </body>
