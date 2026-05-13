@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 2: Create 9 Integration Pages + Phase 3: Fill Thin Integrations</title>
+<style>
+:root {
+  --stone-50: #fafaf9; --stone-100: #f5f5f4; --stone-200: #e7e5e4;
+  --stone-300: #d6d3d1; --stone-400: #a8a29e; --stone-500: #78716c;
+  --stone-600: #57534e; --stone-700: #44403c; --stone-800: #292524;
+  --stone-900: #1c1917;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  background: var(--stone-100); color: var(--stone-800);
+  line-height: 1.6; padding: 40px 24px;
+}
+.container { max-width: 960px; margin: 0 auto; }
+h1 { font-size: 1.4rem; margin-bottom: 8px; color: var(--stone-900); }
+.subtitle { color: var(--stone-500); font-size: 0.85rem; margin-bottom: 32px; }
+.phase { background: #fff; border: 1px solid var(--stone-200); border-radius: 8px; padding: 28px 32px; margin-bottom: 24px; }
+.phase-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone-400); margin-bottom: 8px; }
+.phase h2 { font-size: 1.1rem; margin-bottom: 16px; color: var(--stone-900); }
+pre { background: var(--stone-900); color: #e7e5e4; padding: 20px 24px; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; margin: 16px 0; }
+.note { background: var(--stone-50); border-left: 3px solid var(--stone-400); padding: 12px 16px; font-size: 0.82rem; color: var(--stone-600); margin: 16px 0; }
+.copy-btns { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 100; }
+.copy-btn { background: var(--stone-800); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 0.82rem; }
+.copy-btn:hover { background: var(--stone-700); }
+.copy-btn.copied { background: #166534; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Phase 2 + Phase 3: Integration Pages</h1>
+<p class="subtitle">Phase 2 creates 9 integration detail pages. Phase 3 generates new reports for thin integrations. -- 2026-05-13</p>
+
+<!-- ======================== PHASE 2 ======================== -->
+<div class="phase">
+<div class="phase-label">Phase 2 -- Write Claude</div>
+<h2>Create 9 integration detail pages (draft, noindex)</h2>
+
+<pre id="prompt2">Context from prior sessions: We audited /powerbi/integrations/ and found only the Autotask page (WP 3652) exists. The other integration pages are 404s. A research phase mapped all 446 reports to their integrations. The mapping is at /tmp/integration-report-mapping.json and summary at /tmp/integration-mapping-summary.md on this machine (local, not on the server).
+
+We are skipping Azure Lighthouse (0 reports) and UniFi (0 reports). Creating 9 pages.
+
+## Your task
+
+Create 9 new WordPress pages for these integrations, each as a child of WP page 3650. Use the Autotask page (WP 3652) as the exact HTML/CSS template.
+
+## Server access
+
+```bash
+ssh -i ~/.ssh/id_ed25519 -p 18765 u1434-nm1gftpe9yl0@es33.siteground.eu
+cd ~/www/proxuma.io/public_html
+```
+
+## Template
+
+Get the full Autotask template:
+```bash
+wp post get 3652 --field=content > /tmp/autotask-template.html
+```
+
+Also available locally at: ~/ClaudeCode/claude-output/autotask-integration-template.html
+
+## Template structure (6 sections -- adapt all per integration)
+
+1. **Series nav** -- breadcrumb: Power BI / Integrations / [Name]
+2. **Page hero** -- Power BI + integration logo combo, badge, h1 "[Name] + Power BI", subtitle, stats
+3. **"What we connect"** -- data entities from this integration (6-9 cards)
+4. **"Cross-source intelligence"** -- what becomes possible combining this with other integrations (4-6 cards)
+5. **"Sample reports"** -- actual report links from the mapping JSON
+6. **"Getting started"** -- 3 steps + CTA (same structure, swap integration name)
+
+## The 9 integrations with exact logos
+
+| # | Slug | Page title | Badge text | Logo URL | Report count |
+|---|------|-----------|------------|----------|-------------|
+| 1 | datto-rmm | Datto RMM Integration | RMM INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/DattoRMM.jpg | 39 |
+| 2 | microsoft-365 | Microsoft 365 Integration | M365 INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/Microsoft_logo.png | 44 |
+| 3 | datto-backup | Datto Backup Integration | BACKUP INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/DattoBackup.png | 19 |
+| 4 | hubspot | HubSpot CRM Integration | CRM INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/3.png | 29 |
+| 5 | smileback | SmileBack Integration | CSAT INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/5.png | 31 |
+| 6 | n-able-cove | N-able Cove Integration | BACKUP INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/N-ableCove.svg | 27 |
+| 7 | it-glue | IT Glue Integration | DOCUMENTATION INTEGRATION | SVG inline (no image file -- use document icon SVG from index page) | 2 |
+| 8 | inforcer | Inforcer Integration | SECURITY INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/7.png | 1 |
+| 9 | hibob | HiBob Integration | HR INTEGRATION | staging2.proxuma.io/wp-content/uploads/2025/12/8.png | 15 |
+
+IT Glue has no image file. Use this inline SVG from the integrations index page:
+```html
+<svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+```
+
+## Content to write per section
+
+### Hero stats (per integration)
+- "X+" for report count (from table above)
+- Entity count (count of data-point cards you write)
+- Sync frequency: "Live" (Datto RMM, Datto Backup, M365, HubSpot, SmileBack, N-able Cove, Inforcer) or "On demand" (IT Glue, HiBob)
+- API access: "Read-only" for all
+
+### "What we connect" -- data entities per integration
+
+Write 6-9 data-point cards per integration. These must reflect REAL entities from the platform API:
+
+**Datto RMM:** Devices, Alerts, Monitors, Patches, Audit Logs, Components, Sites, Agent Status
+**Microsoft 365:** Tenants, Users, Licenses, Security Scores, Service Usage, Mailboxes, Groups, Compliance Policies
+**Datto Backup:** Backup Jobs, Protected Devices, Agents, Storage Usage, Alerts, Restore Points, Schedules
+**HubSpot CRM:** Contacts, Companies, Deals, Pipeline Stages, Activities, Engagements, Lists, Workflows
+**SmileBack:** CSAT Scores, NPS Responses, Survey Completions, Feedback Comments, Response Rates, Trends
+**N-able Cove:** Backup Jobs, Devices, Storage, Schedules, Error Logs, Recovery Points, Retention Policies
+**IT Glue:** Documents, Configurations, Flexible Assets, Contacts, Passwords, Checklists
+**Inforcer:** Security Policies, Conditional Access Rules, MFA Status, Compliance Baselines, Tenant Configurations
+**HiBob:** Employees, Departments, Managers, Org Structure, Headcount Changes, Employment History
+
+Each card has an SVG icon, h4 title, and p description. Copy the icon style from the Autotask template (24x24 viewBox, feather-icon style).
+
+### "Cross-source intelligence" -- combo cards
+
+Write 4-6 per integration. These show what becomes possible when combining this integration with others. Use the combo-badge CSS classes from the template:
+- cb-psa (Autotask), cb-rmm (Datto RMM), cb-backup (Datto Backup), cb-m365 (Microsoft 365)
+- cb-itglue (IT Glue), cb-smileback (SmileBack), cb-hubspot (HubSpot)
+
+Examples per integration:
+**Datto RMM:** RMM + PSA = ghost device detection, RMM + Backup = protection coverage, RMM + M365 = security scoring, RMM + CSAT = alert-to-satisfaction impact
+**Microsoft 365:** M365 + PSA = license waste detection, M365 + HubSpot = client health scoring, M365 + RMM = security risk index, M365 + SmileBack = provisioning satisfaction
+**Datto Backup:** Backup + PSA = contract coverage gaps, Backup + RMM = device protection matrix, Backup + CSAT = backup failure satisfaction impact
+**HubSpot:** CRM + PSA = pipeline vs delivery capacity, CRM + M365 = client health scoring, CRM + CSAT = churn prediction, CRM + HR = hiring vs pipeline
+**SmileBack:** CSAT + PSA = SLA-to-satisfaction proof, CSAT + RMM = alert noise impact, CSAT + CRM = churn triple threat
+**N-able Cove:** Cove + PSA = backup ticket correlation, Cove + Datto Backup = multi-vendor comparison, Cove + RMM = device health vs protection
+**IT Glue:** Docs + PSA = documentation ROI, Docs + CSAT = knowledge-driven satisfaction
+**Inforcer:** Security + M365 = policy coverage gaps, Security + PSA = compliance ticket reduction
+**HiBob:** HR + PSA = new hire SLA impact, HR + CSAT = leadership multiplier, HR + CRM = hiring vs pipeline alignment
+
+### "Sample reports" section
+
+Read the report list from /tmp/integration-report-mapping.json. For each integration, get its reports array and create report-link elements. The HTML structure per report:
+
+```html
+<a href="/powerbi/insights/[slug]/" class="report-link">
+    <div class="rl-icon"><svg viewBox="0 0 24 24">...</svg></div>
+    <div class="rl-content">
+        <div class="rl-title">[title - shortened if needed]</div>
+        <div class="rl-desc">[one-line description]</div>
+    </div>
+    <svg class="rl-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+</a>
+```
+
+For the rl-desc: write a fresh one-liner per report. Don't repeat the title. Make it a benefit statement or what the reader will learn.
+
+For the rl-icon: vary the SVGs. Use wrench for tickets, clock for time, dollar-sign for revenue, shield for security, users for team, bar-chart for metrics, heart for CSAT, etc. Copy SVG paths from the Autotask template -- it already has ~10 different icons.
+
+If an integration has 30+ reports, show the top 20 most relevant and add a note like "And X more reports in the gallery."
+
+### h1 format
+"[Integration Name] + Power BI" (matches the Autotask page pattern "Autotask PSA + Power BI")
+
+### Hero subtitle
+Write a unique 2-sentence subtitle per integration explaining what data this integration brings and why it matters for MSPs. Examples:
+- Datto RMM: "Real-time endpoint intelligence. We pull device status, alerts, patches, and monitors into Power BI so you can spot problems before clients call."
+- Microsoft 365: "Your clients' cloud footprint in one model. Licenses, usage, security scores, and tenant health -- all queryable in Power BI."
+
+## CSS and JS
+
+COPY the entire `<style>` block and the entire `<script>` block from the Autotask template VERBATIM. Do not modify anything. The CSS is scoped to .prx-integration and works for all pages.
+
+The only CSS additions you MAY need: combo-badge colors for integrations not in the Autotask template. The Autotask page already has: cb-psa, cb-rmm, cb-backup, cb-m365, cb-itglue, cb-smileback. If you need cb-hubspot, cb-hibob, cb-inforcer, cb-cove -- add them in the same style (background rgba + color).
+
+## Publishing via WP-CLI
+
+For each integration, generate the full HTML to a temp file, then create the WP page:
+
+```bash
+# On the server:
+wp post create --post_type=page \
+  --post_title="Datto RMM Integration" \
+  --post_name="datto-rmm" \
+  --post_parent=3650 \
+  --post_status=draft \
+  --post_content="$(cat /tmp/integration-datto-rmm.html)"
+
+# Add noindex
+wp post meta add [NEW_ID] _yoast_wpseo_meta-robots-noindex 1
+```
+
+IMPORTANT: The HTML content may be too large for command-line arguments. If wp post create fails with argument too long, use this alternative:
+
+```bash
+# Write content to file first
+cat /tmp/integration-datto-rmm.html | wp post create --post_type=page \
+  --post_title="Datto RMM Integration" \
+  --post_name="datto-rmm" \
+  --post_parent=3650 \
+  --post_status=draft \
+  --post_content=-
+```
+
+Or use PHP directly:
+```bash
+wp eval '
+$content = file_get_contents("/tmp/integration-datto-rmm.html");
+$id = wp_insert_post([
+    "post_type" => "page",
+    "post_title" => "Datto RMM Integration",
+    "post_name" => "datto-rmm",
+    "post_parent" => 3650,
+    "post_status" => "draft",
+    "post_content" => $content
+]);
+update_post_meta($id, "_yoast_wpseo_meta-robots-noindex", "1");
+echo "Created page $id\n";
+'
+```
+
+## Order of work
+
+1. SSH into server, get the Autotask template content
+2. Read /tmp/integration-report-mapping.json (local) for report lists
+3. Generate all 9 HTML files locally at /tmp/integration-[slug].html
+4. SCP all 9 files to the server: `scp -i ~/.ssh/id_ed25519 -P 18765 /tmp/integration-*.html u1434-nm1gftpe9yl0@es33.siteground.eu:/tmp/`
+5. SSH in and create all 9 WP pages
+6. Verify: list children of 3650, check content size, check noindex meta
+
+## Quality checks
+
+After all pages are created:
+```bash
+# List all integration pages
+wp post list --post_parent=3650 --post_type=page --fields=ID,post_title,post_name,post_status --format=table
+
+# Check each has substantial content
+for id in $(wp post list --post_parent=3650 --post_type=page --field=ID); do
+  title=$(wp post get $id --field=post_title)
+  chars=$(wp post get $id --field=content | wc -c)
+  noindex=$(wp post meta get $id _yoast_wpseo_meta-robots-noindex)
+  echo "$id | $title | ${chars}c | noindex=$noindex"
+done
+```
+
+Each page should be >15KB of content. Noindex should be "1" for all new pages.
+
+## Rules
+
+- COPY CSS and JS from Autotask template EXACTLY. Zero modifications.
+- Every report link must point to an existing page (all verified in research phase).
+- Write substantive, accurate descriptions. No lorem ipsum or placeholder text.
+- Keep all pages as draft. Do NOT publish. Do NOT remove noindex.
+- Do NOT touch page 3652 (Autotask) or page 3650 (index).
+- Use wp_insert_post or wp post create for NEW pages. Never wp_update_post on existing pages (strips styles).</pre>
+</div>
+
+<!-- ======================== PHASE 3 ======================== -->
+<div class="phase">
+<div class="phase-label">Phase 3 -- Report Generator Claude</div>
+<h2>Generate new reports for thin integrations</h2>
+
+<pre id="prompt3">Context: We have 12 Power BI integration pages. Some integrations have very few reports:
+- IT Glue: 2 reports (need 3+ more)
+- Inforcer: 1 report (need 4+ more)
+These need at least 5 reports each to justify their integration page.
+
+We also want to add a few more reports for integrations that could use diversity:
+- HiBob: 15 reports (good, but could use 2-3 more focused ones)
+
+## Your task
+
+Use the /powerbireport skill to generate new Power BI reports. Each report needs EN + NL versions.
+
+## Research first
+
+Before generating reports, research what kind of insights MSPs actually need from each thin integration. Use web search to find:
+
+1. **IT Glue** -- What do MSPs track in IT Glue? What reporting gaps exist? What would a service manager want to see from documentation data?
+   - Search: "IT Glue reporting MSP", "IT Glue Power BI", "IT Glue documentation metrics"
+   - Think about: documentation completeness per client, password expiry tracking, flexible asset coverage, knowledge base article usage, documentation-to-resolution correlation
+
+2. **Inforcer** -- What security policies do MSPs enforce? What compliance reporting do they need?
+   - Search: "Inforcer MSP reporting", "Inforcer Power BI", "M365 security policy compliance reporting MSP"
+   - Think about: conditional access policy coverage, MFA adoption rates, security baseline compliance per tenant, policy drift detection, admin privilege audit
+
+3. **HiBob** -- What HR metrics matter for MSP operations?
+   - Search: "HiBob analytics HR", "HR metrics MSP staffing"
+   - Think about: attrition prediction, team growth vs workload, compensation benchmarking, onboarding pipeline
+
+## Also look at existing DAX
+
+Check the Power BI schema to understand what data is actually available for each integration:
+
+```bash
+# Check available tables and columns for each source
+# Use the /powerbireport skill which has access to mcp__powerbi__* tools
+# Look at: list_datasets, get_schema, search_schema, list_measures
+```
+
+Search the schema for table names related to each integration. Only generate reports for data that ACTUALLY EXISTS in the Power BI model. Do not invent tables or columns.
+
+## Reports to generate
+
+### IT Glue (generate 4 new reports)
+
+Ideas (validate against schema first):
+1. **Documentation Completeness Score** -- Per-client documentation coverage. Which clients have bare-minimum docs vs comprehensive documentation?
+2. **Password Expiry Risk Report** -- Passwords approaching or past expiry across all clients. Security risk from stale credentials.
+3. **Flexible Asset Coverage Gaps** -- Which configuration types are well-documented vs missing? Compare across clients.
+4. **Documentation Freshness** -- When was each document last updated? Flag stale documentation that may be inaccurate.
+
+### Inforcer (generate 5 new reports)
+
+Ideas (validate against schema first):
+1. **Conditional Access Policy Audit** -- Which tenants have which policies? Gap analysis across your client base.
+2. **MFA Adoption Dashboard** -- Per-tenant MFA enrollment rates. Which clients are exposed?
+3. **Security Baseline Compliance** -- How do tenants score against your security baseline? Trend over time.
+4. **Admin Privilege Sprawl** -- How many global admins per tenant? Flag tenants with excessive admin accounts.
+5. **Policy Drift Detection** -- Which tenants deviated from your standard security template? What changed and when?
+
+### HiBob (generate 3 new reports)
+
+Ideas (validate against schema first):
+1. **Attrition Risk Dashboard** -- Tenure analysis, department turnover rates, and early warning signals.
+2. **Team Growth vs Ticket Load** -- Headcount growth mapped against support volume. Are you hiring fast enough?
+3. **Compensation vs Utilization** -- Cost of each team member vs their billable output. Investment ROI per hire.
+
+## How to generate
+
+For each report, use the /powerbireport skill. This skill:
+1. Queries the actual Power BI schema for available data
+2. Writes real DAX queries (never fabricated)
+3. Generates a full report page in the golden standard format
+4. Publishes EN + NL versions to WordPress
+
+Run each report one at a time. After each report is generated:
+1. Verify it was published (check WP page exists)
+2. Note the WP page ID and slug
+3. Verify the DAX queries are valid (the skill does this)
+
+## After all reports are generated
+
+Update /tmp/integration-report-mapping.json to include the new reports under their respective integrations. This ensures the integration pages (Phase 2) can link to them.
+
+Save a summary of what was created:
+- Report title, slug, WP ID (EN), WP ID (NL), integration
+
+## Important
+
+- NEVER fabricate DAX queries. Always query the real schema first.
+- If a table/column doesn't exist for an integration, skip that report idea and come up with an alternative.
+- Each report needs both EN and NL versions.
+- The /powerbireport skill handles the full publishing workflow. Trust it.
+- After generation, verify each page loads correctly with WebFetch.</pre>
+</div>
+
+<!-- ======================== EXECUTION NOTES ======================== -->
+<div class="phase">
+<div class="phase-label">Execution order</div>
+<h2>How to run</h2>
+
+<div class="note">
+<strong>Option A (recommended):</strong> Run Phase 3 (report generation) FIRST, then Phase 2 (page creation). This way the integration pages already include the new reports when created.<br><br>
+<strong>Option B:</strong> Run Phase 2 first to get pages up quickly, then Phase 3 to backfill reports, then update the integration pages to include new report links.
+</div>
+
+<p style="margin:16px 0; font-size:0.82rem; color:var(--stone-600)">
+Phase 2 prompt is self-contained. Copy into a new Claude session.<br>
+Phase 3 prompt requires /powerbireport skill access and Power BI MCP tools.
+</p>
+
+<div class="note" style="border-color: #b45309;">
+<strong>Integration index page update:</strong> After Phase 2 creates the pages and they're reviewed + published, the index page (3650) should also be updated to remove "Coming soon" labels from integrations that now have report pages, and to update the report counts. That's a separate, small task after everything else is done.
+</div>
+</div>
+
+</div>
+
+<div class="copy-btns">
+<button class="copy-btn" onclick="copyPrompt('prompt2', this)">Copy Phase 2</button>
+<button class="copy-btn" onclick="copyPrompt('prompt3', this)">Copy Phase 3</button>
+</div>
+
+<script>
+function copyPrompt(id, btn) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = id === 'prompt2' ? 'Copy Phase 2' : 'Copy Phase 3';
+      btn.classList.remove('copied');
+    }, 1500);
+  });
+}
+</script>
+
+<!--CLAUDE-DATA
+{
+  "type": "integration-pages-phase2-3",
+  "date": "2026-05-13",
+  "phase2_pages": 9,
+  "phase3_new_reports": {"it-glue": 4, "inforcer": 5, "hibob": 3},
+  "skipped": ["azure-lighthouse", "unifi"],
+  "parent_page": 3650,
+  "template_page": 3652,
+  "logo_mapping": {
+    "datto-rmm": "DattoRMM.jpg",
+    "microsoft-365": "Microsoft_logo.png",
+    "datto-backup": "DattoBackup.png",
+    "hubspot": "3.png",
+    "smileback": "5.png",
+    "n-able-cove": "N-ableCove.svg",
+    "it-glue": "inline-svg",
+    "inforcer": "7.png",
+    "hibob": "8.png"
+  }
+}
+-->
+</body>
+</html>
