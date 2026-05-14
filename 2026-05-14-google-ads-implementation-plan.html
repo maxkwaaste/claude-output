@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Ads - Implementation Plan - Proxuma - May 14, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #ffffff; --card: #f8fafc; --teal: #0f766e; --teal-light: #f0fdfa; --text: #1e293b; --dim: #64748b; --red: #dc2626; --green: #16a34a; --yellow: #ca8a04; --border: #e2e8f0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Open Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem; max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; font-weight: 700; color: var(--teal); }
+  .subtitle { color: var(--dim); margin-bottom: 2rem; font-size: 0.9rem; }
+  h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--teal); color: var(--teal); }
+  h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; color: var(--text); }
+
+  .alert { background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #92400e; }
+  .alert strong { color: #78350f; }
+
+  .ad-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .ad-block-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .ad-id { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--dim); background: white; padding: 0.1rem 0.4rem; border-radius: 3px; border: 1px solid var(--border); }
+  .action-type { font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 4px; }
+  .action-rewrite { background: var(--teal); color: white; }
+  .action-swap { background: var(--yellow); color: white; }
+  .action-add { background: var(--green); color: white; }
+
+  .copy-section { margin: 0.75rem 0; }
+  .copy-label { font-size: 0.7rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; margin-bottom: 0.3rem; }
+  .copy-box { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 0; overflow: hidden; }
+  .copy-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  .copy-row:last-child { border-bottom: none; }
+  .copy-row.pinned { background: var(--teal-light); border-left: 3px solid var(--teal); }
+  .copy-row .text { flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; }
+  .copy-row .chars { font-size: 0.7rem; color: var(--dim); min-width: 30px; text-align: right; margin-left: 0.5rem; }
+  .copy-row .pin { font-size: 0.65rem; color: var(--teal); font-weight: 700; margin-right: 0.5rem; min-width: 20px; }
+  .copy-row .btn-copy { background: none; border: 1px solid var(--border); border-radius: 3px; padding: 0.1rem 0.4rem; font-size: 0.7rem; color: var(--dim); cursor: pointer; font-family: inherit; }
+  .copy-row .btn-copy:hover { background: var(--teal-light); color: var(--teal); border-color: var(--teal); }
+
+  .desc-row { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+  .desc-row:last-child { border-bottom: none; }
+  .desc-row .text { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; display: block; }
+  .desc-row .chars { font-size: 0.7rem; color: var(--dim); }
+
+  .swap-indicator { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+  .swap-indicator:last-child { border-bottom: none; }
+  .old-text { color: var(--red); text-decoration: line-through; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+  .new-text { color: var(--green); font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+  .arrow { color: var(--dim); font-weight: 700; }
+
+  .url-row { font-size: 0.8rem; color: var(--dim); margin-top: 0.5rem; }
+  .url-row a { color: var(--teal); text-decoration: none; font-weight: 600; }
+
+  .checklist { margin: 1rem 0; }
+  .check-item { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.3rem 0; font-size: 0.85rem; }
+  .check-item input[type="checkbox"] { margin-top: 0.25rem; accent-color: var(--teal); }
+
+  .neg-kw { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin: 0.5rem 0; }
+
+  .copy-all-btn { display: inline-block; background: var(--teal); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; margin: 0.5rem 0; }
+  .copy-all-btn:hover { opacity: 0.9; }
+
+  .summary-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+  .summary-table th { text-align: left; padding: 0.5rem; border-bottom: 2px solid var(--teal); color: var(--teal); font-size: 0.75rem; text-transform: uppercase; }
+  .summary-table td { padding: 0.5rem; border-bottom: 1px solid var(--border); }
+  .summary-table .done { color: var(--green); }
+  .summary-table .pending { color: var(--yellow); }
+  .summary-table .manual { color: var(--red); }
+</style>
+</head>
+<body>
+
+<h1>Google Ads - Implementation Plan</h1>
+<p class="subtitle">Proxuma | Account 215-278-2474 | May 14, 2026 | All changes approved by Max</p>
+
+<div class="alert">
+  <strong>API limitation:</strong> The Google Ads MCP tools can read data and manage statuses/negative keywords, but cannot modify ad creative content (headlines/descriptions). All ad copy changes below need to be implemented via <strong>Google Ads Editor</strong> (fastest) or the Google Ads web UI. Each ad block below has copy-to-clipboard buttons for quick paste.
+</div>
+
+<h2>Summary</h2>
+<table class="summary-table">
+  <tr><th>Ad</th><th>Campaign</th><th>Ad Group</th><th>Action</th><th>Status</th></tr>
+  <tr><td class="ad-id">761607768635</td><td>Targeted autotask</td><td>Project management</td><td>Full rewrite (8H + 5D)</td><td class="manual">Manual</td></tr>
+  <tr><td class="ad-id">761484334209</td><td>Targeted autotask</td><td>Planning</td><td>Full rewrite (8H + 4D)</td><td class="manual">Manual</td></tr>
+  <tr><td class="ad-id">762364067922</td><td>Targeted autotask</td><td>Outlook</td><td>Full rewrite (7H + 4D)</td><td class="manual">Manual</td></tr>
+  <tr><td class="ad-id">667140096456</td><td>Proxuma Brand</td><td>Branded</td><td>Swap 2 headlines</td><td class="manual">Manual</td></tr>
+  <tr><td class="ad-id">759085988763</td><td>Targeted autotask</td><td>Proxuma generic</td><td>Swap 2 headlines (same)</td><td class="manual">Manual</td></tr>
+  <tr><td class="ad-id">807769523901</td><td>Autotask Features</td><td>Project Management</td><td>Swap 2 headlines</td><td class="manual">Manual</td></tr>
+  <tr><td class="ad-id">807769523907</td><td>Autotask Features</td><td>Outlook Integration</td><td>Swap 2H + swap 1D</td><td class="manual">Manual</td></tr>
+  <tr><td class="ad-id">807769523910</td><td>Autotask Features</td><td>Shifts & Dispatch</td><td>Add 2H + 1D</td><td class="manual">Manual</td></tr>
+  <tr><td colspan="3">Negative keyword: <strong>prozkm</strong></td><td>Exact match, Brand campaign</td><td class="manual">Manual (API bug)</td></tr>
+</table>
+
+<!-- ========== AD 1 ========== -->
+<h2>1. Targeted autotask > Project management</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Full RSA Rewrite</strong> <span class="ad-id">Ad 761607768635</span></div>
+    <span class="action-type action-rewrite">REWRITE</span>
+  </div>
+
+  <div class="copy-section">
+    <div class="copy-label">Headlines (8) <button class="copy-all-btn" onclick="copyAll(this, 'h1')">Copy all headlines</button></div>
+    <div class="copy-box" data-group="h1">
+      <div class="copy-row pinned"><span class="pin">H1</span><span class="text">Proxuma</span><span class="chars">7</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Autotask Projects, Upgraded</span><span class="chars">28</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Drag-and-Drop Timelines</span><span class="chars">23</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Bulk Edit 50 Tasks at Once</span><span class="chars">26</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">See All Projects on One Screen</span><span class="chars">30</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Know Who Has Capacity</span><span class="chars">21</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Visual Project Timelines</span><span class="chars">23</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Project Templates Included</span><span class="chars">26</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+    </div>
+  </div>
+
+  <div class="copy-section">
+    <div class="copy-label">Descriptions (5) <button class="copy-all-btn" onclick="copyAll(this, 'd1')">Copy all descriptions</button></div>
+    <div class="copy-box" data-group="d1">
+      <div class="desc-row"><span class="text">All your Autotask projects on one visual timeline. Drag phases, assign work, track hours.</span><span class="chars">90</span></div>
+      <div class="desc-row"><span class="text">Move entire project phases in seconds. Bulk edit dates, assignees, and statuses at once.</span><span class="chars">89</span></div>
+      <div class="desc-row"><span class="text">See resource capacity at a glance. Promise deadlines you can actually keep.</span><span class="chars">75</span></div>
+      <div class="desc-row"><span class="text">14-day trial. Only planners need a license. Engineers stay in Autotask.</span><span class="chars">71</span></div>
+      <div class="desc-row"><span class="text">Free project templates built for MSPs. Customize phases, tasks, and timelines in Proxuma.</span><span class="chars">90</span></div>
+    </div>
+  </div>
+
+  <div class="url-row">Final URL: <a href="https://proxuma.io/">https://proxuma.io/</a></div>
+</div>
+
+<!-- ========== AD 2 ========== -->
+<h2>2. Targeted autotask > Planning</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Full RSA Rewrite</strong> <span class="ad-id">Ad 761484334209</span></div>
+    <span class="action-type action-rewrite">REWRITE</span>
+  </div>
+
+  <div class="copy-section">
+    <div class="copy-label">Headlines (8) <button class="copy-all-btn" onclick="copyAll(this, 'h2')">Copy all headlines</button></div>
+    <div class="copy-box" data-group="h2">
+      <div class="copy-row pinned"><span class="pin">H1</span><span class="text">Proxuma</span><span class="chars">7</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Upgrade Autotask Dispatching</span><span class="chars">28</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Upgrade Autotask Planning</span><span class="chars">25</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">See Who Is Free Right Now</span><span class="chars">25</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Drag-and-Drop Scheduling</span><span class="chars">24</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Capacity Insights Built In</span><span class="chars">26</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Visual Resource Calendar</span><span class="chars">23</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Workforce Management Upgraded</span><span class="chars">29</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+    </div>
+  </div>
+
+  <div class="copy-section">
+    <div class="copy-label">Descriptions (4) <button class="copy-all-btn" onclick="copyAll(this, 'd2')">Copy all descriptions</button></div>
+    <div class="copy-box" data-group="d2">
+      <div class="desc-row"><span class="text">Outlook sync with capacity insights. Recurring service calls. Teams links. All in Proxuma.</span><span class="chars">90</span></div>
+      <div class="desc-row"><span class="text">Visual resource planning with real-time capacity. See who is free before you commit.</span><span class="chars">84</span></div>
+      <div class="desc-row"><span class="text">Recurring service calls. Teams links. Customer invites. Emailless Outlook appointments.</span><span class="chars">87</span></div>
+      <div class="desc-row"><span class="text">14-day trial. Only planners need a license. Engineers stay in Autotask.</span><span class="chars">71</span></div>
+    </div>
+  </div>
+
+  <div class="url-row">Final URL: <a href="https://proxuma.io/">https://proxuma.io/</a></div>
+</div>
+
+<!-- ========== AD 3 ========== -->
+<h2>3. Targeted autotask > Outlook</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Full RSA Rewrite</strong> <span class="ad-id">Ad 762364067922</span></div>
+    <span class="action-type action-rewrite">REWRITE</span>
+  </div>
+
+  <div class="copy-section">
+    <div class="copy-label">Headlines (7) <button class="copy-all-btn" onclick="copyAll(this, 'h3')">Copy all headlines</button></div>
+    <div class="copy-box" data-group="h3">
+      <div class="copy-row pinned"><span class="pin">H1</span><span class="text">Proxuma</span><span class="chars">7</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Autotask + Outlook Seamless</span><span class="chars">27</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Emailless Outlook Invites</span><span class="chars">25</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Invite External Customers</span><span class="chars">25</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Add Teams Links Instantly</span><span class="chars">25</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Smart Capacity Management</span><span class="chars">25</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row"><span class="pin"></span><span class="text">Recurring Service Calls</span><span class="chars">23</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+    </div>
+  </div>
+
+  <div class="copy-section">
+    <div class="copy-label">Descriptions (4) <button class="copy-all-btn" onclick="copyAll(this, 'd3')">Copy all descriptions</button></div>
+    <div class="copy-box" data-group="d3">
+      <div class="desc-row"><span class="text">Silent Outlook invites without emails. Teams links injected. Invite external customers.</span><span class="chars">87</span></div>
+      <div class="desc-row"><span class="text">Recurring service calls with automatic Outlook appointments and Teams meeting links.</span><span class="chars">84</span></div>
+      <div class="desc-row"><span class="text">Smart capacity management from Outlook. See who is free before you promise a deadline.</span><span class="chars">86</span></div>
+      <div class="desc-row"><span class="text">14-day trial. Only planners need a license. Engineers stay in Autotask.</span><span class="chars">71</span></div>
+    </div>
+  </div>
+
+  <div class="url-row">Final URL: <a href="https://proxuma.io/">https://proxuma.io/</a></div>
+</div>
+
+<!-- ========== AD 4 ========== -->
+<h2>4. Proxuma Brand > Branded</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Swap 2 Headlines</strong> <span class="ad-id">Ad 667140096456</span></div>
+    <span class="action-type action-swap">SWAP</span>
+  </div>
+  <div class="copy-box">
+    <div class="swap-indicator">
+      <span class="old-text">Autotask Add-On For Projects</span>
+      <span class="arrow">-></span>
+      <span class="new-text">Autotask Add-On for the Future</span>
+      <span class="chars" style="margin-left:auto">30</span>
+      <button class="btn-copy" onclick="navigator.clipboard.writeText('Autotask Add-On for the Future')">Copy</button>
+    </div>
+    <div class="swap-indicator">
+      <span class="old-text">Upgrade Autotask Dispatching</span>
+      <span class="arrow">-></span>
+      <span class="new-text">Visual Planning for Autotask</span>
+      <span class="chars" style="margin-left:auto">28</span>
+      <button class="btn-copy" onclick="navigator.clipboard.writeText('Visual Planning for Autotask')">Copy</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== AD 4b ========== -->
+<h2>5. Targeted autotask > Proxuma generic</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Same 2 Headline Swaps</strong> <span class="ad-id">Ad 759085988763</span></div>
+    <span class="action-type action-swap">SWAP</span>
+  </div>
+  <div class="copy-box">
+    <div class="swap-indicator">
+      <span class="old-text">Autotask Add-On For Projects</span>
+      <span class="arrow">-></span>
+      <span class="new-text">Autotask Add-On for the Future</span>
+      <span class="chars" style="margin-left:auto">30</span>
+    </div>
+    <div class="swap-indicator">
+      <span class="old-text">Upgrade Autotask Dispatching</span>
+      <span class="arrow">-></span>
+      <span class="new-text">Visual Planning for Autotask</span>
+      <span class="chars" style="margin-left:auto">28</span>
+    </div>
+  </div>
+  <div class="alert" style="margin-top:0.75rem">This ad has the same headlines as the Brand ad. Apply the same swaps here.</div>
+</div>
+
+<!-- ========== AD 5 ========== -->
+<h2>6. Autotask Features > Project Management</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Swap 2 Headlines</strong> <span class="ad-id">Ad 807769523901</span></div>
+    <span class="action-type action-swap">SWAP</span>
+  </div>
+  <div class="copy-box">
+    <div class="swap-indicator">
+      <span class="old-text">Syncs Back to Autotask</span>
+      <span class="arrow">-></span>
+      <span class="new-text">Stop Using Excel for Projects</span>
+      <span class="chars" style="margin-left:auto">29</span>
+      <button class="btn-copy" onclick="navigator.clipboard.writeText('Stop Using Excel for Projects')">Copy</button>
+    </div>
+    <div class="swap-indicator">
+      <span class="old-text">Built for MSP Planners</span>
+      <span class="arrow">-></span>
+      <span class="new-text">No More One-by-One Editing</span>
+      <span class="chars" style="margin-left:auto">26</span>
+      <button class="btn-copy" onclick="navigator.clipboard.writeText('No More One-by-One Editing')">Copy</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== AD 6 ========== -->
+<h2>7. Autotask Features > Outlook Integration</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Swap 2 Headlines + Swap 1 Description</strong> <span class="ad-id">Ad 807769523907</span></div>
+    <span class="action-type action-swap">SWAP</span>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">Headline swaps</div>
+    <div class="copy-box">
+      <div class="swap-indicator">
+        <span class="old-text">See All Projects at a Glance</span>
+        <span class="arrow">-></span>
+        <span class="new-text">Invite Externals to Calls</span>
+        <span class="chars" style="margin-left:auto">25</span>
+        <button class="btn-copy" onclick="navigator.clipboard.writeText('Invite Externals to Calls')">Copy</button>
+      </div>
+      <div class="swap-indicator">
+        <span class="old-text">Drag-and-Drop Scheduling</span>
+        <span class="arrow">-></span>
+        <span class="new-text">Add Teams Links Instantly</span>
+        <span class="chars" style="margin-left:auto">25</span>
+        <button class="btn-copy" onclick="navigator.clipboard.writeText('Add Teams Links Instantly')">Copy</button>
+      </div>
+    </div>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">Description swap</div>
+    <div class="copy-box">
+      <div class="swap-indicator" style="flex-direction:column;align-items:flex-start;gap:0.3rem">
+        <div><span style="color:var(--red);font-size:0.75rem;font-weight:600">REMOVE:</span> <span class="old-text" style="font-size:0.8rem">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</span></div>
+        <div><span style="color:var(--green);font-size:0.75rem;font-weight:600">ADD:</span> <span class="new-text" style="font-size:0.8rem">Silent Outlook invites. Inject Teams links. Invite external customers to meetings.</span> <span class="chars">82</span>
+        <button class="btn-copy" onclick="navigator.clipboard.writeText('Silent Outlook invites. Inject Teams links. Invite external customers to meetings.')">Copy</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== AD 7 ========== -->
+<h2>8. Autotask Features > Shifts & Dispatch</h2>
+<div class="ad-block">
+  <div class="ad-block-header">
+    <div><strong>Add 2 Headlines + 1 Description</strong> <span class="ad-id">Ad 807769523910</span></div>
+    <span class="action-type action-add">ADD</span>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">Add headlines</div>
+    <div class="copy-box">
+      <div class="copy-row pinned"><span class="pin">H1</span><span class="text">Supercharge Autotask Dispatch</span><span class="chars">29</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+      <div class="copy-row pinned"><span class="pin">H2</span><span class="text">Make Service Calls Recurring</span><span class="chars">28</span><button class="btn-copy" onclick="copyText(this)">Copy</button></div>
+    </div>
+  </div>
+  <div class="copy-section">
+    <div class="copy-label">Add description</div>
+    <div class="copy-box">
+      <div class="desc-row"><span class="text">Create recurring service calls in seconds. Visual dispatch board with live Autotask sync.</span><span class="chars">89</span>
+      <button class="btn-copy" style="margin-left:0.5rem" onclick="navigator.clipboard.writeText('Create recurring service calls in seconds. Visual dispatch board with live Autotask sync.')">Copy</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== NEGATIVE KEYWORD ========== -->
+<h2>9. Negative Keyword</h2>
+<div class="neg-kw">
+  <p style="font-size:0.85rem;">Add <strong>prozkm</strong> as <strong>exact match</strong> negative keyword to campaign <strong>Proxuma Brand</strong> (20400049344).</p>
+  <p style="font-size:0.8rem;color:var(--dim);margin-top:0.3rem;">API call failed due to a bug in the MCP tool. Add manually via Google Ads UI: Campaign > Negative keywords > + > [prozkm] > Exact match.</p>
+</div>
+
+<!-- ========== CHECKLIST ========== -->
+<h2>Implementation Checklist</h2>
+<div class="checklist">
+  <div class="check-item"><input type="checkbox" id="c1"><label for="c1">Ad 761607768635 -- Targeted > Project management: Full rewrite (8H + 5D)</label></div>
+  <div class="check-item"><input type="checkbox" id="c2"><label for="c2">Ad 761484334209 -- Targeted > Planning: Full rewrite (8H + 4D)</label></div>
+  <div class="check-item"><input type="checkbox" id="c3"><label for="c3">Ad 762364067922 -- Targeted > Outlook: Full rewrite (7H + 4D)</label></div>
+  <div class="check-item"><input type="checkbox" id="c4"><label for="c4">Ad 667140096456 -- Brand > Branded: Swap 2 headlines</label></div>
+  <div class="check-item"><input type="checkbox" id="c5"><label for="c5">Ad 759085988763 -- Targeted > Proxuma generic: Swap 2 headlines (same as Brand)</label></div>
+  <div class="check-item"><input type="checkbox" id="c6"><label for="c6">Ad 807769523901 -- Features > Project Management: Swap 2 headlines</label></div>
+  <div class="check-item"><input type="checkbox" id="c7"><label for="c7">Ad 807769523907 -- Features > Outlook Integration: Swap 2H + swap 1D</label></div>
+  <div class="check-item"><input type="checkbox" id="c8"><label for="c8">Ad 807769523910 -- Features > Shifts & Dispatch: Add 2H + 1D</label></div>
+  <div class="check-item"><input type="checkbox" id="c9"><label for="c9">Negative keyword: prozkm (exact match) on Proxuma Brand campaign</label></div>
+</div>
+
+<script>
+function copyText(btn) {
+  const text = btn.parentElement.querySelector('.text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'OK';
+    btn.style.color = 'var(--green)';
+    btn.style.borderColor = 'var(--green)';
+    setTimeout(() => { btn.textContent = 'Copy'; btn.style.color = ''; btn.style.borderColor = ''; }, 1500);
+  });
+}
+
+function copyAll(btn, group) {
+  const section = btn.closest('.copy-section');
+  const texts = [];
+  section.querySelectorAll('.text').forEach(el => texts.push(el.textContent));
+  navigator.clipboard.writeText(texts.join('\n')).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--green)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+  });
+}
+</script>
+
+<script id="CLAUDE-DATA" type="application/json">
+{
+  "type": "google-ads-implementation-plan",
+  "date": "2026-05-14",
+  "account": "215-278-2474",
+  "ads_to_modify": [
+    {"ad_id": "761607768635", "action": "rewrite", "campaign": "Targeted campaign autotask", "ad_group": "Project management"},
+    {"ad_id": "761484334209", "action": "rewrite", "campaign": "Targeted campaign autotask", "ad_group": "Planning"},
+    {"ad_id": "762364067922", "action": "rewrite", "campaign": "Targeted campaign autotask", "ad_group": "Outlook"},
+    {"ad_id": "667140096456", "action": "swap_headlines", "campaign": "Proxuma Brand", "ad_group": "Branded"},
+    {"ad_id": "759085988763", "action": "swap_headlines", "campaign": "Targeted campaign autotask", "ad_group": "Proxuma generic"},
+    {"ad_id": "807769523901", "action": "swap_headlines", "campaign": "Proxuma - Autotask Features", "ad_group": "Project Management"},
+    {"ad_id": "807769523907", "action": "swap_headlines_desc", "campaign": "Proxuma - Autotask Features", "ad_group": "Outlook Integration"},
+    {"ad_id": "807769523910", "action": "add_content", "campaign": "Proxuma - Autotask Features", "ad_group": "Shifts & Dispatch"}
+  ],
+  "negative_keywords": [{"term": "prozkm", "match_type": "EXACT", "campaign_id": "20400049344", "status": "pending_manual"}]
+}
+</script>
+
+</body>
+</html>
