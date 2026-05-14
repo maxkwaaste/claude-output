@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Ads Proposed Changes - Proxuma - May 14, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #ffffff; --card: #f8fafc; --teal: #0f766e; --teal-light: #f0fdfa; --teal-bg: #ccfbf1; --text: #1e293b; --dim: #64748b; --red: #dc2626; --red-light: #fef2f2; --green: #16a34a; --green-light: #f0fdf4; --yellow: #ca8a04; --border: #e2e8f0; --blue: #2563eb; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Open Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem; max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; font-weight: 800; color: var(--teal); }
+  .subtitle { color: var(--dim); margin-bottom: 2rem; font-size: 0.9rem; }
+  h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--teal); color: var(--teal); }
+  h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; color: var(--text); }
+
+  .change-count { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .count-box { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 1rem; }
+  .count-box .num { font-weight: 800; font-size: 1.3rem; }
+  .count-box .label { font-size: 0.7rem; color: var(--dim); text-transform: uppercase; }
+
+  .neg-card { background: var(--red-light); border: 1px solid #fecaca; border-radius: 6px; padding: 0.6rem 1rem; margin: 0.4rem 0; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .neg-term { font-weight: 700; font-size: 0.95rem; }
+  .neg-type { font-size: 0.75rem; color: var(--dim); background: white; padding: 0.1rem 0.4rem; border-radius: 3px; }
+  .neg-reason { font-size: 0.8rem; color: var(--dim); }
+  .neg-note { width: 100%; margin-top: 0.3rem; }
+  .neg-note input { width: 100%; background: white; border: 1px solid #fecaca; border-radius: 4px; padding: 0.3rem 0.5rem; font-size: 0.8rem; font-family: inherit; color: var(--text); }
+  .neg-note input:focus { outline: none; border-color: var(--teal); }
+
+  .change-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin: 1.2rem 0; overflow: hidden; }
+  .change-header { padding: 0.75rem 1rem; background: var(--teal-light); border-bottom: 1px solid var(--border); }
+  .change-header strong { font-size: 1rem; }
+  .change-campaign { font-size: 0.75rem; color: var(--dim); }
+  .change-keywords { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border); }
+  .kw-label { font-size: 0.7rem; color: var(--dim); text-transform: uppercase; font-weight: 700; }
+  .kw { display: inline-block; background: var(--teal-bg); padding: 0.1rem 0.5rem; border-radius: 3px; margin: 0.15rem; font-size: 0.8rem; color: var(--teal); font-weight: 600; }
+
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .before, .after { padding: 0.75rem 1rem; }
+  .before { border-right: 1px solid var(--border); background: var(--red-light); }
+  .after { background: var(--green-light); }
+  .ba-label { font-size: 0.65rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+  .before .ba-label { color: var(--red); }
+  .after .ba-label { color: var(--green); }
+
+  .ad-preview { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem; font-size: 0.85rem; margin-bottom: 0.5rem; }
+  .ad-sponsored { color: var(--dim); font-size: 0.65rem; font-weight: 700; }
+  .ad-url { color: var(--dim); font-size: 0.78rem; }
+  .ad-headline { color: #1a0dab; font-size: 0.95rem; font-weight: 700; }
+  .ad-desc { color: #4d5156; font-size: 0.82rem; line-height: 1.4; }
+  .ad-new { background: #bbf7d0; padding: 0 0.2rem; border-radius: 2px; }
+  .ad-removed { background: #fecaca; text-decoration: line-through; padding: 0 0.2rem; border-radius: 2px; }
+
+  .hl-pool { margin-top: 0.4rem; }
+  .hl-pool-label { font-size: 0.65rem; color: var(--dim); }
+  .hl { display: inline-block; background: var(--teal-light); border: 1px solid #ccfbf1; padding: 0.1rem 0.4rem; border-radius: 3px; margin: 0.1rem; font-size: 0.75rem; color: var(--teal); }
+  .hl.new { background: #bbf7d0; border-color: #86efac; color: var(--green); font-weight: 700; }
+  .hl.removed { background: #fecaca; border-color: #fca5a5; color: var(--red); text-decoration: line-through; }
+  .hl.pinned { border-left: 3px solid var(--teal); }
+
+  .landing-change { padding: 0.5rem 1rem; border-top: 1px solid var(--border); font-size: 0.85rem; }
+  .landing-change .old { color: var(--red); text-decoration: line-through; }
+  .landing-change .new { color: var(--green); font-weight: 600; }
+  .landing-change .keep { color: var(--teal); }
+
+  .change-note { padding: 0.5rem 1rem 0.75rem; }
+  .change-note input { width: 100%; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 0.4rem 0.6rem; font-family: inherit; font-size: 0.85rem; color: var(--text); }
+  .change-note input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 2px rgba(15,118,110,0.1); }
+  .change-note input::placeholder { color: #94a3b8; }
+
+  .flag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin: 0.2rem; }
+  .flag-warn { background: #fef3c7; color: var(--yellow); }
+  .flag-fix { background: #dbeafe; color: var(--blue); }
+  .flag-new { background: #bbf7d0; color: var(--green); }
+
+  .struct-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin: 0.6rem 0; }
+  .struct-card strong { color: var(--teal); }
+
+  textarea { width: 100%; min-height: 100px; background: white; border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 0.75rem; font-family: inherit; font-size: 0.9rem; resize: vertical; }
+  textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 2px rgba(15,118,110,0.1); }
+  textarea::placeholder { color: #94a3b8; }
+
+  .copy-btn { position: fixed; bottom: 2rem; right: 2rem; background: var(--teal); color: white; border: none; padding: 0.85rem 1.5rem; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; box-shadow: 0 2px 12px rgba(15,118,110,0.3); z-index: 100; font-family: inherit; }
+  .copy-btn:hover { transform: scale(1.03); }
+  .copy-btn.copied { background: var(--green); }
+
+  @media (max-width: 700px) { .before-after { grid-template-columns: 1fr; } .before { border-right: none; border-bottom: 1px solid var(--border); } }
+</style>
+</head>
+<body>
+
+<h1>Proposed Google Ads Changes</h1>
+<p class="subtitle">Based on Max's review | Account 215-278-2474 | May 14, 2026</p>
+
+<div class="change-count">
+  <div class="count-box"><div class="num" style="color:var(--red)">14</div><div class="label">Negative Keywords</div></div>
+  <div class="count-box"><div class="num" style="color:var(--blue)">8</div><div class="label">Ad Rewrites</div></div>
+  <div class="count-box"><div class="num" style="color:var(--green)">3</div><div class="label">Landing Page Fixes</div></div>
+  <div class="count-box"><div class="num" style="color:var(--yellow)">2</div><div class="label">Structural Issues</div></div>
+</div>
+
+<!-- =============================== -->
+<h2>1. Negative Keywords to Add</h2>
+<p style="color:var(--dim);font-size:0.85rem;margin-bottom:0.75rem;">Adding to the "Claude gen list" (account-level, applies to all campaigns). "dashboard" and "reporting" are already blocked.</p>
+
+<div class="neg-card"><div><span class="neg-term">wallboard</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Not our product</span><div class="neg-note"><input type="text" id="neg-1" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">workflow rules</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Not our product</span><div class="neg-note"><input type="text" id="neg-2" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">kaseya</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Parent company queries</span><div class="neg-note"><input type="text" id="neg-3" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">xero</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Accounting integration, not us</span><div class="neg-note"><input type="text" id="neg-4" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">documentation</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Looking for Autotask docs</span><div class="neg-note"><input type="text" id="neg-5" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">release notes</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Autotask product updates</span><div class="neg-note"><input type="text" id="neg-6" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">webhook</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Developer queries</span><div class="neg-note"><input type="text" id="neg-7" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">mcp server</span> <span class="neg-type">phrase</span></div><span class="neg-reason">Technical query (PowerBI angle possible later)</span><div class="neg-note"><input type="text" id="neg-8" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">autotask online</span> <span class="neg-type">exact</span></div><span class="neg-reason">Too generic, looking for Autotask login</span><div class="neg-note"><input type="text" id="neg-9" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">autotask app</span> <span class="neg-type">exact</span></div><span class="neg-reason">Looking for Autotask mobile app</span><div class="neg-note"><input type="text" id="neg-10" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">autotask</span> <span class="neg-type">exact</span></div><span class="neg-reason">Bare query = Autotask buyers, not our audience</span><div class="neg-note"><input type="text" id="neg-11" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">psa autotask</span> <span class="neg-type">exact</span></div><span class="neg-reason">Looking for Autotask PSA info</span><div class="neg-note"><input type="text" id="neg-12" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">autotask psa</span> <span class="neg-type">exact</span></div><span class="neg-reason">Same intent reversed</span><div class="neg-note"><input type="text" id="neg-13" placeholder="Approve / reject / note"></div></div>
+<div class="neg-card"><div><span class="neg-term">praxxeum</span> <span class="neg-type">exact</span></div><span class="neg-reason">Unrelated brand</span><div class="neg-note"><input type="text" id="neg-14" placeholder="Approve / reject / note"></div></div>
+
+<!-- =============================== -->
+<h2>2. Ad Copy Changes</h2>
+<p style="color:var(--dim);font-size:0.85rem;margin-bottom:0.75rem;">For each ad group: the keywords it serves, current vs proposed ad, and landing page. All headlines verified under 30 chars, all descriptions under 90 chars.</p>
+
+<!-- CHANGE 1: Targeted / Project management -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Targeted / Project management</strong> <span class="flag flag-fix">rewrite</span> <span class="flag flag-new">+2 headlines, 2 new descriptions</span>
+    <div class="change-campaign">Legacy campaign | EUR 10/day | 89 impr, 6 clicks last 30 days</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords that trigger this ad:</div>
+    <span class="kw">autotask project management</span>
+    <span class="kw">autotask project templates</span>
+    <span class="kw">autotask projects</span>
+    <span class="kw">+ ~900 long-tail variants</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io</div>
+        <div class="ad-headline">Proxuma - Autotask Add-On For Projects</div>
+        <div class="ad-desc">Proxuma gives project managers full control over tasks, time, and resources in Autotask. 14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url"><span class="ad-new">proxuma.io/planning</span></div>
+        <div class="ad-headline">Proxuma - <span class="ad-new">Free Project Templates</span></div>
+        <div class="ad-desc"><span class="ad-new">Drag & drop project management for Autotask. See capacity, all projects side by side.</span> <span class="ad-new">Free MSP best-practice project templates included. Even during your 14-day trial.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline pool changes:</div>
+    <span class="hl pinned">Proxuma (keep, pinned H1)</span>
+    <span class="hl">Autotask Add-On For Projects</span>
+    <span class="hl">Upgrade Autotask Projects</span>
+    <span class="hl">Visualize Your Workflow</span>
+    <span class="hl new">Free Project Templates (22ch)</span>
+    <span class="hl new">See Projects Side by Side (25ch)</span>
+  </div>
+  <div style="padding:0.3rem 1rem;font-size:0.8rem;color:var(--dim);">
+    <strong>Description changes:</strong>
+    Replace "Proxuma gives project managers full control..." with "Drag & drop project management for Autotask. See capacity, all projects side by side." (85ch)
+    <br>Replace "Build project plans visually..." with "Free MSP best-practice project templates included. Even during your 14-day trial." (81ch)
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="old">proxuma.io/</span> &rarr; <span class="new">proxuma.io/planning/</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-1" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- CHANGE 2: Targeted / Planning -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Targeted / Planning</strong> <span class="flag flag-fix">rewrite</span> <span class="flag flag-new">+2 headlines, 1 new description</span>
+    <div class="change-campaign">Legacy campaign | 122 impr, 1 click last 30 days</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords that trigger this ad:</div>
+    <span class="kw">autotask dispatch calendar</span>
+    <span class="kw">autotask workforce management</span>
+    <span class="kw">autotask exchange integration</span>
+    <span class="kw">+ many planning variants</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io</div>
+        <div class="ad-headline">Proxuma - Drag & Drop Autotask Planning</div>
+        <div class="ad-desc">Proxuma is the all-in-one calendar and planning add-on for Autotask and Outlook. Drag & drop Service Calls and sync Outlook invites with your Autotask calendar.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url"><span class="ad-new">proxuma.io/planning</span></div>
+        <div class="ad-headline">Proxuma - <span class="ad-new">Supercharge Autotask Dispatch</span></div>
+        <div class="ad-desc">Proxuma is the all-in-one calendar and planning add-on for Autotask and Outlook. <span class="ad-new">Drag & drop service calls, make them recurring, invite customers, inject Teams meetings.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline pool changes:</div>
+    <span class="hl pinned">Proxuma (keep)</span>
+    <span class="hl">Drag & Drop Autotask Planning</span>
+    <span class="hl">Autotask Resource Management</span>
+    <span class="hl">Visualize Autotask Resources</span>
+    <span class="hl">Visual Autotask Planning</span>
+    <span class="hl new">Supercharge Autotask Dispatch (29ch)</span>
+    <span class="hl new">Autotask Workforce Upgraded (27ch)</span>
+  </div>
+  <div style="padding:0.3rem 1rem;font-size:0.8rem;color:var(--dim);">
+    <strong>Description changes:</strong>
+    Replace "Drag & drop Service Calls and sync Outlook invites..." with "Drag & drop service calls, make them recurring, invite customers, inject Teams meetings." (88ch)
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="old">proxuma.io/</span> &rarr; <span class="new">proxuma.io/planning/</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-2" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- CHANGE 3: Targeted / Outlook -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Targeted / Outlook</strong> <span class="flag flag-new">+3 headlines, 1 new description</span>
+    <div class="change-campaign">Legacy campaign | 34 impr, 0 clicks last 30 days</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords that trigger this ad:</div>
+    <span class="kw">autotask outlook plugin</span>
+    <span class="kw">autotask outlook extension</span>
+    <span class="kw">autotask ms outlook extension</span>
+    <span class="kw">autotask outlook addin</span>
+    <span class="kw">autotask plugin for outlook</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io</div>
+        <div class="ad-headline">Proxuma - Autotask Outlook Integration</div>
+        <div class="ad-desc">Proxuma is the all-in-one calendar and planning add-on for Autotask and Outlook. Drag & drop your Autotask planning with full sync to Outlook and calendar tools.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad (A/B test)</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io</div>
+        <div class="ad-headline">Proxuma - <span class="ad-new">Invite Externals to Calls</span></div>
+        <div class="ad-desc">Proxuma is the all-in-one calendar and planning add-on for Autotask and Outlook. <span class="ad-new">Invite externals, add Teams links, and use Outlook meetings in your capacity forecast.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline pool changes:</div>
+    <span class="hl pinned">Proxuma (keep)</span>
+    <span class="hl">Autotask Outlook Synergy</span>
+    <span class="hl">Autotask Outlook Integration</span>
+    <span class="hl new">Invite Externals to Calls (25ch)</span>
+    <span class="hl new">Add Teams Links Instantly (25ch)</span>
+    <span class="hl new">Outlook Meets Autotask (22ch)</span>
+  </div>
+  <div style="padding:0.3rem 1rem;font-size:0.8rem;color:var(--dim);">
+    <strong>Description changes:</strong>
+    Replace "Drag & drop Service Calls and sync Outlook invites..." with "Invite externals, add Teams links, and use Outlook meetings in your capacity forecast." (86ch)
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="keep">proxuma.io/ (no Outlook-specific page exists)</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-3" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- CHANGE 4: Proxuma Brand (old) -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Proxuma Brand / Branded</strong> <span class="flag flag-fix">headline swap</span>
+    <div class="change-campaign">Brand campaign | EUR 5/day | 7 impr, 2 clicks, 1 conv last 30 days</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords that trigger this ad:</div>
+    <span class="kw">proxuma</span>
+    <span class="kw">proxma (typo)</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io</div>
+        <div class="ad-headline">Proxuma - <span class="ad-removed">Autotask Add-On For Projects</span></div>
+        <div class="ad-desc">Proxuma is the all-in-one planning and project management add-on for Autotask. Visual drag & drop planning and project management, all processed in Autotask.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io</div>
+        <div class="ad-headline">Proxuma - <span class="ad-new">Autotask Add-On for the Future</span></div>
+        <div class="ad-desc">Proxuma is the all-in-one planning and project management add-on for Autotask. Visual drag & drop planning and project management, all processed in Autotask.</div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline pool changes:</div>
+    <span class="hl pinned">Proxuma (keep)</span>
+    <span class="hl removed">Autotask Add-On For Projects</span>
+    <span class="hl new">Autotask Add-On for the Future (30ch)</span>
+    <span class="hl">Upgrade Autotask Projects</span>
+    <span class="hl removed">Upgrade Autotask Dispatching</span>
+    <span class="hl new">Visual Planning for Autotask (28ch)</span>
+    <span class="hl">Autotask - Outlook Synergy</span>
+    <span class="hl">Autotask Resource Management</span>
+    <span class="hl">Visualize Your Workflow</span>
+  </div>
+  <div style="padding:0.3rem 1rem;font-size:0.8rem;color:var(--dim);">
+    <strong>Why:</strong> Max wants brand ad about planning & PM, not dispatching. "Add-On for the Future" matches brand positioning.
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="keep">proxuma.io/ (keep)</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-4" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- CHANGE 5: Autotask Features / Project Management (new) -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Autotask Features / Project Management</strong> <span class="flag flag-fix">rewrite</span> <span class="flag flag-warn">reduce pinning (9/15 = POOR ad strength)</span>
+    <div class="change-campaign">New campaign | UK only | 37 impr, 0 clicks</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords:</div>
+    <span class="kw">autotask project management</span>
+    <span class="kw">autotask project management tool</span>
+    <span class="kw">autotask project planning</span>
+    <span class="kw">autotask project timeline</span>
+    <span class="kw">autotask gantt chart</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/planning</div>
+        <div class="ad-headline">Autotask Project Management - Drag-and-Drop Scheduling - From EUR 20/User/Month</div>
+        <div class="ad-desc">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks. Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/planning</div>
+        <div class="ad-headline">Autotask Project Management - <span class="ad-new">Free Project Templates</span> - Free Trial, No Minimum</div>
+        <div class="ad-desc">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks. <span class="ad-new">Free MSP best-practice project templates included. Even during your 14-day trial.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline changes (replace 2, unpin 4):</div>
+    <span class="hl removed">New Features Every 2 Weeks</span> &rarr; <span class="hl new">Free Project Templates (22ch)</span>
+    <span class="hl removed">Engineers Never Need Access</span> &rarr; <span class="hl new">See Projects Side by Side (25ch)</span>
+    <br><strong style="font-size:0.75rem;color:var(--yellow);">Unpin:</strong> <span style="font-size:0.75rem;">Drag-and-Drop Scheduling, See All Projects at a Glance, Bulk Edit 50 Tasks at Once, From EUR 20/User/Month (keep only H1 pinned)</span>
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="keep">proxuma.io/planning/ (keep)</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-5" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- CHANGE 6: Autotask Features / Planning & Capacity (new) -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Autotask Features / Planning & Capacity</strong> <span class="flag flag-fix">rewrite</span> <span class="flag flag-warn">reduce pinning</span>
+    <div class="change-campaign">New campaign | UK only | 28 impr, 0 clicks</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords:</div>
+    <span class="kw">autotask scheduling</span>
+    <span class="kw">autotask capacity planning</span>
+    <span class="kw">autotask planning</span>
+    <span class="kw">autotask resource planning</span>
+    <span class="kw">autotask dispatch calendar</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/planning</div>
+        <div class="ad-headline">Autotask Resource Planning - Drag-and-Drop Scheduling</div>
+        <div class="ad-desc">All projects on one visual timeline. Drag tasks across weeks. Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/planning</div>
+        <div class="ad-headline">Autotask Resource Planning - <span class="ad-new">Supercharge Autotask Dispatch</span></div>
+        <div class="ad-desc">All projects on one visual timeline. Drag tasks across weeks. <span class="ad-new">Drag & drop service calls, make them recurring, invite customers, inject Teams meetings.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline changes:</div>
+    <span class="hl removed">New Features Every 2 Weeks</span> &rarr; <span class="hl new">Supercharge Autotask Dispatch (29ch)</span>
+    <span class="hl removed">Engineers Never Need Access</span> &rarr; <span class="hl new">Autotask Workforce Upgraded (27ch)</span>
+    <br><strong style="font-size:0.75rem;color:var(--yellow);">Unpin:</strong> <span style="font-size:0.75rem;">Same as Project Management group</span>
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="keep">proxuma.io/planning/ (keep)</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-6" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- CHANGE 7: Autotask Features / Outlook Integration (new) -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Autotask Features / Outlook Integration</strong> <span class="flag flag-new">A/B test copy</span> <span class="flag flag-warn">reduce pinning</span>
+    <div class="change-campaign">New campaign | UK only | 2 impr, 0 clicks</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords:</div>
+    <span class="kw">autotask outlook sync</span>
+    <span class="kw">autotask calendar integration</span>
+    <span class="kw">autotask exchange sync</span>
+    <span class="kw">autotask outlook integration</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/planning</div>
+        <div class="ad-headline">Autotask Outlook Integration - Calendar Sync That Works</div>
+        <div class="ad-desc">All projects on one visual timeline. Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/planning</div>
+        <div class="ad-headline">Autotask Outlook Integration - <span class="ad-new">Invite Externals to Calls</span></div>
+        <div class="ad-desc">All projects on one visual timeline. <span class="ad-new">Invite externals, add Teams links, and use Outlook meetings in your capacity forecast.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline changes:</div>
+    <span class="hl removed">Engineers Never Need Access</span> &rarr; <span class="hl new">Invite Externals to Calls (25ch)</span>
+    <span class="hl removed">New Features Every 2 Weeks</span> &rarr; <span class="hl new">Add Teams Links Instantly (25ch)</span>
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="keep">proxuma.io/planning/ (keep)</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-7" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- CHANGE 8: Autotask Features / Shifts & Dispatch (new) -->
+<div class="change-card">
+  <div class="change-header">
+    <strong>Autotask Features / Shifts & Dispatch</strong> <span class="flag flag-fix">rewrite</span> <span class="flag flag-warn">reduce pinning</span>
+    <div class="change-campaign">New campaign | UK only | 1 impr, 0 clicks</div>
+  </div>
+  <div class="change-keywords">
+    <div class="kw-label">Keywords:</div>
+    <span class="kw">autotask service call scheduling</span>
+    <span class="kw">autotask shift planning</span>
+    <span class="kw">autotask dispatch</span>
+    <span class="kw">MSP shift scheduling autotask</span>
+  </div>
+  <div class="before-after">
+    <div class="before">
+      <div class="ba-label">Current ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/shifts</div>
+        <div class="ad-headline">Autotask Shift Planning - Drag-and-Drop Scheduling</div>
+        <div class="ad-desc">All projects on one visual timeline. Planners and PMs need a license. Engineers stay in Autotask.</div>
+      </div>
+    </div>
+    <div class="after">
+      <div class="ba-label">Proposed ad</div>
+      <div class="ad-preview">
+        <div class="ad-sponsored">Sponsored</div>
+        <div class="ad-url">proxuma.io/shifts</div>
+        <div class="ad-headline"><span class="ad-new">Supercharge Autotask Dispatch</span> - <span class="ad-new">Make Service Calls Recurring</span></div>
+        <div class="ad-desc"><span class="ad-new">Drag & drop service calls, make them recurring, invite customers, inject Teams meetings.</span> Free Trial, No Minimum.</div>
+      </div>
+    </div>
+  </div>
+  <div class="hl-pool" style="padding:0.5rem 1rem;">
+    <div class="hl-pool-label">Headline changes:</div>
+    <span class="hl removed">Engineers Never Need Access</span> &rarr; <span class="hl new">Supercharge Autotask Dispatch (29ch)</span>
+    <span class="hl removed">New Features Every 2 Weeks</span> &rarr; <span class="hl new">Make Service Calls Recurring (27ch)</span>
+  </div>
+  <div class="landing-change">
+    Landing page: <span class="keep">proxuma.io/shifts/ (keep)</span>
+  </div>
+  <div class="change-note"><input type="text" id="ch-8" placeholder="Approve / reject / modify"></div>
+</div>
+
+<!-- =============================== -->
+<h2>3. Structural Issues</h2>
+<p style="color:var(--dim);font-size:0.85rem;margin-bottom:0.75rem;">These need your decision before ad changes go live.</p>
+
+<div class="struct-card">
+  <strong>New campaigns only target UK</strong>
+  <p style="font-size:0.85rem;margin-top:0.3rem;">The 3 new campaigns (Brand, Autotask Features, Recorded Demo) only serve ads in the UK. Your legacy campaigns cover NL. Nobody covers US or Australia. The May 5 audit flagged this. Should I add US (2840) + AU (2036) + NL (2528) geo targets to the new campaigns?</p>
+  <div class="change-note" style="padding:0;margin-top:0.5rem;"><input type="text" id="struct-1" placeholder="Your decision..."></div>
+</div>
+
+<div class="struct-card">
+  <strong>Legacy vs new campaigns: which to keep?</strong>
+  <p style="font-size:0.85rem;margin-top:0.3rem;">Legacy "Targeted campaign autotask" gets all the traffic (249 impr) but has 900+ keywords, many garbage. New "Autotask Features" has clean keyword lists but barely gets impressions. Two options: (A) Fix the new campaigns (geo + ad copy) and pause legacy, or (B) keep both running. Running both means campaigns compete against each other in the auction.</p>
+  <div class="change-note" style="padding:0;margin-top:0.5rem;"><input type="text" id="struct-2" placeholder="Your decision..."></div>
+</div>
+
+<!-- =============================== -->
+<h2>4. General Notes</h2>
+<textarea id="notes-overall" placeholder="Any other feedback, priorities, budget changes..."></textarea>
+
+<button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copy approval prompt</button>
+
+<script>
+const fields = [
+  ...Array.from({length:14}, (_,i) => ({id:`neg-${i+1}`, label:`Negative: ${document.getElementById('neg-'+(i+1))?.closest('.neg-card')?.querySelector('.neg-term')?.textContent || i+1}`})),
+  ...Array.from({length:8}, (_,i) => ({id:`ch-${i+1}`, label:`Ad change ${i+1}`})),
+  {id:'struct-1', label:'Geo targeting'},
+  {id:'struct-2', label:'Legacy vs new campaigns'},
+  {id:'notes-overall', label:'General notes'},
+];
+
+function copyPrompt() {
+  const negTerms = [];
+  for (let i=1;i<=14;i++) {
+    const el = document.getElementById('neg-'+i);
+    const card = el.closest('.neg-card');
+    const term = card.querySelector('.neg-term').textContent;
+    const type = card.querySelector('.neg-type').textContent;
+    const note = el.value.trim();
+    negTerms.push({term, type, note});
+  }
+
+  const adChanges = [];
+  for (let i=1;i<=8;i++) {
+    const el = document.getElementById('ch-'+i);
+    const card = el.closest('.change-card');
+    const name = card.querySelector('.change-header strong').textContent;
+    const note = el.value.trim();
+    adChanges.push({name, note});
+  }
+
+  const struct1 = document.getElementById('struct-1').value.trim();
+  const struct2 = document.getElementById('struct-2').value.trim();
+  const overall = document.getElementById('notes-overall').value.trim();
+
+  const hasContent = negTerms.some(n=>n.note) || adChanges.some(a=>a.note) || struct1 || struct2 || overall;
+  if (!hasContent) { alert('Add some notes first.'); return; }
+
+  let prompt = `Context: I reviewed the proposed Google Ads changes for Proxuma (account 215-278-2474). Here are my approvals and modifications:\n\n`;
+
+  const approvedNegs = negTerms.filter(n => n.note && !n.note.toLowerCase().includes('reject'));
+  const rejectedNegs = negTerms.filter(n => n.note && n.note.toLowerCase().includes('reject'));
+  const noNoteNegs = negTerms.filter(n => !n.note);
+
+  if (approvedNegs.length > 0) {
+    prompt += `## Negative Keywords - Approved\n`;
+    approvedNegs.forEach(n => { prompt += `- "${n.term}" (${n.type}) — ${n.note}\n`; });
+    prompt += `\n`;
+  }
+  if (rejectedNegs.length > 0) {
+    prompt += `## Negative Keywords - Rejected\n`;
+    rejectedNegs.forEach(n => { prompt += `- "${n.term}" — ${n.note}\n`; });
+    prompt += `\n`;
+  }
+  if (noNoteNegs.length > 0) {
+    prompt += `## Negative Keywords - No Response (treat as approved)\n`;
+    noNoteNegs.forEach(n => { prompt += `- "${n.term}" (${n.type})\n`; });
+    prompt += `\n`;
+  }
+
+  const notedChanges = adChanges.filter(a => a.note);
+  if (notedChanges.length > 0) {
+    prompt += `## Ad Copy Changes\n`;
+    notedChanges.forEach(a => { prompt += `- **${a.name}**: ${a.note}\n`; });
+    prompt += `\n`;
+  }
+  const silentChanges = adChanges.filter(a => !a.note);
+  if (silentChanges.length > 0) {
+    prompt += `## Ad Changes - No Response (treat as approved)\n`;
+    silentChanges.forEach(a => { prompt += `- ${a.name}\n`; });
+    prompt += `\n`;
+  }
+
+  if (struct1) prompt += `## Geo Targeting Decision\n${struct1}\n\n`;
+  if (struct2) prompt += `## Campaign Structure Decision\n${struct2}\n\n`;
+  if (overall) prompt += `## General Notes\n${overall}\n\n`;
+
+  prompt += `Implement the approved changes using the Google Ads MCP tools. For each change, confirm what was done. Do NOT touch rejected items.`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy approval prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+  const key = 'gads-proposal-' + el.id;
+  const saved = localStorage.getItem(key);
+  if (saved) el.value = saved;
+  el.addEventListener('input', () => localStorage.setItem(key, el.value));
+});
+</script>
+
+<!--CLAUDE-DATA
+{
+  "type": "google-ads-proposal",
+  "account": "2152782474",
+  "date": "2026-05-14",
+  "negative_keywords": 14,
+  "ad_rewrites": 8,
+  "landing_page_fixes": 3,
+  "structural_issues": 2,
+  "all_headlines_verified_under_30ch": true,
+  "all_descriptions_verified_under_90ch": true
+}
+-->
+</body>
+</html>
