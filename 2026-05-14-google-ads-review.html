@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Ads Review - Proxuma - May 14, 2026</title>
+<style>
+  :root { --bg: #1a1a2e; --card: #16213e; --accent: #0f3460; --teal: #0f766e; --text: #e2e8f0; --dim: #94a3b8; --red: #ef4444; --green: #22c55e; --yellow: #eab308; --border: #334155; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--dim); margin-bottom: 2rem; }
+  h2 { font-size: 1.3rem; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--teal); }
+
+  .summary-bar { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; flex: 1; min-width: 140px; }
+  .stat-label { font-size: 0.75rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-value { font-size: 1.5rem; font-weight: 700; }
+  .stat-value.red { color: var(--red); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.yellow { color: var(--yellow); }
+
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  th { background: var(--accent); text-align: left; padding: 0.6rem 0.8rem; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border); }
+  tr.clicked { background: rgba(15, 118, 110, 0.15); }
+  tr.irrelevant { opacity: 0.5; }
+  .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+  .badge-click { background: var(--teal); color: white; }
+  .badge-impression { background: var(--accent); color: var(--dim); }
+  .badge-conversion { background: var(--green); color: white; }
+
+  .ad-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin: 1rem 0; }
+  .ad-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .ad-campaign { font-size: 0.8rem; color: var(--dim); }
+  .ad-metrics { display: flex; gap: 1rem; font-size: 0.8rem; }
+  .ad-metrics span { padding: 0.2rem 0.6rem; background: var(--accent); border-radius: 4px; }
+  .headlines { margin: 0.75rem 0; }
+  .headline { display: inline-block; background: var(--accent); padding: 0.3rem 0.7rem; border-radius: 4px; margin: 0.2rem; font-size: 0.85rem; }
+  .headline.pinned { border-left: 3px solid var(--teal); }
+  .descriptions { margin: 0.75rem 0; }
+  .description { background: rgba(15, 52, 96, 0.4); padding: 0.5rem 0.8rem; border-radius: 4px; margin: 0.3rem 0; font-size: 0.85rem; color: var(--dim); }
+  .final-url { font-size: 0.8rem; color: var(--teal); margin-top: 0.5rem; }
+
+  .notes-area { margin: 1rem 0; }
+  .notes-area label { display: block; font-size: 0.85rem; color: var(--dim); margin-bottom: 0.4rem; }
+  textarea { width: 100%; min-height: 80px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 0.75rem; font-family: inherit; font-size: 0.9rem; resize: vertical; }
+  textarea:focus { outline: none; border-color: var(--teal); }
+  textarea::placeholder { color: #475569; }
+
+  .copy-btn { position: fixed; bottom: 2rem; right: 2rem; background: var(--teal); color: white; border: none; padding: 1rem 1.5rem; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.4); z-index: 100; transition: transform 0.1s; }
+  .copy-btn:hover { transform: scale(1.05); }
+  .copy-btn:active { transform: scale(0.95); }
+  .copy-btn.copied { background: var(--green); }
+
+  .search-verdict { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 3px; }
+  .verdict-good { background: rgba(34, 197, 94, 0.2); color: var(--green); }
+  .verdict-waste { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+  .verdict-neutral { background: rgba(234, 179, 8, 0.2); color: var(--yellow); }
+
+  .section-notes { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border); }
+</style>
+</head>
+<body>
+
+<h1>Google Ads Review</h1>
+<p class="subtitle">Proxuma account 215-278-2474 | Last 30 days | Generated May 14, 2026</p>
+
+<div class="summary-bar">
+  <div class="stat">
+    <div class="stat-label">Total Spend</div>
+    <div class="stat-value red">EUR 108</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Impressions</div>
+    <div class="stat-value">324</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Clicks</div>
+    <div class="stat-value yellow">9</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Conversions</div>
+    <div class="stat-value green">1</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Avg CPC</div>
+    <div class="stat-value red">EUR 12.05</div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2>1. Search Terms (What People Searched)</h2>
+<p style="color:var(--dim); font-size:0.85rem; margin-bottom:1rem;">Sorted by impressions. Green rows got clicks. Highlighted terms may need negative keywords or indicate keyword gaps.</p>
+
+<table>
+  <thead>
+    <tr><th>Search Term</th><th>Campaign / Ad Group</th><th>Impr</th><th>Clicks</th><th>Cost</th><th>Conv</th><th>Verdict</th></tr>
+  </thead>
+  <tbody>
+    <tr class="clicked">
+      <td><strong>autotask</strong></td>
+      <td>Autotask Features / Planning & Capacity</td>
+      <td>11</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">too broad?</span></td>
+    </tr>
+    <tr class="clicked">
+      <td><strong>autotask project management</strong></td>
+      <td>Targeted / Project management</td>
+      <td>9</td><td>2</td><td>EUR 28.57</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask outlook plugin</td>
+      <td>Targeted / Outlook</td>
+      <td>8</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask outlook extension</td>
+      <td>Targeted / Outlook</td>
+      <td>6</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask ms outlook extension</td>
+      <td>Targeted / Outlook</td>
+      <td>4</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td><strong>autotask</strong></td>
+      <td>Autotask Features / Project Management</td>
+      <td>4</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">too broad?</span></td>
+    </tr>
+    <tr class="clicked">
+      <td><strong>proxuma</strong></td>
+      <td>Proxuma Brand / Branded</td>
+      <td>3</td><td>2</td><td>EUR 2.32</td><td>1</td>
+      <td><span class="search-verdict verdict-good">brand</span></td>
+    </tr>
+    <tr>
+      <td>autotask exchange integration</td>
+      <td>Targeted / Planning</td>
+      <td>2</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-waste">not our product</span></td>
+    </tr>
+    <tr>
+      <td>autotask outlook addin</td>
+      <td>Targeted / Outlook</td>
+      <td>2</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask projects</td>
+      <td>Targeted / Project management</td>
+      <td>2</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask online</td>
+      <td>Autotask Features / Planning & Capacity</td>
+      <td>2</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">generic</span></td>
+    </tr>
+    <tr>
+      <td>prozkm</td>
+      <td>Proxuma Brand / Branded</td>
+      <td>2</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">brand typo</span></td>
+    </tr>
+    <tr class="clicked">
+      <td><strong>autotask project templates</strong></td>
+      <td>Targeted / Project management</td>
+      <td>1</td><td>1</td><td>EUR 12.22</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask dispatch calendar</td>
+      <td>Targeted / Planning</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask workforce management</td>
+      <td>Targeted / Planning</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">adjacent</span></td>
+    </tr>
+    <tr>
+      <td>autotask plugin for outlook</td>
+      <td>Targeted / Outlook</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask app</td>
+      <td>Autotask Features / Project Management</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">generic</span></td>
+    </tr>
+    <tr>
+      <td>autotask project management</td>
+      <td>Autotask Features / Project Management</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">relevant</span></td>
+    </tr>
+    <tr>
+      <td>autotask wallboard</td>
+      <td>Autotask Features / Project Management</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-waste">not our product</span></td>
+    </tr>
+    <tr>
+      <td>autotask workflow rules</td>
+      <td>Autotask Features / Project Management</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-waste">not our product</span></td>
+    </tr>
+    <tr>
+      <td>psa autotask</td>
+      <td>Autotask Features / Project Management</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">generic</span></td>
+    </tr>
+    <tr>
+      <td>autotask dashboards</td>
+      <td>Autotask Features / Planning & Capacity</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">adjacent</span></td>
+    </tr>
+    <tr>
+      <td>autotask documentation</td>
+      <td>Autotask Features / Planning & Capacity</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-waste">not our product</span></td>
+    </tr>
+    <tr>
+      <td>autotask kaseya</td>
+      <td>Autotask Features / Planning & Capacity</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-waste">not our product</span></td>
+    </tr>
+    <tr>
+      <td>autotask mcp server</td>
+      <td>Autotask Features / Planning & Capacity</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-waste">not our product</span></td>
+    </tr>
+    <tr>
+      <td>xero autotask integration</td>
+      <td>Autotask Features / Planning & Capacity</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-waste">not our product</span></td>
+    </tr>
+    <tr>
+      <td>praxxeum</td>
+      <td>Proxuma Brand / Branded</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-neutral">unrelated?</span></td>
+    </tr>
+    <tr>
+      <td>proxma</td>
+      <td>Proxuma Brand / Branded</td>
+      <td>1</td><td>0</td><td>-</td><td>0</td>
+      <td><span class="search-verdict verdict-good">brand typo</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section-notes">
+  <div class="notes-area">
+    <label>Your notes on search terms (negative keywords to add, terms to target, gaps you see):</label>
+    <textarea id="notes-search" placeholder="e.g. 'autotask wallboard' and 'autotask kaseya' should be negatives. We need more project management terms..."></textarea>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2>2. Ads Shown (Last 30 Days)</h2>
+<p style="color:var(--dim); font-size:0.85rem; margin-bottom:1rem;">Only ads with impressions. Google mixes headlines/descriptions from the pool below into RSA combinations. Pinned headlines are marked with a teal left border.</p>
+
+<!-- Ad 1 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Targeted campaign autotask / Project management</strong>
+      <div class="ad-campaign">Legacy campaign (EUR 10/day, Maximize Conversions, NL only)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>89 impr</span>
+      <span style="background:var(--teal);">6 clicks</span>
+      <span>EUR 91.01</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Proxuma</span>
+    <span class="headline">Autotask Add-On For Projects</span>
+    <span class="headline">Upgrade Autotask Projects</span>
+    <span class="headline">Visualize Your Workflow</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">Proxuma gives project managers full control over tasks, time, and resources in Autotask.</div>
+    <div class="description">Visual drag & drop timelines, phases, and tasks -- fully synced with Autotask projects.</div>
+    <div class="description">Build project plans visually, assign work, and track real-time progress in Autotask.</div>
+    <div class="description">14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+  </div>
+  <div class="final-url">proxuma.io/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-1" placeholder="What would you change? Headlines, descriptions, landing page, targeting?"></textarea>
+  </div>
+</div>
+
+<!-- Ad 2 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Targeted campaign autotask / Planning</strong>
+      <div class="ad-campaign">Legacy campaign (EUR 10/day, Maximize Conversions, NL only)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>122 impr</span>
+      <span>1 click</span>
+      <span>EUR 15.17</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Proxuma</span>
+    <span class="headline">Drag & Drop Autotask Planning</span>
+    <span class="headline">Autotask Resource Management</span>
+    <span class="headline">Visualize Autotask Resources</span>
+    <span class="headline">Visual Autotask Planning</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">Proxuma is the all-in-one calendar and planning add-on for Autotask and Outlook.</div>
+    <div class="description">Drag & drop your Autotask planning with full sync to Outlook and calendar tools.</div>
+    <div class="description">Drag & drop Service Calls and sync Outlook invites with your Autotask calendar.</div>
+    <div class="description">14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+  </div>
+  <div class="final-url">proxuma.io/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-2" placeholder="122 impressions but only 1 click. Low CTR for planning terms..."></textarea>
+  </div>
+</div>
+
+<!-- Ad 3 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Targeted campaign autotask / Outlook</strong>
+      <div class="ad-campaign">Legacy campaign (EUR 10/day, Maximize Conversions, NL only)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>34 impr</span>
+      <span>0 clicks</span>
+      <span>EUR 0</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Proxuma</span>
+    <span class="headline">Autotask Outlook Synergy</span>
+    <span class="headline">Autotask Outlook Integration</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">Proxuma is the all-in-one calendar and planning add-on for Autotask and Outlook.</div>
+    <div class="description">Drag & drop your Autotask planning with full sync to Outlook and calendar tools.</div>
+    <div class="description">Drag & drop Service Calls and sync Outlook invites with your Autotask calendar.</div>
+    <div class="description">14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+  </div>
+  <div class="final-url">proxuma.io/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-3" placeholder="34 Outlook-related impressions, zero clicks. Is the ad copy wrong for this audience?"></textarea>
+  </div>
+</div>
+
+<!-- Ad 4 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Targeted campaign autotask / Proxuma generic</strong>
+      <div class="ad-campaign">Legacy campaign (EUR 10/day, Maximize Conversions, NL only)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>4 impr</span>
+      <span>0 clicks</span>
+      <span>EUR 0</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Proxuma</span>
+    <span class="headline">Autotask Add-On For Projects</span>
+    <span class="headline">Upgrade Autotask Projects</span>
+    <span class="headline">Upgrade Autotask Dispatching</span>
+    <span class="headline">Autotask - Outlook Synergy</span>
+    <span class="headline">Autotask Resource Management</span>
+    <span class="headline">Visualize Your Workflow</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">Proxuma is the all-in-one planning and project management add-on for Autotask.</div>
+    <div class="description">Visual drag & drop planning and project management, all processed in Autotask.</div>
+    <div class="description">The ultimate resource calendar, drag & drop to create Service Calls and Outlook invites.</div>
+    <div class="description">14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+  </div>
+  <div class="final-url">proxuma.io/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-4" placeholder=""></textarea>
+  </div>
+</div>
+
+<!-- Ad 5 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Proxuma - Autotask Features / Project Management</strong>
+      <div class="ad-campaign">New campaign (UK only, no budget data yet)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>37 impr</span>
+      <span>0 clicks</span>
+      <span>EUR 0</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Autotask Project Management</span>
+    <span class="headline pinned">Visual Planning for Autotask</span>
+    <span class="headline pinned">Autotask Planning Made Visual</span>
+    <span class="headline pinned">Drag-and-Drop Scheduling</span>
+    <span class="headline pinned">See All Projects at a Glance</span>
+    <span class="headline pinned">Bulk Edit 50 Tasks at Once</span>
+    <span class="headline">Know Who Has Capacity</span>
+    <span class="headline">Outlook Sync That Works</span>
+    <span class="headline pinned">From EUR 20/User/Month</span>
+    <span class="headline pinned">3.75x Cheaper Than TopLeft</span>
+    <span class="headline">Engineers Never Need Access</span>
+    <span class="headline pinned">Free Trial, No Minimum</span>
+    <span class="headline">Built for MSP Planners</span>
+    <span class="headline">Syncs Back to Autotask</span>
+    <span class="headline">New Features Every 2 Weeks</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="description">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="description">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="description">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </div>
+  <div class="final-url">proxuma.io/planning/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-5" placeholder="Heavy pinning (9 of 15 headlines pinned). May limit Google's testing. 37 impressions, 0 clicks..."></textarea>
+  </div>
+</div>
+
+<!-- Ad 6 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Proxuma - Autotask Features / Planning & Capacity</strong>
+      <div class="ad-campaign">New campaign (UK only, no budget data yet)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>28 impr</span>
+      <span>0 clicks</span>
+      <span>EUR 0</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Autotask Resource Planning</span>
+    <span class="headline pinned">Visual Capacity Planning</span>
+    <span class="headline pinned">Capacity Planning Made Visual</span>
+    <span class="headline pinned">Drag-and-Drop Scheduling</span>
+    <span class="headline pinned">See All Projects at a Glance</span>
+    <span class="headline pinned">Bulk Edit 50 Tasks at Once</span>
+    <span class="headline">Know Who Has Capacity</span>
+    <span class="headline">Outlook Sync That Works</span>
+    <span class="headline pinned">From EUR 20/User/Month</span>
+    <span class="headline pinned">3.75x Cheaper Than TopLeft</span>
+    <span class="headline">Engineers Never Need Access</span>
+    <span class="headline pinned">Free Trial, No Minimum</span>
+    <span class="headline">Built for MSP Planners</span>
+    <span class="headline">Syncs Back to Autotask</span>
+    <span class="headline">New Features Every 2 Weeks</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="description">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="description">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="description">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </div>
+  <div class="final-url">proxuma.io/planning/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-6" placeholder=""></textarea>
+  </div>
+</div>
+
+<!-- Ad 7 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Proxuma Brand / Branded</strong>
+      <div class="ad-campaign">Brand protection (EUR 5/day, Target Impression Share, 8 countries)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>7 impr</span>
+      <span style="background:var(--teal);">2 clicks</span>
+      <span style="background:var(--green);">1 conv</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Proxuma</span>
+    <span class="headline">Autotask Add-On For Projects</span>
+    <span class="headline">Upgrade Autotask Projects</span>
+    <span class="headline">Upgrade Autotask Dispatching</span>
+    <span class="headline">Autotask - Outlook Synergy</span>
+    <span class="headline">Autotask Resource Management</span>
+    <span class="headline">Visualize Your Workflow</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">Proxuma is the all-in-one planning and project management add-on for Autotask.</div>
+    <div class="description">Visual drag & drop planning and project management, all processed in Autotask.</div>
+    <div class="description">The ultimate resource calendar, drag & drop to create Service Calls and Outlook invites.</div>
+    <div class="description">14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+  </div>
+  <div class="final-url">proxuma.io/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-7" placeholder="Best performer: 28.6% CTR on brand terms. Keep or improve?"></textarea>
+  </div>
+</div>
+
+<!-- Ad 8 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Proxuma - Autotask Features / Outlook Integration</strong>
+      <div class="ad-campaign">New campaign (UK only)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>2 impr</span>
+      <span>0 clicks</span>
+      <span>EUR 0</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Autotask Outlook Integration</span>
+    <span class="headline pinned">Outlook Sync for Autotask</span>
+    <span class="headline pinned">Fix Autotask Outlook Sync</span>
+    <span class="headline pinned">Drag-and-Drop Scheduling</span>
+    <span class="headline pinned">See All Projects at a Glance</span>
+    <span class="headline pinned">Calendar Sync That Works</span>
+    <span class="headline">Know Who Has Capacity</span>
+    <span class="headline">Outlook Sync That Works</span>
+    <span class="headline pinned">From EUR 20/User/Month</span>
+    <span class="headline pinned">3.75x Cheaper Than TopLeft</span>
+    <span class="headline">Engineers Never Need Access</span>
+    <span class="headline pinned">Free Trial, No Minimum</span>
+    <span class="headline">Built for MSP Planners</span>
+    <span class="headline">Syncs Back to Autotask</span>
+    <span class="headline">New Features Every 2 Weeks</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="description">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="description">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="description">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </div>
+  <div class="final-url">proxuma.io/planning/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-8" placeholder=""></textarea>
+  </div>
+</div>
+
+<!-- Ad 9 -->
+<div class="ad-card">
+  <div class="ad-header">
+    <div>
+      <strong>Proxuma - Autotask Features / Shifts & Dispatch</strong>
+      <div class="ad-campaign">New campaign (UK only)</div>
+    </div>
+    <div class="ad-metrics">
+      <span>1 impr</span>
+      <span>0 clicks</span>
+      <span>EUR 0</span>
+    </div>
+  </div>
+  <h3>Headlines</h3>
+  <div class="headlines">
+    <span class="headline pinned">Autotask Shift Planning</span>
+    <span class="headline pinned">MSP Shift Scheduling</span>
+    <span class="headline pinned">Dispatch Board for Autotask</span>
+    <span class="headline pinned">Drag-and-Drop Scheduling</span>
+    <span class="headline pinned">See All Projects at a Glance</span>
+    <span class="headline pinned">Bulk Edit 50 Tasks at Once</span>
+    <span class="headline">Know Who Has Capacity</span>
+    <span class="headline">Outlook Sync That Works</span>
+    <span class="headline pinned">From EUR 20/User/Month</span>
+    <span class="headline pinned">3.75x Cheaper Than TopLeft</span>
+    <span class="headline">Engineers Never Need Access</span>
+    <span class="headline pinned">Free Trial, No Minimum</span>
+    <span class="headline">Built for MSP Planners</span>
+    <span class="headline">Syncs Back to Autotask</span>
+    <span class="headline">New Features Every 2 Weeks</span>
+  </div>
+  <h3>Descriptions</h3>
+  <div class="descriptions">
+    <div class="description">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="description">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="description">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="description">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </div>
+  <div class="final-url">proxuma.io/shifts/</div>
+  <div class="notes-area">
+    <label>Your notes on this ad:</label>
+    <textarea id="notes-ad-9" placeholder=""></textarea>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2>3. Overall Notes</h2>
+<div class="notes-area">
+  <label>General feedback, strategy thoughts, budget changes, campaign restructuring ideas:</label>
+  <textarea id="notes-overall" style="min-height:120px;" placeholder="e.g. Should we pause the legacy campaign? Change geo targeting? Rewrite all ads? Adjust budgets?"></textarea>
+</div>
+
+<button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copy feedback prompt</button>
+
+<script>
+function copyPrompt() {
+  const notes = {
+    'Search Terms': document.getElementById('notes-search').value,
+    'Ad 1 - Targeted/Project management (89 impr, 6 clicks, EUR 91)': document.getElementById('notes-ad-1').value,
+    'Ad 2 - Targeted/Planning (122 impr, 1 click, EUR 15)': document.getElementById('notes-ad-2').value,
+    'Ad 3 - Targeted/Outlook (34 impr, 0 clicks)': document.getElementById('notes-ad-3').value,
+    'Ad 4 - Targeted/Proxuma generic (4 impr, 0 clicks)': document.getElementById('notes-ad-4').value,
+    'Ad 5 - Autotask Features/Project Management (37 impr, 0 clicks)': document.getElementById('notes-ad-5').value,
+    'Ad 6 - Autotask Features/Planning & Capacity (28 impr, 0 clicks)': document.getElementById('notes-ad-6').value,
+    'Ad 7 - Proxuma Brand (7 impr, 2 clicks, 1 conv)': document.getElementById('notes-ad-7').value,
+    'Ad 8 - Autotask Features/Outlook Integration (2 impr, 0 clicks)': document.getElementById('notes-ad-8').value,
+    'Ad 9 - Autotask Features/Shifts & Dispatch (1 impr, 0 clicks)': document.getElementById('notes-ad-9').value,
+    'Overall Strategy': document.getElementById('notes-overall').value,
+  };
+
+  const filled = Object.entries(notes).filter(([k, v]) => v.trim());
+  if (filled.length === 0) {
+    alert('Add some notes first, then click again.');
+    return;
+  }
+
+  let prompt = `Context: I just reviewed the Proxuma Google Ads account (CID 215-278-2474) for the last 30 days. Here is my feedback on the search terms and ad creatives:\n\n`;
+  filled.forEach(([section, note]) => {
+    prompt += `## ${section}\n${note.trim()}\n\n`;
+  });
+  prompt += `Based on this feedback, suggest specific changes to make in Google Ads. Be concrete: exact headlines to add/remove, negative keywords to add, budget changes, campaign structure changes. Use the Google Ads MCP tools to implement what you can.`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy feedback prompt';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Persist notes to localStorage
+document.querySelectorAll('textarea').forEach(ta => {
+  const saved = localStorage.getItem('gads-review-' + ta.id);
+  if (saved) ta.value = saved;
+  ta.addEventListener('input', () => {
+    localStorage.setItem('gads-review-' + ta.id, ta.value);
+  });
+});
+</script>
+
+<!--CLAUDE-DATA
+{
+  "type": "google-ads-review",
+  "account": "2152782474",
+  "date": "2026-05-14",
+  "period": "last_30_days",
+  "total_spend_eur": 108,
+  "total_impressions": 324,
+  "total_clicks": 9,
+  "total_conversions": 1,
+  "active_campaigns": ["Targeted campaign autotask", "Proxuma Brand", "Proxuma - Autotask Features", "Proxuma - Brand", "Proxuma - Recorded Demo"],
+  "search_terms_count": 28,
+  "ads_with_impressions": 9
+}
+-->
+</body>
+</html>
