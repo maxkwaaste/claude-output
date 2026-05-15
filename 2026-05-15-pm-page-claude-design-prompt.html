@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Design Prompt: Proxuma Project Management Page</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 12px; line-height: 1.7; white-space: pre-wrap;
+}
+.prompt-block {
+  background: #1a2744; color: #e8edf4; border-radius: 6px; padding: 28px 32px;
+  margin: 24px 0; font-family: -apple-system, sans-serif; font-size: 13.5px; line-height: 1.7;
+}
+.prompt-block h4 { color: #c8a87a; font-size: 14px; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .06em; }
+.prompt-block h4:first-child { margin-top: 0; }
+.prompt-block ul { margin: 8px 0 8px 18px; }
+.prompt-block li { margin-bottom: 4px; color: #d0d8e8; }
+.prompt-block strong { color: #fff; }
+.prompt-block .label { color: #c8a87a; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+.copy-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #1a2744; color: #fff; border: none; border-radius: 4px;
+  padding: 10px 20px; font: 600 13px/1 -apple-system, sans-serif;
+  cursor: pointer; margin: 12px 0;
+}
+.copy-btn:hover { background: #2a3a5a; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 15, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-15-pm-page-claude-design-prompt.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Product Design Brief</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 15, 2026<br>Design Brief<br>Proxuma
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">CLAUDE DESIGN INPUT</div>
+  <h1>Project Management Page: Two-Session Approach</h1>
+  <p class="subtitle">Session 1 builds accurate product UI mockups from codebase specs. Session 2 uses those mockups as hero visuals in the marketing page (your existing brand session).</p>
+
+  <div class="callout">
+    <span class="callout-label">How to use</span>
+    Copy the <strong>Session 1 prompt</strong> below and paste it into a new Claude Design session. It will generate 4 product UI mockups based on exact specifications from the Proxuma codebase. Then use those mockups as input images in your existing Session 2 (brand package loaded) alongside the Session 2 prompt.
+  </div>
+
+  <h2>Session 1: Product UI Mockups</h2>
+  <p>This prompt asks Claude Design to build 4 static mockups that accurately represent the Proxuma product interface. Every label, column, field name, and layout detail comes from the actual frontend codebase (M4rckC/proxuma-frontend, branch feature/nova-features).</p>
+
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('session1').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>{this.textContent='Copy Session 1 Prompt'},1500)})">Copy Session 1 Prompt</button>
+
+  <div class="prompt-block" id="session1">
+<h4>Context</h4>
+I need you to create 4 accurate product UI mockups for Proxuma, an MSP planning platform. These mockups will be used as hero visuals on a marketing page. Every detail below comes from the actual codebase. Do NOT add, rename, or rearrange any elements. Render exactly what is specified.
+
+Use a clean, modern SaaS aesthetic: white backgrounds, subtle gray borders (#e2e4e8), rounded corners (8px), system font stack (-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif). Text color: #2c2c2c. Brand accent: teal #0f766e for active/selected states.
+
+<h4>Mockup 1: Resource Planning Screen (Week View)</h4>
+
+<strong>Layout:</strong> Full-width. Sticky toolbar at top. Below: left sidebar (158px wide, sticky) + scrollable timeline grid to the right.
+
+<strong>Toolbar (single horizontal row):</strong>
+<ul>
+<li>Left side, left to right: Page title "Resources" (bold) | "Saved views" dropdown button | "Filters" button with filter icon | Three icon-only toggle buttons in a pill group: Timeline view (active, teal highlight), Stacked view, Capacity view (percent icon) | Quick resource filter chips</li>
+<li>Right side, left to right: Left chevron | "Mon 12 - Sun 18 May 2026" (clickable date display) | Right chevron | Dropdown showing "Week" with toggles underneath: "Show weekends", "Extended office hours", "Outside office hours", "Show planned hours" | "Today" button (outline style) | Icon buttons row: Fullscreen toggle, Bulk edit, Capacity graph, Plan Bucket (list icon, solid/active), Create "+" dropdown</li>
+</ul>
+
+<strong>Left sidebar (per resource row, 100px height each):</strong>
+Show 5 resources, each row has:
+<ul>
+<li>Circle avatar (32px, with initials or photo placeholder)</li>
+<li>Name: bold, truncated. Use realistic MSP names: "Tom van Dijk", "Sarah Bakker", "Mike Chen", "Lisa de Vries", "James Patel"</li>
+<li>If overbooked: small red dot + "2h overdue" in amber text below name</li>
+<li>Indicator dots row: red dot (overdue count), orange dot (overloaded), amber dot (no estimate)</li>
+</ul>
+
+<strong>Timeline header (sticky, 88px tall):</strong>
+Week columns: "Mon 12", "Tue 13", "Wed 14", "Thu 15", "Fri 16" (format: ddd D). Equal-width columns.
+
+<strong>Timeline grid:</strong>
+Each row = one resource, each column = one day. Colored task blocks spanning cells:
+<ul>
+<li>Tom: "Office 365 Migration - Pilot Group" (teal, spans Mon-Wed), "Backup Audit" (blue, Thu-Fri)</li>
+<li>Sarah: "Network Refresh - Phase 2" (green, spans Mon-Fri full width)</li>
+<li>Mike: "Ticket #4821 - Server crash" (amber, Mon only), "Azure AD Setup" (teal, Tue-Thu), empty Fri</li>
+<li>Lisa: "Onboarding - NewCo Ltd" (purple, Mon-Wed), shows red "2h overdue" indicator on row</li>
+<li>James: "Shift: On-call rotation" (gray striped, Mon-Fri background), "Firewall upgrade" (blue, overlaid Wed-Thu)</li>
+</ul>
+
+<strong>Plan Bucket sidebar (right side, slide-over panel, 320px wide):</strong>
+<ul>
+<li>Header row: AI button (sparkle icon) | "Saved views" dropdown | Sort button (arrows icon) with yellow "2" badge | Filters button | Settings gear icon</li>
+<li>Search input: placeholder "Search"</li>
+<li>3 unscheduled cards, each card is a rounded box with:
+  <ul>
+  <li>Header bar (36px): Title text (truncated) on left | Entity type chip ("Task" or "Ticket") + Status badge ("New" in gray, or "In Progress" in blue) + chevron expand on right</li>
+  <li>Below header: Start date, End date, Company name, resource avatar(s)</li>
+  </ul>
+</li>
+<li>Card 1: "Quarterly Security Review" | Task | New | CompanyA Ltd | Due: May 24</li>
+<li>Card 2: "Ticket #5102 - Printer not connecting" | Ticket | New | Bakker & Zn | Due: May 19</li>
+<li>Card 3: "Server Room Cable Management" | Task | New | TechVault BV | Due: May 30</li>
+</ul>
+
+<h4>Mockup 2: Capacity View</h4>
+
+<strong>Same layout as Mockup 1</strong> but the timeline area shows capacity cells instead of task blocks. Same toolbar, but the Capacity view icon (percent) is now the active one in the pill group (teal highlight instead of Timeline).
+
+<strong>Each capacity cell (per resource per day) shows a color-coded box with a 3-column grid:</strong>
+
+| Row label | % column | Hours column |
+| Planned | XX% | XXh |
+| Spare | XX% | XXh |
+| Actual | XX% | XXh |
+| Total capacity | (blank) | XXh |
+
+Color coding: Green background = healthy (spare > 20%), Amber = near capacity (spare 5-20%), Red = overbooked (spare < 0%).
+
+<strong>Show these specific values for the 5 resources across Mon-Fri:</strong>
+<ul>
+<li>Tom: Mon 75%/6h planned, 25%/2h spare, 8h total (green) | Tue 100%/8h planned, 0%/0h spare (amber) | Wed 88%/7h, 12%/1h spare (green) | Thu 50%/4h, 50%/4h spare (green) | Fri 50%/4h, 50%/4h spare (green)</li>
+<li>Sarah: All days 100%/8h planned, 0h spare (amber across the row)</li>
+<li>Mike: Mon 125%/10h planned, -25%/-2h "Total overbooked" in red text (RED cell) | Tue-Thu 75%/6h (green) | Fri 0%/0h, 100%/8h spare (green, empty)</li>
+<li>Lisa: Mon-Wed 100% (amber) | Thu-Fri 63%/5h, 38%/3h spare (green)</li>
+<li>James: All days show striped/hatched pattern indicating on-call shift, with 50%/4h planned, 50%/4h spare overlaid</li>
+</ul>
+
+<h4>Mockup 3: Projects Breakdown Table (WBS)</h4>
+
+<strong>Layout:</strong> Full-width table with sticky header. Above table: right-aligned controls: "Columns" button (column chooser), "Bulk Edit" dropdown, "Add +" dropdown.
+
+<strong>Table header row (dark navy #1a2744 background, white text, uppercase):</strong>
+Columns in order: Title (270px) | Category (200px) | Type (200px) | Start Date (200px) | End Date (200px) | Priority (200px) | Status (180px) | Primary Resource (250px) | Secondary Resource (250px) | Actions (100px, sticky right)
+
+<strong>Table rows (60px height each, recursive nesting with 20px indent per level):</strong>
+
+Show this exact hierarchy:
+<ul>
+<li><strong>Row 1 (indent 0):</strong> Expand arrow down | <span class="label">"Phase:"</span> in teal text + <strong>"Assessment"</strong> as clickable link | Infrastructure | Phase | May 1 | May 10 | (no badge) | "In Progress" green badge | Tom van Dijk avatar | (empty) | Eye + Edit icons</li>
+<li><strong>Row 2 (indent 20px):</strong> <span class="label">"Task:"</span> in teal + <strong>"Network topology scan"</strong> | Infrastructure | Task | May 1 | May 3 | "P2-High" amber badge | "Complete" green badge | Tom van Dijk avatar | Sarah Bakker avatar | Eye + Edit + Copy icons</li>
+<li><strong>Row 3 (indent 20px):</strong> <span class="label">"Task:"</span> in teal + <strong>"Document current firewall rules"</strong> | Security | Task | May 4 | May 7 | "P3-Medium" blue badge | "In Progress" green badge | Mike Chen avatar | (empty) | Eye + Edit + Copy icons</li>
+<li><strong>Row 4 (indent 20px):</strong> <span class="label">"Ticket:"</span> in teal + <strong>"#4821 - Server room humidity alert"</strong> | Infrastructure | Ticket | May 5 | May 6 | "P1-Critical" red badge | "New" gray badge | Lisa de Vries avatar | James Patel avatar | Eye + Edit + Copy icons</li>
+<li><strong>Row 5 (indent 0):</strong> Expand arrow right (collapsed) | <span class="label">"Phase:"</span> in teal + <strong>"Pilot Group Rollout"</strong> | Migration | Phase | May 12 | May 23 | (no badge) | "Scheduled" blue badge | Sarah Bakker avatar | (empty) | Eye + Edit icons</li>
+<li><strong>Row 6 (indent 0):</strong> Expand arrow right (collapsed) | <span class="label">"Phase:"</span> in teal + <strong>"Full Rollout"</strong> | Migration | Phase | May 26 | Jun 13 | (no badge) | "Not Started" gray badge | (empty) | (empty) | Eye + Edit icons</li>
+</ul>
+
+Alternate row backgrounds: white / #f8f9fb. Priority and Status render as colored pill badges. Primary Resource shows a single avatar + name. Secondary Resource shows avatar group (max 2 shown).
+
+<h4>Mockup 4: Golden Template Generate Wizard</h4>
+
+<strong>Layout:</strong> Centered modal dialog (max-width 768px), with overlay dimming the background. Header shows "Step X of 3" in muted text.
+
+<strong>Show all 3 steps side by side (triptych layout) so the marketing page can use them as a feature progression:</strong>
+
+<strong>Step 1 - "Select Components":</strong>
+<ul>
+<li>Scrollable checklist area with 5 items, each row: checkbox + component name + usage count badge</li>
+<li>Items: ✓ "Initial Assessment" (3 tasks) | ✓ "Network Configuration" (5 tasks) | ✓ "User Migration" (4 tasks) | ☐ "Post-Migration Support" (2 tasks) | ✓ "Documentation & Handoff" (3 tasks)</li>
+<li>Bottom bar: "Cancel" (outline) left, "Next" (filled teal) right</li>
+</ul>
+
+<strong>Step 2 - "Fill Variables":</strong>
+<ul>
+<li>Dynamic form with 3 fields, each: label above, number input (type=number, min=0, placeholder="0")</li>
+<li>Fields: "Number of users" = 150 | "Number of servers" = 12 | "Number of locations" = 3</li>
+<li>Bottom bar: "Back" (outline) left, "Cancel" center, "Next" (filled teal) right</li>
+</ul>
+
+<strong>Step 3 - "Preview & Confirm":</strong>
+<ul>
+<li>4 stat cards in a row (grid-cols-4): "Total Hours" = 186h | "Total Phases" = 4 | "Total Tasks" = 15 | "Duration" = 23 days</li>
+<li>"Template Name" field: editable input pre-filled with "Office 365 Migration - TechVault BV"</li>
+<li>Phase/task tree preview (scrollable, max-height 300px):
+  <ul>
+  <li>Folder icon + "Assessment" (bold) → indented: "Network topology scan 8h", "Document firewall rules 4h", "Stakeholder interviews 6h"</li>
+  <li>Folder icon + "Network Configuration" (bold) → indented: "Switch config backup 4h", "VLAN restructure 12h", "Firewall rule migration 8h", "DNS cutover prep 4h", "Load balancer setup 6h"</li>
+  <li>Folder icon + "User Migration" (bold) → indented: "Pilot group (25 users) 16h", "Batch migration script 12h", "Profile migration 20h", "Validation testing 8h"</li>
+  <li>Folder icon + "Documentation & Handoff" (bold) → indented: "Network diagram update 6h", "Runbook creation 8h", "Team training session 4h"</li>
+  </ul>
+</li>
+<li>Bottom bar: "Back" (outline) left, "Cancel" center, "Generate" (filled teal, with loading spinner icon) right</li>
+</ul>
+  </div>
+
+  <h2>Session 2: Marketing Page</h2>
+  <p>Once you have the 4 mockups from Session 1, paste them as reference images into your existing Claude Design session (with brand package loaded). Then use this prompt.</p>
+
+  <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('session2').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>{this.textContent='Copy Session 2 Prompt'},1500)})">Copy Session 2 Prompt</button>
+
+  <div class="prompt-block" id="session2">
+<h4>Context</h4>
+Design a marketing page for Proxuma's Project Management module. This replaces the current proxuma.io/project-management/ page. Match the exact visual style, layout patterns, and section rhythm of the Kanban page (proxuma.io/kanban-preview/). Same nav, same footer, same component library. The brand package is already loaded.
+
+I'm providing 4 product UI mockups as reference images. Use these EXACTLY as the hero visuals in the relevant sections. Do not redesign or reinterpret them. They are pixel-accurate representations of the real product.
+
+<h4>Page Structure</h4>
+
+<strong>1. Hero</strong>
+<ul>
+<li>Badge: "Core module - Used by 100+ MSPs"</li>
+<li>Headline: "Every project. Every resource. One timeline."</li>
+<li>Subheading: Plan, track, and deliver Autotask projects with drag-and-drop scheduling, real-time capacity views, and automated resource allocation. Built for IT service teams that run 10-50 projects simultaneously.</li>
+<li>Trust indicators: Autotask | Two-way sync | 14-day free trial | EU hosted</li>
+<li>CTAs: "Start free trial" (primary), "See it live" (secondary)</li>
+<li>Hero visual: Use Mockup 1 (Resource Planning Screen) as the hero image, angled/floating with subtle shadow</li>
+</ul>
+
+<strong>2. Interactive mockup showcase</strong>
+<ul>
+<li>Full-width section showing Mockup 1 (Resource Planning Screen) at larger scale</li>
+<li>Annotate 3-4 key areas with small callout labels: "Plan Bucket" pointing to sidebar, "Drag to schedule" pointing to a task block, "Resource capacity" pointing to a resource row, "Week / Month / Year views" pointing to the period selector</li>
+</ul>
+
+<strong>3. Module overview: "One platform, four ways to plan"</strong>
+<ul>
+<li>Same 4-module strip as the Kanban page: Resource, Projects (highlighted/active), Shifts, Kanban</li>
+<li>Keep the exact same component, just highlight "Projects" instead of "Kanban"</li>
+</ul>
+
+<strong>4. Feature: "See every project phase at a glance"</strong>
+<ul>
+<li>Use Mockup 3 (WBS Breakdown Table) as the section visual</li>
+<li>Caption: "Full project hierarchy with hours tracking. Drill from project to phase to individual task, all synced live from Autotask."</li>
+<li>Below the mockup, 3 feature cards:
+  A. "Nested hierarchy" - Phases contain sub-phases, tasks, and tickets. Expand and collapse with one click. 20px indent per nesting level.
+  B. "38 columns available" - 8 shown by default (Title, Category, Type, Dates, Priority, Status, Resources). Users toggle the rest via column chooser.
+  C. "Inline editing" - Click any editable cell to modify values directly in the table. Changes sync to Autotask in real-time.</li>
+</ul>
+
+<strong>5. Feature: "Know your team's capacity before you schedule"</strong>
+<ul>
+<li>Use Mockup 2 (Capacity View) as the section visual</li>
+<li>Highlight the color coding: green (available), amber (near capacity), red (overbooked)</li>
+<li>3 feature cards below:
+  A. "Plan Bucket" - Your unscheduled work queue. Tasks, tickets, service calls, shifts. Drag from bucket to timeline to schedule. Sort, filter, save views.
+  B. "Capacity breakdown" - Per resource per day: Planned hours, Spare hours, Actual hours, Billable/Non-billable split. Total capacity at a glance.
+  C. "Bulk Edit" - Select multiple items with Shift+Click. Shift dates, reassign resources, update statuses in one action. Keeps relative scheduling intact.</li>
+</ul>
+
+<strong>6. Feature: "Your projects, your templates"</strong>
+<ul>
+<li>Use Mockup 4 (Golden Template Wizard triptych) as the section visual</li>
+<li>3 template type cards:
+  A. "Project Templates" - Reusable blueprints with phases, tasks, roles, predecessors. Accordion form: Template Details, Associated With, Status, Estimated Revenue and Cost.
+  B. "Golden Templates" - Master templates with validation rules, formula-based hour calculations (fixed, linear, percentage), and configurable variables. 3-step wizard: select components, fill variables, preview and generate.
+  C. "Task and Ticket Templates" - Standardized blueprints with checklists, charges, and UDFs. Stored in Proxuma, generated items sync to Autotask automatically.</li>
+</ul>
+
+<strong>7. Two-way Autotask sync</strong>
+<ul>
+<li>Same pattern as the Kanban page sync section</li>
+<li>Headline: "Two-way Autotask sync. Zero manual entry."</li>
+<li>Side-by-side: action in Proxuma (drag task to new date) reflected in Autotask (status + date updated)</li>
+<li>Integration logos: Autotask, Halo PSA, ServiceNow, Webhooks API, SCIM/SSO</li>
+<li>Sync latency indicator: "Changes sync in under 2 seconds"</li>
+</ul>
+
+<strong>8. Before/After comparison</strong>
+
+Before Proxuma:
+<ul>
+<li>Switching between Autotask tabs to check each project status</li>
+<li>Manually tracking resource availability in spreadsheets</li>
+<li>No visibility into capacity until engineers are overbooked</li>
+<li>Creating projects from scratch every time, copying phase structures manually</li>
+<li>Status meetings to figure out who is working on what</li>
+</ul>
+
+With Proxuma Project Management:
+<ul>
+<li>Every project on one interactive timeline with real-time status</li>
+<li>Capacity view shows availability per resource per day, weeks ahead</li>
+<li>Drag-and-drop scheduling with instant Autotask sync</li>
+<li>One-click project creation from validated templates</li>
+<li>Self-service visibility: stakeholders check progress without meetings</li>
+</ul>
+
+<strong>9. Stats strip</strong>
+<ul>
+<li>"73% fewer scheduling conflicts"</li>
+<li>"1.8s median sync latency"</li>
+<li>"2min average project setup from template"</li>
+<li>"99.9% uptime"</li>
+</ul>
+
+<strong>10. Final CTA</strong>
+<ul>
+<li>Headline: "Get your project timeline running by lunchtime"</li>
+<li>Subheading: "Connect Autotask, import your projects, start scheduling. Three clicks to your first drag-and-drop."</li>
+<li>CTAs: "Start 14-day free trial" (primary), "Book a 20-minute demo" (secondary)</li>
+</ul>
+
+<h4>Design Notes</h4>
+<ul>
+<li>Match the Kanban page exactly: same spacing, same card components, same button styles, same section transitions</li>
+<li>Product mockup images are provided as reference. Place them as-is with subtle shadow/angle treatment, do not redraw them</li>
+<li>Nav: Resource, Projects (active), Shifts, Kanban, Integrations, Pricing</li>
+<li>Footer: same structure as Kanban page (Modules, Integrations, Company, Resources)</li>
+<li>Mobile responsive</li>
+<li>Dark section backgrounds for contrast sections (sync, before/after) same as Kanban page</li>
+</ul>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Proxuma PM Page Design Brief</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Claude Design Prompt: Proxuma Project Management Page",
+  "date": "2026-05-15",
+  "summary": "Two-session Claude Design approach for rebuilding proxuma.io/project-management/. Session 1 generates accurate product UI mockups from codebase specs. Session 2 uses those mockups as hero visuals in the marketing page.",
+  "sections": [
+    {
+      "heading": "Session 1: Product UI Mockups",
+      "items": [
+        { "title": "Mockup 1: Resource Planning Screen", "detail": "Week view with toolbar, 5 resources, task blocks, Plan Bucket sidebar. All labels from actual codebase.", "meta": { "source": "GlobalScheduleCalendar.vue, FiltersHeader.vue, PlanBucketSideModal" } },
+        { "title": "Mockup 2: Capacity View", "detail": "Same layout as Mockup 1 but cells show Planned/Spare/Actual/Total grid with color coding (green/amber/red).", "meta": { "source": "CapacityUserItem.vue, CalendarCapacityView.vue" } },
+        { "title": "Mockup 3: WBS Breakdown Table", "detail": "Nested table with 8 default columns, recursive Phase/Task/Ticket rows with 20px indent, priority and status badges.", "meta": { "source": "BreakdownProjectsCustomTable.vue, tableInitialColumns.js lines 1016-1079" } },
+        { "title": "Mockup 4: Golden Template Wizard", "detail": "3-step modal: Select Components (checkboxes), Fill Variables (number inputs), Preview & Confirm (stat cards + phase/task tree).", "meta": { "source": "GoldenTemplateGenerateWizard.vue" } }
+      ]
+    },
+    {
+      "heading": "Session 2: Marketing Page",
+      "items": [
+        { "title": "10-section page matching Kanban page structure", "detail": "Hero, mockup showcase, module strip, 3 feature deep-dives, Autotask sync, before/after, stats, CTA.", "meta": {} }
+      ]
+    }
+  ],
+  "next_steps": "Copy Session 1 prompt into a fresh Claude Design session to generate 4 mockups. Then use those as input images in the existing brand session with Session 2 prompt.",
+  "session_state": {
+    "phase": "design brief complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Searched Open Brain for kanban page creation context",
+      "Fetched current PM page and kanban page content via WebFetch",
+      "Extracted full UI specs from M4rckC/proxuma-frontend codebase: Project Screen, WBS table, Capacity View, Golden Template wizard",
+      "Built two-session Claude Design prompt with exact codebase data"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new file 2026-05-15-pm-page-claude-design-prompt.html",
+    "next_action_required": "user-exec"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-15-pm-page-claude-design-prompt.html", "relevance": "this document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Two-session approach: mockups first, marketing page second",
+      "rejected_alternatives": ["Single prompt with text descriptions (hallucinated UI)", "Screenshots from product (user said unreliable)"],
+      "rationale": "Claude Design needs visual reference to render accurate product UI. Generating mockups from precise codebase specs in Session 1 gives Session 2 reliable input without depending on screenshots.",
+      "trade_offs": "Extra session required, but prevents UI hallucination",
+      "contingencies": []
+    },
+    {
+      "decision": "Used exact field names, column headers, and layout specs from codebase rather than marketing-friendly descriptions",
+      "rejected_alternatives": ["Simplified/generic UI descriptions"],
+      "rationale": "The whole point is accuracy. Generic descriptions caused the hallucination problem in the first prompt.",
+      "trade_offs": "Prompt is longer but leaves no room for invention",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
