@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto-Detect Row Ranges - Cheops Calculator Fix</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 16, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-16-cheops-auto-detect-row-ranges.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Dxfferent &mdash; Cheops Autotask Import</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 16, 2026<br>Design Spec<br>Bug Fix
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">DESIGN SPECIFICATION</div>
+  <h1>Auto-Detect Row Ranges</h1>
+  <p class="subtitle">Fix the hardcoded row ranges that break all Calculator scripts on real Cheops files. Scan for "Project Planning:" markers instead of assuming fixed positions.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Scripts to Fix</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">28</div>
+      <div class="stat-label">Row Offset in Exolon</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1</div>
+      <div class="stat-label">New Shared Function</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Parsing Logic Changes</div>
+    </div>
+  </div>
+
+  <h2>The Problem</h2>
+
+  <p>All scripts that read the Calculator's <code>Project Services.</code> tab use hardcoded row ranges that only match the empty REV9.34 template. In a real file (Exolon), the pricing section above the planning tables takes more rows, pushing everything down.</p>
+
+  <table class="matrix">
+    <tr><th>Location</th><th>Empty Template (REV9.34)</th><th>Exolon (Real File)</th><th>Offset</th></tr>
+    <tr><td>Project 1 header</td><td>Row 15</td><td>Row 43</td><td><strong>+28</strong></td></tr>
+    <tr><td>Project 1 data start</td><td>Row 19</td><td>Row 47</td><td><strong>+28</strong></td></tr>
+    <tr><td>Project 2 header</td><td>Row 58</td><td>Row 74</td><td><strong>+16</strong></td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Root cause</span>
+    The Calculator has two sections per project: a <strong>pricing summary</strong> (variable height) and a <strong>planning table</strong> (what we need). The pricing section grows when more roles/hours are filled in. Hardcoded ranges break because they assume the pricing section is always the same size.
+  </div>
+
+  <h2>Exolon Ground Truth</h2>
+
+  <p>Scan of <code>OFF_Exolon_Backup_DR_202604_rev3.xlsx</code>, tab <code>Project Services.</code>:</p>
+
+  <pre>rij  4: C="Project Planning: Backup infra"    -- pricing header (in C, not B)
+rij  7-12: pricing calculation rows
+rij 13: C="Totaal"
+
+rij 43: B="Project Planning: Backup infra"    -- planning table header (in B!)
+rij 45: B="Project Planning"                  -- subheader
+rij 46: B="Omschrijving" C="Deeltaak"         -- column labels
+rij 47: B="Voorbereiding"                     -- first phase
+rij 48-71: tasks and phases
+rij 72: C="Totaal schatting mandagen:"        -- end of block
+
+rij 74: B="Project Planning: Project 2"       -- next project
+rij 98: B="Project Planning: Project 3"       -- empty project
+rij 121: B="Onboarding Managed Services"      -- MS block</pre>
+
+  <h3>Detectable Markers</h3>
+  <ul>
+    <li><strong>Project header:</strong> Column B starts with <code>"Project Planning:"</code></li>
+    <li><strong>MS header:</strong> Column B equals <code>"Onboarding Managed Services"</code></li>
+    <li><strong>Column labels:</strong> B=<code>"Omschrijving"</code> or B=<code>"Description"</code> within 5 rows of header</li>
+    <li><strong>Block end:</strong> C contains <code>"Totaal schatting mandagen"</code>, or next header, or end of sheet</li>
+  </ul>
+
+  <h2>Solution: <code>detect_project_blocks(ws)</code></h2>
+
+  <p>One new function in <code>at_shared.py</code> that replaces all hardcoded <code>PROJECT_RANGES</code> dicts. Algorithm:</p>
+
+  <div class="card">
+    <div class="card-title">Step 1: Scan column B</div>
+    <div class="card-desc">Walk rows 1 to max_row. Collect rows where B starts with "Project Planning:" or equals "Onboarding Managed Services".</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Step 2: Find data boundaries</div>
+    <div class="card-desc">Per header: find the column-label row (B="Omschrijving" or "Description") within 5 rows. data_start = label row + 1. data_end = first of: "Totaal schatting mandagen" row, next header - 2, or max_row.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Step 3: Return block list</div>
+    <div class="card-desc">Each block: {name, header_row, data_start, data_end, is_ms}. Name extracted from "Project Planning: &lt;name&gt;".</div>
+  </div>
+
+  <h2>Impact per Script</h2>
+
+  <table class="matrix">
+    <tr><th>Script</th><th>Change Needed</th><th>Details</th></tr>
+    <tr><td><strong>calculator_to_csv.py</strong></td><td>Refactor</td><td>Remove PROJECT_RANGES + MS_RANGE, use detect_project_blocks()</td></tr>
+    <tr><td><strong>upscale_split.py</strong></td><td>Refactor</td><td>Remove PROJECT_RANGES, import detect_project_blocks from at_shared</td></tr>
+    <tr><td><strong>upscale_structured.py</strong></td><td>None</td><td>Reads "Werkpakketten" tab, no hardcoded ranges</td></tr>
+    <tr><td><strong>upscale_client.py</strong></td><td>None</td><td>Reads separate client Excel, not Calculator</td></tr>
+    <tr><td><strong>at_shared.py</strong></td><td>Add function</td><td>New detect_project_blocks(ws) function</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Important</span>
+    The parsing logic inside <code>extract_project()</code> does not change. It already works correctly with any start/end range. Only the discovery of those ranges needs fixing.
+  </div>
+
+  <h2>Pre-Fill Convention</h2>
+
+  <table class="matrix">
+    <tr><th></th><th>Our Pre-Fill (Template)</th><th>Cheops Convention (Exolon)</th></tr>
+    <tr><td><strong>Column B</strong></td><td>Task name ("Omgeving inventariseren")</td><td>Phase name only ("Voorbereiding")</td></tr>
+    <tr><td><strong>Column C</strong></td><td>Detail/checklist ("AD, DNS, DHCP")</td><td>Task name ("Firmware installatie")</td></tr>
+    <tr><td><strong>B+C same row</strong></td><td>Yes, standard</td><td>Never happens</td></tr>
+  </table>
+
+  <p><strong>Recommendation:</strong> Adapt the pre-fill to match Cheops' convention. The scripts already handle both patterns, so this is a UX improvement, not a bug fix. Low priority, separate ticket.</p>
+
+  <h2>Acceptance Test</h2>
+
+  <p>After the fix, the Exolon file must export correctly:</p>
+
+  <pre>python3 calculator_to_csv.py \
+  "source-files/OFF_Exolon_Backup_DR_202604_rev3.xlsx" \
+  --start-date 2026-04-01
+
+# Expected:
+# Project 1 ("Backup infra"): 19 tasks, 45 hours
+#   Phases: Voorbereiding(4), TIE Inbouw(6), NMO Inbouw(6),
+#           Managed Services(1), Documentatie(3)
+#   Tasks with D="Klant" have 0 hours but are exported
+# Project 2, 3: empty, skipped
+# MS block: exported if #Devices > 0</pre>
+
+  <h3>Backwards Compatibility</h3>
+  <ul>
+    <li>Empty REV9.34 template must keep working (regression test)</li>
+    <li>Bakkerij Vermeulen test file must keep working</li>
+    <li><code>--project N</code> numbering stays the same (1 = first block)</li>
+    <li>Empty projects are still skipped</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>Scope</h2>
+    <p><strong>In scope:</strong> detect_project_blocks() in at_shared.py, refactor calculator_to_csv.py and upscale_split.py, tests with Exolon + regression tests with existing files.</p>
+    <p style="margin-top: 10px;"><strong>Out of scope:</strong> Pre-fill template changes (separate ticket), browser tool / SheetJS (separate initiative), upscale_structured.py and upscale_client.py (not affected).</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>Cheops Autotask Import &middot; Design Spec</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "Auto-Detect Row Ranges - Cheops Calculator Fix",
+  "date": "2026-05-16",
+  "summary": "Design spec for fixing the hardcoded row range bug in Cheops Calculator export scripts. All scripts scan for 'Project Planning:' markers in column B instead of assuming fixed row positions.",
+  "sections": [
+    {
+      "heading": "Problem",
+      "items": [
+        { "title": "Hardcoded row ranges", "detail": "PROJECT_RANGES dict in calculator_to_csv.py and upscale_split.py only matches empty REV9.34 template. Exolon file has +28 row offset for project 1.", "meta": { "offset": 28 } }
+      ]
+    },
+    {
+      "heading": "Solution",
+      "items": [
+        { "title": "detect_project_blocks(ws)", "detail": "New function in at_shared.py. Scans column B for 'Project Planning:' headers and 'Onboarding Managed Services'. Finds data boundaries using column-label rows and 'Totaal schatting mandagen' end markers.", "meta": { "location": "at_shared.py" } },
+        { "title": "Scripts impacted", "detail": "calculator_to_csv.py and upscale_split.py need refactor (remove hardcoded ranges, use detection). upscale_structured.py and upscale_client.py are unaffected.", "meta": { "files_changed": 3 } }
+      ]
+    },
+    {
+      "heading": "Pre-fill convention",
+      "items": [
+        { "title": "Cheops uses B=phase, C=task", "detail": "Our pre-fill puts task names in B with details in C. Cheops never puts content in both B and C on the same row. Scripts handle both patterns. Pre-fill change is low priority, separate ticket.", "meta": { "priority": "low" } }
+      ]
+    },
+    {
+      "heading": "Acceptance test",
+      "items": [
+        { "title": "Exolon export", "detail": "Project 1 (Backup infra): 19 tasks, 45 hours, 5 phases. Empty projects skipped. Backwards compatible with REV9.34 template and Bakkerij Vermeulen test file.", "meta": { "tasks": 19, "hours": 45 } }
+      ]
+    }
+  ],
+  "next_steps": "Implement detect_project_blocks() in at_shared.py, refactor calculator_to_csv.py and upscale_split.py to use it, then run the Exolon acceptance test and existing regression tests.",
+  "session_state": {
+    "phase": "spec complete",
+    "phase_status": "complete",
+    "progress_pct": 30,
+    "work_done_this_session": [
+      "Read HANDOVER.md for full project context",
+      "Scanned Exolon file to map actual row structure",
+      "Identified markers: B='Project Planning:' headers, 'Omschrijving'/'Description' label rows, 'Totaal schatting mandagen' end markers",
+      "Confirmed parsing logic works for both pre-fill and Cheops convention",
+      "Wrote design spec to docs/superpowers/specs/2026-05-16-auto-detect-row-ranges.md"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "New spec file at docs/superpowers/specs/2026-05-16-auto-detect-row-ranges.md (not committed)",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": null,
+    "local_repo_path": "~/ClaudeCode/dxfferent/cheops-autotask-import/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-16-cheops-auto-detect-row-ranges.html", "relevance": "this spec" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop"]
+  },
+  "decision_log": [
+    {
+      "decision": "Detection scans column B for 'Project Planning:' prefix, not column C",
+      "rejected_alternatives": ["Scan column C (pricing headers also match there)", "Scan for row with B='Omschrijving' directly"],
+      "rationale": "Column C has pricing overview headers that also start with 'Project Planning:' (e.g. row 4 in Exolon). Column B only has the planning table headers. Scanning B avoids false positives from the pricing section.",
+      "trade_offs": "None significant. B-scan is unambiguous.",
+      "contingencies": []
+    },
+    {
+      "decision": "Pre-fill convention change is out of scope (separate ticket)",
+      "rejected_alternatives": ["Include pre-fill fix in same implementation"],
+      "rationale": "Scripts already handle both patterns. Pre-fill is a .xltx manual edit, not a code change. Mixing it with the bug fix adds scope without fixing the actual bug.",
+      "trade_offs": "Cheops may be confused by our pre-fill pattern until it's updated, but they already fill in their own way regardless.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>

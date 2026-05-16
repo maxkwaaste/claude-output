@@ -685,6 +685,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-05-16-cheops-auto-detect-row-ranges.html",
+    "title": "Auto-Detect Row Ranges - Cheops Calculator Fix",
+    "date": "2026-05-16",
+    "summary": "Design spec for fixing hardcoded row ranges in Cheops Calculator export scripts. Scan for markers instead of fixed positions.",
+    "tags": ["Dxfferent", "Cheops", "Autotask"],
+    "type": "guide",
+    "detail": "All Calculator scripts break on real Cheops files because row ranges are hardcoded to the empty template. New detect_project_blocks() function scans column B for 'Project Planning:' headers. Also documents that Cheops uses B=phase/C=task convention, not our B=task/C=detail pre-fill."
+  },
+  {
     "file": "2026-05-15-pm-page-claude-design-prompt.html",
     "title": "Claude Design Prompt: PM Page Rebuild",
     "date": "2026-05-15",
