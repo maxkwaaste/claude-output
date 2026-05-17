@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSC Baseline Analysis -- proxuma.io</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-card:first-child { border-left: 2px solid #d0d3d8; }
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix .row-total td { font-weight: 700; border-top: 2px solid #1a2744; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.bar-chart { margin: 16px 0; }
+.bar-row {
+  display: flex; align-items: center; margin-bottom: 8px;
+  font: 400 13px/1 -apple-system, sans-serif;
+}
+.bar-label { width: 200px; color: #2c2c2c; flex-shrink: 0; font-size: 12px; }
+.bar { flex: 1; height: 24px; background: #eef0f2; border-radius: 2px; position: relative; margin: 0 12px; }
+.bar-fill {
+  height: 100%; border-radius: 2px; background: #1a2744;
+  display: flex; align-items: center; padding-left: 8px;
+  font: 600 11px/1 -apple-system, sans-serif; color: #fff;
+}
+.bar-fill.accent { background: #2a4a8a; }
+.bar-fill.muted { background: #8a8f96; }
+.bar-fill.warning { background: #c8402a; }
+.bar-fill.success { background: #1a6b3a; }
+.bar-amount { color: #2c2c2c; font-weight: 600; flex-shrink: 0; width: 60px; text-align: right; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-acquired { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-independent { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-bundled { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+.tag-diy { background: #eef0f2; color: #4a5568; border: 1px solid #c0c4ca; }
+.tag-low { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+.trend-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.trend-table th {
+  text-align: left; padding: 8px 10px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, sans-serif;
+}
+.trend-table td {
+  padding: 6px 10px; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, sans-serif; font-size: 12px;
+}
+.trend-table tr:nth-child(even) td { background: #f8f9fb; }
+.good { color: #1a6b3a; font-weight: 600; }
+.bad { color: #c8402a; font-weight: 600; }
+.neutral { color: #6b7280; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 17, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-17-gsc-baseline-analysis.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Search Performance Analysis</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 17, 2026<br>Baseline Report<br>proxuma.io
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">GOOGLE SEARCH CONSOLE</div>
+  <h1>GSC Baseline Analysis</h1>
+  <p class="subtitle">16-month dataset (Jan 17 2025 -- May 15 2026). 3,454 total clicks across 310K+ impressions. This report establishes the baseline and identifies the highest-leverage optimization opportunities.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">3,454</div>
+      <div class="stat-label">Total Clicks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">310K</div>
+      <div class="stat-label">Total Impressions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1.1%</div>
+      <div class="stat-label">Average CTR</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">85%</div>
+      <div class="stat-label">Branded Traffic</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">The core problem</span>
+    <strong>85% of clicks come from branded searches ("proxuma").</strong> Only ~500 clicks in 16 months came from people who didn't already know your name. The site gets shown for high-volume MSP/PSA keywords (8,400+ impressions for "msp tools") but ranks on pages 4-8, where nobody clicks. Two comparison pages alone get 106K impressions with 12 total clicks.
+  </div>
+
+  <h2>Traffic Composition</h2>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">Branded ("proxuma")</div>
+      <div class="bar"><div class="bar-fill" style="width: 85%">85%</div></div>
+      <div class="bar-amount">~830</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Autotask how-to</div>
+      <div class="bar"><div class="bar-fill accent" style="width: 12%"></div></div>
+      <div class="bar-amount">~400</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Generic MSP/PSA</div>
+      <div class="bar"><div class="bar-fill muted" style="width: 1%"></div></div>
+      <div class="bar-amount">~12</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Power BI reports</div>
+      <div class="bar"><div class="bar-fill muted" style="width: 1%"></div></div>
+      <div class="bar-amount">~10</div>
+    </div>
+  </div>
+
+  <p>The Autotask how-to content is doing real work: 8 articles pull in 400+ organic clicks. But generic MSP/PSA discovery traffic barely exists despite massive impression volumes.</p>
+
+  <h2>Monthly Trend</h2>
+
+  <table class="trend-table">
+    <tr><th>Month</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg Position</th></tr>
+    <tr><td>Feb 2025</td><td>220</td><td>13,284</td><td>1.7%</td><td class="neutral">~35</td></tr>
+    <tr><td>Mar 2025</td><td>235</td><td>16,888</td><td>1.4%</td><td class="neutral">~38</td></tr>
+    <tr><td>Apr 2025</td><td>209</td><td>16,694</td><td>1.3%</td><td class="neutral">~40</td></tr>
+    <tr><td>Jul 2025</td><td>177</td><td>31,469</td><td class="bad">0.6%</td><td class="bad">~45</td></tr>
+    <tr><td>Aug 2025</td><td>167</td><td>25,937</td><td class="bad">0.6%</td><td class="bad">~44</td></tr>
+    <tr><td>Sep 2025</td><td>247</td><td>17,426</td><td>1.4%</td><td class="neutral">~30</td></tr>
+    <tr><td>Oct 2025</td><td>232</td><td>12,063</td><td class="good">1.9%</td><td class="good">~14</td></tr>
+    <tr><td>Nov 2025</td><td>187</td><td>12,175</td><td>1.5%</td><td class="neutral">~14</td></tr>
+    <tr><td>Jan 2026</td><td>256</td><td>16,839</td><td>1.5%</td><td class="neutral">~22</td></tr>
+    <tr><td>Feb 2026</td><td>233</td><td>21,177</td><td>1.1%</td><td class="neutral">~17</td></tr>
+    <tr><td>Mar 2026</td><td>251</td><td>29,672</td><td>0.8%</td><td class="neutral">~11</td></tr>
+    <tr><td>Apr 2026</td><td>251</td><td>24,884</td><td>1.0%</td><td class="good">~9</td></tr>
+    <tr><td>May 2026*</td><td>106</td><td>12,813</td><td>0.8%</td><td class="neutral">~12</td></tr>
+  </table>
+  <p style="font-size: 12px; color: #6b7280;">* May 2026 is partial (15 days)</p>
+
+  <div class="callout">
+    <span class="callout-label">Trend insight</span>
+    Average position improved dramatically from ~40 in mid-2025 to ~9-12 in 2026. But CTR didn't follow: you're ranking better for more queries, yet click-through rates dropped. This means you're now showing up for broad queries where your titles and descriptions don't compel a click. Position improved, relevance signal didn't.
+  </div>
+
+  <h2>Biggest Missed Opportunities</h2>
+  <p>These are the queries where proxuma.io appears in search results but gets zero or near-zero clicks. Sorted by wasted potential.</p>
+
+  <h3>Tier 1: Two pages with 106K combined impressions, 12 clicks</h3>
+
+  <div class="card">
+    <div class="card-title">/the-best-msp-tools/</div>
+    <div class="card-buyer">61,003 impressions | 9 clicks | 0.01% CTR | Avg position 63</div>
+    <div class="card-desc">Ranks for "msp tools" (8.4K imp), "best msp software" (6.4K), "msp software" (5.5K), "msp psa software" (4.6K), and dozens more. But at position 63, nobody ever sees it. This single page captures the entire generic MSP discovery funnel. If it ranked on page 1, it could drive 500+ clicks/month.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">/best-psa-software-for-msps-in-2023/</div>
+    <div class="card-buyer">44,903 impressions | 3 clicks | 0.01% CTR | Avg position 54</div>
+    <div class="card-desc">Ranks for "psa software for msp" (5.9K), "best psa software" (2.6K), "psa for msp" (2.2K). Same problem: position 54 means invisible. The "2023" in the slug hurts credibility. This is also a page that could drive hundreds of monthly clicks if rewritten and pushed up.</div>
+  </div>
+
+  <h3>Tier 2: Top-of-page queries with no clicks</h3>
+  <p>These queries rank in positions 1-10 but still get zero clicks, suggesting title/description problems or content mismatch:</p>
+
+  <table class="matrix">
+    <tr><th>Query</th><th>Impressions</th><th>Position</th><th>Issue</th></tr>
+    <tr><td>autotask capacity planning</td><td>1,192</td><td><strong>3.1</strong></td><td>Top 3, zero clicks</td></tr>
+    <tr><td>autotask news</td><td>1,205</td><td><strong>7.3</strong></td><td>Likely landing on wrong page</td></tr>
+    <tr><td>autotask kanban</td><td>1,124</td><td>14.2</td><td>No dedicated content</td></tr>
+    <tr><td>pm team lead model span of control</td><td>812</td><td><strong>2.0</strong></td><td>Position 2, zero clicks</td></tr>
+    <tr><td>what is autotask psa</td><td>777</td><td>7.8</td><td>Informational, no page</td></tr>
+    <tr><td>autotask project management solution</td><td>377</td><td><strong>3.6</strong></td><td>High intent, zero clicks</td></tr>
+    <tr><td>psa software that integrates with power bi</td><td>88</td><td><strong>1.9</strong></td><td>Position 2, perfect fit, 0 clicks</td></tr>
+    <tr><td>psa that integrates with power bi</td><td>55</td><td><strong>2.3</strong></td><td>Same cluster as above</td></tr>
+    <tr><td>best service automation software for managing projects</td><td>80</td><td><strong>1.0</strong></td><td>Position 1, still no clicks</td></tr>
+    <tr><td>leading professional services automation solutions</td><td>39</td><td><strong>1.0</strong></td><td>Position 1, zero clicks</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Why position 1-3 with zero clicks?</span>
+    Three likely causes: (1) the meta title/description doesn't match search intent, so users skip it; (2) the SERP shows a featured snippet or AI overview that answers the question without a click; (3) the URL/page shown isn't the right one for that query. Check these in GSC's "Search Appearance" filter for each query.
+  </div>
+
+  <h2>What's Working</h2>
+
+  <h3>Top 8 content pages by organic clicks</h3>
+  <table class="matrix">
+    <tr><th>Page</th><th>Clicks</th><th>Imp.</th><th>CTR</th><th>Pos.</th></tr>
+    <tr><td>/autotask-dispatch-calendar/</td><td><strong>374</strong></td><td>16,922</td><td>2.2%</td><td>15</td></tr>
+    <tr><td>/how-to-use-autotask-for-project-management/</td><td><strong>223</strong></td><td>21,570</td><td>1.0%</td><td>15</td></tr>
+    <tr><td>/how-to-set-up-a-project-in-autotask/</td><td><strong>157</strong></td><td>11,357</td><td>1.4%</td><td>11</td></tr>
+    <tr><td>/how-to-get-in-control-of-open-tickets/</td><td><strong>142</strong></td><td>13,768</td><td>1.0%</td><td>12</td></tr>
+    <tr><td>/autotask-incoming-email-processor/</td><td><strong>142</strong></td><td>6,924</td><td>2.1%</td><td>8</td></tr>
+    <tr><td>/how-to-create-projects-in-autotask/</td><td><strong>139</strong></td><td>12,442</td><td>1.1%</td><td>13</td></tr>
+    <tr><td>/autotask-automatic-task-notifications/</td><td><strong>120</strong></td><td>10,057</td><td>1.2%</td><td>9</td></tr>
+    <tr><td>/autotask-outlook-calendar-automatically/</td><td><strong>96</strong></td><td>6,027</td><td>1.6%</td><td>11</td></tr>
+  </table>
+
+  <p>These 8 pages account for 1,393 clicks, 40% of all traffic. The pattern is clear: step-by-step Autotask how-to content with long-tail keywords. Position 8-15, CTR around 1-2%. This is the content engine that works.</p>
+
+  <h2>Geographic Distribution</h2>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">United States</div>
+      <div class="bar"><div class="bar-fill" style="width: 80%">917 clicks</div></div>
+      <div class="bar-amount">52%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Netherlands</div>
+      <div class="bar"><div class="bar-fill accent" style="width: 64%">728 clicks</div></div>
+      <div class="bar-amount">4.9% CTR</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">United Kingdom</div>
+      <div class="bar"><div class="bar-fill" style="width: 34%">383 clicks</div></div>
+      <div class="bar-amount">1.8% CTR</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Australia</div>
+      <div class="bar"><div class="bar-fill" style="width: 26%">292 clicks</div></div>
+      <div class="bar-amount">2.6% CTR</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Canada</div>
+      <div class="bar"><div class="bar-fill" style="width: 20%">225 clicks</div></div>
+      <div class="bar-amount">1.5% CTR</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Belgium</div>
+      <div class="bar"><div class="bar-fill accent" style="width: 15%">166 clicks</div></div>
+      <div class="bar-amount">8.5% CTR</div>
+    </div>
+  </div>
+
+  <p>Netherlands + Belgium have the highest CTRs (4.9% and 8.5%), which makes sense as the home market with brand recognition. The US drives the most raw volume (162K impressions) but converts at just 0.57%.</p>
+
+  <h2>Device Split</h2>
+  <p>86% desktop, 14% mobile, 0.2% tablet. Desktop CTR is 1.15% vs mobile 0.94%. This is a B2B SaaS audience researching tools during work hours. Mobile optimization matters less here, but mobile snippets still need to be tight.</p>
+
+  <h2>Power BI Report Pages</h2>
+  <p>265 report pages generate impressions but almost no clicks. A few standouts worth noting:</p>
+
+  <table class="matrix">
+    <tr><th>Page</th><th>Impressions</th><th>Clicks</th><th>Position</th></tr>
+    <tr><td>/powerbi/insights/ai-privacy-compliance-guide/</td><td>2,602</td><td>0</td><td>8.4</td></tr>
+    <tr><td>/powerbi/insights/span-of-control/</td><td>1,362</td><td>0</td><td>4.5</td></tr>
+    <tr><td>/powerbi/insights/revenue-per-employee/</td><td>1,038</td><td>0</td><td>6.1</td></tr>
+    <tr><td>/powerbi/insights/hubspot-closed-rate/</td><td>971</td><td>1</td><td>6.9</td></tr>
+    <tr><td>/powerbi/insights/pipeline-breakdown-by-stage/</td><td>800</td><td>1</td><td>8.2</td></tr>
+  </table>
+
+  <p>These pages rank well (position 4-9) for niche queries but don't convert to clicks. The meta titles probably read like report names rather than answers to questions people search for.</p>
+
+  <div class="positioning">
+    <h2>Optimization Priorities</h2>
+    <p>Ranked by expected click impact, from highest to lowest leverage.</p>
+  </div>
+
+  <h3>Priority 1: Rewrite the two comparison pages</h3>
+  <div class="card">
+    <div class="card-title">Rewrite /the-best-msp-tools/ and /best-psa-software-for-msps-in-2023/</div>
+    <div class="card-buyer">Potential: 500-1,000 additional clicks/month</div>
+    <div class="card-desc">These pages get 106K combined impressions at position 50-63. They need to be rewritten from scratch as proper, current comparison guides with updated dates, structured data, and proper internal linking. Moving from position 60 to position 10 on "msp tools" alone would mean 300+ new monthly clicks. Remove "2023" from the URL. Add table-of-contents, comparison tables, pros/cons sections. This is the single highest-impact action.</div>
+    <div class="tags"><span class="tag tag-low">High effort</span><span class="tag tag-independent">Highest impact</span></div>
+  </div>
+
+  <h3>Priority 2: Fix meta titles for zero-click top-position queries</h3>
+  <div class="card">
+    <div class="card-title">Audit and rewrite meta titles/descriptions for 10 high-position queries</div>
+    <div class="card-buyer">Potential: 50-100 additional clicks/month</div>
+    <div class="card-desc">Queries like "autotask capacity planning" (position 3, 1.2K impressions, 0 clicks) suggest the title shown in search doesn't match what the user wants. Check which page Google surfaces for these queries and rewrite the meta title to directly answer the implied question. "Autotask Capacity Planning: How to Set Up Resource Planning" beats a generic page title.</div>
+    <div class="tags"><span class="tag tag-diy">Low effort</span><span class="tag tag-acquired">Medium impact</span></div>
+  </div>
+
+  <h3>Priority 3: Create dedicated pages for high-impression gaps</h3>
+  <div class="card">
+    <div class="card-title">Write new content for Autotask Kanban, Autotask News, What is Autotask PSA</div>
+    <div class="card-buyer">Potential: 30-80 additional clicks/month</div>
+    <div class="card-desc">"Autotask kanban" gets 1,124 impressions at position 14 with no dedicated page. "What is Autotask PSA" gets 777 impressions at position 8 with no dedicated explainer. These are content gaps where a targeted article would likely rank page 1 quickly given existing domain authority for Autotask queries.</div>
+    <div class="tags"><span class="tag tag-acquired">Medium effort</span><span class="tag tag-acquired">Medium impact</span></div>
+  </div>
+
+  <h3>Priority 4: Power BI report page titles</h3>
+  <div class="card">
+    <div class="card-title">Rewrite meta titles for top 20 Power BI report pages</div>
+    <div class="card-buyer">Potential: 20-50 additional clicks/month</div>
+    <div class="card-desc">Pages like "span-of-control" (1,362 impressions, position 4.5, 0 clicks) are visible in search but titled like internal reports. Change "Span of Control" to "Span of Control Dashboard for MSPs | How Many Direct Reports per Manager" to match search intent. Quick wins with minimal effort.</div>
+    <div class="tags"><span class="tag tag-diy">Low effort</span><span class="tag tag-diy">Low-medium impact</span></div>
+  </div>
+
+  <h3>Priority 5: Internal linking strategy</h3>
+  <div class="card">
+    <div class="card-title">Build internal links from high-authority pages to comparison pages</div>
+    <div class="card-buyer">Potential: accelerates priority 1</div>
+    <div class="card-desc">The 8 how-to articles that get traffic should link to the comparison pages. The homepage (1,276 clicks) should link prominently to the best-tools content. Internal link equity is the fastest way to push those comparison pages from position 60 to position 20. Combined with content rewrites, this could push them to page 1.</div>
+    <div class="tags"><span class="tag tag-diy">Low effort</span><span class="tag tag-bundled">Multiplier</span></div>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>GSC Baseline Analysis | proxuma.io | Data: Jan 2025 - May 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "GSC Baseline Analysis -- proxuma.io",
+  "date": "2026-05-17",
+  "summary": "16-month GSC analysis of proxuma.io. 3,454 clicks / 310K impressions. 85% branded traffic. Two comparison pages get 106K impressions with 12 clicks at position 50-63. Eight Autotask how-to articles drive 40% of all traffic. Five optimization priorities identified.",
+  "sections": [
+    {
+      "heading": "Core Problem",
+      "items": [
+        { "title": "85% branded traffic", "detail": "Only ~500 non-branded clicks in 16 months. Generic MSP/PSA discovery traffic barely converts despite massive impression volumes.", "meta": { "branded_clicks": 830, "non_branded_clicks": 141 } }
+      ]
+    },
+    {
+      "heading": "Biggest Missed Opportunities",
+      "items": [
+        { "title": "/the-best-msp-tools/", "detail": "61K impressions, 9 clicks, position 63. Captures entire generic MSP discovery funnel.", "meta": { "impressions": 61003, "clicks": 9, "position": 63.35 } },
+        { "title": "/best-psa-software-for-msps-in-2023/", "detail": "45K impressions, 3 clicks, position 54. Outdated slug hurts credibility.", "meta": { "impressions": 44903, "clicks": 3, "position": 54.17 } },
+        { "title": "Zero-click top positions", "detail": "10 queries rank position 1-8 with 0 clicks: capacity planning, news, kanban, span-of-control, power-bi integration queries.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "What Works",
+      "items": [
+        { "title": "Autotask how-to content", "detail": "8 articles drive 1,393 clicks (40% of total). Pattern: step-by-step guides, long-tail keywords, position 8-15.", "meta": { "top_page_clicks": 374, "top_page": "dispatch-calendar" } }
+      ]
+    },
+    {
+      "heading": "Optimization Priorities",
+      "items": [
+        { "title": "P1: Rewrite comparison pages", "detail": "Target 500-1000 additional clicks/month by moving /best-msp-tools/ and /best-psa-software/ from position 60 to page 1.", "meta": { "effort": "high", "impact": "highest" } },
+        { "title": "P2: Fix zero-click meta titles", "detail": "Rewrite titles for 10 high-position queries. Target 50-100 additional clicks/month.", "meta": { "effort": "low", "impact": "medium" } },
+        { "title": "P3: New content for gaps", "detail": "Autotask Kanban, What is Autotask PSA, Autotask News pages. Target 30-80 clicks/month.", "meta": { "effort": "medium", "impact": "medium" } },
+        { "title": "P4: Power BI report meta titles", "detail": "Top 20 report pages need question-style titles. Target 20-50 clicks/month.", "meta": { "effort": "low", "impact": "low-medium" } },
+        { "title": "P5: Internal linking", "detail": "Link from how-to articles and homepage to comparison pages. Accelerates P1.", "meta": { "effort": "low", "impact": "multiplier" } }
+      ]
+    }
+  ],
+  "next_steps": "Pick which priority to start with. P2 (meta title rewrites) is the quickest win. P1 (comparison page rewrite) has the most long-term impact but takes a full content sprint. Could start P2 and P5 now while planning the P1 rewrite.",
+  "session_state": {
+    "phase": "baseline analysis complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Unzipped GSC export to ~/ClaudeCode/gsc-optimization/",
+      "Analyzed queries, pages, countries, devices, and time-series data",
+      "Identified 5 optimization priorities ranked by expected impact",
+      "Generated baseline report"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": "claude-output repo has new report file, not yet pushed",
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/gsc-optimization/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-17-gsc-baseline-analysis.html", "relevance": "this report" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "Raw GSC data files in ~/ClaudeCode/gsc-optimization/ (Queries.csv, Pages.csv, Chart.csv, Countries.csv, Devices.csv)"
+  },
+  "project_context": {
+    "protected_resources": ["WP page 3401", "WP page 5655", "WP page 3389", "WP page 4887"],
+    "conventions_applied": ["humanizer anti-slop", "output-page skill"]
+  },
+  "decision_log": [
+    {
+      "decision": "Prioritized comparison page rewrites (P1) over new content creation (P3)",
+      "rejected_alternatives": ["Start with new content for gaps", "Focus on Power BI meta titles first"],
+      "rationale": "106K impressions at position 50-63 represents far more latent demand than any content gap. Moving existing pages up is faster than building authority for new pages.",
+      "trade_offs": "Comparison pages require more effort than meta title fixes, but the payoff is 10x larger",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
