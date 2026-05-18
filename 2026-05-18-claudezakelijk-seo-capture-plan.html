@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClaudeZakelijk SEO Capture Plan</title>
+<style>
+/* ============================================================
+   Proxuma SEO Analysis — restyled with Proxuma DS tokens.
+   No external dependencies. Inter falls back to system stack.
+   ============================================================ */
+
+:root {
+  --color-brand:               #164387;
+  --color-brand-primary-hover: #0F3066;
+  --color-brand-accent:        #00B7FF;
+  --fg-primary:    #181833;
+  --fg-secondary:  #5C5C71;
+  --fg-muted:      #A4A6AA;
+  --fg-on-brand:   #FFFFFF;
+  --surface-bg:     #FFFFFF;
+  --surface-page:   #F8F8F8;
+  --surface-subtle: #F5F8FA;
+  --surface-hover:  #EEF3F7;
+  --border-default: #DEE1E8;
+  --border-subtle:  #EBEDF2;
+  --color-success:    #49C481;
+  --color-warning:    #F4C755;
+  --color-error:      #E94040;
+  --color-error-dark: #811D1D;
+  --color-error-soft: #FFE5E3;
+  --color-error-bg:   #FFF5F5;
+  --status-complete:  #41AA70;
+  --status-escalate:  #E94040;
+  --badge-task:     #D2EBFF;
+  --badge-time-off: #FFEDD8;
+  --badge-service:  #E8FAEB;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r-sm:   4px;
+  --r-md:   6px;
+  --r-lg:   8px;
+  --r-xl:   12px;
+  --r-2xl: 16px;
+  --shadow-card-calendar: 0 1px 3px 0 rgba(24,24,51,.08);
+  --shadow-card:          0 2px 15px 0 rgba(24,24,51,.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg-primary);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11';
+  padding: 0;
+  background-image: radial-gradient(circle, rgba(22,67,135,.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: 0 0;
+}
+
+.page-header {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 500 11px/1 var(--font-sans);
+}
+.page-header .date {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-secondary);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.page-header .date::before {
+  content: '//';
+  color: var(--color-brand-accent);
+  margin-right: 8px;
+  font-weight: 700;
+}
+.page-header .gh-link a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-default);
+  padding-bottom: 2px;
+  transition: color 120ms linear, border-color 120ms linear;
+}
+.page-header .gh-link a:hover {
+  color: var(--color-brand);
+  border-color: var(--color-brand);
+}
+
+.page {
+  max-width: 880px;
+  margin: 16px auto 64px;
+  background: var(--surface-bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-xl);
+  padding: 56px 64px;
+  box-shadow: 0 1px 3px rgba(24,24,51,.06), 0 24px 60px -20px rgba(24,24,51,.12);
+  position: relative;
+}
+.page::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  height: 3px;
+  width: 96px;
+  background: linear-gradient(to right, var(--color-brand) 0%, var(--color-brand-accent) 100%);
+  border-radius: var(--r-xl) 0 0 0;
+}
+
+.page-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 24px;
+}
+.brand { margin-bottom: 0; }
+.brand-logo {
+  height: 36px;
+  width: auto;
+  display: block;
+  margin-bottom: 4px;
+}
+.brand-tagline {
+  font: 500 10px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--fg-secondary);
+  margin-top: 10px;
+  padding-left: 2px;
+}
+.page-meta-right {
+  text-align: right;
+  font: 500 11px/1.6 var(--font-sans);
+  color: var(--fg-secondary);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.page-meta-right :first-child { color: var(--fg-primary); }
+.brand-rule {
+  height: 1px;
+  background: var(--border-default);
+  margin: 20px 0 36px;
+  position: relative;
+}
+.brand-rule::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, var(--color-brand), var(--color-brand-accent));
+}
+
+h1 {
+  font-family: var(--font-sans);
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--fg-primary);
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+h2 {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-primary);
+  letter-spacing: -.01em;
+  line-height: 1.3;
+  margin: 56px 0 16px;
+  padding-bottom: 14px;
+  border-bottom: none;
+  position: relative;
+}
+h2::before {
+  content: '//';
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: var(--color-brand-accent);
+  margin-bottom: 10px;
+}
+h2::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--color-brand) 0%, var(--color-brand) 48px, var(--border-default) 48px, var(--border-default) 100%);
+}
+h3 {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--color-brand);
+  margin: 32px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h3::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-brand-accent);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(0,183,255,.18);
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--fg-secondary);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  max-width: 65ch;
+}
+.overline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 11px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--color-brand-accent);
+  padding: 6px 12px;
+  background: rgba(0,183,255,.08);
+  border: 1px solid rgba(0,183,255,.18);
+  border-radius: 100px;
+  margin-bottom: 18px;
+}
+.overline::before {
+  content: '//';
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-brand-accent);
+}
+p {
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: var(--fg-primary);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+ul, ol {
+  margin: 0 0 16px 20px;
+  font-size: 14px;
+  color: var(--fg-primary);
+}
+li { margin-bottom: 8px; line-height: 1.6; }
+li::marker { color: var(--color-brand-accent); }
+strong { font-weight: 600; color: var(--fg-primary); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin: 32px 0;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  position: relative;
+}
+.stats-row::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--color-brand) 0%, var(--color-brand-accent) 100%);
+  z-index: 1;
+}
+.stat-card {
+  padding: 20px 22px;
+  border-left: 1px solid var(--border-default);
+  background: var(--surface-bg);
+  position: relative;
+  transition: background 180ms cubic-bezier(.2,.7,.2,1);
+}
+.stat-card:first-child { border-left: none; }
+.stat-card:hover { background: var(--surface-subtle); }
+.stat-value {
+  font-family: var(--font-sans);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-brand);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font: 500 10px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--fg-secondary);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.stat-label::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: var(--color-brand-accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 16px 0 20px;
+  background: var(--surface-bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  font-family: var(--font-sans);
+  box-shadow: 0 1px 3px rgba(24,24,51,.04);
+}
+.matrix th {
+  text-align: left;
+  padding: 11px 14px;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  background: var(--color-brand);
+  color: var(--fg-on-brand);
+  white-space: nowrap;
+}
+.matrix td {
+  padding: 11px 14px;
+  color: var(--fg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 13px;
+  line-height: 1.55;
+  vertical-align: top;
+}
+.matrix tr:last-child td { border-bottom: none; }
+.matrix tr:nth-child(even) td { background: var(--surface-subtle); }
+.matrix tr:hover td { background: var(--surface-hover); }
+.matrix thead tr { border-bottom: 2px solid var(--color-brand-accent); }
+.matrix td strong { font-weight: 600; color: var(--color-brand); }
+
+.callout {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-default);
+  border-left: 3px solid var(--color-brand-accent);
+  padding: 18px 22px;
+  margin: 20px 0;
+  font-size: 13.5px;
+  color: var(--fg-primary);
+  border-radius: var(--r-md);
+  line-height: 1.6;
+  box-shadow: 0 1px 3px rgba(24,24,51,.04);
+}
+.callout strong { color: var(--color-brand); }
+.callout-label {
+  font: 600 10px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--color-brand);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.positioning {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(0,183,255,.28) 0%, transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(0,183,255,.10) 0%, transparent 50%),
+    linear-gradient(135deg, var(--color-brand) 0%, #1c4d9d 100%);
+  border-radius: var(--r-2xl);
+  padding: 32px 36px;
+  margin: 32px 0;
+  color: var(--fg-on-brand);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px -10px rgba(22,67,135,.4);
+}
+.positioning::before {
+  content: '//';
+  position: absolute;
+  top: 24px; right: 32px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: var(--color-brand-accent);
+}
+.positioning::after {
+  content: '';
+  position: absolute;
+  right: -80px; bottom: -80px;
+  width: 280px; height: 280px;
+  border: 1px solid rgba(0,183,255,.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.positioning h2 { color: var(--fg-on-brand); margin: 0 0 12px; font-size: 20px; padding: 0; border-bottom: none; }
+.positioning h2::before, .positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; font-size: 14px; line-height: 1.7; }
+.positioning .callout-label { color: var(--color-brand-accent); }
+.positioning strong { color: var(--fg-on-brand); }
+
+.card {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-lg);
+  padding: 18px 22px 18px 24px;
+  margin-bottom: 10px;
+  position: relative;
+  box-shadow: var(--shadow-card-calendar);
+  transition: box-shadow 180ms cubic-bezier(.2,.7,.2,1), transform 180ms cubic-bezier(.2,.7,.2,1);
+}
+.card:hover {
+  box-shadow: 0 4px 20px rgba(24,24,51,.08);
+  transform: translateY(-1px);
+}
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px; bottom: 14px;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--color-brand-accent) 0%, var(--color-brand) 60%);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg-primary);
+  margin-bottom: 4px;
+  letter-spacing: -.01em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-buyer {
+  font: 500 10.5px/1.4 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--fg-secondary);
+  margin-bottom: 10px;
+  display: inline-block;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+}
+.card-desc {
+  font-size: 13.5px;
+  color: var(--fg-secondary);
+  line-height: 1.65;
+}
+.card-desc strong { color: var(--fg-primary); }
+
+.tier {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-lg);
+  padding: 22px 24px;
+  margin: 14px 0 14px 28px;
+  box-shadow: var(--shadow-card-calendar);
+  position: relative;
+  transition: box-shadow 180ms cubic-bezier(.2,.7,.2,1);
+}
+.tier::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: -16px;
+  bottom: -16px;
+  width: 2px;
+  background: var(--border-default);
+}
+.tier:first-of-type::before { top: 24px; }
+.tier:last-of-type::before { bottom: calc(100% - 24px); }
+.tier:hover { box-shadow: 0 4px 20px rgba(24,24,51,.08); }
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  font: 600 10px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  background: var(--color-brand);
+  color: var(--fg-on-brand);
+  position: relative;
+}
+.tier-badge::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-brand-accent);
+  box-shadow: 0 0 0 4px var(--surface-bg), 0 0 0 5px var(--color-brand-accent);
+}
+.tier-badge.t1 { background: var(--color-brand); }
+.tier-badge.t1::before { background: var(--color-brand); box-shadow: 0 0 0 4px var(--surface-bg), 0 0 0 5px var(--color-brand); }
+.tier-badge.t2 { background: var(--color-brand-accent); color: var(--color-brand); }
+.tier-badge.t3 { background: var(--surface-subtle); color: var(--color-brand); border: 1px solid var(--border-default); }
+.tier-badge.t3::before { background: var(--surface-bg); box-shadow: 0 0 0 4px var(--surface-bg), 0 0 0 5px var(--color-brand); }
+.tier-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg-primary);
+  letter-spacing: -.01em;
+}
+.tier ul { margin: 0 0 0 20px; }
+.tier li { margin-bottom: 10px; line-height: 1.6; }
+
+.ai-warning {
+  background: var(--color-error-bg);
+  border: 1px solid rgba(233,64,64,.18);
+  border-left: 3px solid var(--color-error);
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 13px;
+  color: var(--color-error-dark);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  box-shadow: 0 1px 3px rgba(233,64,64,.06);
+}
+.ai-warning strong { color: var(--color-error); font-weight: 600; }
+.ai-warning-label {
+  font: 700 10px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--color-error);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 5px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+}
+.tag-acquired   { background: var(--badge-time-off); color: #6F4515; border-color: rgba(243,149,41,.25); }
+.tag-independent{ background: var(--badge-service); color: #08552B; border-color: rgba(65,170,112,.25); }
+.tag-bundled    { background: var(--badge-task);    color: var(--color-brand); border-color: rgba(22,67,135,.18); }
+.tag-diy        { background: var(--surface-subtle); color: var(--fg-secondary); border-color: var(--border-default); }
+
+.footer-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border-default);
+  font: 500 11px/1 var(--font-sans);
+  color: var(--fg-muted);
+  letter-spacing: .04em;
+  position: relative;
+}
+.page-footer::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 48px;
+  height: 1px;
+  background: var(--color-brand-accent);
+}
+.page-footer > span:first-child {
+  display: flex;
+  align-items: center;
+}
+.page-footer > span:last-child {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 10px;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--surface-subtle);
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.two-col { display: flex; gap: 28px; margin: 16px 0; }
+.two-col > div { flex: 1; }
+
+@media print {
+  body { background: #fff; }
+  .page { box-shadow: none; border: none; margin: 0; max-width: 100%; padding: 24px; }
+  .page-header { display: none; }
+}
+@media (max-width: 720px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 19px; margin-top: 40px; }
+  .page { padding: 32px 24px; }
+  .positioning { padding: 24px 22px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stat-value { font-size: 28px; }
+  .tier { margin-left: 22px; }
+  .tier-badge::before { left: -24px; width: 10px; height: 10px; }
+  .two-col { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">18 May 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-18-claudezakelijk-seo-capture-plan.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <img class="brand-logo" src="data:image/png;base64,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" alt="Proxuma">
+        <div class="brand-tagline">SEO Strategy</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      18 May 2026<br>Strategy<br>ClaudeZakelijk
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SEO Capture Plan</div>
+  <h1>ClaudeZakelijk.nl: Capturing Dutch Claude SMB Search Traffic</h1>
+  <p class="subtitle">Research-backed plan to build claudezakelijk.nl into the dominant Dutch resource for Claude AI in business, without triggering Google's AI content penalties.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Claude queries on proxuma.io</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">86.5%</div>
+      <div class="stat-label">Top-20 pages with AI content</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5+</div>
+      <div class="stat-label">Dutch Claude content competitors</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Claude + MKB implementation firms</div>
+    </div>
+  </div>
+
+  <h2>The situation</h2>
+
+  <h3>What GSC data tells us</h3>
+  <p>proxuma.io gets 227 clicks / 22,768 impressions over the last 28 days, entirely from Autotask/MSP content. <strong>Zero impressions for any query containing "claude".</strong> There is no existing Claude search traffic to redirect. claudezakelijk.nl starts from scratch.</p>
+  <p>Small positive signal: Dutch AI+MSP queries exist where proxuma.io already ranks position 8-9 with zero clicks. Queries like "kan ai automatisch tickets labelen in autotask" and "beste ai tool voor autotask ticket automatisering" show intent is there, but content does not match it well enough to earn clicks.</p>
+
+  <h3>What the competitive landscape looks like</h3>
+  <p>The Dutch Claude keyword space is <strong>no longer empty</strong>. Multiple sites actively produce Dutch Claude content:</p>
+  <table class="matrix">
+    <thead>
+      <tr><th>Site</th><th>Type</th><th>Content</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>werkenmetai.nl</strong></td><td>Content site</td><td>Broad Claude blog coverage, guides, comparisons</td></tr>
+      <tr><td><strong>searchlab.nl</strong></td><td>Content site</td><td>"Wat is Claude Code? Complete Gids voor Bedrijven [2026]"</td></tr>
+      <tr><td><strong>projectimpact.nl</strong></td><td>Content site</td><td>"Claude vs ChatGPT: welke AI kies je als bedrijf in 2026?"</td></tr>
+      <tr><td><strong>agentfabriek.com</strong></td><td>Content site</td><td>Claude Code guide for developers and businesses</td></tr>
+      <tr><td><strong>redfactory.nl, learnllm.nl</strong></td><td>Content sites</td><td>Claude vs ChatGPT comparison pages in Dutch</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">The gap</span>
+    <strong>Nobody combines Claude-specific expertise with hands-on MKB implementation.</strong> The content sites write about Claude but don't implement. The consulting firms (Appec, AI Professional, AIBureau) are tool-agnostic. The trainers (DataNorth, NobleProg) sell seats, not implementation. ClaudeZakelijk owns the intersection: real Claude implementation experience + Dutch MKB delivery.
+  </div>
+
+  <h2>Google's actual rules (not what you fear)</h2>
+  <p>Google does <strong>not penalize content for being AI-generated</strong>. They penalize "scaled content abuse" using AI to mass-produce thin pages without user value. An Ahrefs study of 600,000 pages found 86.5% of top-20 ranking pages contain some AI-generated content, with zero correlation between AI usage and ranking position.</p>
+
+  <h3>What gets punished</h3>
+  <ul>
+    <li><strong>Fresh domains with 100% raw AI output.</strong> A 16-month Search Engine Land experiment showed these pages dropped from 28% in top-100 to 3% after three months.</li>
+    <li><strong>Sites with &gt;80% unedited AI content.</strong> Google's March 2025 core update reduced rankings for 61% of these.</li>
+    <li><strong>Zero experience signals.</strong> After the March 2026 core update, the "Experience" in E-E-A-T became the primary differentiator. Content lacking it gets demoted regardless of who wrote it.</li>
+  </ul>
+
+  <h3>What ranks well</h3>
+  <ul>
+    <li><strong>AI-drafted + human-edited content.</strong> Performs within 4% of fully human content on median ranking. HubSpot found hybrid content outperformed pure AI by 40% on engagement.</li>
+    <li><strong>First-person experience signals.</strong> Specific client scenarios, original data, screenshots of real work, verifiable author credentials.</li>
+    <li><strong>Named author with real expertise.</strong> Not "content team." A person with demonstrable background in the topic.</li>
+    <li><strong>Original data that AI cannot fabricate.</strong> Case numbers, anonymized client results, proprietary benchmarks.</li>
+    <li><strong>2,100-2,800 word sweet spot.</strong> These are 2.8x more likely to earn AI Overview citations.</li>
+  </ul>
+
+  <div class="positioning">
+    <h2>The defense strategy</h2>
+    <p>Every article on claudezakelijk.nl is written as your buddy sharing real implementation experience with Claude in Dutch SMBs. Every piece must contain: <strong>(1)</strong> a specific client scenario (anonymized), <strong>(2)</strong> the exact Claude prompt used, <strong>(3)</strong> real output with screenshots, <strong>(4)</strong> gotchas and what broke, <strong>(5)</strong> named author with bio and LinkedIn. This is what Google rewards. Not the absence of AI, but the presence of genuine expertise.</p>
+  </div>
+
+  <h2>Content plan: three keyword layers</h2>
+
+  <h3>Layer 1: Brand-owning keywords (rank in 30 days)</h3>
+  <p>Landing pages targeting the emptiest, highest-intent Dutch Claude queries. Each page: 1,500-2,500 words, FAQPage schema, internal links to services.</p>
+  <table class="matrix">
+    <thead>
+      <tr><th>Keyword</th><th>Page type</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Claude voor bedrijven</strong></td><td>Homepage (already exists)</td><td>Needs SEO rewrite</td></tr>
+      <tr><td><strong>Claude MKB</strong></td><td>Homepage variant / separate landing</td><td>To build</td></tr>
+      <tr><td><strong>Claude workshop Nederland</strong></td><td>Service page (Claude in 30 Dagen)</td><td>Needs SEO rewrite</td></tr>
+      <tr><td><strong>Claude training Nederlands</strong></td><td>Service page</td><td>Needs SEO rewrite</td></tr>
+      <tr><td><strong>Claude AI Nederland</strong></td><td>About / authority page</td><td>Needs SEO rewrite</td></tr>
+      <tr><td><strong>Claude Code voor bedrijven</strong></td><td>New dedicated landing</td><td>To build</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Layer 2: Commercial-intent keywords (60-90 days)</h3>
+  <p>Comparison and buyer-intent content. The format that currently dominates Dutch search results.</p>
+  <table class="matrix">
+    <thead>
+      <tr><th>Keyword</th><th>Content format</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Claude vs ChatGPT zakelijk</strong></td><td>2,500-word comparison with real-world tests</td></tr>
+      <tr><td><strong>Claude of ChatGPT voor bedrijven</strong></td><td>Decision guide with scoring matrix</td></tr>
+      <tr><td><strong>Claude prompt engineering Nederlands</strong></td><td>Practical guide with real prompts</td></tr>
+      <tr><td><strong>AI implementatie MKB Nederland</strong></td><td>Methodology page with case study</td></tr>
+      <tr><td><strong>Claude voor accountants</strong></td><td>Vertical-specific landing page</td></tr>
+      <tr><td><strong>Claude voor advocaten</strong></td><td>Vertical-specific landing page</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Layer 3: Long-tail use cases (compounding 6-12 months)</h3>
+  <p>Each article matches one real recording from the content pipeline. This is where the E-E-A-T defense works hardest, because competitors cannot fake this content.</p>
+  <ul>
+    <li>Claude gebruiken voor offerte schrijven</li>
+    <li>Claude voor CRM-opschoning</li>
+    <li>Claude Projects handleiding Nederlands</li>
+    <li>Claude voor klantenrapportage</li>
+    <li>Claude voor supporttickets</li>
+    <li>Claude artifacts gebruiken</li>
+    <li>Claude voor boekhouding</li>
+  </ul>
+
+  <h2>Article formula (non-negotiable per piece)</h2>
+  <p>Every article published on claudezakelijk.nl must contain all five elements. No exceptions. This is both the SEO defense and the competitive moat.</p>
+
+  <div class="card">
+    <div class="card-title">1. A real problem solved</div>
+    <div class="card-buyer">E-E-A-T: Experience</div>
+    <div class="card-desc">Specific client scenario (anonymized). Not "a company wanted to improve their workflow." Instead: "A recruitment firm with 14 consultants spent 6 hours per week manually writing candidate summaries."</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. The exact Claude prompt</div>
+    <div class="card-buyer">E-E-A-T: Expertise</div>
+    <div class="card-desc">Verbatim prompt, not reconstructed. Shows working knowledge of Claude's capabilities and limits. Readers can copy and test it themselves.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Real output with screenshots</div>
+    <div class="card-buyer">E-E-A-T: Evidence</div>
+    <div class="card-desc">Screenshot or full fragment of what Claude produced. Not paraphrased. This is the signal Google cannot find on competitor content sites that write about Claude without using it.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4. Gotchas and what broke</div>
+    <div class="card-buyer">E-E-A-T: Authenticity</div>
+    <div class="card-desc">Where Claude failed, what needed manual correction, what the limitations are. This is the hardest part for pure AI content to fake and the strongest ranking signal.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">5. Named author with credentials</div>
+    <div class="card-buyer">E-E-A-T: Authority</div>
+    <div class="card-desc">Full byline with photo, bio, LinkedIn link. "Runs Proxuma (SaaS) and Dxfferent (consulting) using Claude every day." Not "content team."</div>
+  </div>
+
+  <h2>Content production pipeline</h2>
+  <p>One recording, four outputs. This is the existing plan from the GTM doc, validated against current SEO research.</p>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t1">Input</span>
+      <span class="tier-title">5-10 min screen recording of real Claude work</span>
+    </div>
+    <ul>
+      <li>Record via Loom while solving a real client or internal problem</li>
+      <li>Captures the prompt, the output, the iteration, the gotchas naturally</li>
+      <li>This is the source material AI content farms cannot replicate</li>
+    </ul>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t2">Process</span>
+      <span class="tier-title">Claude Code transcribes + generates article skeleton</span>
+    </div>
+    <ul>
+      <li>Automated transcription with youtube-transcript-api or Whisper</li>
+      <li>Claude drafts structure following the 5-element formula</li>
+      <li>Human editing pass: 20 minutes to add voice, anecdotes, industry context</li>
+    </ul>
+  </div>
+
+  <div class="tier">
+    <div class="tier-header">
+      <span class="tier-badge t3">Output (4 channels)</span>
+      <span class="tier-title">One recording becomes four assets</span>
+    </div>
+    <ul>
+      <li><strong>1. Kennisbank article</strong> on claudezakelijk.nl (targets one long-tail keyword, 2,100-2,800 words)</li>
+      <li><strong>2. LinkedIn video</strong> (60-90s edit, MSP framing, "werkt ook voor..." tag)</li>
+      <li><strong>3. Newsletter entry</strong> (biweekly digest)</li>
+      <li><strong>4. Homepage social proof rotator</strong> ("recente use cases")</li>
+    </ul>
+  </div>
+
+  <p><strong>Target cadence:</strong> 2 recordings per week = 2 articles + 2 LinkedIn videos. Six months = 50 articles. At current Dutch Claude keyword density, this is decisive volume.</p>
+
+  <h2>Technical prerequisites before removing noindex</h2>
+
+  <div class="ai-warning">
+    <span class="ai-warning-label">Do not remove noindex until all items below are complete</span>
+    Google's first crawl sets the tone. A half-built site with thin content will be harder to recover from than launching with 10-15 solid pages.
+  </div>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>#</th><th>Task</th><th>Why</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Add claudezakelijk.nl to Google Search Console</strong></td><td>Need baseline data from day one</td><td>Not done</td></tr>
+      <tr><td>2</td><td><strong>Wire OG image into SeoMeta.astro</strong></td><td>Social sharing CTR. Image exists at public/og-claudezakelijk.png</td><td>Image exists, not wired</td></tr>
+      <tr><td>3</td><td><strong>Set up email (hallo@claudezakelijk.nl)</strong></td><td>Contact form credibility. MX records on Cloudflare</td><td>Not done</td></tr>
+      <tr><td>4</td><td><strong>Add analytics (Plausible or Fathom)</strong></td><td>Measure what happens after launch. No Google Analytics (GDPR)</td><td>Not done</td></tr>
+      <tr><td>5</td><td><strong>Add FAQPage schema to service pages</strong></td><td>Rich snippets in search results</td><td>Not done</td></tr>
+      <tr><td>6</td><td><strong>Create /kennisbank/ content collection</strong></td><td>Blog infrastructure for Layer 2-3 content</td><td>Not done</td></tr>
+      <tr><td>7</td><td><strong>Build form backend for AI-enablement scan</strong></td><td>Leads currently not captured (client-side only)</td><td>Not done</td></tr>
+      <tr><td>8</td><td><strong>Write 3-5 Layer 1 SEO articles</strong></td><td>Minimum content depth at launch</td><td>Not done</td></tr>
+      <tr><td>9</td><td><strong>SEO-rewrite existing service pages</strong></td><td>Current copy is positioning-focused, not keyword-targeted</td><td>Not done</td></tr>
+      <tr><td>10</td><td><strong>Add author bio component with photo + LinkedIn</strong></td><td>E-E-A-T signal on every page</td><td>Not done</td></tr>
+      <tr><td>11</td><td><strong>Create Cal.com dedicated slot</strong></td><td>Conversion endpoint for qualified leads</td><td>Using personal slot</td></tr>
+      <tr><td>12</td><td><strong>Remove noindex from BasisLayout.astro + robots.txt</strong></td><td>Go live. Last step.</td><td>Blocked on above</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Useful tools discovered</h2>
+
+  <h3>GitHub repos for Claude SEO workflows</h3>
+  <table class="matrix">
+    <thead>
+      <tr><th>Repo</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>searchfit/searchfit-seo</strong></td><td>Free Claude Code skill for SEO audits. Can analyze pages, suggest improvements, check technical SEO.</td></tr>
+      <tr><td><strong>AgriciDaniel/claude-blog</strong> (751 stars)</td><td>Claude Code skill ecosystem for blog content dual-optimized for Google rankings and AI citations.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Workflow tool: thruuu.com</h3>
+  <p>The most developed AI+SEO pipeline found in research. Their workflow: export keyword clusters from thruuu (analyzes top 100 Google results per query), Claude reads clusters + business profile, prioritizes what to write/skip/refresh, drafts from SERP-based content briefs. Worth evaluating for the content production phase.</p>
+
+  <h3>Existing MCP tools</h3>
+  <p>GSC MCP server is connected and working for proxuma.io. Can track search performance, keyword rankings, and indexing status. Once claudezakelijk.nl is added to GSC, the same tools apply.</p>
+
+  <div class="page-footer">
+    <span><img class="footer-logo" src="data:image/png;base64,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" alt="Proxuma"></span>
+    <span>Confidential. Internal use only.</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "ClaudeZakelijk SEO Capture Plan",
+  "date": "2026-05-18",
+  "summary": "Research-backed plan for capturing Dutch Claude SMB search traffic on claudezakelijk.nl. Based on GSC data analysis, Dutch keyword landscape research, and AI content SEO defense strategies.",
+  "sections": [
+    {
+      "heading": "Current state",
+      "items": [
+        { "title": "Zero Claude traffic on proxuma.io", "detail": "Not a single impression for any query containing 'claude' in all of 2026. Small AI+MSP queries exist (pos 8-9) but get zero clicks.", "meta": { "source": "GSC data pull" } },
+        { "title": "Dutch Claude space is contested", "detail": "5+ content sites (werkenmetai.nl, searchlab.nl, projectimpact.nl, agentfabriek.com, redfactory.nl) actively produce Dutch Claude content. No one combines Claude expertise + MKB implementation.", "meta": { "source": "keyword research" } },
+        { "title": "claudezakelijk.nl not in GSC", "detail": "Site still has noindex active. No search data available.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Google AI content rules",
+      "items": [
+        { "title": "AI content is not penalized per se", "detail": "Google penalizes 'scaled content abuse', not AI authorship. 86.5% of top-20 pages contain AI content. Hybrid content outperforms pure AI by 40%.", "meta": {} },
+        { "title": "E-E-A-T Experience is the key differentiator", "detail": "March 2026 core update made Experience the primary ranking signal. First-person scenarios, real data, named author with credentials.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Three keyword layers",
+      "items": [
+        { "title": "Layer 1: Brand-owning (30 days)", "detail": "Claude voor bedrijven, Claude MKB, Claude workshop Nederland, Claude AI Nederland, Claude Code voor bedrijven. Landing pages 1,500-2,500 words.", "meta": {} },
+        { "title": "Layer 2: Commercial-intent (60-90 days)", "detail": "Claude vs ChatGPT zakelijk, AI implementatie MKB, Claude voor accountants/advocaten. Comparison and buyer-intent content.", "meta": {} },
+        { "title": "Layer 3: Long-tail use cases (6-12 months)", "detail": "Claude voor offerte schrijven, CRM-opschoning, klantenrapportage, supporttickets. Each from a real recording. Highest E-E-A-T defense.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "12-item pre-launch checklist",
+      "items": [
+        { "title": "Technical prerequisites before removing noindex", "detail": "GSC registration, OG image wiring, email setup, analytics, FAQPage schema, kennisbank collection, form backend, 3-5 Layer 1 articles, SEO rewrites, author bio component, Cal.com slot, then remove noindex.", "meta": {} }
+      ]
+    },
+    {
+      "heading": "Tools discovered",
+      "items": [
+        { "title": "searchfit/searchfit-seo", "detail": "Free Claude Code skill for SEO audits.", "meta": { "type": "github-repo" } },
+        { "title": "AgriciDaniel/claude-blog (751 stars)", "detail": "Claude Code skill for blog content optimized for Google rankings and AI citations.", "meta": { "type": "github-repo" } },
+        { "title": "thruuu.com", "detail": "AI+SEO pipeline: keyword cluster analysis from top 100 Google results, SERP-based content briefs for Claude.", "meta": { "type": "saas-tool" } }
+      ]
+    }
+  ],
+  "next_steps": "Get alignment from the buddy on the plan. Then start executing the 12-item pre-launch checklist. Priority: add GSC, build kennisbank content collection, write first 3 Layer 1 articles using the 5-element formula. Do not remove noindex until checklist is complete.",
+  "session_state": {
+    "phase": "research complete, plan delivered",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Pulled GSC data for proxuma.io - confirmed zero Claude traffic",
+      "Researched Dutch Claude keyword landscape - 5+ competitors found, gap identified",
+      "Researched AI content SEO defense strategies - E-E-A-T Experience is key",
+      "Found useful GitHub repos (searchfit-seo, claude-blog) and tools (thruuu.com)",
+      "Synthesized into actionable plan with 3 keyword layers and 12-item pre-launch checklist"
+    ],
+    "blockers_hit": null,
+    "uncommitted_changes": null,
+    "next_action_required": "user-decision"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-18-claudezakelijk-seo-capture-plan.html", "relevance": "this document" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": "claudezakelijk.nl site repo at ~/ClaudeCode/claude-cowork-practice/. Existing strategy docs at docs/superpowers/research/2026-04-13-positioning-gtm-seo.md and docs/superpowers/specs/2026-04-13-claude-cowork-practice-design.md."
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "output-page skill", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Position defense strategy around E-E-A-T Experience signals rather than trying to hide AI usage",
+      "rejected_alternatives": ["Fully human-written content only", "AI detection evasion tools", "Paraphrasing/spinning"],
+      "rationale": "Research shows Google does not penalize AI content per se. 86.5% of top-20 pages contain AI. The penalty is for thin content without experience signals. The buddy has genuine implementation experience that competitors lack.",
+      "trade_offs": "Requires real client scenarios for every article, which limits publishing speed. But this is also the moat.",
+      "contingencies": []
+    },
+    {
+      "decision": "Do not remove noindex until 12-item checklist is complete",
+      "rejected_alternatives": ["Launch immediately with current content", "Soft launch with partial content"],
+      "rationale": "Google's first crawl sets the baseline. A half-built site with thin content is harder to recover from than launching with 10-15 solid pages. Fresh domains with low-quality content dropped from 28% to 3% in top-100 within 3 months.",
+      "trade_offs": "Delays launch by weeks. But the keyword space, while contested, is not winner-take-all yet. Quality of first impression matters more than speed.",
+      "contingencies": []
+    }
+  ]
+}
+</script>
+</body>
+</html>
