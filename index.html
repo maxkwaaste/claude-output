@@ -685,11 +685,29 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-05-18-proxuma-yoast-rewrites.html",
+    "title": "Yoast Field Rewrites (Data-Backed)",
+    "date": "2026-05-18",
+    "summary": "7 Yoast field changes for proxuma.io backed by GSC query data (1,057 queries, 16 months) and 140+ demo transcripts.",
+    "tags": [
+      "SEO",
+      "proxuma.io",
+      "Yoast"
+    ],
+    "type": "guide",
+    "detail": "Copy-paste-ready title tags and meta descriptions for 7 pages. Each rewrite shows the GSC query it targets, impression volume, current ranking position, and what changed. Includes before/after comparison."
+  },
+  {
     "file": "2026-05-18-dxfferent-proxuma-link-audit.html",
     "title": "SEO Link Audit: Dxfferent → Proxuma",
     "date": "2026-05-18",
     "summary": "Audit of 73 Dxfferent kennisbank articles found 0 linking to proxuma.io. Identified 22 natural backlink opportunities across 3 tiers.",
-    "tags": ["SEO", "Dxfferent", "proxuma.io", "backlinks"],
+    "tags": [
+      "SEO",
+      "Dxfferent",
+      "proxuma.io",
+      "backlinks"
+    ],
     "type": "guide",
     "detail": "Crawled dxfferent.com sitemap, analyzed 10 key articles for Proxuma/Power BI mentions, and cross-referenced with proxuma.io GSC data. Multiple articles name-drop Proxuma and Power BI without linking. 3-tier action plan: quick wins (existing mentions), cross-references (NL/EN equivalents), and contextual opportunities."
   },
@@ -761,7 +779,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-05-13-integration-pages-review.html",
-    "title": "Integration Pages Review \u2014 What to Fix",
+    "title": "Integration Pages Review — What to Fix",
     "date": "2026-05-13",
     "summary": "Audit of 10 Power BI integration pages. Pages describe a dashboard SaaS when the product is a data model + AI bridge.",
     "tags": [
@@ -1288,7 +1306,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-30-content-platform-phase-2-decisions.html",
-    "title": "Content Platform Phase 2 \u2014 Brainstorm Decisions & Spec",
+    "title": "Content Platform Phase 2 — Brainstorm Decisions & Spec",
     "date": "2026-04-30",
     "summary": "5 grote veranderingen aan content.dxfferent.com beslist en uitgewerkt: titel weg, hook templates, MSP journey editable, vrije tekst metadata, matrix als library-interface, bibliotheek-overzicht.",
     "tags": [
@@ -1352,7 +1370,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Eurostar"
     ],
     "type": "guide",
-    "detail": "Train cancelled 28 April 2026. Researched EU Regulation 2021/782, Eurostar Customer Charter, and station flyer caps (hotel \u20ac170, taxi \u20ac60, food \u20ac60). Compiled 6 real passenger experiences from forums. Total claimable: full ticket refund + up to \u20ac290 in expenses."
+    "detail": "Train cancelled 28 April 2026. Researched EU Regulation 2021/782, Eurostar Customer Charter, and station flyer caps (hotel €170, taxi €60, food €60). Compiled 6 real passenger experiences from forums. Total claimable: full ticket refund + up to €290 in expenses."
   },
   {
     "file": "2026-04-28-powerbi-reports-wp-push-plan.html",
@@ -1454,7 +1472,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-23-arrow-bupa-pcos-coverage.html",
-    "title": "Arrow Global Bupa + PCOS TTC \u2014 What's Actually Covered",
+    "title": "Arrow Global Bupa + PCOS TTC — What's Actually Covered",
     "date": "2026-04-23",
     "summary": "Bupa Select excludes IVF, IUI, fertility investigations, AMH, HSG, semen analysis, letrozole. NHS is the real anchor; Bupa is a symptom-framed side door. Three questions for HR.",
     "tags": [
@@ -1480,7 +1498,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-22-psa-ownership-research.html",
-    "title": "PSA Customer Ownership Research \u2014 413 Accounts",
+    "title": "PSA Customer Ownership Research — 413 Accounts",
     "date": "2026-04-22",
     "summary": "All 413 Autotask PSA accounts with 50+ seats classified. 54% in a parent structure. 203 parent groups, 97 PE firms.",
     "tags": [
@@ -1493,7 +1511,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-22-psa-rollup-research-plan.html",
-    "title": "Autotask PSA Ownership Crawl \u2014 Research Plan (M1 Pro)",
+    "title": "Autotask PSA Ownership Crawl — Research Plan (M1 Pro)",
     "date": "2026-04-22T14:30",
     "summary": "Execution-ready plan for a per-entry ownership lookup on 413 (default) or 7,455 (stretch) Autotask accounts. 7-source probe per account, Claude Sonnet classifier, 6 parallel workers on M1 Pro, resumable. Deliverables: 5-sheet Excel + HTML cluster report. Cost: ~$25 / ~$400.",
     "tags": [
@@ -1504,11 +1522,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Automation"
     ],
     "type": "strategy",
-    "detail": "Per entry: homepage+footer \u2192 /about /legal (multi-lang EN/NL/DE/FR/ES/IT) \u2192 country registry (Companies House, KVK, CRO, OpenCorporates) \u2192 LinkedIn via SERP \u2192 Crunchbase \u2192 news \u2192 PitchBook/ZoomInfo/OpenCorporates. Sonnet classifier returns strict JSON schema with ownership_status (independent/subsidiary/rollup-portfolio/public-group/holding-company/unclear), parent_name, ultimate_parent, parent_type (pe-backed/public/strategic/conglomerate), pe_firm, confidence, evidence quotes. Architecture: asyncio 6-parallel on M1 Pro, SQLite state, JSONL append-only results, 24h page cache, DDG SERP (free). Phases: prep \u2192 pilot 20 (Max gate) \u2192 full run \u2192 10% QA sample \u2192 Excel + HTML ship. Kickoff command sequence included. Input file at /tmp/psa-research/big-customers.json ready to scp."
+    "detail": "Per entry: homepage+footer → /about /legal (multi-lang EN/NL/DE/FR/ES/IT) → country registry (Companies House, KVK, CRO, OpenCorporates) → LinkedIn via SERP → Crunchbase → news → PitchBook/ZoomInfo/OpenCorporates. Sonnet classifier returns strict JSON schema with ownership_status (independent/subsidiary/rollup-portfolio/public-group/holding-company/unclear), parent_name, ultimate_parent, parent_type (pe-backed/public/strategic/conglomerate), pe_firm, confidence, evidence quotes. Architecture: asyncio 6-parallel on M1 Pro, SQLite state, JSONL append-only results, 24h page cache, DDG SERP (free). Phases: prep → pilot 20 (Max gate) → full run → 10% QA sample → Excel + HTML ship. Kickoff command sequence included. Input file at /tmp/psa-research/big-customers.json ready to scp."
   },
   {
     "file": "2026-04-22-psa-rollup-preliminary-research.html",
-    "title": "Autotask PSA \u2014 MSP Roll-up Preliminary Research",
+    "title": "Autotask PSA — MSP Roll-up Preliminary Research",
     "date": "2026-04-22T13:05",
     "summary": "Phase 1 scan of the 413 Autotask PSA 50+ seat accounts to identify overarching parent companies. Maps 5 major MSP roll-up groups (Evergreen/Lyra, New Charter, The 20 MSP, Constellation Software, regional plcs), finds 7 parent clusters already visible in spreadsheet labels, and proposes a tiered Phase 2 crawl (A: top 50 + 31 flags / B: top 100 / C: all 413).",
     "tags": [
@@ -1518,11 +1536,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "M&A"
     ],
     "type": "strategy",
-    "detail": "Industry context: 169 MSP M&A transactions in 2025, PE-driven. Evergreen alone has 100+ acquisitions, keeps acquired brands intact \u2014 so simple keyword match against published portfolio lists yields almost nothing (only 2 hits across 413). Already visible from raw spreadsheet: Constellation Software cluster (FOG, Apparel21, Markinson, ITS UK = 629 seats), Amicus/Aura merger, Hibernia/eirevo/Evros, Converged Tech Group (Ingram), plus 31 accounts with Group/Holdings/plc in the name. Recommends Option A (top 50 + flagged names, ~120 queries) as staged start before committing to full 413 crawl (~1,200 queries). Data file at /tmp/psa-research/big-customers.json ready."
+    "detail": "Industry context: 169 MSP M&A transactions in 2025, PE-driven. Evergreen alone has 100+ acquisitions, keeps acquired brands intact — so simple keyword match against published portfolio lists yields almost nothing (only 2 hits across 413). Already visible from raw spreadsheet: Constellation Software cluster (FOG, Apparel21, Markinson, ITS UK = 629 seats), Amicus/Aura merger, Hibernia/eirevo/Evros, Converged Tech Group (Ingram), plus 31 accounts with Group/Holdings/plc in the name. Recommends Option A (top 50 + flagged names, ~120 queries) as staged start before committing to full 413 crawl (~1,200 queries). Data file at /tmp/psa-research/big-customers.json ready."
   },
   {
     "file": "2026-04-22-psa-50plus-seats-by-country.html",
-    "title": "Autotask PSA \u2014 50+ Seat Customers by Country",
+    "title": "Autotask PSA — 50+ Seat Customers by Country",
     "date": "2026-04-22T12:10",
     "summary": "413 Autotask PSA accounts with 50+ total seats across 29 countries. US dominates at 48.7% (201), UK 14.5% (60), Netherlands 6.8% (28), Australia 5.6% (23), Canada 4.8% (20). Pie chart + full table.",
     "tags": [
@@ -1535,9 +1553,9 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-22-disk-cleanup-approvals.html",
-    "title": "M4 Air Disk Cleanup \u2014 Approval Sheet",
+    "title": "M4 Air Disk Cleanup — Approval Sheet",
     "date": "2026-04-22T11:30",
-    "summary": "Interactive approval UI for freeing disk space on M4 Air (17 GB free of 245 GB). 19 candidate items across three tiers \u2014 safe cache deletions, Sandisk transfers, and review-needed actions. Per-item approve/skip/done + comments persist in localStorage; Copy-handoff button emits a structured prompt for the next Claude to execute.",
+    "summary": "Interactive approval UI for freeing disk space on M4 Air (17 GB free of 245 GB). 19 candidate items across three tiers — safe cache deletions, Sandisk transfers, and review-needed actions. Per-item approve/skip/done + comments persist in localStorage; Copy-handoff button emits a structured prompt for the next Claude to execute.",
     "tags": [
       "M4 Air",
       "System",
@@ -1548,20 +1566,20 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-21-reddit-ads-upload-and-budget.html",
-    "title": "Reddit Ads \u2014 Upload 5 Creatives + Triple Budget",
+    "title": "Reddit Ads — Upload 5 Creatives + Triple Budget",
     "date": "2026-04-21T18:10",
-    "summary": "Step-by-step UI instructions for Max to manually upload 5 new Proxuma ad creatives to the existing Reddit Ads campaign and triple daily budget from ~\u20ac2 to \u20ac6/day after a month of only \u20ac60 total spend.",
+    "summary": "Step-by-step UI instructions for Max to manually upload 5 new Proxuma ad creatives to the existing Reddit Ads campaign and triple daily budget from ~€2 to €6/day after a month of only €60 total spend.",
     "tags": [
       "Reddit Ads",
       "Proxuma",
       "Ops"
     ],
     "type": "guide",
-    "detail": "Nine-step manual playbook: edit ad group budget to \u20ac6/day, then create 5 new single-image ads inside the same ad group using creatives at ~/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/ on M1 Pro. Includes per-ad headlines, naming convention, a review-queue warning, and a 72-hour check-in checklist. Notes the Reddit Ads API is currently 401'd and needs reauth so daily_snapshot.py can resume tracking."
+    "detail": "Nine-step manual playbook: edit ad group budget to €6/day, then create 5 new single-image ads inside the same ad group using creatives at ~/ClaudeCode/reddit-ad-creatives/active-ads-2026-04-21/ on M1 Pro. Includes per-ad headlines, naming convention, a review-queue warning, and a 72-hour check-in checklist. Notes the Reddit Ads API is currently 401'd and needs reauth so daily_snapshot.py can resume tracking."
   },
   {
     "file": "2026-04-21-autotask-payload-gap-approaches.html",
-    "title": "Autotask Executor Payload Gap \u2014 Design Approaches",
+    "title": "Autotask Executor Payload Gap — Design Approaches",
     "date": "2026-04-21T16:30",
     "summary": "Evidence-backed brainstorm for the autotask-demo-filler executor payload gap. Three approaches (runtime metadata probe, checked-in schema, OpenAPI codegen) with trade-offs. Recommends runtime probe + schema-driven defaults, staying on feat/mcp-server.",
     "tags": [
@@ -1574,7 +1592,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-20-pcos-ttc-crawford.html",
-    "title": "PCOS & TTC at 29 \u2014 Dr. Natalie Crawford's Playbook",
+    "title": "PCOS & TTC at 29 — Dr. Natalie Crawford's Playbook",
     "date": "2026-04-20T19:00",
     "summary": "Research brief synthesizing Crawford's public guidance for a 29-year-old with PCOS, off BC 3+ years, 7 months TTC. Recommends REI referral now, mid-day OPKs + progesterone confirmation, full workup incl. partner SA, letrozole first-line, inositol 40:1.",
     "tags": [
@@ -1587,7 +1605,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-20-proxuma-blue-green-pairs.html",
-    "title": "Proxuma Blue + Green Pairs \u2014 Visual Comparison",
+    "title": "Proxuma Blue + Green Pairs — Visual Comparison",
     "date": "2026-04-20T17:45",
     "summary": "Revised color exploration using Proxuma's actual in-product blue+green (sampled from Planned/Spare bars). Three pairs compared with light + dark mockups. Recommends Deep Azure #1e6fbf + Emerald #10b981 for marketing, original tones preserved for data viz.",
     "tags": [
@@ -1601,7 +1619,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-20-proxuma-blue-pairs.html",
-    "title": "Proxuma Blue Pairs \u2014 Visual Comparison",
+    "title": "Proxuma Blue Pairs — Visual Comparison",
     "date": "2026-04-20T17:15",
     "summary": "Three candidate color systems for the Nuxt marketing rebuild. Compares Navy+Electric, Cobalt+Cyan, and Indigo+Sky with light + dark UI mockups. Recommends Cobalt+Cyan (#1e40af + #06b6d4) with existing Proxuma sky as tertiary.",
     "tags": [
@@ -1626,11 +1644,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Visual Analysis"
     ],
     "type": "strategy",
-    "detail": "V2 upgrade over v1's code-only read. Embedded 5 full-page screenshots (hero, home-tall, product, product-tall, pricing) with detailed Opus 4.7 commentary. Corrections: (1) accent is pink+violet PAIR ~20\u00b0 apart, not single magenta; (2) aurora gradient glow behind hero card does 80% of mood work; (3) human headshots composited onto product UI, not beside it. 9-item updated secret-sauce list. Proxuma palette mapping now uses teal+mint twin-accent (both already alive in Power BI reports). 6 open clarifying questions including a new photo-shoot budget question for real NL MSP staff overlays."
+    "detail": "V2 upgrade over v1's code-only read. Embedded 5 full-page screenshots (hero, home-tall, product, product-tall, pricing) with detailed Opus 4.7 commentary. Corrections: (1) accent is pink+violet PAIR ~20° apart, not single magenta; (2) aurora gradient glow behind hero card does 80% of mood work; (3) human headshots composited onto product UI, not beside it. 9-item updated secret-sauce list. Proxuma palette mapping now uses teal+mint twin-accent (both already alive in Power BI reports). 6 open clarifying questions including a new photo-shoot budget question for real NL MSP staff overlays."
   },
   {
     "file": "2026-04-18-phase8-residual-failures.html",
-    "title": "Phase 8 Residual Failures \u2014 Taxonomy & Fix Strategy",
+    "title": "Phase 8 Residual Failures — Taxonomy & Fix Strategy",
     "date": "2026-04-18T14:00",
     "summary": "42 reports remain broken after Phase 8 Visual Healer. Clusters into 4 failure families with 3 candidate fix strategies.",
     "tags": [
@@ -1644,7 +1662,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-16-claude-accomplishments-feb-apr.html",
-    "title": "Claude Accomplishments \u2014 Feb\u2013Apr 2026",
+    "title": "Claude Accomplishments — Feb–Apr 2026",
     "date": "2026-04-16T19:30",
     "summary": "Comprehensive CV of everything Max built with Claude between 2026-01-16 and 2026-04-16: 872 Power BI reports, 173 dashboards, 6 MCP servers, 20+ slash commands, 9 custom skills, 36 active GitHub repos.",
     "tags": [
@@ -1658,7 +1676,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-16-powerbi-report-project-state.html",
-    "title": "Proxuma Power BI Report Project \u2014 State of Play",
+    "title": "Proxuma Power BI Report Project — State of Play",
     "date": "2026-04-16T18:35",
     "summary": "Mid-April 2026 status memo on the Proxuma Power BI report program: 872 live reports (449 EN + 423 NL), 173 Chart.js dashboards, DAX+Visual Truthifier validation layer, and four open issues gating defensibility.",
     "tags": [
@@ -1669,11 +1687,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Truthifier"
     ],
     "type": "overview",
-    "detail": "Three-track framing. Library: V5 Printed Document format, commit 329d666, six pillar pages, 281 planned reports in autotask-content-planner.html. Dashboards: WP parent 4503, daily 07:00 refresh, 10 category coverage. Truthifier: DAX cruise at 76/486 topics with 0 hallucinations on Opus self-review; visual sweep at 105/872 catching GIANT_ARROW_CTA bug. Open: hallucinated source badges (bulk fix across 872), 257 FAQ JSON-LD files staged on GitHub but not WP-deployed, SEO plans 2\u20135, RPT-047 visual break."
+    "detail": "Three-track framing. Library: V5 Printed Document format, commit 329d666, six pillar pages, 281 planned reports in autotask-content-planner.html. Dashboards: WP parent 4503, daily 07:00 refresh, 10 category coverage. Truthifier: DAX cruise at 76/486 topics with 0 hallucinations on Opus self-review; visual sweep at 105/872 catching GIANT_ARROW_CTA bug. Open: hallucinated source badges (bulk fix across 872), 257 FAQ JSON-LD files staged on GitHub but not WP-deployed, SEO plans 2–5, RPT-047 visual break."
   },
   {
     "file": "2026-04-16-telegram-claude-bridge-design.html",
-    "title": "Telegram \u2192 Claude Code Bridge (M1 Pro) \u2014 Design",
+    "title": "Telegram → Claude Code Bridge (M1 Pro) — Design",
     "date": "2026-04-16T18:00",
     "summary": "Design spec for a Telegram chat interface to an always-on Claude Code session on M1 Pro. /clear via CLAUDE.md rule + helper, two-message respawn confirmation, file delivery via Telegram attachment or output-page skill. No plugin patching.",
     "tags": [
@@ -1687,7 +1705,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-15-cloudconnected-problem-brief-joshua.html",
-    "title": "CloudConnected \u2014 Freelancer License Question for Joshua",
+    "title": "CloudConnected — Freelancer License Question for Joshua",
     "date": "2026-04-15T11:30",
     "summary": "Narrow question for Joshua: can a project-only freelance engineer work in Proxuma without an Autotask license? Anastasiya (CloudConnected) called this their 'core question' and 'game changer.' Includes two embedded video clips (2:35 framing + 5:25 core question / Jarka's subcontractor portal idea).",
     "tags": [
@@ -1698,11 +1716,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Licensing"
     ],
     "type": "overview",
-    "detail": "White minimalist HTML style. Engineer matrix (in-house desk / freelance desk / project-only freelancer) with current license state and what they want. Three rejected workarounds (buy all, share one license, give everyone Autotask). Open technical questions on resource records, time entry, Outlook self-service link, tickets vs project tasks. Bonus: Jarka raised the old Autotask subcontractor portal \u2014 worth a one-liner on its current status."
+    "detail": "White minimalist HTML style. Engineer matrix (in-house desk / freelance desk / project-only freelancer) with current license state and what they want. Three rejected workarounds (buy all, share one license, give everyone Autotask). Open technical questions on resource records, time entry, Outlook self-service link, tickets vs project tasks. Bonus: Jarka raised the old Autotask subcontractor portal — worth a one-liner on its current status."
   },
   {
     "file": "2026-04-14-uk-biometrics-reminder-verification.html",
-    "title": "UK Biometrics Reminder \u2014 Verification Report",
+    "title": "UK Biometrics Reminder — Verification Report",
     "date": "2026-04-14T22:30",
     "summary": "8 Apr 2026 UKVI reminder to book biometrics for European Family Permit GWF086774441. Gmail evidence and forum precedent show biometrics already captured 9 Feb. Drafted Twitter/phone verification messages.",
     "tags": [
@@ -1712,11 +1730,11 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Verification"
     ],
     "type": "evaluation",
-    "detail": "Builds full timeline from 7 Feb application submission through 8 Apr reminder. Strongest evidence: 9 Feb VFS notification 'application sent to UKVI' and 16 Feb Decision Making Centre receipt \u2014 both impossible without biometrics enrolment. Forum sources (Expat Forum, JustAnswer) confirm UKVI sends generic stale reminders; Twitter DM to @UKVisas is the documented fix. Includes drafts for Twitter, phone (+44 203 481 1736), and VFS NL helpdesk. Recommends Twitter DM first to avoid duplicate-application risk."
+    "detail": "Builds full timeline from 7 Feb application submission through 8 Apr reminder. Strongest evidence: 9 Feb VFS notification 'application sent to UKVI' and 16 Feb Decision Making Centre receipt — both impossible without biometrics enrolment. Forum sources (Expat Forum, JustAnswer) confirm UKVI sends generic stale reminders; Twitter DM to @UKVisas is the documented fix. Includes drafts for Twitter, phone (+44 203 481 1736), and VFS NL helpdesk. Recommends Twitter DM first to avoid duplicate-application risk."
   },
   {
     "file": "2026-04-14-workshop-landing-review.html",
-    "title": "Workshop Landing Page \u2014 10 Improvements",
+    "title": "Workshop Landing Page — 10 Improvements",
     "date": "2026-04-14T21:00",
     "summary": "10 prioritized improvements for the Dxfferent AI Transformation Workshop landing page, including a critical JS bug and missing social proof.",
     "tags": [
@@ -1729,7 +1747,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
   },
   {
     "file": "2026-04-14-excalidraw-to-html.html",
-    "title": "Excalidraw to HTML \u2014 Draw It, Claude Builds It",
+    "title": "Excalidraw to HTML — Draw It, Claude Builds It",
     "date": "2026-04-14T15:00",
     "summary": "Public project: draw wireframes in Excalidraw, Claude reads structured JSON and generates HTML. Repo, skill, and visual explainer.",
     "tags": [
@@ -1739,7 +1757,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Open Source"
     ],
     "type": "product",
-    "detail": "Public repo at github.com/maxkwaaste/excalidraw-to-html. Uses yctimlin/mcp_excalidraw (community) for bidirectional canvas access \u2014 Claude reads exact element types, positions, dimensions, text, and arrow bindings instead of interpreting screenshots. Includes CLAUDE.md (setup instructions any Claude can follow), portable skill file, and GitHub Pages landing page. Canvas at localhost:3000, REST API fallback at /api/elements. Landing page: maxkwaaste.github.io/excalidraw-to-html"
+    "detail": "Public repo at github.com/maxkwaaste/excalidraw-to-html. Uses yctimlin/mcp_excalidraw (community) for bidirectional canvas access — Claude reads exact element types, positions, dimensions, text, and arrow bindings instead of interpreting screenshots. Includes CLAUDE.md (setup instructions any Claude can follow), portable skill file, and GitHub Pages landing page. Canvas at localhost:3000, REST API fallback at /api/elements. Landing page: maxkwaaste.github.io/excalidraw-to-html"
   },
   {
     "file": "2026-04-13-claudezakelijk-strategie-brainstorm.html",
@@ -1955,7 +1973,7 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
       "Dashboard"
     ],
     "type": "product",
-    "detail": "Standalone Python server (no dependencies) serving a live-updating doughnut chart of CPU usage per process. Built to diagnose a 21W underpowered charger situation. Features: 2s auto-refresh, sortable process table, SIGTERM kill buttons, individual Claude terminal slices, grouped 'Other' for sub-1.5% processes, battery/charger stats. Run: python3 server.py \u2192 localhost:8847. GitHub: maxkwaaste/power-monitor."
+    "detail": "Standalone Python server (no dependencies) serving a live-updating doughnut chart of CPU usage per process. Built to diagnose a 21W underpowered charger situation. Features: 2s auto-refresh, sortable process table, SIGTERM kill buttons, individual Claude terminal slices, grouped 'Other' for sub-1.5% processes, battery/charger stats. Run: python3 server.py → localhost:8847. GitHub: maxkwaaste/power-monitor."
   },
   {
     "file": "2026-04-12-powerbi-seo-research-consolidated.html",
