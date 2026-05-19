@@ -1137,16 +1137,16 @@ h3::before {
       <div class="stat-label">Releases covered</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">6</div>
+      <div class="stat-value">8</div>
       <div class="stat-label">Feature blocks</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">2</div>
-      <div class="stat-label">Power BI blocks</div>
+      <div class="stat-value">8</div>
+      <div class="stat-label">Screenshots</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">3</div>
-      <div class="stat-label">Extra suggestions</div>
+      <div class="stat-value">0</div>
+      <div class="stat-label">Power BI blocks</div>
     </div>
   </div>
 
@@ -1156,120 +1156,86 @@ h3::before {
 
   <div class="email-block" data-block="Intro paragraph">
     <h4>Subject line</h4>
-    <p><strong>Proxuma Release 26 & 27: Permissions overhaul, compact capacity view, and the new Knowledge Base</strong></p>
+    <p><strong>Proxuma Release 26 & 27: See who's available, control who sees what, and a brand new Knowledge Base</strong></p>
     <h4>Preview text</h4>
-    <p>Plan with full visibility into who's available and when. Plus: reworked permissions and a self-service Knowledge Base.</p>
+    <p>Resource availability directly on planning screens, reworked permissions, capacity improvements, and the Proxuma Knowledge Base is live.</p>
     <h4>Body</h4>
-    <p>Welcome to Release 26 & 27 of Proxuma. These releases focus on giving you more control and more visibility. A fully reworked permissions system lets you decide exactly who sees what. The new Compact Capacity View makes large-team planning practical without switching to Excel. Resource availability exceptions now show directly on planning screens so you always know who is available. And the Proxuma Knowledge Base is live, giving your team self-service answers without leaving the platform.</p>
-    <p>Watch the recap or read on to see what's new.</p>
+    <p>Welcome to Release 26 & 27 of Proxuma! These two releases bring a set of updates focused on planning visibility and access control. You can now see resource availability exceptions directly in the calendar, a reworked permissions system gives admins fine-grained control over who sees what, and the new Compact Capacity View makes planning for large teams practical. Service calls now support non-working hours deduction, meeting invitation responses show up in event details, and capacity bars got a visual upgrade with color-coded holidays. On top of that, the Proxuma Knowledge Base is live.</p>
+    <p>Watch the recap or read on to see what's new in this release.</p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
   <!-- ========================================= -->
-  <h2>Feature blocks — Proxuma</h2>
+  <h2>New features: Release 26</h2>
 
-  <div class="email-block" data-block="Feature 1 — Hero">
+  <div class="email-block" data-block="R26 — Feature 1">
+    <h4>Compact Capacity View</h4>
+    <p>A new Compact Capacity View on the Resource Planning screen lets you see more resources and time units at once. If you've been switching to Excel for large-team planning or longer horizons, this is the alternative. Toggle it on and you get a denser view without sacrificing performance. A quarterly timeline option has been added to the Year view as well, so you can plan further ahead in one screen.</p>
+    <p><em>[Screenshot: Compact squares view toggle with week view showing multiple resources]</em></p>
+    <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
+  </div>
+
+  <div class="email-block" data-block="R26 — Feature 2">
     <h4>Reworked Permissions and Access Control</h4>
     <p>You now have full control over who can see and access what across Proxuma. The new permissions system works on three levels: page-level view permissions control which screens a user can reach, scope-based access determines which companies, projects, and Power BI files they see, and entity-level permissions handle the rest. Scoping can follow Departments, Line of Business, or Manual Selection. Everything is managed from the updated Security Levels interface in tenant Settings.</p>
     <ul>
       <li>Page-level View permissions (Yes / No) for every application page, controlling both navigation and direct URL access.</li>
       <li>Scope selection determines which companies, projects, and Power BI files a user can access.</li>
       <li>Security Levels management now supports the full permissions module including Pages, Scopes, and Advanced Settings.</li>
-      <li>License Type column added to Settings - Licenses with filtering, sorting, and pagination.</li>
     </ul>
     <p><a href="#">Click here to learn more about the new license and security level permissions.</a></p>
+    <p><em>[Screenshot: Security level "Engineer" with page permissions grid]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
-  <div class="email-block" data-block="Feature 2">
-    <h4>Compact Capacity View and Resource Availability</h4>
-    <p>Two features that work together to make planning for large teams actually workable. The Compact Capacity View on the Resource Planning screen (Month/Year view) displays more resources and time units at once, making it a practical alternative to the spreadsheets many teams still fall back on. Pair that with Resource Availability Exceptions: when someone has days off or recurring non-working periods, those now show directly on the planning screen. No more scheduling someone who isn't there.</p>
-    <ul>
-      <li>Compact Capacity View shows more resources simultaneously without sacrificing performance.</li>
-      <li>Quarterly timeline option added to the Year view for long-term planning.</li>
-      <li>Resource exceptions appear on Day, Week, Month, and Year views across both Resource and Project Planning.</li>
-      <li>Event creation warns you when the selected time falls within an exception.</li>
-      <li>Capacity calculations now factor in individual exceptions automatically.</li>
-    </ul>
+  <!-- ========================================= -->
+  <h2>New features: Release 27</h2>
+
+  <div class="email-block" data-block="R27 — Feature 1">
+    <h4>Resource Availability Exceptions on Planning Screens</h4>
+    <p>When someone has days off or recurring non-working periods, you now see it directly in the calendar. No more scheduling a resource that isn't available. Exceptions appear on Day, Week, Month, and Year views across both Resource Planning and Project Planning. When you create or edit an event, a warning appears if the selected time falls within an exception. Capacity calculations factor in individual exceptions automatically.</p>
     <p><a href="#">Click here to learn more about setting up your resources' daily availability.</a></p>
+    <p><em>[Screenshot: Planning screen showing blocked availability for resources]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
-  <div class="email-block" data-block="Feature 3">
-    <h4>Service Call Hour Allocation</h4>
-    <p>Service Call hours are now distributed across linked tasks and tickets automatically using a weighted algorithm. When the calculated result doesn't match what actually happened, you can override it manually. Non-working time like travel, breaks, or preparation is specified directly within the event and gets deducted from the total duration automatically. This means capacity figures finally reflect what's actually usable.</p>
-    <ul>
-      <li>Weighted distribution handles capacity limits, overflow, rounding, and recalculation automatically.</li>
-      <li>Manual override available when the automatic result doesn't match reality.</li>
-      <li>Non-working hours (travel, breaks, prep) are deducted from capacity calculations.</li>
-      <li>New Allocated Hours column in the Project Breakdown table with sorting and filtering.</li>
-    </ul>
-    <p><a href="#">Click here to learn more about the new service call hours calculation.</a></p>
+  <div class="email-block" data-block="R27 — Feature 2">
+    <h4>Non-Working Hours Deduction for Service Calls</h4>
+    <p>Service Call events can now include non-working time like travel, breaks, or preparation. This time gets automatically deducted from the total duration when calculating resource and event capacity, so availability figures reflect what's actually usable. You specify the non-working hours directly within the Service Call event.</p>
+    <p><a href="#">Click here to learn more about service calls.</a></p>
+    <p><em>[Screenshot: Edit service call modal with Non-working hours field]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
-  <div class="email-block" data-block="Feature 4">
-    <h4>Outlook Integration: Invitation Responses and Locations</h4>
-    <p>Your Outlook integration now tracks whether attendees accepted, declined, or tentatively accepted meeting invitations. Response statuses show directly in Service Calls, General Time Requests, and Shifts. Locations synced from events now appear as clickable, map-navigable addresses instead of plain text. A new "Require Response to Invitation" setting in the Outlook Step Wizard makes sure attendees are prompted to respond.</p>
-    <ul>
-      <li>Each attendee's response status (Accepted, Declined, Tentative, Not Responded) shown with icons and colors.</li>
-      <li>Locations display as clickable addresses that open in maps.</li>
-      <li>"Require Response to Invitation" toggle available in the Outlook Step Wizard.</li>
-    </ul>
+  <div class="email-block" data-block="R27 — Feature 3">
+    <h4>Meeting Invitation Response Status in Meeting Details</h4>
+    <p>The Meeting Details tab for Service Calls, General Time Requests, and Shifts now shows whether attendees accepted, declined, tentatively accepted, or haven't responded to the linked Outlook appointment. Attendees and assigned resources appear in two separate lists, each with their response status shown with colors and labels. If the "Require Response to Invitation" setting is off, the section points you to the Outlook Step Wizard to enable it.</p>
+    <p><em>[Screenshot: Service call meeting details showing attendee response statuses]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
-  <div class="email-block" data-block="Feature 5">
-    <h4>Proxuma Knowledge Base — Now Live</h4>
-    <p>The Proxuma Knowledge Base is available to all users directly from the platform. Browse articles by topic or search from any page. Content covers everything from getting started and settings configuration to advanced planning features and integrations. Most articles are user-protected, so log in to Proxuma first.</p>
-    <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
-  </div>
-
-  <div class="email-block" data-block="Feature 6 — Short">
-    <h4>More inline editing, expanded bulk capabilities</h4>
-    <p>Inline editing is now available in more tables across the platform: Linked Tasks in the Task Modal, Task and Ticket tables in the Service Call Modal, and the Skills table in Settings. The Skills and UDF tables also support inline editing. Shifts can be deleted directly from the Plan Bucket and Resource Planning screens. Capacity bars now show percentages alongside hour values, and holidays and time-off days are color-coded (purple for holidays, orange for time-off).</p>
+  <div class="email-block" data-block="R27 — Feature 4">
+    <h4>Proxuma Knowledge Base - Now Available!</h4>
+    <p>The Proxuma Knowledge Base is available to all users directly from the platform. Browse articles by topic or use the search bar to find answers from any page. Content covers everything from getting started and settings configuration to advanced planning features and integrations. Most articles are user-protected, so log in to Proxuma first before accessing the Knowledge Base articles.</p>
+    <p><em>[Screenshot: Knowledge Base home page with search bar and starred articles]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
   <!-- ========================================= -->
-  <h2>Feature blocks — Power BI</h2>
+  <h2>UI updates: Release 27</h2>
 
-  <div class="email-block" data-block="Power BI 1 — Hero">
-    <h4>Reworked Connection Flow and Diagnostics</h4>
-    <p>The Power BI module connection flow has been rebuilt end to end. Module status now tracks correctly through Inactive, Setup, and Active with real-time updates. Credential checks run in parallel per database type (MS SQL, MySQL, MS Fabric, PostgreSQL) with pass/fail results. When something breaks, failed sources show error codes with direct links to Knowledge Base articles so your team can resolve issues without contacting support. Sources are verified automatically after every platform release.</p>
-    <ul>
-      <li>Real-time status updates via WebSocket with a Retry button for manual re-checks.</li>
-      <li>Parallel credential validation per database type with pass/fail results.</li>
-      <li>Failed sources display error codes with direct Knowledge Base links.</li>
-      <li>Full source status history showing when and why issues occurred.</li>
-      <li>New BI_Proxuma_User_Capacity_Details view for detailed capacity reporting.</li>
-    </ul>
+  <div class="email-block" data-block="R27 — UI 1">
+    <h4>Capacity Bars Update</h4>
+    <p>Capacity bars and Total Hours bars on Resource Planning screens now show percentages alongside hour values (planned, spare, and overbooked), matching what's already shown in the capacity graph. At narrow column widths, values adapt to the available space instead of becoming unreadable.</p>
+    <p><em>[Screenshot: Capacity bars with P/S/A/E values per company]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
-  <div class="email-block" data-block="Power BI 2">
-    <h4>Immediate Structure Creation and Active Status</h4>
-    <p>After completing the Power BI wizard, all views and tables are created immediately, even before data syncs. This means administrators can verify the connection and continue onboarding without waiting for the first sync to finish. Power BI sources now display a dedicated "Active" status for fully connected and operating sources.</p>
+  <div class="email-block" data-block="R27 — UI 2">
+    <h4>Holiday and Time-Off Color Coding in Capacity View</h4>
+    <p>Capacity is now color-coded when full days are completely scheduled with time-off entries or holidays. Holidays are displayed in purple, while other time-off entries appear in orange. This makes it immediately clear at a glance which days are blocked and why.</p>
+    <p><em>[Screenshot: Capacity view with color-coded time-off and holidays]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
-  </div>
-
-  <!-- ========================================= -->
-  <h2>Extra suggestions</h2>
-  <p>Optional blocks you could add to the email. Based on what shipped in these releases and what would be useful to highlight.</p>
-
-  <div class="suggestion-block">
-    <h4>Suggestion 1: Link to the Knowledge Base directly</h4>
-    <p>The KB launched in Release 27. Add a CTA button "Visit the Knowledge Base" linking to kb.proxuma.com. This is a good opportunity to drive adoption. The email currently sends people to "read full release notes inside Proxuma" but a direct KB link is stronger. Most articles require Proxuma login, so mention that.</p>
-  </div>
-
-  <div class="suggestion-block">
-    <h4>Suggestion 2: Highlight the permissions rework as a security/compliance talking point</h4>
-    <p>The permissions overhaul is the kind of feature that decision-makers notice. Consider adding a short callout block after the permissions feature: "Need to restrict access for specific teams or external contractors? The new permissions system makes that straightforward." This positions Proxuma as enterprise-ready for MSPs evaluating tools.</p>
-  </div>
-
-  <div class="suggestion-block">
-    <h4>Suggestion 3: Mention what's coming next</h4>
-    <p>If you have visibility into what's shipping in Release 28 or 29, a one-liner teaser at the bottom ("Coming soon: [feature]") creates anticipation. The previous email didn't do this. Even something vague like "Coming soon: improvements to recurring event management" based on the recurring events default change already shipped would work.</p>
   </div>
 
   <!-- ========================================= -->
@@ -1288,35 +1254,38 @@ h3::before {
   <div class="email-block" data-block="Footer CTA">
     <h4>Bottom section</h4>
     <p>Want to see more new features? Proxuma customers can read the full release notes in the Knowledge Base at kb.proxuma.com, or inside Proxuma under Knowledgebase.</p>
-    <p>Curious if Proxuma is right for your MSP?</p>
+    <p>Curious if the new Proxuma is right for you?</p>
     <p><em>[Book a demo] [Recorded demo]</em></p>
     <button class="copy-btn" onclick="copyBlock(this)">Copy text</button>
   </div>
 
   <!-- ========================================= -->
   <h2>Block order recommendation</h2>
-  <p>Recommended order for the email blocks in HubSpot:</p>
+  <p>Recommended order for the email blocks in HubSpot. Each feature has a screenshot from your PDF.</p>
 
   <table class="matrix">
     <thead>
       <tr>
         <th>#</th>
         <th>Block</th>
-        <th>Notes</th>
+        <th>Screenshot from PDF</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>Intro paragraph</td><td>Set the tone, mention the 3 headline features</td></tr>
-      <tr><td>2</td><td>YouTube thumbnail + CTA</td><td>Same position as previous email</td></tr>
-      <tr><td>3</td><td>Permissions overhaul</td><td>Lead with the most impactful enterprise feature</td></tr>
-      <tr><td>4</td><td>Compact Capacity + Availability</td><td>Visual feature, include screenshot</td></tr>
-      <tr><td>5</td><td>Service Call Hour Allocation</td><td>Practical workflow improvement</td></tr>
-      <tr><td>6</td><td>Outlook Integration</td><td>Quick win, short block</td></tr>
-      <tr><td>7</td><td>Knowledge Base</td><td>Short block with direct link CTA</td></tr>
-      <tr><td>8</td><td>Inline editing + UI improvements</td><td>Catch-all for smaller items</td></tr>
-      <tr><td>9</td><td>Power BI: Connection Flow</td><td>Lead Power BI section</td></tr>
-      <tr><td>10</td><td>Power BI: Immediate Structure</td><td>Short supporting block</td></tr>
-      <tr><td>11</td><td>Footer CTA</td><td>Updated to reference KB</td></tr>
+      <tr><td>1</td><td>Intro paragraph</td><td>-</td></tr>
+      <tr><td>2</td><td>YouTube thumbnail + CTA</td><td>-</td></tr>
+      <tr><td></td><td colspan="2"><strong>New features: Release 26</strong></td></tr>
+      <tr><td>3</td><td>Compact Capacity View</td><td>Compact squares view toggle (PDF p1)</td></tr>
+      <tr><td>4</td><td>Reworked Permissions</td><td>Security level page permissions grid (PDF p1)</td></tr>
+      <tr><td></td><td colspan="2"><strong>New features: Release 27</strong></td></tr>
+      <tr><td>5</td><td>Resource Availability Exceptions</td><td>Planning screen with blocked days (PDF p2 top)</td></tr>
+      <tr><td>6</td><td>Non-Working Hours Deduction</td><td>Edit service call modal (PDF p2 middle)</td></tr>
+      <tr><td>7</td><td>Meeting Invitation Response Status</td><td>Service call meeting details (PDF p3 top)</td></tr>
+      <tr><td>8</td><td>Knowledge Base</td><td>KB home page with search (PDF p3 bottom)</td></tr>
+      <tr><td></td><td colspan="2"><strong>UI updates: Release 27</strong></td></tr>
+      <tr><td>9</td><td>Capacity Bars Update</td><td>Capacity bars with P/S/A/E values (PDF p4 top)</td></tr>
+      <tr><td>10</td><td>Holiday and Time-Off Color Coding</td><td>Color-coded capacity view (PDF p4)</td></tr>
+      <tr><td>11</td><td>Footer CTA</td><td>-</td></tr>
     </tbody>
   </table>
 
@@ -1335,38 +1304,29 @@ h3::before {
 {
   "title": "Release 26 & 27 — Email Copy Blocks",
   "date": "2026-05-19",
-  "summary": "Block-by-block copy for the HubSpot mass email covering Proxuma Release 26 & 27. Six feature blocks, two Power BI blocks, three extra suggestions.",
+  "summary": "Block-by-block copy for the HubSpot mass email covering Proxuma Release 26 & 27. Eight feature blocks matching Max's selection, each with screenshot reference.",
   "sections": [
     {
-      "heading": "Intro",
+      "heading": "Release 26",
       "items": [
-        { "title": "Subject line and intro paragraph", "detail": "Permissions overhaul, compact capacity view, KB launch as headline features.", "meta": {} }
+        { "title": "Compact Capacity View", "detail": "Dense resource view for large-team planning without Excel.", "meta": {"source": "release-26", "screenshot": "PDF p1"} },
+        { "title": "Reworked Permissions and Access Control", "detail": "Page-level, scope-based, entity-level. Security Levels updated.", "meta": {"source": "release-26", "screenshot": "PDF p1"} }
       ]
     },
     {
-      "heading": "Proxuma Features",
+      "heading": "Release 27",
       "items": [
-        { "title": "Permissions and Access Control", "detail": "Page-level, scope-based, entity-level. Security Levels updated.", "meta": {"source": "release-26"} },
-        { "title": "Compact Capacity + Availability Exceptions", "detail": "Large team planning view + resource exceptions on all planning screens.", "meta": {"source": "release-26+27"} },
-        { "title": "Service Call Hour Allocation", "detail": "Weighted distribution with manual override. Non-working hours deducted.", "meta": {"source": "release-26+27"} },
-        { "title": "Outlook Integration", "detail": "Invitation response tracking, clickable locations, require response setting.", "meta": {"source": "release-26+27"} },
-        { "title": "Knowledge Base", "detail": "Self-service KB at kb.proxuma.com, launched in Release 27.", "meta": {"source": "release-27"} },
-        { "title": "Inline editing + UI", "detail": "More tables support inline editing. Capacity bars show percentages. Color-coded holidays.", "meta": {"source": "release-26+27"} }
+        { "title": "Resource Availability Exceptions", "detail": "Non-available days shown directly on planning calendar.", "meta": {"source": "release-27", "screenshot": "PDF p2"} },
+        { "title": "Non-Working Hours Deduction", "detail": "Travel, breaks, prep time deducted from service call capacity.", "meta": {"source": "release-27", "screenshot": "PDF p2"} },
+        { "title": "Meeting Invitation Response Status", "detail": "Attendee accepted/declined/tentative status in meeting details.", "meta": {"source": "release-27", "screenshot": "PDF p3"} },
+        { "title": "Knowledge Base", "detail": "Self-service KB at kb.proxuma.com.", "meta": {"source": "release-27", "screenshot": "PDF p3"} }
       ]
     },
     {
-      "heading": "Power BI Features",
+      "heading": "UI Updates",
       "items": [
-        { "title": "Reworked Connection Flow", "detail": "End-to-end rebuild with real-time status, parallel credential checks, KB-linked diagnostics.", "meta": {"source": "release-27"} },
-        { "title": "Immediate Structure Creation", "detail": "Views and tables created before first sync completes.", "meta": {"source": "release-26"} }
-      ]
-    },
-    {
-      "heading": "Suggestions",
-      "items": [
-        { "title": "Direct KB link CTA", "detail": "Drive adoption of the new Knowledge Base with a direct link.", "meta": {} },
-        { "title": "Permissions as enterprise talking point", "detail": "Position the permissions rework for MSP decision-makers.", "meta": {} },
-        { "title": "Coming soon teaser", "detail": "Add a one-liner about what ships next to build anticipation.", "meta": {} }
+        { "title": "Capacity Bars Update", "detail": "Percentages alongside hour values, adaptive widths.", "meta": {"source": "release-27", "screenshot": "PDF p4"} },
+        { "title": "Holiday and Time-Off Color Coding", "detail": "Purple for holidays, orange for time-off.", "meta": {"source": "release-27", "screenshot": "PDF p4"} }
       ]
     }
   ],
@@ -1377,9 +1337,9 @@ h3::before {
     "progress_pct": 100,
     "work_done_this_session": [
       "Fetched Release 26 and 27 from kb.proxuma.com",
-      "Wrote 6 Proxuma feature blocks, 2 Power BI blocks",
-      "Wrote intro, subject line, footer CTA",
-      "Added 3 strategic suggestions"
+      "Wrote 8 feature blocks matching Max's PDF selection",
+      "Rewrote intro, subject line, footer CTA",
+      "Removed Power BI blocks and suggestions per Max's curation"
     ],
     "blockers_hit": null,
     "uncommitted_changes": "claude-output repo has new file",
@@ -1411,17 +1371,10 @@ h3::before {
   },
   "decision_log": [
     {
-      "decision": "Led with Permissions overhaul as hero feature instead of Compact Capacity View",
-      "rejected_alternatives": ["Lead with Capacity View", "Lead with Knowledge Base launch"],
-      "rationale": "Permissions is the most impactful enterprise feature and differentiates Proxuma for MSP decision-makers evaluating tools. Capacity view is strong but more operational.",
-      "trade_offs": "Permissions is less visual than capacity view for email screenshots",
-      "contingencies": []
-    },
-    {
-      "decision": "Combined Release 26 and 27 features by theme rather than by release number",
-      "rejected_alternatives": ["Separate sections per release"],
-      "rationale": "Features like Outlook integration and capacity improvements span both releases. Thematic grouping reads better in a marketing email.",
-      "trade_offs": "Readers can't tell which release introduced what, but that's fine for a marketing email",
+      "decision": "Restructured email to match Max's 8-feature PDF selection, organized by release number",
+      "rejected_alternatives": ["Keep original thematic grouping", "Keep Power BI and inline editing blocks"],
+      "rationale": "Max curated the most significant features with screenshots. Follow his selection exactly.",
+      "trade_offs": "Power BI improvements not covered in email. Could mention in a future email.",
       "contingencies": []
     }
   ]
