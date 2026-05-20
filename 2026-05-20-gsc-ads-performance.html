@@ -1029,6 +1029,216 @@ h3::before {
   .stat-value { font-size: 28px; }
 }
 
+/* Google SERP ad preview */
+.serp-card {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  position: relative;
+  box-shadow: var(--shadow-card-calendar);
+  transition: box-shadow 180ms cubic-bezier(.2,.7,.2,1);
+}
+.serp-card:hover {
+  box-shadow: 0 4px 20px rgba(24,24,51,.08);
+}
+.serp-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.serp-card-meta {
+  font: 500 10px/1.4 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--fg-secondary);
+}
+.serp-card-stats {
+  display: flex;
+  gap: 16px;
+  font: 500 11px/1 var(--font-sans);
+  color: var(--fg-secondary);
+}
+.serp-card-stats strong {
+  color: var(--color-brand);
+  font-weight: 700;
+}
+.serp-preview {
+  background: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+}
+.serp-url-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.serp-favicon {
+  width: 26px;
+  height: 26px;
+  background: var(--color-brand);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.serp-url-text {
+  font-size: 12px;
+  color: #202124;
+  line-height: 1.3;
+}
+.serp-url-text a {
+  color: #202124;
+  text-decoration: none;
+}
+.serp-url-display {
+  font-size: 12px;
+  color: #4d5156;
+}
+.serp-headline {
+  font-size: 20px;
+  line-height: 1.3;
+  color: #1a0dab;
+  font-weight: 400;
+  margin: 6px 0 4px;
+  cursor: text;
+  outline: none;
+  min-height: 26px;
+}
+.serp-headline:focus {
+  background: #e8f0fe;
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin: 4px -4px 2px;
+}
+.serp-headline::after {
+  content: ' (click to edit)';
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+  display: none;
+}
+.serp-card:hover .serp-headline::after {
+  display: inline;
+}
+.serp-description {
+  font-size: 14px;
+  line-height: 1.58;
+  color: #4d5156;
+  cursor: text;
+  outline: none;
+  min-height: 20px;
+}
+.serp-description:focus {
+  background: #e8f0fe;
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+.serp-ad-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #202124;
+  border: 1px solid #202124;
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-right: 6px;
+  line-height: 1.2;
+  vertical-align: middle;
+}
+.serp-landing-url {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  font: 500 11px/1 var(--font-mono);
+  color: var(--fg-secondary);
+  letter-spacing: .02em;
+}
+.serp-landing-url a {
+  color: var(--color-brand);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-default);
+}
+.serp-landing-url a:hover {
+  border-color: var(--color-brand);
+}
+.serp-headlines-pool {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+.serp-headlines-pool summary {
+  font: 600 10px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--fg-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+.serp-headlines-pool summary:hover {
+  color: var(--color-brand);
+}
+.headline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.headline-chip {
+  font: 500 12px/1.3 var(--font-sans);
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--border-default);
+  background: var(--surface-subtle);
+  color: var(--fg-primary);
+  cursor: text;
+  outline: none;
+}
+.headline-chip:focus {
+  background: #e8f0fe;
+  border-color: var(--color-brand-accent);
+}
+.headline-chip.pinned {
+  border-color: var(--color-brand-accent);
+  background: rgba(0,183,255,.08);
+}
+.desc-chip {
+  font: 400 12px/1.5 var(--font-sans);
+  padding: 6px 10px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-default);
+  background: var(--surface-subtle);
+  color: var(--fg-secondary);
+  cursor: text;
+  outline: none;
+  display: block;
+  margin-top: 6px;
+}
+.desc-chip:focus {
+  background: #e8f0fe;
+  border-color: var(--color-brand-accent);
+}
+.pin-label {
+  font: 600 9px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--color-brand-accent);
+  margin-right: 4px;
+}
+
 </style>
 </head>
 <body>
@@ -1452,6 +1662,460 @@ h3::before {
       <tr><td><strong>May 19</strong></td><td><strong>3</strong></td><td><strong>67</strong></td><td><strong>€11.62</strong></td></tr>
     </tbody>
   </table>
+
+<h2>Ad previews.</h2>
+<p class="subtitle">All active RSA ads, displayed as Google shows them. Headlines and descriptions are editable. Sorted by clicks, then impressions.</p>
+
+<!-- Ad 1: Autotask Features / Planning & Capacity — 3 clicks, 120 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Proxuma - Autotask Features / Planning &amp; Capacity</div>
+    <div class="serp-card-stats"><span><strong>3</strong> clicks</span><span><strong>120</strong> imp</span><span><strong>€11.62</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/planning/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Autotask Resource Planning — Drag-and-Drop Scheduling — From EUR 20/User/Month</div>
+    <div class="serp-description" contenteditable="true">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks. Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/planning/" target="_blank">proxuma.io/planning/</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 15 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Autotask Resource Planning</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Visual Capacity Planning</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Capacity Planning Made Visual</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Drag-and-Drop Scheduling</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>See All Projects at a Glance</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Bulk Edit 50 Tasks at Once</span>
+      <span class="headline-chip" contenteditable="true">Know Who Has Capacity</span>
+      <span class="headline-chip" contenteditable="true">Outlook Sync That Works</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>From EUR 20/User/Month</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>3.75x Cheaper Than TopLeft</span>
+      <span class="headline-chip" contenteditable="true">Engineers Never Need Access</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>Free Trial, No Minimum</span>
+      <span class="headline-chip" contenteditable="true">Built for MSP Planners</span>
+      <span class="headline-chip" contenteditable="true">Syncs Back to Autotask</span>
+      <span class="headline-chip" contenteditable="true">New Features Every 2 Weeks</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="desc-chip" contenteditable="true">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="desc-chip" contenteditable="true">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="desc-chip" contenteditable="true">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </details>
+</div>
+
+<!-- Ad 2: Targeted autotask / Planning — 1 click, 47 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Targeted campaign autotask / Planning</div>
+    <div class="serp-card-stats"><span><strong>1</strong> click</span><span><strong>47</strong> imp</span><span><strong>€19.94</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Proxuma — Upgrade Autotask Planning — See Who Is Free Right Now</div>
+    <div class="serp-description" contenteditable="true">Visual resource planning with real-time capacity. See who is free before you commit. 14-day trial. Only planners need a license. Engineers stay in Autotask.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/" target="_blank">proxuma.io</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 8 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Proxuma</span>
+      <span class="headline-chip" contenteditable="true">Upgrade Autotask Dispatching</span>
+      <span class="headline-chip" contenteditable="true">Upgrade Autotask Planning</span>
+      <span class="headline-chip" contenteditable="true">See Who Is Free Right Now</span>
+      <span class="headline-chip" contenteditable="true">Drag-and-Drop Scheduling</span>
+      <span class="headline-chip" contenteditable="true">Capacity Insights Built In</span>
+      <span class="headline-chip" contenteditable="true">Visual Resource Calendar</span>
+      <span class="headline-chip" contenteditable="true">Workforce Management Upgraded</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">Outlook sync with capacity insights. Recurring service calls. Teams links. All in Proxuma.</div>
+    <div class="desc-chip" contenteditable="true">Visual resource planning with real-time capacity. See who is free before you commit.</div>
+    <div class="desc-chip" contenteditable="true">Recurring service calls. Teams links. Customer invites. Emailless Outlook appointments.</div>
+    <div class="desc-chip" contenteditable="true">14-day trial. Only planners need a license. Engineers stay in Autotask.</div>
+  </details>
+</div>
+
+<!-- Ad 3: Autotask Features / Project Management — 0 clicks, 69 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Proxuma - Autotask Features / Project Management</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>69</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/planning/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Autotask Project Management — See All Projects at a Glance — From EUR 20/User/Month</div>
+    <div class="serp-description" contenteditable="true">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks. Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/planning/" target="_blank">proxuma.io/planning/</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 15 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Autotask Project Management</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Visual Planning for Autotask</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Autotask Planning Made Visual</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Drag-and-Drop Scheduling</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>See All Projects at a Glance</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Bulk Edit 50 Tasks at Once</span>
+      <span class="headline-chip" contenteditable="true">Know Who Has Capacity</span>
+      <span class="headline-chip" contenteditable="true">Outlook Sync That Works</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>From EUR 20/User/Month</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>3.75x Cheaper Than TopLeft</span>
+      <span class="headline-chip" contenteditable="true">Engineers Never Need Access</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>Free Trial, No Minimum</span>
+      <span class="headline-chip" contenteditable="true">No More One-by-One Editing</span>
+      <span class="headline-chip" contenteditable="true">Stop Using Excel for Projects</span>
+      <span class="headline-chip" contenteditable="true">New Features Every 2 Weeks</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="desc-chip" contenteditable="true">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="desc-chip" contenteditable="true">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="desc-chip" contenteditable="true">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </details>
+</div>
+
+<!-- Ad 4: Targeted autotask / Project management — 0 clicks, 41 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Targeted campaign autotask / Project management</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>41</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Proxuma — Autotask Projects, Upgraded — Visual Project Timelines</div>
+    <div class="serp-description" contenteditable="true">All your Autotask projects on one visual timeline. Drag phases, assign work, track hours. See resource capacity at a glance. Promise deadlines you can actually keep.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/" target="_blank">proxuma.io</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 8 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Proxuma</span>
+      <span class="headline-chip" contenteditable="true">Autotask Projects, Upgraded</span>
+      <span class="headline-chip" contenteditable="true">Drag-and-Drop Timelines</span>
+      <span class="headline-chip" contenteditable="true">Bulk Edit 50 Tasks at Once</span>
+      <span class="headline-chip" contenteditable="true">See All Projects on One Screen</span>
+      <span class="headline-chip" contenteditable="true">Know Who Has Capacity</span>
+      <span class="headline-chip" contenteditable="true">Visual Project Timelines</span>
+      <span class="headline-chip" contenteditable="true">Project Templates Included</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">All your Autotask projects on one visual timeline. Drag phases, assign work, track hours.</div>
+    <div class="desc-chip" contenteditable="true">Move entire project phases in seconds. Bulk edit dates, assignees, and statuses at once.</div>
+    <div class="desc-chip" contenteditable="true">See resource capacity at a glance. Promise deadlines you can actually keep.</div>
+    <div class="desc-chip" contenteditable="true">14-day trial. Only planners need a license. Engineers stay in Autotask.</div>
+  </details>
+</div>
+
+<!-- Ad 5: Targeted autotask / Outlook — 0 clicks, 4 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Targeted campaign autotask / Outlook</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>4</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Proxuma — Autotask + Outlook Seamless — Add Teams Links Instantly</div>
+    <div class="serp-description" contenteditable="true">Silent Outlook invites without emails. Teams links injected. Invite external customers. 14-day trial. Only planners need a license. Engineers stay in Autotask.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/" target="_blank">proxuma.io</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 7 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Proxuma</span>
+      <span class="headline-chip" contenteditable="true">Autotask + Outlook Seamless</span>
+      <span class="headline-chip" contenteditable="true">Emailless Outlook Invites</span>
+      <span class="headline-chip" contenteditable="true">Invite External Customers</span>
+      <span class="headline-chip" contenteditable="true">Add Teams Links Instantly</span>
+      <span class="headline-chip" contenteditable="true">Smart Capacity Management</span>
+      <span class="headline-chip" contenteditable="true">Recurring Service Calls</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">Silent Outlook invites without emails. Teams links injected. Invite external customers.</div>
+    <div class="desc-chip" contenteditable="true">Recurring service calls with automatic Outlook appointments and Teams meeting links.</div>
+    <div class="desc-chip" contenteditable="true">Smart capacity management from Outlook. See who is free before you promise a deadline.</div>
+    <div class="desc-chip" contenteditable="true">14-day trial. Only planners need a license. Engineers stay in Autotask.</div>
+  </details>
+</div>
+
+<!-- Ad 6: Targeted autotask / Proxuma generic — 0 clicks, 2 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Targeted campaign autotask / Proxuma generic</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>2</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Proxuma — Autotask Add-On for the Future — Visual Planning for Autotask</div>
+    <div class="serp-description" contenteditable="true">Proxuma is the all-in-one planning and project management add-on for Autotask. Visual drag &amp; drop planning and project management, all processed in Autotask.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/" target="_blank">proxuma.io</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 7 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Proxuma</span>
+      <span class="headline-chip" contenteditable="true">Autotask Add-On for the Future</span>
+      <span class="headline-chip" contenteditable="true">Upgrade Autotask Projects</span>
+      <span class="headline-chip" contenteditable="true">Visual Planning for Autotask</span>
+      <span class="headline-chip" contenteditable="true">Autotask - Outlook Synergy</span>
+      <span class="headline-chip" contenteditable="true">Autotask Resource Management</span>
+      <span class="headline-chip" contenteditable="true">Visualize Your Workflow</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">Proxuma is the all-in-one planning and project management add-on for Autotask.</div>
+    <div class="desc-chip" contenteditable="true">Visual drag &amp; drop planning and project management, all processed in Autotask.</div>
+    <div class="desc-chip" contenteditable="true">The ultimate resource calendar, drag &amp; drop to create Service Calls and Outlook invites.</div>
+    <div class="desc-chip" contenteditable="true">14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+  </details>
+</div>
+
+<!-- Ad 7: Proxuma Brand / Branded — 0 clicks, 0 imp (from old Proxuma Brand campaign) -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Proxuma Brand / Branded</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>0</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Proxuma — Autotask Add-On for the Future — Visual Planning for Autotask</div>
+    <div class="serp-description" contenteditable="true">Proxuma is the all-in-one planning and project management add-on for Autotask. Visual drag &amp; drop planning and project management, all processed in Autotask.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/" target="_blank">proxuma.io</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 7 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Proxuma</span>
+      <span class="headline-chip" contenteditable="true">Autotask Add-On for the Future</span>
+      <span class="headline-chip" contenteditable="true">Upgrade Autotask Projects</span>
+      <span class="headline-chip" contenteditable="true">Visual Planning for Autotask</span>
+      <span class="headline-chip" contenteditable="true">Autotask - Outlook Synergy</span>
+      <span class="headline-chip" contenteditable="true">Autotask Resource Management</span>
+      <span class="headline-chip" contenteditable="true">Visualize Your Workflow</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">Proxuma is the all-in-one planning and project management add-on for Autotask.</div>
+    <div class="desc-chip" contenteditable="true">Visual drag &amp; drop planning and project management, all processed in Autotask.</div>
+    <div class="desc-chip" contenteditable="true">The ultimate resource calendar, drag &amp; drop to create Service Calls and Outlook invites.</div>
+    <div class="desc-chip" contenteditable="true">14-Day trial, no minimum purchase, monthly commitment, free onboarding.</div>
+  </details>
+</div>
+
+<!-- Ad 8: Proxuma - Brand / Brand — 0 clicks, 0 imp (new campaign) -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Proxuma - Brand / Brand</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>0</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Proxuma | Autotask Planning — Visual Planning for Autotask — From EUR 20/User/Month</div>
+    <div class="serp-description" contenteditable="true">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks. Resource capacity at a glance. See who is free before promising a deadline.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/" target="_blank">proxuma.io</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 7 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip" contenteditable="true">Proxuma | Autotask Planning</span>
+      <span class="headline-chip" contenteditable="true">Visual Planning for Autotask</span>
+      <span class="headline-chip" contenteditable="true">The Autotask Planning Layer</span>
+      <span class="headline-chip" contenteditable="true">From EUR 20/User/Month</span>
+      <span class="headline-chip" contenteditable="true">Free Trial Available</span>
+      <span class="headline-chip" contenteditable="true">Drag-and-Drop Scheduling</span>
+      <span class="headline-chip" contenteditable="true">Built for MSP Planners</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="desc-chip" contenteditable="true">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="desc-chip" contenteditable="true">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="desc-chip" contenteditable="true">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </details>
+</div>
+
+<!-- Ad 9: Autotask Features / Outlook Integration — 0 clicks, 0 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Proxuma - Autotask Features / Outlook Integration</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>0</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/planning/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Autotask Outlook Integration — Add Teams Links Instantly — From EUR 20/User/Month</div>
+    <div class="serp-description" contenteditable="true">Silent Outlook invites. Inject Teams links. Invite external customers to meetings. Resource capacity at a glance. See who is free before promising a deadline.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/planning/" target="_blank">proxuma.io/planning/</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 15 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Autotask Outlook Integration</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Outlook Sync for Autotask</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Fix Autotask Outlook Sync</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Add Teams Links Instantly</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Invite Externals to Calls</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Calendar Sync That Works</span>
+      <span class="headline-chip" contenteditable="true">Know Who Has Capacity</span>
+      <span class="headline-chip" contenteditable="true">Outlook Sync That Works</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>From EUR 20/User/Month</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>3.75x Cheaper Than TopLeft</span>
+      <span class="headline-chip" contenteditable="true">Engineers Never Need Access</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>Free Trial, No Minimum</span>
+      <span class="headline-chip" contenteditable="true">Built for MSP Planners</span>
+      <span class="headline-chip" contenteditable="true">Syncs Back to Autotask</span>
+      <span class="headline-chip" contenteditable="true">New Features Every 2 Weeks</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">Silent Outlook invites. Inject Teams links. Invite external customers to meetings.</div>
+    <div class="desc-chip" contenteditable="true">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="desc-chip" contenteditable="true">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="desc-chip" contenteditable="true">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </details>
+</div>
+
+<!-- Ad 10: Autotask Features / Shifts & Dispatch — 0 clicks, 0 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Proxuma - Autotask Features / Shifts &amp; Dispatch</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>0</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/shifts/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Autotask Shift Planning — Drag-and-Drop Scheduling — From EUR 20/User/Month</div>
+    <div class="serp-description" contenteditable="true">Create recurring service calls in seconds. Visual dispatch board with live Autotask sync. Resource capacity at a glance. See who is free before promising a deadline.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/shifts/" target="_blank">proxuma.io/shifts/</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 15 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Autotask Shift Planning</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>MSP Dispatch Scheduling</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Dispatch Board for Autotask</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Drag-and-Drop Scheduling</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>See All Projects at a Glance</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Bulk Edit 50 Tasks at Once</span>
+      <span class="headline-chip" contenteditable="true">Know Who Has Capacity</span>
+      <span class="headline-chip" contenteditable="true">Outlook Sync That Works</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>From EUR 20/User/Month</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>3.75x Cheaper Than TopLeft</span>
+      <span class="headline-chip" contenteditable="true">Engineers Never Need Access</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H3</span>Free Trial, No Minimum</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H1</span>Supercharge Autotask Dispatch</span>
+      <span class="headline-chip" contenteditable="true">Syncs Back to Autotask</span>
+      <span class="headline-chip pinned" contenteditable="true"><span class="pin-label">H2</span>Make Service Calls Recurring</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">Create recurring service calls in seconds. Visual dispatch board with live Autotask sync.</div>
+    <div class="desc-chip" contenteditable="true">Stop using Excel next to Autotask. Proxuma adds the planning layer it should have.</div>
+    <div class="desc-chip" contenteditable="true">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="desc-chip" contenteditable="true">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </details>
+</div>
+
+<!-- Ad 11: Recorded Demo / Informational — 0 clicks, 0 imp -->
+<div class="serp-card">
+  <div class="serp-card-header">
+    <div class="serp-card-meta">Proxuma - Recorded Demo / Informational</div>
+    <div class="serp-card-stats"><span><strong>0</strong> clicks</span><span><strong>0</strong> imp</span><span><strong>€0</strong> spend</span></div>
+  </div>
+  <div class="serp-preview">
+    <div class="serp-url-line">
+      <div class="serp-favicon">P</div>
+      <div class="serp-url-text">
+        <div>proxuma.io</div>
+        <div class="serp-url-display">https://proxuma.io/how-to-use-autotask-for-project-management/</div>
+      </div>
+    </div>
+    <div class="serp-headline" contenteditable="true"><span class="serp-ad-badge">Ad</span>Autotask Project Management — See Proxuma in 3 Minutes — Watch a Recorded Demo</div>
+    <div class="serp-description" contenteditable="true">See how Proxuma turns Autotask project management from painful to visual. 3-min demo. Resource capacity at a glance. See who is free before promising a deadline.</div>
+  </div>
+  <div class="serp-landing-url">Landing page: <a href="https://proxuma.io/how-to-use-autotask-for-project-management/" target="_blank">proxuma.io/how-to-use-autotask-for-project-management/</a></div>
+  <details class="serp-headlines-pool">
+    <summary>All 6 headlines + 4 descriptions</summary>
+    <h3>Headlines</h3>
+    <div class="headline-list">
+      <span class="headline-chip" contenteditable="true">Autotask Project Management</span>
+      <span class="headline-chip" contenteditable="true">See Proxuma in 3 Minutes</span>
+      <span class="headline-chip" contenteditable="true">Watch a Recorded Demo</span>
+      <span class="headline-chip" contenteditable="true">Visual Planning for Autotask</span>
+      <span class="headline-chip" contenteditable="true">Free Recorded Demo</span>
+      <span class="headline-chip" contenteditable="true">No Signup Required</span>
+    </div>
+    <h3>Descriptions</h3>
+    <div class="desc-chip" contenteditable="true">All projects on one visual timeline. Drag tasks across weeks. Create calls in 2 clicks.</div>
+    <div class="desc-chip" contenteditable="true">See how Proxuma turns Autotask project management from painful to visual. 3-min demo.</div>
+    <div class="desc-chip" contenteditable="true">Resource capacity at a glance. See who is free before promising a deadline. Live sync.</div>
+    <div class="desc-chip" contenteditable="true">Planners and PMs need a license. Engineers stay in Autotask. Everything syncs back.</div>
+  </details>
+</div>
 
   <div class="positioning">
     <span class="callout-label">Bottom line</span>
