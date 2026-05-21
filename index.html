@@ -685,6 +685,15 @@ body.dark .kbd-hint { background: #333; color: #e8e4dc; }
 -->
 <script type="application/json" id="index-data">[
   {
+    "file": "2026-05-21-m1pro-resilience-plan.html",
+    "title": "M1 Pro Server Resilience Hardening Plan",
+    "date": "2026-05-21",
+    "summary": "Five-fix plan to make M1 Pro survive power outages and reboots without manual intervention.",
+    "tags": ["Infrastructure", "M1 Pro", "Server", "Tailscale"],
+    "type": "guide",
+    "detail": "Covers auto-restart (pmset), auto-login (FileVault decision), Tailscale daemon migration from app to LaunchDaemon, watchdog service checking 7 processes, and dual-layer monitoring via healthchecks.io + M4 Air ping check. Full scripts and plists included. Est. 90 min implementation."
+  },
+  {
     "file": "2026-05-20-gsc-ads-performance.html",
     "title": "GSC & Google Ads Performance Check",
     "date": "2026-05-20",

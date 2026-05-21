@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M1 Pro Server Resilience Hardening Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #2c2c2c; background: #f8f9fa; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; padding: 0;
+}
+.page-header {
+  max-width: 780px; margin: 0 auto; padding: 16px 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.page-header .date { color: #8a8f96; letter-spacing: .03em; text-transform: uppercase; }
+.page-header .gh-link a { color: #8a8f96; text-decoration: none; border-bottom: 1px solid #d0d3d8; }
+.page-header .gh-link a:hover { color: #1a2744; border-color: #1a2744; }
+.page {
+  max-width: 780px; margin: 12px auto 60px; background: #fff;
+  border: 1px solid #e2e4e8; border-radius: 2px; padding: 48px 52px;
+}
+.brand { margin-bottom: 6px; }
+.brand-name {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 22px; font-weight: 700; color: #1a2744; font-style: italic;
+}
+.brand-tagline {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-top: 4px;
+}
+.brand-rule { height: 2px; background: #1a2744; margin: 14px 0 32px; }
+.page-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.page-meta-right {
+  text-align: right; font: 400 12px/1.4 -apple-system, sans-serif; color: #6b7280;
+}
+h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px; font-weight: 700; color: #1a2744;
+  letter-spacing: -.01em; margin-bottom: 6px; line-height: 1.2;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 20px; font-weight: 700; color: #1a2744;
+  margin: 32px 0 12px; line-height: 1.25;
+}
+h2::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #1a2744; margin: 24px 0 8px;
+}
+.subtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 15px; color: #4a5568; margin-bottom: 32px; line-height: 1.6;
+}
+.overline {
+  font: 600 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .12em; color: #6b7280; margin-bottom: 12px;
+}
+p { margin-bottom: 14px; font-size: 14px; color: #2c2c2c; line-height: 1.65; }
+ul, ol { margin: 0 0 14px 20px; font-size: 14px; color: #2c2c2c; }
+li { margin-bottom: 6px; }
+li::marker { color: #1a2744; }
+.stats-row { display: flex; gap: 0; margin: 28px 0; }
+.stat-card {
+  flex: 1; padding: 20px 24px;
+  border-left: 2px solid #d0d3d8;
+}
+.stat-value {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px; font-weight: 700; color: #1a2744; line-height: 1.1;
+}
+.stat-label {
+  font: 500 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .1em; color: #6b7280; margin-top: 6px;
+}
+.matrix { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.matrix th {
+  text-align: left; padding: 10px 14px; font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  background: #1a2744; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.matrix td {
+  padding: 10px 14px; color: #2c2c2c; border-bottom: 1px solid #eef0f2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+.matrix tr:nth-child(even) td { background: #f8f9fb; }
+.matrix td strong { font-weight: 700; color: #1a2744; }
+.card {
+  background: #fff; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 18px 22px; margin-bottom: 8px; position: relative;
+}
+.card::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: #1a2744; border-radius: 1px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1a2744; margin-bottom: 1px; }
+.card-buyer {
+  font: 500 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .05em; color: #6b7280; margin-bottom: 8px;
+}
+.card-desc { font-size: 14px; color: #4a5568; line-height: 1.55; }
+.callout {
+  background: #f5f7fa; border-left: 3px solid #1a2744; padding: 18px 22px;
+  margin: 18px 0; font-size: 14px; color: #2c2c2c; border-radius: 0 4px 4px 0;
+}
+.callout strong { color: #1a2744; }
+.callout-label {
+  font: 700 11px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; color: #1a2744; margin-bottom: 6px; display: block;
+}
+.positioning {
+  background: #1a2744; border-radius: 4px; padding: 24px 28px; margin: 28px 0;
+  color: #fff;
+}
+.positioning h2 { color: #fff; margin: 0 0 8px; font-size: 17px; }
+.positioning h2::after { display: none; }
+.positioning > p { color: rgba(255,255,255,.88); margin-bottom: 0; }
+.positioning .callout-label { color: #c8a87a; }
+.tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  font: 600 10px/1 -apple-system, sans-serif; text-transform: uppercase;
+  letter-spacing: .04em; padding: 4px 8px; border-radius: 3px;
+}
+.tag-good { background: #e6f4ea; color: #1a6b3a; border: 1px solid #8ac8a0; }
+.tag-warn { background: #fef3e2; color: #8a6a2a; border: 1px solid #e8c87a; }
+.tag-crit { background: #fde8e8; color: #8a2a2a; border: 1px solid #d8a0a0; }
+.tag-info { background: #e8edf4; color: #2a4a8a; border: 1px solid #8aa8d8; }
+code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace; font-size: 13px;
+  background: #f0f2f5; padding: 2px 5px; border-radius: 3px;
+}
+pre {
+  background: #f0f2f5; border-radius: 4px; padding: 16px 20px; margin: 14px 0;
+  overflow-x: auto; font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  font-size: 13px; line-height: 1.7;
+}
+.page-footer {
+  display: flex; justify-content: space-between; margin-top: 40px;
+  padding-top: 12px; border-top: 1px solid #d0d3d8;
+  font: 400 11px/1 -apple-system, sans-serif; color: #8a8f96;
+}
+.phase-row { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.phase-card {
+  flex: 1; min-width: 140px; border: 1px solid #e2e4e8; border-radius: 4px;
+  padding: 14px; text-align: center; position: relative;
+}
+.phase-num {
+  font-family: "Georgia", serif; font-size: 22px; font-weight: 800; color: #1a2744;
+}
+.phase-label { font-size: 13px; font-weight: 700; color: #1a2744; margin: 3px 0; }
+.phase-time { font-size: 11px; color: #6b7280; }
+.risk-none { border-top: 3px solid #8ac8a0; }
+.risk-low { border-top: 3px solid #e8c87a; }
+.risk-med { border-top: 3px solid #d8a0a0; }
+.section-title {
+  font: 700 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase; letter-spacing: .06em; color: #1a2744;
+  margin: 32px 0 14px;
+}
+.section-title::after {
+  content: ''; display: block; width: 100%; height: 2px;
+  background: #1a2744; margin-top: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <span class="date">May 21, 2026</span>
+  <span class="gh-link"><a href="https://github.com/maxkwaaste/claude-output/blob/main/2026-05-21-m1pro-resilience-plan.html">View on GitHub</a></span>
+</div>
+<div class="page">
+  <div class="page-meta">
+    <div>
+      <div class="brand">
+        <div class="brand-name">Claude Code</div>
+        <div class="brand-tagline">Infrastructure &amp; Server Operations</div>
+      </div>
+    </div>
+    <div class="page-meta-right">
+      May 21, 2026<br>Implementation Plan<br>M1 Pro Server
+    </div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <div class="overline">SERVER RESILIENCE</div>
+  <h1>M1 Pro Hardening Plan</h1>
+  <p class="subtitle">Five fixes to ensure the M1 Pro server survives power outages, forced reboots, and kernel panics without manual intervention. Current uptime: 38 days. Goal: fully autonomous recovery.</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">38d</div>
+      <div class="stat-label">Current Uptime</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Critical Gaps</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5</div>
+      <div class="stat-label">Fixes Planned</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~90m</div>
+      <div class="stat-label">Est. Implementation</div>
+    </div>
+  </div>
+
+  <h2>Problem Summary</h2>
+  <p>The M1 Pro has no recovery path after power loss or forced reboot. Three gaps compound: <code>autorestart</code> is not set (power outage = Mac stays off), auto-login is not configured (reboot = stuck at login screen), and Tailscale runs as a login item instead of a system daemon (no SSH until someone physically logs in).</p>
+
+  <div class="callout">
+    <span class="callout-label">Bottom line</span>
+    Any power blip today requires walking to the machine, pressing the power button, and manually logging in. All services (PostgreSQL, Ollama, Open Brain, PM2, Tailscale) are dead until then.
+  </div>
+
+  <h2>Risk Assessment</h2>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Current Outcome</th>
+        <th>After Hardening</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Power outage</strong></td>
+        <td>Mac stays off. All services down. No remote access. Physical intervention required.</td>
+        <td>Auto-restarts, auto-logs in, services up in ~3 min. Monitoring alerts on failure.</td>
+      </tr>
+      <tr>
+        <td><strong>Forced reboot</strong></td>
+        <td>Sits at login screen. Tailscale down, no SSH. LaunchAgents dead.</td>
+        <td>Auto-login restores session. Tailscale daemon already running pre-login. Watchdog verifies in 2 min.</td>
+      </tr>
+      <tr>
+        <td><strong>Kernel panic</strong></td>
+        <td>Reboots to login screen. Same as forced reboot.</td>
+        <td>Same recovery path. macOS auto-restarts after panic by default.</td>
+      </tr>
+      <tr>
+        <td><strong>Network blip</strong></td>
+        <td>Tailscale handles reconnection well. No issue.</td>
+        <td>No change needed. Monitoring adds visibility.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>The Five Fixes</h2>
+
+  <div class="section-title">Fix 1: Auto-restart After Power Loss</div>
+  <div class="tags"><span class="tag tag-good">Zero Risk</span><span class="tag tag-info">5 min</span></div>
+  <p style="margin-top:12px">Single <code>pmset</code> command. Tells the SMC to power on the Mac automatically when AC power returns after a loss.</p>
+  <pre>sudo pmset -a autorestart 1</pre>
+  <p><strong>Verify:</strong></p>
+  <pre>pmset -g | grep autorestart
+# Expected: autorestart    1</pre>
+
+  <div class="section-title">Fix 2: Auto-login Configuration</div>
+  <div class="tags"><span class="tag tag-warn">Needs FileVault Decision</span><span class="tag tag-info">10-30 min</span></div>
+
+  <p style="margin-top:12px"><strong>Step 1:</strong> Check FileVault status.</p>
+  <pre>fdesetup status</pre>
+
+  <div class="callout">
+    <span class="callout-label">FileVault Decision</span>
+    If FileVault is ON, auto-login is impossible. FileVault requires pre-boot authentication. <strong>Recommendation:</strong> Disable it. This is a home server behind a router, not a laptop. The threat model does not justify disk encryption blocking automatic recovery.
+    <pre style="margin-top:10px">sudo fdesetup disable
+# Decryption runs in background. Check progress:
+fdesetup status</pre>
+  </div>
+
+  <p><strong>Step 2:</strong> Enable auto-login.</p>
+  <p>GUI (most reliable on macOS Ventura+): System Settings &gt; Users &amp; Groups &gt; Automatic Login &gt; select user.</p>
+  <p>CLI alternative:</p>
+  <pre>sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser "max"
+sudo sysadminctl -autologin set -userName "max" -password "-"</pre>
+
+  <p><strong>Verify:</strong></p>
+  <pre>defaults read /Library/Preferences/com.apple.loginwindow autoLoginUser
+# Expected: "max"</pre>
+
+  <p><strong>Security trade-off:</strong> Home server behind NAT. Physical access = Max's home. SSH protected by Tailscale WireGuard auth. Auto-login risk is acceptable for this use case.</p>
+
+  <div class="section-title">Fix 3: Tailscale as System Daemon</div>
+  <div class="tags"><span class="tag tag-warn">Medium Risk</span><span class="tag tag-info">15 min</span></div>
+
+  <p style="margin-top:12px">Migrate from Tailscale app (login item) to <code>tailscaled</code> (LaunchDaemon). The daemon starts at boot, before any user logs in.</p>
+
+  <p><strong>Step 1:</strong> Record current state.</p>
+  <pre>tailscale status
+tailscale ip -4</pre>
+
+  <p><strong>Step 2:</strong> Install via Homebrew.</p>
+  <pre>brew install tailscale</pre>
+
+  <p><strong>Step 3:</strong> Stop the app and remove from Login Items.</p>
+  <pre>osascript -e 'quit app "Tailscale"'
+# Then: System Settings > General > Login Items > remove Tailscale</pre>
+
+  <p><strong>Step 4:</strong> Start as daemon.</p>
+  <pre>sudo brew services start tailscale</pre>
+
+  <p><strong>Step 5:</strong> Authenticate.</p>
+  <pre>sudo tailscale up --operator=max
+# --operator lets user 'max' control without sudo
+# May print auth URL if re-authentication needed</pre>
+
+  <p><strong>Step 6:</strong> Verify.</p>
+  <pre>tailscale status
+tailscale ip -4
+# Compare with Step 1 values
+sudo launchctl list | grep tailscale</pre>
+
+  <div class="callout">
+    <span class="callout-label">IP Change Risk</span>
+    The migration might assign a new Tailscale IP if the node identity changes (different state directory). If the IP changes from <code>100.85.64.20</code>, update it in <code>~/.claude/projects/-Users-maxdekwaasteniet/CLAUDE.md</code> on both machines and save to Open Brain.
+  </div>
+
+  <div class="section-title">Fix 4: Watchdog Service</div>
+  <div class="tags"><span class="tag tag-good">Low Risk</span><span class="tag tag-info">20 min</span></div>
+
+  <p style="margin-top:12px">A bash script that checks all critical services and restarts any that are down. Runs as a LaunchDaemon (system-level, no login needed).</p>
+
+  <p><strong>Pre-implementation discovery (run these first):</strong></p>
+  <pre>launchctl list | grep -E 'max|proxuma|rumble|brain|sdr|pm2'
+which pm2
+whoami</pre>
+
+  <p><strong>Services checked:</strong> PostgreSQL, Ollama, Tailscale, PM2, Open Brain (port 9876), Rumble Server, SDR Dashboard (port 3849).</p>
+
+  <p><strong>Two LaunchDaemons:</strong></p>
+  <ul>
+    <li><code>com.proxuma.server-watchdog</code> &mdash; runs every 30 min, checks all services, restarts failures</li>
+    <li><code>com.proxuma.server-watchdog-boot</code> &mdash; runs once at boot after 2-min delay, catches post-reboot issues</li>
+  </ul>
+
+  <p>Full script and plists in the plan file at <code>~/ClaudeCode/m1pro-resilience-plan.md</code>.</p>
+
+  <div class="section-title">Fix 5: Remote Monitoring</div>
+  <div class="tags"><span class="tag tag-good">Low Risk</span><span class="tag tag-info">15 min</span></div>
+
+  <p style="margin-top:12px">Two layers of monitoring:</p>
+  <ul>
+    <li><strong>Layer 1 (M1 Pro):</strong> Heartbeat to healthchecks.io every 5 min. Free tier, 20 checks. If heartbeat stops, sends email/push alert.</li>
+    <li><strong>Layer 2 (M4 Air):</strong> Independent Tailscale ping check every 5 min. After 2 consecutive failures (10+ min), shows macOS notification with sound.</li>
+  </ul>
+
+  <h2>Implementation Order</h2>
+
+  <div class="phase-row">
+    <div class="phase-card risk-none">
+      <div class="phase-num">1</div>
+      <div class="phase-label">Auto-restart</div>
+      <div class="phase-time">5 min | zero risk</div>
+    </div>
+    <div class="phase-card risk-low">
+      <div class="phase-num">2</div>
+      <div class="phase-label">Auto-login</div>
+      <div class="phase-time">10-30 min | FileVault</div>
+    </div>
+    <div class="phase-card risk-med">
+      <div class="phase-num">3</div>
+      <div class="phase-label">Tailscale Daemon</div>
+      <div class="phase-time">15 min | IP may change</div>
+    </div>
+    <div class="phase-card risk-none">
+      <div class="phase-num">4</div>
+      <div class="phase-label">Watchdog</div>
+      <div class="phase-time">20 min | low risk</div>
+    </div>
+    <div class="phase-card risk-none">
+      <div class="phase-num">5</div>
+      <div class="phase-label">Monitoring</div>
+      <div class="phase-time">15 min | low risk</div>
+    </div>
+  </div>
+
+  <p><strong>Dependencies:</strong> Fix 1 is independent. Fix 2 must complete before Fix 3 (auto-login is the safety net). Fix 3 before Fix 4 (watchdog checks daemon). Fix 4 before Fix 5 (heartbeat calls watchdog). Final step: controlled reboot test with Max near the machine.</p>
+
+  <div class="positioning">
+    <h2>Verification Checklist (run before reboot test)</h2>
+    <p>
+      <code style="background:rgba(255,255,255,.15);color:#fff">pmset -g | grep autorestart</code> &rarr; 1<br>
+      <code style="background:rgba(255,255,255,.15);color:#fff">defaults read /Library/Preferences/com.apple.loginwindow autoLoginUser</code> &rarr; "max"<br>
+      <code style="background:rgba(255,255,255,.15);color:#fff">fdesetup status</code> &rarr; "FileVault is Off"<br>
+      <code style="background:rgba(255,255,255,.15);color:#fff">sudo launchctl list | grep tailscale</code> &rarr; running<br>
+      <code style="background:rgba(255,255,255,.15);color:#fff">sudo launchctl list | grep proxuma.server-watchdog</code> &rarr; 2 entries<br>
+      <code style="background:rgba(255,255,255,.15);color:#fff">sudo /usr/local/bin/server-watchdog.sh</code> &rarr; all OK<br>
+      <code style="background:rgba(255,255,255,.15);color:#fff">sudo launchctl list | grep heartbeat</code> &rarr; 1 entry
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <span>Claude Code</span>
+    <span>M1 Pro Server Resilience Plan &middot; May 2026</span>
+  </div>
+</div>
+
+<script type="application/json" id="claude-data">
+{
+  "title": "M1 Pro Server Resilience Hardening Plan",
+  "date": "2026-05-21",
+  "summary": "Five-fix plan to make the M1 Pro home server survive power outages and reboots without manual intervention. Covers auto-restart, auto-login, Tailscale daemon migration, watchdog service, and remote monitoring.",
+  "sections": [
+    {
+      "heading": "Problem Summary",
+      "items": [
+        { "title": "No recovery after power loss", "detail": "autorestart not set, auto-login not configured, Tailscale is login-item only. Any power blip requires physical intervention.", "meta": { "severity": "critical" } }
+      ]
+    },
+    {
+      "heading": "Fix 1: Auto-restart",
+      "items": [
+        { "title": "sudo pmset -a autorestart 1", "detail": "Tells SMC to power on Mac when AC power returns. Zero risk.", "meta": { "time": "5 min", "risk": "none" } }
+      ]
+    },
+    {
+      "heading": "Fix 2: Auto-login",
+      "items": [
+        { "title": "FileVault check + auto-login config", "detail": "If FileVault is ON, must disable first. Then enable auto-login via System Settings or sysadminctl. Home server behind NAT, acceptable trade-off.", "meta": { "time": "10-30 min", "risk": "low", "requires_gui": true } }
+      ]
+    },
+    {
+      "heading": "Fix 3: Tailscale daemon",
+      "items": [
+        { "title": "Migrate from app to tailscaled LaunchDaemon", "detail": "brew install tailscale, quit app, sudo brew services start tailscale, authenticate with --operator=max. IP may change.", "meta": { "time": "15 min", "risk": "medium" } }
+      ]
+    },
+    {
+      "heading": "Fix 4: Watchdog service",
+      "items": [
+        { "title": "server-watchdog.sh as LaunchDaemon", "detail": "Checks PostgreSQL, Ollama, Tailscale, PM2, Open Brain, Rumble, SDR. Restarts failures. Runs every 30 min + once at boot with 2-min delay.", "meta": { "time": "20 min", "risk": "low" } }
+      ]
+    },
+    {
+      "heading": "Fix 5: Remote monitoring",
+      "items": [
+        { "title": "Healthchecks.io heartbeat + M4 Air ping check", "detail": "M1 Pro pings healthchecks.io every 5 min. M4 Air independently checks Tailscale reachability. macOS notification after 10 min unreachable.", "meta": { "time": "15 min", "risk": "low" } }
+      ]
+    }
+  ],
+  "next_steps": "Start a new Claude session on M1 Pro, open ~/ClaudeCode/m1pro-resilience-plan.md, and execute the 6-phase plan in order. Fix 1 can be done immediately. Fix 2 requires Max to decide on FileVault and may need GUI interaction. Fix 3 needs Fix 2 done first. After all fixes, do a controlled reboot test with Max physically present.",
+  "session_state": {
+    "phase": "plan complete",
+    "phase_status": "complete",
+    "progress_pct": 100,
+    "work_done_this_session": [
+      "Analysed M1 Pro resilience audit findings",
+      "Searched Open Brain for existing M1 Pro server context",
+      "Generated comprehensive 5-fix hardening plan with 4.7 agent",
+      "Wrote plan to ~/ClaudeCode/m1pro-resilience-plan.md",
+      "Created output page HTML"
+    ],
+    "blockers_hit": "Fix 2 (auto-login) requires GUI interaction and FileVault decision - cannot be fully automated via SSH",
+    "uncommitted_changes": "claude-output repo has new output page, not yet pushed",
+    "next_action_required": "claude-continue"
+  },
+  "artifact_pointers": {
+    "memory_files": [],
+    "git_branch": "main",
+    "local_repo_path": "~/ClaudeCode/claude-output/",
+    "temp_files": [
+      { "path": "~/ClaudeCode/m1pro-resilience-plan.md", "description": "Full implementation plan with all commands and scripts", "cleanup_after": "implementation complete" }
+    ],
+    "github_links": [
+      { "url": "https://github.com/maxkwaaste/claude-output/blob/main/2026-05-21-m1pro-resilience-plan.html", "relevance": "this output page" }
+    ],
+    "wordpress_ids": [],
+    "commit_sha": null
+  },
+  "external_state": {
+    "wp_cache_flushed": null,
+    "drafts_pending": [],
+    "screenshots": [],
+    "other": ""
+  },
+  "project_context": {
+    "protected_resources": [],
+    "conventions_applied": ["humanizer anti-slop", "pbcopy on terminal output"]
+  },
+  "decision_log": [
+    {
+      "decision": "Recommend disabling FileVault for the home server",
+      "rejected_alternatives": ["Keep FileVault and accept manual login", "Use a network-based pre-boot unlock"],
+      "rationale": "Machine is a home server behind NAT, not a portable laptop. Auto-login is required for autonomous recovery. FileVault blocks this fundamentally.",
+      "trade_offs": "Disk is unencrypted at rest, but physical theft of a home server is not in the threat model",
+      "contingencies": []
+    },
+    {
+      "decision": "Tailscale daemon via Homebrew instead of standalone pkg",
+      "rejected_alternatives": ["Keep the app and rely on auto-login to start it", "Use the official Tailscale standalone package"],
+      "rationale": "Homebrew integrates with brew services for clean LaunchDaemon management. App-based approach still depends on user session.",
+      "trade_offs": "Homebrew Tailscale may lag behind App Store version for updates",
+      "contingencies": [
+        { "if_X_then_Y": "If Tailscale IP changes during migration, update references in CLAUDE.md and Open Brain", "probability": 0.4 }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
